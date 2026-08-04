@@ -1,0 +1,215 @@
+import 'package:flutter/material.dart';
+import '../services/renkler.dart';
+
+class UmutluPage extends StatefulWidget {
+  const UmutluPage({super.key});
+
+  @override
+  State<UmutluPage> createState() => _UmutluPageState();
+}
+
+class _UmutluPageState extends State<UmutluPage> {
+  final List<Map<String, dynamic>> _goals = [
+    {"text": "Hayırlı bir kapının açılması için samimi dua et", "isDone": false},
+    {"text": "Bugün bir muhtaca iyilikte bulun", "isDone": false},
+    {"text": "Geleceğim için tevekkül edip endişeyi bırak", "isDone": true},
+    {"text": "Kaza ve belalara karşı sadaka ver", "isDone": false},
+  ];
+
+  final TextEditingController _customGoalController = TextEditingController();
+
+  void _addGoal() {
+    if (_customGoalController.text.trim().isNotEmpty) {
+      setState(() {
+        _goals.insert(0, {"text": _customGoalController.text.trim(), "isDone": false});
+        _customGoalController.clear();
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Renkler.zemin,
+      appBar: AppBar(
+        title: Text("🤲 Umut & Rahmet Odası"),
+        backgroundColor: Color(0xFF261E2B),
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Banner
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF261E2B), Renkler.zemin],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.purpleAccent.withValues(alpha: 0.3)),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.wb_sunny, color: Colors.purpleAccent, size: 40),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Rahmet & Niyet Köşesi",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "Allah'ın rahmetinden asla ümit kesilmez. Geleceğe güzel niyetler ek.",
+                          style: TextStyle(color: Colors.white70, fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // Umut Ayetleri
+            _buildCardTitle("Umut Veren Vaat (Zümer Suresi)"),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Renkler.kart,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.purpleAccent.withValues(alpha: 0.2)),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  Text(
+                    '"De ki: Ey kendi aleyhlerine haddi aşan kullarım! Allah’ın rahmetinden ümidinizi kesmeyin. Şüphesiz Allah bütün günahları bağışlar."',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontStyle: FontStyle.italic,
+                      fontSize: 13,
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    "Zümer Suresi, 53. Ayet",
+                    style: TextStyle(
+                      color: Colors.purpleAccent,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // Niyet & Dua Listesi Ekleme
+            _buildCardTitle("Yeni Niyet veya Hedef Ekle"),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _customGoalController,
+                    decoration: InputDecoration(
+                      hintText: "Örn: Yarın teheccüt kılmak, sadaka vermek...",
+                      filled: true,
+                      fillColor: Renkler.kart,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                IconButton(
+                  onPressed: _addGoal,
+                  icon: Icon(
+                    Icons.add_circle,
+                    color: Colors.purpleAccent,
+                    size: 40,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+
+            // Niyetler Listesi
+            _buildCardTitle("Dualarım ve Manevi Niyetlerim"),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: _goals.length,
+              itemBuilder: (context, index) {
+                final goal = _goals[index];
+                return Card(
+                  color: Renkler.kart,
+                  margin: EdgeInsets.only(bottom: 8),
+                  child: CheckboxListTile(
+                    activeColor: Colors.purpleAccent,
+                    checkColor: Colors.white,
+                    value: goal["isDone"],
+                    onChanged: (val) {
+                      setState(() {
+                        goal["isDone"] = val ?? false;
+                      });
+                    },
+                    title: Text(
+                      goal["text"],
+                      style: TextStyle(
+                        color: goal["isDone"] ? Colors.white54 : Colors.white,
+                        decoration: goal["isDone"]
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
+                    ),
+                    secondary: Icon(Icons.star_border, color: Colors.purpleAccent),
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: 30),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCardTitle(String title) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 8.0, top: 4.0),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
