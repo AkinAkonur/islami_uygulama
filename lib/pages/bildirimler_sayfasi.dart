@@ -51,29 +51,49 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     if (mounted) {
       setState(() {
         _liste = _liste
-            .map((b) => Bildirim(
-                  id: b.id,
-                  tip: b.tip,
-                  baslik: b.baslik,
-                  mesaj: b.mesaj,
-                  zaman: b.zaman,
-                  hedef: b.hedef,
-                  okundu: true,
-                  sessiz: b.sessiz,
-                ))
+            .map(
+              (b) => Bildirim(
+                id: b.id,
+                tip: b.tip,
+                baslik: b.baslik,
+                mesaj: b.mesaj,
+                zaman: b.zaman,
+                hedef: b.hedef,
+                okundu: true,
+                sessiz: b.sessiz,
+              ),
+            )
             .toList();
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Tüm bildirimler okundu olarak işaretlendi.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 
-  Future<void> _sessizDegistir() async {
+  Future<void> _sessizDegistir([bool? deger]) async {
     final yeni = await BildirimMerkezi.sessizDegistir();
-    if (mounted) setState(() => _sessiz = yeni);
+    if (mounted) {
+      setState(() => _sessiz = yeni);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            _sessiz ? 'Sessiz mod aktif.' : 'Sessiz mod kapatıldı.',
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   Future<void> _ayarDegistir(BildirimTipi tip, bool deger) async {
     await BildirimMerkezi.ayarYaz(tip, deger);
-    if (mounted) setState(() => _ayarlar[tip] = deger);
+    if (mounted) {
+      setState(() => _ayarlar[tip] = deger);
+    }
   }
 
   Future<void> _kazaDegistir(int delta) async {
@@ -105,18 +125,20 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     if (mounted) {
       setState(() {
         _liste = _liste
-            .map((x) => x.id == b.id
-                ? Bildirim(
-                    id: x.id,
-                    tip: x.tip,
-                    baslik: x.baslik,
-                    mesaj: x.mesaj,
-                    zaman: x.zaman,
-                    hedef: x.hedef,
-                    okundu: true,
-                    sessiz: x.sessiz,
-                  )
-                : x)
+            .map(
+              (x) => x.id == b.id
+                  ? Bildirim(
+                      id: x.id,
+                      tip: x.tip,
+                      baslik: x.baslik,
+                      mesaj: x.mesaj,
+                      zaman: x.zaman,
+                      hedef: x.hedef,
+                      okundu: true,
+                      sessiz: x.sessiz,
+                    )
+                  : x,
+            )
             .toList();
       });
     }
@@ -191,27 +213,31 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
   }
 
   Widget _sessizKarti() {
-    return GestureDetector(
-      onTap: _sessizDegistir,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: _sessiz
-                ? [Colors.blueGrey.shade700, Colors.blueGrey.shade900]
-                : [Renkler.vurgu, Renkler.vurgu.withValues(alpha: 0.55)],
-          ),
-          borderRadius: BorderRadius.circular(20),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: _sessiz
+              ? [Colors.blueGrey.shade700, Colors.blueGrey.shade900]
+              : [Renkler.vurgu, Renkler.vurgu.withValues(alpha: 0.55)],
         ),
-        child: Row(
-          children: [
-            Icon(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          InkWell(
+            onTap: () => _sessizDegistir(),
+            borderRadius: BorderRadius.circular(20),
+            child: Icon(
               _sessiz ? Icons.notifications_off_outlined : Icons.nights_stay,
               color: Colors.white,
               size: 26,
             ),
-            const SizedBox(width: 12),
-            Expanded(
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: GestureDetector(
+              onTap: () => _sessizDegistir(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -229,20 +255,21 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                         ? 'Düğün, toplantı, yolculuk… bildirimler bekletiliyor.'
                         : 'Gece 21:00 - 06:00 arası otomatik sessizdir. Tek dokunuşla sessize al.',
                     style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.8),
-                        fontSize: 12),
+                      color: Colors.white.withValues(alpha: 0.8),
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
             ),
-            Switch(
-              value: _sessiz,
-              onChanged: (_) => _sessizDegistir(),
-              activeThumbColor: Colors.white,
-              activeTrackColor: Colors.black26,
-            ),
-          ],
-        ),
+          ),
+          Switch(
+            value: _sessiz,
+            onChanged: (val) => _sessizDegistir(val),
+            activeThumbColor: Colors.white,
+            activeTrackColor: Colors.black26,
+          ),
+        ],
       ),
     );
   }
@@ -260,8 +287,8 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           Row(
             children: [
               Icon(Icons.tune_outlined, color: Renkler.vurgu, size: 20),
-              SizedBox(width: 8),
-              Text(
+              const SizedBox(width: 8),
+              const Text(
                 'Bildirim Türleri',
                 style: TextStyle(
                   color: Colors.white,
@@ -271,7 +298,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
           _ayarSatiri(
             ikon: '🕌',
             baslik: 'Namaz Bildirimleri',
@@ -303,8 +330,11 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           const Divider(color: Colors.white12, height: 20),
           Row(
             children: [
-              Icon(Icons.exposure_plus_1_outlined,
-                  color: Renkler.vurgu, size: 20),
+              Icon(
+                Icons.exposure_plus_1_outlined,
+                color: Renkler.vurgu,
+                size: 20,
+              ),
               const SizedBox(width: 8),
               const Expanded(
                 child: Text(
@@ -314,7 +344,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
               ),
               IconButton(
                 onPressed: _kaza > 0 ? () => _kazaDegistir(-1) : null,
-                icon: const Icon(Icons.remove_circle_outline, size: 20),
+                icon: const Icon(Icons.remove_circle_outline, size: 22),
                 color: Renkler.vurgu,
               ),
               Text(
@@ -327,7 +357,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
               ),
               IconButton(
                 onPressed: () => _kazaDegistir(1),
-                icon: const Icon(Icons.add_circle_outline, size: 20),
+                icon: const Icon(Icons.add_circle_outline, size: 22),
                 color: Renkler.vurgu,
               ),
             ],
@@ -346,32 +376,38 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Text(ikon, style: const TextStyle(fontSize: 18)),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  baslik,
-                  style: const TextStyle(
-                      color: Colors.white, fontSize: 14),
+      child: InkWell(
+        onTap: () => onChanged(!deger),
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+          child: Row(
+            children: [
+              Text(ikon, style: const TextStyle(fontSize: 18)),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      baslik,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    Text(
+                      aciklama,
+                      style: TextStyle(color: Colors.white54, fontSize: 11),
+                    ),
+                  ],
                 ),
-                Text(
-                  aciklama,
-                  style: TextStyle(color: Colors.white54, fontSize: 11),
-                ),
-              ],
-            ),
+              ),
+              Switch(
+                value: deger,
+                onChanged: onChanged,
+                activeThumbColor: Renkler.vurgu,
+              ),
+            ],
           ),
-          Switch(
-            value: deger,
-            onChanged: onChanged,
-            activeThumbColor: Renkler.vurgu,
-          ),
-        ],
+        ),
       ),
     );
   }

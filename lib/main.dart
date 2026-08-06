@@ -31,6 +31,7 @@ import 'services/manevi_store.dart';
 import 'screens/namaz_screen.dart';
 import 'screens/gorsel_kilinis_screen.dart';
 import 'pages/kuran/sure_listesi_page.dart';
+import 'screens/settings_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -72,10 +73,7 @@ class AnaSayfa extends StatelessWidget {
               // Uçtan Uca Gizlilik Etiketi
               Center(
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
                     color: Renkler.seciliYuzey,
                     borderRadius: BorderRadius.circular(12),
@@ -114,20 +112,14 @@ class AnaSayfa extends StatelessWidget {
                       children: [
                         Text(
                           "18 Safer / 15 Ağustos",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 14),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 2),
                         Text(
                           "Hicri ${ProfilStore.hicriYil()} · ${DateTime.now().year}",
-                          style: TextStyle(
-                            color: Colors.white54,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: Colors.white54, fontSize: 12),
                         ),
                       ],
                     ),
@@ -137,13 +129,23 @@ class AnaSayfa extends StatelessWidget {
                   SizedBox(width: 10),
                   _BildirimZili(),
                   SizedBox(width: 8),
-                  CircleAvatar(
-                    radius: 18,
-                    backgroundColor: Renkler.cerceve,
-                    child: Icon(
-                      Icons.settings_outlined,
-                      color: Colors.white70,
-                      size: 20,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AyarlarSayfasi(),
+                        ),
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 18,
+                      backgroundColor: Renkler.cerceve,
+                      child: Icon(
+                        Icons.settings_outlined,
+                        color: Colors.white70,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ],
@@ -355,281 +357,291 @@ class AnaSayfa extends StatelessWidget {
               ),
               SizedBox(height: 24),
 
-               // Daha Fazla Butonu
-               GestureDetector(
-                 onTap: () {
-                   Navigator.push(
-                     context,
-                     MaterialPageRoute(builder: (context) => DahaFazlaPage()),
-                   );
-                 },
-                 child: Container(
-                   padding: EdgeInsets.symmetric(
-                     horizontal: 16,
-                     vertical: 8,
-                   ),
-                   decoration: BoxDecoration(
-                     color: Renkler.kart,
-                     borderRadius: BorderRadius.circular(20),
-                   ),
-                   child: Row(
-                     mainAxisSize: MainAxisSize.min,
-                     children: [
-                       Text(
-                         "Daha Fazla",
-                         style: TextStyle(color: Colors.white70, fontSize: 12),
-                       ),
-                       SizedBox(width: 4),
-                       Icon(Icons.chevron_right, color: Colors.white54, size: 16),
-                     ],
-                   ),
-                 ),
-               ),
+              // Daha Fazla Butonu
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DahaFazlaPage()),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Renkler.kart,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Daha Fazla",
+                        style: TextStyle(color: Colors.white70, fontSize: 12),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(
+                        Icons.chevron_right,
+                        color: Colors.white54,
+                        size: 16,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(height: 16),
 
-               // İkonlu Menü (Dualar, Bağış, Tesbih, İlham)
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                 children: [
-                   _buildIconMenu(
-                     context,
-                     Icons.pan_tool_alt_outlined,
-                     "Dualar",
-                     Colors.orangeAccent,
-                     DualarPage(),
-                   ),
-                   _buildIconMenu(
-                     context,
-                     Icons.dark_mode_outlined,
-                     "Bağış",
-                     Colors.amber,
-                     BagisPage(),
-                   ),
-                   _buildIconMenu(
-                     context,
-                     Icons.radio_button_checked,
-                     "Tesbih",
-                     Colors.pinkAccent,
-                     TesbihPage(),
-                   ),
-                   _buildIconMenu(
-                     context,
-                     Icons.menu_book_outlined,
-                     "İlham",
-                     Colors.orange,
-                     IlhamPage(),
-                   ),
-                 ],
-               ),
+              // İkonlu Menü (Dualar, Bağış, Tesbih, İlham)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildIconMenu(
+                    context,
+                    Icons.pan_tool_alt_outlined,
+                    "Dualar",
+                    Colors.orangeAccent,
+                    DualarPage(),
+                  ),
+                  _buildIconMenu(
+                    context,
+                    Icons.dark_mode_outlined,
+                    "Bağış",
+                    Colors.amber,
+                    BagisPage(),
+                  ),
+                  _buildIconMenu(
+                    context,
+                    Icons.radio_button_checked,
+                    "Tesbih",
+                    Colors.pinkAccent,
+                    TesbihPage(),
+                  ),
+                  _buildIconMenu(
+                    context,
+                    Icons.menu_book_outlined,
+                    "İlham",
+                    Colors.orange,
+                    IlhamPage(),
+                  ),
+                ],
+              ),
               SizedBox(height: 24),
 
-               // Kıble Bölümü
-               _buildSectionTitle("Kıble"),
-               SizedBox(height: 12),
-               GestureDetector(
-                 onTap: () {
-                   Navigator.push(
-                     context,
-                     MaterialPageRoute(builder: (context) => KiblePusulaPage()),
-                   );
-                 },
-                 child: Container(
-                   padding: EdgeInsets.all(20),
-                   decoration: BoxDecoration(
-                     color: Renkler.yuzey,
-                     borderRadius: BorderRadius.circular(24),
-                     border: Border.all(color: Renkler.cerceve2, width: 1),
-                   ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
+              // Kıble Bölümü
+              _buildSectionTitle("Kıble"),
+              SizedBox(height: 12),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => KiblePusulaPage()),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Renkler.yuzey,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: Renkler.cerceve2, width: 1),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                           Text(
-                             "Kıble Yönü",
-                             style: TextStyle(
-                               color: Renkler.vurgu,
-                               fontSize: 12,
-                               fontWeight: FontWeight.bold,
-                             ),
-                           ),
-                           SizedBox(height: 4),
-                           Text(
-                             "Kâbe'ye Doğru",
-                             style: TextStyle(
-                               color: Colors.white,
-                               fontSize: 20,
-                               fontWeight: FontWeight.bold,
-                             ),
-                           ),
-                           SizedBox(height: 12),
-                           Container(
-                             padding: EdgeInsets.symmetric(
-                               horizontal: 12,
-                               vertical: 6,
-                             ),
-                             decoration: BoxDecoration(
-                               color: Renkler.cerceve2,
-                               borderRadius: BorderRadius.circular(16),
-                             ),
-                             child: Row(
-                               children: [
-                                 Icon(
-                                   Icons.explore_outlined,
-                                   color: Renkler.vurgu,
-                                   size: 16,
-                                 ),
-                                 SizedBox(width: 6),
-                                 Text(
-                                   "154° GD",
-                                   style: TextStyle(
-                                     color: Renkler.vurgu,
-                                     fontSize: 12,
-                                     fontWeight: FontWeight.bold,
-                                   ),
-                                 ),
-                               ],
+                            Text(
+                              "Kıble Yönü",
+                              style: TextStyle(
+                                color: Renkler.vurgu,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "Kâbe'ye Doğru",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Renkler.cerceve2,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.explore_outlined,
+                                    color: Renkler.vurgu,
+                                    size: 16,
+                                  ),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    "154° GD",
+                                    style: TextStyle(
+                                      color: Renkler.vurgu,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
+                      ),
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: Renkler.cerceve,
+                          shape: BoxShape.circle,
                         ),
-                        Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: Renkler.cerceve,
-                            shape: BoxShape.circle,
+                        child: Center(
+                          child: Icon(
+                            Icons.account_balance,
+                            color: Colors.white24,
+                            size: 40,
                           ),
-                         child: Center(
-                           child: Icon(
-                             Icons.account_balance,
-                             color: Colors.white24,
-                             size: 40,
-                           ),
-                         ),
-                       ),
-                     ],
-                   ),
-                 ),
-               ),
-               SizedBox(height: 24),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 24),
 
-               // Günün Ayeti (Her gün otomatik değişir)
-               Builder(
-                 builder: (context) {
-                   final now = DateTime.now();
-                   final dayOfYear = now.difference(DateTime(now.year, 1, 1)).inDays;
-                   final verses = [
-                     {
-                       "arabic": "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
-                       "translation": "Şüphesiz her zorlukla beraber bir kolaylık vardır.",
-                       "reference": "İnşirah Suresi, 6. Ayet"
-                     },
-                     {
-                       "arabic": "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
-                       "translation": "Bilesiniz ki, kalpler ancak Allah’ı anmakla huzur bulur.",
-                       "reference": "Ra'd Suresi, 28. Ayet"
-                     },
-                     {
-                       "arabic": "فَاذْكُرُونِي أَذْكُرْكُمْ",
-                       "translation": "Öyleyse beni anın ki ben de sizi anayım.",
-                       "reference": "Bakara Suresi, 152. Ayet"
-                     },
-                     {
-                       "arabic": "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
-                       "translation": "Andolsun, eğer şükrederseniz elbette size nimetimi artırırım.",
-                       "reference": "İbrahim Suresi, 7. Ayet"
-                     },
-                     {
-                       "arabic": "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
-                       "translation": "Kim Allah’a tevekkül ederse, O, kendisine yeter.",
-                       "reference": "Talak Suresi, 3. Ayet"
-                     },
-                     {
-                       "arabic": "لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
-                       "translation": "Allah’ın rahmetinden ümidinizi kesmeyin.",
-                       "reference": "Zümer Suresi, 53. Ayet"
-                     },
-                     {
-                       "arabic": "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
-                       "translation": "Allah, hiç kimseye gücünün üstünde bir yük yüklemez.",
-                       "reference": "Bakara Suresi, 286. Ayet"
-                     },
-                   ];
-                   final todayVerse = verses[dayOfYear % verses.length];
+              // Günün Ayeti (Her gün otomatik değişir)
+              Builder(
+                builder: (context) {
+                  final now = DateTime.now();
+                  final dayOfYear = now
+                      .difference(DateTime(now.year, 1, 1))
+                      .inDays;
+                  final verses = [
+                    {
+                      "arabic": "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+                      "translation":
+                          "Şüphesiz her zorlukla beraber bir kolaylık vardır.",
+                      "reference": "İnşirah Suresi, 6. Ayet",
+                    },
+                    {
+                      "arabic": "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+                      "translation":
+                          "Bilesiniz ki, kalpler ancak Allah’ı anmakla huzur bulur.",
+                      "reference": "Ra'd Suresi, 28. Ayet",
+                    },
+                    {
+                      "arabic": "فَاذْكُرُونِي أَذْكُرْكُمْ",
+                      "translation": "Öyleyse beni anın ki ben de sizi anayım.",
+                      "reference": "Bakara Suresi, 152. Ayet",
+                    },
+                    {
+                      "arabic": "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
+                      "translation":
+                          "Andolsun, eğer şükrederseniz elbette size nimetimi artırırım.",
+                      "reference": "İbrahim Suresi, 7. Ayet",
+                    },
+                    {
+                      "arabic":
+                          "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+                      "translation":
+                          "Kim Allah’a tevekkül ederse, O, kendisine yeter.",
+                      "reference": "Talak Suresi, 3. Ayet",
+                    },
+                    {
+                      "arabic": "لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
+                      "translation": "Allah’ın rahmetinden ümidinizi kesmeyin.",
+                      "reference": "Zümer Suresi, 53. Ayet",
+                    },
+                    {
+                      "arabic":
+                          "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+                      "translation":
+                          "Allah, hiç kimseye gücünün üstünde bir yük yüklemez.",
+                      "reference": "Bakara Suresi, 286. Ayet",
+                    },
+                  ];
+                  final todayVerse = verses[dayOfYear % verses.length];
 
-                   return Container(
-                     padding: EdgeInsets.all(20),
-                     decoration: BoxDecoration(
-                       color: Renkler.kart,
-                       borderRadius: BorderRadius.circular(24),
-                       border: Border.all(color: Renkler.cerceve, width: 1),
-                     ),
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                       children: [
-                         Row(
-                           children: [
-                             Icon(
-                               Icons.menu_book_outlined,
-                               color: Renkler.vurgu,
-                               size: 20,
-                             ),
-                             SizedBox(width: 8),
-                             Text(
-                               "Günün Ayeti",
-                               style: TextStyle(
-                                 color: Renkler.vurgu,
-                                 fontSize: 14,
-                                 fontWeight: FontWeight.bold,
-                               ),
-                             ),
-                             Spacer(),
-                             Icon(
-                               Icons.share_outlined,
-                               color: Colors.white54,
-                               size: 20,
-                             ),
-                           ],
-                         ),
-                         SizedBox(height: 24),
-                         Text(
-                           todayVerse["arabic"]!,
-                           textAlign: TextAlign.center,
-                           style: TextStyle(
-                             color: Colors.white,
-                             fontSize: 26,
-                             fontWeight: FontWeight.bold,
-                           ),
-                         ),
-                         SizedBox(height: 24),
-                         Text(
-                           '"${todayVerse["translation"]!}"',
-                           style: TextStyle(
-                             color: Colors.white70,
-                             fontSize: 14,
-                             fontStyle: FontStyle.italic,
-                             height: 1.5,
-                           ),
-                         ),
-                         SizedBox(height: 16),
-                         Text(
-                           todayVerse["reference"]!,
-                           textAlign: TextAlign.right,
-                           style: TextStyle(
-                             color: Renkler.vurgu,
-                             fontSize: 12,
-                             fontWeight: FontWeight.bold,
-                           ),
-                         ),
-                       ],
-                     ),
-                   );
-                 },
-               ),
+                  return Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Renkler.kart,
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(color: Renkler.cerceve, width: 1),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.menu_book_outlined,
+                              color: Renkler.vurgu,
+                              size: 20,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              "Günün Ayeti",
+                              style: TextStyle(
+                                color: Renkler.vurgu,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Spacer(),
+                            Icon(
+                              Icons.share_outlined,
+                              color: Colors.white54,
+                              size: 20,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 24),
+                        Text(
+                          todayVerse["arabic"]!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        Text(
+                          '"${todayVerse["translation"]!}"',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
+                            fontStyle: FontStyle.italic,
+                            height: 1.5,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          todayVerse["reference"]!,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            color: Renkler.vurgu,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
               SizedBox(height: 30),
             ],
           ),
@@ -761,10 +773,7 @@ class AnaSayfa extends StatelessWidget {
             child: Icon(icon, color: iconColor, size: 28),
           ),
           SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(color: Colors.white70, fontSize: 12),
-          ),
+          Text(label, style: TextStyle(color: Colors.white70, fontSize: 12)),
         ],
       ),
     );
@@ -892,7 +901,11 @@ class _BildirimZiliState extends State<_BildirimZili> {
           CircleAvatar(
             radius: 18,
             backgroundColor: Renkler.cerceve,
-            child: const Icon(Icons.notifications_none, color: Colors.white70, size: 20),
+            child: const Icon(
+              Icons.notifications_none,
+              color: Colors.white70,
+              size: 20,
+            ),
           ),
           if (_sayi > 0)
             Positioned(
@@ -1042,8 +1055,9 @@ class _DevamOzetMetni extends StatelessWidget {
     return FutureBuilder<String>(
       future: ManeviStore.sonOkunanAyet(),
       builder: (context, snp) {
-        final metin =
-            (snp.hasData && snp.data!.isNotEmpty) ? snp.data! : 'Bakara 255';
+        final metin = (snp.hasData && snp.data!.isNotEmpty)
+            ? snp.data!
+            : 'Bakara 255';
         return Text(
           'Son: $metin',
           style: TextStyle(color: Colors.white54, fontSize: 11),
@@ -1113,8 +1127,11 @@ class _HizliTesbihKartiState extends State<_HizliTesbihKarti> {
           children: [
             Row(
               children: [
-                const Icon(Icons.radio_button_checked,
-                    color: Colors.pinkAccent, size: 22),
+                const Icon(
+                  Icons.radio_button_checked,
+                  color: Colors.pinkAccent,
+                  size: 22,
+                ),
                 const SizedBox(width: 8),
                 const Expanded(
                   child: Text(
@@ -1147,7 +1164,9 @@ class _HizliTesbihKartiState extends State<_HizliTesbihKarti> {
                   borderRadius: BorderRadius.circular(12),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 5),
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
                       color: Renkler.seciliYuzey,
                       borderRadius: BorderRadius.circular(12),
@@ -1203,8 +1222,13 @@ class _VakitKartlariState extends State<_VakitKartlari> {
     return '${iki(sa)}:${iki(dk)}:${iki(s)}';
   }
 
-  (int kalan, double ilerleme, _VakitBilgisi siradaki, _VakitBilgisi ondanSonraki)
-      _vakitHesapla(DateTime simdi) {
+  (
+    int kalan,
+    double ilerleme,
+    _VakitBilgisi siradaki,
+    _VakitBilgisi ondanSonraki,
+  )
+  _vakitHesapla(DateTime simdi) {
     final dakika = simdi.hour * 60 + simdi.minute;
     final saniye = dakika * 60 + simdi.second;
 
@@ -1223,8 +1247,8 @@ class _VakitKartlariState extends State<_VakitKartlari> {
     final int bitisSn = geceGecisi
         ? (_gunVakitleri.first.dakika + 1440) * 60
         : siradaki.dakika * 60;
-    final double ilerleme =
-        ((saniye - baslangicSn) / (bitisSn - baslangicSn)).clamp(0.0, 1.0);
+    final double ilerleme = ((saniye - baslangicSn) / (bitisSn - baslangicSn))
+        .clamp(0.0, 1.0);
     final int kalan = bitisSn - saniye;
 
     return (kalan, ilerleme, siradaki, ondanSonraki);
@@ -1239,21 +1263,16 @@ class _VakitKartlariState extends State<_VakitKartlari> {
 
   @override
   Widget build(BuildContext context) {
-    final (kalan, ilerleme, siradaki, ondanSonraki) =
-        _vakitHesapla(DateTime.now());
+    final (kalan, ilerleme, siradaki, ondanSonraki) = _vakitHesapla(
+      DateTime.now(),
+    );
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            flex: 65,
-            child: _yaklasanKart(siradaki, kalan, ilerleme),
-          ),
+          Expanded(flex: 65, child: _yaklasanKart(siradaki, kalan, ilerleme)),
           SizedBox(width: 12),
-          Expanded(
-            flex: 35,
-            child: _siradakiKart(ondanSonraki),
-          ),
+          Expanded(flex: 35, child: _siradakiKart(ondanSonraki)),
         ],
       ),
     );
@@ -1367,10 +1386,7 @@ class _VakitKartlariState extends State<_VakitKartlari> {
                       SizedBox(width: 6),
                       Text(
                         "kaldı",
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12,
-                        ),
+                        style: TextStyle(color: Colors.white70, fontSize: 12),
                       ),
                     ],
                   ),
@@ -1475,10 +1491,7 @@ class DuyguYolculukSayfasi extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          "$moodType Modu",
-          style: TextStyle(color: Renkler.vurgu),
-        ),
+        title: Text("$moodType Modu", style: TextStyle(color: Renkler.vurgu)),
       ),
       body: Center(
         child: Text(
