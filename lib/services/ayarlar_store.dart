@@ -1,12 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'renkler.dart';
+
 /// Kullanıcı ayarlarının kalıcı deposu. Değerler değişince UI otomatik
 /// dinler (ValueNotifier) ve uygulama açıldığında geri yüklenir.
 class AyarlarStore {
   AyarlarStore._();
 
   static const _karanlik = 'ayar_karanlik_mod';
+  static const _vurgu = 'ayar_vurgu';
   static const _masterBildirim = 'ayar_master_bildirim';
   static const _konumOtomatik = 'ayar_konum_otomatik';
   static const _hesapMethodu = 'ayar_hesap_methodu';
@@ -16,10 +19,28 @@ class AyarlarStore {
   /// Karanlık mod; değişince tüm uygulama teması yeniden çizilir.
   static final ValueNotifier<bool> karanlikMod = ValueNotifier<bool>(true);
 
+  /// Seçili vurgu rengi kodu; değişince tüm uygulama yeniden çizilir.
+  static final ValueNotifier<String?> vurguKod = ValueNotifier<String?>(null);
+
   /// Başlangıçta kayıtlı ayarları yükler.
   static Future<void> baslat() async {
     final p = await _p;
     karanlikMod.value = p.getBool(_karanlik) ?? true;
+    vurguKod.value = p.getString(_vurgu);
+    Renkler.seciliVurguKod = vurguKod.value;
+  }
+
+  static Future<String?> vurguOku() async => (await _p).getString(_vurgu);
+
+  static Future<void> vurguYaz(String? kod) async {
+    final p = await _p;
+    if (kod == null) {
+      await p.remove(_vurgu);
+    } else {
+      await p.setString(_vurgu, kod);
+    }
+    Renkler.seciliVurguKod = kod;
+    vurguKod.value = kod;
   }
 
   static Future<bool> karanlikOku() async =>

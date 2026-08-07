@@ -53,32 +53,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Locale>(
-      valueListenable: DilHizmetleri.aktifDil,
-      builder: (context, dil, _) => ValueListenableBuilder<bool>(
-        valueListenable: AyarlarStore.karanlikMod,
-        builder: (context, karanlik, _) => MaterialApp(
-          title: 'Huzur & Manevi Yolculuk',
-          debugShowCheckedModeBanner: false,
-          locale: dil,
-          supportedLocales: DilHizmetleri.desteklenenler,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          theme: ThemeData(
-            brightness: Brightness.light,
-            scaffoldBackgroundColor: const Color(0xFFF3F6F2),
-            fontFamily: 'Roboto',
+        valueListenable: DilHizmetleri.aktifDil,
+      builder: (context, dil, _) => ValueListenableBuilder<String?>(
+        valueListenable: AyarlarStore.vurguKod,
+        builder: (context, _, _) => ValueListenableBuilder<bool>(
+          valueListenable: AyarlarStore.karanlikMod,
+          builder: (context, karanlik, _) => MaterialApp(
+            title: 'Huzur & Manevi Yolculuk',
+            debugShowCheckedModeBanner: false,
+            locale: dil,
+            supportedLocales: DilHizmetleri.desteklenenler,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            theme: ThemeData(
+              brightness: Brightness.light,
+              scaffoldBackgroundColor: const Color(0xFFF3F6F2),
+              fontFamily: 'Roboto',
+            ),
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+              scaffoldBackgroundColor: Renkler.zemin,
+              fontFamily: 'Roboto',
+            ),
+            themeMode: karanlik ? ThemeMode.dark : ThemeMode.light,
+            home: AnaSayfa(),
           ),
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            scaffoldBackgroundColor: Renkler.zemin,
-            fontFamily: 'Roboto',
-          ),
-          themeMode: karanlik ? ThemeMode.dark : ThemeMode.light,
-          home: AnaSayfa(),
         ),
       ),
     );
@@ -259,7 +262,7 @@ class AnaSayfa extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
-                childAspectRatio: 1.45,
+                childAspectRatio: 2.7,
                 children: [
                   _ozelModulKarti(
                     context,
@@ -334,7 +337,7 @@ class AnaSayfa extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
-                childAspectRatio: 1.45,
+                childAspectRatio: 2.7,
                 children: [
                   _ozelModulKarti(
                     context,
@@ -468,15 +471,31 @@ class AnaSayfa extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: Renkler.yuzey,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: Renkler.cerceve2, width: 1),
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Container(
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: Renkler.seciliYuzey,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          Icons.explore_outlined,
+                          color: Renkler.vurgu,
+                          size: 18,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -485,58 +504,31 @@ class AnaSayfa extends StatelessWidget {
                               l.t('h.qiblaDir'),
                               style: TextStyle(
                                 color: Renkler.vurgu,
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 2),
                             Text(
                               l.t('h.kaaba'),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            SizedBox(height: 12),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Renkler.cerceve2,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.explore_outlined,
-                                    color: Renkler.vurgu,
-                                    size: 16,
-                                  ),
-                                  SizedBox(width: 6),
-                                  const _KibleOzeti(),
-                                ],
-                              ),
-                            ),
+                            const SizedBox(height: 2),
+                            const _KibleOzeti(),
                           ],
                         ),
                       ),
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Renkler.cerceve,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.account_balance,
-                            color: Colors.white24,
-                            size: 40,
-                          ),
-                        ),
+                      const SizedBox(width: 6),
+                      const Icon(
+                        Icons.chevron_right,
+                        color: Colors.white38,
+                        size: 16,
                       ),
                     ],
                   ),
@@ -599,10 +591,10 @@ class AnaSayfa extends StatelessWidget {
                   final todayVerse = verses[ayetIndex];
 
                   return Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Renkler.kart,
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: Renkler.cerceve, width: 1),
                     ),
                     child: Column(
@@ -613,14 +605,14 @@ class AnaSayfa extends StatelessWidget {
                             Icon(
                               Icons.menu_book_outlined,
                               color: Renkler.vurgu,
-                              size: 20,
+                              size: 18,
                             ),
                             SizedBox(width: 8),
                             Text(
                               l.t('h.ayet'),
                               style: TextStyle(
                                 color: Renkler.vurgu,
-                                fontSize: 14,
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -628,37 +620,38 @@ class AnaSayfa extends StatelessWidget {
                             Icon(
                               Icons.share_outlined,
                               color: Colors.white54,
-                              size: 20,
+                              size: 18,
                             ),
                           ],
                         ),
-                        SizedBox(height: 24),
+                        SizedBox(height: 14),
                         Text(
                           todayVerse["arabic"]!,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 26,
+                            fontSize: 21,
                             fontWeight: FontWeight.bold,
+                            height: 1.4,
                           ),
                         ),
-                        SizedBox(height: 24),
+                        SizedBox(height: 14),
                         Text(
                           '"${l.t('ay.${ayetIndex + 1}')}"',
                           style: TextStyle(
                             color: Colors.white70,
-                            fontSize: 14,
+                            fontSize: 13,
                             fontStyle: FontStyle.italic,
-                            height: 1.5,
+                            height: 1.4,
                           ),
                         ),
-                        SizedBox(height: 16),
+                        SizedBox(height: 10),
                         Text(
                           l.t('ref.${ayetIndex + 1}'),
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             color: Renkler.vurgu,
-                            fontSize: 12,
+                            fontSize: 11,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1101,34 +1094,54 @@ Widget _ozelModulKarti(
       Navigator.push(context, MaterialPageRoute(builder: (_) => hedefSayfa));
     },
     child: Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: Renkler.kart,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Renkler.cerceve),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
-            children: [
-              Icon(ikon, color: renk, size: 22),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
+          Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              color: Renkler.seciliYuzey,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(ikon, color: renk, size: 18),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   baslik,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
                   ),
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
+                const SizedBox(height: 2),
+                DefaultTextStyle(
+                  style: const TextStyle(
+                    color: Colors.white54,
+                    fontSize: 11,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  child: altIcerik,
+                ),
+              ],
+            ),
           ),
-          const Spacer(),
-          altIcerik,
+          const SizedBox(width: 6),
+          const Icon(Icons.chevron_right, color: Colors.white38, size: 16),
         ],
       ),
     ),
@@ -1203,73 +1216,80 @@ class _HizliTesbihKartiState extends State<_HizliTesbihKarti> {
         );
       },
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: Renkler.kart,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Renkler.cerceve),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Row(
-              children: [
-                const Icon(
-                  Icons.radio_button_checked,
-                  color: Colors.pinkAccent,
-                  size: 22,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
+            Container(
+              width: 34,
+              height: 34,
+              decoration: BoxDecoration(
+                color: Renkler.seciliYuzey,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(
+                Icons.radio_button_checked,
+                color: Colors.pinkAccent,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
                     l.t('mod.hizli'),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Row(
-              children: [
-                Text(
-                  '${_sayi ?? 0}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    fontFeatures: [FontFeature.tabularFigures()],
-                  ),
-                ),
-                const Spacer(),
-                InkWell(
-                  onTap: _arttir,
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Renkler.seciliYuzey,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '+1',
-                      style: TextStyle(
-                        color: Renkler.vurgu,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${_sayi ?? 0}',
+                    style: const TextStyle(
+                      color: Colors.white54,
+                      fontSize: 11,
+                      fontFeatures: [FontFeature.tabularFigures()],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+            const SizedBox(width: 6),
+            InkWell(
+              onTap: _arttir,
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Renkler.seciliYuzey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  '+1',
+                  style: TextStyle(
+                    color: Renkler.vurgu,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 6),
+            const Icon(Icons.chevron_right, color: Colors.white38, size: 16),
           ],
         ),
       ),

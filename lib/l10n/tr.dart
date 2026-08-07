@@ -109,6 +109,17 @@ const Map<String, String> trDil = {
   'set.privacy': 'Gizlilik Politikası',
   'set.rate': 'Uygulamayı Puanla',
   'set.version': 'Sürüm 1.0.0',
+  'set.accent': 'Vurgu Rengi',
+  'set.accentDialog': 'Vurgu Rengini Seç',
+  'set.accentInfo': 'Vurgu rengi, uygulamanın ana renk tonunu belirler. '
+      '"Otomatik" seçilirse renk namaz vaktine göre doğal olarak değişir.',
+  's.accentUpdated': 'Vurgu rengi güncellendi.',
+  'c.auto': 'Otomatik (vakte göre)',
+  'c.zumrut': 'Zümrüt',
+  'c.mavi': 'Mavi',
+  'c.altin': 'Altın',
+  'c.turkuaz': 'Turkuaz',
+  'c.gul': 'Gül',
 
   // Yöntem açıklamaları
   'm.13': 'Türkiye için önerilir',
@@ -138,4 +149,63 @@ const Map<String, String> trDil = {
       'mağazasından puanlayarak daha fazla kardeşe ulaşmamıza destek '
       'olabilirsin.',
   'd.ok': 'Tamam',
+
+  // Gizlilik Politikası sayfası
+  'pp.intro': 'Bu gizlilik politikası, Huzur & Manevi Yolculuk uygulamasının '
+      'hangi bilgileri topladığını, nasıl kullandığını ve koruduğunu açıklar. '
+      'Uygulamayı kullanarak bu politikayı kabul etmiş olursunuz.',
+  'pp.s1t': 'Toplanan Veriler',
+  'pp.s1b': 'Uygulama verilerinizin tamamını cihazınızda saklar; hesap '
+      'oluşturmayı gerektirmez. Profil bilgileri, okuma ilerlemesi, ibadet '
+      'kayıtları ve ayar tercihleriniz yalnızca yerel depolamada tutulur.',
+  'pp.s2t': 'Konum ve Kıble Kullanımı',
+  'pp.s2b': 'Namaz vakitlerini doğru hesaplamak ve Kıble yönünü bulmak için '
+      'şehir veya koordinat bilginiz kullanılır. Bu bilgi yalnızca namaz '
+      'vakitleri API hizmetine iletilir; hiçbir pazarlama amacıyla '
+      'kullanılmaz ve cihaz dışında saklanmaz.',
+  'pp.s3t': 'Bildirimler',
+  'pp.s3b': 'Namaz vakitleri ve özel gün bildirimleri yalnızca sizin '
+      'izninizle gönderilir. Bildirim tercihlerinizi ayarlar ekranından '
+      'istediğiniz zaman açıp kapatabilirsiniz.',
+  'pp.s4t': 'Üçüncü Taraflarla Paylaşım',
+  'pp.s4b': 'Verileriniz hiçbir üçüncü taraf ile paylaşılmaz, satılmaz veya '
+      'kiralanmaz. Uygulama isteğe bağlı ücretsiz API hizmetleri dışında '
+      'herhangi bir dış bağlantı kurmaz.',
+  'pp.s5t': 'Veri Saklama ve Silme',
+  'pp.s5b': 'Verileriniz yalnızca cihazınızda güvenle saklanır. Uygulamayı '
+      'kaldırdığınızda veya uygulama ayarlarından verileri temizlediğinizde '
+      'tüm bilgileriniz kalıcı olarak silinir.',
+  'pp.s6t': 'Çocuk Gizliliği',
+  'pp.s6b': 'Uygulama genel içerik barındırır ve çocuk kullanıcılardan '
+      'bilgi talep etmez. Yine de ailelerin artı gözetim yapması önerilir.',
+  'pp.s7t': 'Değişiklikler ve İletişim',
+  'pp.s7b': 'Bu politika güncellenebilir; önemli değişiklikler uygulama '
+      'içinde duyurulur. Sorularınız için uygulama içi iletişim kanallarını '
+      'kullanabilirsiniz.',
+  'pp.last': 'Son güncelleme: Ağustos 2026',
+
+  // Puanlama sayfası
+  'r.baslik': 'Deneyimin nasıldı?',
+  'r.baslikPuanli': 'Değerli görüşün için teşekkürler!',
+  'r.altBaslik': 'Puanın, uygulamayı geliştirmemize ve daha fazla '
+      'kardeşe ulaşmamıza yardımcı olur.',
+  'r.soru': 'Uygulamayı kaç yıldızla değerlendirirsin?',
+  'r.etiket1': 'Çok kötü',
+  'r.etiket2': 'Kötü',
+  'r.etiket3': 'İyi',
+  'r.etiket4': 'Çok iyi',
+  'r.etiket5': 'Mükemmel',
+  'r.ipucu': 'Yukarıdaki yıldızlara dokunarak değerlendirmeye başlayabilirsin.',
+  'r.oneriBaslik': 'Bizi geliştirmene yardım et',
+  'r.oneriIpucu': 'Karşılaştığın sorun veya önerilerini buraya yazabilirsin…',
+  'r.gonder': 'Geri Bildirimi Gönder',
+  'r.gonderildi': 'Gönderildi',
+  'r.gonderildiMetin': 'Görüşün bize ulaştı. Her geri bildirim uygulamayı '
+      'daha iyi hale getirir.',
+  'r.tesekkurBaslik': 'Çok sevindik!',
+  'r.tesekkurMetin': 'Verdiğin yüksek puan bize güç veriyor. Puanını '
+      'kaydederek bu memnuniyeti bizimle paylaşabilirsin.',
+  'r.kaydet': 'Puanımı Kaydet',
+  'r.kaydedildi': 'Puanın kaydedildi. Teşekkürler! 🙏',
+  'r.not': 'Puanın yalnızca cihazında saklanır ve hiçbir sunucuya gönderilmez.',
 };

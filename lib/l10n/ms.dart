@@ -109,6 +109,18 @@ const Map<String, String> msDil = {
   'set.privacy': 'Dasar Privasi',
   'set.rate': 'Nilai Aplikasi Ini',
   'set.version': 'Versi 1.0.0',
+  'set.accent': 'Warna Aksen',
+  'set.accentDialog': 'Pilih Warna Aksen',
+  'set.accentInfo': 'Warna aksen menentukan warna utama aplikasi. Jika '
+      '"Automatik" dipilih, warna berubah secara semula jadi mengikut waktu '
+      'solat.',
+  's.accentUpdated': 'Warna aksen dikemas kini.',
+  'c.auto': 'Automatik (ikut waktu solat)',
+  'c.zumrut': 'Zamrud',
+  'c.mavi': 'Biru',
+  'c.altin': 'Emas',
+  'c.turkuaz': 'Teal',
+  'c.gul': 'Mawar',
 
   // Deskripsi kaedah
   'm.13': 'Disyorkan untuk Turki',
@@ -137,4 +149,66 @@ const Map<String, String> msDil = {
   'd.rateBody': 'Kami gembira anda menggunakan aplikasi ini. Beri penilaian '
       'di kedai aplikasi untuk membantu kami menjangkau lebih ramai umat.',
   'd.ok': 'OK',
+
+  // Halaman Dasar Privasi
+  'pp.intro': 'Dasar privasi ini menerangkan maklumat yang dikumpul oleh '
+      'aplikasi Huzur & Perjalanan Rohani, cara ia digunakan dan cara ia '
+      'dilindungi. Dengan menggunakan aplikasi ini, anda bersetuju dengan '
+      'dasar ini.',
+  'pp.s1t': 'Data yang Kami Kumpul',
+  'pp.s1b': 'Semua data anda disimpan pada peranti anda; aplikasi tidak '
+      'memerlukan akaun. Maklumat profil, kemajuan bacaan, rekod ibadah '
+      'dan tetapan disimpan hanya dalam storan tempatan.',
+  'pp.s2t': 'Lokasi dan Kiblat',
+  'pp.s2b': 'Bandar atau koordinat anda digunakan untuk mengira waktu solat '
+      'yang tepat dan arah kiblat. Maklumat ini hanya dihantar ke perkhidmatan '
+      'API waktu solat dan tidak pernah digunakan untuk pemasaran atau '
+      'disimpan di luar peranti anda.',
+  'pp.s3t': 'Pemberitahuan',
+  'pp.s3b': 'Pemberitahuan waktu solat dan hari khas hanya dihantar dengan '
+      'izin anda. Anda boleh menghidupkan atau mematikan pilihan ini pada '
+      'bila-bila masa dari skrin tetapan.',
+  'pp.s4t': 'Perkongsian dengan Pihak Ketiga',
+  'pp.s4b': 'Data anda tidak pernah dikongsi, dijual atau disewa kepada '
+      'pihak ketiga. Aplikasi tidak membuat sambungan luaran kecuali '
+      'perkhidmatan API percuma yang pilihan.',
+  'pp.s5t': 'Penyimpanan dan Pemadaman Data',
+  'pp.s5b': 'Data anda hanya disimpan dengan selamat pada peranti anda. '
+      'Apabila anda menyahpasang aplikasi atau membersihkan data daripada '
+      'tetapan, semua maklumat dipadam secara kekal.',
+  'pp.s6t': 'Privasi Kanak-kanak',
+  'pp.s6b': 'Aplikasi ini mengandungi kandungan umum dan tidak meminta '
+      'maklumat daripada kanak-kanak. Walau bagaimanapun, pengawasan '
+      'keluarga amat digalakkan.',
+  'pp.s7t': 'Perubahan dan Hubungan',
+  'pp.s7b': 'Dasar ini mungkin dikemas kini; perubahan penting akan '
+      'diumumkan dalam aplikasi. Anda boleh menggunakan saluran hubungan '
+      'dalam aplikasi untuk sebarang soalan.',
+  'pp.last': 'Kemas kini terakhir: Ogos 2026',
+
+  // Halaman penilaian
+  'r.baslik': 'Bagaimana pengalaman anda?',
+  'r.baslikPuanli': 'Terima kasih atas maklum balas berharga anda!',
+  'r.altBaslik': 'Penilaian anda membantu kami mengembangkan aplikasi dan '
+      'menjangkau lebih ramai saudara.',
+  'r.soru': 'Berapa bintang yang anda berikan kepada aplikasi ini?',
+  'r.etiket1': 'Sangat buruk',
+  'r.etiket2': 'Buruk',
+  'r.etiket3': 'Baik',
+  'r.etiket4': 'Sangat baik',
+  'r.etiket5': 'Cemerlang',
+  'r.ipucu': 'Ketik bintang di atas untuk mula menilai.',
+  'r.oneriBaslik': 'Bantu kami bertambah baik',
+  'r.oneriIpucu': 'Tulis masalah yang anda hadapi atau cadangan di sini…',
+  'r.gonder': 'Hantar Maklum Balas',
+  'r.gonderildi': 'Dihantar',
+  'r.gonderildiMetin': 'Maklum balas anda telah sampai. Setiap catatan '
+      'membuat aplikasi lebih baik.',
+  'r.tesekkurBaslik': 'Kami gembira!',
+  'r.tesekkurMetin': 'Penilaian tinggi anda memberi kami kekuatan. Simpan '
+      'penilaian anda untuk berkongsi kepuasan ini dengan kami.',
+  'r.kaydet': 'Simpan Penilaian Saya',
+  'r.kaydedildi': 'Penilaian anda telah disimpan. Terima kasih! 🙏',
+  'r.not': 'Penilaian anda hanya disimpan pada peranti anda dan tidak pernah '
+      'dihantar ke mana-mana pelayan.',
 };

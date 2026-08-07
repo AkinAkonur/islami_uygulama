@@ -109,6 +109,18 @@ const Map<String, String> enDil = {
   'set.privacy': 'Privacy Policy',
   'set.rate': 'Rate the App',
   'set.version': 'Version 1.0.0',
+  'set.accent': 'Accent Color',
+  'set.accentDialog': 'Choose Accent Color',
+  'set.accentInfo': 'The accent color determines the main tone of the '
+      'app. If "Automatic" is selected, the color changes naturally with '
+      'the prayer time.',
+  's.accentUpdated': 'Accent color updated.',
+  'c.auto': 'Automatic (by prayer time)',
+  'c.zumrut': 'Emerald',
+  'c.mavi': 'Blue',
+  'c.altin': 'Gold',
+  'c.turkuaz': 'Teal',
+  'c.gul': 'Rose',
 
   // Method descriptions
   'm.13': 'Recommended for Turkey',
@@ -137,4 +149,65 @@ const Map<String, String> enDil = {
   'd.rateBody': 'We are happy that you use our app. Please rate us on the '
       'app store to help it reach more brothers and sisters.',
   'd.ok': 'OK',
+
+  // Privacy Policy page
+  'pp.intro': 'This privacy policy explains what information the Huzur & '
+      'Spiritual Journey app collects, how it is used, and how it is '
+      'protected. By using the app, you agree to this policy.',
+  'pp.s1t': 'Data We Collect',
+  'pp.s1b': 'All of your data is stored on your device; the app does not '
+      'require an account. Profile details, reading progress, prayer logs '
+      'and settings are kept only in local storage.',
+  'pp.s2t': 'Location and Qibla',
+  'pp.s2b': 'Your city or coordinates are used to calculate accurate prayer '
+      'times and the direction of Qibla. This information is sent only to '
+      'the prayer times API service and is never used for marketing or '
+      'stored outside your device.',
+  'pp.s3t': 'Notifications',
+  'pp.s3b': 'Prayer time and special day notifications are sent only with '
+      'your permission. You can turn these preferences on or off at any time '
+      'from the settings screen.',
+  'pp.s4t': 'Sharing with Third Parties',
+  'pp.s4b': 'Your data is never shared, sold or rented to third parties. '
+      'The app makes no external connections except optional free API '
+      'services.',
+  'pp.s5t': 'Data Storage and Deletion',
+  'pp.s5b': 'Your data is stored securely on your device only. When you '
+      'uninstall the app or clear data from app settings, all information '
+      'is permanently deleted.',
+  'pp.s6t': 'Children\'s Privacy',
+  'pp.s6b': 'The app contains general content and does not request '
+      'information from children. Still, families are encouraged to provide '
+      'supervision.',
+  'pp.s7t': 'Changes and Contact',
+  'pp.s7b': 'This policy may be updated. Important changes are announced '
+      'within the app. You can use the in-app contact channels for any '
+      'questions.',
+  'pp.last': 'Last updated: August 2026',
+
+  // Rating page
+  'r.baslik': 'How was your experience?',
+  'r.baslikPuanli': 'Thank you for your valuable feedback!',
+  'r.altBaslik': 'Your rating helps us improve the app and reach more '
+      'brothers and sisters.',
+  'r.soru': 'How many stars would you give the app?',
+  'r.etiket1': 'Terrible',
+  'r.etiket2': 'Bad',
+  'r.etiket3': 'Good',
+  'r.etiket4': 'Very good',
+  'r.etiket5': 'Excellent',
+  'r.ipucu': 'Tap the stars above to start rating.',
+  'r.oneriBaslik': 'Help us improve',
+  'r.oneriIpucu': 'Write any issue you faced or suggestions here…',
+  'r.gonder': 'Send Feedback',
+  'r.gonderildi': 'Sent',
+  'r.gonderildiMetin': 'Your feedback has reached us. Every note makes the '
+      'app better.',
+  'r.tesekkurBaslik': 'We are glad!',
+  'r.tesekkurMetin': 'Your high rating gives us strength. Save your rating '
+      'to share this satisfaction with us.',
+  'r.kaydet': 'Save My Rating',
+  'r.kaydedildi': 'Your rating has been saved. Thank you! 🙏',
+  'r.not': 'Your rating is stored only on your device and never sent to any '
+      'server.',
 };

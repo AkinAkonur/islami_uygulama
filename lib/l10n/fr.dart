@@ -109,6 +109,18 @@ const Map<String, String> frDil = {
   'set.privacy': 'Politique de confidentialité',
   'set.rate': 'Noter l’application',
   'set.version': 'Version 1.0.0',
+  'set.accent': 'Couleur d’accent',
+  'set.accentDialog': 'Choisir la couleur d’accent',
+  'set.accentInfo': 'La couleur d’accent détermine la teinte principale de '
+      'l’application. Si « Automatique » est choisi, la couleur change '
+      'naturellement selon l’heure de la prière.',
+  's.accentUpdated': 'Couleur d’accent mise à jour.',
+  'c.auto': 'Automatique (selon l’heure de la prière)',
+  'c.zumrut': 'Émeraude',
+  'c.mavi': 'Bleu',
+  'c.altin': 'Or',
+  'c.turkuaz': 'Turquoise',
+  'c.gul': 'Rose',
 
   // Descriptions des méthodes
   'm.13': 'Recommandée pour la Turquie',
@@ -140,4 +152,69 @@ const Map<String, String> frDil = {
       'Donnez une note sur la boutique pour nous aider à atteindre plus de '
       'frères et sœurs.',
   'd.ok': 'OK',
+
+  // Page Politique de confidentialité
+'pp.intro': 'Cette politique de confidentialité explique quelles '
+      'informations l’application Huzur & Voyage spirituel collecte, comment '
+      'elles sont utilisées et comment elles sont protégées. En utilisant '
+      'l’application, vous acceptez cette politique.',
+  'pp.s1t': 'Données que nous collectons',
+  'pp.s1b': 'Toutes vos données sont stockées sur votre appareil ; '
+      'l’application ne nécessite pas de compte. Les informations de profil, '
+      'la progression de lecture, les journaux de prière et les réglages sont '
+      'conservés uniquement dans le stockage local.',
+  'pp.s2t': 'Localisation et Qibla',
+  'pp.s2b': 'Votre ville ou vos coordonnées servent à calculer précisément '
+      'les horaires de prière et la direction de la Qibla. Ces informations '
+      'sont envoyées uniquement au service API des horaires de prière et ne '
+      'sont jamais utilisées à des fins marketing ni stockées hors de votre '
+      'appareil.',
+  'pp.s3t': 'Notifications',
+  'pp.s3b': 'Les notifications d’horaires de prière et de jours spéciaux ne '
+      'sont envoyées qu’avec votre permission. Vous pouvez activer ou '
+      'désactiver ces préférences à tout moment depuis l’écran des réglages.',
+  'pp.s4t': 'Partage avec des tiers',
+'pp.s4b': 'Vos données ne sont jamais partagées, vendues ou louées à des '
+      'tiers. L’application n’établit aucune connexion externe en dehors de '
+      'services API gratuits facultatifs.',
+  'pp.s5t': 'Stockage et suppression des données',
+  'pp.s5b': 'Vos données sont uniquement stockées en toute sécurité sur '
+      'votre appareil. Si vous désinstallez l’application ou effacez les '
+      'données depuis les réglages, toutes les informations sont supprimées '
+      'définitivement.',
+  'pp.s6t': 'Confidentialité des enfants',
+  'pp.s6b': 'L’application contient un contenu général et ne demande pas '
+      'd’informations aux enfants. Une surveillance des familles est '
+      'cependant recommandée.',
+  'pp.s7t': 'Modifications et contact',
+  'pp.s7b': 'Cette politique peut être mise à jour ; les changements '
+      'importants sont annoncés dans l’application. Pour toute question, vous '
+      'pouvez utiliser les canaux de contact de l’application.',
+  'pp.last': 'Dernière mise à jour : août 2026',
+
+  // Page de notation
+  'r.baslik': 'Comment était votre expérience ?',
+  'r.baslikPuanli': 'Merci pour votre précieux avis !',
+  'r.altBaslik': 'Votre note nous aide à améliorer l’application et à '
+      'toucher plus de frères et sœurs.',
+  'r.soru': 'Combien d’étoiles donneriez-vous à l’application ?',
+  'r.etiket1': 'Très mauvais',
+  'r.etiket2': 'Mauvais',
+  'r.etiket3': 'Bon',
+  'r.etiket4': 'Très bon',
+  'r.etiket5': 'Excellent',
+  'r.ipucu': 'Appuyez sur les étoiles ci-dessus pour commencer à noter.',
+  'r.oneriBaslik': 'Aidez-nous à nous améliorer',
+  'r.oneriIpucu': 'Écrivez ici un problème rencontré ou vos suggestions…',
+  'r.gonder': 'Envoyer le retour',
+  'r.gonderildi': 'Envoyé',
+  'r.gonderildiMetin': 'Votre retour nous est parvenu. Chaque avis rend '
+      'l’application meilleure.',
+  'r.tesekkurBaslik': 'Nous sommes ravis !',
+  'r.tesekkurMetin': 'Votre note élevée nous donne de la force. Enregistrez '
+      'votre note pour partager cette satisfaction avec nous.',
+  'r.kaydet': 'Enregistrer ma note',
+  'r.kaydedildi': 'Votre note a été enregistrée. Merci ! 🙏',
+  'r.not': 'Votre note est stockée uniquement sur votre appareil et n’est '
+      'jamais envoyée à un serveur.',
 };

@@ -108,6 +108,17 @@ const Map<String, String> idDil = {
   'set.privacy': 'Kebijakan Privasi',
   'set.rate': 'Beri Rating Aplikasi',
   'set.version': 'Versi 1.0.0',
+  'set.accent': 'Warna Aksen',
+  'set.accentDialog': 'Pilih Warna Aksen',
+  'set.accentInfo': 'Warna aksen menentukan warna utama aplikasi. Jika '
+      '"Otomatis" dipilih, warna berubah secara alami sesuai waktu salat.',
+  's.accentUpdated': 'Warna aksen diperbarui.',
+  'c.auto': 'Otomatis (sesuai waktu salat)',
+  'c.zumrut': 'Zamrud',
+  'c.mavi': 'Biru',
+  'c.altin': 'Emas',
+  'c.turkuaz': 'Teal',
+  'c.gul': 'Mawar',
 
   // Deskripsi metode
   'm.13': 'Direkomendasikan untuk Turki',
@@ -136,4 +147,65 @@ const Map<String, String> idDil = {
   'd.rateBody': 'Kami senang Anda menggunakan aplikasi ini. Beri peringkat di '
       'toko aplikasi untuk membantu menjangkau lebih banyak saudara.',
   'd.ok': 'OK',
+
+  // Halaman Kebijakan Privasi
+  'pp.intro': 'Kebijakan privasi ini menjelaskan informasi apa yang '
+      'dikumpulkan aplikasi Huzur & Perjalanan Spiritual, bagaimana '
+      'penggunaannya, dan bagaimana perlindungannya. Dengan menggunakan '
+      'aplikasi ini, Anda menyetujui kebijakan ini.',
+  'pp.s1t': 'Data yang Kami Kumpulkan',
+  'pp.s1b': 'Semua data Anda disimpan di perangkat Anda; aplikasi tidak '
+      'memerlukan akun. Detail profil, progres membaca, catatan ibadah, '
+      'dan pengaturan disimpan hanya dalam penyimpanan lokal.',
+  'pp.s2t': 'Lokasi dan Kiblat',
+  'pp.s2b': 'Kota atau koordinat Anda digunakan untuk menghitung waktu '
+      'salat yang akurat dan arah kiblat. Informasi ini hanya dikirim ke '
+      'layanan API waktu salat dan tidak pernah digunakan untuk pemasaran '
+      'atau disimpan di luar perangkat Anda.',
+  'pp.s3t': 'Notifikasi',
+  'pp.s3b': 'Notifikasi waktu salat dan hari khusus hanya dikirim dengan '
+      'izin Anda. Anda dapat menyalakan atau mematikan preferensi ini '
+      'kapan saja dari layar pengaturan.',
+  'pp.s4t': 'Berbagi dengan Pihak Ketiga',
+  'pp.s4b': 'Data Anda tidak pernah dibagikan, dijual, atau disewakan ke '
+      'pihak ketiga. Aplikasi tidak membuat koneksi eksternal selain '
+      'layanan API gratis opsional.',
+  'pp.s5t': 'Penyimpanan dan Penghapusan Data',
+  'pp.s5b': 'Data Anda hanya disimpan dengan aman di perangkat Anda. Saat '
+      'mencopot pemasangan aplikasi atau membersihkan data dari '
+      'pengaturan, semua informasi terhapus permanen.',
+  'pp.s6t': 'Privasi Anak',
+  'pp.s6b': 'Aplikasi memuat konten umum dan tidak meminta informasi dari '
+      'anak-anak. Namun, dukungan pengawasan keluarga sangat disarankan.',
+  'pp.s7t': 'Perubahan dan Kontak',
+  'pp.s7b': 'Kebijakan ini dapat diperbarui; perubahan penting akan '
+      'diumumkan di dalam aplikasi. Anda dapat menggunakan saluran kontak '
+      'aplikasi untuk setiap pertanyaan.',
+  'pp.last': 'Pembaruan terakhir: Agustus 2026',
+
+  // Halaman penilaian
+  'r.baslik': 'Bagaimana pengalaman Anda?',
+  'r.baslikPuanli': 'Terima kasih atas masukan berharga Anda!',
+  'r.altBaslik': 'Penilaian Anda membantu kami mengembangkan aplikasi dan '
+      'menjangkau lebih banyak saudara.',
+  'r.soru': 'Berapa bintang yang Anda berikan untuk aplikasi ini?',
+  'r.etiket1': 'Sangat buruk',
+  'r.etiket2': 'Buruk',
+  'r.etiket3': 'Baik',
+  'r.etiket4': 'Sangat baik',
+  'r.etiket5': 'Luar biasa',
+  'r.ipucu': 'Ketuk bintang di atas untuk mulai menilai.',
+  'r.oneriBaslik': 'Bantu kami berkembang',
+  'r.oneriIpucu': 'Tulis masalah yang Anda hadapi atau saran di sini…',
+  'r.gonder': 'Kirim Masukan',
+  'r.gonderildi': 'Terkirim',
+  'r.gonderildiMetin': 'Masukan Anda telah sampai. Setiap catatan membuat '
+      'aplikasi lebih baik.',
+  'r.tesekkurBaslik': 'Kami senang!',
+  'r.tesekkurMetin': 'Penilaian tinggi Anda memberi kami kekuatan. Simpan '
+      'penilaian Anda untuk berbagi kepuasan ini dengan kami.',
+  'r.kaydet': 'Simpan Penilaian Saya',
+  'r.kaydedildi': 'Penilaian Anda telah disimpan. Terima kasih! 🙏',
+  'r.not': 'Penilaian Anda hanya disimpan di perangkat Anda dan tidak pernah '
+      'dikirim ke server mana pun.',
 };

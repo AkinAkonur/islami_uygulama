@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/dil_hizmetleri.dart';
 import '../pages/bildirimler_sayfasi.dart';
+import '../pages/gizlilik_politikasi_page.dart';
 import '../pages/profil_sayfasi.dart';
+import '../pages/puanla_page.dart';
 import '../services/ayarlar_store.dart';
 import '../services/bildirim_merkezi.dart';
 import '../services/gercek_bildirimler.dart';
+import '../services/renkler.dart';
 import '../services/vakit_servisi.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
@@ -20,6 +23,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
   bool _konumOtomatik = true;
   bool _masterBildirim = true;
   String _metotKod = AyarlarStore.diyanetKod;
+  String? _vurguKod;
 
 static const List<({String kod, String ad})> _metotlar = [
     (kod: '13', ad: 'Diyanet İşleri Başkanlığı'),
@@ -48,12 +52,14 @@ static const List<({String kod, String ad})> _metotlar = [
     final konum = await AyarlarStore.konumOtomatikOku();
     final master = await BildirimMerkezi.masterOku();
     final metot = await AyarlarStore.metotOku();
+    final vurgu = await AyarlarStore.vurguOku();
     if (!mounted) return;
     setState(() {
       _karanlikMod = karanlik;
       _konumOtomatik = konum;
       _masterBildirim = master;
       _metotKod = metot ?? '';
+      _vurguKod = vurgu;
     });
   }
 
@@ -136,7 +142,7 @@ static const List<({String kod, String ad})> _metotlar = [
                     m.kod == _metotKod
                         ? Icons.radio_button_checked
                         : Icons.radio_button_unchecked,
-                    color: const Color(0xFF10B981),
+                    color: Renkler.vurgu,
                     size: 20,
                   ),
                   const SizedBox(width: 12),
@@ -197,56 +203,96 @@ static const List<({String kod, String ad})> _metotlar = [
   }
 
   void _gizlilikGoster() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const GizlilikPolitikasiSayfasi()),
+    );
+  }
+
+  Future<void> _vurguSec() async {
     final l = AppLocalizations.of(context);
-    showDialog<void>(
+    const secenekler = [
+      (kod: null, renk: null),
+      (kod: 'zumrut', renk: Color(0xFF10B981)),
+      (kod: 'mavi', renk: Color(0xFF3B82F6)),
+      (kod: 'altin', renk: Color(0xFFF2C14E)),
+      (kod: 'turkuaz', renk: Color(0xFF14B8A6)),
+      (kod: 'gul', renk: Color(0xFFEC4899)),
+    ];
+    final secilen = await showDialog<String?>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => SimpleDialog(
         backgroundColor: const Color(0xFF14382B),
         title: Text(
-          l.t('d.privacy'),
+          l.t('set.accentDialog'),
           style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
-        content: Text(
-          l.t('d.privacyBody'),
-          style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+            child: Wrap(
+              spacing: 14,
+              runSpacing: 14,
+              children: [
+                for (final s in secenekler)
+                  GestureDetector(
+                    onTap: () => Navigator.pop(ctx, s.kod),
+                    child: Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: s.renk ?? const Color(0xFF0F291E),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: s.kod == _vurguKod
+                              ? Colors.white
+                              : s.renk ?? const Color(0xFF395244),
+                          width: s.kod == _vurguKod ? 3 : 1,
+                        ),
+                      ),
+                      child: s.kod == _vurguKod
+                          ? const Icon(Icons.check, color: Colors.white, size: 24)
+                          : (s.renk == null
+                              ? const Icon(Icons.auto_awesome,
+                                  color: Colors.white54, size: 20)
+                              : null),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 6, 24, 18),
             child: Text(
-              l.t('d.understand'),
-              style: const TextStyle(color: Color(0xFF10B981)),
+              l.t('set.accentInfo'),
+              textAlign: TextAlign.justify,
+              style: const TextStyle(
+                color: Colors.white54,
+                fontSize: 12,
+                height: 1.5,
+              ),
             ),
           ),
         ],
       ),
     );
+    if (secilen == _vurguKod || !mounted) return;
+
+    await AyarlarStore.vurguYaz(secilen);
+    if (!mounted) return;
+    setState(() => _vurguKod = secilen);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l.t('s.accentUpdated')),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   void _puanlaGoster() {
-    final l = AppLocalizations.of(context);
-    showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF14382B),
-        title: Text(
-          l.t('d.thanks'),
-          style: const TextStyle(color: Colors.white, fontSize: 16),
-        ),
-        content: Text(
-          l.t('d.rateBody'),
-          style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(
-              l.t('d.ok'),
-              style: const TextStyle(color: Color(0xFF10B981)),
-            ),
-          ),
-        ],
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const PuanlaSayfasi()),
     );
   }
 
@@ -256,6 +302,11 @@ static const List<({String kod, String ad})> _metotlar = [
       if (secenek.kod == kod) return secenek.ad;
     }
     return 'Türkçe';
+  }
+
+  String _vurguAdi(AppLocalizations l) {
+    if (_vurguKod == null) return l.t('c.auto');
+    return l.t('c.$_vurguKod');
   }
 
   Future<void> _dilSec() async {
@@ -279,7 +330,7 @@ static const List<({String kod, String ad})> _metotlar = [
                     secenek.kod == aktifKod
                         ? Icons.radio_button_checked
                         : Icons.radio_button_unchecked,
-                    color: const Color(0xFF10B981),
+                    color: Renkler.vurgu,
                     size: 20,
                   ),
                   const SizedBox(width: 12),
@@ -383,6 +434,12 @@ static const List<({String kod, String ad})> _metotlar = [
 
           const SizedBox(height: 20),
           _bolumBasligi(l.t('set.appearance')),
+          _ayarSecenegi(
+            Icons.color_lens_outlined,
+            l.t('set.accent'),
+            altMetin: _vurguAdi(l),
+            onTap: _vurguSec,
+          ),
           _ayarSwitch(
             Icons.dark_mode_outlined,
             l.t('set.dark'),
@@ -422,8 +479,8 @@ static const List<({String kod, String ad})> _metotlar = [
       padding: const EdgeInsets.only(bottom: 10, left: 4),
       child: Text(
         baslik,
-        style: const TextStyle(
-          color: Color(0xFF10B981),
+        style: TextStyle(
+          color: Renkler.vurgu,
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
@@ -491,7 +548,7 @@ static const List<({String kod, String ad})> _metotlar = [
       trailing: Switch(
         value: deger,
         onChanged: (v) => onChanged(v),
-        activeThumbColor: const Color(0xFF10B981),
+        activeThumbColor: Renkler.vurgu,
       ),
     );
   }

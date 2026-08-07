@@ -145,6 +145,33 @@ class Renkler {
     return _yatsi;
   }
 
+  // ------------------ VURGU RENGİ SEÇİMİ ------------------
+  // Kullanıcı bir vurgu rengi seçerse (null = vakite göre otomatik) tüm
+  // uygulamanın vurgu tonu bu renge sabitlenir. Renkler, uygulamanın renk
+  // paletiyle uyumlu tonlardan seçilmiştir.
+
+  static String? seciliVurguKod;
+
+  static const Map<String, Color> _vurguRenkler = {
+    'zumrut': Color(0xFF10B981),
+    'mavi': Color(0xFF3B82F6),
+    'altin': Color(0xFFF2C14E),
+    'turkuaz': Color(0xFF14B8A6),
+    'gul': Color(0xFFEC4899),
+  };
+
+  static const Map<String, Color> _acikVurguRenkler = {
+    'zumrut': Color(0xFF6EE7B7),
+    'mavi': Color(0xFF93C5FD),
+    'altin': Color(0xFFF9E3A8),
+    'turkuaz': Color(0xFF5EEAD4),
+    'gul': Color(0xFFF9A8D4),
+  };
+
+  /// Seçili vurgu kodunun rengi; seçim yoksa vakit paletinin rengi.
+  static Color get seciliVurguRengi =>
+      _vurguRenkler[seciliVurguKod] ?? aktif.vurgu;
+
   // ------------------ RENK SLAYLARI ------------------
   // Şablon, renk literalleri yerine aşağıdaki adları kullanır.
   // Değerler vakitle değişir; yapı asla değişmez.
@@ -155,8 +182,9 @@ class Renkler {
   static Color get seciliYuzey => aktif.seciliYuzey;
   static Color get cerceve => aktif.cerceve;
   static Color get cerceve2 => aktif.cerceve2;
-  static Color get vurgu => aktif.vurgu;
-  static Color get acikVurgu => aktif.acikVurgu;
+  static Color get vurgu => _vurguRenkler[seciliVurguKod] ?? aktif.vurgu;
+  static Color get acikVurgu =>
+      _acikVurguRenkler[seciliVurguKod] ?? aktif.acikVurgu;
   static Color get navBar => aktif.navBar;
   static Color get bannerUst => aktif.bannerUst;
   static Color get bannerAlt => aktif.bannerAlt;
