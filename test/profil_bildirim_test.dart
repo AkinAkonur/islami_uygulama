@@ -45,6 +45,9 @@ void main() {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
+    // için bir kare daha beklenir.
+    await tester.pump();
 
     await tester.tap(find.byIcon(Icons.person_outline).first);
     await tester.pumpAndSettle();
@@ -60,6 +63,9 @@ void main() {
     tohumBildirim('İkindi 16:45', 'bugun');
 
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
+    // için bir kare daha beklenir.
     await tester.pump();
 
     expect(find.text('1'), findsOneWidget);
@@ -81,6 +87,9 @@ void main() {
 
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
+    // için bir kare daha beklenir.
+    await tester.pump();
 
     expect(find.text('1'), findsOneWidget);
 
@@ -98,6 +107,9 @@ void main() {
 
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
+    // için bir kare daha beklenir.
+    await tester.pump();
 
     expect(tester.takeException(), isNull);
     expect(find.byIcon(Icons.notifications_none), findsOneWidget);
@@ -107,6 +119,9 @@ void main() {
   testWidgets("Isim kaydedildikten sonra ana ekrana donulur", (tester) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
+    // için bir kare daha beklenir.
     await tester.pump();
 
     await tester.tap(find.byIcon(Icons.person_outline).first);
@@ -126,6 +141,9 @@ testWidgets("Bildirim tur ayarlari acilip kapatilabilir", (tester) async {
     tohumBildirim('İkindi 16:45', 'bugun');
 
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
+    // için bir kare daha beklenir.
     await tester.pump();
 
     await tester.tap(find.byIcon(Icons.notifications_none));

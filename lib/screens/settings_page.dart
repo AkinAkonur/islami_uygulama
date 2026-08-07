@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
+import '../l10n/dil_hizmetleri.dart';
 import '../pages/bildirimler_sayfasi.dart';
 import '../pages/profil_sayfasi.dart';
 import '../services/ayarlar_store.dart';
@@ -19,20 +21,20 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
   bool _masterBildirim = true;
   String _metotKod = AyarlarStore.diyanetKod;
 
-  static const List<({String kod, String ad, String aciklama})> _metotlar = [
-    (kod: '13', ad: 'Diyanet İşleri Başkanlığı', aciklama: 'Türkiye için önerilir'),
-    (kod: '3', ad: 'Müslüman Dünya Ligi (MWL)', aciklama: 'Dünya genelinde yaygın'),
-    (kod: '2', ad: 'ISNA (Kuzey Amerika)', aciklama: 'ABD ve Kanada için'),
-    (kod: '1', ad: 'Karaçi Üniversitesi', aciklama: 'Güney Asya için'),
-    (kod: '4', ad: 'Ümmü\'l-Kura (Mekke)', aciklama: 'Suudi Arabistan ve çevresi'),
-    (kod: '5', ad: 'Mısır Genel Araştırma Kurumu', aciklama: 'Afrika ve Orta Doğu'),
+static const List<({String kod, String ad})> _metotlar = [
+    (kod: '13', ad: 'Diyanet İşleri Başkanlığı'),
+    (kod: '3', ad: 'Müslüman Dünya Ligi (MWL)'),
+    (kod: '2', ad: 'ISNA (Kuzey Amerika)'),
+    (kod: '1', ad: 'Karaçi Üniversitesi'),
+    (kod: '4', ad: "Ümmü'l-Kura (Mekke)"),
+    (kod: '5', ad: 'Mısır Genel Araştırma Kurumu'),
   ];
 
-  String get _metotAd {
+  String _metotAd(AppLocalizations l) {
     for (final m in _metotlar) {
       if (m.kod == _metotKod) return m.ad;
     }
-    return 'Ülkeye göre otomatik';
+    return l.t('set.methodAuto');
   }
 
   @override
@@ -72,7 +74,11 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Konum güncellendi: $sehir'),
+            content: Text(
+              AppLocalizations.of(context)
+                  .t('s.locUpdated')
+                  .replaceAll('{sehir}', sehir),
+            ),
             duration: const Duration(seconds: 2),
           ),
         );
@@ -80,12 +86,11 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
         if (!mounted) return;
         // Başarısızsa kullanıcı Konum sayfasından manuel şehir seçebilir.
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'Konum alınamadı. GPS iznini ve cihaz konumunu kontrol et, '
-              'ya da Konum ekranından şehri manuel seçebilirsin.',
+              AppLocalizations.of(context).t('s.locFail'),
             ),
-            duration: Duration(seconds: 4),
+            duration: const Duration(seconds: 4),
           ),
         );
       }
@@ -101,9 +106,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            deger
-                ? 'Tüm bildirimlere izin verildi.'
-                : 'Tüm bildirimler kapatıldı.',
+            AppLocalizations.of(context).t(
+              deger ? 's.notifOn' : 's.notifOff',
+            ),
           ),
           duration: const Duration(seconds: 2),
         ),
@@ -112,13 +117,14 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
   }
 
   Future<void> _metotSec() async {
+    final l = AppLocalizations.of(context);
     final secilen = await showDialog<String>(
       context: context,
       builder: (ctx) => SimpleDialog(
         backgroundColor: const Color(0xFF14382B),
-        title: const Text(
-          'Hesaplama Yöntemi',
-          style: TextStyle(color: Colors.white, fontSize: 16),
+        title: Text(
+          l.t('set.methodDialog'),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
         children: [
           for (final m in _metotlar)
@@ -146,7 +152,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
                           ),
                         ),
                         Text(
-                          m.aciklama,
+                          l.t('m.${m.kod}'),
                           style: const TextStyle(
                             color: Colors.white54,
                             fontSize: 11,
@@ -158,15 +164,12 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
                 ],
               ),
             ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(24, 6, 24, 18),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 6, 24, 18),
           child: Text(
-            'Namaz vakitleri Güneş\'in konumuna göre hesaplanır. Dünyada '
-            'kullanılan birçok hesap ekolü vardır; ülke ve bölgelere göre '
-            'vakitler dakikalarca değişebilir. Seçtiğin yöntem vakit '
-            'takvimine ve tüm bildirimlere uygulanır.',
+            l.t('set.methodInfo'),
             textAlign: TextAlign.justify,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white54,
               fontSize: 12,
               height: 1.5,
@@ -186,35 +189,33 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
     if (!mounted) return;
     setState(() => _metotKod = secilen);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Yeni yöntemle vakitler güncellendi.'),
-        duration: Duration(seconds: 2),
+      SnackBar(
+        content: Text(l.t('s.methodUpdated')),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
 
   void _gizlilikGoster() {
+    final l = AppLocalizations.of(context);
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: const Color(0xFF14382B),
-        title: const Text(
-          'Gizlilik Politikası',
-          style: TextStyle(color: Colors.white, fontSize: 16),
+        title: Text(
+          l.t('d.privacy'),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
-        content: const Text(
-          'Uygulama verilerinizi cihazınızda saklar; şehir ve konum bilgisi '
-          'yalnızca namaz vakitlerini ve Kıble yönünü doğru hesaplamak için '
-          'kullanılır. Konum bilgileri üçüncü taraflarla paylaşılmaz, '
-          'kullanıcı tarafından silinebilir.',
-          style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+        content: Text(
+          l.t('d.privacyBody'),
+          style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text(
-              'Anladım',
-              style: TextStyle(color: Color(0xFF10B981)),
+            child: Text(
+              l.t('d.understand'),
+              style: const TextStyle(color: Color(0xFF10B981)),
             ),
           ),
         ],
@@ -223,25 +224,25 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
   }
 
   void _puanlaGoster() {
+    final l = AppLocalizations.of(context);
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: const Color(0xFF14382B),
-        title: const Text(
-          'Teşekkürler! 🙏',
-          style: TextStyle(color: Colors.white, fontSize: 16),
+        title: Text(
+          l.t('d.thanks'),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
-        content: const Text(
-          'Uygulamamızı kullandığın için mutluyuz. Uygulama mağazasından '
-          'puanlayarak daha fazla kardeşe ulaşmamıza destek olabilirsin.',
-          style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+        content: Text(
+          l.t('d.rateBody'),
+          style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text(
-              'Tamam',
-              style: TextStyle(color: Color(0xFF10B981)),
+            child: Text(
+              l.t('d.ok'),
+              style: const TextStyle(color: Color(0xFF10B981)),
             ),
           ),
         ],
@@ -249,13 +250,71 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
     );
   }
 
+  String _aktifDilAdi() {
+    final kod = DilHizmetleri.aktifDil.value.languageCode;
+    for (final secenek in DilHizmetleri.secenekler) {
+      if (secenek.kod == kod) return secenek.ad;
+    }
+    return 'Türkçe';
+  }
+
+  Future<void> _dilSec() async {
+    final l = AppLocalizations.of(context);
+    final aktifKod = DilHizmetleri.aktifDil.value.languageCode;
+    final secilen = await showDialog<String>(
+      context: context,
+      builder: (ctx) => SimpleDialog(
+        backgroundColor: const Color(0xFF14382B),
+        title: Text(
+          l.t('set.chooseLang'),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        children: [
+          for (final secenek in DilHizmetleri.secenekler)
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(ctx, secenek.kod),
+              child: Row(
+                children: [
+                  Icon(
+                    secenek.kod == aktifKod
+                        ? Icons.radio_button_checked
+                        : Icons.radio_button_unchecked,
+                    color: const Color(0xFF10B981),
+                    size: 20,
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    secenek.ad,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+    if (secilen == null || secilen == aktifKod || !mounted) return;
+    await DilHizmetleri.sec(secilen);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context).t('set.langUpdated')),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: const Color(0xFF0F291E),
       appBar: AppBar(
         backgroundColor: const Color(0xFF14382B),
-        title: const Text("Ayarlar", style: TextStyle(color: Colors.white)),
+        title: Text(l.t('set.title'), style: const TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
         elevation: 0,
         centerTitle: true,
@@ -263,11 +322,11 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _bolumBasligi("Hesap ve Profil"),
+          _bolumBasligi(l.t('set.account')),
           _ayarSecenegi(
             Icons.person_outline,
-            "Profili Düzenle",
-            altMetin: "Fotoğraf, isim ve istatistikler",
+            l.t('set.editProfile'),
+            altMetin: l.t('set.editProfileAlt'),
             onTap: () {
               Navigator.push(
                 context,
@@ -277,34 +336,34 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
           ),
 
           const SizedBox(height: 20),
-          _bolumBasligi("Namaz Vakitleri ve Konum"),
+          _bolumBasligi(l.t('set.time')),
           _ayarSwitch(
             Icons.location_on_outlined,
-            "Otomatik Konum (GPS)",
-            "Konum izni verilirse şehir otomatik algılanır",
+            l.t('set.autoLoc'),
+            l.t('set.autoLocAlt'),
             _konumOtomatik,
             _konumDegistir,
           ),
           _ayarSecenegi(
             Icons.calculate_outlined,
-            "Hesaplama Yöntemi",
-            altMetin: _metotAd,
+            l.t('set.method'),
+            altMetin: _metotAd(l),
             onTap: _metotSec,
           ),
 
           const SizedBox(height: 20),
-          _bolumBasligi("Bildirimler"),
+          _bolumBasligi(l.t('set.notif')),
           _ayarSwitch(
             Icons.notifications_active_outlined,
-            "Tüm Bildirimlere İzin Ver",
-            "Namaz vakitleri, ayet ve özel gün bildirimleri",
+            l.t('set.notifAll'),
+            l.t('set.notifAllAlt'),
             _masterBildirim,
             _masterBildirimDegistir,
           ),
           _ayarSecenegi(
             Icons.tune_outlined,
-            "Bildirim Merkezi",
-            altMetin: "Sessiz mod, kaza sayacı, tür ayarları",
+            l.t('set.notifCenter'),
+            altMetin: l.t('set.notifCenterAlt'),
             onTap: () {
               Navigator.push(
                 context,
@@ -314,33 +373,42 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
           ),
 
           const SizedBox(height: 20),
-          _bolumBasligi("Görünüm"),
+          _bolumBasligi(l.t('set.langSection')),
+          _ayarSecenegi(
+            Icons.language,
+            l.t('set.lang'),
+            altMetin: _aktifDilAdi(),
+            onTap: _dilSec,
+          ),
+
+          const SizedBox(height: 20),
+          _bolumBasligi(l.t('set.appearance')),
           _ayarSwitch(
             Icons.dark_mode_outlined,
-            "Karanlık Mod",
-            "Uygulama teması anında güncellenir",
+            l.t('set.dark'),
+            l.t('set.darkAlt'),
             _karanlikMod,
             _karanlikDegistir,
           ),
 
           const SizedBox(height: 20),
-          _bolumBasligi("Hakkında"),
+          _bolumBasligi(l.t('set.about')),
           _ayarSecenegi(
             Icons.info_outline,
-            "Gizlilik Politikası",
+            l.t('set.privacy'),
             onTap: _gizlilikGoster,
           ),
           _ayarSecenegi(
             Icons.star_rate_outlined,
-            "Uygulamayı Puanla",
+            l.t('set.rate'),
             onTap: _puanlaGoster,
           ),
           const SizedBox(height: 20),
 
-          const Center(
+          Center(
             child: Text(
-              "Sürüm 1.0.0",
-              style: TextStyle(color: Colors.white38, fontSize: 12),
+              l.t('set.version'),
+              style: const TextStyle(color: Colors.white38, fontSize: 12),
             ),
           ),
           const SizedBox(height: 30),

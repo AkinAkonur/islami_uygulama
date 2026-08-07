@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
+import 'l10n/dil_hizmetleri.dart';
 import 'services/renkler.dart';
 import 'services/ayarlar_store.dart';
 import 'services/bildirim_merkezi.dart';
@@ -36,9 +39,11 @@ import 'screens/gorsel_kilinis_screen.dart';
 import 'pages/kuran/sure_listesi_page.dart';
 import 'screens/settings_page.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AyarlarStore.baslat();
+  await AyarlarStore.baslat();
+  // İlk açılışta kayıtlı tercih yoksa cihaz dili otomatik algılanır.
+  await DilHizmetleri.baslat();
   runApp(const MyApp());
 }
 
@@ -47,23 +52,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: AyarlarStore.karanlikMod,
-      builder: (context, karanlik, _) => MaterialApp(
-        title: 'Huzur & Manevi Yolculuk',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          brightness: Brightness.light,
-          scaffoldBackgroundColor: const Color(0xFFF3F6F2),
-          fontFamily: 'Roboto',
+    return ValueListenableBuilder<Locale>(
+      valueListenable: DilHizmetleri.aktifDil,
+      builder: (context, dil, _) => ValueListenableBuilder<bool>(
+        valueListenable: AyarlarStore.karanlikMod,
+        builder: (context, karanlik, _) => MaterialApp(
+          title: 'Huzur & Manevi Yolculuk',
+          debugShowCheckedModeBanner: false,
+          locale: dil,
+          supportedLocales: DilHizmetleri.desteklenenler,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          theme: ThemeData(
+            brightness: Brightness.light,
+            scaffoldBackgroundColor: const Color(0xFFF3F6F2),
+            fontFamily: 'Roboto',
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            scaffoldBackgroundColor: Renkler.zemin,
+            fontFamily: 'Roboto',
+          ),
+          themeMode: karanlik ? ThemeMode.dark : ThemeMode.light,
+          home: AnaSayfa(),
         ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          scaffoldBackgroundColor: Renkler.zemin,
-          fontFamily: 'Roboto',
-        ),
-        themeMode: karanlik ? ThemeMode.dark : ThemeMode.light,
-        home: AnaSayfa(),
       ),
     );
   }
@@ -77,6 +93,7 @@ class AnaSayfa extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -102,7 +119,7 @@ class AnaSayfa extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        "UÇTAN UCA GİZLİLİK",
+                        l.t('h.priv'),
                         style: TextStyle(
                           color: Renkler.vurgu,
                           fontSize: 10,
@@ -168,7 +185,7 @@ class AnaSayfa extends StatelessWidget {
 
               // Duygu Modları
               Text(
-                "Bugün nasıl hissediyorsun?",
+                l.t('h.how'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -183,35 +200,35 @@ class AnaSayfa extends StatelessWidget {
                     _buildMoodChip(
                       context,
                       "😊",
-                      "Huzurlu",
+                      l.t('m.huzurlu'),
                       true,
                       HuzurluPage(),
                     ),
                     _buildMoodChip(
                       context,
                       "🙏",
-                      "Şükür Dolu",
+                      l.t('m.sukurlu'),
                       false,
                       SukurPage(),
                     ),
                     _buildMoodChip(
                       context,
                       "😴",
-                      "Yorgun",
+                      l.t('m.yorgun'),
                       false,
                       YorgunPage(),
                     ),
                     _buildMoodChip(
                       context,
                       "🤲",
-                      "Umutlu",
+                      l.t('m.umutlu'),
                       false,
                       UmutluPage(),
                     ),
                     _buildMoodChip(
                       context,
                       "😟",
-                      "Kaygılı",
+                      l.t('m.kaygili'),
                       false,
                       KaygiliPage(),
                     ),
@@ -228,7 +245,7 @@ class AnaSayfa extends StatelessWidget {
 
               // Günlük Maneviyat Modülleri
               Text(
-                "Günlük Maneviyat",
+                l.t('h.daily'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -247,7 +264,7 @@ class AnaSayfa extends StatelessWidget {
                   _ozelModulKarti(
                     context,
                     Icons.play_circle_fill_outlined,
-                    "Devam Et",
+                    l.t('mod.devam'),
                     _DevamOzetMetni(),
                     Colors.lightGreenAccent,
                     DevamEtPage(),
@@ -255,7 +272,7 @@ class AnaSayfa extends StatelessWidget {
                   _ozelModulKarti(
                     context,
                     Icons.local_fire_department_outlined,
-                    "Günlük Görevler",
+                    l.t('mod.gorev'),
                     _GorevOzetMetni(),
                     Colors.deepOrangeAccent,
                     GunlukGorevPage(),
@@ -263,9 +280,9 @@ class AnaSayfa extends StatelessWidget {
                   _ozelModulKarti(
                     context,
                     Icons.mosque_outlined,
-                    "Cami & Konum",
+                    l.t('mod.cami'),
                     Text(
-                      "Kıble, camiler ve vakitler",
+                      l.t('mod.camiAlt'),
                       style: TextStyle(color: Colors.white54, fontSize: 11),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -275,9 +292,9 @@ class AnaSayfa extends StatelessWidget {
                   _ozelModulKarti(
                     context,
                     Icons.donut_large_outlined,
-                    "Hedef Çarkı",
+                    l.t('mod.carki'),
                     Text(
-                      "Kuran · Zikir · Namaz",
+                      l.t('mod.carkiAlt'),
                       style: TextStyle(color: Colors.white54, fontSize: 11),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -288,9 +305,9 @@ class AnaSayfa extends StatelessWidget {
                   _ozelModulKarti(
                     context,
                     Icons.headphones_outlined,
-                    "Kuran Dinle",
+                    l.t('mod.dinle'),
                     Text(
-                      "Kuran okuyucuları",
+                      l.t('mod.dinleAlt'),
                       style: TextStyle(color: Colors.white54, fontSize: 11),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -303,7 +320,7 @@ class AnaSayfa extends StatelessWidget {
 
               // Keşfet
               Text(
-                "Keşfet",
+                l.t('h.discover'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -322,9 +339,9 @@ class AnaSayfa extends StatelessWidget {
                   _ozelModulKarti(
                     context,
                     Icons.widgets_outlined,
-                    "Widget Rehberi",
+                    l.t('mod.widget'),
                     Text(
-                      "Vakit widget'ı kurulumu",
+                      l.t('mod.widgetAlt'),
                       style: TextStyle(color: Colors.white54, fontSize: 11),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -334,9 +351,9 @@ class AnaSayfa extends StatelessWidget {
                   _ozelModulKarti(
                     context,
                     Icons.explore_outlined,
-                    "Kıble Pusulası",
+                    l.t('mod.pusula'),
                     Text(
-                      "Kabe'ye yönü bul",
+                      l.t('mod.pusulaAlt'),
                       style: TextStyle(color: Colors.white54, fontSize: 11),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -346,9 +363,9 @@ class AnaSayfa extends StatelessWidget {
                   _ozelModulKarti(
                     context,
                     Icons.self_improvement_outlined,
-                    "Görsel Kılınış",
+                    l.t('mod.gorsel'),
                     Text(
-                      "Namaz & abdest rehberi",
+                      l.t('mod.gorselAlt'),
                       style: TextStyle(color: Colors.white54, fontSize: 11),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -358,9 +375,9 @@ class AnaSayfa extends StatelessWidget {
                   _ozelModulKarti(
                     context,
                     Icons.radio_button_checked,
-                    "Tesbih",
+                    l.t('mod.tesbih'),
                     Text(
-                      "Zikir sayacı",
+                      l.t('mod.tesbihAlt'),
                       style: TextStyle(color: Colors.white54, fontSize: 11),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -389,7 +406,7 @@ class AnaSayfa extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "Daha Fazla",
+                        l.t('h.more'),
                         style: TextStyle(color: Colors.white70, fontSize: 12),
                       ),
                       SizedBox(width: 4),
@@ -411,28 +428,28 @@ class AnaSayfa extends StatelessWidget {
                   _buildIconMenu(
                     context,
                     Icons.pan_tool_alt_outlined,
-                    "Dualar",
+                    l.t('h.duas'),
                     Colors.orangeAccent,
                     DualarPage(),
                   ),
                   _buildIconMenu(
                     context,
                     Icons.dark_mode_outlined,
-                    "Bağış",
+                    l.t('h.donate'),
                     Colors.amber,
                     BagisPage(),
                   ),
                   _buildIconMenu(
                     context,
                     Icons.radio_button_checked,
-                    "Tesbih",
+                    l.t('mod.tesbih'),
                     Colors.pinkAccent,
                     TesbihPage(),
                   ),
                   _buildIconMenu(
                     context,
                     Icons.menu_book_outlined,
-                    "İlham",
+                    l.t('h.ilham'),
                     Colors.orange,
                     IlhamPage(),
                   ),
@@ -441,7 +458,7 @@ class AnaSayfa extends StatelessWidget {
               SizedBox(height: 24),
 
               // Kıble Bölümü
-              _buildSectionTitle("Kıble"),
+              _buildSectionTitle(l.t('h.qiblaTitle')),
               SizedBox(height: 12),
               GestureDetector(
                 onTap: () {
@@ -465,7 +482,7 @@ class AnaSayfa extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Kıble Yönü",
+                              l.t('h.qiblaDir'),
                               style: TextStyle(
                                 color: Renkler.vurgu,
                                 fontSize: 12,
@@ -474,7 +491,7 @@ class AnaSayfa extends StatelessWidget {
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "Kâbe'ye Doğru",
+                              l.t('h.kaaba'),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -578,7 +595,8 @@ class AnaSayfa extends StatelessWidget {
                       "reference": "Bakara Suresi, 286. Ayet",
                     },
                   ];
-                  final todayVerse = verses[dayOfYear % verses.length];
+                  final ayetIndex = dayOfYear % verses.length;
+                  final todayVerse = verses[ayetIndex];
 
                   return Container(
                     padding: EdgeInsets.all(20),
@@ -599,7 +617,7 @@ class AnaSayfa extends StatelessWidget {
                             ),
                             SizedBox(width: 8),
                             Text(
-                              "Günün Ayeti",
+                              l.t('h.ayet'),
                               style: TextStyle(
                                 color: Renkler.vurgu,
                                 fontSize: 14,
@@ -626,7 +644,7 @@ class AnaSayfa extends StatelessWidget {
                         ),
                         SizedBox(height: 24),
                         Text(
-                          '"${todayVerse["translation"]!}"',
+                          '"${l.t('ay.${ayetIndex + 1}')}"',
                           style: TextStyle(
                             color: Colors.white70,
                             fontSize: 14,
@@ -636,7 +654,7 @@ class AnaSayfa extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         Text(
-                          todayVerse["reference"]!,
+                          l.t('ref.${ayetIndex + 1}'),
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             color: Renkler.vurgu,
@@ -688,24 +706,24 @@ class AnaSayfa extends StatelessWidget {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
-            label: "Ana Sayfa",
+            label: l.t('h.navHome'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
-            label: "Namazlar",
+            label: l.t('h.navNamaz'),
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.auto_awesome), label: "AI"),
+          BottomNavigationBarItem(icon: Icon(Icons.auto_awesome), label: l.t('h.navAi')),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book_outlined),
-            label: "Kur'an",
+            label: l.t('h.navKuran'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.groups_outlined),
-            label: "Ümmet",
+            label: l.t('h.navUmmet'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.play_circle_outline),
-            label: "Videolar",
+            label: l.t('h.navVideo'),
           ),
         ],
       ),
@@ -822,7 +840,7 @@ class _KibleOzetiState extends State<_KibleOzeti> {
     if (!mounted) return;
     setState(() {
       if (k == null) {
-        _metin = 'Konumla';
+        _metin = AppLocalizations.of(context).t('h.locate');
       } else {
         final aci = VakitServisi.kibleAcisi(k.$1, k.$2);
         _metin = '${aci.round()}° ${VakitServisi.yonEtiketi(aci)}';
@@ -1127,7 +1145,7 @@ class _DevamOzetMetni extends StatelessWidget {
             ? snp.data!
             : 'Bakara 255';
         return Text(
-          'Son: $metin',
+          '${AppLocalizations.of(context).t('h.last')} $metin',
           style: TextStyle(color: Colors.white54, fontSize: 11),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -1144,7 +1162,7 @@ class _GorevOzetMetni extends StatelessWidget {
       future: ManeviStore.seriOku(),
       builder: (context, snp) {
         return Text(
-          '🔥 ${snp.data ?? 0} gün seri',
+          '🔥 ${AppLocalizations.of(context).t('h.streak').replaceAll('{n}', '${snp.data ?? 0}')}',
           style: TextStyle(color: Colors.white54, fontSize: 11),
           overflow: TextOverflow.ellipsis,
         );
@@ -1176,6 +1194,7 @@ class _HizliTesbihKartiState extends State<_HizliTesbihKarti> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -1201,10 +1220,10 @@ class _HizliTesbihKartiState extends State<_HizliTesbihKarti> {
                   size: 22,
                 ),
                 const SizedBox(width: 8),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Hızlı Tesbih',
-                    style: TextStyle(
+                    l.t('mod.hizli'),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -1372,6 +1391,7 @@ class _VakitKartlariState extends State<_VakitKartlari> {
   }
 
   Widget _yaklasanKart(_VakitBilgisi v, int kalan, double ilerleme) {
+    final l = AppLocalizations.of(context);
     return GestureDetector(
       onTap: _vakitlereGit,
       child: Container(
@@ -1424,15 +1444,15 @@ class _VakitKartlariState extends State<_VakitKartlari> {
                         ),
                       ),
                       SizedBox(width: 6),
-                      Text(
-                        "YAKLAŞAN VAKİT",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 9,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
+Text(
+                            l.t('v.yaklasan'),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
                     ],
                   ),
                   SizedBox(height: 14),
@@ -1446,14 +1466,14 @@ class _VakitKartlariState extends State<_VakitKartlari> {
                     ),
                   ),
                   SizedBox(height: 2),
-                  Text(
-                    "${v.ad} Namazı",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 21,
-                      fontWeight: FontWeight.bold,
+                    Text(
+                      l.vakitAdi(v.ad),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
                   SizedBox(height: 8),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
@@ -1512,7 +1532,7 @@ class _VakitKartlariState extends State<_VakitKartlari> {
                       ),
                       SizedBox(width: 6),
                       Text(
-                        "kaldı",
+                        l.t('v.kaldi'),
                         style: TextStyle(color: Colors.white70, fontSize: 12),
                       ),
                     ],
@@ -1537,6 +1557,7 @@ class _VakitKartlariState extends State<_VakitKartlari> {
   }
 
   Widget _siradakiKart(_VakitBilgisi v) {
+    final l = AppLocalizations.of(context);
     return Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -1553,7 +1574,7 @@ class _VakitKartlariState extends State<_VakitKartlari> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "SIRADAKİ",
+              l.t('v.siradaki'),
               style: TextStyle(
                 color: Colors.white38,
                 fontSize: 9,
