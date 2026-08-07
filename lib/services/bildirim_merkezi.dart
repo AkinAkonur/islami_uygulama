@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'manevi_store.dart';
+import 'vakit_servisi.dart';
 
 enum BildirimTipi { namaz, gunluk, ozelGun, ummet, diger }
 
@@ -61,6 +62,7 @@ class BildirimMerkezi {
   static const _keySonGun = 'bildirim_son_gun';
   static const _keySessiz = 'bildirim_sessiz_modu';
   static const _keyKaza = 'kaza_namaz';
+  static const _keyMaster = 'ayar_master_bildirim';
 
   /// Zildeki kırmızı rozet sayısı. Değişince dinleyen widget'lar tazelenir.
   static final ValueNotifier<int> rozet = ValueNotifier<int>(0);
@@ -96,25 +98,64 @@ class BildirimMerkezi {
     );
   }
 
-  /// Günün bildirimlerini üretir. Günde bir kez çalışır; en fazla 5 bildirim.
+  /// Günün bildirimlerini üretir ve Bugün bölümündeki namaz kaydını canlı tutar.
   static Future<void> guncelle() async {
     final p = await _p;
     final now = DateTime.now();
     final bugunKey = _tarihKey(now);
-    if (p.getString(_keySonGun) == bugunKey) return;
+    if (p.getString(_keySonGun) != bugunKey) {
+      await _uretimYap(now, bugunKey);
+    }
+    await bugunNamaziniTazele(now);
+    await rozetGuncelle();
+  }
 
+  /// Bugünün "sıradaki vakit" kaydını her açılışta günceller. Böylece liste
+  /// "öğle giriyor" gibi eski bir vakitte takılı kalmaz; o an girecek olan
+  /// namazı gösterir.
+  static Future<void> bugunNamaziniTazele(DateTime now) async {
+    final vakit = await _siradakiVakit(now);
+    if (vakit == null) return;
+    final liste = await listeyiOku();
+    if (liste.isEmpty) return;
+
+    final bugunKey = _tarihKey(now);
+    final hedefId = 'namaz_vakit_$bugunKey';
+    var degisti = false;
+    final yeni = liste
+        .map((b) {
+          if (b.id != hedefId) return b;
+          degisti = true;
+          return Bildirim(
+            id: b.id,
+            tip: b.tip,
+            baslik: '${vakit.$1} ${vakit.$2}',
+            mesaj: 'Sıradaki namaz — kalan ${vakit.$3}',
+            zaman: now,
+            hedef: b.hedef,
+            okundu: b.okundu,
+            sessiz: b.sessiz,
+          );
+        })
+        .toList();
+    if (degisti) await _listeyiKaydet(yeni);
+  }
+
+  /// Günün bildirim setini üretir (günde bir kez). En fazla 5 bildirim.
+  static Future<void> _uretimYap(DateTime now, String bugunKey) async {
+    final p = await _p;
     final yeni = <Bildirim>[];
     final sessiz = _sessizSaat(now);
 
     // 1) NAMAZ (çekirdek)
     if (await ayarOku(BildirimTipi.namaz)) {
-      final vakit = _siradakiVakit(now);
+      final vakit = await _siradakiVakit(now);
       if (vakit != null) {
         yeni.add(Bildirim(
           id: 'namaz_vakit_$bugunKey',
           tip: BildirimTipi.namaz,
           baslik: '${vakit.$1} ${vakit.$2}',
-          mesaj: 'Namaz vakti giriyor — kalan ${vakit.$3}',
+          mesaj: 'Sıradaki namaz — kalan ${vakit.$3}',
           zaman: now,
           hedef: 'namaz',
           okundu: false,
@@ -224,11 +265,13 @@ class BildirimMerkezi {
         ));
       }
       if (ManeviStore.ramazanIci(now) && now.hour >= 16) {
+        final aksam = VakitServisi.aksamVakti(await VakitServisi.gunlukVakitler());
+        final iftar = aksam?.saatYaz ?? 'güneş batımı';
         yeni.add(Bildirim(
           id: 'ozel_iftar_$bugunKey',
           tip: BildirimTipi.ozelGun,
           baslik: 'İftar yaklaşıyor',
-          mesaj: 'İftar 20:17 — orucunu unutma, ailenle paylaş.',
+          mesaj: 'İftar $iftar — orucunu unutma, ailenle paylaş.',
           zaman: now,
           hedef: 'ramazan',
           okundu: false,
@@ -243,7 +286,7 @@ class BildirimMerkezi {
         id: 'ummet_dua_$bugunKey',
         tip: BildirimTipi.ummet,
         baslik: 'Dua kardeşliğin aktif',
-        mesaj: '1.420 kardeşin senin için dua etti. Sen de birine katıl.',
+        mesaj: 'Bugün bir dua zincirine katıl ve kardeşlerine dua edip huzur bul.',
         zaman: now,
         hedef: 'ummet',
         okundu: false,
@@ -258,39 +301,38 @@ class BildirimMerkezi {
       await _listeyiKaydet([...secilen, ...eski]);
     }
     await p.setString(_keySonGun, bugunKey);
-    await rozetGuncelle();
   }
 
-  /// Sıradaki vakti hesaplar; (ad, saat, kalan yazısı) döner.
-  static (String, String, String)? _siradakiVakit(DateTime now) {
-    const vakitler = [
-      (4, 12, 'İmsak', '04:12'),
-      (5, 48, 'Güneş', '05:48'),
-      (13, 5, 'Öğle', '13:05'),
-      (16, 45, 'İkindi', '16:45'),
-      (20, 17, 'Akşam', '20:17'),
-      (21, 50, 'Yatsı', '21:50'),
-    ];
-    int? secilenDakika;
-    String secilenAd = '';
-    String secilenSaat = '';
+  /// Sıradaki vakti gerçek vakit listesinden hesaplar; (ad, saat, kalan) döner.
+  /// Yatsı'dan sonra sabahki İmsak'ı (ertesi gün) döndürür; hiçbir saatte
+  /// "vakit yok" durumuna düşmez, böylece Bugün bölümü her zaman dolu olur.
+  static Future<(String, String, String)?> _siradakiVakit(DateTime now) async {
+    final vakitler = await VakitServisi.gunlukVakitler();
+    if (vakitler.isEmpty) return null;
+
+    final simdiDk = now.hour * 60 + now.minute;
+    VakitBilgisi? secilen;
     for (final v in vakitler) {
-      final dakika = v.$1 * 60 + v.$2;
-      if (dakika > now.hour * 60 + now.minute) {
-        secilenDakika = dakika;
-        secilenAd = v.$3;
-        secilenSaat = v.$4;
+      if (v.dakikaToplam > simdiDk) {
+        secilen = v;
         break;
       }
     }
-    if (secilenDakika == null) return null;
-    final simdiDakika = now.hour * 60 + now.minute;
-    final kalanDk = secilenDakika - simdiDakika;
-    if (kalanDk <= 0 || kalanDk > 300) return null;
+
+    // Geceyi aşan hesaplama: seçilen vakit bugün geçtiyse yarın aynı vakittir.
+    final int kalanDk;
+    if (secilen == null) {
+      secilen = vakitler.first; // İmsak (yarın)
+      kalanDk = secilen.dakikaToplam + 1440 - simdiDk;
+    } else {
+      kalanDk = secilen.dakikaToplam - simdiDk;
+    }
+    if (kalanDk <= 0) return null;
+
     final h = kalanDk ~/ 60;
     final m = kalanDk % 60;
     final kalanYaz = h > 0 ? '$h saat $m dk' : '$m dk';
-    return (secilenAd, secilenSaat, kalanYaz);
+    return (secilen.ad, secilen.saatYaz, kalanYaz);
   }
 
   // ---------------- ROZET & OKUNDU ----------------
@@ -359,6 +401,21 @@ class BildirimMerkezi {
   }
 
   // ---------------- TÜR AYARLARI ----------------
+
+  /// "Tüm Bildirimlere İzin Ver" ana anahtarı. Kapalıyken tüm türler kapanır,
+  /// açıkken son tür tercihleri kullanılır.
+  static Future<bool> masterOku() async {
+    final p = await _p;
+    return p.getBool(_keyMaster) ?? true;
+  }
+
+  static Future<void> masterYaz(bool deger) async {
+    final p = await _p;
+    await p.setBool(_keyMaster, deger);
+    for (final t in BildirimTipi.values) {
+      await p.setBool('bildirim_ayar_${t.name}', deger);
+    }
+  }
 
   static Future<bool> ayarOku(BildirimTipi tip) async {
     final p = await _p;

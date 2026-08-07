@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import '../../services/renkler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../services/kuran_verileri.dart';
+
 import 'sure_detay_page.dart';
 
 class HatimTakibiPage extends StatefulWidget {
@@ -12,27 +13,28 @@ class HatimTakibiPage extends StatefulWidget {
 }
 
 class _HatimTakibiPageState extends State<HatimTakibiPage> {
-  static const int _toplamSayfa = 604;
+  static const _toplamSayfa = 604;
+  static const _zemin = Color(0xFF111111);
+  static const _kart = Color(0xFF1A1A19);
+  static const _mint = Color(0xFF6EDAB4);
+  static const _altin = Color(0xFFE9C349);
 
   int _sayfa = 1;
   int _hatimSayisi = 0;
-  int _gunlukHedef = 4;
+  int _gunlukHedef = 20;
   int _bugunOkunan = 0;
-  int _streak = 0;
+  int _seri = 0;
   String _sonTarih = '';
-  List<int> _ezberlenen = [];
-
+  List<Map<String, dynamic>> _sonOkumalar = [];
   bool _yuklendi = false;
 
-  String get _bugun {
-    final t = DateTime.now();
-    return '${t.year}-${t.month.toString().padLeft(2, '0')}-${t.day.toString().padLeft(2, '0')}';
-  }
+  String get _bugun => _tarih(DateTime.now());
+  String get _dun => _tarih(DateTime.now().subtract(const Duration(days: 1)));
+  int get _aktifCuz => (((_sayfa - 1) ~/ 20) + 1).clamp(1, 30);
+  double get _ilerleme => (_sayfa / _toplamSayfa).clamp(0.0, 1.0);
 
-  String get _dugun {
-    final t = DateTime.now().subtract(Duration(days: 1));
-    return '${t.year}-${t.month.toString().padLeft(2, '0')}-${t.day.toString().padLeft(2, '0')}';
-  }
+  String _tarih(DateTime tarih) =>
+      '${tarih.year}-${tarih.month.toString().padLeft(2, '0')}-${tarih.day.toString().padLeft(2, '0')}';
 
   @override
   void initState() {
@@ -42,402 +44,808 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
 
   Future<void> _yukle() async {
     final p = await SharedPreferences.getInstance();
-    final bugun = _bugun;
     final sonTarih = p.getString('hatim_son_tarih') ?? '';
-    var sayfa = p.getInt('hatim_sayfa') ?? 1;
-    var hatim = p.getInt('hatim_sayisi') ?? 0;
     var bugunOkunan = p.getInt('hatim_bugun_okunan') ?? 0;
-    var streak = p.getInt('hatim_streak') ?? 0;
+    var seri = p.getInt('hatim_streak') ?? 0;
+    if (sonTarih != _bugun) bugunOkunan = 0;
+    if (sonTarih.isNotEmpty && sonTarih != _bugun && sonTarih != _dun) seri = 0;
 
-    if (sonTarih != bugun && sonTarih != _dugun) {
-      streak = 0;
-      bugunOkunan = 0;
-    } else if (sonTarih != bugun) {
-      bugunOkunan = 0;
+    final okumalar = <Map<String, dynamic>>[];
+    for (final raw in p.getStringList('hatim_son_okumalar') ?? const []) {
+      try {
+        okumalar.add(jsonDecode(raw) as Map<String, dynamic>);
+      } catch (_) {
+        // Bozuk geçmiş kaydı diğer kayıtları etkilemez.
+      }
     }
-    if (sayfa > _toplamSayfa) sayfa = _toplamSayfa;
 
-    await p.setString('hatim_son_tarih', bugun);
-    await p.setInt('hatim_streak', streak);
-
-    if (mounted) {
-      setState(() {
-        _sayfa = sayfa;
-        _hatimSayisi = hatim;
-        _bugunOkunan = bugunOkunan;
-        _streak = streak;
-        _sonTarih = sonTarih;
-        _ezberlenen = (p.getStringList('hatim_ezber') ?? []).map(int.parse).toList();
-        _yuklendi = true;
-      });
-    }
+    if (!mounted) return;
+    setState(() {
+      _sayfa = (p.getInt('hatim_sayfa') ?? 1).clamp(1, _toplamSayfa);
+      _hatimSayisi = p.getInt('hatim_sayisi') ?? 0;
+      _gunlukHedef = p.getInt('hatim_gunluk_hedef') ?? 20;
+      _bugunOkunan = bugunOkunan;
+      _seri = seri;
+      _sonTarih = sonTarih;
+      _sonOkumalar = okumalar;
+      _yuklendi = true;
+    });
   }
 
   Future<void> _kaydet() async {
     final p = await SharedPreferences.getInstance();
     await p.setInt('hatim_sayfa', _sayfa);
     await p.setInt('hatim_sayisi', _hatimSayisi);
+    await p.setInt('hatim_gunluk_hedef', _gunlukHedef);
     await p.setInt('hatim_bugun_okunan', _bugunOkunan);
-    await p.setInt('hatim_streak', _streak);
-    await p.setString('hatim_son_tarih', _bugun);
-    await p.setStringList('hatim_ezber', _ezberlenen.map((e) => e.toString()).toList());
+    await p.setInt('hatim_streak', _seri);
+    await p.setString('hatim_son_tarih', _sonTarih);
+    await p.setStringList(
+      'hatim_son_okumalar',
+      _sonOkumalar.map(jsonEncode).toList(),
+    );
   }
 
-  Future<void> _arttir(int adet) async {
+  Future<void> _sayfaDegistir(int fark) async {
+    final onceki = _sayfa;
+    final yeni = (_sayfa + fark).clamp(1, _toplamSayfa);
+    final gercekFark = yeni - onceki;
+    if (gercekFark == 0) return;
+
     setState(() {
-      _sayfa = (_sayfa + adet).clamp(1, _toplamSayfa);
-      if (_sonTarih != _bugun) {
-        _streak = _sonTarih == _dugun ? _streak + 1 : 1;
-        _bugunOkunan = 0;
+      if (gercekFark > 0) {
+        if (_sonTarih != _bugun) {
+          _seri = _sonTarih == _dun ? _seri + 1 : 1;
+          _bugunOkunan = 0;
+        }
+        _bugunOkunan += gercekFark;
         _sonTarih = _bugun;
+        _gecmiseEkle(onceki, yeni, gercekFark);
+      } else {
+        _bugunOkunan = (_bugunOkunan + gercekFark).clamp(0, 999);
       }
-      if (adet > 0) _bugunOkunan += adet;
+      _sayfa = yeni;
     });
     await _kaydet();
-    if (_sayfa >= _toplamSayfa) {
-      _hatimTamamlandi();
+    if (yeni == _toplamSayfa && mounted) _hatimTamamlandi();
+  }
+
+  void _gecmiseEkle(int onceki, int yeni, int adet) {
+    final now = DateTime.now();
+    _sonOkumalar.insert(0, {
+      'baslangic': onceki,
+      'bitis': yeni,
+      'adet': adet,
+      'cuz': (((yeni - 1) ~/ 20) + 1).clamp(1, 30),
+      'zaman': now.toIso8601String(),
+    });
+    if (_sonOkumalar.length > 8) {
+      _sonOkumalar.removeRange(8, _sonOkumalar.length);
     }
   }
 
+  Future<void> _hedefSec() async {
+    final secilen = await showModalBottomSheet<int>(
+      context: context,
+      backgroundColor: _kart,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Günlük sayfa hedefin',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 14),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final hedef in [1, 2, 4, 5, 10, 20])
+                    ChoiceChip(
+                      label: Text('$hedef sayfa'),
+                      selected: hedef == _gunlukHedef,
+                      selectedColor: _mint,
+                      backgroundColor: const Color(0xFF2A2A29),
+                      labelStyle: TextStyle(
+                        color: hedef == _gunlukHedef
+                            ? const Color(0xFF003829)
+                            : Colors.white70,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      onSelected: (_) => Navigator.pop(ctx, hedef),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (secilen == null || !mounted) return;
+    setState(() => _gunlukHedef = secilen);
+    await _kaydet();
+  }
+
+  void _okumayaDevamEt() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => SureDetayPage(cuzNo: _aktifCuz)),
+    );
+  }
+
   Future<void> _hatimTamamlandi() async {
-    showDialog(
+    await showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
-        backgroundColor: Renkler.seciliYuzey,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        title: Text(
-          "🎉 Hatim Tamamlandı!",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
+        backgroundColor: _kart,
+        title: const Text(
+          'Hatim tamamlandı',
+          style: TextStyle(color: Colors.white),
         ),
-        content: Text(
-          "Rabbim kabul etsin. Mânevî yolculuğunuz devam etsin.",
+        content: const Text(
+          'Rabbim kabul etsin. Yeni bir hatme başlamak ister misin?',
           style: TextStyle(color: Colors.white70),
-          textAlign: TextAlign.center,
         ),
         actions: [
-          Center(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Renkler.vurgu),
-              onPressed: () {
-                setState(() {
-                  _hatimSayisi++;
-                  _sayfa = 1;
-                });
-                Navigator.pop(ctx);
-                _kaydet();
-                Navigator.of(context).popUntil((r) => r.isFirst);
-              },
-              child: Text("Yeni Hatime Başla"),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: _mint,
+              foregroundColor: const Color(0xFF003829),
             ),
+            onPressed: () {
+              setState(() {
+                _hatimSayisi++;
+                _sayfa = 1;
+              });
+              _kaydet();
+              Navigator.pop(ctx);
+            },
+            child: const Text('Yeni hatme başla'),
           ),
         ],
       ),
     );
-  }
-
-  Future<void> _ezberle(int sureNo) async {
-    setState(() {
-      if (_ezberlenen.contains(sureNo)) {
-        _ezberlenen.remove(sureNo);
-      } else {
-        _ezberlenen.add(sureNo);
-      }
-    });
-    await _kaydet();
   }
 
   @override
   Widget build(BuildContext context) {
     if (!_yuklendi) {
-      return Scaffold(
-        backgroundColor: Renkler.zemin,
-        appBar: AppBar(
-          title: Text("Hatim Takibi", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-          backgroundColor: Renkler.yuzey,
-          elevation: 0,
-        ),
-        body: Center(child: CircularProgressIndicator(color: Renkler.vurgu)),
+      return const Scaffold(
+        backgroundColor: _zemin,
+        body: Center(child: CircularProgressIndicator(color: _mint)),
       );
     }
 
-    final ilerleme = _sayfa / _toplamSayfa;
-
     return Scaffold(
-      backgroundColor: Renkler.zemin,
+      backgroundColor: _zemin,
       appBar: AppBar(
-        title: Text(
-          "Hatim Takibi",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        backgroundColor: Renkler.yuzey,
+        backgroundColor: _zemin,
         elevation: 0,
+        title: const Text(
+          'Hatimlerim',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          IconButton(
+            tooltip: 'Günlük hedef',
+            onPressed: _hedefSec,
+            icon: const Icon(Icons.tune_rounded),
+          ),
+        ],
       ),
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [
-          // İlerleme kartı
-          Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Renkler.bannerUst, Renkler.bannerAlt],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.4)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Hatminiz",
-                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        '$_hatimSayisi hatim tamamlandı',
-                        style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Text(
-                  '$_sayfa / $_toplamSayfa sayfa',
-                  style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w800),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  '%${(ilerleme * 100).toStringAsFixed(1)} ilerleme',
-                  style: TextStyle(color: Renkler.acikVurgu, fontSize: 13),
-                ),
-                SizedBox(height: 12),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: LinearProgressIndicator(
-                    value: ilerleme,
-                    backgroundColor: Colors.black.withValues(alpha: 0.25),
-                    valueColor: AlwaysStoppedAnimation<Color>(Renkler.vurgu),
-                    minHeight: 8,
-                  ),
-                ),
-                SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          side: BorderSide(color: Colors.white24),
-                        ),
-                        onPressed: () => _arttir(-1),
-                        icon: Icon(Icons.remove, size: 18),
-                        label: Text("Sayfa Geri"),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Renkler.vurgu,
-                          foregroundColor: Colors.black,
-                        ),
-                        onPressed: () => _arttir(1),
-                        icon: Icon(Icons.add, size: 18),
-                        label: Text("Sayfa Okundu"),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () => _arttir(2),
-                        child: Text("+2 sayfa", style: TextStyle(color: Renkler.acikVurgu, fontSize: 12)),
-                      ),
-                    ),
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () => _arttir(5),
-                        child: Text("+5 sayfa", style: TextStyle(color: Renkler.acikVurgu, fontSize: 12)),
-                      ),
-                    ),
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () => _arttir(10),
-                        child: Text("+10 sayfa", style: TextStyle(color: Renkler.acikVurgu, fontSize: 12)),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 16),
-
-          // Haftalık seri
-          Row(
-            children: [
-              _istatistikKart(Icons.local_fire_department, '$_streak', 'Günlük seri (streak)'),
-              SizedBox(width: 10),
-              _istatistikKart(Icons.check_circle_outline, '$_bugunOkunan/$_gunlukHedef', "Bugünkü hedef (sayfa)"),
-            ],
-          ),
-          SizedBox(height: 20),
-
-          // Günlük hedef
-          Container(
-            padding: EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: Renkler.kart,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Renkler.cerceve2),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "🎯 Günlük Hedef (Hizb/Parti Planı)",
-                  style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  "Günde 1 sayfa = 1 hatim ~20 ay. Günde 4 sayfa = ayda 1 hatim.",
-                  style: TextStyle(color: Colors.white54, fontSize: 11),
-                ),
-                SizedBox(height: 10),
-                Wrap(
-                  spacing: 8,
-                  children: [
-                    for (final hedef in [1, 2, 4, 5, 10, 20])
-                      ChoiceChip(
-                        label: Text('$hedef sf/gün', style: TextStyle(fontSize: 11)),
-                        selected: _gunlukHedef == hedef,
-                        selectedColor: Renkler.vurgu,
-                        backgroundColor: Renkler.yuzey,
-                        labelStyle: TextStyle(
-                          color: _gunlukHedef == hedef ? Colors.black : Colors.white70,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        onSelected: (_) {
-                          setState(() => _gunlukHedef = hedef);
-                          _kaydet();
-                        },
-                      ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
-
-          // Ezber takibi
-          Text(
-            "📚 Ezberlenen Sureler",
-            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8),
-          Text(
-            "Ezberlediğiniz kısa sureleri işaretleyin; hatırlatma ve 'ezberi kuvvetlendirme' için takip altında kalır.",
-            style: TextStyle(color: Colors.white54, fontSize: 11),
-          ),
-          SizedBox(height: 10),
-          for (final k in kisaSureler)
-            Card(
-              color: Renkler.kart,
-              margin: EdgeInsets.only(bottom: 6),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-                side: BorderSide(
-                  color: _ezberlenen.contains(k['no'])
-                      ? Renkler.vurgu
-                      : Renkler.cerceve,
-                ),
-              ),
-              child: ListTile(
-                dense: true,
-                onTap: () => _ezberle(k['no'] as int),
-                leading: Icon(
-                  _ezberlenen.contains(k['no'])
-                      ? Icons.check_circle
-                      : Icons.radio_button_unchecked,
-                  color: _ezberlenen.contains(k['no'])
-                      ? Renkler.vurgu
-                      : Colors.white30,
-                  size: 22,
-                ),
-                title: Text(
-                  '${k['ad']}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: _ezberlenen.contains(k['no']) ? FontWeight.bold : FontWeight.normal,
-                    fontSize: 14,
-                  ),
-                ),
-                subtitle: Text(
-                  '${k['not']}',
-                  style: TextStyle(color: Colors.white54, fontSize: 11),
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.open_in_new, color: Colors.white38, size: 16),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => SureDetayPage(sureNo: k['no'] as int),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          SizedBox(height: 30),
+          _ilhamKarti(),
+          const SizedBox(height: 18),
+          _ilerlemeKarti(),
+          const SizedBox(height: 18),
+          _sonKonumKarti(),
+          const SizedBox(height: 18),
+          _gunlukSayacKarti(),
+          const SizedBox(height: 18),
+          _cuzKarti(),
+          const SizedBox(height: 18),
+          _aliskanlikKarti(),
         ],
       ),
     );
   }
 
-  Widget _istatistikKart(IconData ikon, String deger, String etiket) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.cerceve2),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+  Widget _ilhamKarti() {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: _altin.withValues(alpha: 0.06),
+        borderRadius: BorderRadius.circular(16),
+        border: Border(left: BorderSide(color: _altin, width: 3)),
+      ),
+      child: const Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            radius: 18,
+            backgroundColor: Color(0x334D421D),
+            child: Icon(Icons.lightbulb_outline, color: _altin, size: 18),
+          ),
+          SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(ikon, color: Renkler.vurgu, size: 16),
-                SizedBox(width: 6),
                 Text(
-                  deger,
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                  'GÜNÜN İLHAMI',
+                  style: TextStyle(
+                    color: _altin,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  '“Kur\'an okuyan mümin, portakal gibidir; kokusu da güzeldir, tadı da güzeldir.”',
+                  style: TextStyle(
+                    color: Colors.white,
+                    height: 1.35,
+                    fontSize: 13,
+                  ),
+                ),
+                SizedBox(height: 3),
+                Text(
+                  'Hadis-i Şerif (Buhari)',
+                  style: TextStyle(color: Colors.white54, fontSize: 11),
                 ),
               ],
             ),
-            SizedBox(height: 4),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _ilerlemeKarti() {
+    final yuzde = (_ilerleme * 100).round();
+    final kalanSayfa = _toplamSayfa - _sayfa;
+    final kalanGun = (kalanSayfa / _gunlukHedef).ceil();
+    return _kartKabuk(
+      child: Column(
+        children: [
+          SizedBox(
+            width: 160,
+            height: 160,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                CircularProgressIndicator(
+                  value: _ilerleme,
+                  strokeWidth: 10,
+                  strokeCap: StrokeCap.round,
+                  backgroundColor: const Color(0xFF353534),
+                  valueColor: const AlwaysStoppedAnimation(_mint),
+                ),
+                Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '%$yuzde',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const Text(
+                        'Tamamlandı',
+                        style: TextStyle(color: Colors.white60, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 18),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2A2A29),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: _altin.withValues(alpha: 0.3)),
+            ),
+            child: const Text(
+              'Kişisel Hatim',
+              style: TextStyle(color: _altin, fontSize: 11),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '$kalanGun günlük okuma kaldı',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Günde $_gunlukHedef sayfa okuyarak hedefini tamamlayabilirsin.',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white60,
+              fontSize: 12,
+              height: 1.4,
+            ),
+          ),
+          if (_hatimSayisi > 0) ...[
+            const SizedBox(height: 8),
             Text(
-              etiket,
-              style: TextStyle(color: Colors.white54, fontSize: 10),
+              '$_hatimSayisi hatim tamamlandı',
+              style: const TextStyle(color: _mint, fontSize: 12),
             ),
           ],
-        ),
+        ],
       ),
+    );
+  }
+
+  Widget _sonKonumKarti() {
+    return _kartKabuk(
+      borderColor: _mint.withValues(alpha: 0.25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Son Okunan Konum',
+            style: TextStyle(color: Colors.white54, fontSize: 11),
+          ),
+          const SizedBox(height: 5),
+          Row(
+            children: [
+              const Icon(Icons.menu_book_outlined, color: _mint, size: 20),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Cüz $_aktifCuz, Sayfa $_sayfa',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              style: FilledButton.styleFrom(
+                backgroundColor: _mint,
+                foregroundColor: const Color(0xFF003829),
+                padding: const EdgeInsets.symmetric(vertical: 13),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: _okumayaDevamEt,
+              iconAlignment: IconAlignment.end,
+              icon: const Icon(Icons.arrow_forward, size: 18),
+              label: const Text(
+                'Okumaya Devam Et',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _gunlukSayacKarti() {
+    final hedefOrani = (_bugunOkunan / _gunlukHedef).clamp(0.0, 1.0);
+    return _kartKabuk(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Expanded(
+                child: Text(
+                  'Bugün Kaç Sayfa Okudun?',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: _hedefSec,
+                icon: const Icon(
+                  Icons.settings_outlined,
+                  color: Colors.white54,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _yuvarlakButon(Icons.remove, () => _sayfaDegistir(-1)),
+              SizedBox(
+                width: 112,
+                child: Column(
+                  children: [
+                    Text(
+                      '$_bugunOkunan',
+                      style: const TextStyle(
+                        color: _mint,
+                        fontSize: 48,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const Text(
+                      'Sayfa',
+                      style: TextStyle(color: Colors.white60, fontSize: 11),
+                    ),
+                  ],
+                ),
+              ),
+              _yuvarlakButon(Icons.add, () => _sayfaDegistir(1)),
+            ],
+          ),
+          const SizedBox(height: 18),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: LinearProgressIndicator(
+              value: hedefOrani,
+              minHeight: 7,
+              backgroundColor: const Color(0xFF353534),
+              valueColor: const AlwaysStoppedAnimation(_mint),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Cüz $_aktifCuz',
+                style: const TextStyle(color: Colors.white54, fontSize: 11),
+              ),
+              Text(
+                'Günlük Hedef: $_gunlukHedef Sayfa',
+                style: const TextStyle(color: Colors.white70, fontSize: 11),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              for (final adet in [2, 5, 10])
+                Expanded(
+                  child: TextButton(
+                    onPressed: () => _sayfaDegistir(adet),
+                    child: Text(
+                      '+$adet sayfa',
+                      style: const TextStyle(color: _mint, fontSize: 12),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _cuzKarti() {
+    return _kartKabuk(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Cüz İlerlemesi',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                '30 Cüz',
+                style: TextStyle(color: Colors.white54, fontSize: 11),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 30,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 5,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+            ),
+            itemBuilder: (context, index) {
+              final cuz = index + 1;
+              final tamam = cuz < _aktifCuz;
+              final aktif = cuz == _aktifCuz;
+              return InkWell(
+                borderRadius: BorderRadius.circular(99),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => SureDetayPage(cuzNo: cuz)),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: tamam ? _mint : const Color(0xFF353534),
+                    border: aktif ? Border.all(color: _mint, width: 2) : null,
+                    boxShadow: (tamam || aktif)
+                        ? [
+                            BoxShadow(
+                              color: _mint.withValues(alpha: 0.25),
+                              blurRadius: 8,
+                            ),
+                          ]
+                        : null,
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    '$cuz',
+                    style: TextStyle(
+                      color: tamam
+                          ? const Color(0xFF003829)
+                          : aktif
+                          ? _mint
+                          : Colors.white38,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 16),
+          const Wrap(
+            spacing: 14,
+            runSpacing: 8,
+            children: [
+              _DurumAciklama(renk: _mint, metin: 'Tamamlandı'),
+              _DurumAciklama(
+                renk: _mint,
+                metin: 'Devam Ediyor',
+                sadeceCerceve: true,
+              ),
+              _DurumAciklama(renk: Color(0xFF353534), metin: 'Başlamadı'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _aliskanlikKarti() {
+    return _kartKabuk(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Expanded(
+                child: Text(
+                  'Okuma Alışkanlığın',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 7,
+                ),
+                decoration: BoxDecoration(
+                  color: _altin.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(9),
+                  border: Border.all(color: _altin.withValues(alpha: 0.3)),
+                ),
+                child: Text(
+                  '$_seri Günlük Seri',
+                  style: const TextStyle(
+                    color: _altin,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Wrap(
+            spacing: 5,
+            runSpacing: 5,
+            children: List.generate(28, (i) {
+              final dolu = i < (_seri.clamp(0, 28));
+              return Container(
+                width: 15,
+                height: 15,
+                decoration: BoxDecoration(
+                  color: dolu
+                      ? _mint.withValues(alpha: 0.35 + (i % 4) * 0.18)
+                      : const Color(0xFF353534),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              );
+            }),
+          ),
+          const SizedBox(height: 22),
+          const Divider(color: Colors.white12),
+          const SizedBox(height: 12),
+          const Text(
+            'Son Okumalar',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          if (_sonOkumalar.isEmpty)
+            const Text(
+              'Henüz okuma kaydı yok.',
+              style: TextStyle(color: Colors.white54, fontSize: 12),
+            )
+          else
+            for (final okuma in _sonOkumalar.take(5)) _okumaSatiri(okuma),
+        ],
+      ),
+    );
+  }
+
+  Widget _okumaSatiri(Map<String, dynamic> okuma) {
+    final baslangic = okuma['baslangic'] as int? ?? 1;
+    final bitis = okuma['bitis'] as int? ?? baslangic;
+    final adet = okuma['adet'] as int? ?? 1;
+    final cuz = okuma['cuz'] as int? ?? 1;
+    DateTime? zaman;
+    try {
+      zaman = DateTime.parse(okuma['zaman'] as String);
+    } catch (_) {
+      zaman = null;
+    }
+    final saat = zaman == null
+        ? ''
+        : '${zaman.hour.toString().padLeft(2, '0')}:${zaman.minute.toString().padLeft(2, '0')}';
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(11),
+      decoration: BoxDecoration(
+        color: const Color(0xFF161616),
+        borderRadius: BorderRadius.circular(11),
+        border: Border.all(color: Colors.white10),
+      ),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            radius: 16,
+            backgroundColor: Color(0x196EDAB4),
+            child: Icon(Icons.menu_book_outlined, color: _mint, size: 16),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Cüz $cuz, Sayfa $baslangic-$bitis',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  '$adet sayfa okundu',
+                  style: const TextStyle(color: Colors.white54, fontSize: 10),
+                ),
+              ],
+            ),
+          ),
+          Text(
+            saat,
+            style: const TextStyle(color: Colors.white38, fontSize: 10),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _yuvarlakButon(IconData ikon, VoidCallback onTap) {
+    return IconButton.filledTonal(
+      onPressed: onTap,
+      style: IconButton.styleFrom(
+        backgroundColor: const Color(0xFF2A2A29),
+        foregroundColor: Colors.white,
+        side: const BorderSide(color: Colors.white12),
+      ),
+      icon: Icon(ikon),
+    );
+  }
+
+  Widget _kartKabuk({required Widget child, Color? borderColor}) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: _kart,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: borderColor ?? Colors.white10),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 18,
+            offset: Offset(0, 8),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+}
+
+class _DurumAciklama extends StatelessWidget {
+  const _DurumAciklama({
+    required this.renk,
+    required this.metin,
+    this.sadeceCerceve = false,
+  });
+
+  final Color renk;
+  final String metin;
+  final bool sadeceCerceve;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: sadeceCerceve ? Colors.transparent : renk,
+            border: sadeceCerceve ? Border.all(color: renk, width: 2) : null,
+          ),
+        ),
+        const SizedBox(width: 5),
+        Text(
+          metin,
+          style: const TextStyle(color: Colors.white54, fontSize: 10),
+        ),
+      ],
     );
   }
 }

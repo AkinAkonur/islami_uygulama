@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../services/vakit_servisi.dart';
 import 'dart:math' as math;
 
 class KiblePusulaPage extends StatefulWidget {
@@ -11,7 +12,8 @@ class KiblePusulaPage extends StatefulWidget {
 
 class _KiblePusulaPageState extends State<KiblePusulaPage> with SingleTickerProviderStateMixin {
   double _compassAngle = 0.0;
-  final double _qiblaBearing = 154.25; // Exact Qibla bearing for region
+  double _qiblaBearing = 154.25; // konum yoksa varsayılan (İstanbul)
+  double? _uzaklikKm;
   late AnimationController _pulseController;
 
   @override
@@ -21,6 +23,16 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> with SingleTickerProv
       vsync: this,
       duration: Duration(seconds: 2),
     )..repeat(reverse: true);
+    _konumuYukle();
+  }
+
+Future<void> _konumuYukle() async {
+    final k = await VakitServisi.koordinatOku();
+    if (k == null || !mounted) return;
+    setState(() {
+      _qiblaBearing = VakitServisi.kibleAcisi(k.$1, k.$2);
+      _uzaklikKm = VakitServisi.kabeUzakligiKm(k.$1, k.$2);
+    });
   }
 
   @override
@@ -92,8 +104,13 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> with SingleTickerProv
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "Kâbe'ye Uzaklık: 2,148.5 km • Açı: 154.25° GD",
-                          style: TextStyle(color: Colors.white70, fontSize: 11),
+                          _uzaklikKm != null
+                              ? "Kâbe'ye Uzaklık: ${_uzaklikKm!.toStringAsFixed(0)} km "
+                                  "• Açı: ${_qiblaBearing.toStringAsFixed(1)}° "
+                                  "${VakitServisi.yonEtiketi(_qiblaBearing)}"
+                              : "Konum iznine göre kıble açısı ve uzaklık hesaplanır",
+                          style:
+                              TextStyle(color: Colors.white70, fontSize: 11),
                         ),
                       ],
                     ),

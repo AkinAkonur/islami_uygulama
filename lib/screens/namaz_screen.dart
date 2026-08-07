@@ -1,19 +1,94 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
-import 'guide_screen.dart';
-import 'wudu_screen.dart';
-import 'qada_screen.dart';
-import 'special_screen.dart';
+import '../services/vakit_servisi.dart';
 
-class NamazScreen extends StatelessWidget {
+class NamazScreen extends StatefulWidget {
   const NamazScreen({super.key});
 
   @override
+  State<NamazScreen> createState() => _NamazScreenState();
+}
+
+class _NamazScreenState extends State<NamazScreen> {
+  Timer? _sureci;
+  List<VakitBilgisi> _vakitler = VakitServisi.varsayilan;
+
+  @override
+  void initState() {
+    super.initState();
+    _yukle();
+    _sureci = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _sureci?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _yukle() async {
+    final guncel = await VakitServisi.gunlukVakitler();
+    if (!mounted) return;
+    setState(() => _vakitler = guncel);
+  }
+
+  VakitBilgisi? _siradaki(DateTime now) {
+    final dk = now.hour * 60 + now.minute;
+    for (final v in _vakitler) {
+      if (v.dakikaToplam > dk) return v;
+    }
+    return _vakitler.isNotEmpty ? _vakitler.first : null;
+  }
+
+  String _sureYaz(int sn) {
+    String iki(int n) => n.toString().padLeft(2, '0');
+    final s = sn % 60;
+    final dk = (sn ~/ 60) % 60;
+    final sa = sn ~/ 3600;
+    return '${iki(sa)}:${iki(dk)}:${iki(s)}';
+  }
+
+  String _kalanYaz(VakitBilgisi v, DateTime now) {
+    var hedef = v.dakikaToplam - (now.hour * 60 + now.minute);
+    if (hedef < 0) hedef += 1440; // gece yarısını aşan vakit
+    final sn = hedef * 60 - now.second;
+    return '${_sureYaz(sn)} kaldı';
+  }
+
+  double _ilerleme(DateTime now) {
+    final dk = now.hour * 60 + now.minute;
+    final list = List<VakitBilgisi>.from(_vakitler)
+      ..sort((a, b) => a.dakikaToplam.compareTo(b.dakikaToplam));
+    if (list.isEmpty) return 0;
+    int i = list.indexWhere((v) => v.dakikaToplam > dk);
+    if (i == -1) i = 0;
+    final onceki = list[(i - 1 + list.length) % list.length];
+    final siradaki = list[i];
+    final bitis = i == 0 ? siradaki.dakikaToplam + 1440 : siradaki.dakikaToplam;
+    final toplam = bitis - onceki.dakikaToplam;
+    final kalan = i == 0
+        ? siradaki.dakikaToplam + 1440 - dk
+        : siradaki.dakikaToplam - dk;
+    final gecen = toplam - kalan;
+    return (gecen / toplam).clamp(0.0, 1.0);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final siradaki = _siradaki(now);
+
     return Scaffold(
       backgroundColor: Color(0xFF0F1410),
       appBar: AppBar(
-        title: Text("Namaz & İbadet Merkezi", style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu)),
+        title: Text(
+          "Namaz & İbadet Merkezi",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
+        ),
         backgroundColor: Color(0xFF141F18),
         elevation: 0,
         iconTheme: IconThemeData(color: Renkler.vurgu),
@@ -23,7 +98,6 @@ class NamazScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Hero Countdown Card (Sonraki Namaz Geri Sayım)
             Container(
               padding: EdgeInsets.all(24),
               decoration: BoxDecoration(
@@ -33,7 +107,10 @@ class NamazScreen extends StatelessWidget {
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.4), width: 1.5),
+                border: Border.all(
+                  color: Renkler.vurgu.withValues(alpha: 0.4),
+                  width: 1.5,
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,28 +119,57 @@ class NamazScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: Renkler.vurgu.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           "YAKLAŞAN VAKİT",
-                          style: TextStyle(color: Renkler.vurgu, fontSize: 10, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Renkler.vurgu,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      Text("20:17", style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
+                      Text(
+                        (siradaki?.saatYaz ?? '--:--'),
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(height: 16),
-                  Text("Akşam Namazı", style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold)),
+                  Text(
+                    "${siradaki?.ad ?? ''} Namazı",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   SizedBox(height: 6),
-                  Text("01:24:10 kaldı", style: TextStyle(color: Renkler.vurgu, fontSize: 16, fontWeight: FontWeight.w600)),
+                  Text(
+                    siradaki != null
+                        ? _kalanYaz(siradaki, now)
+                        : "--:--:--",
+                    style: TextStyle(
+                      color: Renkler.vurgu,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   SizedBox(height: 16),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: LinearProgressIndicator(
-                      value: 0.70,
+                      value: _ilerleme(now),
                       backgroundColor: Colors.black38,
                       valueColor: AlwaysStoppedAnimation<Color>(Renkler.vurgu),
                       minHeight: 8,
@@ -74,34 +180,23 @@ class NamazScreen extends StatelessWidget {
             ),
             SizedBox(height: 24),
 
-            // 5 Vakit Listesi
-            Text("Bugünkü Vakitler", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 12),
-            _vakitTile("İmsak", "04:12", false),
-            _vakitTile("Güneş", "05:48", false),
-            _vakitTile("Öğle", "13:05", false),
-            _vakitTile("İkindi", "16:45", false),
-            _vakitTile("Akşam", "20:17", true),
-            _vakitTile("Yatsı", "21:50", false),
-            SizedBox(height: 24),
-
-            // Hızlı Erişim Grid
-            Text("Hızlı Erişim & Rehberler", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 12),
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 1.4,
-              children: [
-                _gridCard(context, Icons.menu_book, "Adım Adım Kılınış", "Rehber & Stepper", GuideScreen(), Colors.green),
-                _gridCard(context, Icons.water_drop, "Abdest & Gusül", "Temizlik Esasları", WuduScreen(), Colors.teal),
-                _gridCard(context, Icons.calendar_today, "Kaza Takipçisi", "Takvim & Liste", QadaScreen(), Colors.orange),
-                _gridCard(context, Icons.healing, "Özel Durumlar", "Seferî & Hasta", SpecialScreen(), Colors.blueAccent),
-              ],
+            Text(
+              "Bugünkü Vakitler",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            SizedBox(height: 12),
+            for (final t in _vakitler) ...[
+              _vakitTile(
+                t.ad,
+                t.saatYaz,
+                t == siradaki,
+              ),
+              SizedBox(height: 1),
+            ],
           ],
         ),
       ),
@@ -122,39 +217,33 @@ class NamazScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(isCurrent ? Icons.access_time_filled : Icons.access_time, color: isCurrent ? Renkler.vurgu : Colors.white54, size: 20),
+              Icon(
+                isCurrent ? Icons.access_time_filled : Icons.access_time,
+                color: isCurrent ? Renkler.vurgu : Colors.white54,
+                size: 20,
+              ),
               SizedBox(width: 12),
-              Text(name, style: TextStyle(color: isCurrent ? Colors.white : Colors.white70, fontWeight: FontWeight.bold, fontSize: 15)),
+              Text(
+                name,
+                style: TextStyle(
+                  color: isCurrent ? Colors.white : Colors.white70,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
             ],
           ),
-          Text(time, style: TextStyle(color: isCurrent ? Renkler.vurgu : Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+          Text(
+            time,
+            style: TextStyle(
+              color: isCurrent ? Renkler.vurgu : Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _gridCard(BuildContext context, IconData icon, String title, String subtitle, Widget targetPage, Color color) {
-    return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => targetPage)),
-      child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Color(0xFF161E18),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: color.withValues(alpha: 0.3)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: 28),
-            SizedBox(height: 10),
-            Text(title, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
-            SizedBox(height: 2),
-            Text(subtitle, style: TextStyle(color: Colors.white54, fontSize: 11)),
-          ],
-        ),
-      ),
-    );
-  }
 }

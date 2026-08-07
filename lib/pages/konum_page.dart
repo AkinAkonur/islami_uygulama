@@ -1,27 +1,143 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../services/vakit_servisi.dart';
 import 'kible_pusula_page.dart';
 
-class KonumPage extends StatelessWidget {
+class KonumPage extends StatefulWidget {
   const KonumPage({super.key});
 
-  static const List<Map<String, String>> _vakitler = [
-    {'ad': 'İmsak', 'saat': '04:12'},
-    {'ad': 'Güneş', 'saat': '05:48'},
-    {'ad': 'Öğle', 'saat': '13:05'},
-    {'ad': 'İkindi', 'saat': '16:45'},
-    {'ad': 'Akşam', 'saat': '20:17'},
-    {'ad': 'Yatsı', 'saat': '21:50'},
-  ];
+  @override
+  State<KonumPage> createState() => _KonumPageState();
+}
 
-  static const List<Map<String, String>> _camiler = [
-    {'ad': 'Süleymaniye Camii', 'mesafe': '2,4 km', 'vakit': 'İmsak 04:12'},
-    {'ad': 'Sultanahmet Camii', 'mesafe': '3,1 km', 'vakit': 'İmsak 04:12'},
-    {'ad': 'Eyüp Sultan Camii', 'mesafe': '4,8 km', 'vakit': 'İmsak 04:12'},
-    {'ad': 'Fatih Camii', 'mesafe': '3,6 km', 'vakit': 'İmsak 04:12'},
-    {'ad': 'Beyazıt Camii', 'mesafe': '2,9 km', 'vakit': 'İmsak 04:12'},
-    {'ad': 'Mimar Sinan Camii', 'mesafe': '5,2 km', 'vakit': 'İmsak 04:12'},
-  ];
+class _KonumPageState extends State<KonumPage> {
+  List<VakitBilgisi> _vakitler = VakitServisi.varsayilan;
+  String? _sehir;
+  String? _ulke;
+  (double, double)? _koordinat;
+
+  @override
+  void initState() {
+    super.initState();
+    _yukle();
+  }
+
+  Future<void> _yukle() async {
+    final vakitler = await VakitServisi.gunlukVakitler();
+    final sehir = await VakitServisi.sehirOku();
+    final ulke = await VakitServisi.ulkeOku();
+    final koordinat = await VakitServisi.koordinatOku();
+    if (!mounted) return;
+    setState(() {
+      _vakitler = vakitler;
+      _sehir = sehir;
+      _ulke = ulke;
+      _koordinat = koordinat;
+    });
+  }
+
+  String get _konumTxt {
+    if (_sehir != null && _ulke != null) return '$_sehir, $_ulke';
+    if (_sehir != null) return _sehir!;
+    if (_koordinat != null) {
+      return 'GPS: ${_koordinat!.$1.toStringAsFixed(3)}, '
+          '${_koordinat!.$2.toStringAsFixed(3)}';
+    }
+    return 'Konum seçilmedi';
+  }
+
+  Future<void> _gpsIleBul() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    final ok = await VakitServisi.konumuOtomatikAl();
+    if (!mounted) return;
+    Navigator.of(context, rootNavigator: true).pop();
+    if (ok) {
+      await _yukle();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Konum izni verilmedi. Şehir seçebilirsin.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
+  }
+
+  Future<void> _konumSec() async {
+    final sehirKutu = TextEditingController(text: _sehir ?? 'İstanbul');
+    final ulkeKutu = TextEditingController(text: _ulke ?? 'Türkiye');
+
+    final secildi = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: Renkler.kart,
+        title: const Text(
+          'Şehir Seç',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: sehirKutu,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Şehir',
+                labelStyle: TextStyle(color: Colors.white54),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white24),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: ulkeKutu,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Ülke',
+                labelStyle: TextStyle(color: Colors.white54),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white24),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Örn: Şehir "İstanbul", Ülke "Türkiye"',
+              style: TextStyle(color: Colors.white38, fontSize: 11),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Renkler.vurgu,
+            ),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Kaydet'),
+          ),
+        ],
+      ),
+    );
+
+    if (secildi == true) {
+      await VakitServisi.konumKaydet(
+        sehir: sehirKutu.text.trim().isEmpty ? null : sehirKutu.text.trim(),
+        ulke: ulkeKutu.text.trim().isEmpty ? null : ulkeKutu.text.trim(),
+      );
+      await _yukle();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +158,11 @@ class KonumPage extends StatelessWidget {
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
+                    _konumKarti(context),
+                    const SizedBox(height: 16),
                     _kibleKarti(context),
                     const SizedBox(height: 16),
                     _vakitKarti(),
-                    const SizedBox(height: 16),
-                    _camiKarti(),
                     const SizedBox(height: 16),
                     _uyariKarti(),
                   ],
@@ -84,7 +200,81 @@ class KonumPage extends StatelessWidget {
     );
   }
 
+  Widget _konumKarti(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Renkler.vurgu, Renkler.vurgu.withValues(alpha: 0.55)],
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Bulunduğun Yer',
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            _konumTxt,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Namaz vakitleri bu konuma göre hesaplanır.',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.75),
+              fontSize: 12,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _gpsIleBul,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.white54),
+                  ),
+                  icon: const Icon(Icons.my_location, size: 18),
+                  label: const Text('GPS ile Bul'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _konumSec,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.white54),
+                  ),
+                  icon: const Icon(Icons.edit_location_alt_outlined, size: 18),
+                  label: const Text('Şehir Seç'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _kibleKarti(BuildContext context) {
+    final koordinat = _koordinat;
+    final aci = koordinat != null
+        ? VakitServisi.kibleAcisi(koordinat.$1, koordinat.$2)
+        : null;
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -95,22 +285,23 @@ class KonumPage extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Renkler.vurgu, Renkler.vurgu.withValues(alpha: 0.55)],
-          ),
+          color: Renkler.kart.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           children: [
-            const Icon(Icons.explore_outlined, color: Colors.white, size: 34),
+            Icon(Icons.explore_outlined, color: Renkler.vurgu, size: 34),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Kıble yönün: 154° Güneydoğu',
-                    style: TextStyle(
+                  Text(
+                    aci != null
+                        ? 'Kıble yönün: ${aci.round()}° '
+                            '${VakitServisi.yonEtiketi(aci)}'
+                        : 'Kıble yönünü görmek için konumunu belirle',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -120,7 +311,9 @@ class KonumPage extends StatelessWidget {
                   Text(
                     'Pusulayı aç ve Kâbe\'ye yönel',
                     style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.75), fontSize: 12),
+                      color: Colors.white.withValues(alpha: 0.75),
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
@@ -163,104 +356,17 @@ class KonumPage extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    v['ad']!,
+                    v.ad,
                     style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   const Spacer(),
                   Text(
-                    v['saat']!,
+                    v.saatYaz,
                     style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       fontFeatures: [FontFeature.tabularFigures()],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _camiKarti() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Renkler.kart.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.mosque_outlined, color: Renkler.vurgu, size: 20),
-              SizedBox(width: 8),
-              Text(
-                'Yakınındaki Camiler',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ..._camiler.map(
-            (c) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Renkler.seciliYuzey,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(Icons.mosque_outlined,
-                        color: Renkler.vurgu, size: 20),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          c['ad']!,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          c['vakit']!,
-                          style: TextStyle(
-                              color: Colors.white54, fontSize: 11),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Renkler.seciliYuzey,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      c['mesafe']!,
-                      style: TextStyle(
-                        color: Renkler.vurgu,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
                     ),
                   ),
                 ],
@@ -286,7 +392,8 @@ class KonumPage extends StatelessWidget {
           SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Vakitler ve cami listesi İstanbul için örnek verilerdir. Konum izni ile kendi bölgene göre güncellenir.',
+              'Vakitler Diyanet/MWL yöntemiyle güncel konumuna göre '
+              'hesaplanır. Konum izni vermezsen şehir seçerek kullanabilirsin.',
               style: TextStyle(color: Colors.white54, fontSize: 12, height: 1.5),
             ),
           ),

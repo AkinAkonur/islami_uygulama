@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
+import '../services/vakit_servisi.dart';
+import 'kuran/hatim_takibi_page.dart';
 
 class RamazanModuPage extends StatefulWidget {
   const RamazanModuPage({super.key});
@@ -15,8 +17,12 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
   late DateTime _now;
   int _hatimSayfa = 0;
 
-  static const String _iftarSaati = '20:17';
-  static const String _sahurSaati = '04:12';
+  String _iftarSaati = '20:17';
+  String _sahurSaati = '04:12';
+  int _iftarSaat = 20;
+  int _iftarDakika = 17;
+  int _sahurSaat = 4;
+  int _sahurDakika = 12;
 
   @override
   void initState() {
@@ -26,16 +32,38 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
       setState(() => _now = DateTime.now());
     });
     _hatimYukle();
+    _vakitleriYukle();
+  }
+
+  Future<void> _vakitleriYukle() async {
+    final vakitler = await VakitServisi.gunlukVakitler();
+    if (!mounted) return;
+    setState(() {
+      for (final v in vakitler) {
+        if (v.ad == 'Akşam') {
+          _iftarSaati = v.saatYaz;
+          _iftarSaat = v.saat;
+          _iftarDakika = v.dakika;
+        } else if (v.ad == 'İmsak') {
+          _sahurSaati = v.saatYaz;
+          _sahurSaat = v.saat;
+          _sahurDakika = v.dakika;
+        }
+      }
+    });
   }
 
   Future<void> _hatimYukle() async {
-    final sayfa = await ManeviStore.ramazanGunlukHatim();
-    if (mounted) setState(() => _hatimSayfa = sayfa);
+    final durum = await ManeviStore.hatimDurumu();
+    if (mounted) setState(() => _hatimSayfa = durum['bugun'] ?? 0);
   }
 
-  Future<void> _hatimEkle() async {
-    final yeni = await ManeviStore.ramazanGunlukHatimEkle(1);
-    if (mounted) setState(() => _hatimSayfa = yeni);
+  Future<void> _hatimSayfasiniAc() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const HatimTakibiPage()),
+    );
+    await _hatimYukle();
   }
 
   @override
@@ -50,10 +78,16 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
       _now.year,
       _now.month,
       _now.day,
-      20,
-      17,
+      _iftarSaat,
+      _iftarDakika,
     );
-    final sahurSaat = DateTime(_now.year, _now.month, _now.day, 4, 12);
+    final sahurSaat = DateTime(
+      _now.year,
+      _now.month,
+      _now.day,
+      _sahurSaat,
+      _sahurDakika,
+    );
     if (ramazanIci) {
       if (_now.isBefore(bugunIftar)) {
         return ('İftara kalan', bugunIftar.difference(_now));
@@ -198,80 +232,85 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
   }
 
   Widget _hatimKarti() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Renkler.kart.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.auto_stories_outlined, color: Renkler.vurgu, size: 20),
-              SizedBox(width: 8),
-              Text(
-                'Günlük Hatim Hedefi',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Text(
-                '$_hatimSayfa / 20 sayfa',
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 13,
-                ),
-              ),
-              const Spacer(),
-              Text(
-                '${(_hatimSayfa / 20 * 100).round()}%',
-                style: TextStyle(
+    return GestureDetector(
+      onTap: _hatimSayfasiniAc,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Renkler.kart.withValues(alpha: 0.9),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.auto_stories_outlined,
                   color: Renkler.vurgu,
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
+                  size: 20,
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-              value: (_hatimSayfa / 20).clamp(0.0, 1.0),
-              minHeight: 8,
-              backgroundColor: Renkler.cerceve,
-              valueColor: AlwaysStoppedAnimation<Color>(Renkler.vurgu),
+                SizedBox(width: 8),
+                Text(
+                  'Günlük Hatim Hedefi',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 12),
-          Align(
-            alignment: Alignment.centerRight,
-            child: OutlinedButton.icon(
-              onPressed: _hatimSayfa >= 20 ? null : _hatimEkle,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Renkler.vurgu,
-                side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
-              ),
-              icon: const Icon(Icons.add, size: 16),
-              label: const Text('1 sayfa okudum'),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Text(
+                  '$_hatimSayfa / 20 sayfa',
+                  style: const TextStyle(color: Colors.white70, fontSize: 13),
+                ),
+                const Spacer(),
+                Text(
+                  '${(_hatimSayfa / 20 * 100).round()}%',
+                  style: TextStyle(
+                    color: Renkler.vurgu,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: LinearProgressIndicator(
+                value: (_hatimSayfa / 20).clamp(0.0, 1.0),
+                minHeight: 8,
+                backgroundColor: Renkler.cerceve,
+                valueColor: AlwaysStoppedAnimation<Color>(Renkler.vurgu),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerRight,
+              child: OutlinedButton.icon(
+                onPressed: _hatimSayfasiniAc,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Renkler.vurgu,
+                  side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
+                ),
+                icon: const Icon(Icons.arrow_forward, size: 16),
+                label: const Text('Hatim sayfasına git'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _ozelGunlerKarti() {
-    final bugun = '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
+    final bugun =
+        '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -345,13 +384,9 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
       ),
       child: Row(
         children: [
-          Expanded(
-            child: _saatKutusu('🌅 Sahur sonu', _sahurSaati),
-          ),
+          Expanded(child: _saatKutusu('🌅 Sahur sonu', _sahurSaati)),
           const SizedBox(width: 12),
-          Expanded(
-            child: _saatKutusu('🌇 İftar', _iftarSaati),
-          ),
+          Expanded(child: _saatKutusu('🌇 İftar', _iftarSaati)),
         ],
       ),
     );
@@ -366,8 +401,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
       ),
       child: Column(
         children: [
-          Text(etiket,
-              style: TextStyle(color: Colors.white54, fontSize: 12)),
+          Text(etiket, style: TextStyle(color: Colors.white54, fontSize: 12)),
           const SizedBox(height: 4),
           Text(
             saat,
@@ -395,6 +429,10 @@ class RamazanBanner extends StatefulWidget {
 class _RamazanBannerState extends State<RamazanBanner> {
   Timer? _timer;
   late DateTime _now;
+  int _iftarSaat = 20;
+  int _iftarDakika = 17;
+  int _sahurSaat = 4;
+  int _sahurDakika = 12;
 
   @override
   void initState() {
@@ -402,6 +440,23 @@ class _RamazanBannerState extends State<RamazanBanner> {
     _now = DateTime.now();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       setState(() => _now = DateTime.now());
+    });
+    _vakitleriYukle();
+  }
+
+  Future<void> _vakitleriYukle() async {
+    final vakitler = await VakitServisi.gunlukVakitler();
+    if (!mounted) return;
+    setState(() {
+      for (final v in vakitler) {
+        if (v.ad == 'Akşam') {
+          _iftarSaat = v.saat;
+          _iftarDakika = v.dakika;
+        } else if (v.ad == 'İmsak') {
+          _sahurSaat = v.saat;
+          _sahurDakika = v.dakika;
+        }
+      }
     });
   }
 
@@ -427,15 +482,25 @@ class _RamazanBannerState extends State<RamazanBanner> {
     String etiket;
     Duration kalan;
     if (ramazanIci) {
-      final iftar = DateTime(_now.year, _now.month, _now.day, 20, 17);
+      final iftar = DateTime(
+        _now.year,
+        _now.month,
+        _now.day,
+        _iftarSaat,
+        _iftarDakika,
+      );
       if (_now.isBefore(iftar)) {
         etiket = 'İftara kalan';
         kalan = iftar.difference(_now);
       } else {
         etiket = 'Sahura kalan';
-        kalan = DateTime(_now.year, _now.month, _now.day, 4, 12)
-            .add(const Duration(days: 1))
-            .difference(_now);
+        kalan = DateTime(
+          _now.year,
+          _now.month,
+          _now.day,
+          _sahurSaat,
+          _sahurDakika,
+        ).add(const Duration(days: 1)).difference(_now);
       }
     } else {
       etiket = 'Ramazan\'a kalan';

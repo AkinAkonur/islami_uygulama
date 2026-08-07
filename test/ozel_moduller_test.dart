@@ -15,8 +15,9 @@ void main() {
     addTearDown(tester.view.reset);
   }
 
-  testWidgets("Ana sayfa gunluk maneviyat modullerini gosterir",
-      (tester) async {
+  testWidgets("Ana sayfa gunluk maneviyat modullerini gosterir", (
+    tester,
+  ) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
     await tester.pump();
@@ -84,8 +85,9 @@ void main() {
     expect(find.text('1 / 5 · hedef: 5 sayfa'), findsOneWidget);
   });
 
-  testWidgets("Ramazan Modu sayfasi geri sayim ve ozel gunler icerir",
-      (tester) async {
+  testWidgets("Ramazan Modu sayfasi geri sayim ve ozel gunler icerir", (
+    tester,
+  ) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
     await tester.pump();
@@ -97,6 +99,13 @@ void main() {
     expect(find.text('Özel Günler'), findsOneWidget);
     expect(find.text('Ramazan\'a kalan'), findsOneWidget);
     expect(find.textContaining('İftar'), findsWidgets);
+
+    await tester.tap(find.text('Hatim sayfasına git'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Hatimlerim'), findsOneWidget);
+    expect(find.text('Bugün Kaç Sayfa Okudun?'), findsOneWidget);
+    expect(find.text('Cüz İlerlemesi'), findsOneWidget);
   });
 
   testWidgets("Konum ve Widget Rehberi sayfalari acilir", (tester) async {
@@ -107,9 +116,10 @@ void main() {
     await tester.tap(find.text('Cami & Konum'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Kıble yönün: 154° Güneydoğu'), findsOneWidget);
-    expect(find.text('Yakınındaki Camiler'), findsOneWidget);
-    expect(find.text('Süleymaniye Camii'), findsOneWidget);
+    expect(find.text('Bulunduğun Yer'), findsOneWidget);
+    expect(find.text('Bugünün Namaz Vakitleri'), findsOneWidget);
+    expect(find.text('İmsak'), findsOneWidget);
+    expect(find.text('Akşam'), findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.arrow_back_ios_new));
     await tester.pumpAndSettle();

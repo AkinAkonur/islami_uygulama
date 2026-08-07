@@ -3,7 +3,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'services/renkler.dart';
+import 'services/ayarlar_store.dart';
 import 'services/bildirim_merkezi.dart';
+import 'services/vakit_servisi.dart';
+import 'services/gercek_bildirimler.dart';
 import 'pages/huzurlu_page.dart';
 import 'pages/sukur_page.dart';
 import 'pages/yorgun_page.dart';
@@ -34,7 +37,9 @@ import 'pages/kuran/sure_listesi_page.dart';
 import 'screens/settings_page.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  AyarlarStore.baslat();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -42,15 +47,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Huzur & Manevi Yolculuk',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Renkler.zemin,
-        fontFamily: 'Roboto',
+    return ValueListenableBuilder<bool>(
+      valueListenable: AyarlarStore.karanlikMod,
+      builder: (context, karanlik, _) => MaterialApp(
+        title: 'Huzur & Manevi Yolculuk',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          brightness: Brightness.light,
+          scaffoldBackgroundColor: const Color(0xFFF3F6F2),
+          fontFamily: 'Roboto',
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          scaffoldBackgroundColor: Renkler.zemin,
+          fontFamily: 'Roboto',
+        ),
+        themeMode: karanlik ? ThemeMode.dark : ThemeMode.light,
+        home: AnaSayfa(),
       ),
-      home: AnaSayfa(),
     );
   }
 }
@@ -485,14 +499,7 @@ class AnaSayfa extends StatelessWidget {
                                     size: 16,
                                   ),
                                   SizedBox(width: 6),
-                                  Text(
-                                    "154° GD",
-                                    style: TextStyle(
-                                      color: Renkler.vurgu,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  const _KibleOzeti(),
                                 ],
                               ),
                             ),
@@ -794,6 +801,48 @@ class AnaSayfa extends StatelessWidget {
 // ===========================================================================
 // VAKİT KARTLARI (Canlı Yaklaşan Vakit + Sıradaki Vakit)
 // ===========================================================================
+class _KibleOzeti extends StatefulWidget {
+  const _KibleOzeti();
+
+  @override
+  State<_KibleOzeti> createState() => _KibleOzetiState();
+}
+
+class _KibleOzetiState extends State<_KibleOzeti> {
+  String _metin = '—';
+
+  @override
+  void initState() {
+    super.initState();
+    _yukle();
+  }
+
+  Future<void> _yukle() async {
+    final k = await VakitServisi.koordinatOku();
+    if (!mounted) return;
+    setState(() {
+      if (k == null) {
+        _metin = 'Konumla';
+      } else {
+        final aci = VakitServisi.kibleAcisi(k.$1, k.$2);
+        _metin = '${aci.round()}° ${VakitServisi.yonEtiketi(aci)}';
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      _metin,
+      style: TextStyle(
+        color: Renkler.vurgu,
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
 class _VakitBilgisi {
   final String ad;
   final String saat;
@@ -802,6 +851,25 @@ class _VakitBilgisi {
 
   const _VakitBilgisi(this.ad, this.saat, this.ikon, this.dakika);
 }
+
+IconData _vakitIkonu(String ad) {
+  switch (ad) {
+    case 'Güneş':
+    case 'Öğle':
+      return Icons.wb_sunny;
+    case 'İkindi':
+      return Icons.brightness_5;
+    case 'Akşam':
+      return Icons.wb_twilight;
+    case 'Yatsı':
+      return Icons.nights_stay;
+    default:
+      return Icons.wb_twilight;
+  }
+}
+
+_VakitBilgisi _servisVaktiniCevir(VakitBilgisi v) =>
+    _VakitBilgisi(v.ad, v.saatYaz, _vakitIkonu(v.ad), v.dakikaToplam);
 
 const List<_VakitBilgisi> _gunVakitleri = [
   _VakitBilgisi("İmsak", "04:12", Icons.wb_twilight, 4 * 60 + 12),
@@ -1199,18 +1267,43 @@ class _VakitKartlari extends StatefulWidget {
 
 class _VakitKartlariState extends State<_VakitKartlari> {
   Timer? _sureci;
+  List<_VakitBilgisi> _vakitler = const [];
+  String _metotEtiketi = 'Diyanet (Türkiye)';
+
+  List<_VakitBilgisi> get _liste =>
+      _vakitler.isNotEmpty ? _vakitler : _gunVakitleri;
 
   @override
   void initState() {
     super.initState();
+    _bastaBaslat();
     _sureci = Timer.periodic(const Duration(seconds: 1), (_) {
       setState(() {});
+    });
+    VakitServisi.vakitGuncellendi.addListener(_vakitleriYukle);
+  }
+
+  Future<void> _bastaBaslat() async {
+    await VakitServisi.ilkkonum();
+    await GercekBildirimler.kurulum();
+    await GercekBildirimler.planla();
+    await _vakitleriYukle();
+  }
+
+  Future<void> _vakitleriYukle() async {
+    final guncel = await VakitServisi.gunlukVakitler();
+    final metotKod = await VakitServisi.aktifMetotKodu();
+    if (!mounted) return;
+    setState(() {
+      _vakitler = guncel.map(_servisVaktiniCevir).toList();
+      _metotEtiketi = AyarlarStore.metotEtiketi(metotKod);
     });
   }
 
   @override
   void dispose() {
     _sureci?.cancel();
+    VakitServisi.vakitGuncellendi.removeListener(_vakitleriYukle);
     super.dispose();
   }
 
@@ -1232,20 +1325,20 @@ class _VakitKartlariState extends State<_VakitKartlari> {
     final dakika = simdi.hour * 60 + simdi.minute;
     final saniye = dakika * 60 + simdi.second;
 
-    int sonrakiIndex = _gunVakitleri.indexWhere((v) => v.dakika > dakika);
+    int sonrakiIndex = _liste.indexWhere((v) => v.dakika > dakika);
     if (sonrakiIndex == -1) sonrakiIndex = 0;
 
-    final siradaki = _gunVakitleri[sonrakiIndex];
+    final siradaki = _liste[sonrakiIndex];
     final ondanSonraki =
-        _gunVakitleri[(sonrakiIndex + 1) % _gunVakitleri.length];
+        _liste[(sonrakiIndex + 1) % _liste.length];
     final oncekiIndex =
-        (sonrakiIndex - 1 + _gunVakitleri.length) % _gunVakitleri.length;
-    final onceki = _gunVakitleri[oncekiIndex];
+        (sonrakiIndex - 1 + _liste.length) % _liste.length;
+    final onceki = _liste[oncekiIndex];
 
     final bool geceGecisi = sonrakiIndex == 0;
     final int baslangicSn = onceki.dakika * 60;
     final int bitisSn = geceGecisi
-        ? (_gunVakitleri.first.dakika + 1440) * 60
+        ? (_liste.first.dakika + 1440) * 60
         : siradaki.dakika * 60;
     final double ilerleme = ((saniye - baslangicSn) / (bitisSn - baslangicSn))
         .clamp(0.0, 1.0);
@@ -1361,6 +1454,40 @@ class _VakitKartlariState extends State<_VakitKartlari> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(height: 8),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.18),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.12),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.calculate_outlined,
+                          color: Colors.white70,
+                          size: 12,
+                        ),
+                        SizedBox(width: 5),
+                        Flexible(
+                          child: Text(
+                            _metotEtiketi,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 10),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1410,9 +1537,7 @@ class _VakitKartlariState extends State<_VakitKartlari> {
   }
 
   Widget _siradakiKart(_VakitBilgisi v) {
-    return GestureDetector(
-      onTap: _vakitlereGit,
-      child: Container(
+    return Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -1472,7 +1597,6 @@ class _VakitKartlariState extends State<_VakitKartlari> {
             ),
           ],
         ),
-      ),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../services/manevi_store.dart';
 import '../services/renkler.dart';
 
 /// Profil verileri (fotoğraf + isim) için kalıcı depo.
@@ -59,9 +58,6 @@ class ProfilSayfasi extends StatefulWidget {
 class _ProfilSayfasiState extends State<ProfilSayfasi> {
   final TextEditingController _isimCtrl = TextEditingController();
   Uint8List? _resim;
-  int _tesbih = 0;
-  int _seri = 0;
-  int _hatimSayfa = 1;
 
   @override
   void initState() {
@@ -72,23 +68,57 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
   Future<void> _yukle() async {
     final resim = await ProfilStore.resimOku();
     final isim = await ProfilStore.isimOku();
-    final tesbih = await ManeviStore.tesbihSayisi();
-    final seri = await ManeviStore.seriOku();
-    final hatim = await ManeviStore.hatimDurumu();
     if (mounted) {
       setState(() {
         _resim = resim;
         _isimCtrl.text = isim;
-        _tesbih = tesbih;
-        _seri = seri;
-        _hatimSayfa = hatim['sayfa'] ?? 1;
       });
     }
   }
 
   Future<void> _fotografSec() async {
+    final secim = await showModalBottomSheet<ImageSource>(
+      context: context,
+      backgroundColor: Renkler.kart,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(12),
+              child: Text(
+                'Profil Fotoğrafı',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined,
+                  color: Colors.white70),
+              title: const Text(
+                'Galeriden Seç',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () => Navigator.pop(ctx, ImageSource.gallery),
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt_outlined,
+                  color: Colors.white70),
+              title: const Text(
+                'Kamera ile Çek',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () => Navigator.pop(ctx, ImageSource.camera),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (secim == null || !mounted) return;
     final xfile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: secim,
       maxWidth: 512,
       maxHeight: 512,
       imageQuality: 85,
@@ -110,7 +140,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('İsim kaydedildi')),
       );
-      Navigator.of(context).popUntil((r) => r.isFirst);
+      Navigator.of(context).pop();
     }
   }
 
@@ -141,8 +171,6 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                     _profilKarti(bugun, aylar),
                     const SizedBox(height: 16),
                     _isimKarti(),
-                    const SizedBox(height: 16),
-                    _istatistikKarti(),
                     const SizedBox(height: 16),
                   ],
                 ),
@@ -307,78 +335,6 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
               style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
               child: const Text('Kaydet'),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _istatistikKarti() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Renkler.kart.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.insights_outlined, color: Renkler.vurgu, size: 20),
-              SizedBox(width: 8),
-              Text(
-                'Manevi İstatistikler',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _istatistikKutusu('Tesbih', '$_tesbih'),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _istatistikKutusu('Günlük seri', '$_seri 🔥'),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _istatistikKutusu('Hatim sayfası', '$_hatimSayfa'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _istatistikKutusu(String etiket, String deger) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        color: Renkler.seciliYuzey,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Column(
-        children: [
-          Text(
-            deger,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            etiket,
-            style: TextStyle(color: Colors.white54, fontSize: 11),
           ),
         ],
       ),

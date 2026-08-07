@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:islami_uygulama/main.dart';
+import 'package:islami_uygulama/services/bildirim_merkezi.dart';
 
 String _gunKey(DateTime d) =>
     '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
@@ -50,7 +51,6 @@ void main() {
 
     expect(find.text('Profilim'), findsOneWidget);
     expect(find.text('Fotoğraf Ekle'), findsOneWidget);
-    expect(find.text('Manevi İstatistikler'), findsOneWidget);
     expect(find.text('Misafir Kardeş'), findsOneWidget);
   });
 
@@ -121,7 +121,7 @@ void main() {
     expect(find.text('İsim kaydedildi'), findsOneWidget);
   });
 
-  testWidgets("Bildirim tur ayarlari acilip kapatilabilir", (tester) async {
+testWidgets("Bildirim tur ayarlari acilip kapatilabilir", (tester) async {
     await buyukEkran(tester);
     tohumBildirim('İkindi 16:45', 'bugun');
 
@@ -138,5 +138,41 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(tester.widget<Switch>(anahtar).value, isFalse);
+  });
+
+  test("Bugun siradaki vakit bildirimi canli guncellenir", () async {
+    final now = DateTime.now();
+    SharedPreferences.setMockInitialValues({
+      'bildirim_liste': jsonEncode([
+        {
+          'id': 'namaz_vakit_${_gunKey(now)}',
+          'tip': 'namaz',
+          'baslik': 'Akşam 20:17',
+          'mesaj': 'Namaz vakti giriyor — kalan 5 dk',
+          'zaman': now.subtract(const Duration(hours: 3)).toIso8601String(),
+          'hedef': 'namaz',
+          'okundu': false,
+          'sessiz': false,
+        }
+      ]),
+      'bildirim_son_gun': _gunKey(now),
+      'vakitler_gunluk': jsonEncode([
+        {'ad': 'İmsak', 'saat': 4, 'dakika': 12},
+        {'ad': 'Güneş', 'saat': 5, 'dakika': 48},
+        {'ad': 'Öğle', 'saat': 13, 'dakika': 5},
+        {'ad': 'İkindi', 'saat': 16, 'dakika': 45},
+        {'ad': 'Akşam', 'saat': 20, 'dakika': 17},
+        {'ad': 'Yatsı', 'saat': 21, 'dakika': 50},
+      ]),
+      'vakitler_gun': _gunKey(now),
+    });
+
+    await BildirimMerkezi.guncelle();
+
+    final liste = await BildirimMerkezi.listeyiOku();
+    final kayit =
+        liste.firstWhere((b) => b.id.startsWith('namaz_vakit_'));
+    expect(kayit.mesaj, contains('Sıradaki namaz'));
+    expect(kayit.mesaj, contains('kalan'));
   });
 }

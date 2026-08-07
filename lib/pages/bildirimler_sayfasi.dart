@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../services/bildirim_merkezi.dart';
+import '../services/gercek_bildirimler.dart';
 import '../services/renkler.dart';
+import '../services/vakit_servisi.dart';
 import '../screens/namaz_screen.dart';
 import 'gunluk_gorev_page.dart';
 import 'ramazan_modu_page.dart';
@@ -18,13 +21,34 @@ class BildirimlerSayfasi extends StatefulWidget {
 class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
   List<Bildirim> _liste = [];
   bool _sessiz = false;
-  int _kaza = 3;
+  int _kaza = 0;
   Map<BildirimTipi, bool> _ayarlar = {};
+  List<VakitBilgisi> _vakitler = VakitServisi.varsayilan;
+  String? _sehir;
+  Timer? _tazeleyici;
 
   @override
   void initState() {
     super.initState();
     _yukle();
+    _tazeleyici = Timer.periodic(
+      const Duration(seconds: 30),
+      (_) => _tazele(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _tazeleyici?.cancel();
+    super.dispose();
+  }
+
+  /// Bugün listesini ve sıradaki vakit vurgusunu canlı tutar.
+  Future<void> _tazele() async {
+    await BildirimMerkezi.guncelle();
+    final liste = await BildirimMerkezi.listeyiOku();
+    if (!mounted) return;
+    setState(() => _liste = liste);
   }
 
   Future<void> _yukle() async {
@@ -36,34 +60,26 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     for (final t in BildirimTipi.values) {
       ayarlar[t] = await BildirimMerkezi.ayarOku(t);
     }
+    final vakitler = await VakitServisi.gunlukVakitler();
+    final sehir = await VakitServisi.sehirOku();
     if (mounted) {
       setState(() {
         _liste = liste;
         _sessiz = sessiz;
         _kaza = kaza;
         _ayarlar = ayarlar;
+        _vakitler = vakitler;
+        _sehir = sehir;
       });
     }
   }
 
   Future<void> _hepsiniOkundu() async {
     await BildirimMerkezi.hepsiniOkunduYap();
+    final guncelListe = await BildirimMerkezi.listeyiOku();
     if (mounted) {
       setState(() {
-        _liste = _liste
-            .map(
-              (b) => Bildirim(
-                id: b.id,
-                tip: b.tip,
-                baslik: b.baslik,
-                mesaj: b.mesaj,
-                zaman: b.zaman,
-                hedef: b.hedef,
-                okundu: true,
-                sessiz: b.sessiz,
-              ),
-            )
-            .toList();
+        _liste = guncelListe;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -74,14 +90,23 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     }
   }
 
-  Future<void> _sessizDegistir([bool? deger]) async {
+  Future<void> _sessizDegistir([bool? hedefDeger]) async {
+    if (hedefDeger != null && hedefDeger == _sessiz) return;
+
     final yeni = await BildirimMerkezi.sessizDegistir();
+    await GercekBildirimler.planla();
+    await BildirimMerkezi.guncelle();
+    final guncelListe = await BildirimMerkezi.listeyiOku();
+
     if (mounted) {
-      setState(() => _sessiz = yeni);
+      setState(() {
+        _sessiz = yeni;
+        _liste = guncelListe;
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            _sessiz ? 'Sessiz mod aktif.' : 'Sessiz mod kapatıldı.',
+            _sessiz ? 'Sessiz mod aktif edildi.' : 'Sessiz mod kapatıldı.',
           ),
           duration: const Duration(seconds: 2),
         ),
@@ -91,14 +116,31 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
 
   Future<void> _ayarDegistir(BildirimTipi tip, bool deger) async {
     await BildirimMerkezi.ayarYaz(tip, deger);
+    await BildirimMerkezi.guncelle();
+    await GercekBildirimler.planla();
+    final guncelListe = await BildirimMerkezi.listeyiOku();
     if (mounted) {
-      setState(() => _ayarlar[tip] = deger);
+      setState(() {
+        _ayarlar[tip] = deger;
+        _liste = guncelListe;
+      });
     }
   }
 
   Future<void> _kazaDegistir(int delta) async {
-    final yeni = await BildirimMerkezi.kazaYaz(_kaza + delta);
-    if (mounted) setState(() => _kaza = yeni);
+    final yeniKaza = _kaza + delta;
+    if (yeniKaza < 0) return;
+
+    await BildirimMerkezi.kazaYaz(yeniKaza);
+    await BildirimMerkezi.guncelle(); // Listeyi yeni kaza sayısıyla güncelle
+    final guncelListe = await BildirimMerkezi.listeyiOku();
+
+    if (mounted) {
+      setState(() {
+        _kaza = yeniKaza;
+        _liste = guncelListe;
+      });
+    }
   }
 
   Widget? _hedefSayfa(String hedef) {
@@ -122,24 +164,10 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
 
   Future<void> _tikla(Bildirim b) async {
     await BildirimMerkezi.biriniOkunduYap(b.id);
+    final guncelListe = await BildirimMerkezi.listeyiOku();
     if (mounted) {
       setState(() {
-        _liste = _liste
-            .map(
-              (x) => x.id == b.id
-                  ? Bildirim(
-                      id: x.id,
-                      tip: x.tip,
-                      baslik: x.baslik,
-                      mesaj: x.mesaj,
-                      zaman: x.zaman,
-                      hedef: x.hedef,
-                      okundu: true,
-                      sessiz: x.sessiz,
-                    )
-                  : x,
-            )
-            .toList();
+        _liste = guncelListe;
       });
     }
     if (!mounted) return;
@@ -172,6 +200,8 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                     const SizedBox(height: 16),
                     _ayarlarKarti(),
                     const SizedBox(height: 16),
+                    _vakitleriKarti(),
+                    const SizedBox(height: 16),
                     _listeKarti(),
                   ],
                 ),
@@ -191,6 +221,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           IconButton(
             onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            tooltip: 'Geri',
           ),
           const SizedBox(width: 8),
           const Text(
@@ -346,6 +377,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                 onPressed: _kaza > 0 ? () => _kazaDegistir(-1) : null,
                 icon: const Icon(Icons.remove_circle_outline, size: 22),
                 color: Renkler.vurgu,
+                tooltip: 'Eksilt',
               ),
               Text(
                 '$_kaza',
@@ -359,6 +391,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                 onPressed: () => _kazaDegistir(1),
                 icon: const Icon(Icons.add_circle_outline, size: 22),
                 color: Renkler.vurgu,
+                tooltip: 'Artır',
               ),
             ],
           ),
@@ -375,12 +408,12 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     required ValueChanged<bool> onChanged,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: InkWell(
         onTap: () => onChanged(!deger),
         borderRadius: BorderRadius.circular(12),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
           child: Row(
             children: [
               Text(ikon, style: const TextStyle(fontSize: 18)),
@@ -395,7 +428,10 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                     ),
                     Text(
                       aciklama,
-                      style: TextStyle(color: Colors.white54, fontSize: 11),
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 11,
+                      ),
                     ),
                   ],
                 ),
@@ -408,6 +444,118 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  /// Bugünün gerçek namaz vakitlerini, sıradaki vakit vurgusuyla gösterir.
+  Widget _vakitleriKarti() {
+    final now = DateTime.now();
+    final simdiDk = now.hour * 60 + now.minute;
+    VakitBilgisi? siradaki;
+    for (final v in _vakitler) {
+      if (v.dakikaToplam > simdiDk) {
+        siradaki = v;
+        break;
+      }
+    }
+    final konum = _sehir ?? 'Konumuna göre';
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Renkler.kart.withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Renkler.cerceve),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.schedule_outlined, color: Renkler.vurgu, size: 20),
+              const SizedBox(width: 8),
+              const Text(
+                'Bugünün Namaz Vakitleri',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              Flexible(
+                child: Text(
+                  konum,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.white38, fontSize: 11),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ..._vakitler.map(
+            (v) {
+              final aktif = v == siradaki;
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: aktif ? Renkler.vurgu : Colors.white24,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      v.ad,
+                      style: TextStyle(
+                        color: aktif ? Colors.white : Colors.white70,
+                        fontSize: 14,
+                        fontWeight: aktif ? FontWeight.bold : FontWeight.w500,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      v.saatYaz,
+                      style: TextStyle(
+                        color: aktif ? Renkler.vurgu : Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFeatures: const [FontFeature.tabularFigures()],
+                      ),
+                    ),
+                    if (aktif) ...[
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Renkler.vurgu.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          'Sıradaki',
+                          style: TextStyle(
+                            color: Renkler.vurgu,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -437,15 +585,18 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
         ),
       );
     }
+
     final bugun = DateTime.now();
     final dun = bugun.subtract(const Duration(days: 1));
     String gunKey(DateTime d) =>
         '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
     final gruplar = <String, List<Bildirim>>{
       'Bugün': [],
       'Dün': [],
       'Önceki': [],
     };
+
     for (final b in _liste) {
       final key = gunKey(b.zaman);
       if (key == gunKey(bugun)) {
@@ -456,6 +607,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
         gruplar['Önceki']!.add(b);
       }
     }
+
     int sirala(Bildirim a, Bildirim b) {
       final pa = _oncelik(a.tip);
       final pb = _oncelik(b.tip);
@@ -475,7 +627,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           ),
         ),
         const SizedBox(height: 4),
-        Text(
+        const Text(
           'Günde en fazla 5 bildirim — önce namaz, sonra günün geri kalanı.',
           style: TextStyle(color: Colors.white54, fontSize: 12),
         ),
@@ -577,7 +729,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                   const SizedBox(height: 3),
                   Text(
                     b.mesaj,
-                    style: TextStyle(color: Colors.white54, fontSize: 12),
+                    style: const TextStyle(color: Colors.white54, fontSize: 12),
                   ),
                 ],
               ),
@@ -585,7 +737,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
             const SizedBox(width: 8),
             Text(
               '${b.zaman.hour.toString().padLeft(2, '0')}:${b.zaman.minute.toString().padLeft(2, '0')}',
-              style: TextStyle(color: Colors.white38, fontSize: 11),
+              style: const TextStyle(color: Colors.white38, fontSize: 11),
             ),
           ],
         ),

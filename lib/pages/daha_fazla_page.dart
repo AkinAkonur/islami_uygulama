@@ -325,7 +325,7 @@ class KibleCamiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _buildStandardSubPage("Kıble & Cami Bul", [
-      _item("Kıble Pusulası", "Bulunduğunuz konuma göre Kâbe yönü: 154° GD"),
+      _item("Kıble Pusulası", "Bulunduğunuz konuma göre Kâbe yönü gösterilir."),
       _item("Yakındaki Camiler", "GPS konumunuza en yakın camiler ve mescitler listeleniyor."),
     ]);
   }
