@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 /// Cami Model Sınıfı
 class Mosque {
@@ -82,8 +84,6 @@ class LocationAndMosqueService {
     double lng, {
     double radiusInMeters = 5000,
   }) async {
-    final String overpassUrl = 'https://overpass-api.de/api/interpreter';
-
     // 5 km yarıçapındaki Müslüman ibadethanelerini sorgular
     final String query = '''
       [out:json];
@@ -95,49 +95,64 @@ class LocationAndMosqueService {
       out center;
     ''';
 
-    try {
-      final response = await http.post(
-        Uri.parse(overpassUrl),
-        body: {'data': query},
-      );
+    // Ana sunucu erişilemezse sıradaki yedek sunucu denenir.
+    const overpassSunuculari = [
+      'https://overpass-api.de/api/interpreter',
+      'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
+      'https://overpass.osm.ch/api/interpreter',
+      'https://overpass.kumi.systems/api/interpreter',
+    ];
 
-      if (response.statusCode == 200) {
-        final data = json.decode(utf8.decode(response.bodyBytes));
-        final List elements = data['elements'] ?? [];
+    for (final overpassUrl in overpassSunuculari) {
+      try {
+        final response = await http
+            .post(
+              Uri.parse(overpassUrl),
+              body: {'data': query},
+            )
+            .timeout(const Duration(seconds: 20));
 
-        List<Mosque> mosques = [];
+        if (response.statusCode == 200) {
+          final data = json.decode(utf8.decode(response.bodyBytes));
+          final List elements = data['elements'] ?? [];
 
-        for (var element in elements) {
-          String name = element['tags']?['name'] ?? 'Cami (İsimsiz)';
-          double mLat = element['lat'] ?? element['center']?['lat'] ?? 0.0;
-          double mLng = element['lon'] ?? element['center']?['lon'] ?? 0.0;
+          List<Mosque> mosques = [];
 
-          if (mLat != 0.0 && mLng != 0.0) {
-            double distance = Geolocator.distanceBetween(lat, lng, mLat, mLng);
-            mosques.add(
-              Mosque(
-                name: name,
-                lat: mLat,
-                lng: mLng,
-                distanceInMeters: distance,
-              ),
-            );
+          for (var element in elements) {
+            String name = element['tags']?['name'] ?? 'Cami (İsimsiz)';
+            double mLat = element['lat'] ?? element['center']?['lat'] ?? 0.0;
+            double mLng = element['lon'] ?? element['center']?['lon'] ?? 0.0;
+
+            if (mLat != 0.0 && mLng != 0.0) {
+              double distance = Geolocator.distanceBetween(
+                lat,
+                lng,
+                mLat,
+                mLng,
+              );
+              mosques.add(
+                Mosque(
+                  name: name,
+                  lat: mLat,
+                  lng: mLng,
+                  distanceInMeters: distance,
+                ),
+              );
+            }
           }
-        }
 
-        // En yakın camiden en uzağa doğru sırala
-        mosques.sort(
-          (a, b) =>
-              (a.distanceInMeters ?? 0).compareTo(b.distanceInMeters ?? 0),
-        );
-        return mosques;
-      } else {
-        return [];
+          // En yakın camiden en uzağa doğru sırala
+          mosques.sort(
+            (a, b) =>
+                (a.distanceInMeters ?? 0).compareTo(b.distanceInMeters ?? 0),
+          );
+          return mosques;
+        }
+      } catch (e) {
+        debugPrint('Cami arama hatası ($overpassUrl): $e');
       }
-    } catch (e) {
-      debugPrint('Cami arama hatası: $e');
-      return [];
     }
+    return [];
   }
 
   /// 3. Hem Konumu Alan Hem De Camileri Tek Hamlede Getiren Ana Fonksiyon
@@ -146,6 +161,53 @@ class LocationAndMosqueService {
     if (position == null) return [];
 
     return await fetchNearbyMosques(position.latitude, position.longitude);
+  }
+
+  /// 4. Seçilen Camiye Yol Tarifi Al (Google Maps / Apple Maps / Waze)
+  static Future<bool> yolTarifiAc(
+    Mosque cami, {
+    String? baslangicLat,
+    String? baslangicLng,
+    String mod = 'walking',
+  }) async {
+    final dest = '$cami.lat,$cami.lng';
+    final baslangic = baslangicLat != null && baslangicLng != null
+        ? '$baslangicLat,$baslangicLng'
+        : null;
+    final yon = baslangic != null ? '&origin=$baslangic' : '';
+
+    final Uri? uri;
+    if (Platform.isIOS) {
+      uri = Uri.parse(
+        'https://maps.apple.com/?daddr=$dest$yon&dirflg=${mod == 'driving' ? 'd' : 'w'}',
+      );
+    } else if (Platform.isAndroid) {
+      uri = Uri.parse(
+        'https://www.google.com/maps/dir/?api=1$yon&destination=$dest&travelmode=$mod',
+      );
+    } else {
+      uri = Uri.parse(
+        'https://www.google.com/maps/dir/?api=1$yon&destination=$dest&travelmode=$mod',
+      );
+    }
+
+    if (await canLaunchUrl(uri)) {
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+    return false;
+  }
+
+  /// 5. Camiyi Haritada Konumlarıyla Göster
+  static Future<bool> haritadaGoster(Mosque cami) async {
+    final uri = Uri.parse(
+      Platform.isIOS
+          ? 'https://maps.apple.com/?q=${cami.lat},${cami.lng}'
+          : 'https://www.google.com/maps/search/?api=1&query=${cami.lat},${cami.lng}',
+    );
+    if (await canLaunchUrl(uri)) {
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+    return false;
   }
 
   // Bildirim Kutusu Yardımcısı

@@ -1,4 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+class KuranKonumu {
+  final int sureNo;
+  final int ayetNo;
+  final String sureAdi;
+
+  const KuranKonumu({
+    required this.sureNo,
+    required this.ayetNo,
+    required this.sureAdi,
+  });
+
+  String get gosterim => '$sureAdi $ayetNo. âyet';
+}
 
 /// Yeni ana ekran modüllerinin (Devam Et, Günlük Görevler, Hedef Çarkı,
 /// Ramazan Modu, Hızlı Tesbih) kalıcı verilerini yönetir.
@@ -6,20 +21,50 @@ class ManeviStore {
   ManeviStore._();
 
   static Future<SharedPreferences> get _p => SharedPreferences.getInstance();
+  static const _varsayilanKuranKonumu = KuranKonumu(
+    sureNo: 2,
+    ayetNo: 255,
+    sureAdi: 'Bakara',
+  );
+  static final ValueNotifier<KuranKonumu> kuranKonumu = ValueNotifier(
+    _varsayilanKuranKonumu,
+  );
 
   static String _tarih(DateTime d) =>
       '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
 
   // ---------------- DEVAM ET ----------------
 
-  static Future<String> sonOkunanAyet() async {
+  static Future<KuranKonumu> sonKuranKonumu() async {
     final p = await _p;
-    return p.getString('son_okunan_ayet') ?? 'Bakara 255 · Ayetü\'l-Kürsî';
+    final konum = KuranKonumu(
+      sureNo: p.getInt('son_okunan_sure_no') ?? _varsayilanKuranKonumu.sureNo,
+      ayetNo: p.getInt('son_okunan_ayet_no') ?? _varsayilanKuranKonumu.ayetNo,
+      sureAdi:
+          p.getString('son_okunan_sure_adi') ?? _varsayilanKuranKonumu.sureAdi,
+    );
+    kuranKonumu.value = konum;
+    return konum;
   }
 
-  static Future<void> sonOkunanAyetKaydet(String deger) async {
+  static Future<String> sonOkunanAyet() async {
+    return (await sonKuranKonumu()).gosterim;
+  }
+
+  static Future<void> sonOkunanAyetKaydet({
+    required int sureNo,
+    required int ayetNo,
+    required String sureAdi,
+  }) async {
     final p = await _p;
-    await p.setString('son_okunan_ayet', deger);
+    final konum = KuranKonumu(sureNo: sureNo, ayetNo: ayetNo, sureAdi: sureAdi);
+    await Future.wait([
+      p.setString('son_okunan_ayet', konum.gosterim),
+      p.setInt('son_okunan_sure_no', sureNo),
+      p.setInt('son_okunan_ayet_no', ayetNo),
+      p.setString('son_okunan_sure_adi', sureAdi),
+    ]);
+    kuranKonumu.value = konum;
   }
 
   /// Hatim takibi sayfasının yazdığı anahtarları birlikte okur.
@@ -133,13 +178,15 @@ class ManeviStore {
 
   static Future<Set<String>> bugunGorevler() async {
     final p = await _p;
-    return (p.getStringList('manevi_gorev_${_tarih(DateTime.now())}') ?? const [])
+    return (p.getStringList('manevi_gorev_${_tarih(DateTime.now())}') ??
+            const [])
         .toSet();
   }
 
   static Future<Set<String>> bugunNamaz() async {
     final p = await _p;
-    return (p.getStringList('manevi_namaz_${_tarih(DateTime.now())}') ?? const [])
+    return (p.getStringList('manevi_namaz_${_tarih(DateTime.now())}') ??
+            const [])
         .toSet();
   }
 
@@ -171,14 +218,14 @@ class ManeviStore {
   static Future<void> _seriGuncelle(SharedPreferences p) async {
     final bugun = _tarih(DateTime.now());
     final dun = _tarih(DateTime.now().subtract(const Duration(days: 1)));
-    final tumIdler = {
-      ...gorevler.map((g) => g['id']!),
-      ...namazVakitleri,
-    };
-    final gorevSet = (p.getStringList('manevi_gorev_$bugun') ?? const []).toSet();
-    final namazSet = (p.getStringList('manevi_namaz_$bugun') ?? const []).toSet();
+    final tumIdler = {...gorevler.map((g) => g['id']!), ...namazVakitleri};
+    final gorevSet = (p.getStringList('manevi_gorev_$bugun') ?? const [])
+        .toSet();
+    final namazSet = (p.getStringList('manevi_namaz_$bugun') ?? const [])
+        .toSet();
     final hepsiTamam = tumIdler.every(
-        (id) => gorevSet.contains(id) || namazSet.contains(id));
+      (id) => gorevSet.contains(id) || namazSet.contains(id),
+    );
     if (!hepsiTamam) return;
     final son = p.getString('manevi_seri_son') ?? '';
     if (son == bugun) return;

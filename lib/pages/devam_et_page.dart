@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
 import '../pages/tesbih_page.dart';
-import 'kuran/sure_listesi_page.dart';
 import 'kuran/hatim_takibi_page.dart';
+import 'kuran/sure_detay_page.dart';
 
 class DevamEtPage extends StatefulWidget {
   const DevamEtPage({super.key});
@@ -14,6 +14,11 @@ class DevamEtPage extends StatefulWidget {
 
 class _DevamEtPageState extends State<DevamEtPage> {
   String _sonAyet = '';
+  KuranKonumu _kuranKonumu = const KuranKonumu(
+    sureNo: 2,
+    ayetNo: 255,
+    sureAdi: 'Bakara',
+  );
   int _tesbih = 0;
   Map<String, int> _hatim = {'sayfa': 1, 'sayi': 0, 'bugun': 0, 'seri': 0};
 
@@ -24,12 +29,13 @@ class _DevamEtPageState extends State<DevamEtPage> {
   }
 
   Future<void> _yukle() async {
-    final ayet = await ManeviStore.sonOkunanAyet();
+    final kuranKonumu = await ManeviStore.sonKuranKonumu();
     final tesbih = await ManeviStore.tesbihSayisi();
     final hatim = await ManeviStore.hatimDurumu();
     if (mounted) {
       setState(() {
-        _sonAyet = ayet;
+        _sonAyet = kuranKonumu.gosterim;
+        _kuranKonumu = kuranKonumu;
         _tesbih = tesbih;
         _hatim = hatim;
       });
@@ -147,7 +153,12 @@ class _DevamEtPageState extends State<DevamEtPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const SureListesiPage()),
+                  MaterialPageRoute(
+                    builder: (_) => SureDetayPage(
+                      sureNo: _kuranKonumu.sureNo,
+                      baslangicAyetNo: _kuranKonumu.ayetNo,
+                    ),
+                  ),
                 );
               },
               style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
@@ -199,9 +210,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
                     MaterialPageRoute(builder: (_) => const TesbihPage()),
                   );
                 },
-                style: FilledButton.styleFrom(
-                  backgroundColor: Renkler.vurgu,
-                ),
+                style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
                 icon: const Icon(Icons.radio_button_checked, size: 16),
                 label: const Text('Tesbih\'e Git'),
               ),
@@ -272,15 +281,16 @@ class _DevamEtPageState extends State<DevamEtPage> {
         ),
         child: Column(
           children: [
-            Text(deger,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                )),
+            Text(
+              deger,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 2),
-            Text(etiket,
-                style: TextStyle(color: Colors.white54, fontSize: 11)),
+            Text(etiket, style: TextStyle(color: Colors.white54, fontSize: 11)),
           ],
         ),
       ),
@@ -297,7 +307,11 @@ class _DevamEtPageState extends State<DevamEtPage> {
           Expanded(
             child: Text(
               'Her gün bir sayfa okusan, hatimini yaklaşık 3 ayda tamamlarsın. Küçük adımlar en kalıcı olanlardır.',
-              style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 13,
+                height: 1.5,
+              ),
             ),
           ),
         ],

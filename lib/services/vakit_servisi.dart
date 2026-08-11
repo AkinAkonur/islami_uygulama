@@ -96,11 +96,9 @@ class VakitServisi {
 
   // ---------------- KONUM ----------------
 
-  static Future<String?> sehirOku() async =>
-      (await _p).getString(_keySehir);
+  static Future<String?> sehirOku() async => (await _p).getString(_keySehir);
 
-  static Future<String?> ulkeOku() async =>
-      (await _p).getString(_keyUlke);
+  static Future<String?> ulkeOku() async => (await _p).getString(_keyUlke);
 
   static Future<(double, double)?> koordinatOku() async {
     final p = await _p;
@@ -125,7 +123,7 @@ class VakitServisi {
     vakitGuncellendi.value++;
   }
 
-    /// GPS ile konumu alır, kaydeder ve şehir/ülke adını bulur.
+  /// GPS ile konumu alır, kaydeder ve şehir/ülke adını bulur.
   /// Neden başarısız olduğunu da geri döndürür.
   static Future<KonumSonuc> konumuOtomatikAl() async {
     try {
@@ -160,7 +158,9 @@ class VakitServisi {
         try {
           konum = await Geolocator.getCurrentPosition(
             locationSettings: const LocationSettings(
-              accuracy: LocationAccuracy.low,
+              // Kıble doğruluğu, şehir düzeyindeki yaklaşık konumdan daha
+              // hassastır; kullanıcı yenilediğinde yüksek doğruluklu GPS al.
+              accuracy: LocationAccuracy.high,
               timeLimit: Duration(seconds: 12),
             ),
           );
@@ -188,13 +188,13 @@ class VakitServisi {
           '?lat=${konum.latitude}&lon=${konum.longitude}'
           '&format=json&zoom=8',
         );
-        final cevap = await http.get(url, headers: const {
-          'User-Agent': 'islami_uygulama/1.0',
-        }).timeout(const Duration(seconds: 10));
+        final cevap = await http
+            .get(url, headers: const {'User-Agent': 'islami_uygulama/1.0'})
+            .timeout(const Duration(seconds: 10));
         if (cevap.statusCode == 200) {
           final g = jsonDecode(cevap.body)['address'] as Map<String, dynamic>;
-          final sehir = (g['city'] ?? g['town'] ?? g['village'] ?? g['state'])
-              as String?;
+          final sehir =
+              (g['city'] ?? g['town'] ?? g['village'] ?? g['state']) as String?;
           final ulke = g['country'] as String?;
           if (sehir != null) await konumKaydet(sehir: sehir);
           if (ulke != null) await konumKaydet(ulke: ulke);
@@ -213,10 +213,12 @@ class VakitServisi {
   /// (enlem, boylam, şehir, ülke) olarak döner.
   static Future<(double, double, String?, String?)?> konumIpIle() async {
     try {
-      final cevap = await http.get(
-        Uri.parse('https://ipapi.co/json/'),
-        headers: const {'User-Agent': 'islami_uygulama/1.0'},
-      ).timeout(const Duration(seconds: 8));
+      final cevap = await http
+          .get(
+            Uri.parse('https://ipapi.co/json/'),
+            headers: const {'User-Agent': 'islami_uygulama/1.0'},
+          )
+          .timeout(const Duration(seconds: 8));
       if (cevap.statusCode != 200) return null;
       final g = jsonDecode(cevap.body) as Map<String, dynamic>;
       final lat = g['latitude'];
@@ -289,15 +291,15 @@ class VakitServisi {
 
     final method = await aktifMetotKodu();
 
-final koordinat = await koordinatOku();
-      final Uri url;
-      if (koordinat != null) {
-        url = Uri.parse(
-          'https://api.aladhan.com/v1/timings'
-          '?latitude=${koordinat.$1}&longitude=${koordinat.$2}'
-          '&date=$bugun&method=$method',
-        );
-      } else {
+    final koordinat = await koordinatOku();
+    final Uri url;
+    if (koordinat != null) {
+      url = Uri.parse(
+        'https://api.aladhan.com/v1/timings'
+        '?latitude=${koordinat.$1}&longitude=${koordinat.$2}'
+        '&date=$bugun&method=$method',
+      );
+    } else {
       final sehir = await sehirOku() ?? 'İstanbul';
       final ulkeKod = (await ulkeOku()) ?? 'Türkiye';
       url = Uri.parse(
@@ -308,9 +310,9 @@ final koordinat = await koordinatOku();
       );
     }
 
-    final cevap = await http.get(url, headers: const {
-      'User-Agent': 'islami_uygulama/1.0',
-    }).timeout(const Duration(seconds: 12));
+    final cevap = await http
+        .get(url, headers: const {'User-Agent': 'islami_uygulama/1.0'})
+        .timeout(const Duration(seconds: 12));
 
     if (cevap.statusCode != 200) {
       throw Exception('Vakit API hatası: ${cevap.statusCode}');
@@ -332,9 +334,7 @@ final koordinat = await koordinatOku();
       final deger = timings[apiAd] as String?;
       if (deger != null && deger.contains(':')) {
         final parca = deger.split(':');
-        cikti.add(
-          VakitBilgisi(trAd, int.parse(parca[0]), int.parse(parca[1])),
-        );
+        cikti.add(VakitBilgisi(trAd, int.parse(parca[0]), int.parse(parca[1])));
       }
     });
     if (cikti.length != 6) throw Exception('Eksik vakit verisi');
@@ -349,7 +349,8 @@ final koordinat = await koordinatOku();
 
     final ulke = (await ulkeOku())?.toLowerCase() ?? '';
     // Konum henüz belirlenmediyse varsayılan şehir İstanbul'dur.
-    final turkiye = ulke.isEmpty || ulke.contains('turk') || ulke.contains('türk');
+    final turkiye =
+        ulke.isEmpty || ulke.contains('turk') || ulke.contains('türk');
     return turkiye ? AyarlarStore.diyanetKod : AyarlarStore.mwlKod;
   }
 
@@ -423,7 +424,8 @@ final koordinat = await koordinatOku();
     double rad(double d) => d * math.pi / 180;
     final dLat = rad(_kabeLat - lat);
     final dLng = rad(_kabeLng - lng);
-    final a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+    final a =
+        math.sin(dLat / 2) * math.sin(dLat / 2) +
         math.cos(rad(lat)) *
             math.cos(rad(_kabeLat)) *
             math.sin(dLng / 2) *

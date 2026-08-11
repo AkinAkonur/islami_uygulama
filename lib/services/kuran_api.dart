@@ -81,10 +81,7 @@ class KuranApi {
   }
 
   // ---------- SURE / CÜZ AYETLERİ (Arapça + meâl + okunuş) ----------
-  Future<List<AyetMetni>> ayetleriGetir({
-    int? sureNo,
-    int? cuzNo,
-  }) async {
+  Future<List<AyetMetni>> ayetleriGetir({int? sureNo, int? cuzNo}) async {
     if (sureNo != null) {
       return _sureAyetleriGetir(sureNo);
     }
@@ -109,13 +106,17 @@ class KuranApi {
     final data = json['data'] as List<dynamic>;
 
     // [0] = uthmani, [1..n] = meâller, [son] = transliterasyon
-    final arapcaList = (data[0] as Map<String, dynamic>)['ayahs'] as List<dynamic>;
+    final arapcaList =
+        (data[0] as Map<String, dynamic>)['ayahs'] as List<dynamic>;
     final mealListesi = <List<dynamic>>[];
     for (var i = 1; i < data.length - 1; i++) {
-      mealListesi.add((data[i] as Map<String, dynamic>)['ayahs'] as List<dynamic>);
+      mealListesi.add(
+        (data[i] as Map<String, dynamic>)['ayahs'] as List<dynamic>,
+      );
     }
     final okunusList =
-        (data[data.length - 1] as Map<String, dynamic>)['ayahs'] as List<dynamic>;
+        (data[data.length - 1] as Map<String, dynamic>)['ayahs']
+            as List<dynamic>;
 
     return List.generate(arapcaList.length, (i) {
       final a = arapcaList[i] as Map<String, dynamic>;
@@ -151,7 +152,8 @@ class KuranApi {
       if (res.statusCode != 200) {
         throw Exception('Cüz ayetleri alınamadı (${res.statusCode})');
       }
-      final json = jsonDecode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
+      final json =
+          jsonDecode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
       final data = json['data'] as Map<String, dynamic>;
       final ayahs = data['ayahs'] as List<dynamic>;
       for (final a in ayahs) {
@@ -165,8 +167,10 @@ class KuranApi {
     final numaralar = sonuclar.keys.toList()..sort();
     return numaralar.map((globalNo) {
       final a = sonuclar[globalNo]!['quran-uthmani']! as Map<String, dynamic>;
-      final mealMap = sonuclar[globalNo]!['tr.diyanet']! as Map<String, dynamic>;
-      final okunusMap = sonuclar[globalNo]!['tr.transliteration']! as Map<String, dynamic>;
+      final mealMap =
+          sonuclar[globalNo]!['tr.diyanet']! as Map<String, dynamic>;
+      final okunusMap =
+          sonuclar[globalNo]!['tr.transliteration']! as Map<String, dynamic>;
       return AyetMetni(
         sureNo: (a['surah']['number'] as int?) ?? 0,
         ayetNo: (a['numberInSurah'] as int?) ?? 0,
@@ -183,18 +187,20 @@ class KuranApi {
 
   // ---------- TEK AYET (meâl değiştirilebilir) ----------
   Future<List<AyetMetni>> tekAyetGetir(int sureNo, int ayetNo) {
-    return _ayetlerByNumara([{ 'sure': sureNo, 'ayet': ayetNo }]);
+    return _ayetlerByNumara([
+      {'sure': sureNo, 'ayet': ayetNo},
+    ]);
   }
 
-  Future<List<AyetMetni>> _ayetlerByNumara(List<Map<String, int>> numaralar) async {
+  Future<List<AyetMetni>> _ayetlerByNumara(
+    List<Map<String, int>> numaralar,
+  ) async {
     final editions = [
       'quran-uthmani',
       'tr.diyanet',
       'tr.transliteration',
     ].join(',');
-    final ref = numaralar
-        .map((n) => '${n['sure']}:${n['ayet']}')
-        .join(',');
+    final ref = numaralar.map((n) => '${n['sure']}:${n['ayet']}').join(',');
     final uri = Uri.parse('$_base/ayah/$ref/editions/$editions');
     final res = await _client.get(uri).timeout(Duration(seconds: 30));
     if (res.statusCode != 200) {
@@ -225,7 +231,9 @@ class KuranApi {
 
   // ---------- AYET ARAMA (Türkçe kelime) ----------
   Future<List<Map<String, Object>>> ayetAra(String kelime) async {
-    final uri = Uri.parse('$_base/search/${Uri.encodeComponent(kelime)}/all/tr.diyanet');
+    final uri = Uri.parse(
+      '$_base/search/${Uri.encodeComponent(kelime)}/all/tr.diyanet',
+    );
     final res = await _client.get(uri).timeout(Duration(seconds: 30));
     if (res.statusCode != 200) {
       throw Exception('Arama yapılamadı (${res.statusCode})');
@@ -247,12 +255,22 @@ class KuranApi {
   }
 
   // ---------- SES ----------
+  // CDN'deki bazı kârî kayıtları yalnızca 192 kbps sürümünde bulunur.
+  // Tek bir sabit kalite kullanmak bu kârîlerde 403 hatasına ve oynatmanın
+  // hiç başlamamasına neden olur.
+  static const Map<String, int> _kariSesKalitesi = {
+    'ar.abdurrahmaansudais': 192,
+    'ar.abdulbasitmurattal': 192,
+  };
+
+  static int _sesKalitesi(String kariId) => _kariSesKalitesi[kariId] ?? 128;
+
   static String sureSesUrl(String kariId, int sureNo) {
-    return '$_audioCdn-surah/128/$kariId/$sureNo.mp3';
+    return '$_audioCdn-surah/${_sesKalitesi(kariId)}/$kariId/$sureNo.mp3';
   }
 
   static String ayetSesUrl(String kariId, int globalAyetNo) {
-    return '$_audioCdn/128/$kariId/$globalAyetNo.mp3';
+    return '$_audioCdn/${_sesKalitesi(kariId)}/$kariId/$globalAyetNo.mp3';
   }
 
   void dispose() {

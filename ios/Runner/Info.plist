@@ -24,12 +24,20 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>googlechromes</string>
+		<string>comgooglemaps</string>
+		<string>waze</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Yakındaki camileri ve namaz vakitlerini gösterebilmek için konum erişimi gereklidir.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Yakındaki camileri ve namaz vakitlerini gösterebilmek için konum erişimi gereklidir.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Kıble yönünü cihaz pusulasıyla doğru gösterebilmek için hareket sensörü erişimi gereklidir.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Locale>(
-        valueListenable: DilHizmetleri.aktifDil,
+      valueListenable: DilHizmetleri.aktifDil,
       builder: (context, dil, _) => ValueListenableBuilder<String?>(
         valueListenable: AyarlarStore.vurguKod,
         builder: (context, _, _) => ValueListenableBuilder<bool>(
@@ -705,7 +705,10 @@ class AnaSayfa extends StatelessWidget {
             icon: Icon(Icons.person_outline),
             label: l.t('h.navNamaz'),
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.auto_awesome), label: l.t('h.navAi')),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.auto_awesome),
+            label: l.t('h.navAi'),
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book_outlined),
             label: l.t('h.navKuran'),
@@ -1129,10 +1132,7 @@ Widget _ozelModulKarti(
                 ),
                 const SizedBox(height: 2),
                 DefaultTextStyle(
-                  style: const TextStyle(
-                    color: Colors.white54,
-                    fontSize: 11,
-                  ),
+                  style: const TextStyle(color: Colors.white54, fontSize: 11),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   child: altIcerik,
@@ -1148,17 +1148,25 @@ Widget _ozelModulKarti(
   );
 }
 
-class _DevamOzetMetni extends StatelessWidget {
+class _DevamOzetMetni extends StatefulWidget {
+  @override
+  State<_DevamOzetMetni> createState() => _DevamOzetMetniState();
+}
+
+class _DevamOzetMetniState extends State<_DevamOzetMetni> {
+  @override
+  void initState() {
+    super.initState();
+    ManeviStore.sonKuranKonumu();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: ManeviStore.sonOkunanAyet(),
-      builder: (context, snp) {
-        final metin = (snp.hasData && snp.data!.isNotEmpty)
-            ? snp.data!
-            : 'Bakara 255';
+    return ValueListenableBuilder<KuranKonumu>(
+      valueListenable: ManeviStore.kuranKonumu,
+      builder: (context, konum, _) {
         return Text(
-          '${AppLocalizations.of(context).t('h.last')} $metin',
+          '${AppLocalizations.of(context).t('h.last')} ${konum.gosterim}',
           style: TextStyle(color: Colors.white54, fontSize: 11),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -1271,10 +1279,7 @@ class _HizliTesbihKartiState extends State<_HizliTesbihKarti> {
               onTap: _arttir,
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: Renkler.seciliYuzey,
                   borderRadius: BorderRadius.circular(10),
@@ -1369,10 +1374,8 @@ class _VakitKartlariState extends State<_VakitKartlari> {
     if (sonrakiIndex == -1) sonrakiIndex = 0;
 
     final siradaki = _liste[sonrakiIndex];
-    final ondanSonraki =
-        _liste[(sonrakiIndex + 1) % _liste.length];
-    final oncekiIndex =
-        (sonrakiIndex - 1 + _liste.length) % _liste.length;
+    final ondanSonraki = _liste[(sonrakiIndex + 1) % _liste.length];
+    final oncekiIndex = (sonrakiIndex - 1 + _liste.length) % _liste.length;
     final onceki = _liste[oncekiIndex];
 
     final bool geceGecisi = sonrakiIndex == 0;
@@ -1465,15 +1468,15 @@ class _VakitKartlariState extends State<_VakitKartlari> {
                         ),
                       ),
                       SizedBox(width: 6),
-Text(
-                            l.t('v.yaklasan'),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 9,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
-                            ),
-                          ),
+                      Text(
+                        l.t('v.yaklasan'),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(height: 14),
@@ -1487,14 +1490,14 @@ Text(
                     ),
                   ),
                   SizedBox(height: 2),
-                    Text(
-                      l.vakitAdi(v.ad),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 21,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Text(
+                    l.vakitAdi(v.ad),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold,
                     ),
+                  ),
                   SizedBox(height: 8),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
@@ -1580,65 +1583,63 @@ Text(
   Widget _siradakiKart(_VakitBilgisi v) {
     final l = AppLocalizations.of(context);
     return Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Renkler.kart, Renkler.yuzey],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Renkler.kart, Renkler.yuzey],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Renkler.cerceve2),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            l.t('v.siradaki'),
+            style: TextStyle(
+              color: Colors.white38,
+              fontSize: 9,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1,
+            ),
           ),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Renkler.cerceve2),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              l.t('v.siradaki'),
-              style: TextStyle(
-                color: Colors.white38,
-                fontSize: 9,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1,
-              ),
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: Renkler.vurgu.withValues(alpha: 0.14),
+              shape: BoxShape.circle,
+              border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.35)),
             ),
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: Renkler.vurgu.withValues(alpha: 0.14),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Renkler.vurgu.withValues(alpha: 0.35),
+            child: Icon(v.ikon, color: Renkler.vurgu, size: 22),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                v.ad,
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              child: Icon(v.ikon, color: Renkler.vurgu, size: 22),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  v.ad,
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
+              SizedBox(height: 2),
+              Text(
+                v.saat,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(height: 2),
-                Text(
-                  v.saat,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

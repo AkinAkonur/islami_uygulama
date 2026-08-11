@@ -7,7 +7,9 @@ Future<void> main() async {
   final sureler = await KuranApi.instance.sureleriGetir();
   print('SURELER: ${sureler.length}');
   final s = sureler[111];
-  print('111 -> ${s.turkceAdi} (${s.arapcaAdi}) ${s.ayetSayisi} ayet ${s.inisYeri}');
+  print(
+    '111 -> ${s.turkceAdi} (${s.arapcaAdi}) ${s.ayetSayisi} ayet ${s.inisYeri}',
+  );
 
   // 2. Sure ayetleri (kombine edisyonlar)
   final ayetler = await KuranApi.instance.ayetleriGetir(sureNo: 1);
@@ -30,12 +32,20 @@ Future<void> main() async {
   final sonuclar = await KuranApi.instance.ayetAra('sabır');
   print('ARAMA "sabır": ${sonuclar.length} sonuc');
   if (sonuclar.isNotEmpty) {
-    print('ilk: sure ${sonuclar.first['sureNo']} ayet ${sonuclar.first['ayetNo']} -> ${sonuclar.first['text']}');
+    print(
+      'ilk: sure ${sonuclar.first['sureNo']} ayet ${sonuclar.first['ayetNo']} -> ${sonuclar.first['text']}',
+    );
   }
 
   // 6. Ses URL
   print('SES: ${KuranApi.sureSesUrl('ar.alafasy', 1)}');
   print('AYET SES: ${KuranApi.ayetSesUrl('ar.alafasy', 1)}');
+  assert(
+    KuranApi.ayetSesUrl(
+      'ar.abdurrahmaansudais',
+      1,
+    ).contains('/192/ar.abdurrahmaansudais/'),
+  );
 
   // 7. Yerel veriler
   print('KEHF: ${sureOzetiMetni(18)}');
