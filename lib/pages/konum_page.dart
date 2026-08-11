@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../services/turkiye_illeri.dart';
 import '../services/vakit_servisi.dart';
 import 'kible_pusula_page.dart';
 
@@ -89,73 +90,21 @@ class _KonumPageState extends State<KonumPage> {
   }
 
   Future<void> _konumSec() async {
-    final sehirKutu = TextEditingController(text: _sehir ?? 'İstanbul');
-    final ulkeKutu = TextEditingController(text: _ulke ?? 'Türkiye');
-
-    final secildi = await showDialog<bool>(
+    final secilenIl = await showDialog<Il>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: Renkler.kart,
-        title: const Text(
-          'Şehir Seç',
-          style: TextStyle(color: Colors.white),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: sehirKutu,
-              style: const TextStyle(color: Colors.white),
-              decoration: const InputDecoration(
-                labelText: 'Şehir',
-                labelStyle: TextStyle(color: Colors.white54),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white24),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: ulkeKutu,
-              style: const TextStyle(color: Colors.white),
-              decoration: const InputDecoration(
-                labelText: 'Ülke',
-                labelStyle: TextStyle(color: Colors.white54),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white24),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'Örn: Şehir "İstanbul", Ülke "Türkiye"',
-              style: TextStyle(color: Colors.white38, fontSize: 11),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Vazgeç'),
-          ),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: Renkler.vurgu,
-            ),
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Kaydet'),
-          ),
-        ],
-      ),
+      builder: (ctx) => const _IlSecimDialogu(),
     );
+    if (secilenIl == null || !mounted) return;
 
-    if (secildi == true) {
-      await VakitServisi.konumKaydet(
-        sehir: sehirKutu.text.trim().isEmpty ? null : sehirKutu.text.trim(),
-        ulke: ulkeKutu.text.trim().isEmpty ? null : ulkeKutu.text.trim(),
-      );
-      await _yukle();
-    }
+    // İl seçildi: koordinatıyla birlikte kaydet; vakitler aşağıda hemen
+    // güncellenir.
+    await VakitServisi.konumKaydet(
+      sehir: secilenIl.ad,
+      ulke: 'Türkiye',
+      lat: secilenIl.enlem,
+      lng: secilenIl.boylam,
+    );
+    await _yukle();
   }
 
   @override
@@ -418,6 +367,113 @@ class _KonumPageState extends State<KonumPage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Türkiye'nin 81 ilini aramalı liste hâlinde gösteren seçim penceresi.
+class _IlSecimDialogu extends StatefulWidget {
+  const _IlSecimDialogu();
+
+  @override
+  State<_IlSecimDialogu> createState() => _IlSecimDialoguState();
+}
+
+class _IlSecimDialoguState extends State<_IlSecimDialogu> {
+  String _arama = '';
+
+  static String _norm(String metin) {
+    const tr = 'çğıiöşü';
+    const en = 'cgiosu';
+    var sonuc = metin.toLowerCase();
+    for (var i = 0; i < tr.length; i++) {
+      sonuc = sonuc.replaceAll(tr[i], en[i]);
+    }
+    return sonuc;
+  }
+
+  List<Il> get _filtreliIller {
+    final q = _norm(_arama.trim());
+    if (q.isEmpty) return turkiyeIlleri;
+    return turkiyeIlleri
+        .where((il) => _norm(il.ad).contains(q))
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final filtreli = _filtreliIller;
+    return AlertDialog(
+      backgroundColor: Renkler.kart,
+      title: const Text(
+        'Şehir Seç',
+        style: TextStyle(color: Colors.white),
+      ),
+      content: SizedBox(
+        width: double.maxFinite,
+        height: 420,
+        child: Column(
+          children: [
+            TextField(
+              autofocus: true,
+              style: const TextStyle(color: Colors.white),
+              cursorColor: Renkler.vurgu,
+              onChanged: (deger) => setState(() => _arama = deger),
+              decoration: InputDecoration(
+                hintText: 'İl ara… (örn. İstanbul)',
+                hintStyle: const TextStyle(color: Colors.white38),
+                prefixIcon: const Icon(Icons.search, color: Colors.white54),
+                enabledBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white24),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Renkler.vurgu),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: filtreli.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'Eşleşen il bulunamadı',
+                        style: TextStyle(color: Colors.white38),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: filtreli.length,
+                      itemBuilder: (ctx, i) {
+                        final il = filtreli[i];
+                        return ListTile(
+                          leading: Icon(
+                            Icons.location_city,
+                            color: Renkler.vurgu,
+                          ),
+                          title: Text(
+                            il.ad,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                          trailing: const Icon(
+                            Icons.chevron_right,
+                            color: Colors.white24,
+                          ),
+                          onTap: () => Navigator.pop(ctx, il),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Vazgeç'),
+        ),
+      ],
     );
   }
 }
