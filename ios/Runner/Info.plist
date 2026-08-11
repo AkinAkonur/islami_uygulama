@@ -27,7 +27,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Namaz vakitlerinizi ve Kıble yönünüzü bulunduğunuz konuma göre göstermek için konumunuz kullanılır.</string>
+	<string>Yakındaki camileri ve namaz vakitlerini gösterebilmek için konum erişimi gereklidir.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Yakındaki camileri ve namaz vakitlerini gösterebilmek için konum erişimi gereklidir.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

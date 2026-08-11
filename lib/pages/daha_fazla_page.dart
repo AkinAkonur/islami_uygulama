@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
 import '../screens/namaz_screen.dart';
+import 'yakindaki_camiler_page.dart';
 
 class DahaFazlaPage extends StatelessWidget {
   const DahaFazlaPage({super.key});
@@ -326,7 +327,27 @@ class KibleCamiPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return _buildStandardSubPage("Kıble & Cami Bul", [
       _item("Kıble Pusulası", "Bulunduğunuz konuma göre Kâbe yönü gösterilir."),
-      _item("Yakındaki Camiler", "GPS konumunuza en yakın camiler ve mescitler listeleniyor."),
+      Card(
+        color: Renkler.kart,
+        margin: const EdgeInsets.only(bottom: 10),
+        child: ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const YakindakiCamilerPage()),
+            );
+          },
+          title: const Text(
+            "Yakındaki Camiler",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          subtitle: const Text(
+            "GPS konumunuza en yakın camiler ve mescitler listeleniyor.",
+            style: TextStyle(color: Colors.white70, fontSize: 12),
+          ),
+          trailing: const Icon(Icons.chevron_right, color: Colors.white38),
+        ),
+      ),
     ]);
   }
 }
