@@ -54,19 +54,38 @@ class _KonumPageState extends State<KonumPage> {
         child: CircularProgressIndicator(),
       ),
     );
-    final ok = await VakitServisi.konumuOtomatikAl();
+    final sonuc = await VakitServisi.konumuOtomatikAl();
     if (!mounted) return;
     Navigator.of(context, rootNavigator: true).pop();
-    if (ok) {
+    if (sonuc == KonumSonuc.basarili) {
       await _yukle();
-    } else {
+      return;
+    }
+    if (sonuc == KonumSonuc.yaklasikBasarili) {
+      await _yukle();
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Konum izni verilmedi. Şehir seçebilirsin.'),
-          duration: Duration(seconds: 3),
+          content: Text(
+            'GPS sinyali alınamadı; internete göre yaklaşık konum kullanıldı.',
+          ),
+          duration: Duration(seconds: 4),
         ),
       );
+      return;
     }
+    final mesaj = switch (sonuc) {
+      KonumSonuc.servisKapali =>
+        'Cihazın konum servisi kapalı. Açtıktan sonra tekrar dene.',
+      KonumSonuc.izinReddedildi =>
+        'Konum izni verilmedi. Tekrar denerken izin penceresini onayla ya da Şehir Seç ile devam et.',
+      KonumSonuc.izinKaliciRed =>
+        'Konum izni kalıcı reddedilmiş. Ayarlardan uygulamaya konum izni ver, sonra tekrar dene.',
+      _ => 'Konum alınamadı. GPS sinyali zayıf olabilir; pencere yakınında veya dışarıda tekrar dene.',
+    };
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(mesaj), duration: const Duration(seconds: 4)),
+    );
   }
 
   Future<void> _konumSec() async {

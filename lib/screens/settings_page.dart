@@ -73,9 +73,9 @@ static const List<({String kod, String ad})> _metotlar = [
     if (mounted) setState(() => _konumOtomatik = deger);
     if (deger) {
       // GPS ile konumu al, şehri bul ve vakit önbelleğini yenile.
-      final basarili = await VakitServisi.konumuOtomatikAl();
+      final sonuc = await VakitServisi.konumuOtomatikAl();
       if (!mounted) return;
-      if (basarili) {
+      if (sonuc == KonumSonuc.basarili) {
         final sehir = await VakitServisi.sehirOku() ?? 'konumun algılandı';
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(

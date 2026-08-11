@@ -25,6 +25,16 @@ class VakitBilgisi {
       VakitBilgisi(j['ad'] as String, j['saat'] as int, j['dakika'] as int);
 }
 
+/// GPS ile konum alma girişiminin sonucu.
+enum KonumSonuc {
+  basarili,
+  yaklasikBasarili,
+  servisKapali,
+  izinReddedildi,
+  izinKaliciRed,
+  konumAlinamadi,
+}
+
 /// Namaz vakitlerini Aladhan API'den alır, günlük önbelleğe alır ve
 /// kullanıcının konumuna göre günceller.
 class VakitServisi {
@@ -115,28 +125,58 @@ class VakitServisi {
     vakitGuncellendi.value++;
   }
 
-  /// GPS ile konumu alır, kaydeder ve şehir/ülke adını bulur.
-  /// Başarılı olursa true döner.
-  static Future<bool> konumuOtomatikAl() async {
+    /// GPS ile konumu alır, kaydeder ve şehir/ülke adını bulur.
+  /// Neden başarısız olduğunu da geri döndürür.
+  static Future<KonumSonuc> konumuOtomatikAl() async {
     try {
-      final servis = GeolocatorPlatform.instance;
-      if (!await servis.isLocationServiceEnabled()) return false;
+      if (!await Geolocator.isLocationServiceEnabled()) {
+        debugPrint('VakitServisi: cihaz konum servisi kapalı');
+        await Geolocator.openLocationSettings();
+        return KonumSonuc.servisKapali;
+      }
 
-      LocationPermission izin = await servis.checkPermission();
+      LocationPermission izin = await Geolocator.checkPermission();
       if (izin == LocationPermission.denied) {
-        izin = await servis.requestPermission();
+        izin = await Geolocator.requestPermission();
       }
-      if (izin == LocationPermission.denied ||
-          izin == LocationPermission.deniedForever) {
-        return false;
+      if (izin == LocationPermission.denied) {
+        debugPrint('VakitServisi: konum izni reddedildi');
+        return KonumSonuc.izinReddedildi;
+      }
+      if (izin == LocationPermission.deniedForever) {
+        debugPrint('VakitServisi: konum izni kalıcı reddedilmiş');
+        await Geolocator.openAppSettings();
+        return KonumSonuc.izinKaliciRed;
       }
 
-      final konum = await servis.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.low,
-          timeLimit: Duration(seconds: 12),
-        ),
-      );
+      // Önce son bilinen konumu dene; yoksa canlı GPS fixi al.
+      Position? konum;
+      try {
+        konum = await Geolocator.getLastKnownPosition();
+      } catch (e) {
+        debugPrint('VakitServisi: son konum alınamadı: $e');
+      }
+      if (konum == null) {
+        try {
+          konum = await Geolocator.getCurrentPosition(
+            locationSettings: const LocationSettings(
+              accuracy: LocationAccuracy.low,
+              timeLimit: Duration(seconds: 12),
+            ),
+          );
+        } catch (e) {
+          debugPrint('VakitServisi: GPS konumu alınamadı: $e');
+          // GPS/Play Services yoksa IP'ye göre şehir düzeyinde yaklaşık
+          // konum dene. Vakit hesabı ve kıble için yeterlidir.
+          final ip = await konumIpIle();
+          if (ip == null) return KonumSonuc.konumAlinamadi;
+          final (enlem, boylam, sehir, ulke) = ip;
+          await konumKaydet(lat: enlem, lng: boylam);
+          if (sehir != null) await konumKaydet(sehir: sehir);
+          if (ulke != null) await konumKaydet(ulke: ulke);
+          return KonumSonuc.yaklasikBasarili;
+        }
+      }
 
       await konumKaydet(lat: konum.latitude, lng: konum.longitude);
 
@@ -159,12 +199,37 @@ class VakitServisi {
           if (sehir != null) await konumKaydet(sehir: sehir);
           if (ulke != null) await konumKaydet(ulke: ulke);
         }
-      } catch (_) {
-        // Şehir adı bulunamazsa koordinatlarla devam edilir.
+      } catch (e) {
+        debugPrint('VakitServisi: şehir adı çözülemedi: $e');
       }
-      return true;
-    } catch (_) {
-      return false;
+      return KonumSonuc.basarili;
+    } catch (e) {
+      debugPrint('VakitServisi: konum alma hatası: $e');
+      return KonumSonuc.konumAlinamadi;
+    }
+  }
+
+  /// GPS çalışmazsa IP adresine göre yaklaşık konumu (şehir düzeyinde)
+  /// (enlem, boylam, şehir, ülke) olarak döner.
+  static Future<(double, double, String?, String?)?> konumIpIle() async {
+    try {
+      final cevap = await http.get(
+        Uri.parse('https://ipapi.co/json/'),
+        headers: const {'User-Agent': 'islami_uygulama/1.0'},
+      ).timeout(const Duration(seconds: 8));
+      if (cevap.statusCode != 200) return null;
+      final g = jsonDecode(cevap.body) as Map<String, dynamic>;
+      final lat = g['latitude'];
+      final lng = g['longitude'];
+      if (lat is! num || lng is! num) return null;
+      final sehir = g['city'] as String?;
+      final bolge = g['region'] as String?;
+      final ulke = g['country_name'] as String?;
+      if (sehir == null && bolge == null && ulke == null) return null;
+      return (lat.toDouble(), lng.toDouble(), sehir ?? bolge, ulke);
+    } catch (e) {
+      debugPrint('VakitServisi: IP tabanlı konum alınamadı: $e');
+      return null;
     }
   }
 

@@ -1216,7 +1216,7 @@ class _HizliTesbihKartiState extends State<_HizliTesbihKarti> {
         );
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: Renkler.kart,
           borderRadius: BorderRadius.circular(16),
@@ -1261,6 +1261,7 @@ class _HizliTesbihKartiState extends State<_HizliTesbihKarti> {
                       fontSize: 11,
                       fontFeatures: [FontFeature.tabularFigures()],
                     ),
+                    maxLines: 1,
                   ),
                 ],
               ),

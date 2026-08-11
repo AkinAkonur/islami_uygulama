@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Vakit/konum API'leri ve ters coğrafi kodlama için -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Bildirim gönderme -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <!-- Vakit bildirimleri için tam zaman alarmlar -->
