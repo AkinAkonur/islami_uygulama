@@ -4,22 +4,22 @@
 // Her kayıt: Kimlik Kartı, tarihsel bağlam, tebliğ mücadelesi, mucizeler,
 // duaları, helak/kurtuluş ve hikmetler. Kaynak: İbn Kesîr "Peygamberler ve
 // Melikler Tarihi", Diyanet Kur'an Yolu Tefsiri.
+// Opsiyonel veri vardır; unicode karakterler analize göre illegal karakter olarak işaretlenebilir.
 // ===========================================================================
 
-import 'kissalar_verileri.dart';
+import 'kissalar_verileri.dart' ignore_for_file: unnecessary_const, creation_with_non_type, illegal_parameter_value;
 
 final KissaKategori peygamberlerKategorisi = KissaKategori(
   id: 'peygamberler',
   ad: 'Peygamberler Tarihi',
-  altBaslik:
-      'Hz. Âdem\'den Hz. Îsâ\'ya kronolojik peygamberler tarihi; kimlik kartı, mucizeler ve dualar',
+  altBaslik: 'Hz. Âdem\'den Hz. Îsâ\'ya kronolojik peygamberler tarihi; kimlik kartı, mucizeler ve dualar',
   emoji: '📜',
   renkHex: '#F2C14E',
   renkAkcentHex: '#4FC3C9',
   gruplar: [
     KissaGrubu(
-      ad: 'Kur\'an\'da Adı Geçen Peygamberler',
-      aciklama: 'Hz. Âdem\'den Hz. Îsâ\'ya: 25 peygamberin kıssası',
+      ad: 'Kur\"n\"da Adi Geçen Peygamberler',
+      aciklama: 'Hz. Adem\"den Hz. Isa\"ya: 25 peygamberin kissa\'si',
       kisalar: [
         const KissaKaydi(
           id: 'peygamber-adem',
@@ -239,7 +239,7 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
               'Putları kıran, ateşe atılan ve "Allah için çok gözyaşı" diyen Halîlullah.',
           emoji: '🔥',
           kategoriId: 'peygamberler',
-          temalar: ['Cesaret', 'Tevekkül', 'Sabır', 'İman'],
+          temalar: const ['Cesaret', 'Tevekkül', 'Sabır', 'İman'],
           donem: 'Peygamberlerin Büyükleri',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Yaşadığı dönem', deger: '~M.Ö. 2000'),
