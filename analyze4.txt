@@ -1,0 +1,256 @@
+Analyzing islami_uygulama...                                    
+
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:219:44 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:219:98 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:219:132 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:219:179 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:220:81 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:220:89 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:254:97 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:254:137 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:283:170 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:283:192 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:283:206 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:283:219 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:284:143 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:284:189 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:319:121 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:319:160 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:342:51 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:342:65 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:342:102 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:342:107 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:342:153 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:342:177 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:343:76 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:343:88 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:358:45 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:358:86 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:365:82 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:365:120 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:366:51 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\ibret_verileri.dart:366:56 - unnecessary_string_escapes
+  error - The expression doesn't evaluate to a function, so it can't be invoked - lib\pages\kissalar\peygamberler_verileri.dart:21:5 - invocation_of_non_function_expression
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\peygamberler_verileri.dart:22:15 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\peygamberler_verileri.dart:22:18 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\peygamberler_verileri.dart:23:26 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\peygamberler_verileri.dart:23:39 - unnecessary_string_escapes
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:25:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:76:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:111:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:162:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:199:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:236:15 - creation_with_non_type
+   info - Unnecessary 'const' keyword. Try removing the keyword - lib\pages\kissalar\peygamberler_verileri.dart:243:20 - unnecessary_const
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:95 - expected_token
+  error - Undefined name 'da'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:95 - undefined_identifier
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:98 - expected_token
+  error - Illegal character '351' - lib\pages\kissalar\peygamberler_verileri.dart:253:98 - illegal_character
+  error - Undefined name '┼şeytan─▒n'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:98 - undefined_identifier
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:104 - illegal_character
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:107 - expected_token
+  error - Undefined name 'vesvesesine'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:107 - undefined_identifier
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:119 - expected_token
+  error - Undefined name 'kar┼ş─▒'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:119 - undefined_identifier
+  error - Illegal character '351' - lib\pages\kissalar\peygamberler_verileri.dart:253:122 - illegal_character
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:123 - illegal_character
+  error - Expected to find ']' - lib\pages\kissalar\peygamberler_verileri.dart:253:124 - expected_token
+  error - Illegal character '246' - lib\pages\kissalar\peygamberler_verileri.dart:253:130 - illegal_character
+  error - Undefined name '├Ân├╝nde'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:130 - undefined_identifier
+  error - Illegal character '252' - lib\pages\kissalar\peygamberler_verileri.dart:253:132 - illegal_character
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:137 - expected_token
+  error - Undefined name 'namaz'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:137 - undefined_identifier
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:143 - expected_token
+  error - Undefined name 'k─▒ld─▒─ş─▒'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:143 - undefined_identifier
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:144 - illegal_character
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:147 - illegal_character
+  error - Illegal character '287' - lib\pages\kissalar\peygamberler_verileri.dart:253:148 - illegal_character
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:149 - illegal_character
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:151 - expected_token
+  error - Undefined name 'k─▒bleyi'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:151 - undefined_identifier
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:152 - illegal_character
+  error - Undefined name 'hac'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:160 - undefined_identifier
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:164 - expected_token
+  error - Undefined name 've'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:164 - undefined_identifier
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:167 - expected_token
+  error - Undefined name 'kurban─▒n'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:167 - undefined_identifier
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:173 - illegal_character
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:176 - expected_token
+  error - Undefined name 'esas─▒n─▒'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:176 - undefined_identifier
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:180 - illegal_character
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:182 - illegal_character
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:184 - expected_token
+  error - Illegal character '252' - lib\pages\kissalar\peygamberler_verileri.dart:253:184 - illegal_character
+  error - Undefined name '├╝mmete'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:184 - undefined_identifier
+  error - Expected to find ',' - lib\pages\kissalar\peygamberler_verileri.dart:253:191 - expected_token
+  error - Undefined name 'b─▒rakt─▒'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\peygamberler_verileri.dart:253:191 - undefined_identifier
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:192 - illegal_character
+  error - Illegal character '305' - lib\pages\kissalar\peygamberler_verileri.dart:253:197 - illegal_character
+  error - Expected an identifier - lib\pages\kissalar\peygamberler_verileri.dart:253:199 - missing_identifier
+  error - Unterminated string literal - lib\pages\kissalar\peygamberler_verileri.dart:253:200 - unterminated_string_literal
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:289:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:325:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:369:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:399:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:435:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:490:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:525:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:557:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:609:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:645:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:672:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:710:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:747:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:775:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:802:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:854:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:891:15 - creation_with_non_type
+  error - The name 'KissaKaydi' isn't a class. Try correcting the name to match an existing class - lib\pages\kissalar\peygamberler_verileri.dart:921:15 - creation_with_non_type
+   info - The variable name 'KissaGrubu' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style - lib\pages\kissalar\peygamberler_verileri.dart:974:5 - non_constant_identifier_names
+  error - Expected to find ';' - lib\pages\kissalar\peygamberler_verileri.dart:974:5 - expected_token
+  error - The final variable 'KissaGrubu' must be initialized. Try initializing the variable - lib\pages\kissalar\peygamberler_verileri.dart:974:5 - final_not_initialized
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:974:15 - expected_executable
+   info - An uninitialized variable should have an explicit type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:975:7 - prefer_typing_uninitialized_variables
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:975:7 - strict_top_level_inference
+  error - Expected to find ';' - lib\pages\kissalar\peygamberler_verileri.dart:975:7 - expected_token
+  error - Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' - lib\pages\kissalar\peygamberler_verileri.dart:975:7 - missing_const_final_var_or_type
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:975:9 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:975:11 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:975:50 - expected_executable
+   info - An uninitialized variable should have an explicit type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:976:7 - prefer_typing_uninitialized_variables
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:976:7 - strict_top_level_inference
+  error - Expected to find ';' - lib\pages\kissalar\peygamberler_verileri.dart:976:7 - expected_token
+  error - Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' - lib\pages\kissalar\peygamberler_verileri.dart:976:7 - missing_const_final_var_or_type
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:976:15 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:976:17 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:976:68 - expected_executable
+   info - An uninitialized variable should have an explicit type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:977:7 - prefer_typing_uninitialized_variables
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:977:7 - strict_top_level_inference
+  error - Expected to find ';' - lib\pages\kissalar\peygamberler_verileri.dart:977:7 - expected_token
+  error - Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' - lib\pages\kissalar\peygamberler_verileri.dart:977:7 - missing_const_final_var_or_type
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:977:14 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:977:16 - expected_executable
+  error - Can't have modifier 'const' here. Try removing 'const' - lib\pages\kissalar\peygamberler_verileri.dart:978:9 - extraneous_modifier
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:978:15 - strict_top_level_inference
+   info - The variable name 'KissaKaydi' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style - lib\pages\kissalar\peygamberler_verileri.dart:978:15 - non_constant_identifier_names
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:979:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:979:13 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:979:13 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:980:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:980:17 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:980:17 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:981:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:981:15 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:981:15 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:983:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:983:16 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:983:16 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:984:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:984:21 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:984:21 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:985:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:985:18 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:985:18 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:985:20 - non_constant_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:986:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:986:16 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:986:16 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:987:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:987:22 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:987:22 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:987:24 - non_constant_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:990:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:990:16 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:990:16 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:990:18 - non_constant_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:994:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:994:20 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:994:20 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:994:22 - non_constant_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:997:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:997:15 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:997:15 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:997:17 - non_constant_default_value
+  error - A function body must be provided. Try adding a function body - lib\pages\kissalar\peygamberler_verileri.dart:1004:10 - missing_function_body
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:1004:10 - expected_executable
+  error - Can't have modifier 'const' here. Try removing 'const' - lib\pages\kissalar\peygamberler_verileri.dart:1005:9 - extraneous_modifier
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1005:15 - strict_top_level_inference
+   info - The variable name 'KissaKaydi' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style - lib\pages\kissalar\peygamberler_verileri.dart:1005:15 - non_constant_identifier_names
+  error - The name 'KissaKaydi' is already defined. Try renaming one of the declarations - lib\pages\kissalar\peygamberler_verileri.dart:1005:15 - duplicate_definition
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1006:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1006:13 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1006:13 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1007:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1007:17 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1007:17 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1008:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1008:15 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1008:15 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1010:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1010:16 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1010:16 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1011:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1011:21 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1011:21 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1012:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1012:18 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1012:18 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:1012:20 - non_constant_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1013:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1013:16 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1013:16 - obsolete_colon_for_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1014:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1014:22 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1014:22 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:1014:24 - non_constant_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1018:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1018:16 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1018:16 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:1018:18 - non_constant_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1023:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1023:20 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1023:20 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:1023:22 - non_constant_default_value
+   info - Missing type annotation. Try adding a type annotation - lib\pages\kissalar\peygamberler_verileri.dart:1027:11 - strict_top_level_inference
+  error - Named parameters must be enclosed in curly braces ('{' and '}'). Try surrounding the named parameters in curly braces - lib\pages\kissalar\peygamberler_verileri.dart:1027:15 - named_parameter_outside_group
+  error - Using a colon as the separator before a default value is no longer supported. Try replacing the colon with an equal sign - lib\pages\kissalar\peygamberler_verileri.dart:1027:15 - obsolete_colon_for_default_value
+  error - The default value of an optional parameter must be constant - lib\pages\kissalar\peygamberler_verileri.dart:1027:17 - non_constant_default_value
+  error - A function body must be provided. Try adding a function body - lib\pages\kissalar\peygamberler_verileri.dart:1034:10 - missing_function_body
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:1034:10 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:1035:7 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:1035:8 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:1036:5 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:1036:6 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:1037:3 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:1037:4 - expected_executable
+  error - Expected a method, getter, setter or operator declaration. This appears to be incomplete code. Try removing it or completing it - lib\pages\kissalar\peygamberler_verileri.dart:1038:1 - expected_executable
+  error - Unexpected text ';'. Try removing the text - lib\pages\kissalar\peygamberler_verileri.dart:1038:2 - unexpected_token
+  error - Unterminated string literal - lib\pages\kissalar\siyer_verileri.dart:798:344 - unterminated_string_literal
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\siyer_verileri.dart:811:116 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\siyer_verileri.dart:811:135 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\siyer_verileri.dart:1190:43 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal. Remove the '\' escape - lib\pages\kissalar\siyer_verileri.dart:1190:82 - unnecessary_string_escapes
+  error - Expected to find ',' - lib\pages\kissalar\siyer_verileri.dart:1328:188 - expected_token
+  error - Invalid constant value - lib\pages\kissalar\siyer_verileri.dart:1328:188 - invalid_constant
+  error - The values in a const list literal must be constants. Try removing the keyword 'const' from the list literal - lib\pages\kissalar\siyer_verileri.dart:1328:188 - non_constant_list_element
+  error - Undefined name 'Benim'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\siyer_verileri.dart:1328:188 - undefined_identifier
+  error - Expected to find ',' - lib\pages\kissalar\siyer_verileri.dart:1328:194 - expected_token
+  error - The values in a const list literal must be constants. Try removing the keyword 'const' from the list literal - lib\pages\kissalar\siyer_verileri.dart:1328:194 - non_constant_list_element
+  error - Undefined name 'on'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\siyer_verileri.dart:1328:194 - undefined_identifier
+  error - Expected to find ',' - lib\pages\kissalar\siyer_verileri.dart:1328:197 - expected_token
+  error - Illegal character '231' - lib\pages\kissalar\siyer_verileri.dart:1328:197 - illegal_character
+  error - The values in a const list literal must be constants. Try removing the keyword 'const' from the list literal - lib\pages\kissalar\siyer_verileri.dart:1328:197 - non_constant_list_element
+  error - Undefined name '├ğocu─şum'. Try correcting the name to one that is defined, or defining the name - lib\pages\kissalar\siyer_verileri.dart:1328:197 - undefined_identifier
+  error - Illegal character '287' - lib\pages\kissalar\siyer_verileri.dart:1328:201 - illegal_character
+  error - Expected to find ']' - lib\pages\kissalar\siyer_verileri.dart:1328:205 - expected_token
+  error - Illegal character '231' - lib\pages\kissalar\siyer_verileri.dart:1328:216 - illegal_character
+  error - Illegal character '246' - lib\pages\kissalar\siyer_verileri.dart:1328:224 - illegal_character
+  error - Illegal character '305' - lib\pages\kissalar\siyer_verileri.dart:1328:285 - illegal_character
+  error - Illegal character '351' - lib\pages\kissalar\siyer_verileri.dart:1328:286 - illegal_character
+  error - Illegal character '351' - lib\pages\kissalar\siyer_verileri.dart:1328:289 - illegal_character
+  error - Illegal character '226' - lib\pages\kissalar\siyer_verileri.dart:1328:290 - illegal_character
+  error - Illegal character '231' - lib\pages\kissalar\siyer_verileri.dart:1328:305 - illegal_character
+  error - Illegal character '305' - lib\pages\kissalar\siyer_verileri.dart:1328:313 - illegal_character
+  error - Illegal character '351' - lib\pages\kissalar\siyer_verileri.dart:1328:317 - illegal_character
+
+252 issues found. (ran in 1.0s)

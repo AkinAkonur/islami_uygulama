@@ -239,7 +239,7 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
               'Putları kıran, ateşe atılan ve "Allah için çok gözyaşı" diyen Halîlullah.',
           emoji: '🔥',
           kategoriId: 'peygamberler',
-          temalar: const ['Cesaret', 'Tevekkül', 'Sabır', 'İman'],
+          temalar: ['Cesaret', 'Tevekkül', 'Sabır', 'İman'],
           donem: 'Peygamberlerin Büyükleri',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Yaşadığı dönem', deger: '~M.Ö. 2000'),
@@ -974,26 +974,26 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
       ad: 'Kur\'an\'da Adı Geçmeyen Peygamberler',
       aciklama: 'Şît, Yûşa ve diğerleri: gelenekte yaşayan isimler',
       kisalar: [
-        const KissaKaydi(
-          id: 'peygamber-sit',
-          baslik: 'Hz. Şît',
-          ozet:
+        KissaKaydi(
+          id = 'peygamber-sit',
+          baslik = 'Hz. Şît',
+          ozet =
               'Âdem\'in oğlu, ilk vahye mazhar: barış ve ilim peygamberi.',
-          emoji: '🕊️',
-          kategoriId: 'peygamberler',
-          temalar: ['Ahlak', 'İlim'],
-          donem: 'İlk Peygamberler',
-          kimlikKarti: [
+          emoji = '🕊️',
+          kategoriId = 'peygamberler',
+          temalar = ['Ahlak', 'İlim'],
+          donem = 'İlk Peygamberler',
+          kimlikKarti = [
             KimlikKarti(alanAdi: 'Önemi', deger: 'Âdem\'e ilk vahyedilen'),
           ],
-          metin: [
+          metin = [
             'Şît (a.s.), Kur\'an\'da adı geçmemekle birlikte, Âdem\'in oğlu ve kendisine suhuf (sayfalar) indirilen ilk peygamberdir. Rivayetlerde Âdem\'e "oğlun Şît\'e vahiy indi" diye haber verildiği nakledilir.',
             'Kavmine barışı, ilmi ve dini öğretti; Habil\'in yolunu sürdürdü. İbn Kesîr, Âdem\'den sonra insanlığın hidayet sorumluluğunun Şît\'e geçtiğini kaydeder.',
           ],
-          hikmetler: [
+          hikmetler = [
             'İlim ve sükunet, barış yolunun öncüleridir: Habil\'in kardeşi Şît de bu yolu izledi.',
           ],
-          quiz: [
+          quiz = [
             QuizSoru(
               soru: 'Hz. Şît kimin oğludur?',
               secenekler: ['Nûh\'un', 'Âdem\'in', 'İdrîs\'in', 'İbrâhîm\'in'],
@@ -1001,29 +1001,29 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
             ),
           ],
         ),
-        const KissaKaydi(
-          id: 'peygamber-yusa',
-          baslik: 'Hz. Yûşa',
-          ozet:
+        KissaKaydi(
+          id = 'peygamber-yusa',
+          baslik = 'Hz. Yûşa',
+          ozet =
               'Mûsâ\'nın talebesi; Arz-ı Mev\'ud\'un kapısını imanla açan önder.',
-          emoji: '🏇',
-          kategoriId: 'peygamberler',
-          temalar: ['Cesaret', 'Sadakat'],
-          donem: 'İsrailoğulları Dönemi',
-          kimlikKarti: [
+          emoji = '🏇',
+          kategoriId = 'peygamberler',
+          temalar = ['Cesaret', 'Sadakat'],
+          donem = 'İsrailoğulları Dönemi',
+          kimlikKarti = [
             KimlikKarti(alanAdi: 'Görevi', deger: 'Mûsâ\'nın ardılı; İsrailoğullarının önderi'),
             KimlikKarti(alanAdi: 'Kur\'an\'da zikri', deger: 'İsmi geçmez; rivayetlerde zikredilir'),
           ],
-          metin: [
+          metin = [
             'Yûşa (Yeşu), Kur\'an\'da adı geçmeyen peygamberlerdendir. Mûsâ\'nın öğrencisi ve ardılıydı; Mûsâ vefat ettikten sonra İsrailoğullarına önderlik etti.',
             'Tefsirler, Mâide 23\'teki "içlerinde korku olmadan girebilecekleri kutsal toprağa... girin" diyen iki adamdan birinin Yûşa olduğunu nakleder. Onun döneminde Arz-ı Mev\'ud (Kenan toprakları) fethedildi; Eriha surları iman ve tekbirle yıkıldı.',
             'Güneşe "dur!" diye hitap ettiği rivayet edilen "Şübhân men ehdâ..." hadisiyle de anılır.',
           ],
-          hikmetler: [
+          hikmetler = [
             'Ardıllık, davanın devamıdır: Yûşa, hocası Mûsâ\'nın azmini taşıdı.',
             'Korku ve inanç yarışı: iki kişi korkmadı, kavim korktu; sebat eden önder olur.',
           ],
-          quiz: [
+          quiz = [
             QuizSoru(
               soru: 'Hz. Yûşa kime halef oldu?',
               secenekler: ['Hz. İlyâs\'a', 'Hz. Mûsâ\'ya', 'Hz. Dâvûd\'a', 'Hz. Süleymân\'a'],
