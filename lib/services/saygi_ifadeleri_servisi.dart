@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../models/kissalar_model.dart';
+
 class SaygiIfadeleri {
   static String formatla(String metin, String dilKodu, HonorificType tip) {
     switch (tip) {

@@ -38,6 +38,7 @@ import 'services/manevi_store.dart';
 import 'screens/namaz_screen.dart';
 import 'screens/gorsel_kilinis_screen.dart';
 import 'pages/kuran/sure_listesi_page.dart';
+import 'pages/soru_cevap/gunun_sorusu_karti.dart';
 import 'screens/settings_page.dart';
 
 Future<void> main() async {
@@ -536,6 +537,10 @@ class AnaSayfa extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 24),
+
+              // Günün Sorusu (her gün değişir)
+              const GununSorusuKarti(),
+              SizedBox(height: 16),
 
               // Günün Ayeti (Her gün otomatik değişir)
               Builder(

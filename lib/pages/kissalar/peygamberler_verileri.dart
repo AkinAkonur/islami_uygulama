@@ -7,19 +7,20 @@
 // Opsiyonel veri vardır; unicode karakterler analize göre illegal karakter olarak işaretlenebilir.
 // ===========================================================================
 
-import 'kissalar_verileri.dart' ignore_for_file: unnecessary_const, creation_with_non_type, illegal_parameter_value;
+import 'kissalar_verileri.dart';
 
 final KissaKategori peygamberlerKategorisi = KissaKategori(
   id: 'peygamberler',
   ad: 'Peygamberler Tarihi',
-  altBaslik: 'Hz. Âdem\'den Hz. Îsâ\'ya kronolojik peygamberler tarihi; kimlik kartı, mucizeler ve dualar',
+  altBaslik:
+      'Hz. Âdem\'den Hz. Îsâ\'ya kronolojik peygamberler tarihi; kimlik kartı, mucizeler ve dualar',
   emoji: '📜',
   renkHex: '#F2C14E',
   renkAkcentHex: '#4FC3C9',
   gruplar: [
     KissaGrubu(
-      ad: 'Kur\"n\"da Adi Geçen Peygamberler',
-      aciklama: 'Hz. Adem\"den Hz. Isa\"ya: 25 peygamberin kissa\'si',
+      ad: 'Kur"n"da Adi Geçen Peygamberler',
+      aciklama: 'Hz. Adem"den Hz. Isa"ya: 25 peygamberin kissa\'si',
       kisalar: [
         const KissaKaydi(
           id: 'peygamber-adem',
@@ -31,11 +32,20 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['Sabır', 'Tevekkül'],
           donem: 'Yaratılış',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Yaşadığı dönem', deger: 'Yaratılışın başlangıcı'),
+            KimlikKarti(
+              alanAdi: 'Yaşadığı dönem',
+              deger: 'Yaratılışın başlangıcı',
+            ),
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Cennet; sonra yeryüzü'),
             KimlikKarti(alanAdi: 'Gönderildiği kavim', deger: 'İlk insanlık'),
-            KimlikKarti(alanAdi: 'Ömrü', deger: 'Rivayete göre 1000 yıl (İbn Kesîr)'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '25 surede, 25 kez'),
+            KimlikKarti(
+              alanAdi: 'Ömrü',
+              deger: 'Rivayete göre 1000 yıl (İbn Kesîr)',
+            ),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: '25 surede, 25 kez',
+            ),
           ],
           metin: [
             'Allah, meleklere "Ben yeryüzünde bir halife yaratacağım" dedi. Âdem\'i topraktan, en güzel biçimde yarattı; ruhundan üfledi. Melekler secde etti; İblis kibri yüzünden reddetti. Havva ile birlikte cennete yerleştirilen Âdem\'e, "Şu ağaca yaklaşmayın" buyruldu.',
@@ -44,7 +54,8 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'وَتَلَقَّىٰ آدَمُ مِن رَّبِّهِ كَلِمَاتٍ فَتَابَ عَلَيْهِ',
+              arapca:
+                  'وَتَلَقَّىٰ آدَمُ مِن رَّبِّهِ كَلِمَاتٍ فَتَابَ عَلَيْهِ',
               meal:
                   'Âdem, Rabbinden bir takım kelimeler öğrendi (boyun eğdi); O da tevbesini kabul etti. Şüphesiz O, tevbeyi çok kabul edendir, çok bağışlayandır.',
               kaynak: 'Bakara Suresi, 37. Ayet',
@@ -62,12 +73,22 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'İblis, Âdem\'e secde etmeyi neden reddetti?',
-              secenekler: ['Bilgisizlikten', 'Kibirlenerek "ben ateşten yaratıldım" dedi', 'Emir unutuldu', 'Şeytan yorgundu'],
+              secenekler: [
+                'Bilgisizlikten',
+                'Kibirlenerek "ben ateşten yaratıldım" dedi',
+                'Emir unutuldu',
+                'Şeytan yorgundu',
+              ],
               dogruIndex: 1,
             ),
             QuizSoru(
               soru: 'Âdem ve Havva hatadan sonra ne yaptı?',
-              secenekler: ['Gizlediler', 'Birbirlerini suçladılar', 'Tevbe edip Allah\'tan af dilediler', 'Cennette kalmaya çalıştılar'],
+              secenekler: [
+                'Gizlediler',
+                'Birbirlerini suçladılar',
+                'Tevbe edip Allah\'tan af dilediler',
+                'Cennette kalmaya çalıştılar',
+              ],
               dogruIndex: 2,
             ),
           ],
@@ -82,9 +103,18 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['İlim', 'Sabır'],
           donem: 'İlk Peygamberler',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Yaşadığı dönem', deger: 'Âdem sonrası, Nûh öncesi'),
-            KimlikKarti(alanAdi: 'Coğrafya', deger: 'Bâbil / Mısır (rivayetler farklı)'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '2 yerde (Meryem 56-57; Enbiya 85-86)'),
+            KimlikKarti(
+              alanAdi: 'Yaşadığı dönem',
+              deger: 'Âdem sonrası, Nûh öncesi',
+            ),
+            KimlikKarti(
+              alanAdi: 'Coğrafya',
+              deger: 'Bâbil / Mısır (rivayetler farklı)',
+            ),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: '2 yerde (Meryem 56-57; Enbiya 85-86)',
+            ),
           ],
           metin: [
             'Kur\'an, İdrîs\'i şöyle anar: "Kitapta İdrîs\'i de an! Çünkü o, dosdoğru bir peygamberdi. Onu yüce bir makama yükselttik." (Meryem 56-57) Sıddîk olarak nitelenen İdrîs, sabrı ve doğruluğuyla övülür.',
@@ -102,7 +132,12 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'Kur\'an\'a göre İdrîs hangi vasfıyla övülür?',
-              secenekler: ['Zenginliğiyle', 'Sıddîk (dosdoğru) olmasıyla', 'Krallığıyla', 'Ordusuyla'],
+              secenekler: [
+                'Zenginliğiyle',
+                'Sıddîk (dosdoğru) olmasıyla',
+                'Krallığıyla',
+                'Ordusuyla',
+              ],
               dogruIndex: 1,
             ),
           ],
@@ -117,9 +152,18 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['Sabır', 'Tevekkül', 'Cesaret'],
           donem: 'İlk Peygamberler',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Yaşadığı dönem', deger: 'M.Ö. ~4. bin (rivayete göre)'),
-            KimlikKarti(alanAdi: 'Coğrafya', deger: 'Güney Irak bölgesi (Bâbil/Şurupak)'),
-            KimlikKarti(alanAdi: 'Gönderildiği kavim', deger: 'Âd\'dan önceki ilk putperest topluluk'),
+            KimlikKarti(
+              alanAdi: 'Yaşadığı dönem',
+              deger: 'M.Ö. ~4. bin (rivayete göre)',
+            ),
+            KimlikKarti(
+              alanAdi: 'Coğrafya',
+              deger: 'Güney Irak bölgesi (Bâbil/Şurupak)',
+            ),
+            KimlikKarti(
+              alanAdi: 'Gönderildiği kavim',
+              deger: 'Âd\'dan önceki ilk putperest topluluk',
+            ),
             KimlikKarti(alanAdi: 'Ömrü', deger: '950 yıl davet (Ankebût 14)'),
             KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '43 yerde'),
           ],
@@ -168,8 +212,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['Adalet', 'Cesaret', 'Tevekkül'],
           donem: 'Helak Kıssaları',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Yaşadığı dönem', deger: 'Nûh sonrası, ~M.Ö. 3. bin'),
-            KimlikKarti(alanAdi: 'Coğrafya', deger: 'Ahkâf (Güney Arabistan, Hadramut)'),
+            KimlikKarti(
+              alanAdi: 'Yaşadığı dönem',
+              deger: 'Nûh sonrası, ~M.Ö. 3. bin',
+            ),
+            KimlikKarti(
+              alanAdi: 'Coğrafya',
+              deger: 'Ahkâf (Güney Arabistan, Hadramut)',
+            ),
             KimlikKarti(alanAdi: 'Gönderildiği kavim', deger: 'Âd kavmi'),
             KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '7 surede'),
           ],
@@ -205,8 +255,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['Sabır', 'Cesaret'],
           donem: 'Helak Kıssaları',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Yaşadığı dönem', deger: 'Hûd sonrası, ~M.Ö. 2. bin'),
-            KimlikKarti(alanAdi: 'Coğrafya', deger: 'Hicr bölgesi (Kuzeybatı Arabistan)'),
+            KimlikKarti(
+              alanAdi: 'Yaşadığı dönem',
+              deger: 'Hûd sonrası, ~M.Ö. 2. bin',
+            ),
+            KimlikKarti(
+              alanAdi: 'Coğrafya',
+              deger: 'Hicr bölgesi (Kuzeybatı Arabistan)',
+            ),
             KimlikKarti(alanAdi: 'Gönderildiği kavim', deger: 'Semûd kavmi'),
             KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '9 surede'),
           ],
@@ -243,17 +299,24 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           donem: 'Peygamberlerin Büyükleri',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Yaşadığı dönem', deger: '~M.Ö. 2000'),
-            KimlikKarti(alanAdi: 'Coğrafya', deger: 'Bâbil; sonra Kenan/Şam, Mısır, Hicaz'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '69 yerde, en çok anılan peygamber'),
+            KimlikKarti(
+              alanAdi: 'Coğrafya',
+              deger: 'Bâbil; sonra Kenan/Şam, Mısır, Hicaz',
+            ),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: '69 yerde, en çok anılan peygamber',
+            ),
           ],
           metin: [
             'İbrâhîm, Nemrut\'un putperest toplumunda yıldızları ve güneşi gözlemleyerek "Ben yüzümü gökleri ve yeri yaratan Allah\'a çevirdim" dedi. Putları kırdığında baltayı büyük putun boynuna astı; sorulduğunda "Belki şu büyük olan yapmıştır" dedi: putların acizliğini halka gösterdi. Onu ateşe attılar; Allah buyurdu: "Ey ateş! İbrâhîm\'e karşı serin ve selametli ol!" (Enbiya 69)',
             'İbrâhîm "Halîlullah" (Allah\'ın dostu) oldu; oğlu İsmâil ile birlikte Kâbe\'yi inşa etti: "Rabbimiz! Bizden kabul buyur, şüphesiz sen işitensin, bilensin." (Bakara 127) Eşi Hâcer ve bebeği İsmâil\'i, vahiy gereği Mekke vadisinde bıraktı; Zemzem mucizesi orada yaşandı.',
-            'Kur\'an onu "Allah için çok gözyaşı döken bir ümmet" olarak tasvir eder (Fâtır 6'da şeytanın vesvesesine karşı). O, önünde namaz kıldığı kıbleyi, hac ve kurbanın esasını ümmete bıraktı.',
+            'Kur\'an onu "Allah için çok gözyaşı döken bir ümmet" olarak tasvir eder (Fâtır 6\'da şeytanın vesvesesine karşı). O, önünde namaz kıldığı kıbleyi, hac ve kurbanın esasını ümmete bıraktı.',
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'قُلْنَا يَا نَارُ كُونِي بَرْدًا وَسَلَامًا عَلَىٰ إِبْرَاهِيمَ',
+              arapca:
+                  'قُلْنَا يَا نَارُ كُونِي بَرْدًا وَسَلَامًا عَلَىٰ إِبْرَاهِيمَ',
               meal: 'Ey ateş! İbrâhîm\'e karşı serin ve selâmet ol! dedik.',
               kaynak: 'Enbiyâ Suresi, 69. Ayet',
             ),
@@ -295,7 +358,10 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['Ahlak', 'Adalet', 'İffet'],
           donem: 'Helak Kıssaları',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Coğrafya', deger: 'Sodom ve Gomorra (Lût Gölü çevresi)'),
+            KimlikKarti(
+              alanAdi: 'Coğrafya',
+              deger: 'Sodom ve Gomorra (Lût Gölü çevresi)',
+            ),
             KimlikKarti(alanAdi: 'Gönderildiği kavim', deger: 'Sodom halkı'),
             KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '27 yerde'),
           ],
@@ -341,7 +407,8 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'قَالَ يَا أَبَتِ افْعَلْ مَا تُؤْمَرُ ۖ سَتَجِدُنِي إِن شَاءَ اللَّهُ مِنَ الصَّابِرِينَ',
+              arapca:
+                  'قَالَ يَا أَبَتِ افْعَلْ مَا تُؤْمَرُ ۖ سَتَجِدُنِي إِن شَاءَ اللَّهُ مِنَ الصَّابِرِينَ',
               meal:
                   'Oğul: Babacığım! Emrolunduğun şeyi yap. İnşallah beni sabredenlerden bulacaksın, dedi.',
               kaynak: 'Sâffât Suresi, 102. Ayet',
@@ -376,7 +443,10 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           donem: 'Peygamberlerin Büyükleri',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Kenan (Filistin)'),
-            KimlikKarti(alanAdi: 'Önem', deger: 'Ya\'kûb (İsrail) soyunun atası'),
+            KimlikKarti(
+              alanAdi: 'Önem',
+              deger: 'Ya\'kûb (İsrail) soyunun atası',
+            ),
             KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '16 yerde'),
           ],
           metin: [
@@ -389,8 +459,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           ],
           quiz: [
             QuizSoru(
-              soru: 'Hz. İshâk\'ın soyundan gelen peygamber zinciri hangi adla anılır?',
-              secenekler: ['İsmailoğulları', 'İsrailoğulları', 'Kenanîler', 'Kureyş'],
+              soru:
+                  'Hz. İshâk\'ın soyundan gelen peygamber zinciri hangi adla anılır?',
+              secenekler: [
+                'İsmailoğulları',
+                'İsrailoğulları',
+                'Kenanîler',
+                'Kureyş',
+              ],
               dogruIndex: 1,
             ),
           ],
@@ -406,7 +482,10 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           donem: 'Peygamberlerin Büyükleri',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Kenan (Harran, Filistin)'),
-            KimlikKarti(alanAdi: 'Önem', deger: 'İsrail (Ya\'kûb) soyunun babası'),
+            KimlikKarti(
+              alanAdi: 'Önem',
+              deger: 'İsrail (Ya\'kûb) soyunun babası',
+            ),
             KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '16 yerde'),
           ],
           metin: [
@@ -442,8 +521,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           donem: 'Mısır Dönemi',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Kenan → Mısır'),
-            KimlikKarti(alanAdi: 'Görevi', deger: 'Mısır hazineleri nazırı, peygamber'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: 'Yûsuf Suresi, "en güzel kıssa"'),
+            KimlikKarti(
+              alanAdi: 'Görevi',
+              deger: 'Mısır hazineleri nazırı, peygamber',
+            ),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: 'Yûsuf Suresi, "en güzel kıssa"',
+            ),
           ],
           metin: [
             'Yûsuf\'un kıssası Kur\'an\'da "kıssaların en güzeli" olarak anılır (Yûsuf 3). Kardeşleri hasetle onu kuyuya attı; kervan onu alıp Mısır\'da köleliğe sattı. Aziz\'in evinde büyüyen Yûsuf, güzelliği ve iffetine rağmen iftiraya uğradı: "Rabbim! Zindan, onların davet ettiği şeye (günaha girmekten) bana daha sevimlidir." (Yûsuf 33)',
@@ -452,7 +537,8 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'رَبِّ السِّجْنُ أَحَبُّ إِلَيَّ مِمَّا يَدْعُونَنِي إِلَيْهِ',
+              arapca:
+                  'رَبِّ السِّجْنُ أَحَبُّ إِلَيَّ مِمَّا يَدْعُونَنِي إِلَيْهِ',
               meal:
                   'Rabbim! Bana, onların kendisine çağırdıkları şey (günah) yerine zindan daha sevimlidir.',
               kaynak: 'Yûsuf Suresi, 33. Ayet',
@@ -471,7 +557,12 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'Yûsuf kıssası Kur\'an\'da nasıl nitelenir?',
-              secenekler: ['Uzun kıssa', 'Kıssaların en güzeli', 'Tarihî olay', 'Masal'],
+              secenekler: [
+                'Uzun kıssa',
+                'Kıssaların en güzeli',
+                'Tarihî olay',
+                'Masal',
+              ],
               dogruIndex: 1,
             ),
             QuizSoru(
@@ -496,8 +587,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['Sabır', 'Tevekkül'],
           donem: 'İmtihan Kıssaları',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Coğrafya', deger: 'Havran (Şam-Ürdün) bölgesi'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '4 surede (Nisâ, En\'âm, Enbiya, Sâd)'),
+            KimlikKarti(
+              alanAdi: 'Coğrafya',
+              deger: 'Havran (Şam-Ürdün) bölgesi',
+            ),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: '4 surede (Nisâ, En\'âm, Enbiya, Sâd)',
+            ),
           ],
           metin: [
             'Eyyûb, zengin ve bolluk içinde yaşayan bir peygamberdi. Allah onu imtihan etti: malı, çocukları helak oldu; bedeni hasatlıkla sarıldı. Yıllarca dertle yattı; ama şikayetini Rabbine değil, sabrını dünyaya gösterdi. Rivayete göre komşularından biri: "Eğer sen peygamber olsaydın Allah böyle bir şey yapmazdı" dedi; o, "Ben sadece kul olarak sabrediyorum" diye karşılık verdi.',
@@ -531,8 +628,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['Adalet', 'Ahlak'],
           donem: 'Helak Kıssaları',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Coğrafya', deger: 'Medyen (Kuzeybatı Arabistan/Ürdün)'),
-            KimlikKarti(alanAdi: 'Gönderildiği kavim', deger: 'Medyen ve Eyke (ormanlık) halkı'),
+            KimlikKarti(
+              alanAdi: 'Coğrafya',
+              deger: 'Medyen (Kuzeybatı Arabistan/Ürdün)',
+            ),
+            KimlikKarti(
+              alanAdi: 'Gönderildiği kavim',
+              deger: 'Medyen ve Eyke (ormanlık) halkı',
+            ),
             KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '11 yerde'),
           ],
           metin: [
@@ -565,9 +668,18 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Yaşadığı dönem', deger: '~M.Ö. 13. yüzyıl'),
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Mısır → Sînâ → Kenan'),
-            KimlikKarti(alanAdi: 'Gönderildiği kavim', deger: 'İsrailoğulları ve Firavun'),
-            KimlikKarti(alanAdi: 'Önemi', deger: 'Tevrat\'ın gönderildiği "Kelîmullah"'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '136 yerde, en çok anılan'),
+            KimlikKarti(
+              alanAdi: 'Gönderildiği kavim',
+              deger: 'İsrailoğulları ve Firavun',
+            ),
+            KimlikKarti(
+              alanAdi: 'Önemi',
+              deger: 'Tevrat\'ın gönderildiği "Kelîmullah"',
+            ),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: '136 yerde, en çok anılan',
+            ),
           ],
           metin: [
             'Firavun, İsrailoğulları\'nın erkek çocuklarını kestiriyordu. Mûsâ, sepet içinde Nil\'e bırakıldı; Firavun\'un sarayında büyüdü. Bir kavga sırasında bir Kıptî\'nin vefatı üzerine Mısır\'dan kaçtı; Medyen\'de 10 yıl çobanlık etti. Tûr\'da, ilahi hitaba mazhar oldu: "Ben, şüphesiz ben, evet ben senin Rabbinim!" (Tâhâ 14)',
@@ -595,7 +707,12 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'Mûsâ\'nın en büyük mucizelerinden biri hangisidir?',
-              secenekler: ['Deve', 'Asanın denize vurulmasıyla denizin yarılması', 'Ateş', 'Gemi'],
+              secenekler: [
+                'Deve',
+                'Asanın denize vurulmasıyla denizin yarılması',
+                'Ateş',
+                'Gemi',
+              ],
               dogruIndex: 1,
             ),
             QuizSoru(
@@ -615,8 +732,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['Sadakat', 'Sabır'],
           donem: 'İsrailoğulları Dönemi',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Görevi', deger: 'Mûsâ\'ya yardımcı peygamber'),
-            KimlikKarti(alanAdi: 'Özelliği', deger: 'Düzgün konuşma, güçlü hitap'),
+            KimlikKarti(
+              alanAdi: 'Görevi',
+              deger: 'Mûsâ\'ya yardımcı peygamber',
+            ),
+            KimlikKarti(
+              alanAdi: 'Özelliği',
+              deger: 'Düzgün konuşma, güçlü hitap',
+            ),
             KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '20 yerde'),
           ],
           metin: [
@@ -651,7 +774,10 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['Ahlak', 'Sabır'],
           donem: 'İsrailoğulları Dönemi',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: 'Enbiyâ 85; Sâd 48'),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: 'Enbiyâ 85; Sâd 48',
+            ),
           ],
           metin: [
             'Kur\'an, Zülkifl\'i sabredenlerden ve güzel kullardan sayar: "İsmâil, İdrîs ve Zülkifl\'i de an. Hepsi sabredenlerdendi." (Enbiya 85)',
@@ -663,7 +789,12 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'Zülkifl isminin anlamı nedir?',
-              secenekler: ['Güç sahibi', 'Kefil (emanet) sahibi', 'Mülk sahibi', 'İlim sahibi'],
+              secenekler: [
+                'Güç sahibi',
+                'Kefil (emanet) sahibi',
+                'Mülk sahibi',
+                'İlim sahibi',
+              ],
               dogruIndex: 1,
             ),
           ],
@@ -679,7 +810,10 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           donem: 'İsrailoğulları Dönemi',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Kudüs / İsrail'),
-            KimlikKarti(alanAdi: 'Görevi', deger: 'Peygamber, kral ve zırh ustası'),
+            KimlikKarti(
+              alanAdi: 'Görevi',
+              deger: 'Peygamber, kral ve zırh ustası',
+            ),
             KimlikKarti(alanAdi: 'Önemi', deger: 'Zebur kendisine indirildi'),
             KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '16 yerde'),
           ],
@@ -717,8 +851,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           donem: 'İsrailoğulları Dönemi',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Kudüs / İsrail-Yemen'),
-            KimlikKarti(alanAdi: 'Özelliği', deger: 'Rüzgâra, cinlere ve kuşlara hükmeden'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '17 yerde (Neml, Sebe)'),
+            KimlikKarti(
+              alanAdi: 'Özelliği',
+              deger: 'Rüzgâra, cinlere ve kuşlara hükmeden',
+            ),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: '17 yerde (Neml, Sebe)',
+            ),
           ],
           metin: [
             'Süleymân, Dâvûd\'un oğlu; kendisine "benden sonra kimseye yakışmayacak bir mülk" verilen peygamberdi (Sâd 35). Rüzgâr emrine verildi; cinler onun için kaleler ve heykeller yaptı; kuşlarla konuşur, ordusuna karıncadan ders alırdı.',
@@ -732,7 +872,8 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           ],
           quiz: [
             QuizSoru(
-              soru: 'Süleymân\'a emrine verilen unsurlar arasında hangisi yoktur?',
+              soru:
+                  'Süleymân\'a emrine verilen unsurlar arasında hangisi yoktur?',
               secenekler: ['Rüzgâr', 'Cinler', 'Kuşlar', 'Ateş'],
               dogruIndex: 3,
             ),
@@ -754,7 +895,10 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           donem: 'İsrailoğulları Dönemi',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'İsrail, Ba\'lbek bölgesi'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: 'Sâffât 123-132; En\'âm 85'),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: 'Sâffât 123-132; En\'âm 85',
+            ),
           ],
           metin: [
             'İlyâs, Ba\'l adlı puta tapan kavmine "Allah\'tan korkmaz mısınız? En güzel yaratıcı olan Allah\'ı bırakıp da Ba\'l\'e mi yalvarıyorsunuz?" (Sâffât 124-125) dedi. Kavmi zenginlik ve şımarıklık içinde daveti reddetti.',
@@ -774,14 +918,16 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
         const KissaKaydi(
           id: 'peygamber-elyesa',
           baslik: 'Hz. Elyesa',
-          ozet:
-              'İlyâs\'ın halefi; sabrı ve güzel kulluğuyla övülen peygamber.',
+          ozet: 'İlyâs\'ın halefi; sabrı ve güzel kulluğuyla övülen peygamber.',
           emoji: '🕍',
           kategoriId: 'peygamberler',
           temalar: ['Sabır', 'Ahlak'],
           donem: 'İsrailoğulları Dönemi',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: 'En\'âm 86; Sâd 48'),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: 'En\'âm 86; Sâd 48',
+            ),
           ],
           metin: [
             'Elyesa, İlyâs\'ın halefi olarak kavmine gönderildi. Kur\'an onu sabredenlerden ve iyi kullardan sayar: "İsmâil, Elyesa, Yûnus ve Lût... Hepsi âlemlere üstün kılınan seçilmişlerdendi." (En\'âm 86)',
@@ -793,7 +939,12 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'Hz. Elyesa kime halef oldu?',
-              secenekler: ['Hz. Mûsâ\'ya', 'Hz. İlyâs\'a', 'Hz. Şuayb\'a', 'Hz. Yûşa\'ya'],
+              secenekler: [
+                'Hz. Mûsâ\'ya',
+                'Hz. İlyâs\'a',
+                'Hz. Şuayb\'a',
+                'Hz. Yûşa\'ya',
+              ],
               dogruIndex: 1,
             ),
           ],
@@ -809,7 +960,10 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           donem: 'İmtihan Kıssaları',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Ninova (Musul, Irak)'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: 'Enbiyâ 87-88; Sâffât 139-148'),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: 'Enbiyâ 87-88; Sâffât 139-148',
+            ),
           ],
           metin: [
             'Yûnus, Ninova halkına gönderildi. Kavmi inanmayınca kızarak şehri terk etti ve gemiye bindi; kura onu denize attı, büyük balık onu yuttu: "Zünnûn\'u da an! Hani öfkelenerek gitmişti de, kendisini asla sıkıştırmayacağımızı sanmıştı." (Enbiya 87)',
@@ -862,7 +1016,10 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Kudüs (Beyt-i Makdis)'),
             KimlikKarti(alanAdi: 'Görevi', deger: 'Mabet hizmetçisi şefi'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: 'Âl-i İmrân 37-41; Meryem 1-11'),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: 'Âl-i İmrân 37-41; Meryem 1-11',
+            ),
           ],
           metin: [
             'Zekeriyyâ, Beyt-i Makdis\'in hizmetçisiydi; Meryem\'e de o bakardı. Onun yanında güzel rızıklar göründüğünde "Bu sana nereden geldi?" diye sorduğunda Meryem "Allah katından" dedi. Zekeriyyâ orada dua etti: "Rabbim! Bana, katından temiz bir nesil ihsan et. Şüphesiz Sen duayı işitensin." (Âl-i İmrân 38)',
@@ -898,8 +1055,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           donem: 'İsrailoğulları Dönemi',
           kimlikKarti: [
             KimlikKarti(alanAdi: 'Coğrafya', deger: 'Kudüs / Ürdün bölgesi'),
-            KimlikKarti(alanAdi: 'Özelliği', deger: 'Çocukluğunda hikmet verildi'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: 'Âl-i İmrân 38-41; Meryem 12-15'),
+            KimlikKarti(
+              alanAdi: 'Özelliği',
+              deger: 'Çocukluğunda hikmet verildi',
+            ),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: 'Âl-i İmrân 38-41; Meryem 12-15',
+            ),
           ],
           metin: [
             'Yahyâ, Zekeriyyâ\'nın müjdelenen oğludur: "Ey Yahyâ! Kitaba sımsıkı sarıl. Biz ona daha çocukken hikmet verdik." (Meryem 12) O, gönülden bağlı, yumuşak kalpli, sevgiyle donatılmış bir gençti.',
@@ -911,8 +1074,14 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           ],
           quiz: [
             QuizSoru(
-              soru: 'Hz. Yahyâ\'ya ne zaman hikmet verildiğine dair Kur\'an ne der?',
-              secenekler: ['Yaşlılığında', 'Daha çocukken', 'Vefatından sonra', 'Hicretinde'],
+              soru:
+                  'Hz. Yahyâ\'ya ne zaman hikmet verildiğine dair Kur\'an ne der?',
+              secenekler: [
+                'Yaşlılığında',
+                'Daha çocukken',
+                'Vefatından sonra',
+                'Hicretinde',
+              ],
               dogruIndex: 1,
             ),
           ],
@@ -927,10 +1096,19 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           temalar: ['İffet', 'Sabır', 'İman'],
           donem: 'İsrailoğulları Dönemi',
           kimlikKarti: [
-            KimlikKarti(alanAdi: 'Coğrafya', deger: 'Beytüllahim / Nasıra / Kudüs'),
-            KimlikKarti(alanAdi: 'Görevi', deger: 'İsrailoğullarına İncil ile gönderilen peygamber'),
+            KimlikKarti(
+              alanAdi: 'Coğrafya',
+              deger: 'Beytüllahim / Nasıra / Kudüs',
+            ),
+            KimlikKarti(
+              alanAdi: 'Görevi',
+              deger: 'İsrailoğullarına İncil ile gönderilen peygamber',
+            ),
             KimlikKarti(alanAdi: 'Önemi', deger: 'Kelimetullah ve Rûhullah'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da anılışı', deger: '25\'e yakın yerde'),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da anılışı',
+              deger: '25\'e yakın yerde',
+            ),
           ],
           metin: [
             'Îsâ, İsrailoğulları\'na gönderilen son büyük peygamberlerdendi. Meryem\'e, babasız olarak dünyaya geleceği müjdelendi: "Allah\'ın katında Îsâ\'nın durumu, Âdem\'in durumu gibidir: onu topraktan yarattı, sonra ona ol! dedi ve oluverdi." (Âl-i İmrân 59) O, beşikte konuşup annesini savundu.',
@@ -957,13 +1135,19 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
           ],
           quiz: [
             QuizSoru(
-              soru: 'Kur\'an\'a göre Îsâ\'nın durumu hangi peygambere benzetilir?',
+              soru:
+                  'Kur\'an\'a göre Îsâ\'nın durumu hangi peygambere benzetilir?',
               secenekler: ['Nûh\'a', 'Âdem\'e', 'İbrâhîm\'e', 'Mûsâ\'ya'],
               dogruIndex: 1,
             ),
             QuizSoru(
               soru: 'Îsâ hangi peygamberi müjdeledi?',
-              secenekler: ['Yahyâ\'yı', 'Ahmed\'i (Hz. Muhammed\'i)', 'Zekeriyyâ\'yı', 'İdrîs\'i'],
+              secenekler: [
+                'Yahyâ\'yı',
+                'Ahmed\'i (Hz. Muhammed\'i)',
+                'Zekeriyyâ\'yı',
+                'İdrîs\'i',
+              ],
               dogruIndex: 1,
             ),
           ],
@@ -974,26 +1158,25 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
       ad: 'Kur\'an\'da Adı Geçmeyen Peygamberler',
       aciklama: 'Şît, Yûşa ve diğerleri: gelenekte yaşayan isimler',
       kisalar: [
-        KissaKaydi(
-          id = 'peygamber-sit',
-          baslik = 'Hz. Şît',
-          ozet =
-              'Âdem\'in oğlu, ilk vahye mazhar: barış ve ilim peygamberi.',
-          emoji = '🕊️',
-          kategoriId = 'peygamberler',
-          temalar = ['Ahlak', 'İlim'],
-          donem = 'İlk Peygamberler',
-          kimlikKarti = [
+        const KissaKaydi(
+          id: 'peygamber-sit',
+          baslik: 'Hz. Şît',
+          ozet: 'Âdem\'in oğlu, ilk vahye mazhar: barış ve ilim peygamberi.',
+          emoji: '🕊️',
+          kategoriId: 'peygamberler',
+          temalar: ['Ahlak', 'İlim'],
+          donem: 'İlk Peygamberler',
+          kimlikKarti: [
             KimlikKarti(alanAdi: 'Önemi', deger: 'Âdem\'e ilk vahyedilen'),
           ],
-          metin = [
+          metin: [
             'Şît (a.s.), Kur\'an\'da adı geçmemekle birlikte, Âdem\'in oğlu ve kendisine suhuf (sayfalar) indirilen ilk peygamberdir. Rivayetlerde Âdem\'e "oğlun Şît\'e vahiy indi" diye haber verildiği nakledilir.',
             'Kavmine barışı, ilmi ve dini öğretti; Habil\'in yolunu sürdürdü. İbn Kesîr, Âdem\'den sonra insanlığın hidayet sorumluluğunun Şît\'e geçtiğini kaydeder.',
           ],
-          hikmetler = [
+          hikmetler: [
             'İlim ve sükunet, barış yolunun öncüleridir: Habil\'in kardeşi Şît de bu yolu izledi.',
           ],
-          quiz = [
+          quiz: [
             QuizSoru(
               soru: 'Hz. Şît kimin oğludur?',
               secenekler: ['Nûh\'un', 'Âdem\'in', 'İdrîs\'in', 'İbrâhîm\'in'],
@@ -1001,32 +1184,43 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
             ),
           ],
         ),
-        KissaKaydi(
-          id = 'peygamber-yusa',
-          baslik = 'Hz. Yûşa',
-          ozet =
+        const KissaKaydi(
+          id: 'peygamber-yusa',
+          baslik: 'Hz. Yûşa',
+          ozet:
               'Mûsâ\'nın talebesi; Arz-ı Mev\'ud\'un kapısını imanla açan önder.',
-          emoji = '🏇',
-          kategoriId = 'peygamberler',
-          temalar = ['Cesaret', 'Sadakat'],
-          donem = 'İsrailoğulları Dönemi',
-          kimlikKarti = [
-            KimlikKarti(alanAdi: 'Görevi', deger: 'Mûsâ\'nın ardılı; İsrailoğullarının önderi'),
-            KimlikKarti(alanAdi: 'Kur\'an\'da zikri', deger: 'İsmi geçmez; rivayetlerde zikredilir'),
+          emoji: '🏇',
+          kategoriId: 'peygamberler',
+          temalar: ['Cesaret', 'Sadakat'],
+          donem: 'İsrailoğulları Dönemi',
+          kimlikKarti: [
+            KimlikKarti(
+              alanAdi: 'Görevi',
+              deger: 'Mûsâ\'nın ardılı; İsrailoğullarının önderi',
+            ),
+            KimlikKarti(
+              alanAdi: 'Kur\'an\'da zikri',
+              deger: 'İsmi geçmez; rivayetlerde zikredilir',
+            ),
           ],
-          metin = [
+          metin: [
             'Yûşa (Yeşu), Kur\'an\'da adı geçmeyen peygamberlerdendir. Mûsâ\'nın öğrencisi ve ardılıydı; Mûsâ vefat ettikten sonra İsrailoğullarına önderlik etti.',
             'Tefsirler, Mâide 23\'teki "içlerinde korku olmadan girebilecekleri kutsal toprağa... girin" diyen iki adamdan birinin Yûşa olduğunu nakleder. Onun döneminde Arz-ı Mev\'ud (Kenan toprakları) fethedildi; Eriha surları iman ve tekbirle yıkıldı.',
             'Güneşe "dur!" diye hitap ettiği rivayet edilen "Şübhân men ehdâ..." hadisiyle de anılır.',
           ],
-          hikmetler = [
+          hikmetler: [
             'Ardıllık, davanın devamıdır: Yûşa, hocası Mûsâ\'nın azmini taşıdı.',
             'Korku ve inanç yarışı: iki kişi korkmadı, kavim korktu; sebat eden önder olur.',
           ],
-          quiz = [
+          quiz: [
             QuizSoru(
               soru: 'Hz. Yûşa kime halef oldu?',
-              secenekler: ['Hz. İlyâs\'a', 'Hz. Mûsâ\'ya', 'Hz. Dâvûd\'a', 'Hz. Süleymân\'a'],
+              secenekler: [
+                'Hz. İlyâs\'a',
+                'Hz. Mûsâ\'ya',
+                'Hz. Dâvûd\'a',
+                'Hz. Süleymân\'a',
+              ],
               dogruIndex: 1,
             ),
           ],
@@ -1036,4 +1230,5 @@ final KissaKategori peygamberlerKategorisi = KissaKategori(
   ],
 );
 
-void peygamberlerKaydet() => KissalarVerileri.kayitKategori(peygamberlerKategorisi);
+void peygamberlerKaydet() =>
+    KissalarVerileri.kayitKategori(peygamberlerKategorisi);

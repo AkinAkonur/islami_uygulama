@@ -50,9 +50,16 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
           ],
           kronoloji: [
-            KronolojiMadde(tarih: '571 (Fil yılı)', olay: 'Mekke\'de dünyaya geldi'),
+            KronolojiMadde(
+              tarih: '571 (Fil yılı)',
+              olay: 'Mekke\'de dünyaya geldi',
+            ),
             KronolojiMadde(tarih: '577', olay: 'Annesi Âmine vefat etti'),
-            KronolojiMadde(tarih: '579', olay: 'Dedesi Abdülmuttalib vefat etti; Ebû Tâlib\'in himayesine girdi'),
+            KronolojiMadde(
+              tarih: '579',
+              olay:
+                  'Dedesi Abdülmuttalib vefat etti; Ebû Tâlib\'in himayesine girdi',
+            ),
             KronolojiMadde(tarih: '595', olay: 'Hz. Hatice ile evlendi'),
           ],
           cografya: [
@@ -85,8 +92,14 @@ final KissaKategori siyerKategorisi = KissaKategori(
               dogruIndex: 0,
             ),
             QuizSoru(
-              soru: 'Dedesi Abdülmuttalib vefat edince Peygamberimizi kim himayesine aldı?',
-              secenekler: ['Halid b. Velid', 'Amcası Ebû Tâlib', 'Dayısı Ebû Leheb', 'Dedesi Ebû Bekir'],
+              soru:
+                  'Dedesi Abdülmuttalib vefat edince Peygamberimizi kim himayesine aldı?',
+              secenekler: [
+                'Halid b. Velid',
+                'Amcası Ebû Tâlib',
+                'Dayısı Ebû Leheb',
+                'Dedesi Ebû Bekir',
+              ],
               dogruIndex: 1,
             ),
           ],
@@ -141,7 +154,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
               dogruIndex: 1,
             ),
             QuizSoru(
-              soru: 'Hacerü\'l-Esved krizinde Peygamberimiz hangi yöntemi önerdi?',
+              soru:
+                  'Hacerü\'l-Esved krizinde Peygamberimiz hangi yöntemi önerdi?',
               secenekler: [
                 'Kurayla karar verilmesini',
                 'Taşın kumaş üzerinde kabilelerce birlikte kaldırılmasını',
@@ -183,7 +197,10 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
           ],
           kronoloji: [
-            KronolojiMadde(tarih: '610 (40 yaş)', olay: 'Hira\'da ilk vahiy: Alak 1-5'),
+            KronolojiMadde(
+              tarih: '610 (40 yaş)',
+              olay: 'Hira\'da ilk vahiy: Alak 1-5',
+            ),
             KronolojiMadde(tarih: '610-613', olay: 'Gizli davet dönemi'),
           ],
           cografya: [
@@ -211,8 +228,14 @@ final KissaKategori siyerKategorisi = KissaKategori(
               dogruIndex: 1,
             ),
             QuizSoru(
-              soru: 'Cebrail (a.s.) ilk vahiyde Peygamberimizden ne yapmasını istedi?',
-              secenekler: ['Namaz kılmasını', 'İnsanları uyarmasını', 'Okumasını', 'Hicret etmesini'],
+              soru:
+                  'Cebrail (a.s.) ilk vahiyde Peygamberimizden ne yapmasını istedi?',
+              secenekler: [
+                'Namaz kılmasını',
+                'İnsanları uyarmasını',
+                'Okumasını',
+                'Hicret etmesini',
+              ],
               dogruIndex: 2,
             ),
           ],
@@ -239,7 +262,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
             AyetKaydi(
               arapca: 'فَاصْدَعْ بِمَا تُؤْمَرُ وَأَعْرِضْ عَنِ الْمُشْرِكِينَ',
-              meal: 'Sana emrolunanı açıkça duyur ve ortak koşanlardan yüz çevir.',
+              meal:
+                  'Sana emrolunanı açıkça duyur ve ortak koşanlardan yüz çevir.',
               kaynak: 'Hicr Suresi, 94. Ayet',
             ),
           ],
@@ -252,8 +276,14 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           kronoloji: [
             KronolojiMadde(tarih: '610-613', olay: 'Gizli davet'),
-            KronolojiMadde(tarih: '613 sonrası', olay: 'Safâ tepesi çağrısı ve açık davet'),
-            KronolojiMadde(tarih: '614', olay: 'Müslümanlara sistematik işkenceler başladı'),
+            KronolojiMadde(
+              tarih: '613 sonrası',
+              olay: 'Safâ tepesi çağrısı ve açık davet',
+            ),
+            KronolojiMadde(
+              tarih: '614',
+              olay: 'Müslümanlara sistematik işkenceler başladı',
+            ),
           ],
           hikmetler: [
             'Bir hak dava sabırla yeşerir; açılış acelecilikle değil sebeplere riayetle yapılır.',
@@ -267,12 +297,23 @@ final KissaKategori siyerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'Açık davet çağrısı hangi tepede yapıldı?',
-              secenekler: ['Cebel-i Nûr', 'Safâ Tepesi', 'Merve Tepesi', 'Arafat'],
+              secenekler: [
+                'Cebel-i Nûr',
+                'Safâ Tepesi',
+                'Merve Tepesi',
+                'Arafat',
+              ],
               dogruIndex: 1,
             ),
             QuizSoru(
-              soru: 'Peygamberimiz açık davete başlamadan önce kimlere seslendi?',
-              secenekler: ['Kabile reislerine', 'Herkese', 'En yakın akrabasına (aşiretine)', 'Sadece kölelere'],
+              soru:
+                  'Peygamberimiz açık davete başlamadan önce kimlere seslendi?',
+              secenekler: [
+                'Kabile reislerine',
+                'Herkese',
+                'En yakın akrabasına (aşiretine)',
+                'Sadece kölelere',
+              ],
               dogruIndex: 2,
             ),
           ],
@@ -293,7 +334,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'وَالَّذِينَ آمَنُوا وَهَاجَرُوا وَجَاهَدُوا فِي سَبِيلِ اللَّهِ',
+              arapca:
+                  'وَالَّذِينَ آمَنُوا وَهَاجَرُوا وَجَاهَدُوا فِي سَبِيلِ اللَّهِ',
               meal:
                   'İman edip hicret eden ve Allah yolunda cihad edenler... Allah\'ın rahmetini umarlar.',
               kaynak: 'Bakara Suresi, 218. Ayet',
@@ -307,8 +349,14 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
           ],
           kronoloji: [
-            KronolojiMadde(tarih: '615 (5. nübüvvet)', olay: 'İlk Habeşistan hicreti'),
-            KronolojiMadde(tarih: '616', olay: 'İkinci kafile; yaklaşık 100 kişi'),
+            KronolojiMadde(
+              tarih: '615 (5. nübüvvet)',
+              olay: 'İlk Habeşistan hicreti',
+            ),
+            KronolojiMadde(
+              tarih: '616',
+              olay: 'İkinci kafile; yaklaşık 100 kişi',
+            ),
             KronolojiMadde(tarih: '628', olay: 'Muhacirler Medine\'ye döndü'),
           ],
           cografya: [
@@ -332,7 +380,12 @@ final KissaKategori siyerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'Habeşistan\'a hicret edenlere kim öncülük etti?',
-              secenekler: ['Hz. Ebû Bekir', 'Hz. Câfer b. Ebî Tâlib', 'Hz. Hamza', 'Hz. Ömer'],
+              secenekler: [
+                'Hz. Ebû Bekir',
+                'Hz. Câfer b. Ebî Tâlib',
+                'Hz. Hamza',
+                'Hz. Ömer',
+              ],
               dogruIndex: 1,
             ),
             QuizSoru(
@@ -364,8 +417,14 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
           ],
           kronoloji: [
-            KronolojiMadde(tarih: '619', olay: 'Hz. Hatice ve Ebû Tâlib vefatı → Hüzün Yılı'),
-            KronolojiMadde(tarih: '619 yazı', olay: 'Taif yolculuğu ve taşlanma'),
+            KronolojiMadde(
+              tarih: '619',
+              olay: 'Hz. Hatice ve Ebû Tâlib vefatı → Hüzün Yılı',
+            ),
+            KronolojiMadde(
+              tarih: '619 yazı',
+              olay: 'Taif yolculuğu ve taşlanma',
+            ),
             KronolojiMadde(tarih: '620', olay: 'İsra ve Miraç'),
           ],
           cografya: [
@@ -435,8 +494,15 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
           ],
           kronoloji: [
-            KronolojiMadde(tarih: '620', olay: 'İsra gecesi: Kudüs\'e götürülüş'),
-            KronolojiMadde(tarih: 'Aynı gece', olay: 'Miraç: Sidretü\'l-Müntehâ\'ya yükseliş ve namaz farz kılındı'),
+            KronolojiMadde(
+              tarih: '620',
+              olay: 'İsra gecesi: Kudüs\'e götürülüş',
+            ),
+            KronolojiMadde(
+              tarih: 'Aynı gece',
+              olay:
+                  'Miraç: Sidretü\'l-Müntehâ\'ya yükseliş ve namaz farz kılındı',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -500,7 +566,12 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
             QuizSoru(
               soru: 'Medine\'ye öğretmen olarak gönderilen sahabi kimdir?',
-              secenekler: ['Mus\'ab b. Umeyr', 'Muâz b. Cebel', 'İbn Mes\'ûd', 'Zeyd b. Sabit'],
+              secenekler: [
+                'Mus\'ab b. Umeyr',
+                'Muâz b. Cebel',
+                'İbn Mes\'ûd',
+                'Zeyd b. Sabit',
+              ],
               dogruIndex: 0,
             ),
           ],
@@ -534,9 +605,18 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
           ],
           kronoloji: [
-            KronolojiMadde(tarih: '622, Eylül', olay: 'Mekke\'den ayrılış; Sevr Mağarası\'nda saklanma'),
-            KronolojiMadde(tarih: '622, sonbahar', olay: 'Küba\'ya varış, ilk mescit'),
-            KronolojiMadde(tarih: '622', olay: 'Mescid-i Nebevî\'nin inşası ve hicri takvimin başlangıcı'),
+            KronolojiMadde(
+              tarih: '622, Eylül',
+              olay: 'Mekke\'den ayrılış; Sevr Mağarası\'nda saklanma',
+            ),
+            KronolojiMadde(
+              tarih: '622, sonbahar',
+              olay: 'Küba\'ya varış, ilk mescit',
+            ),
+            KronolojiMadde(
+              tarih: '622',
+              olay: 'Mescid-i Nebevî\'nin inşası ve hicri takvimin başlangıcı',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -577,7 +657,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
               dogruIndex: 2,
             ),
             QuizSoru(
-              soru: 'Sevr Mağarası\'nda müşrikleri geri çeviren ilahi işaret neydi?',
+              soru:
+                  'Sevr Mağarası\'nda müşrikleri geri çeviren ilahi işaret neydi?',
               secenekler: [
                 'Kar fırtınası',
                 'Örümcek ağı ve güvercin yuvası',
@@ -618,7 +699,10 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           kronoloji: [
             KronolojiMadde(tarih: '622', olay: 'Mescid-i Nebevî\'nin inşası'),
-            KronolojiMadde(tarih: '622-623', olay: 'Muâhât: muhacir-ensar kardeşliği'),
+            KronolojiMadde(
+              tarih: '622-623',
+              olay: 'Muâhât: muhacir-ensar kardeşliği',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -650,7 +734,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
               dogruIndex: 1,
             ),
             QuizSoru(
-              soru: 'Hz. Sa\'d b. Rebî, kardeşi Hz. Abdurrahman b. Avf\'a ne teklif etti?',
+              soru:
+                  'Hz. Sa\'d b. Rebî, kardeşi Hz. Abdurrahman b. Avf\'a ne teklif etti?',
               secenekler: [
                 'Malının yarısını paylaşmayı',
                 'Evini tamamen vermeyi',
@@ -686,7 +771,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           quiz: [
             QuizSoru(
-              soru: 'Medine Sözleşmesi\'ne göre anlaşmazlıklar kime götürülürdü?',
+              soru:
+                  'Medine Sözleşmesi\'ne göre anlaşmazlıklar kime götürülürdü?',
               secenekler: [
                 'Kabile reislerine',
                 'Allah\'a ve Peygamberine',
@@ -712,7 +798,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
     // ============================== GAZVELER ==============================
     KissaGrubu(
       ad: 'Gazveler ve Seriyyeler',
-      aciklama: 'Bedir\'den Tebük\'e: Sebep, strateji, kronoloji, sonuçlar ve dersler',
+      aciklama:
+          'Bedir\'den Tebük\'e: Sebep, strateji, kronoloji, sonuçlar ve dersler',
       kisalar: [
         const KissaKaydi(
           id: 'siyer-bedir',
@@ -730,7 +817,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'إِذْ تَسْتَغِيثُونَ رَبَّكُمْ فَاسْتَجَابَ لَكُمْ أَنِّي مُمِدُّكُم بِأَلْفٍ مِّنَ الْمَلَائِكَةِ مُرْدِفِينَ',
+              arapca:
+                  'إِذْ تَسْتَغِيثُونَ رَبَّكُمْ فَاسْتَجَابَ لَكُمْ أَنِّي مُمِدُّكُم بِأَلْفٍ مِّنَ الْمَلَائِكَةِ مُرْدِفِينَ',
               meal:
                   'Siz Rabbinizden yardım istiyordunuz; O, "Size, birbiri ardınca bin melek ile yardım edeceğim" diye karşılık verdi.',
               kaynak: 'Enfâl Suresi, 9. Ayet',
@@ -745,7 +833,11 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           kronoloji: [
             KronolojiMadde(tarih: '624, Ramazan 17', olay: 'Bedir Savaşı'),
-            KronolojiMadde(tarih: 'Savaş sonrası', olay: 'Esirlere iyi muamele ve okuma-yazma öğretme karşılığı serbest bırakma'),
+            KronolojiMadde(
+              tarih: 'Savaş sonrası',
+              olay:
+                  'Esirlere iyi muamele ve okuma-yazma öğretme karşılığı serbest bırakma',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -772,7 +864,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
               dogruIndex: 0,
             ),
             QuizSoru(
-              soru: 'Bedir esirlerinden okuma-yazma bilenler ne karşılığında serbest bırakıldı?',
+              soru:
+                  'Bedir esirlerinden okuma-yazma bilenler ne karşılığında serbest bırakıldı?',
               secenekler: [
                 'Fidye ödemek',
                 '10 Müslümana okuma-yazma öğretmek',
@@ -795,11 +888,12 @@ final KissaKategori siyerKategorisi = KissaKategori(
           metin: [
             'Bedir\'in öcünü almak isteyen Kureyş, 3000 kişilik orduyla (700 zırhlı) Medine\'ye yürüdü. Peygamberimiz istişareyle Medine dışında, Uhud dağının eteklerinde savunmayı seçti. 1000 kişilik orduya münafık Abdullah b. Übey\'in 300 adamıyla çekilmesiyle 700 kişi kaldı.',
             'Peygamberimiz, İbn Cübeyr komutasındaki 50 okçuyu "Kuşlar bize saldırsa bile burayı terk etmeyin!" diyerek Ayneyn geçidine yerleştirdi. Savaşın ilk safhası zaferdi; müşrikler dağılmaya başladı. Ancak okçular ganimet toplamak için mevzilerini terk etti; Halid b. Velid\'in süvarileri arkadan saldırdı. Müslümanlar dağıldı, 70 kişi şehit oldu; aralarında Peygamberimizin mübarek dişi kırılan, "Sana mübarek olsun" diyen Hamza da vardı.',
-            'Muhammed öldürüldü sözü yayıldı; ancak Peygamberimiz yaralı halde hayattaydı. Hz. Fâtıma babasının yarasını sardı; ashab toparlanarak yeniden saf tuttu ve müşrikler geri çekildi. Allah, okçuların hatalarını ve sabredenlerin mükafatını Âl-i İmrân ayetlerinde anlattı: "Allah\'a ve Peygamberine itaat edin ki size merhamet edilsin.",
+            'Muhammed öldürüldü sözü yayıldı; ancak Peygamberimiz yaralı halde hayattaydı. Hz. Fâtıma babasının yarasını sardı; ashab toparlanarak yeniden saf tuttu ve müşrikler geri çekildi. Allah, okçuların hatalarını ve sabredenlerin mükafatını Âl-i İmrân ayetlerinde anlattı: "Allah\'a ve Peygamberine itaat edin ki size merhamet edilsin.",',
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'وَكَذَٰلِكَ أَرْسَلْنَاكَ فِي أُمَّةٍ قَدْ خَلَتْ مِن قَبْلِهَا أُمَمٌ',
+              arapca:
+                  'وَكَذَٰلِكَ أَرْسَلْنَاكَ فِي أُمَّةٍ قَدْ خَلَتْ مِن قَبْلِهَا أُمَمٌ',
               meal:
                   'Sana açık ayetlerle geldikten sonra, "Biz bu iki topluluktan hangisinin uzuvları sağlam ve hayırlıdır?" diye sorulur. (imtihan ilkesi)',
               kaynak: 'Âl-i İmrân Suresi, 152-154. Ayetler',
@@ -808,13 +902,16 @@ final KissaKategori siyerKategorisi = KissaKategori(
           hadisler: [
             HadisKaydi(
               metin:
-                  'Cebrail: "Ümmeti içinde Hamza, Allah\'ın ve Resûlünün ismini en çok taşıyan kişidir. Cennet\'te \"Allah\'ın Arslanı\" diye çağrılır." (Tirmizî)',
+                  'Cebrail: "Ümmeti içinde Hamza, Allah\'ın ve Resûlünün ismini en çok taşıyan kişidir. Cennet\'te "Allah\'ın Arslanı" diye çağrılır." (Tirmizî)',
               kaynak: 'Tirmizî, Menâkıb',
             ),
           ],
           kronoloji: [
             KronolojiMadde(tarih: '625, Şevval', olay: 'Uhud Savaşı'),
-            KronolojiMadde(tarih: 'Savaş sonrası', olay: 'Uhud şehitlerinin defni; Hamza\'nın şehadeti'),
+            KronolojiMadde(
+              tarih: 'Savaş sonrası',
+              olay: 'Uhud şehitlerinin defni; Hamza\'nın şehadeti',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -842,7 +939,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
               dogruIndex: 1,
             ),
             QuizSoru(
-              soru: 'Uhud şehitleri içinde \'Allah\'ın Arslanı\' unvanıyla anılan sahabi kimdir?',
+              soru:
+                  'Uhud şehitleri içinde \'Allah\'ın Arslanı\' unvanıyla anılan sahabi kimdir?',
               secenekler: ['Hz. Hamza', 'Hz. Ali', 'Hz. Cafer', 'Hz. Zübeyr'],
               dogruIndex: 0,
             ),
@@ -864,7 +962,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'وَرَدَّ اللَّهُ الَّذِينَ كَفَرُوا بِغَيْظِهِمْ لَمْ يَنَالُوا خَيْرًا',
+              arapca:
+                  'وَرَدَّ اللَّهُ الَّذِينَ كَفَرُوا بِغَيْظِهِمْ لَمْ يَنَالُوا خَيْرًا',
               meal:
                   'Allah, inkar edenleri öfkeleriyle birlikte hiçbir hayra ulaşamadan geri çevirdi. Müminlere savaşta Allah yetti.',
               kaynak: 'Ahzâb Suresi, 25. Ayet',
@@ -878,8 +977,14 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
           ],
           kronoloji: [
-            KronolojiMadde(tarih: '627, Şevval-Zilkade', olay: 'Hendegin kazılması ve abluka'),
-            KronolojiMadde(tarih: 'Aynı dönem', olay: 'Kurayza ihaneti ve sonuçları'),
+            KronolojiMadde(
+              tarih: '627, Şevval-Zilkade',
+              olay: 'Hendegin kazılması ve abluka',
+            ),
+            KronolojiMadde(
+              tarih: 'Aynı dönem',
+              olay: 'Kurayza ihaneti ve sonuçları',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -902,11 +1007,17 @@ final KissaKategori siyerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'Hendek kazma fikrini ilk öneren sahabi kimdir?',
-              secenekler: ['Selmân-ı Fârisî', 'Hz. Ömer', 'Zeyd b. Sabit', 'Mus\'ab b. Umeyr'],
+              secenekler: [
+                'Selmân-ı Fârisî',
+                'Hz. Ömer',
+                'Zeyd b. Sabit',
+                'Mus\'ab b. Umeyr',
+              ],
               dogruIndex: 0,
             ),
             QuizSoru(
-              soru: 'Hendek Savaşı\'nda Medine\'ye saldıran ordunun büyüklüğü neydi?',
+              soru:
+                  'Hendek Savaşı\'nda Medine\'ye saldıran ordunun büyüklüğü neydi?',
               secenekler: ['3 bin', '5 bin', '10 bin', '20 bin'],
               dogruIndex: 2,
             ),
@@ -941,9 +1052,18 @@ final KissaKategori siyerKategorisi = KissaKategori(
             ),
           ],
           kronoloji: [
-            KronolojiMadde(tarih: '628, Zilkade', olay: 'Hudeybiye umre yürüyüşü'),
-            KronolojiMadde(tarih: 'Aynı günler', olay: 'Rıdvan Biatı ve antlaşma'),
-            KronolojiMadde(tarih: '630', olay: 'Barışın meyvesi: Mekke\'nin fethi'),
+            KronolojiMadde(
+              tarih: '628, Zilkade',
+              olay: 'Hudeybiye umre yürüyüşü',
+            ),
+            KronolojiMadde(
+              tarih: 'Aynı günler',
+              olay: 'Rıdvan Biatı ve antlaşma',
+            ),
+            KronolojiMadde(
+              tarih: '630',
+              olay: 'Barışın meyvesi: Mekke\'nin fethi',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -993,8 +1113,10 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'وَقُلْ جَاءَ الْحَقُّ وَزَهَقَ الْبَاطِلُ ۚ إِنَّ الْبَاطِلَ كَانَ زَهُوقًا',
-              meal: 'Ve de ki: Hak geldi, batıl yok oldu. Şüphesiz batıl, yok olmaya mahkumdur.',
+              arapca:
+                  'وَقُلْ جَاءَ الْحَقُّ وَزَهَقَ الْبَاطِلُ ۚ إِنَّ الْبَاطِلَ كَانَ زَهُوقًا',
+              meal:
+                  'Ve de ki: Hak geldi, batıl yok oldu. Şüphesiz batıl, yok olmaya mahkumdur.',
               kaynak: 'İsrâ Suresi, 81. Ayet',
             ),
           ],
@@ -1007,7 +1129,10 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           kronoloji: [
             KronolojiMadde(tarih: '630, Ramazan', olay: 'Mekke\'nin fethi'),
-            KronolojiMadde(tarih: 'Aynı yıl', olay: 'İslam\'a toplu girişler ve Huneyn zorluğu'),
+            KronolojiMadde(
+              tarih: 'Aynı yıl',
+              olay: 'İslam\'a toplu girişler ve Huneyn zorluğu',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -1068,7 +1193,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           ayetler: [
             AyetKaydi(
-              arapca: 'الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِي',
+              arapca:
+                  'الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِي',
               meal:
                   'Bugün sizin için dininizi tamamladım, üzerinize nimetimi tamamladım ve sizin için İslam\'ı bir din olarak seçtim.',
               kaynak: 'Mâide Suresi, 3. Ayet',
@@ -1083,7 +1209,10 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           kronoloji: [
             KronolojiMadde(tarih: '631, Zilhicce', olay: 'Veda Haccı'),
-            KronolojiMadde(tarih: '9 Zilhicce', olay: 'Arafat\'ta Veda Hutbesi'),
+            KronolojiMadde(
+              tarih: '9 Zilhicce',
+              olay: 'Arafat\'ta Veda Hutbesi',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -1118,7 +1247,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
               dogruIndex: 1,
             ),
             QuizSoru(
-              soru: 'Veda Hutbesi\'ne göre insanlar arasındaki tek üstünlük ölçüsü nedir?',
+              soru:
+                  'Veda Hutbesi\'ne göre insanlar arasındaki tek üstünlük ölçüsü nedir?',
               secenekler: ['Soy', 'Zenginlik', 'Takva', 'Yaş'],
               dogruIndex: 2,
             ),
@@ -1154,8 +1284,14 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           kronoloji: [
             KronolojiMadde(tarih: '632, Safer', olay: 'Hastalığın başlaması'),
-            KronolojiMadde(tarih: '632, 12 Rebiülevvel', olay: 'Hz. Peygamber\'in vefatı (63 yaş)'),
-            KronolojiMadde(tarih: '632', olay: 'Hz. Ebû Bekir\'in halife seçilmesi'),
+            KronolojiMadde(
+              tarih: '632, 12 Rebiülevvel',
+              olay: 'Hz. Peygamber\'in vefatı (63 yaş)',
+            ),
+            KronolojiMadde(
+              tarih: '632',
+              olay: 'Hz. Ebû Bekir\'in halife seçilmesi',
+            ),
           ],
           cografya: [
             CografyaNokta(
@@ -1177,7 +1313,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           quiz: [
             QuizSoru(
-              soru: 'Peygamberimiz son vasiyetinde ümmetine hangi iki şeyi emretti?',
+              soru:
+                  'Peygamberimiz son vasiyetinde ümmetine hangi iki şeyi emretti?',
               secenekler: [
                 'Oruç ve zekat',
                 'Namaz ve sahip olunanların (mazlumların) hakkı',
@@ -1187,9 +1324,158 @@ final KissaKategori siyerKategorisi = KissaKategori(
               dogruIndex: 1,
             ),
             QuizSoru(
-              soru: 'Vefat haberi üzerine \"Kim Muhammed\'e tapıyorsa, o ölmüştür\" sözünü kim söyledi?',
+              soru:
+                  'Vefat haberi üzerine "Kim Muhammed\'e tapıyorsa, o ölmüştür" sözünü kim söyledi?',
               secenekler: ['Hz. Ömer', 'Hz. Ali', 'Hz. Ebû Bekir', 'Hz. Âişe'],
               dogruIndex: 2,
+            ),
+          ],
+        ),
+      ],
+    ),
+    // ================== EHL-İ BEYT & AŞERE-İ MÜBEŞŞERE ==================
+    KissaGrubu(
+      ad: 'Ehl-i Beyt ve Aşere-i Mübeşşere',
+      aciklama: 'Peygamber ailesi, hanımları ve cennetle müjdelenen sahabiler',
+      kisalar: [
+        const KissaKaydi(
+          id: 'siyer-ehlibeyt',
+          baslik: 'Ehl-i Beyt: Hz. Fâtıma, Hz. Ali, Hasan ve Hüseyin',
+          ozet:
+              '"Ey Ehl-i Beyt! Allah sizden günahı gidermek ve sizi tertemiz kılmak ister" — Peygamber ailesi.',
+          emoji: '🏡',
+          kategoriId: 'siyer',
+          temalar: ['Ahlak', 'Merhamet', 'Sadakat'],
+          donem: 'Asr-ı Saadet',
+          metin: [
+            'Ehl-i Beyt, Hz. Peygamber (s.a.v.)\'in ailesi ve ev halkıdır. Kur\'an onlara özel bir hitapta bulunur: "Ey Ehl-i Beyt! Allah, sizden günahı gidermek ve sizi tertemiz kılmak ister." (Ahzâb 33) "Kisâ" (abaya bürünme) hadisinde Peygamberimiz, Hz. Ali, Hz. Fâtıma, Hz. Hasan ve Hz. Hüseyin\'i abası altına almış ve bu ayeti okumuştur.',
+            'Hz. Fâtıma, Peygamberimizin en küçük kızıydı; babası tarafından "insanların en hayırlısının kızı" olarak anıldı. Hz. Ali, hem amcazadesi hem damadıydı; ilimde ve cesarette öncüydü. Hasan ve Hüseyin, Peygamberimizin "dünya çiçekleri" olarak tarif ettiği torunlarıydı; "Hasan ve Hüseyin, cennet gençlerinin efendileridir."',
+            'Peygamberimiz onlara gösterdiği şefkatle örnek oldu: minberde torunlarını kucağına alır, namazda sırtında taşır, onları öperdi. "Kim bunları severse beni sevmiş, kim de onlara buğz ederse bana buğz etmiştir." (Tirmizî)',
+          ],
+          ayetler: [
+            AyetKaydi(
+              arapca:
+                  'إِنَّمَا يُرِيدُ اللَّهُ لِيُذْهِبَ عَنكُمُ الرِّجْسَ أَهْلَ الْبَيْتِ وَيُطَهِّرَكُمْ تَطْهِيرًا',
+              meal:
+                  'Ey Ehl-i Beyt! Allah sizden günahı gidermek ve sizi tertemiz kılmak ister.',
+              kaynak: 'Ahzâb Suresi, 33. Ayet',
+            ),
+          ],
+          hadisler: [
+            HadisKaydi(
+              metin:
+                  'Hasan ve Hüseyin, cennet gençlerinin efendileridir. (Tirmizî, Menâkıb 30)',
+              kaynak: 'Tirmizî, Menâkıb',
+            ),
+            HadisKaydi(
+              metin:
+                  'Fâtıma, benim bir parçamdır; onu üzen, beni üzmüş olur. (Buhârî, Menâkıb 25)',
+              kaynak: 'Buhârî, Menâkıb',
+            ),
+          ],
+          hikmetler: [
+            'Ehl-i Beyt sevgisi, peygamber sevgisinin bir parçasıdır; ümmetin birleştirici değeridir.',
+            'Aile; sevgi, şefkat ve adaletle yönetilirse, toplumun temel taşı olur.',
+            'Peygamberimizin torunlarına şefkati, ata-baba ilişkisinin en güzel modelidir.',
+          ],
+          akademikNotlar: [
+            'Kisâ hadisi Müslim ve Tirmizî\'de geçer; Ahzâb 33\'ün Ehl-i Beyt\'e hasredilen yönü tefsirlerde geniş işlenir.',
+            'Ehl-i Beyt kavramının kapsamı; Peygamberimizin hanımlarını ve aile fertlerini içine alacak şekilde yorumlanır.',
+          ],
+          quiz: [
+            QuizSoru(
+              soru:
+                  'Kisâ (abaya bürünme) hadisinde abanın altına alınanlar kimlerdir?',
+              secenekler: [
+                'Hz. Ebû Bekir ve Hz. Ömer',
+                'Hz. Ali, Hz. Fâtıma, Hasan ve Hüseyin',
+                'Sadece hanımlar',
+                'Sadece torunlar',
+              ],
+              dogruIndex: 1,
+            ),
+          ],
+        ),
+        const KissaKaydi(
+          id: 'siyer-aseremu_bessere',
+          baslik: 'Aşere-i Mübeşşere',
+          ozet:
+              'Daha hayatta iken cennetle müjdelenen on sahabî: imanın ve sadakatin altın listesi.',
+          emoji: '🌟',
+          kategoriId: 'siyer',
+          temalar: ['Sadakat', 'Adalet', 'Cömertlik'],
+          donem: 'Asr-ı Saadet',
+          metin: [
+            'Aşere-i Mübeşşere; hadiste isimleri teker teker zikredilerek cennetle müjdelenen on sahabîdir: Hz. Ebû Bekir, Hz. Ömer, Hz. Osman, Hz. Ali, Talha b. Ubeydullah, Zübeyr b. Avvâm, Abdurrahman b. Avf, Sa\'d b. Ebî Vakkas, Saîd b. Zeyd ve Ebû Ubeyde b. Cerrâh. (Tirmizî, Menâkıb)',
+            'Her birinin hayatı bir ders sayfasıdır: Ebû Bekir "Sıddîk" infak ve sadakat; Ömer "Fârûk" adalet; Osman "Zinnûreyn" haya ve cömertlik; Ali ilim ve cesaret; Talha "hayy" şehitlik arzusu; Zübeyr kılıç ve cesaret; Abdurrahman b. Avf ticaret ahlakı; Sa\'d duası müstecâb; Saîd b. Zeyd zühd; Ebû Ubeyde "ümmetin emini" emanet.',
+            'Bu isimler, ümmetin ittifak ettiği seçkin şahsiyetlerdir; onları sevmek ve hayatlarından ders almak, müminin vefasının göstergesidir.',
+          ],
+          hadisler: [
+            HadisKaydi(
+              metin:
+                  'Ebû Bekir cennettedir, Ömer cennettedir, Osman cennettedir, Ali cennettedir, Talha cennettedir, Zübeyr cennettedir, Abdurrahman b. Avf cennettedir, Sa\'d cennettedir, Saîd b. Zeyd cennettedir, Ebû Ubeyde b. el-Cerrâh cennettedir. (Tirmizî, Menâkıb 47)',
+              kaynak: 'Tirmizî, Menâkıb',
+            ),
+          ],
+          hikmetler: [
+            'Cennet, amellere verilen ilahi müjdedir; bu isimler, salih amellerin altın listesini oluşturur.',
+            'Ümmet, seçkin sahabilere sevgiyle bağlanır; onlara dil uzatmak, ümmet birlik ve beraberliğini zedeler.',
+            'Ticaret, zühd, ilim, cesaret, infak: her sahabî bir değerin temsilcisidir.',
+          ],
+          akademikNotlar: [
+            '"Aşere-i Mübeşşere" tabiri, bu hadisin içerdiği on isim için kullanılır; hadis Tirmizî Menâkıb\'da Sahîh kabul edilmiştir.',
+            'Hilâfet sırasıyla ilk dört halife bu listede yer alır; bu, ehl-i sünnet itikadının temel esaslarındandır.',
+          ],
+          quiz: [
+            QuizSoru(
+              soru: 'Aşere-i Mübeşşere kaç sahabîden oluşur?',
+              secenekler: ['5', '7', '10', '12'],
+              dogruIndex: 2,
+            ),
+          ],
+        ),
+        const KissaKaydi(
+          id: 'siyer-hanimlari',
+          baslik: 'Hz. Peygamber\'in Hanımları',
+          ozet:
+              'Ümmühâtü\'l-Mü\'minîn: Hz. Hatice\'den Hz. Âişe\'ye, müminlerin anneleri.',
+          emoji: '🌹',
+          kategoriId: 'siyer',
+          temalar: ['Ahlak', 'Merhamet', 'İlim'],
+          donem: 'Asr-ı Saadet',
+          metin: [
+            'Kur\'an, Peygamberimizin hanımlarını "müminlerin anneleri" olarak anar: "Peygamber, müminlere kendi canlarından daha yakındır; hanımları da onların anneleridir." (Ahzâb 6) İslam geleneğinde bu hanımlara "Ümmühâtü\'l-Mü\'minîn" unvanı verilir.',
+            'Hz. Hatice, ilk eşi; vahyin ilk destekçisi ve "bütün malıyla İslam\'a adanan ilk mümin" idi. Diğer hanımları: Âişe (ilim ve fıkıh), Hafsa (Kur\'an\'ın korunmasında hizmet), Ümmü Seleme (hukuk ve hadis), Zeyneb bint Cahş, Cüveyriye, Ümmü Habibe, Safiyye, Meymûne, Sevde ve Zeyneb bint Huzeyme ile Mâriye\'dir.',
+            'Peygamberimiz eşlerine adaletle davrandı: "Sizin en hayırlınız, ailesine karşı en hayırlı olanınızdır." Hanımlarının çoğu, ilim rivayetinde ümmetin hocaları oldu; dini, kendi evlerinden öğrenen nesiller yetiştirdi.',
+          ],
+          ayetler: [
+            AyetKaydi(
+              arapca:
+                  'النَّبِيُّ أَوْلَىٰ بِالْمُؤْمِنِينَ مِنْ أَنفُسِهِمْ وَأَزْوَاجُهُ أُمَّهَاتُهُمْ',
+              meal:
+                  'Peygamber, müminlere kendi canlarından daha yakındır; eşleri de onların anneleridir.',
+              kaynak: 'Ahzâb Suresi, 6. Ayet',
+            ),
+          ],
+          hikmetler: [
+            'Kadın, ailenin ve ümmetin eğitim merkezidir; müminlerin anneleri bunun şahididir.',
+            'Çok eşlilik istisnai ve sorumluluk yüklüdür; Peygamberimiz adaleti en zor şartlarda gözetmiştir.',
+            'Ev içi ilim, ümmetin ilim mirasının önemli bir kaynağı olmuştur.',
+          ],
+          akademikNotlar: [
+            'Müminlerin anneleri hakkındaki ayet Ahzâb Suresi 6. ayettir; bu unvanla eşlerine saygı ve hukuki koruma sağlanmıştır.',
+            'Hz. Hatice\'nin ticaret ve evlilik öyküsü siyer kaynaklarının en başında gelir; ilk vahiy sonrası ilk inanan kadın odur.',
+          ],
+          quiz: [
+            QuizSoru(
+              soru: 'Kur\'an, Peygamberimizin hanımlarını nasıl anar?',
+              secenekler: [
+                'Müminlerin anneleri',
+                'Müminlerin kız kardeşleri',
+                'Müminlerin teyzeleri',
+                'Müminlerin halaları',
+              ],
+              dogruIndex: 0,
             ),
           ],
         ),
@@ -1198,7 +1484,8 @@ final KissaKategori siyerKategorisi = KissaKategori(
     // ============================== ŞEMAİL-İ ŞERİF ==============================
     KissaGrubu(
       ad: 'Şemail-i Şerif',
-      aciklama: 'Fiziki özellikleri, ahlakı, aile hayatı, çocuk ve hayvan sevgisi',
+      aciklama:
+          'Fiziki özellikleri, ahlakı, aile hayatı, çocuk ve hayvan sevgisi',
       kisalar: [
         const KissaKaydi(
           id: 'siyer-semail-fiziki',
@@ -1232,7 +1519,12 @@ final KissaKategori siyerKategorisi = KissaKategori(
           quiz: [
             QuizSoru(
               soru: 'Şemail ilminde en meşhur eser kimindir?',
-              secenekler: ['İmam Tirmizî', 'İmam Buhârî', 'İmam Malik', 'İmam Nevevî'],
+              secenekler: [
+                'İmam Tirmizî',
+                'İmam Buhârî',
+                'İmam Malik',
+                'İmam Nevevî',
+              ],
               dogruIndex: 0,
             ),
           ],
@@ -1253,8 +1545,7 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           hadisler: [
             HadisKaydi(
-              metin:
-                  'Âişe: "Onun ahlâkı Kur\'an idi." (Müslim, Müsâfirîn 139)',
+              metin: 'Âişe: "Onun ahlâkı Kur\'an idi." (Müslim, Müsâfirîn 139)',
               kaynak: 'Müslim, Müsâfirîn',
             ),
             HadisKaydi(
@@ -1309,8 +1600,14 @@ final KissaKategori siyerKategorisi = KissaKategori(
           ],
           quiz: [
             QuizSoru(
-              soru: '"Sizin en hayırlınız, ailesine karşı en hayırlı olanınızdır" sözü kime aittir?',
-              secenekler: ['Hz. Ebû Bekir', 'Peygamberimize', 'Hz. Hasan', 'Hz. Ali'],
+              soru:
+                  '"Sizin en hayırlınız, ailesine karşı en hayırlı olanınızdır" sözü kime aittir?',
+              secenekler: [
+                'Hz. Ebû Bekir',
+                'Peygamberimize',
+                'Hz. Hasan',
+                'Hz. Ali',
+              ],
               dogruIndex: 1,
             ),
           ],
@@ -1325,7 +1622,7 @@ final KissaKategori siyerKategorisi = KissaKategori(
           temalar: ['Merhamet', 'Ahlak'],
           donem: 'Şemail',
           metin: [
-            'Peygamberimiz çocuklara gösterdiği sevgiyle tanınırdı: Hz. Hasan ve Hüseyin\'i emzirir, kucağında gezdirdi. Namazda omzunda torununu taşıdı. "Çocuğu öptüğünü gören A\'râbî: 'Benim on çocuğum var, ben hiçbirini öpmedim' dedi; Peygamberimiz: 'Allah kalbindeki merhameti almış; şâyet verseydi, çocuklarına şefkat ederdin. Merhamet etmeyene, merhamet olunmaz.'" (Buhârî, Edeb 18)',
+            'Peygamberimiz çocuklara gösterdiği sevgiyle tanınırdı: Hz. Hasan ve Hüseyin\'i emzirir, kucağında gezdirdi. Namazda omzunda torununu taşıdı. "Çocuğu öptüğünü gören A\'râbî: \'Benim on çocuğum var, ben hiçbirini öpmedim\' dedi; Peygamberimiz: \'Allah kalbindeki merhameti almış; şâyet verseydi, çocuklarına şefkat ederdin. Merhamet etmeyene, merhamet olunmaz.\'" (Buhârî, Edeb 18)',
             'Hayvanlara karşı da rahmeti güzeldi: serçe yavrusunu alan birine "Yavrusunu geri ver" dedi; kuş yuvalarını kuran kervanlara "Yuvayı da bırakın" buyurdu. Açlıktan zayıf kalmış bir köpeğe ekmek veren fâhişenin, bu davranışıyla bağışlandığını haber verdi; bir kediyi hapseden kadının cezalandırıldığını anlattı.',
             '"Allah\'ın yeryüzündeki kullarına merhamet edin ki, gökteki (melekler) size merhamet etsin." (Tirmizî, Birr 17) O, besmele ile kesmeyi, hayvana eziyetten kaçınmayı ve emeğin karşılığında ücretini vermeyi dinin bir parçası haline getirdi.',
           ],

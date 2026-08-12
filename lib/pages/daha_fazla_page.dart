@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/renkler.dart';
 import 'hadis_kutuphanesi_page.dart';
+import 'kissalar_ve_peygamberler_page.dart';
+import 'soru_cevap/soru_cevap_page.dart';
 import 'yakindaki_camiler_page.dart';
 
 class DahaFazlaPage extends StatelessWidget {
@@ -810,35 +812,7 @@ class KissalarPage extends StatelessWidget {
   const KissalarPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return _buildStandardSubPage("Peygamber Kıssaları & Sîre", [
-      _item(
-        "Hz. Yusuf'un Sabrı",
-        "Kuyudan Mısır Sultanlığına uzanan ilahi hikmet.",
-      ),
-      _item("Hz. Eyüp'ün İmtihanı", "Sabır ve tevekkülün en büyük timsali."),
-      _item("Asr-ı Saadet Hatıraları", "Sahabelerin örnek hayatları."),
-    ]);
-  }
-}
-
-class SoruCevapPage extends StatelessWidget {
-  const SoruCevapPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return _buildStandardSubPage("Soru & Cevap (İlmihal SSS)", [
-      _item(
-        "Sehiv Secdesi Ne Zaman Yapılır?",
-        "Namazda unutulan veya geciktirilen vacipler için...",
-      ),
-      _item(
-        "Abdesti Bozan Durumlar Nelerdir?",
-        "Yara kanaması, uyku, tuvalet ihtiyacı vb.",
-      ),
-      _item(
-        "Oruçluyken Sakız Çiğnemek Orucu Bozar mı?",
-        "İçindeki tatlandırıcı ve parçacıklar mideye ulaşırsa...",
-      ),
-    ]);
+    return const KissalarVePeygamberlerPage();
   }
 }
 
