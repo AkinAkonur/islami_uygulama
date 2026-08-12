@@ -6,14 +6,14 @@ import '../services/renkler.dart';
 
 class InteraktifMetinRenderer extends StatelessWidget {
   final String hamMetin;
-  final Function(String tur, String id) OnLinkTiklandi;
-  final Function(String terim, String aciklama) OnTerimTiklandi;
+  final Function(String tur, String id) onLinkTiklandi;
+  final Function(String terim, String aciklama) onTerimTiklandi;
 
   const InteraktifMetinRenderer({
     super.key,
     required this.hamMetin,
-    required this.OnLinkTiklandi,
-    required this.OnTerimTiklandi,
+    required this.onLinkTiklandi,
+    required this.onTerimTiklandi,
   });
 
   @override
@@ -57,12 +57,12 @@ class InteraktifMetinRenderer extends StatelessWidget {
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               if (tur == 'sozluk') {
-                OnTerimTiklandi(
+                onTerimTiklandi(
                   gorunenMetin,
                   "Terim açıklaması veritabanından çekilecek.",
                 );
               } else {
-                OnLinkTiklandi(tur, idVeyaTerim);
+                onLinkTiklandi(tur, idVeyaTerim);
               }
             },
         ),

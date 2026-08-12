@@ -63,6 +63,15 @@ dependencies:
   url_launcher_ios: ^6.4.1
   share_plus: ^13.3.0
 
+  # Hac & Umre Rehberi - Acil Durum Sözlüğü sesli okuma
+  flutter_tts: ^4.2.0
+  video_player: ^2.14.0
+
+  # Kâbe Canlı Yayın - ağ durumu algılama (hücresel veri uyarısı + otomatik
+  # yeniden bağlanma) ve YouTube IFrame gömmesi (kararlı yayın akışı)
+  connectivity_plus: ^6.1.0
+  webview_flutter: ^4.10.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

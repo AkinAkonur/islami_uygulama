@@ -35,10 +35,12 @@ import 'pages/widget_rehberi_page.dart';
 import 'pages/bildirimler_sayfasi.dart';
 import 'pages/profil_sayfasi.dart';
 import 'services/manevi_store.dart';
+import 'services/canli_yayin_konfigurasyonu.dart';
 import 'screens/namaz_screen.dart';
 import 'screens/gorsel_kilinis_screen.dart';
 import 'pages/kuran/sure_listesi_page.dart';
 import 'pages/soru_cevap/gunun_sorusu_karti.dart';
+import 'pages/dua_kardesligi/dua_kardesligi_store.dart';
 import 'screens/settings_page.dart';
 
 Future<void> main() async {
@@ -46,6 +48,10 @@ Future<void> main() async {
   await AyarlarStore.baslat();
   // İlk açılışta kayıtlı tercih yoksa cihaz dili otomatik algılanır.
   await DilHizmetleri.baslat();
+  await DuaKardesligiStore.yukle();
+  // Canlı yayın kaynakları uzak konfigürasyondan dinamik olarak alınır
+  // (Firebase Remote Config alternatifi; kaynak değişirse Store güncellemesi gerekmez).
+  await CanliYayinKonfigurasyonu.baslat();
   runApp(const MyApp());
 }
 

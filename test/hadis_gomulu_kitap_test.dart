@@ -30,9 +30,19 @@ void main() {
     sqfliteFfiInit();
     final tmp = Directory.systemTemp.createTempSync('hadis_asset_test_');
     PathProviderPlatform.instance = _FakePathProvider(tmp.path);
-    addTearDown(() {
+    addTearDown(() async {
+      await HadisKutuphanesiService.instance.sil('tur-nawawi');
       HadisKutuphanesiService.instance.dispose();
-      tmp.deleteSync(recursive: true);
+      // Windows: SQLite kilitli dosyayı silme başarısız olabilir;
+      // kilit kalkana kadar birkaç kez dene.
+      for (var i = 0; i < 10; i++) {
+        try {
+          tmp.deleteSync(recursive: true);
+          break;
+        } on FileSystemException {
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+        }
+      }
     });
 
     expect(await HadisKutuphanesiService.instance.kitapHazir('tur-nawawi'),

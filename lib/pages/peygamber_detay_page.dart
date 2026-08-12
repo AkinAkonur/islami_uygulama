@@ -80,13 +80,13 @@ class PeygamberDetayPage extends StatelessWidget {
             // İnteraktif Bağlantılı Metin Motoru
             InteraktifMetinRenderer(
               hamMetin: metin,
-              OnLinkTiklandi: (tur, id) {
+              onLinkTiklandi: (tur, id) {
                 // Sahabe, Ayet veya Tefsir sayfasına yönlendirme
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Yönlendiriliyor: $tur -> ID: $id')),
                 );
               },
-              OnTerimTiklandi: (terim, aciklama) {
+              onTerimTiklandi: (terim, aciklama) {
                 // Terim Sözlüğü Tooltip BottomSheet
                 showModalBottomSheet(
                   context: context,

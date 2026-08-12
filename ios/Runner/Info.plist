@@ -38,6 +38,19 @@
 	<string>Yakındaki camileri ve namaz vakitlerini gösterebilmek için konum erişimi gereklidir.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Kıble yönünü cihaz pusulasıyla doğru gösterebilmek için hareket sensörü erişimi gereklidir.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>m.live.net.sa</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

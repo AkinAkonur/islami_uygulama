@@ -1,10 +1,19 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/renkler.dart';
+import '../services/canli_yayin_konfigurasyonu.dart';
 import 'hadis_kutuphanesi_page.dart';
 import 'kissalar_ve_peygamberler_page.dart';
 import 'soru_cevap/soru_cevap_page.dart';
 import 'yakindaki_camiler_page.dart';
+import 'hac_umre/hac_umre_page.dart';
+import 'dua_kardesligi/dua_kardesligi_page.dart';
+import 'gunluk_hedefler/gunluk_hedefler_page.dart';
+import 'paylasim_kartlari/paylasim_kartlari_studio_page.dart';
+import 'kabe_canli_page.dart';
+import 'sesli_kissalar_ve_podcastler_page.dart';
+import 'mekke_medine_sanal_tur_page.dart';
 
 class DahaFazlaPage extends StatelessWidget {
   const DahaFazlaPage({super.key});
@@ -137,7 +146,7 @@ class DahaFazlaPage extends StatelessWidget {
               Icons.luggage_outlined,
               "Hac & Umre Rehberi",
               "Adım adım kutsal topraklar yolculuğu ve duaları",
-              HacUmrePage(),
+              const HacUmreRehberPage(),
               Colors.amber,
             ),
             SizedBox(height: 24),
@@ -150,7 +159,7 @@ class DahaFazlaPage extends StatelessWidget {
               Icons.groups_outlined,
               "Dua Kardeşliği",
               "Anonim olarak kardeşlerin için dua iste ve dua et",
-              DuaKardesligiPage(),
+              const DuaKardesligiPage(),
               Colors.orange,
             ),
             _buildModuleCard(
@@ -166,21 +175,38 @@ class DahaFazlaPage extends StatelessWidget {
               Icons.share_outlined,
               "Paylaşım Kartları",
               "WhatsApp ve Instagram için ayet/hadis görsel kartları",
-              PaylasimKartlariPage(),
+              PaylasimKartlariStudioPage(),
               Colors.lightBlueAccent,
             ),
             SizedBox(height: 24),
 
-            // 4. ARAÇ & MEDYA
-            _buildSectionHeader("🎧 Araç & Medya"),
+            // 4. İNTERAKTİF MEDYA MERKEZİ
+            Text(
+              "🎧 İnteraktif Medya Merkezi",
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 12),
+            _kabeCanliHeroKarti(context),
             SizedBox(height: 12),
             _buildModuleCard(
               context,
-              Icons.live_tv_outlined,
-              "Kâbe Canlı Yayın",
-              "7/24 Mescid-i Haram (Kâbe-i Muazzama) canlı yayını",
-              KabeCanliPage(),
-              Colors.redAccent,
+              Icons.record_voice_over_outlined,
+              "Sesli Kıssalar ve Podcastler",
+              "Kıssaları dinle, podcast ve radyo akışları",
+              const SesliKissalarVePodcastlerPage(),
+              Colors.purpleAccent,
+            ),
+            _buildModuleCard(
+              context,
+              Icons.threesixty_rounded,
+              "Mekke & Medine 360° Sanal Tur",
+              "Canlı yayınlar, 360° turlar ve mekân haritaları",
+              const MekkeMedineSanalTurPage(),
+              Colors.amberAccent,
             ),
             _buildModuleCard(
               context,
@@ -212,6 +238,168 @@ class DahaFazlaPage extends StatelessWidget {
         color: Colors.white,
         fontSize: 18,
         fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  /// Kâbe-i Muazzama Canlı Yayını "hero" kartı:
+  /// canlı rozeti + açıklama + 🎧 Ses Modu / 📺 Tam Ekran İzle kısayolları.
+  Widget _kabeCanliHeroKarti(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const KabeCanliPage()),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Renkler.bannerUst, Renkler.bannerAlt],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Renkler.vurgu.withValues(alpha: 0.15),
+              blurRadius: 18,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Canlı rozeti
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: Colors.redAccent,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.circle, size: 8, color: Colors.white),
+                  SizedBox(width: 6),
+                  Text(
+                    'KABE-İ MUAZZAMA CANLI YAYINI',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.8,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              '🕋 Kâbe-i Muazzama Canlı Yayını',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Şu an Mescid-i Haram\'dan Canlı · 24/7',
+              style: TextStyle(color: Colors.white70, fontSize: 12.5),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'YouTube resmî yayın · hücresel veri uyarısı · Mini Oynatıcı (PiP)',
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.6),
+                fontSize: 11,
+              ),
+            ),
+            const SizedBox(height: 14),
+            Row(
+              children: [
+                Expanded(
+                  child: _heroButon(
+                    ikon: Icons.headphones_outlined,
+                    etiket: '🎧 Ses Modu\n(Arkaplanda Çal)',
+                    dolu: true,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const KabeCanliPage(
+                          baslangicModu: YayinModu.ses,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _heroButon(
+                    ikon: Icons.fullscreen_outlined,
+                    etiket: '📺 Tam Ekran İzle',
+                    dolu: false,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const KabeCanliPage(),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _heroButon({
+    required IconData ikon,
+    required String etiket,
+    required bool dolu,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+        decoration: BoxDecoration(
+          color: dolu
+              ? Renkler.vurgu.withValues(alpha: 0.85)
+              : Colors.white.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: dolu
+                ? Colors.transparent
+                : Colors.white.withValues(alpha: 0.25),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              ikon,
+              color: dolu ? Colors.black : Colors.white,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                etiket,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: dolu ? Colors.black : Colors.white,
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.bold,
+                  height: 1.3,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -816,74 +1004,176 @@ class KissalarPage extends StatelessWidget {
   }
 }
 
-class HacUmrePage extends StatelessWidget {
-  const HacUmrePage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return _buildStandardSubPage("Hac & Umre Rehberi", [
-      _item("İhrama Girüş & Mikat", "Niyet ve Telbiye duası"),
-      _item("Tavaf Adımları", "Kâbe etrafında 7 şavt"),
-      _item("Sa'y", "Sefa ve Merve tepeleri arası yürüyüş"),
-    ]);
-  }
-}
-
-class DuaKardesligiPage extends StatelessWidget {
-  const DuaKardesligiPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return _buildStandardSubPage("Dua Kardeşliği (Anonim)", [
-      _item("Hayırlı sınav sonucu için dua", "124 kişi amin dedi"),
-      _item("Şifa bekleyen bir anne için", "89 kişi amin dedi"),
-      _item("Borçlardan kurtulmak için", "210 kişi amin dedi"),
-    ]);
-  }
-}
-
-class GunlukHedeflerPage extends StatelessWidget {
-  const GunlukHedeflerPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return _buildStandardSubPage("Günlük Hedefler & Streak", [
-      _item("5 Vakit Namaz Takibi", "Bugün: 4/5 Tamamlandı"),
-      _item("100 Esma / Zikir", "Tamamlandı (Seri: 7 Gün 🔥)"),
-      _item("Günün Ayetini Oku", "Tamamlandı"),
-    ]);
-  }
-}
-
-class PaylasimKartlariPage extends StatelessWidget {
-  const PaylasimKartlariPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return _buildStandardSubPage("Paylaşım Kartları Stüdyosu", [
-      _item("İnşirah Suresi Kartı", "WhatsApp/Instagram Hikaye formatında"),
-      _item("Cuma Mesajı Şablonları", "Hazır hat yazılı görseller"),
-    ]);
-  }
-}
-
-class KabeCanliPage extends StatelessWidget {
-  const KabeCanliPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return _buildStandardSubPage("Kâbe-i Muazzama Canlı Yayın", [
-      _item(
-        "Mescid-i Haram 7/24 Canlı",
-        "Hacerü'l-Esved ve Tavaf alanı canlı kamera akışı aktif.",
-      ),
-    ]);
-  }
-}
-
-class DiniRadyoPage extends StatelessWidget {
+class DiniRadyoPage extends StatefulWidget {
   const DiniRadyoPage({super.key});
+
+  @override
+  State<DiniRadyoPage> createState() => _DiniRadyoPageState();
+}
+
+class _DiniRadyoPageState extends State<DiniRadyoPage> {
+  final AudioPlayer _player = AudioPlayer();
+  String? _calanUrl;
+  bool _calyor = false;
+  bool _yukleniyor = false;
+  String? _hata;
+
+  List<RadyoKanali> get _kanallar =>
+      CanliYayinKonfigurasyonu.guncel.radyoKanallari;
+
+  @override
+  void initState() {
+    super.initState();
+    _player.onPlayerStateChanged.listen((durum) {
+      if (!mounted) return;
+      setState(() {
+        _calyor = durum == PlayerState.playing;
+        if (durum != PlayerState.disposed) _yukleniyor = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    super.dispose();
+  }
+
+  Future<void> _oynat(RadyoKanali kanal) async {
+    if (_calanUrl == kanal.url && _calyor) {
+      await _player.pause();
+      if (mounted) setState(() => _calyor = false);
+      return;
+    }
+    setState(() {
+      _yukleniyor = true;
+      _hata = null;
+    });
+    try {
+      await _player.stop();
+      await _player.setReleaseMode(ReleaseMode.release);
+      await _player.play(
+        UrlSource(kanal.url),
+        mode: PlayerMode.mediaPlayer,
+      );
+      if (mounted) {
+        setState(() {
+          _calanUrl = kanal.url;
+          _calyor = true;
+          _yukleniyor = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _yukleniyor = false;
+          _calyor = false;
+          _hata = 'Bu radyoya ulaşılamadı. Bağlantınızı kontrol ediniz.';
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _buildStandardSubPage("Dini Radyo & İlahi Akışı", [
-      _item("Kur'an-ı Kerim Meali Radyosu", "7/24 Kesintisiz Tilavet"),
-      _item("Seçkin İlahiler ve Tasavvuf", "Huzur veren sesler"),
-    ]);
+    return Scaffold(
+      backgroundColor: Renkler.zemin,
+      appBar: AppBar(
+        title: const Text("Dini Radyo & İlahi Akışı"),
+        backgroundColor: Renkler.seciliYuzey,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Renkler.seciliYuzey.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Renkler.cerceve),
+            ),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.radio_outlined, color: Colors.indigoAccent),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    '7/24 kesintisiz Kur\'an tilaveti ve ilahi akışı. '
+                    'Kanallar sunucu tarafından yönetilir; uygulama '
+                    'güncellemesi gerektirmez.',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (_hata != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                _hata!,
+                style: const TextStyle(color: Colors.redAccent, fontSize: 12),
+              ),
+            ),
+          const SizedBox(height: 12),
+          for (final kanal in _kanallar) _kanalKarti(kanal),
+        ],
+      ),
+    );
+  }
+
+  Widget _kanalKarti(RadyoKanali kanal) {
+    final caliyor = _calanUrl == kanal.url && _calyor;
+    return Card(
+      color: Renkler.kart,
+      margin: const EdgeInsets.only(bottom: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        leading: GestureDetector(
+          onTap: () => _oynat(kanal),
+          child: Container(
+            width: 46,
+            height: 46,
+            decoration: BoxDecoration(
+              color: caliyor
+                  ? Colors.indigoAccent.withValues(alpha: 0.25)
+                  : Renkler.seciliYuzey,
+              shape: BoxShape.circle,
+            ),
+            child: _yukleniyor && caliyor
+                ? const Padding(
+                    padding: EdgeInsets.all(13),
+                    child: CircularProgressIndicator(strokeWidth: 2.4),
+                  )
+                : Icon(
+                    caliyor ? Icons.stop : Icons.play_arrow,
+                    color: caliyor ? Colors.redAccent : Colors.indigoAccent,
+                    size: 26,
+                  ),
+          ),
+        ),
+        title: Text(
+          kanal.ad,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 14.5,
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Text(
+            caliyor ? '🔴 Canlı akış devam ediyor...' : kanal.aciklama,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
+        ),
+        isThreeLine: true,
+      ),
+    );
   }
 }
 
