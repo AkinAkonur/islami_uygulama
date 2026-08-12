@@ -18,6 +18,7 @@ import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -294,6 +295,7 @@ class HadisKutuphanesiService {
   final Map<String, Database> _dbler = {};
   final Map<String, List<HadisKitabi>> _kitapOnbellek = {};
   bool _ffiHazir = false;
+  bool _yerlesikKuruldu = false;
 
   // ---------------- KİTAP LİSTESİ (dil destekli) ----------------
 
@@ -383,7 +385,30 @@ class HadisKutuphanesiService {
     final destek = await getApplicationSupportDirectory();
     final hadis = Directory(p.join(destek.path, 'hadis'));
     await hadis.create(recursive: true);
+    await _yerlesikKitaplariKur(hadis.path);
     return hadis.path;
+  }
+
+  /// Uygulamayla birlikte gelen küçük kitabı (İmam Nevevi'nin Kırk Hadisi)
+  /// ilk açılışta cihaz dizinine kopyalar. Böylece internet olmasa bile
+  /// kütüphane çalışır durumda başlar.
+  Future<void> _yerlesikKitaplariKur(String dizin) async {
+    if (_yerlesikKuruldu) return;
+    _yerlesikKuruldu = true;
+    const zipKaynak = 'assets/hadis/tur-nawawi.sqlite.zip';
+    const hedefSqlite = 'tur-nawawi.sqlite';
+    if (File(p.join(dizin, hedefSqlite)).existsSync()) return;
+    try {
+      final veri = await rootBundle.load(zipKaynak);
+      final arsiv = ZipDecoder().decodeBytes(veri.buffer.asUint8List());
+      for (final uye in arsiv.files) {
+        if (!uye.isFile) continue;
+        final hedef = p.join(dizin, p.basename(uye.name));
+        await File(hedef).writeAsBytes(uye.content!, flush: true);
+      }
+    } catch (_) {
+      // Varlık bulunamazsa sessizce geç; kitaplar istenince indirilir.
+    }
   }
 
   void _ffiBaslat() {
@@ -406,7 +431,7 @@ class HadisKutuphanesiService {
     void Function(int indirilen, int toplam)? ilerleme,
   }) async {
     final istek = http.Request('GET', Uri.parse(url));
-    final yanit = await _client.send(istek).timeout(const Duration(seconds: 60));
+    final yanit = await _client.send(istek).timeout(const Duration(seconds: 20));
     if (yanit.statusCode != 200) {
       throw Exception('HTTP ${yanit.statusCode}');
     }
@@ -434,17 +459,17 @@ class HadisKutuphanesiService {
     if (File(sqliteYolu).existsSync()) return sqliteYolu;
 
     Uint8List? veri;
-    Object? sonHata;
+    final hatalar = <String>[];
     for (final sunucu in _sunucular) {
       try {
         veri = await _indir('$sunucu/${kitap.zipYolu}', ilerleme: ilerleme);
         break;
       } catch (e) {
-        sonHata = e;
+        hatalar.add('$sunucu => $e');
       }
     }
     if (veri == null) {
-      throw Exception('İndirme başarısız oldu: $sonHata');
+      throw Exception('İndirme başarısız oldu: ${hatalar.join(' | ')}');
     }
 
     final zipYolu = p.join(dizin, '${kitap.kod}.sqlite.zip');

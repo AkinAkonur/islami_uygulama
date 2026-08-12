@@ -1,0 +1,1027 @@
+{
+  "kategoriler": [
+    {
+      "id": "gunluk",
+      "ad": "Günlük Yaşam Duaları",
+      "emoji": "🌅",
+      "renk": "#F2C14E",
+      "gruplar": [
+        {
+          "ad": "Sabah & Akşam Zikirleri / Duaları",
+          "dualar": [
+            {
+              "id": "gunluk-sabah-bismillah-3",
+              "baslik": "Sabah & Akşam Korunma Duası",
+              "arapca": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+              "okunus": "Bismillâhillezî lâ yedurru me'asmihî şey'ün fi'l-ardi ve lâ fi's-semâi ve hüve's-semî'ul-alîm.",
+              "meal": "O Allah'ın adıyla ki O'nun adıyla beraber yerde ve gökte hiçbir şey zarar veremez. O, her şeyi işiten ve her şeyi bilendir.",
+              "kaynak": "Ebu Davud, Edeb, 101",
+              "tekrar": 3,
+              "etiketler": ["korunma", "güne", "sabah"]
+            },
+            {
+              "id": "gunluk-sabah-raditu",
+              "baslik": "Sabah & Akşam Teslimiyet Duası",
+              "arapca": "رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا",
+              "okunus": "Radîtü billâhi rabbe, ve bi'l-İslâmi dîne, ve bi-Muhammedin sallallâhu aleyhi ve selleme nebiyyâ.",
+              "meal": "Allah'ı Rab, İslam'ı din ve Muhammed'i (s.a.v.) peygamber olarak kabul ettim (ve bunlardan razıyım).",
+              "kaynak": "Ebu Davud, Edeb, 110",
+              "tekrar": 3,
+              "etiketler": ["sabah", "teslimiyet"]
+            },
+            {
+              "id": "gunluk-sabah-isteizaz",
+              "baslik": "Sabah & Akşam Şeytandan Sığınma",
+              "arapca": "أَعُوذُ بِاللَّهِ السَّمِيعِ الْعَلِيمِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+              "okunus": "Eûzü billâhi's-semî'il-alîmi mine'ş-şeytâni'r-racîm.",
+              "meal": "Her şeyi işiten ve bilen Allah'a, kovulmuş şeytandan sığınırım.",
+              "kaynak": "Ebu Davud, Edeb, 102",
+              "tekrar": 3,
+              "etiketler": ["korunma", "sabah", "şeytan"]
+            },
+            {
+              "id": "gunluk-sabah-tevhid-10",
+              "baslik": "Sabah & Akşam Tevhid Duası",
+              "arapca": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+              "okunus": "Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehü'l-mülkü ve lehü'l-hamdü ve hüve alâ külli şey'in kadîr.",
+              "meal": "Allah'tan başka ilah yoktur, O tektir, ortağı yoktur. Mülk O'nundur, hamd O'nadır ve O'nun her şeye gücü yeter.",
+              "kaynak": "Müslim, Zikir, 36",
+              "tekrar": 10,
+              "etiketler": ["sabah", "tevhid"]
+            },
+            {
+              "id": "gunluk-sabah-istigfar-100",
+              "baslik": "Günlük İstiğfar",
+              "arapca": "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيَّ الْقَيُّومَ وَأَتُوبُ إِلَيْهِ",
+              "okunus": "Estağfirullâhe'l-azîmellezî lâ ilâhe illâ hüve'l-hayye'l-kayyûme ve etûbü ileyh.",
+              "meal": "Kendisinden başka ilah olmayan, dirilik ve varlığı devamlı olan yüce Allah'tan bağışlanma diler ve O'na tövbe ederim.",
+              "kaynak": "Ebu Davud, Vitir, 26",
+              "tekrar": 100,
+              "etiketler": ["istiğfar", "tevbe"]
+            },
+            {
+              "id": "gunluk-sabah-subhan-100",
+              "baslik": "Sabah & Akşam Tesbihi",
+              "arapca": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+              "okunus": "Sübhânallâhi ve bi-hamdih.",
+              "meal": "Allah'ı hamd ile birlikte her türlü eksiklikten tenzih ederim (şanına yaraşmayan sıfatlardan uzak tutarım).",
+              "kaynak": "Müslim, Zikir, 65",
+              "tekrar": 100,
+              "etiketler": ["tesbih", "sabah"]
+            }
+          ]
+        },
+        {
+          "ad": "Uyku & Uyanma Duaları",
+          "dualar": [
+            {
+              "id": "gunluk-uyku-bismik",
+              "baslik": "Yatarken Duası",
+              "arapca": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+              "okunus": "Bismike Allâhümme emûtü ve ahyâ.",
+              "meal": "Allah'ım! Senin adınla ölür (uyur), Senin adınla dirilirim (uyanırım).",
+              "kaynak": "Buhari, Deavat, 7",
+              "etiketler": ["uyku", "gece"]
+            },
+            {
+              "id": "gunluk-uyku-ahya",
+              "baslik": "Uyanınca Duası",
+              "arapca": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+              "okunus": "Elhamdülillâhillezî ahyânâ ba'de mâ emâtenâ ve ileyhi'n-nüşûr.",
+              "meal": "Bizi öldürdükten (uyuttuktan) sonra dirilten Allah'a hamd olsun; diriliş yalnız O'nadır.",
+              "kaynak": "Buhari, Deavat, 26",
+              "etiketler": ["uyku", "uyanma"]
+            },
+            {
+              "id": "gunluk-uyku-son-sureler",
+              "baslik": "Yatmadan Önce Korunma (İhlas, Felak, Nas)",
+              "arapca": "قُلْ هُوَ اللَّهُ أَحَدٌ · قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ · قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
+              "okunus": "Kul hüvallâhü ehad · Kul eûzü bi-rabbi'l-felak · Kul eûzü bi-rabbi'n-nâs.",
+              "meal": "De ki: O Allah birdir. De ki: Sabahın Rabbine sığınırım. De ki: İnsanların Rabbine sığınırım. (İhlas, Felak ve Nas surelerini her gece okuyan, onları avucuna üfleyip vücudunu sıvazlardı.)",
+              "kaynak": "Buhari, Fezailü'l-Kur'an, 14",
+              "tekrar": 3,
+              "etiketler": ["uyku", "korunma", "gece"]
+            }
+          ]
+        },
+        {
+          "ad": "Yemek, Su ve Sofra Duaları",
+          "dualar": [
+            {
+              "id": "gunluk-yemek-bismillah",
+              "baslik": "Yemeğe Başlarken",
+              "arapca": "بِسْمِ اللَّهِ وَعَلَى بَرَكَةِ اللَّهِ",
+              "okunus": "Bismillâhi ve alâ berakatillâh.",
+              "meal": "Allah'ın adıyla ve Allah'ın bereketiyle (yemeğe başlıyorum).",
+              "kaynak": "Ebu Davud, Et'ime, 14",
+              "etiketler": ["yemek", "sofra"]
+            },
+            {
+              "id": "gunluk-yemek-bitince",
+              "baslik": "Yemek Bitince",
+              "arapca": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+              "okunus": "Elhamdülillâhillezî et'amenî hâzâ ve razakanîhi min ğayri havlin minnî ve lâ kuvveh.",
+              "meal": "Bana bu yemeği yediren, onu benden güç ve kuvvet olmaksızın rızık kılan Allah'a hamd olsun.",
+              "kaynak": "Ebu Davud, Et'ime, 51",
+              "etiketler": ["yemek", "şükür"]
+            },
+            {
+              "id": "gunluk-yemek-bereket",
+              "baslik": "Sofra Bereketi Duası",
+              "arapca": "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
+              "okunus": "Allâhümme bârik lenâ fîmâ razaktenâ ve kınâ azâbe'n-nâr.",
+              "meal": "Allah'ım! Bize verdiklerinde bereket ihsan et ve bizi ateş azabından koru.",
+              "kaynak": "Hakim, el-Müstedrek, 4/201",
+              "etiketler": ["yemek", "bereket", "rızık"]
+            },
+            {
+              "id": "gunluk-yemek-su",
+              "baslik": "Su İçince Duası",
+              "arapca": "الْحَمْدُ لِلَّهِ الَّذِي سَقَانَا عَذْبًا فُرَاتًا بِرَحْمَتِهِ وَلَمْ يَجْعَلْهُ مِلْحًا أُجَاجًا بِذُنُوبِنَا",
+              "okunus": "Elhamdülillâhillezî sekânâ azben fürâten bi-rahmetihî ve lem yec'alhü milhan ücâcen bi-zünûbinâ.",
+              "meal": "Bize rahmetiyle tatlı ve içimi hoş su içiren, günahlarımız yüzünden onu tuzlu ve acı kılmayan Allah'a hamd olsun.",
+              "kaynak": "İbn Mace, Eşribe, 3",
+              "etiketler": ["su", "şükür"]
+            }
+          ]
+        },
+        {
+          "ad": "Evden Çıkış & Eve Giriş Duaları",
+          "dualar": [
+            {
+              "id": "gunluk-ev-cikis",
+              "baslik": "Evden Çıkarken",
+              "arapca": "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+              "okunus": "Bismillâhi tevekkeltü alâllâh, ve lâ havle ve lâ kuvvete illâ billâh.",
+              "meal": "Allah'ın adıyla (çıkıyorum), Allah'a tevekkül ettim. Güç ve kuvvet ancak Allah'ladır.",
+              "kaynak": "Ebu Davud, Edeb, 103",
+              "etiketler": ["ev", "çıkış", "yol"]
+            },
+            {
+              "id": "gunluk-ev-giris",
+              "baslik": "Eve Girerken",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَوْلِجِ وَخَيْرَ الْمَخْرَجِ بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا",
+              "okunus": "Allâhümme innî es'elüke hayra'l-mevlici ve hayra'l-mehrac. Bismillâhi velcnâ ve bismillâhi haracnâ ve alâllâhi rabbinâ tevekkelnâ.",
+              "meal": "Allah'ım! Senden girişin de çıkışın da hayırlısını dilerim. Allah'ın adıyla girdik, Allah'ın adıyla çıktık ve Rabbimiz Allah'a tevekkül ettik.",
+              "kaynak": "Ebu Davud, Edeb, 103",
+              "etiketler": ["ev", "giriş"]
+            }
+          ]
+        },
+        {
+          "ad": "Abdest, Ezan ve Camiye Giriş Duaları",
+          "dualar": [
+            {
+              "id": "gunluk-abdest-sonrasi",
+              "baslik": "Abdest Sonrası Duası",
+              "arapca": "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+              "okunus": "Eşhedü en lâ ilâhe illallâhü vahdehû lâ şerîke leh, ve eşhedü enne Muhammeden abdühû ve rasûlüh.",
+              "meal": "Allah'tan başka ilah olmadığına, O'nun tek olup ortağının bulunmadığına şehadet ederim; Muhammed'in O'nun kulu ve elçisi olduğuna da şehadet ederim.",
+              "kaynak": "Tirmizi, Taharet, 40",
+              "etiketler": ["abdest", "temizlik"]
+            },
+            {
+              "id": "gunluk-ezan-duasi",
+              "baslik": "Ezan Duası",
+              "arapca": "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ",
+              "okunus": "Allâhümme rabbe hâzihi'd-da'veti't-tâmme ve's-salâti'l-kâime, âti Muhammeden el-vesîlete ve'l-fadîlete, veb'ashü makâmen mahmûden ellezî veadteh.",
+              "meal": "Bu eksiksiz davetin ve kılınacak namazın Rabbi olan Allah'ım! Muhammed'e vesileyi ve fazileti ver, onu vaad ettiğin övülmüş makama (makam-ı mahmuda) ulaştır.",
+              "kaynak": "Buhari, Ezan, 8",
+              "etiketler": ["ezan", "namaz"]
+            },
+            {
+              "id": "gunluk-cami-giris",
+              "baslik": "Camiye Girerken",
+              "arapca": "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+              "okunus": "Allâhümme'ftah lî ebvâbe rahmetik.",
+              "meal": "Allah'ım! Bana rahmetinin kapılarını aç.",
+              "kaynak": "Müslim, Müsafirin, 69",
+              "etiketler": ["cami", "mescit"]
+            },
+            {
+              "id": "gunluk-cami-cikis",
+              "baslik": "Camiden Çıkarken",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+              "okunus": "Allâhümme innî es'elüke min fadlik.",
+              "meal": "Allah'ım! Senden lütfunu ve ikramını dilerim.",
+              "kaynak": "Müslim, Müsafirin, 69",
+              "etiketler": ["cami", "rızık"]
+            }
+          ]
+        },
+        {
+          "ad": "Yolculuk ve Vasıtaya Binme Duaları",
+          "dualar": [
+            {
+              "id": "gunluk-yol-vasita",
+              "baslik": "Vasıtaya Binerken",
+              "arapca": "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
+              "okunus": "Sübhânellezî sehhara lenâ hâzâ ve mâ künnâ lehû mukrinîn, ve innâ ilâ rabbinâ le-münkalibûn.",
+              "meal": "Bunu bizim hizmetimize veren Allah'ı tesbih ederim; biz buna güç yetiremezdik. Şüphesiz biz, Rabbimize döneceğiz.",
+              "kaynak": "Zuhruf Suresi, 13. Ayet",
+              "ayet": "43:13",
+              "etiketler": ["yolculuk", "taşıt", "araç"]
+            },
+            {
+              "id": "gunluk-yol-dua",
+              "baslik": "Yolculuk Duası",
+              "arapca": "اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى وَمِنَ الْعَمَلِ مَا تَرْضَى",
+              "okunus": "Allâhümme innâ nes'elüke fî seferinâ hâzâ el-birra ve't-takvâ, ve mine'l-ameli mâ terdâ.",
+              "meal": "Allah'ım! Bu yolculuğumuzda bizden iyilik ve takva, razı olacağın ameller dileriz.",
+              "kaynak": "Müslim, Hac, 425",
+              "etiketler": ["yolculuk", "sefer"]
+            },
+            {
+              "id": "gunluk-yol-tekbir",
+              "baslik": "Yolculukta Tekbir ve Tehlil",
+              "arapca": "اللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ",
+              "okunus": "Allâhü ekber, Allâhü ekber, Allâhü ekber. Sübhânellezî sehhara lenâ hâzâ ve mâ künnâ lehû mukrinîn.",
+              "meal": "Allah en büyüktür (üç kez). Bunu bizim hizmetimize vereni tesbih ederim; biz buna güç yetiremezdik.",
+              "kaynak": "Müslim, Hac, 425",
+              "etiketler": ["yolculuk", "tekbir"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "duygu",
+      "ad": "Duygu ve Ruh Haline Göre Dualar",
+      "emoji": "🤲",
+      "renk": "#5FA8E8",
+      "gruplar": [
+        {
+          "ad": "Sıkıntı, Kaygı ve Stres Anında Okunacaklar",
+          "dualar": [
+            {
+              "id": "duygu-sikinti-lahe",
+              "baslik": "Sıkıntı ve Keder Duası",
+              "arapca": "لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ",
+              "okunus": "Lâ ilâhe illallâhü'l-azîmü'l-halîm. Lâ ilâhe illallâhü rabbü'l-arşi'l-azîm. Lâ ilâhe illallâhü rabbü's-semâvâti ve rabbü'l-ardi ve rabbü'l-arşi'l-kerîm.",
+              "meal": "Büyük ve halim olan Allah'tan başka ilah yoktur. Büyük arşın Rabbi olan Allah'tan başka ilah yoktur. Göklerin, yerin ve kerim arşın Rabbi olan Allah'tan başka ilah yoktur.",
+              "kaynak": "Buhari, Deavat, 27",
+              "etiketler": ["sıkıntı", "kaygı", "stres", "keder"]
+            },
+            {
+              "id": "duygu-sikinti-hemm",
+              "baslik": "Keder ve Hüzünden Sığınma",
+              "arapca": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَالْعَجْزِ وَالْكَسَلِ وَالْبُخْلِ وَالْجُبْنِ وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ",
+              "okunus": "Allâhümme innî eûzü bike mine'l-hemmi ve'l-hazeni ve'l-aczi ve'l-keseli ve'l-buhli ve'l-cübni ve dalai'd-deyni ve ğalebeti'r-ricâl.",
+              "meal": "Allah'ım! Üzüntüden, hüzünden, acizlikten, tembellikten, cimrilikten, korkaklıktan, borç altında ezilmekten ve insanların galip gelmesinden sana sığınırım.",
+              "kaynak": "Buhari, Deavat, 37",
+              "etiketler": ["kaygı", "borç", "sıkıntı"]
+            },
+            {
+              "id": "duygu-sikinti-hasbunallah",
+              "baslik": "Tevekkül Duası",
+              "arapca": "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
+              "okunus": "Hasbünallâhü ve ni'me'l-vekîl.",
+              "meal": "Bize Allah yeter; O ne güzel vekildir.",
+              "kaynak": "Al-i İmran Suresi, 173. Ayet",
+              "ayet": "3:173",
+              "tekrar": 7,
+              "etiketler": ["tevekkül", "sıkıntı", "güven"]
+            },
+            {
+              "id": "duygu-sikinti-hayyum",
+              "baslik": "Ya Hayyu Ya Kayyum Duası",
+              "arapca": "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ أَصْلِحْ لِي شَأْنِي كُلَّهُ وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ",
+              "okunus": "Yâ Hayyü yâ Kayyûm, bi-rahmetike esteğîs, aslıh lî şe'nî küllehû ve lâ tekilnî ilâ nefsî tarrfete ayn.",
+              "meal": "Ey Hayy (diri) ve Kayyum (varlığı devamlı olan)! Rahmetinle yardım istiyorum; bütün işlerimi düzelt ve beni göz açıp kapayacak kadar bir an bile nefsimle baş başa bırakma.",
+              "kaynak": "Hakim, el-Müstedrek, 1/509",
+              "etiketler": ["kaygı", "sıkıntı", "istiaze"]
+            },
+            {
+              "id": "duygu-sikinti-abduke",
+              "baslik": "Kederden Kurtuluş Duası",
+              "arapca": "اللَّهُمَّ إِنِّي عَبْدُكَ ابْنُ عَبْدِكَ ابْنُ أَمَتِكَ نَاصِيَتِي بِيَدِكَ مَاضٍ فِيَّ حُكْمُكَ عَدْلٌ فِيَّ قَضَاؤُكَ أَسْأَلُكَ بِكُلِّ اسْمٍ هُوَ لَكَ سَمَّيْتَ بِهِ نَفْسَكَ أَوْ أَنْزَلْتَهُ فِي كِتَابِكَ أَنْ تَجْعَلَ الْقُرْآنَ رَبِيعَ قَلْبِي وَنُورَ صَدْرِي وَجَلَاءَ حُزْنِي وَذَهَابَ هَمِّي",
+              "okunus": "Allâhümme innî abdüke, ibni abdike, ibni emetik. Nâsıyetî bi-yedik, mâdin fiyye hukmük, adlün fiyye kazâük. Es'elüke bi-külli ismin hüve leke semmeyte bihî nefsek, ev enzeltehû fî kitâbik, en tec'ale'l-Kur'âne rabîa kalbî, ve nûra sadrî, ve celâe huznî, ve zehâbe hemmî.",
+              "meal": "Allah'ım! Ben senin kulunum, kulunun oğluyum, cariyenin oğluyum. Perçemim senin elindedir; hükmün bende cereyan eder, kazana adaletlidir. Kendine verdiğin veya kitabında indirdiğin bütün isimlerinle senden dilerim ki Kur'an'ı kalbimin baharı, göğsümün nuru, hüznümün gidericisi ve tasamın çıkış yolu kılasın.",
+              "kaynak": "Ahmed b. Hanbel, Müsned, 1/391",
+              "etiketler": ["kaygı", "keder", "hüzün", "stres"]
+            },
+            {
+              "id": "duygu-sikinti-insirah",
+              "baslik": "Ferahlık ve Kolaylık Duası",
+              "arapca": "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي",
+              "okunus": "Rabbişrah lî sadrî ve yessir lî emrî, vahlul ukdeten min lisânî yefkahû kavlî.",
+              "meal": "Rabbim! Göğsümü genişlet, işimi kolaylaştır ve dilimdeki düğümü çöz ki sözümü iyi anlasınlar.",
+              "kaynak": "Taha Suresi, 25-28. Ayet",
+              "ayet": "20:25",
+              "etiketler": ["ferahlık", "sınav", "kolaylık", "kaygı"]
+            }
+          ]
+        },
+        {
+          "ad": "Şifa ve Hastalık Anı Duaları",
+          "dualar": [
+            {
+              "id": "duygu-sifa-rabinnas",
+              "baslik": "Hastaya Şifa Duası",
+              "arapca": "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِ أَنْتَ الشَّافِي لَا شِفَاءَ إِلَّا شِفَاؤُكَ شِفَاءً لَا يُغَادِرُ سَقَمًا",
+              "okunus": "Allâhümme rabbe'n-nâs, ezhibi'l-be's, işfi ente'ş-şâfî, lâ şifâe illâ şifâük, şifâen lâ yuğâdiru sekamâ.",
+              "meal": "Ey insanların Rabbi olan Allah'ım! Hastalığı gider, şifa ver. Şifa veren yalnız Sensin. Senin şifandan başka şifa yoktur; öyle bir şifa ver ki hiçbir hastalık kalmasın.",
+              "kaynak": "Buhari, Tıp, 38",
+              "etiketler": ["şifa", "hastalık", "sağlık"]
+            },
+            {
+              "id": "duygu-sifa-eselullah",
+              "baslik": "Hastanın Şifa Duası",
+              "arapca": "أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ",
+              "okunus": "Es'elüllâhe'l-azîme rabbe'l-arşi'l-azîm en yeşfiyek.",
+              "meal": "Büyük arşın Rabbi olan Yüce Allah'tan sana şifa vermesini dilerim.",
+              "kaynak": "Tirmizi, Tıp, 35",
+              "tekrar": 7,
+              "etiketler": ["şifa", "hastalık"]
+            },
+            {
+              "id": "duygu-sifa-la-bese",
+              "baslik": "Hasta Ziyaretinde Duası",
+              "arapca": "لَا بَأْسَ طَهُورٌ إِنْ شَاءَ اللَّهُ",
+              "okunus": "Lâ be'se tahûrun in şâallâh.",
+              "meal": "İnşallah bir sakıncası yok; bu (hastalık) günahlara kefarettir (temizlenmedir).",
+              "kaynak": "Buhari, Tıp, 19",
+              "etiketler": ["şifa", "hastalık", "ziyaret"]
+            },
+            {
+              "id": "duygu-sifa-kelimat",
+              "baslik": "Korunma ve Şifa Duası",
+              "arapca": "بِسْمِ اللَّهِ أَرْقِيكَ مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنٍ حَاسِدٍ اللَّهُ يَشْفِيكَ بِسْمِ اللَّهِ أَرْقِيكَ",
+              "okunus": "Bismillâhi erkîke min külli şey'in yü'zîk, min şerri külli nefsin ev aynin hâsidin. Allâhü yeşfîke bismillâhi erkîk.",
+              "meal": "Allah'ın adıyla sana okurum: Sana eziyet veren her şeyden, her haset eden nefsin ve gözün şerrinden. Allah sana şifa versin; Allah'ın adıyla sana okurum.",
+              "kaynak": "Müslim, Selam, 62",
+              "etiketler": ["şifa", "nazar", "korunma"]
+            }
+          ]
+        },
+        {
+          "ad": "Rızık, Bereket ve Borçtan Kurtulma Duaları",
+          "dualar": [
+            {
+              "id": "duygu-rizik-kfini",
+              "baslik": "Borç ve Sıkıntıdan Kurtuluş Duası",
+              "arapca": "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
+              "okunus": "Allâhümme'kfinî bi-halâlike an harâmik, ve ağninî bi-fadlike ammen sivâk.",
+              "meal": "Allah'ım! Helal rızkınla beni haramdan kanaat ettir (uzak tut) ve lütfunla beni senden başkasına muhtaç eyleme.",
+              "kaynak": "Tirmizi, Deavat, 109",
+              "etiketler": ["rızık", "borç", "helal"]
+            },
+            {
+              "id": "duygu-rizik-magrem",
+              "baslik": "Borç ve Günahtan Sığınma",
+              "arapca": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْمَأْثَمِ وَالْمَغْرَمِ",
+              "okunus": "Allâhümme innî eûzü bike mine'l-me'semi ve'l-mağram.",
+              "meal": "Allah'ım! Günaha girmekten ve borç yükünden sana sığınırım.",
+              "kaynak": "Buhari, Deavat, 39",
+              "etiketler": ["borç", "günah"]
+            },
+            {
+              "id": "duygu-rizik-fakr",
+              "baslik": "Fakirlikten Sığınma",
+              "arapca": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَقْرِ وَالْقِلَّةِ وَالذِّلَّةِ وَأَعُوذُ بِكَ مِنْ أَنْ أَظْلِمَ أَوْ أُظْلَمَ",
+              "okunus": "Allâhümme innî eûzü bike mine'l-fakri ve'l-kille ve'z-zille, ve eûzü bike min en azlime ev uzlem.",
+              "meal": "Allah'ım! Fakirlikten, azlıktan ve zillete düşmekten sana sığınırım; zulmetmekten ve zulme uğramaktan da sana sığınırım.",
+              "kaynak": "Ebu Davud, Vitir, 32",
+              "etiketler": ["rızık", "fakirlik", "bereket"]
+            },
+            {
+              "id": "duygu-rizik-bereket",
+              "baslik": "Rızık ve Hayır Duası",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا",
+              "okunus": "Allâhümme innî es'elüke ilmen nâfian, ve rizkan tayyiben, ve amelen mütekabbelâ.",
+              "meal": "Allah'ım! Senden faydalı ilim, temiz ve helal rızık ile kabul olunmuş amel dilerim.",
+              "kaynak": "İbn Mace, İkame, 32",
+              "etiketler": ["rızık", "ilim", "sınav"]
+            }
+          ]
+        },
+        {
+          "ad": "Şükür ve Hamd Duaları",
+          "dualar": [
+            {
+              "id": "duygu-sukur-hamd-kesir",
+              "baslik": "Bol Hamd Duası",
+              "arapca": "الْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا طَيِّبًا مُبَارَكًا فِيهِ",
+              "okunus": "Elhamdülillâhi hamden kesîran tayyiben mübâraken fîh.",
+              "meal": "Allah'a bol, güzel ve bereketli bir hamd ile hamd ederim.",
+              "kaynak": "Ebu Davud, Edeb, 108",
+              "etiketler": ["şükür", "hamd"]
+            },
+            {
+              "id": "duygu-sukur-ein",
+              "baslik": "Şükür İçin Yardım Duası",
+              "arapca": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+              "okunus": "Allâhümme e'innî alâ zikrike ve şükrike ve hüsni ibâdetik.",
+              "meal": "Allah'ım! Seni anmak, sana şükretmek ve sana güzelce ibadet edebilmek için bana yardım et.",
+              "kaynak": "Ebu Davud, Vitir, 26",
+              "etiketler": ["şükür", "zikir", "ibadet"]
+            },
+            {
+              "id": "duygu-sukur-nimet",
+              "baslik": "Nimetin Devamı İçin Hamd",
+              "arapca": "الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ",
+              "okunus": "Elhamdülillâhillezî bi-ni'metihî tetimmü's-sâlihât.",
+              "meal": "Salih ameller ancak O'nun nimetiyle tamamlanan Allah'a hamd olsun.",
+              "kaynak": "Hakim, el-Müstedrek, 1/499",
+              "etiketler": ["şükür", "nimet"]
+            }
+          ]
+        },
+        {
+          "ad": "Tevbe ve Bağışlanma (İstiğfar) Duaları",
+          "dualar": [
+            {
+              "id": "duygu-tevbe-seyyid",
+              "baslik": "Seyyidü'l-İstiğfar (İstiğfarın Efendisi)",
+              "arapca": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+              "okunus": "Allâhümme ente rabbî lâ ilâhe illâ ente halaktenî ve ene abdük, ve ene alâ ahdike ve va'dike me-steta'tü. Eûzü bike min şerri mâ sana'tü. Ebûü leke bi-ni'metike aleyye ve ebûü bi-zenbî, fağfir lî fe-innehû lâ yağfiru'z-zünûbe illâ ente.",
+              "meal": "Allah'ım! Sen benim Rabbimsin, senden başka ilah yoktur. Beni Sen yarattın, ben Senin kulunum. Gücüm yettiğince sana verdiğim söz ve ahd üzereyim. Yaptıklarımın şerrinden sana sığınırım. Bana verdiğin nimetleri ve günahımı itiraf ediyorum. Beni bağışla; günahları senden başka bağışlayan yoktur.",
+              "kaynak": "Buhari, Deavat, 2",
+              "etiketler": ["tevbe", "istiğfar", "bağışlanma"]
+            },
+            {
+              "id": "duygu-tevbe-esgaf",
+              "baslik": "Estağfirullah Duası",
+              "arapca": "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
+              "okunus": "Estağfirullâhe ve etûbü ileyh.",
+              "meal": "Allah'tan bağışlanma diler ve O'na tövbe ederim.",
+              "kaynak": "Müslim, Zikir, 4",
+              "tekrar": 100,
+              "etiketler": ["tevbe", "istiğfar"]
+            },
+            {
+              "id": "duygu-tevbe-tubb",
+              "baslik": "Tevbe Duası",
+              "arapca": "اللَّهُمَّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ",
+              "okunus": "Allâhümme'ğfir lî ve tüb aleyye inneke ente't-tevvâbü'r-rahîm.",
+              "meal": "Allah'ım! Beni bağışla ve tövbemi kabul et; şüphesiz tövbeleri kabul eden ve merhametli olan yalnız Sensin.",
+              "kaynak": "Ebu Davud, Vitir, 26",
+              "tekrar": 3,
+              "etiketler": ["tevbe", "istiğfar"]
+            },
+            {
+              "id": "duygu-tevbe-muminun",
+              "baslik": "Bağışlanma ve Merhamet Duası",
+              "arapca": "رَبِّ اغْفِرْ وَارْحَمْ وَأَنْتَ خَيْرُ الرَّاحِمِينَ",
+              "okunus": "Rabbi'ğfir verham ve ente hayru'r-râhimîn.",
+              "meal": "Rabbim! Beni bağışla ve bana merhamet et; sen merhamet edenlerin en hayırlısısın.",
+              "kaynak": "Müminun Suresi, 118. Ayet",
+              "ayet": "23:118",
+              "etiketler": ["tevbe", "merhamet"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kuran",
+      "ad": "Kur'an-ı Kerim ve Peygamber Duaları",
+      "emoji": "📖",
+      "renk": "#4FC3C9",
+      "gruplar": [
+        {
+          "ad": "Kur'an'da Geçen Rabbena Duaları",
+          "dualar": [
+            {
+              "id": "kuran-rabbena-atina",
+              "baslik": "Rabbena Atina Duası",
+              "arapca": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+              "okunus": "Rabbenâ âtinâ fi'd-dünyâ haseneten ve fi'l-âhirati haseneten ve kınâ azâbe'n-nâr.",
+              "meal": "Ey Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver ve bizi ateş azabından koru.",
+              "kaynak": "Bakara Suresi, 201. Ayet",
+              "ayet": "2:201",
+              "etiketler": ["rabbena", "dünya", "ahiret"]
+            },
+            {
+              "id": "kuran-rabbena-tuzig",
+              "baslik": "Kalbi Sabit Kılma Duası",
+              "arapca": "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً إِنَّكَ أَنْتَ الْوَهَّابُ",
+              "okunus": "Rabbenâ lâ tüziğ kulûbenâ ba'de iz hedeytenâ, ve heb lenâ min ledünke rahmeh, inneke ente'l-vehhâb.",
+              "meal": "Ey Rabbimiz! Bizi doğru yola ilettikten sonra kalplerimizi eğriltme, bize katından bir rahmet bağışla; şüphesiz Sen bol bol bağışlayansın.",
+              "kaynak": "Al-i İmran Suresi, 8. Ayet",
+              "ayet": "3:8",
+              "etiketler": ["rabbena", "hidayet", "iman"]
+            },
+            {
+              "id": "kuran-rabbena-zalemna",
+              "baslik": "Adem'in (a.s.) Tövbe Duası",
+              "arapca": "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+              "okunus": "Rabbenâ zalemnâ enfüsenâ, ve in lem tağfir lenâ ve terhamnâ le-nekûnenne mine'l-hâsirîn.",
+              "meal": "Ey Rabbimiz! Biz kendimize zulmettik. Eğer bizi bağışlamaz ve bize merhamet etmezsen elbette hüsrana uğrayanlardan oluruz.",
+              "kaynak": "A'raf Suresi, 23. Ayet",
+              "ayet": "7:23",
+              "etiketler": ["rabbena", "tevbe"]
+            },
+            {
+              "id": "kuran-rabbena-sabran",
+              "baslik": "Sabır ve Zafer Duası",
+              "arapca": "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+              "okunus": "Rabbenâ efriğ aleynâ sabran ve sebbit akdâmenâ ve'nsurnâ ale'l-kavmi'l-kâfirîn.",
+              "meal": "Ey Rabbimiz! Üzerimize sabır yağdır, ayaklarımızı sabit kıl ve kafirler topluluğuna karşı bize zafer ver.",
+              "kaynak": "Bakara Suresi, 250. Ayet",
+              "ayet": "2:250",
+              "etiketler": ["rabbena", "sabır", "zafer"]
+            },
+            {
+              "id": "kuran-rabbena-tekabbel",
+              "baslik": "Amellerin Kabulü Duası",
+              "arapca": "رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ",
+              "okunus": "Rabbenâ tekabbel minnâ inneke ente's-semîul-alîm.",
+              "meal": "Ey Rabbimiz! Bizden kabul buyur; şüphesiz Sen her şeyi işiten ve her şeyi bilensin.",
+              "kaynak": "Bakara Suresi, 127. Ayet (Hz. İbrahim)",
+              "ayet": "2:127",
+              "etiketler": ["rabbena", "ibadet", "kabul"]
+            },
+            {
+              "id": "kuran-rabbena-zenubina",
+              "baslik": "Günahların Bağışlanması Duası",
+              "arapca": "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+              "okunus": "Rabbenâğfir lenâ zünûbenâ ve isrâfenâ fî emrinâ ve sebbit akdâmenâ ve'nsurnâ ale'l-kavmi'l-kâfirîn.",
+              "meal": "Ey Rabbimiz! Günahlarımızı ve işimizdeki aşırılıklarımızı bağışla, ayaklarımızı sabit kıl ve kafirler topluluğuna karşı bize yardım et.",
+              "kaynak": "Al-i İmran Suresi, 147. Ayet",
+              "ayet": "3:147",
+              "etiketler": ["rabbena", "bağışlanma"]
+            },
+            {
+              "id": "kuran-rabbena-ahzina",
+              "baslik": "Rabbena La Tüahızna Duası",
+              "arapca": "رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَسِينَا أَوْ أَخْطَأْنَا رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِنْ قَبْلِنَا رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا أَنْتَ مَوْلَانَا فَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+              "okunus": "Rabbenâ lâ tüâhıznâ in nesînâ ev ahta'nâ. Rabbenâ ve lâ tahmil aleynâ isran kemâ hameltehû ale'llezîne min kablinâ. Rabbenâ ve lâ tühammilnâ mâ lâ tâkate lenâ bih, va'fü annâ, vağfir lenâ, verhamnâ. Ente mevlânâ fe'nsurnâ ale'l-kavmi'l-kâfirîn.",
+              "meal": "Ey Rabbimiz! Unutur veya yanılırsak bizi sorumlu tutma. Ey Rabbimiz! Bizden öncekilere yüklediğin gibi bize ağır yük yükleme. Ey Rabbimiz! Gücümüzün yetmediği şeyleri bize yükleme; bizi affet, bizi bağışla, bize merhamet et. Sen bizim mevlamızsın; kafirler topluluğuna karşı bize yardım et.",
+              "kaynak": "Bakara Suresi, 286. Ayet",
+              "ayet": "2:286",
+              "etiketler": ["rabbena", "af", "merhamet"]
+            },
+            {
+              "id": "kuran-rabbena-valideyye",
+              "baslik": "Anne-Baba İçin Dua",
+              "arapca": "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ",
+              "okunus": "Rabbenâğfir lî ve li-vâlideyye ve li'l-mü'minîne yevme yekûmü'l-hisâb.",
+              "meal": "Ey Rabbimiz! Hesap görülecek günde beni, anne-babamı ve bütün müminleri bağışla.",
+              "kaynak": "İbrahim Suresi, 41. Ayet (Hz. İbrahim)",
+              "ayet": "14:41",
+              "etiketler": ["rabbena", "anne", "baba", "aile"]
+            },
+            {
+              "id": "kuran-rabbena-heblena",
+              "baslik": "Hayırlı Nesil Duası",
+              "arapca": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+              "okunus": "Rabbenâ heb lenâ min ezvâcinâ ve zürriyyâtinâ kurrate a'yün, vec'alnâ li'l-müttekîne imâmâ.",
+              "meal": "Ey Rabbimiz! Eşlerimizden ve çocuklarımızdan bize göz aydınlığı olacak nesiller bağışla ve bizi takva sahiplerine önder eyle.",
+              "kaynak": "Furkan Suresi, 74. Ayet",
+              "ayet": "25:74",
+              "etiketler": ["rabbena", "aile", "evlilik", "çocuk"]
+            },
+            {
+              "id": "kuran-rabbena-rahmeten",
+              "baslik": "Rahmet ve Başarı Duası",
+              "arapca": "رَبَّنَا آتِنَا مِنْ لَدُنْكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا",
+              "okunus": "Rabbenâ âtinâ min ledünke rahmeh, ve heyyi' lenâ min emrinâ reşedâ.",
+              "meal": "Ey Rabbimiz! Bize katından bir rahmet ver ve işimizde bize doğruyu gösterip başarı ihsan et.",
+              "kaynak": "Kehf Suresi, 10. Ayet (Ashab-ı Kehf)",
+              "ayet": "18:10",
+              "etiketler": ["rabbena", "rahmet", "başarı"]
+            }
+          ]
+        },
+        {
+          "ad": "Peygamberlerin Duaları",
+          "dualar": [
+            {
+              "id": "kuran-peygamber-yunus",
+              "baslik": "Hz. Yunus'un (a.s.) Balığın Karnındaki Duası",
+              "arapca": "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+              "okunus": "Lâ ilâhe illâ ente sübhâneke innî küntü mine'z-zâlimîn.",
+              "meal": "Senden başka ilah yoktur; Seni her türlü eksiklikten tenzih ederim. Şüphesiz ben zalimlerden oldum.",
+              "kaynak": "Enbiya Suresi, 87. Ayet",
+              "ayet": "21:87",
+              "etiketler": ["yunus", "kurtuluş", "sıkıntı"]
+            },
+            {
+              "id": "kuran-peygamber-musa",
+              "baslik": "Hz. Musa'nın (a.s.) İşini Kolaylaştırma Duası",
+              "arapca": "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
+              "okunus": "Rabbişrah lî sadrî ve yessir lî emrî.",
+              "meal": "Rabbim! Göğsümü genişlet ve işimi kolaylaştır.",
+              "kaynak": "Taha Suresi, 25-26. Ayet",
+              "ayet": "20:25",
+              "etiketler": ["musa", "kolaylık", "sınav"]
+            },
+            {
+              "id": "kuran-peygamber-musa-zalemtü",
+              "baslik": "Hz. Musa'nın (a.s.) Bağışlanma Duası",
+              "arapca": "رَبِّ إِنِّي ظَلَمْتُ نَفْسِي فَاغْفِرْ لِي",
+              "okunus": "Rabbi innî zalemtü nefsî fe'ğfir lî.",
+              "meal": "Rabbim! Ben kendime zulmettim, beni bağışla.",
+              "kaynak": "Kasas Suresi, 16. Ayet",
+              "ayet": "28:16",
+              "etiketler": ["musa", "bağışlanma"]
+            },
+            {
+              "id": "kuran-peygamber-ibrahim",
+              "baslik": "Hz. İbrahim'in (a.s.) Hikmet Duası",
+              "arapca": "رَبِّ هَبْ لِي حُكْمًا وَأَلْحِقْنِي بِالصَّالِحِينَ وَاجْعَلْ لِي لِسَانَ صِدْقٍ فِي الْآخِرِينَ",
+              "okunus": "Rabbi heb lî hükmen ve elhıknî bi's-sâlihîn, vec'al lî lisâne sıdkin fi'l-âhirîn.",
+              "meal": "Rabbim! Bana hikmet ver, beni salihler arasına kat ve ileride gelecekler içinde bana iyi bir nam nasip eyle.",
+              "kaynak": "Şuara Suresi, 83-84. Ayet",
+              "ayet": "26:83",
+              "etiketler": ["ibrahim", "hikmet", "salih"]
+            },
+            {
+              "id": "kuran-peygamber-zekeriyya",
+              "baslik": "Hz. Zekeriyya'nın (a.s.) Evlat Duası",
+              "arapca": "رَبِّ هَبْ لِي مِنْ لَدُنْكَ ذُرِّيَّةً طَيِّبَةً إِنَّكَ سَمِيعُ الدُّعَاءِ",
+              "okunus": "Rabbi heb lî min ledünke zürriyyeten tayyibeh, inneke semîu'd-duâ.",
+              "meal": "Rabbim! Bana katından temiz bir nesil bağışla; şüphesiz Sen duayı işitensin.",
+              "kaynak": "Al-i İmran Suresi, 38. Ayet",
+              "ayet": "3:38",
+              "etiketler": ["zekeriyya", "evlat", "çocuk"]
+            },
+            {
+              "id": "kuran-peygamber-suleyman",
+              "baslik": "Hz. Süleyman'ın (a.s.) Şükür Duası",
+              "arapca": "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَى وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ",
+              "okunus": "Rabbi evzi'nî en eşküre ni'meteke'lletî en'amte aleyye ve alâ vâlideyye ve en a'mele sâlihan terdâh.",
+              "meal": "Rabbim! Bana ve anne-babama verdiğin nimete şükretmeyi ve razı olacağın salih ameller işlemeyi bana ilham et.",
+              "kaynak": "Neml Suresi, 19. Ayet",
+              "ayet": "27:19",
+              "etiketler": ["süleyman", "şükür"]
+            },
+            {
+              "id": "kuran-peygamber-nuh",
+              "baslik": "Hz. Nuh'un (a.s.) Duası",
+              "arapca": "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَنْ دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ",
+              "okunus": "Rabbi'ğfir lî ve li-vâlideyye ve li-men dahale beytiye mü'minen ve li'l-mü'minîne ve'l-mü'minât.",
+              "meal": "Rabbim! Beni, anne-babamı, evime mümin olarak girenleri ve bütün mümin erkekleri ve mümin kadınları bağışla.",
+              "kaynak": "Nuh Suresi, 28. Ayet",
+              "ayet": "71:28",
+              "etiketler": ["nuh", "bağışlanma", "aile"]
+            },
+            {
+              "id": "kuran-peygamber-eyyub",
+              "baslik": "Hz. Eyyub'un (a.s.) Şifa Duası",
+              "arapca": "رَبِّ إِنِّي مَسَّنِيَ الضُّرُّ وَأَنْتَ أَرْحَمُ الرَّاحِمِينَ",
+              "okunus": "Rabbi innî messeniye'd-durru ve ente erhamü'r-râhimîn.",
+              "meal": "Rabbim! Bana gerçekten dert isabet etti; Sen ise merhametlilerin en merhametlisisin.",
+              "kaynak": "Enbiya Suresi, 83. Ayet",
+              "ayet": "21:83",
+              "etiketler": ["eyyub", "şifa", "sabır"]
+            },
+            {
+              "id": "kuran-peygamber-yusuf",
+              "baslik": "Hz. Yusuf'un (a.s.) Duası",
+              "arapca": "رَبِّ قَدْ آتَيْتَنِي مِنَ الْمُلْكِ وَعَلَّمْتَنِي مِنْ تَأْوِيلِ الْأَحَادِيثِ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ أَنْتَ وَلِيِّي فِي الدُّنْيَا وَالْآخِرَةِ تَوَفَّنِي مُسْلِمًا وَأَلْحِقْنِي بِالصَّالِحِينَ",
+              "okunus": "Rabbi kad âteytenî mine'l-mülki ve allemtenî min te'vîli'l-ehâdîs, Fâtıra's-semâvâti ve'l-ard, ente veliyyî fi'd-dünyâ ve'l-âhirah. Teveffenî müslimen ve elhıknî bi's-sâlihîn.",
+              "meal": "Rabbim! Bana mülkten pay verdin ve bana rüyaların yorumunu öğrettin. Ey gökleri ve yeri yaratan! Dünya ve ahirette benim velim sensin; beni müslüman olarak öldür ve beni salihlere kat.",
+              "kaynak": "Yusuf Suresi, 101. Ayet",
+              "ayet": "12:101",
+              "etiketler": ["yusuf", "hidayet"]
+            }
+          ]
+        },
+        {
+          "ad": "Peygamber Efendimizin (S.A.V.) Sıkça Yaptığı Dualar",
+          "dualar": [
+            {
+              "id": "kuran-sav-gifr",
+              "baslik": "Geçmiş ve Gelecek Günahların Bağışlanması Duası",
+              "arapca": "اللَّهُمَّ اغْفِرْ لِي مَا قَدَّمْتُ وَمَا أَخَّرْتُ وَمَا أَسْرَرْتُ وَمَا أَعْلَنْتُ وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي",
+              "okunus": "Allâhümme'ğfir lî mâ kaddemtü ve mâ ahhertü ve mâ esrartü ve mâ a'lentü ve mâ ente a'lemü bihî minnî.",
+              "meal": "Allah'ım! Geçmişte işlediğim, gelecekte işleyeceğim, gizlediğim, açığa vurduğum ve Senin benden daha iyi bildiğin günahlarımı bağışla.",
+              "kaynak": "Müslim, Salat, 201",
+              "etiketler": ["peygamber", "bağışlanma"]
+            },
+            {
+              "id": "kuran-sav-huda",
+              "baslik": "Hidayet ve İffet Duası",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
+              "okunus": "Allâhümme innî es'elüke'l-hüdâ ve't-tükâ ve'l-afâfe ve'l-ğınâ.",
+              "meal": "Allah'ım! Senden hidayet, takva, iffet ve gönül zenginliği dilerim.",
+              "kaynak": "Müslim, Zikir, 72",
+              "etiketler": ["peygamber", "hidayet"]
+            },
+            {
+              "id": "kuran-sav-sabr-kalb",
+              "baslik": "Kalbi Sabit Kılma Duası",
+              "arapca": "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
+              "okunus": "Yâ mükalhibe'l-kulûb, sebbit kalbî alâ dînik.",
+              "meal": "Ey kalpleri evirip çeviren! Kalbimi dinin üzere sabit kıl.",
+              "kaynak": "Tirmizi, Deavat, 89",
+              "tekrar": 3,
+              "etiketler": ["peygamber", "iman", "sabır"]
+            },
+            {
+              "id": "kuran-sav-cennet",
+              "baslik": "Cennet ve Şefaat Duası",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ وَأَعُوذُ بِكَ مِنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ",
+              "okunus": "Allâhümme innî es'elüke'l-cennete ve mâ karrabe ileyhâ min kavlin ev amel, ve eûzü bike mine'n-nâri ve mâ karrabe ileyhâ min kavlin ev amel.",
+              "meal": "Allah'ım! Senden cenneti ve ona yaklaştıran söz ve amelleri dilerim; cehennemden ve ona yaklaştıran söz ve amellerden sana sığınırım.",
+              "kaynak": "Ebu Davud, Vitir, 32",
+              "etiketler": ["peygamber", "cennet", "ahiret"]
+            },
+            {
+              "id": "kuran-sav-afiyet",
+              "baslik": "Dünya ve Ahiret Afiyeti Duası",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ",
+              "okunus": "Allâhümme innî es'elüke'l-afve ve'l-âfiyete fi'd-dünyâ ve'l-âhirah.",
+              "meal": "Allah'ım! Senden dünya ve ahirette afiyet ve affedicilik dilerim.",
+              "kaynak": "Ebu Davud, Vitir, 32",
+              "etiketler": ["peygamber", "afiyet", "sağlık"]
+            },
+            {
+              "id": "kuran-sav-gayb",
+              "baslik": "Esma Duası (Müslim)",
+              "arapca": "اللَّهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ",
+              "okunus": "Allâhümme âlime'l-ğaybi ve'ş-şehâdeh, Fâtıra's-semâvâti ve'l-ard, rabbe külli şey'in ve melîkeh. Eşhedü en lâ ilâhe illâ ente, eûzü bike min şerri nefsî ve min şerri'ş-şeytâni ve şirkih.",
+              "meal": "Allah'ım! Gizliyi de aşikarı da bilen, gökleri ve yeri yaratan, her şeyin Rabbi ve sahibi olan Allah'ım! Senden başka ilah olmadığına şehadet ederim. Nefsimin şerrinden, şeytanın ve şirk koşmasının şerrinden sana sığınırım.",
+              "kaynak": "Ebu Davud, Edeb, 103",
+              "etiketler": ["peygamber", "korunma", "esma"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ozel",
+      "ad": "Özel Gün, Gece ve Zaman Duaları",
+      "emoji": "🌙",
+      "renk": "#9BB8E8",
+      "gruplar": [
+        {
+          "ad": "Cuma Günü ve Gecesi Duaları",
+          "dualar": [
+            {
+              "id": "ozel-cuma-salavat",
+              "baslik": "Salavat-ı Şerife",
+              "arapca": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+              "okunus": "Allâhümme salli alâ Muhammedin ve alâ âli Muhammed, kemâ salleyte alâ İbrâhîme ve alâ âli İbrâhîm, inneke hamîdün mecîd. Allâhümme bârik alâ Muhammedin ve alâ âli Muhammed, kemâ bârekte alâ İbrâhîme ve alâ âli İbrâhîm, inneke hamîdün mecîd.",
+              "meal": "Allah'ım! İbrahim'e ve âline rahmet ettiğin gibi Muhammed'e ve âline de rahmet et; şüphesiz Sen övülmeye layık ve yücesin. Allah'ım! İbrahim'e ve âline bereket verdiğin gibi Muhammed'e ve âline de bereket ver; şüphesiz Sen övülmeye layık ve yücesin.",
+              "kaynak": "Buhari, Deavat, 32",
+              "etiketler": ["cuma", "salavat", "peygamber"]
+            },
+            {
+              "id": "ozel-cuma-muminler",
+              "baslik": "Müminler İçin Bağışlanma Duası",
+              "arapca": "اللَّهُمَّ اغْفِرْ لِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ وَالْمُسْلِمِينَ وَالْمُسْلِمَاتِ الْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ",
+              "okunus": "Allâhümme'ğfir li'l-mü'minîne ve'l-mü'minât, ve'l-müslimîne ve'l-müslimât, el-ahyâi minhüm ve'l-emvât.",
+              "meal": "Allah'ım! Mümin erkek ve kadınları, müslüman erkek ve kadınları; onların hayatta olanlarını da vefat etmişlerini de bağışla.",
+              "kaynak": "Müslim, Zikir, 67",
+              "etiketler": ["cuma", "bağışlanma", "ümmet"]
+            },
+            {
+              "id": "ozel-cuma-hayir",
+              "baslik": "Cuma Duası (Hayırlı Kısmet)",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ بِشَهَادَةِ أَنْ لَا إِلَهَ إِلَّا أَنْتَ الْأَحَدُ الصَّمَدُ الَّذِي لَمْ يَلِدْ وَلَمْ يُولَدْ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ أَنْ تَغْفِرَ لِي ذُنُوبِي إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ",
+              "okunus": "Allâhümme innî es'elüke bi-şehâdeti en lâ ilâhe illâ ente'l-ehadü's-samedü, ellezî lem yelid ve lem yûled ve lem yekün lehû küfüven ehad, en tağfira lî zünûbî inneke ente'l-ğafûru'r-rahîm.",
+              "meal": "Allah'ım! Senden başka ilah olmadığına, doğurmayan, doğurulmayan ve hiçbir dengi olmayan tek ve samed olan Sen'in şanına şehadet ederek senden günahlarımı bağışlamanı dilerim; şüphesiz Sen bağışlayan ve merhamet edensin.",
+              "kaynak": "Tirmizi, Deavat, 107",
+              "etiketler": ["cuma", "kısmet", "bağışlanma"]
+            }
+          ]
+        },
+        {
+          "ad": "Ramazan, İftar ve Sahur Duaları",
+          "dualar": [
+            {
+              "id": "ozel-ramazan-iftar",
+              "baslik": "İftar Duası",
+              "arapca": "اللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ",
+              "okunus": "Allâhümme leke sumtü ve alâ rizkike eftartü.",
+              "meal": "Allah'ım! Senin rızan için oruç tuttum, Senin verdiğin rızıkla orucumu açıyorum.",
+              "kaynak": "Ebu Davud, Savm, 22",
+              "etiketler": ["ramazan", "oruç", "iftar"]
+            },
+            {
+              "id": "ozel-ramazan-iftar2",
+              "baslik": "İftar Sonrası Duası",
+              "arapca": "ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ",
+              "okunus": "Zehebe'z-zameü ve'btelleti'l-urûku ve sebe-te'l-ecru in şâallâh.",
+              "meal": "Susuzluk gitti, damarlar ıslandı ve inşallah ecir sabit oldu.",
+              "kaynak": "Ebu Davud, Savm, 23",
+              "etiketler": ["ramazan", "iftar"]
+            },
+            {
+              "id": "ozel-ramazan-sahur",
+              "baslik": "Sahur ve Oruç Niyeti",
+              "arapca": "نَوَيْتُ صَوْمَ غَدٍ عَنْ أَدَاءِ فَرْضِ شَهْرِ رَمَضَانَ هَذِهِ السَّنَةِ لِلَّهِ تَعَالَى",
+              "okunus": "Nevveytü savme ğadin an edâi farzi şehri Ramadâne hâzihi's-seneti lillâhi teâlâ.",
+              "meal": "Bu senenin Ramazan ayının farz orucunu yarına niyet ediyorum (Allah rızası için).",
+              "kaynak": "Oruç Niyeti",
+              "etiketler": ["ramazan", "sahur", "oruç"]
+            },
+            {
+              "id": "ozel-ramazan-kadir",
+              "baslik": "Kadir Gecesi Duası",
+              "arapca": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+              "okunus": "Allâhümme inneke afüvvün tühıbbü'l-afve fa'fü annî.",
+              "meal": "Allah'ım! Sen affedicisin, affetmeyi seversin; beni de affet.",
+              "kaynak": "Tirmizi, Deavat, 84",
+              "tekrar": 3,
+              "etiketler": ["kadir", "ramazan", "af"]
+            }
+          ]
+        },
+        {
+          "ad": "Kandil ve Kadir Gecesi Duaları",
+          "dualar": [
+            {
+              "id": "ozel-kandil-rahmet",
+              "baslik": "Özel Gecelerde Okunacak Dua",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ بِرَحْمَتِكَ الَّتِي وَسِعَتْ كُلَّ شَيْءٍ أَنْ تَغْفِرَ لِي",
+              "okunus": "Allâhümme innî es'elüke bi-rahmetike'lletî vesiat külli şey'in en tağfira lî.",
+              "meal": "Allah'ım! Her şeyi kuşatan rahmetin hürmetine senden günahlarımı bağışlamanı dilerim.",
+              "kaynak": "İbn Mace, Deavat, 2",
+              "etiketler": ["kandil", "berat", "af"]
+            },
+            {
+              "id": "ozel-kandil-afiyet",
+              "baslik": "Afiyet Duası",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي",
+              "okunus": "Allâhümme innî es'elüke'l-âfiyete fi'd-dünyâ ve'l-âhirah. Allâhümme'stür avrâtî ve âmin ravâtî.",
+              "meal": "Allah'ım! Senden dünya ve ahirette afiyet dilerim. Allah'ım! Ayıplarımı ört ve korkularımı gider.",
+              "kaynak": "Ebu Davud, Vitir, 32",
+              "etiketler": ["kandil", "afiyet", "kadir"]
+            },
+            {
+              "id": "ozel-kandil-kadir",
+              "baslik": "Kadir Gecesi İstiğfarı",
+              "arapca": "اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنَّا وَعَنْ وَالِدِينَا وَعَنْ جَمِيعِ الْمُسْلِمِينَ",
+              "okunus": "Allâhümme inneke afüvvün kerîmün tühıbbü'l-afve fa'fü annâ ve an vâlideynâ ve an cemîi'l-müslimîn.",
+              "meal": "Allah'ım! Sen affedici ve keremsin, affetmeyi seversin; bizi, anne-babamızı ve bütün müslümanları affet.",
+              "kaynak": "Tirmizi, Deavat, 84",
+              "etiketler": ["kadir", "kandil", "af"]
+            }
+          ]
+        },
+        {
+          "ad": "Yağmur, Rüzgar ve Yaşam Olaylarında Okunacaklar",
+          "dualar": [
+            {
+              "id": "ozel-yagmur-sayyib",
+              "baslik": "Yağmur Yağarken",
+              "arapca": "اللَّهُمَّ صَيِّبًا نَافِعًا",
+              "okunus": "Allâhümme sayyiben nâfian.",
+              "meal": "Allah'ım! Faydalı (hayırlı) bir yağmur ihsan et.",
+              "kaynak": "Buhari, İstiska, 6",
+              "etiketler": ["yağmur", "tabiat"]
+            },
+            {
+              "id": "ozel-yagmur-isk",
+              "baslik": "Yağmur İstemek (İstiska)",
+              "arapca": "اللَّهُمَّ اسْقِنَا الْغَيْثَ وَلَا تَجْعَلْنَا مِنَ الْقَانِطِينَ",
+              "okunus": "Allâhümme'skıne'l-ğayse ve lâ tec'alnâ mine'l-kânitîn.",
+              "meal": "Allah'ım! Bize yağmur ver ve bizi ümit kesenlerden eyleme.",
+              "kaynak": "İbn Mace, İstiska, 1",
+              "etiketler": ["yağmur", "kuraklık", "rızık"]
+            },
+            {
+              "id": "ozel-yagmur-sonrasi",
+              "baslik": "Yağmur Sonrası",
+              "arapca": "مُطِرْنَا بِفَضْلِ اللَّهِ وَرَحْمَتِهِ",
+              "okunus": "Mutırnâ bi-fadlillâhi ve rahmetih.",
+              "meal": "Allah'ın lütfu ve rahmetiyle yağmura kavuştuk.",
+              "kaynak": "Buhari, İstiska, 28",
+              "etiketler": ["yağmur", "şükür"]
+            },
+            {
+              "id": "ozel-ruzgar",
+              "baslik": "Rüzgar Estiğinde",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا فِيهَا وَخَيْرَ مَا أُرْسِلَتْ بِهِ وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا فِيهَا وَشَرِّ مَا أُرْسِلَتْ بِهِ",
+              "okunus": "Allâhümme innî es'elüke hayrahâ ve hayra mâ fîhâ ve hayra mâ ürsilet bih, ve eûzü bike min şerrihâ ve şerri mâ fîhâ ve şerri mâ ürsilet bih.",
+              "meal": "Allah'ım! Senden rüzgarın hayrını, içindeki hayrı ve getirdiği hayrı dilerim; şerrinden, içindeki şerden ve getirdiği şerden sana sığınırım.",
+              "kaynak": "Müslim, İstiska, 15",
+              "etiketler": ["rüzgar", "tabiat", "korunma"]
+            },
+            {
+              "id": "ozel-simsek",
+              "baslik": "Gök Gürlemesi ve Şimşekte",
+              "arapca": "سُبْحَانَ الَّذِي يُسَبِّحُ الرَّعْدُ بِحَمْدِهِ وَالْمَلَائِكَةُ مِنْ خِيفَتِهِ",
+              "okunus": "Sübhânellezî yüsebbihu'r-ra'du bi-hamdihî ve'l-melâiketü min hîfetih.",
+              "meal": "Gök gürlemesinin hamd ile, meleklerin de korku ile tesbih ettiği Allah'ı tenzih ederim.",
+              "kaynak": "Muvatta, Kur'an, 32",
+              "etiketler": ["şimşek", "tabiat"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cevsen",
+      "ad": "Büyük ve Meşhur Dualar / Cevşen",
+      "emoji": "🛡️",
+      "renk": "#F09A6E",
+      "gruplar": [
+        {
+          "ad": "Cevşen-i Kebir (Bölüm bölüm / Bab bab)",
+          "dualar": [
+            {
+              "id": "cevsen-1-bab",
+              "baslik": "Cevşen-i Kebir 1. Bâb (Giriş)",
+              "arapca": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ — يَا مَنْ هُوَ الْقَائِمُ عَلَى كُلِّ نَفْسٍ بِمَا كَسَبَتْ يَا مَنْ لَا يُضَايِفُ الْعَائِلَ الَّذِي لَا يَجِدُ كَاسِبًا يَا مَنْ لَا يَذْهَبُ الْعَائِلُ الَّذِي لَا يَجِدُ طَالِبًا",
+              "okunus": "Bismillâhirrahmânirrahîm. Yâ men hüve'l-kâimü alâ külli nefsin bimâ kesebet. Yâ men lâ yudâyifü'l-âilellezî lâ yecidü kâsibâ. Yâ men lâ yezhebü'l-âilellezî lâ yecidü tâlibâ.",
+              "meal": "Rahman ve Rahim olan Allah'ın adıyla. Ey herkesin kazandığının karşılığını veren! Ey kazanç bulamayan aileye (rızkı) asla daraltmayan! Ey talep edeni olmayan aileyi (hiç) yitirmeyen! (Cevşen-i Kebir 100 bâbtan oluşur; bu giriş bâbıdır.)",
+              "kaynak": "Cevşen-i Kebir, 1. Bâb",
+              "etiketler": ["cevşen", "esma", "korunma"]
+            },
+            {
+              "id": "cevsen-son-bab",
+              "baslik": "Cevşen Son Bâb Duası",
+              "arapca": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَابْنُ أَمَتِكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي مَا تَقَدَّمَ مِنْ ذَنْبِي وَمَا تَأَخَّرَ فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+              "okunus": "Allâhümme ente rabbî lâ ilâhe illâ ente halaktenî ve ene abdüke ve'bnu emetik, ve ene alâ ahdike ve va'dike me-steta'tü. Eûzü bike min şerri mâ sana'tü. Ebûü leke bi-ni'metike aleyye ve ebûü leke bi-zenbî. Fağfir lî mâ tekaddeme min zenbî ve mâ teahhara, fe-innehû lâ yağfiru'z-zünûbe illâ ente.",
+              "meal": "Allah'ım! Sen benim Rabbimsin, senden başka ilah yoktur. Beni Sen yarattın; ben Senin kulunum. Yaptıklarımın şerrinden sana sığınırım. Bana verdiğin nimetleri ve günahımı itiraf ediyorum. Geçmiş ve gelecek günahlarımı bağışla; günahları senden başka bağışlayan yoktur. (Cevşen'in her bâbından sonra okunan duadır.)",
+              "kaynak": "Cevşen-i Kebir, Son Bâb",
+              "etiketler": ["cevşen", "tevbe", "istiğfar"]
+            },
+            {
+              "id": "cevsen-ismi-azam",
+              "baslik": "İsmi Azam Duası",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْأَلُكَ بِأَنَّ لَكَ الْحَمْدَ لَا إِلَهَ إِلَّا أَنْتَ الْحَنَّانُ الْمَنَّانُ بَدِيعُ السَّمَاوَاتِ وَالْأَرْضِ ذُو الْجَلَالِ وَالْإِكْرَامِ",
+              "okunus": "Allâhümme innî es'elüke bi-enne leke'l-hamd, lâ ilâhe illâ ente, el-Hannânü'l-Mennân, Bedîu's-semâvâti ve'l-ard, Zü'l-celâli ve'l-ikrâm.",
+              "meal": "Allah'ım! Senden hamdın Senin şanına ait olduğu hakkıyla, senden başka ilah olmadığı için, şefkatli ve lütufkâr olan, gökleri ve yeri yoktan yaratan, celal ve ikram sahibi isimlerinle (ismi azamınla) dilerim ki...",
+              "kaynak": "Ebu Davud, Vitir, 23",
+              "etiketler": ["ismi azam", "esma", "hacet"]
+            }
+          ]
+        },
+        {
+          "ad": "Hacet ve İstihare Duaları",
+          "dualar": [
+            {
+              "id": "cevsen-hacet",
+              "baslik": "Hacet Duası",
+              "arapca": "لَا إِلَهَ إِلَّا اللَّهُ الْحَلِيمُ الْكَرِيمُ سُبْحَانَ اللَّهِ رَبِّ الْعَرْشِ الْعَظِيمِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ أَسْأَلُكَ مُوجِبَاتِ رَحْمَتِكَ وَعَزَائِمَ مَغْفِرَتِكَ وَالْغَنِيمَةَ مِنْ كُلِّ بِرٍّ وَالسَّلَامَةَ مِنْ كُلِّ إِثْمٍ لَا تَدَعْ لِي ذَنْبًا إِلَّا غَفَرْتَهُ وَلَا هَمًّا إِلَّا فَرَّجْتَهُ وَلَا حَاجَةً هِيَ لَكَ رِضًا إِلَّا قَضَيْتَهَا يَا أَرْحَمَ الرَّاحِمِينَ",
+              "okunus": "Lâ ilâhe illallâhü'l-halîmü'l-kerîm. Sübhânallâhi rabbi'l-arşi'l-azîm. Elhamdülillâhi rabbi'l-âlemîn. Es'elüke mûcibâti rahmetike ve azâime mağfiretik, ve'l-ğanîmete min külli birrin ve's-selâmete min külli ism. Lâ teda' lî zenben illâ ğaferteh, ve lâ hemmen illâ ferrecteh, ve lâ hâceten hiye leke rıdân illâ kadaytehâ, yâ erhamer-râhimîn.",
+              "meal": "Halim ve kerim olan Allah'tan başka ilah yoktur. Büyük arşın Rabbi olan Allah'ı tenzih ederim. Alemlerin Rabbi olan Allah'a hamd olsun. Senden rahmetini gerektiren şeyleri, mağfiretinin azimetlerini, her hayırdan nasip ve her günahtan selamet dilerim. Hiçbir günahımı bağışlamamış bırakma; hiçbir tasamı gidermemiş bırakma; senden razı olacağın hiçbir ihtiyacımı karşılamamış bırakma. Ey merhametlilerin en merhametlisi!",
+              "kaynak": "Tirmizi, Deavat, 111",
+              "etiketler": ["hacet", "ihtiyaç"]
+            },
+            {
+              "id": "cevsen-istihare",
+              "baslik": "İstihare Duası",
+              "arapca": "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ وَتَعْلَمُ وَلَا أَعْلَمُ وَأَنْتَ عَلَّامُ الْغُيُوبِ اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ خَيْرٌ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي ثُمَّ بَارِكْ لِي فِيهِ وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ شَرٌّ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ وَاقْدُرْ لِيَ الْخَيْرَ حَيْثُ كَانَ ثُمَّ أَرْضِنِي بِهِ",
+              "okunus": "Allâhümme innî estehîrüke bi-ilmike ve estakdiruke bi-kudretik, ve es'elüke min fadlike'l-azîm. Fe-inneke takdiru ve lâ akdiru, ve ta'lemü ve lâ a'lemü, ve ente allâmü'l-ğuyûb. Allâhümme in künte ta'lemü enne hâze'l-emra hayrun lî fî dînî ve meâşî ve âkıbeti emrî, fa'kdürhû lî ve yessirhû lî sümme bârik lî fîh. Ve in künte ta'lemü enne hâze'l-emra şerrun lî fî dînî ve meâşî ve âkıbeti emrî, fa'srifhü annî va'srifnî anh, va'kdur liye'l-hayra haysü kâne sümme ardınî bih.",
+              "meal": "Allah'ım! İlminle bana hayırlı olanı göster, kudretinle bana güç ver, büyük lütfundan iste. Sen güç yetirirsin ben güç yetiremem; Sen bilirsin ben bilemem; Sen gaybları bilensin. Allah'ım! Bu iş benim dinim, geçimim ve işimin sonu için hayırlıysa onu bana nasip eyle, kolaylaştır ve bereketlendir. Şayet bu iş benim dinim, geçimim ve işimin sonu için şerliyse onu benden, beni de ondan uzaklaştır; hayır her nerede ise onu bana nasip eyle ve beni ona razı kıl.",
+              "kaynak": "Buhari, Teheccüd, 25",
+              "etiketler": ["istihare", "karar", "hayırlı"]
+            }
+          ]
+        },
+        {
+          "ad": "Nazar ve Korunma Duaları (Ayetel Kürsi, Felak, Nas)",
+          "dualar": [
+            {
+              "id": "cevsen-nazar-isteaz",
+              "baslik": "Nazar ve Kem Gözden Korunma",
+              "arapca": "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+              "okunus": "Eûzü bi-kelimâtillâhi't-tâmmâti min şerri mâ halak.",
+              "meal": "Yarattığı şeylerin şerrinden Allah'ın eksiksiz kelimelerine sığınırım.",
+              "kaynak": "Müslim, Zikir, 55",
+              "tekrar": 3,
+              "etiketler": ["nazar", "korunma"]
+            },
+            {
+              "id": "cevsen-nazar-cocuk",
+              "baslik": "Çocukları Koruma Duası",
+              "arapca": "أُعِيذُكُمَا بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ",
+              "okunus": "Uîzükümâ bi-kelimâtillâhi't-tâmmeh, min külli şeytânin ve hâmmetin ve min külli aynin lâmmeh.",
+              "meal": "Sizi her türlü şeytandan, zararlı haşerattan ve bakan her kem gözden Allah'ın eksiksiz kelimelerine sığındırıyorum.",
+              "kaynak": "Buhari, Enbiya, 10",
+              "tekrar": 3,
+              "etiketler": ["nazar", "çocuk", "korunma"]
+            },
+            {
+              "id": "cevsen-ayetel-kursi",
+              "baslik": "Ayetel Kürsi",
+              "arapca": "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+              "okunus": "Allâhü lâ ilâhe illâ hüve'l-hayyü'l-kayyûm. Lâ te'huzühû sinetün ve lâ nevm. Lehû mâ fi's-semâvâti ve mâ fi'l-ard. Men zellezî yeşfeu indehû illâ bi-iznih. Ya'lemü mâ beyne eydîhim ve mâ halfehüm, ve lâ yühîtûne bi-şey'in min ilmihî illâ bimâ şâe. Vesia kürsiyyühü's-semâvâti ve'l-ard, ve lâ yeûdühû hıfzuhümâ, ve hüve'l-aliyyü'l-azîm.",
+              "meal": "Allah, kendisinden başka ilah olmayandır. O, diridir, kayyumdur (her şeyi ayakta tutandır). O'nu ne uyku tutar ne uyuklama. Göklerde ve yerde ne varsa O'nundur. İzni olmadan O'nun katında kim şefaat edebilir? Onların önlerindekini ve arkalarındakini bilir. O'nun ilminden ancak dilediği kadarını kavrarlar. O'nun kürsüsü gökleri ve yeri kuşatmıştır; onları koruyup gözetmek O'na güç gelmez. O, yücedir, büyüktür.",
+              "kaynak": "Bakara Suresi, 255. Ayet",
+              "ayet": "2:255",
+              "etiketler": ["korunma", "ayetel kürsi", "gece"]
+            },
+            {
+              "id": "cevsen-felak",
+              "baslik": "Felak Suresi",
+              "arapca": "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِنْ شَرِّ مَا خَلَقَ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+              "okunus": "Kul eûzü bi-rabbi'l-felak. Min şerri mâ halak. Ve min şerri ğâsikın izâ vekab. Ve min şerri'n-neffâsâti fi'l-ukad. Ve min şerri hâsidin izâ hased.",
+              "meal": "De ki: Yarattığı şeylerin şerrinden, karanlığı çöktüğü zaman gecenin şerrinden, düğümlere üfleyenlerin şerrinden ve haset ettiği zaman hasetçinin şerrinden sabahın Rabbine sığınırım.",
+              "kaynak": "Felak Suresi, 1-5. Ayet",
+              "ayet": "113:1",
+              "etiketler": ["korunma", "sure"]
+            },
+            {
+              "id": "cevsen-nas",
+              "baslik": "Nas Suresi",
+              "arapca": "قُلْ أَعُوذُ بِرَبِّ النَّاسِ مَلِكِ النَّاسِ إِلَهِ النَّاسِ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ مِنَ الْجِنَّةِ وَالنَّاسِ",
+              "okunus": "Kul eûzü bi-rabbi'n-nâs. Meliki'n-nâs. İlâhi'n-nâs. Min şerri'l-vesvâsi'l-hannâs. Ellezî yüvesvisü fî sudûri'n-nâs. Mine'l-cinneti ve'n-nâs.",
+              "meal": "De ki: İnsanların Rabbine, insanların Melikine (hükümdarına), insanların ilahına, cinlerden ve insanlardan olan, insanların göğüslerine vesvese veren o sinsi vesvesecinin şerrinden sığınırım.",
+              "kaynak": "Nas Suresi, 1-6. Ayet",
+              "ayet": "114:1",
+              "etiketler": ["korunma", "vesvese", "sure"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

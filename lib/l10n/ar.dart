@@ -7,6 +7,7 @@ const Map<String, String> arDil = {
   'h.discover': 'استكشف',
   'h.more': 'المزيد',
   'h.duas': 'الأدعية',
+  'h.cuzler': 'الأجزاء',
   'h.donate': 'التبرع',
   'h.ilham': 'الإلهام',
   'h.qiblaTitle': 'القبلة',

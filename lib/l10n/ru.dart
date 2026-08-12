@@ -7,6 +7,7 @@ const Map<String, String> ruDil = {
   'h.discover': 'Исследовать',
   'h.more': 'Ещё',
   'h.duas': 'Дуа',
+  'h.cuzler': 'Джуз',
   'h.donate': 'Пожертвование',
   'h.ilham': 'Вдохновение',
   'h.qiblaTitle': 'Кибла',

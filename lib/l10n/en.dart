@@ -7,6 +7,7 @@ const Map<String, String> enDil = {
   'h.discover': 'Discover',
   'h.more': 'More',
   'h.duas': 'Duas',
+  'h.cuzler': 'Juz',
   'h.donate': 'Donate',
   'h.ilham': 'Inspiration',
   'h.qiblaTitle': 'Qibla',

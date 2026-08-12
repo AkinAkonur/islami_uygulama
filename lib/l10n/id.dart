@@ -7,6 +7,7 @@ const Map<String, String> idDil = {
   'h.discover': 'Jelajahi',
   'h.more': 'Lainnya',
   'h.duas': 'Doa',
+  'h.cuzler': 'Juz',
   'h.donate': 'Donasi',
   'h.ilham': 'Inspirasi',
   'h.qiblaTitle': 'Kiblat',

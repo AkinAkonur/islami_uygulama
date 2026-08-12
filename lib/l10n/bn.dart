@@ -7,6 +7,7 @@ const Map<String, String> bnDil = {
   'h.discover': 'আবিষ্কার করুন',
   'h.more': 'আরও',
   'h.duas': 'দোয়া',
+  'h.cuzler': 'জুজ',
   'h.donate': 'দান',
   'h.ilham': 'অনুপ্রেরণা',
   'h.qiblaTitle': 'কিবলা',

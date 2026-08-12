@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../l10n/dil_hizmetleri.dart';
 import '../services/hadis_kutuphanesi_service.dart';
@@ -277,6 +281,7 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
   double _oran = 0;
   String _durum = 'Hazırlanıyor…';
   String? _hata;
+  String? _hataDetay;
 
   @override
   void initState() {
@@ -287,6 +292,7 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
   Future<void> _baslat() async {
     setState(() {
       _hata = null;
+      _hataDetay = null;
       _oran = 0;
       _durum = 'İndiriliyor…';
     });
@@ -306,8 +312,21 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
       Navigator.pop(context, true);
     } catch (e) {
       if (!mounted) return;
+      var detay = e.toString().replaceAll(RegExp(r'\s+'), ' ').trim();
+      if (detay.length > 200) detay = '${detay.substring(0, 200)}…';
+      debugPrint('Hadis indirme hatası: $detay');
+      final agHatasi = e is SocketException ||
+          e is http.ClientException ||
+          e is TimeoutException ||
+          detay.contains('İndirme başarısız oldu') ||
+          detay.contains('SocketException') ||
+          detay.contains('TimeoutException') ||
+          detay.contains('ClientException');
       setState(() {
-        _hata = 'İndirme başarısız oldu. İnternet bağlantınızı kontrol edin ve tekrar deneyin.';
+        _hata = agHatasi
+            ? 'İndirme başarısız oldu. İnternet bağlantınızı kontrol edin ve tekrar deneyin.'
+            : 'İndirme başarısız oldu.';
+        _hataDetay = agHatasi ? null : detay;
       });
     }
   }
@@ -344,6 +363,13 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
               fontSize: 12,
             ),
           ),
+          if (_hataDetay != null) ...[
+            const SizedBox(height: 6),
+            SelectableText(
+              _hataDetay!,
+              style: const TextStyle(color: Colors.white38, fontSize: 10),
+            ),
+          ],
         ],
       ),
       actions: [

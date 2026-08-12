@@ -7,6 +7,7 @@ const Map<String, String> msDil = {
   'h.discover': 'Teroka',
   'h.more': 'Lebih Banyak',
   'h.duas': 'Doa',
+  'h.cuzler': 'Juz',
   'h.donate': 'Derma',
   'h.ilham': 'Inspirasi',
   'h.qiblaTitle': 'Kiblat',

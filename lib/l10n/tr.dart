@@ -7,6 +7,7 @@ const Map<String, String> trDil = {
   'h.discover': 'Keşfet',
   'h.more': 'Daha Fazla',
   'h.duas': 'Dualar',
+  'h.cuzler': 'Cüz''ler',
   'h.donate': 'Bağış',
   'h.ilham': 'İlham',
   'h.qiblaTitle': 'Kıble',

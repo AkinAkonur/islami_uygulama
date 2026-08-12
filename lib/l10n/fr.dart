@@ -7,6 +7,7 @@ const Map<String, String> frDil = {
   'h.discover': 'Explorer',
   'h.more': 'Plus',
   'h.duas': 'Invocations',
+  'h.cuzler': 'Juz',
   'h.donate': 'Faire un don',
   'h.ilham': 'Inspiration',
   'h.qiblaTitle': 'Qibla',

@@ -1,0 +1,358 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
+
+import '../services/cuz_hatim_store.dart';
+import '../services/cuz_verileri.dart';
+import '../services/kuran_verileri.dart';
+import '../services/renkler.dart';
+
+/// Bir cüzün okuma sayfası.
+/// Metin uygulamayla birlikte gelen varlıklardan (assets/cuzler) çevrimdışı
+/// okunur; ses ise internetten akışla oynatılır (EveryAyah / Alafasy).
+class CuzOkumaPage extends StatefulWidget {
+  final int cuzNo;
+
+  const CuzOkumaPage({super.key, required this.cuzNo});
+
+  @override
+  State<CuzOkumaPage> createState() => _CuzOkumaPageState();
+}
+
+class _CuzOkumaPageState extends State<CuzOkumaPage> {
+  List<CuzAyah>? _ayetler;
+  String? _hata;
+  bool _yukleniyor = true;
+  bool _okundu = false;
+
+  final AudioPlayer _player = AudioPlayer();
+  StreamSubscription? _completionSub;
+  bool _caliyor = false;
+  int? _calanIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _yukle();
+    _completionSub = _player.onPlayerComplete.listen((_) => _ayetBitti());
+  }
+
+  Future<void> _yukle() async {
+    setState(() {
+      _yukleniyor = true;
+      _hata = null;
+    });
+    try {
+      final ayetler = await CuzVerileri.cuzuYukle(widget.cuzNo);
+      final okundu = (await CuzHatimStore.oku())[widget.cuzNo - 1];
+      if (!mounted) return;
+      setState(() {
+        _ayetler = ayetler;
+        _okundu = okundu;
+        _yukleniyor = false;
+      });
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _hata = e.toString();
+          _yukleniyor = false;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _completionSub?.cancel();
+    _player.dispose();
+    super.dispose();
+  }
+
+  // ---------------- SES ----------------
+  Future<void> _ayetBitti() async {
+    if (!mounted || _ayetler == null) return;
+    final idx = _calanIndex;
+    if (idx == null) {
+      setState(() => _caliyor = false);
+      return;
+    }
+    final sonraki = idx + 1;
+    if (sonraki < _ayetler!.length) {
+      await _cal(sonraki);
+    } else {
+      setState(() {
+        _caliyor = false;
+        _calanIndex = null;
+      });
+      _gosterMesaj('Cüzün tamamı dinlendi.');
+    }
+  }
+
+  Future<void> _cal(int index) async {
+    final ayet = _ayetler![index];
+    final url = CuzVerileri.ayetSesUrl(ayet.sureNo, ayet.ayetNo);
+    try {
+      await _player.stop();
+      await _player.play(UrlSource(url));
+      if (mounted) {
+        setState(() {
+          _caliyor = true;
+          _calanIndex = index;
+        });
+      }
+    } catch (_) {
+      _gosterMesaj('Ses çalınamadı. İnternet bağlantınızı kontrol edin.');
+    }
+  }
+
+  Future<void> _durdur() async {
+    await _player.stop();
+    if (mounted) {
+      setState(() {
+        _caliyor = false;
+        _calanIndex = null;
+      });
+    }
+  }
+
+  // ---------------- HATİM TAKİBİ ----------------
+  Future<void> _okunduDegistir() async {
+    final yeni = !_okundu;
+    setState(() => _okundu = yeni);
+    await CuzHatimStore.isaretle(widget.cuzNo, yeni);
+    _gosterMesaj(
+      yeni
+          ? '${widget.cuzNo}. cüz okundu olarak işaretlendi.'
+          : '${widget.cuzNo}. cüz okundu işareti kaldırıldı.',
+    );
+  }
+
+  void _gosterMesaj(String mesaj) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(mesaj)));
+  }
+
+  // ---------------- UI ----------------
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Renkler.zemin,
+      appBar: AppBar(
+        title: Text(
+          '${widget.cuzNo}. Cüz',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Renkler.yuzey,
+        elevation: 0,
+      ),
+      body: _icerik(),
+      bottomNavigationBar: _ayetler == null ? null : _okunduCubugu(),
+    );
+  }
+
+  Widget _icerik() {
+    if (_yukleniyor) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (_hata != null) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.error_outline, color: Colors.white38, size: 48),
+            const SizedBox(height: 12),
+            const Text(
+              'Cüz metni yüklenemedi.',
+              style: TextStyle(color: Colors.white70),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Renkler.vurgu),
+              onPressed: _yukle,
+              child: const Text('Tekrar Dene'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final ayetler = _ayetler!;
+    return ListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      itemCount: ayetler.length,
+      itemBuilder: (context, index) {
+        final onceki = index > 0 ? ayetler[index - 1] : null;
+        final ayet = ayetler[index];
+        final yeniSure = onceki == null || onceki.sureNo != ayet.sureNo;
+        if (!yeniSure) return _ayetKarti(index);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _sureBasligi(ayet),
+            const SizedBox(height: 10),
+            _ayetKarti(index),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _sureBasligi(CuzAyah ayet) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Renkler.bannerUst, Renkler.bannerAlt],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.35)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            sureAdiTurkce(ayet.sureNo),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            'Sûre ${ayet.sureNo}',
+            style: TextStyle(color: Renkler.acikVurgu, fontSize: 11),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _ayetKarti(int index) {
+    final ayet = _ayetler![index];
+    final caliyorMu = _calanIndex == index && _caliyor;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: caliyorMu ? Renkler.seciliYuzey : Renkler.kart,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: caliyorMu ? Renkler.vurgu : Renkler.cerceve2,
+          width: caliyorMu ? 1.4 : 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                tooltip: caliyorMu ? 'Durdur' : 'Dinle',
+                onPressed: () => caliyorMu ? _durdur() : _cal(index),
+                icon: Icon(
+                  caliyorMu ? Icons.stop_circle : Icons.play_circle,
+                  color: Renkler.vurgu,
+                  size: 26,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: Renkler.yuzey,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Renkler.vurgu.withValues(alpha: 0.4),
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  '${ayet.ayetNo}',
+                  style: TextStyle(
+                    color: Renkler.vurgu,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              if (ayet.secdeAyeti)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.amber.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Text(
+                    "Secde Âyeti",
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 9,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              const Spacer(),
+              Text(
+                'Sf ${ayet.sayfa}',
+                style: const TextStyle(color: Colors.white24, fontSize: 10),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            ayet.metin,
+            textAlign: TextAlign.right,
+            textDirection: TextDirection.rtl,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              height: 1.8,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _okunduCubugu() {
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+        decoration: BoxDecoration(
+          color: Renkler.navBar,
+          border: Border(top: BorderSide(color: Renkler.cerceve)),
+        ),
+        child: FilledButton.icon(
+          style: FilledButton.styleFrom(
+            backgroundColor:
+                _okundu ? Colors.greenAccent.shade400 : Renkler.vurgu,
+            foregroundColor: _okundu ? Colors.black : Colors.black,
+            padding: const EdgeInsets.symmetric(vertical: 13),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          onPressed: _okunduDegistir,
+          icon: Icon(_okundu ? Icons.check_circle : Icons.check_circle_outline),
+          label: Text(
+            _okundu ? 'Bu cüzü okudum (✓)' : 'Bu cüzü okudum',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+}

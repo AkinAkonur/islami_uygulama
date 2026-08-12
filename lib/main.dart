@@ -19,6 +19,7 @@ import 'pages/daha_fazla_page.dart';
 import 'pages/dualar_page.dart';
 import 'pages/bagis_page.dart';
 import 'pages/tesbih_page.dart';
+import 'pages/cuzler_page.dart';
 import 'pages/ilham_page.dart';
 import 'pages/kible_pusula_page.dart';
 import 'pages/ai_tefsir_page.dart';
@@ -424,7 +425,7 @@ class AnaSayfa extends StatelessWidget {
               ),
               SizedBox(height: 16),
 
-              // İkonlu Menü (Dualar, Bağış, Tesbih, İlham)
+              // İkonlu Menü (Dualar, Bağış, Cüz'ler, İlham)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -444,10 +445,10 @@ class AnaSayfa extends StatelessWidget {
                   ),
                   _buildIconMenu(
                     context,
-                    Icons.radio_button_checked,
-                    l.t('mod.tesbih'),
-                    Colors.pinkAccent,
-                    TesbihPage(),
+                    Icons.filter_frames,
+                    l.t('h.cuzler'),
+                    Colors.tealAccent,
+                    CuzlerPage(),
                   ),
                   _buildIconMenu(
                     context,

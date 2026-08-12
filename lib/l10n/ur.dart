@@ -7,6 +7,7 @@ const Map<String, String> urDil = {
   'h.discover': 'دریافت کریں',
   'h.more': 'مزید',
   'h.duas': 'دعائیں',
+  'h.cuzler': 'جز',
   'h.donate': 'عطیہ',
   'h.ilham': 'الہام',
   'h.qiblaTitle': 'قبلہ',
