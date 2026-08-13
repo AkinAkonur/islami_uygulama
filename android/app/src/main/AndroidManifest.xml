@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Vakit/konum API'leri ve ters coğrafi kodlama için -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Canlı yayın: ağ durumu algılama (hücresel veri uyarısı + otomatik yeniden bağlanma) -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- Canlı yayın: izleme sırasında ekranın uykuya geçmesini engeller (wakelock_plus) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <!-- Bildirim gönderme -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <!-- Vakit bildirimleri için tam zaman alarmlar -->

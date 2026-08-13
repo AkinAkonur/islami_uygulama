@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/renkler.dart';
 
 class YoutubeEmbedPage extends StatefulWidget {
@@ -76,10 +77,21 @@ class _YoutubeEmbedPageState extends State<YoutubeEmbedPage> {
           ),
         );
       // YouTube IFrame: autoplay kapalı (kullanıcı dokununca oynar).
-      final url = 'https://www.youtube.com/embed/${widget.videoId}'
-          '?rel=0&playsinline=1&modestbranding=1'
-          '&enablejsapi=1&origin=${Uri.encodeComponent('https://localhost')}';
-      await kontrol.loadRequest(Uri.parse(url));
+      final embedUrl = 'https://www.youtube.com/embed/${widget.videoId}'
+          '?rel=0&playsinline=1&modestbranding=1';
+      if (kIsWeb) {
+        // Web'de tarayıcı Referer'i kendisi gönderir; doğrudan geçerli.
+        await kontrol.loadRequest(Uri.parse(embedUrl));
+      } else {
+        // YouTube, embed isteklerinde geçerli bir HTTP Referer ister
+        // (eksiksse "Hata 153: Oynatıcı yapılandırma hatası"). Embed sayfası,
+        // geçerli bir HTTPS kökeni (embedBaseUrl) üzerinden yüklenen yerel bir
+        // HTML sarmalayıcıya gömülür; WebView bu kökeni Referer olarak gönderir.
+        await kontrol.loadHtmlString(
+          CanliYayinKonfigurasyonu.youtubeEmbedHtml(embedUrl),
+          baseUrl: CanliYayinKonfigurasyonu.embedBaseUrl,
+        );
+      }
       if (mounted) setState(() => _kontrol = kontrol);
     } catch (_) {
       if (mounted) {

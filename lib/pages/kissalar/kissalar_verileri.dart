@@ -74,6 +74,14 @@ class KimlikKarti {
   const KimlikKarti({required this.alanAdi, required this.deger});
 }
 
+/// Ses kaydı içi bölüm/yer işareti (chapter). Örn: "Kuyudan Saraya".
+class KissaBolum {
+  final int zamanSn;
+  final String baslik;
+
+  const KissaBolum({required this.zamanSn, required this.baslik});
+}
+
 /// Kıssa / siyer / peygamber kaydı.
 class KissaKaydi {
   final String id;
@@ -93,6 +101,10 @@ class KissaKaydi {
   final List<QuizSoru> quiz; // "Ne Kadar Öğrendin?"
   final String? sesUrl; // CDN/streaming ses adresi
   final List<KimlikKarti> kimlikKarti; // Peygamberler için
+  final String seslendiren; // Sesli anlatımın sahibi (varsa)
+  final int? sureDk; // Biliniyorsa gerçek süre; yoksa metinden tahmin edilir
+  final List<String> etiketler; // Konu etiketleri (Sabır, Dua...)
+  final List<KissaBolum> bolumler; // Bölüm işaretleri (chapters)
 
   const KissaKaydi({
     required this.id,
@@ -112,6 +124,10 @@ class KissaKaydi {
     this.quiz = const [],
     this.sesUrl,
     this.kimlikKarti = const [],
+    this.seslendiren = '',
+    this.sureDk,
+    this.etiketler = const [],
+    this.bolumler = const [],
   });
 
   /// Arama için metnin tamamını birleştirir.
@@ -126,6 +142,23 @@ class KissaKaydi {
         ...hadisler.map((h) => '${h.metin} ${h.kaynak}'),
         ...cografya.map((c) => '${c.yer} ${c.aciklama}'),
       ].join(' ').toLowerCase();
+
+  /// Temalar + ek etiketlerin birleşimi (filtreleme/arama için).
+  List<String> get tumEtiketler => {...temalar, ...etiketler}.toList();
+
+  /// Tahmini dinleme süresi (dakika). [sureDk] bilinmiyorsa metin
+  /// uzunluğundan hesaplanır (Türkçe TTS ort. ~500 karakter/dakika).
+  int get tahminiSureDk {
+    if (sureDk != null && sureDk! > 0) return sureDk!;
+    return (aramaMetni.length / 500).ceil().clamp(1, 90);
+  }
+
+  /// Kullanıcıya gösterilecek süre etiketi. Örn: "~8 dk"
+  String get sureEtiketi => '~$tahminiSureDk dk';
+
+  /// Seslendiren kişi ya da TTS anlatımı.
+  String get seslendirenEtiketi =>
+      seslendiren.isNotEmpty ? seslendiren : 'Cihaz TTS (Türkçe)';
 }
 
 /// Grup (akordeon başlığı): Siyer'de evreler, İbret'te alt başlıklar.

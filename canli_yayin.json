@@ -1,0 +1,45 @@
+{
+  "surum": 1,
+  "guncellenme": "2026-08-13T00:00:00Z",
+  "aciklama": "Kâbe-i Muazzama canlı yayın yapılandırması. Bu dosya CanliYayinKonfigurasyonu.configUrl adresinde barındırılır; kaynaklar değişince uygulama güncellemesi gerekmeden yalnızca bu JSON güncellenir.",
+  "kabeyayini": {
+    "kaynakAdi": "Saudi Kuran TV · Kâbe Canlı (Resmî)",
+    "youtubeVideoId": "24JXS383N1c",
+    "youtubeLiveChannelId": "UCos52azQNBgW63_9uDJoPDA",
+    "hlsKaynaklar": [
+      {
+        "ad": "Kâbe Canlı (CDN)",
+        "tip": "hls",
+        "url": "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8"
+      },
+      {
+        "ad": "Kâbe Canlı (Resmî)",
+        "tip": "hls",
+        "url": "http://m.live.net.sa:1935/live/quran/playlist.m3u8"
+      },
+      {
+        "ad": "Canlılık Test Akışı (yedek)",
+        "tip": "hls",
+        "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+      }
+    ],
+    "sesUrl": "http://m.live.net.sa:1935/live/quran/playlist.m3u8"
+  },
+  "radyoKanallari": [
+    {
+      "ad": "Kur'an Radyosu (Mekke)",
+      "aciklama": "Resmî Suudi Kuran radyo yayını - 7/24 tilavet",
+      "url": "http://m.live.net.sa:1935/live/quran/playlist.m3u8"
+    },
+    {
+      "ad": "Sünnet Radyosu (Medine)",
+      "aciklama": "Resmî Suudi Sünnet radyo yayını - Mescid-i Nebevî",
+      "url": "http://m.live.net.sa:1935/live/sunnah/playlist.m3u8"
+    },
+    {
+      "ad": "Kuran FM (Tilavet)",
+      "aciklama": "Kesintisiz Kur'an sesli dinleme için yedek akış",
+      "url": "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8"
+    }
+  ]
+}

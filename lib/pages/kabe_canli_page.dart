@@ -28,7 +28,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/kabe_mini_oynatici.dart';
@@ -221,6 +224,21 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       await _sesPlayer.pause();
       if (mounted) setState(() => _sesCalyor = false);
     }
+    _ekraniAcikTut(false);
+  }
+
+  /// İzleme sırasında ekranın kapanmasını engeller (wakelock_plus);
+  /// yayın durduğunda/sayfa kapanınca ekran uyku moduna dönebilir.
+  Future<void> _ekraniAcikTut(bool aktif) async {
+    try {
+      if (aktif) {
+        await WakelockPlus.enable();
+      } else {
+        await WakelockPlus.disable();
+      }
+    } catch (_) {
+      // wakelock desteklenmeyen platformlarda sessiz geç.
+    }
   }
 
   /// Ağ geri geldi: önce dinamik yapılandırma tazelenir (yayın linki
@@ -280,6 +298,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       // Ses akışı: video görüntüsü çekilmediği için veri/pil tasarrufu sağlar.
       await _sesPlayer.setReleaseMode(ReleaseMode.loop);
       await _sesPlayer.play(UrlSource(url));
+      await _ekraniAcikTut(true);
       if (mounted) {
         setState(() {
           _sesCalyor = true;
@@ -326,16 +345,32 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     }
   }
 
-  Future<void> _youtubeYukle() async {
+  /// YouTube IFrame gömmeyi başlatır. [kanalModu] true ise video ID yerine
+  /// kanal tabanlı `live_stream?channel=...` embed'i kullanılır (video ID
+  /// embed'i reddedildiğinde yedek). Yayın ID'si değişse bile kanal yayında
+  /// olduğu sürece kanal embed'i çalışır.
+  Future<void> _youtubeYukle({bool kanalModu = false}) async {
     if (!mounted) return;
     setState(() {
       _webYukleniyor = true;
       _webHata = false;
     });
     try {
-      // YouTube IFrame gömme: akış kalitesi hıza göre otomatik ayarlanır
-      // (360p/720p/1080p - Adaptive Bitrate) ve dünyanın her yerinde kararlıdır.
-      final kontrol = WebViewController()
+      // Platforma özel WebView kurulumu: kullanıcı dokunuşu olmadan videonun
+      // SESLİ başlaması için gereklidir. Bu olmadan tablet/telefonlarda yayın
+      // sessiz (muted) başlar veya "Oynatıcı yapılandırma hatası" ile durur.
+      // iOS/WebKit: mediaTypesRequiringUserAction boş bırakılır.
+      // Android: setMediaPlaybackRequiresUserGesture(false) çağrılır.
+      late final PlatformWebViewControllerCreationParams params;
+      if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+        params = WebKitWebViewControllerCreationParams(
+          allowsInlineMediaPlayback: true,
+          mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+        );
+      } else {
+        params = const PlatformWebViewControllerCreationParams();
+      }
+      final kontrol = WebViewController.fromPlatformCreationParams(params)
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..setNavigationDelegate(
           NavigationDelegate(
@@ -343,15 +378,48 @@ class _KabeCanliPageState extends State<KabeCanliPage>
               if (mounted) setState(() => _webYukleniyor = false);
             },
             onWebResourceError: (hata) {
-              if (mounted) setState(() => _webHata = true);
+              if (!mounted) return;
+              // Yalnızca ana çerçeve hatası yayını başlatılamadı sayılır;
+              // reklam vb. alt kaynak hataları yok sayılır.
+              if (hata.isForMainFrame ?? false) {
+                setState(() => _webHata = true);
+                if (!kanalModu &&
+                    CanliYayinKonfigurasyonu.youtubeChannelEmbedUrl() != null) {
+                  // Video ID embed'i reddedildi (yayın ID'si değişmiş
+                  // olabilir): kanal tabanlı embed ile bir kez daha dene.
+                  _youtubeYukle(kanalModu: true);
+                } else {
+                  _hlsDene(0);
+                }
+              }
             },
           ),
         )
         ..setBackgroundColor(const Color(0xFF000000));
-      await kontrol.loadRequest(
-        Uri.parse(CanliYayinKonfigurasyonu.youtubeEmbedUrl()),
-      );
+      if (defaultTargetPlatform == TargetPlatform.android &&
+          kontrol.platform is AndroidWebViewController) {
+        final android = kontrol.platform as AndroidWebViewController;
+        AndroidWebViewController.enableDebugging(kDebugMode);
+        await android.setMediaPlaybackRequiresUserGesture(false);
+      }
+      final embedUrl = kanalModu
+          ? CanliYayinKonfigurasyonu.youtubeChannelEmbedUrl()!
+          : CanliYayinKonfigurasyonu.youtubeEmbedUrl();
+      if (kIsWeb) {
+        // Web'de tarayıcı Referer'i kendisi gönderir; doğrudan geçerli.
+        await kontrol.loadRequest(Uri.parse(embedUrl));
+      } else {
+        // YouTube, embed isteklerinde geçerli bir HTTP Referer ister
+        // (eksikse "Hata 153: Oynatıcı yapılandırma hatası"). Embed sayfası,
+        // geçerli bir HTTPS kökeni (embedBaseUrl) üzerinden yüklenen yerel bir
+        // HTML sarmalayıcıya gömülür; WebView bu kökeni Referer olarak gönderir.
+        await kontrol.loadHtmlString(
+          CanliYayinKonfigurasyonu.youtubeEmbedHtml(embedUrl),
+          baseUrl: CanliYayinKonfigurasyonu.embedBaseUrl,
+        );
+      }
       if (mounted) setState(() => _webKontrol = kontrol);
+      await _ekraniAcikTut(true);
     } catch (_) {
       if (!mounted) return;
       setState(() {
@@ -408,6 +476,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       yeni.setLooping(true);
       yeni.addListener(_hlsDurumDinle);
       await yeni.play();
+      await _ekraniAcikTut(true);
     } catch (_) {
       if (!mounted) return;
       try {
@@ -463,6 +532,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       _hlsHata = false;
     });
     await kontrol.play();
+    await _ekraniAcikTut(true);
     _bilgiGoster('Yayın mini pencereden geri alındı ($kaynakAdi)');
   }
 
@@ -544,6 +614,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     WidgetsBinding.instance.removeObserver(this);
     _agTakip?.cancel();
     _webKontrol = null;
+    _ekraniAcikTut(false);
     final c = _videoKontrol;
     _videoKontrol = null;
     if (c != null) {

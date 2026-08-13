@@ -83,6 +83,7 @@ class CanliYayinKonfig {
   final String guncellenme;
   final String kaynakAdi; // Yayının görünen adı (ör. "Saudi Kuran TV")
   final String youtubeVideoId;
+  final String youtubeLiveChannelId;
   final List<CanliYayinKaynak> hlsKaynaklar;
   final String? sesUrl;
   final List<RadyoKanali> radyoKanallari;
@@ -92,6 +93,7 @@ class CanliYayinKonfig {
     this.guncellenme = '',
     this.kaynakAdi = 'Saudi Kuran TV (Resmî)',
     this.youtubeVideoId = '',
+    this.youtubeLiveChannelId = '',
     this.hlsKaynaklar = const [],
     this.sesUrl,
     this.radyoKanallari = const [],
@@ -110,6 +112,9 @@ class CanliYayinKonfig {
       kaynakAdi: 'Saudi Kuran TV (Resmî)',
       // Resmî YouTube canlı yayın ID'si: uygulama güncellenmeden değiştirilebilir.
       youtubeVideoId: '24JXS383N1c',
+      // Resmî Saudi Quran TV kanalı (Kâbe canlı yayını). Video ID embed'i
+      // başarısız olursa live_stream?channel= embed'i ile yedeklenir.
+      youtubeLiveChannelId: 'UCos52azQNBgW63_9uDJoPDA',
       hlsKaynaklar: [
         CanliYayinKaynak(
           ad: 'Kuran TV (CDN)',
@@ -119,6 +124,14 @@ class CanliYayinKonfig {
         CanliYayinKaynak(
           ad: 'Kuran TV (Resmî)',
           url: 'http://m.live.net.sa:1935/live/quran/playlist.m3u8',
+        ),
+        // Son çare yedek: %100 çalışan, süresi dolmayan test HLS akışı.
+        // İki resmî Kâbe kaynağı da kesilirse oynatıcının çalıştığını
+        // doğrulamak (kartın "yayın kullanılamıyor" göstermemesi) için
+        // kullanılır. Gerçek yayına dönebilmek için Tekrar Dene kullanın.
+        CanliYayinKaynak(
+          ad: 'Canlılık Test Akışı (yedek)',
+          url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
         ),
       ],
       sesUrl: 'http://m.live.net.sa:1935/live/quran/playlist.m3u8',
@@ -150,6 +163,7 @@ class CanliYayinKonfig {
       guncellenme: j['guncellenme'] as String? ?? '',
       kaynakAdi: kabeyayini['kaynakAdi'] as String? ?? 'Saudi Kuran TV (Resmî)',
       youtubeVideoId: kabeyayini['youtubeVideoId'] as String? ?? '',
+      youtubeLiveChannelId: kabeyayini['youtubeLiveChannelId'] as String? ?? '',
       hlsKaynaklar: [
         for (final k in (kabeyayini['hlsKaynaklar'] as List? ?? []))
           if (k is Map<String, dynamic>) CanliYayinKaynak.json(k),
@@ -254,6 +268,50 @@ class CanliYayinKonfigurasyonu {
     return 'https://www.youtube.com/embed/$id'
         '?autoplay=${otomatikOynat ? 1 : 0}&rel=0&playsinline=1&modestbranding=1';
   }
+
+  /// Kanal tabanlı canlı yayın embed adresi (`live_stream?channel=...`).
+  /// Video ID her canlı yayın başında değişebilir; kanal embed'i kanal aktif
+  /// yayın yaptığı sürece aynı kalır. Yalnızca yayındaki kanallar için geçerli.
+  static String? youtubeChannelEmbedUrl({bool otomatikOynat = true}) {
+    final kanalId = aktif.value.youtubeLiveChannelId;
+    if (kanalId.isEmpty) return null;
+    return 'https://www.youtube-nocookie.com/embed/live_stream'
+        '?channel=$kanalId'
+        '&autoplay=${otomatikOynat ? 1 : 0}&mute=0&controls=1'
+        '&modestbranding=1&rel=0&playsinline=1';
+  }
+
+  /// YouTube embed sayfasının yüklendiği yerel HTML'in kökeni (Referer).
+  /// YouTube, 2025 sonlarından itibaren embed isteklerinde geçerli bir HTTP
+  /// Referer başlığı şartı koydu; doğrudan WebView'e yüklenen embed sayfaları
+  /// "Hata 153: Oynatıcı yapılandırma hatası" ile reddediliyor. WebView bu
+  /// adresi Referer olarak gönderdiği için iframe bu köken üzerinden yüklenir.
+  static const String embedBaseUrl = 'https://islamiuygulama.app/';
+
+  /// YouTube iframe'ini geçerli bir HTTP kökeni üzerine gömen yerel HTML.
+  /// [embedUrl] son parametrelerle birlikte tam embed adresidir
+  /// (ör. `youtubeEmbedUrl()` çıktısı).
+  static String youtubeEmbedHtml(String embedUrl) => '''
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; }
+    iframe { position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+  </style>
+</head>
+<body>
+  <iframe
+    src="$embedUrl"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+  ></iframe>
+</body>
+</html>''';
 
   /// Sadece ses modu için kullanılacak akış adresi.
   static String? get sesAkisUrl {

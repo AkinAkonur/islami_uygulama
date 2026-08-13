@@ -63,6 +63,40 @@ void main() {
     expect(url, contains('autoplay=1'));
   });
 
+  test('kanal tabanli embed adresi kanal ID icerir', () {
+    CanliYayinKonfigurasyonu.aktif.value = CanliYayinKonfig(
+      youtubeVideoId: 'TESTID123',
+      youtubeLiveChannelId: 'UCSAYDIKANALID123456789',
+    );
+    final url = CanliYayinKonfigurasyonu.youtubeChannelEmbedUrl();
+    expect(url, isNotNull);
+    expect(url, contains('live_stream'));
+    expect(url, contains('UCSAYDIKANALID123456789'));
+    expect(url, contains('autoplay=1'));
+  });
+
+  test('kanal ID yoksa kanal embed adresi null dondurur', () {
+    CanliYayinKonfigurasyonu.aktif.value = CanliYayinKonfig(
+      youtubeVideoId: 'TESTID123',
+    );
+    expect(CanliYayinKonfigurasyonu.youtubeChannelEmbedUrl(), isNull);
+  });
+
+  test('JSON kanal tabanli embed icin youtubeLiveChannelId cozer', () {
+    final json = {
+      'kabeyayini': {
+        'youtubeVideoId': 'ABC123',
+        'youtubeLiveChannelId': 'UCOS52AZQ',
+        'hlsKaynaklar': [
+          {'ad': 'Yedek A', 'url': 'https://ornek.com/a.m3u8'},
+        ],
+      },
+    };
+    final konfig = CanliYayinKonfig.json(json);
+    expect(konfig.youtubeLiveChannelId, 'UCOS52AZQ');
+    expect(konfig.gecerli, isTrue);
+  });
+
   test('sesUrl yoksa ilk HLS kaynagi ses akisi olarak kullanilir', () {
     CanliYayinKonfigurasyonu.aktif.value = const CanliYayinKonfig(
       hlsKaynaklar: [
