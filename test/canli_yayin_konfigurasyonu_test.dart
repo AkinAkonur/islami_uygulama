@@ -105,4 +105,33 @@ void main() {
     );
     expect(CanliYayinKonfigurasyonu.sesAkisUrl, 'https://a.m3u8');
   });
+
+  test('varsayilan kanal listesi tum kategorileri kapsar', () {
+    final konfig = CanliYayinKonfig.varsayilan();
+    final kategoriler = konfig.radyoKanallari.map((k) => k.kategori).toSet();
+    expect(kategoriler, contains(RadyoKategori.tilavet));
+    expect(kategoriler, contains(RadyoKategori.ilahi));
+    expect(kategoriler, contains(RadyoKategori.dini));
+    expect(konfig.radyoKanallari.length, greaterThanOrEqualTo(10));
+  });
+
+  test('JSON kategori alanini dogru cozer', () {
+    final json = {
+      'radyoKanallari': [
+        {'ad': 'R1', 'url': 'https://r1/stream.mp3'},
+        {
+          'ad': 'R2',
+          'kategori': 'ilahi',
+          'url': 'https://r2/stream.mp3',
+        },
+        {'ad': 'R3', 'kategori': 'DİNİ', 'url': 'https://r3/stream.mp3'},
+        {'ad': 'R4', 'kategori': 'yurtdisi', 'url': 'https://r4/stream.mp3'},
+      ],
+    };
+    final konfig = CanliYayinKonfig.json(json);
+    expect(konfig.radyoKanallari[0].kategori, RadyoKategori.tilavet);
+    expect(konfig.radyoKanallari[1].kategori, RadyoKategori.ilahi);
+    expect(konfig.radyoKanallari[2].kategori, RadyoKategori.dini);
+    expect(konfig.radyoKanallari[3].kategori, RadyoKategori.yurtdisi);
+  });
 }

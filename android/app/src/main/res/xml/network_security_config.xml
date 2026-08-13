@@ -2,6 +2,16 @@
 <network-security-config>
     <base-config cleartextTrafficPermitted="false" />
     <domain-config cleartextTrafficPermitted="true">
+        <!-- Canli yayin: Kabe/Mekke ve Medine ses akislari -->
         <domain includeSubdomains="true">m.live.net.sa</domain>
+        <!-- Dini Radyo: Kuran Meal Radyo -->
+        <domain>37.247.98.8</domain>
+        <!-- Dini Radyo: Radyo 3 Hilal -->
+        <domain includeSubdomains="true">uchilal.com</domain>
+        <!-- Dini Radyo: Risale Radyo -->
+        <domain>yayin1.canliyayin.org</domain>
+        <!-- Dini Radyo: Radyo 7 -->
+        <domain>46.20.3.250</domain>
+        <domain>46.20.3.251</domain>
     </domain-config>
 </network-security-config>

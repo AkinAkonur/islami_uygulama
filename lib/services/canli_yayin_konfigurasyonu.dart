@@ -25,7 +25,7 @@
 //     "sesUrl": "http://m.live.net.sa:1935/live/quran/playlist.m3u8"
 //   },
 //   "radyoKanallari": [
-//     { "ad": "...", "url": "..." }
+//     { "ad": "...", "url": "...", "kategori": "tilavet|ilahi|dini|yurtdisi" }
 //   ]
 // }
 // ===========================================================================
@@ -59,22 +59,57 @@ class CanliYayinKaynak {
   }
 }
 
+/// Radyo kanalı kategorisi. Dini Radyo & İlahi bölümündeki liste, bu
+/// kategoriye göre bölümlere ayrılır ve filtrelenir.
+enum RadyoKategori {
+  tilavet('Kur\'an Tilavet'),
+  ilahi('İlahi & Naat'),
+  dini('Türkçe Dini Sohbet'),
+  yurtdisi('Yurt Dışı Kanallar');
+
+  const RadyoKategori(this.etiket);
+
+  final String etiket;
+
+  /// JSON'daki ["kategori"] değerini çözer. Bilinmeyen/eksik değerler
+  /// geriye uyumluluk için varsayılan olarak [tilavet] sayılır.
+  static RadyoKategori coz(String? deger) {
+    switch (deger?.toLowerCase().trim()) {
+      case 'ilahi':
+      case 'naat':
+        return RadyoKategori.ilahi;
+      case 'dini':
+      case 'sohbet':
+        return RadyoKategori.dini;
+      case 'yurtdisi':
+      case 'uluslararasi':
+      case 'dunya':
+        return RadyoKategori.yurtdisi;
+      default:
+        return RadyoKategori.tilavet;
+    }
+  }
+}
+
 /// Radyo / podcast akışı.
 class RadyoKanali {
   final String ad;
   final String aciklama;
   final String url;
+  final RadyoKategori kategori;
 
   const RadyoKanali({
     required this.ad,
     required this.aciklama,
     required this.url,
+    this.kategori = RadyoKategori.tilavet,
   });
 
   factory RadyoKanali.json(Map<String, dynamic> j) => RadyoKanali(
     ad: j['ad'] as String? ?? 'Radyo',
     aciklama: j['aciklama'] as String? ?? '',
     url: j['url'] as String? ?? '',
+    kategori: RadyoKategori.coz(j['kategori'] as String?),
   );
 }
 
@@ -135,22 +170,97 @@ class CanliYayinKonfig {
         ),
       ],
       sesUrl: 'http://m.live.net.sa:1935/live/quran/playlist.m3u8',
+      // ---------------------------------------------------------------------
+      // DİNİ RADYO & İLAHİ KANALLARI
+      // Adresler (2026-08) HTTP başlık + akış okuma ile doğrulanmıştır.
+      // Değişen adresler için uygulama güncellenmez; uzak JSON'da
+      // "radyoKanallari" güncellenir (CanliYayinKonfigurasyonu.configUrl).
+      // ---------------------------------------------------------------------
       radyoKanallari: [
+        // ---------- Kur'an Tilavet ----------
         RadyoKanali(
           ad: 'Kur\'an Radyosu (Mekke)',
           aciklama: 'Resmî Suudi Kuran radyo yayını - 7/24 tilavet',
           url: 'http://m.live.net.sa:1935/live/quran/playlist.m3u8',
+          kategori: RadyoKategori.tilavet,
         ),
         RadyoKanali(
           ad: 'Sünnet Radyosu (Medine)',
           aciklama: 'Resmî Suudi Sünnet radyo yayını - Mescid-i Nebevî',
           url: 'http://m.live.net.sa:1935/live/sunnah/playlist.m3u8',
+          kategori: RadyoKategori.tilavet,
+        ),
+        RadyoKanali(
+          ad: 'Diyanet Kur\'an Radyo',
+          aciklama: 'Diyanet İşleri Başkanlığı - Kur\'an-ı Kerim ve meali',
+          url:
+              'https://eustr73.mediatriple.net/videoonlylive/mtikoimxnztxlive/broadcast_5e3c14192aa92.smil/playlist.m3u8',
+          kategori: RadyoKategori.tilavet,
+        ),
+        RadyoKanali(
+          ad: 'Kuran Meal Radyo',
+          aciklama: 'Kesintisiz Kur\'an tilaveti ve meal dinleme',
+          url: 'http://37.247.98.8/stream/33/',
+          kategori: RadyoKategori.tilavet,
         ),
         RadyoKanali(
           ad: 'Kuran FM (Tilavet)',
-          aciklama: 'Kesintisiz Kur\'an sesli dinleme için yedek akış',
+          aciklama: 'Saudi Kuran TV ses akışı - kesintisiz tilavet',
           url:
               'https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8',
+          kategori: RadyoKategori.tilavet,
+        ),
+        // ---------- İlahi & Naat ----------
+        RadyoKanali(
+          ad: 'Radyo İlahi',
+          aciklama: '7/24 ilahi, kaside ve dini ezgi akışı',
+          url: 'https://anadolu.liderhost.com.tr:10994/;',
+          kategori: RadyoKategori.ilahi,
+        ),
+        RadyoKanali(
+          ad: 'Radyo Mevlana',
+          aciklama: 'İlahi, sohbet ve manevi yayınlar',
+          url: 'https://radyo.radyomevlana.com:9786/stream',
+          kategori: RadyoKategori.ilahi,
+        ),
+        RadyoKanali(
+          ad: 'Radyo 3 Hilal',
+          aciklama: 'İlahi ağırlıklı kesintisiz İslami yayın',
+          url: 'http://uchilal.com:8000/live',
+          kategori: RadyoKategori.ilahi,
+        ),
+        RadyoKanali(
+          ad: 'Haktan FM',
+          aciklama: 'İlahi, mevlid ve dini programlar',
+          url: 'https://anadolu.liderhost.com.tr:10980/;',
+          kategori: RadyoKategori.ilahi,
+        ),
+        // ---------- Türkçe Dini Sohbet ----------
+        RadyoKanali(
+          ad: 'Diyanet Radyo',
+          aciklama: 'Diyanet İşleri Başkanlığı resmî radyosu',
+          url:
+              'https://eustr73.mediatriple.net/videoonlylive/mtikoimxnztxlive/broadcast_5e3c1171d7d2a.smil/playlist.m3u8',
+          kategori: RadyoKategori.dini,
+        ),
+        RadyoKanali(
+          ad: 'Diyanet Risalet Radyo',
+          aciklama: 'Diyanet - sohbet, tefsir ve program yayınları',
+          url:
+              'https://eustr73.mediatriple.net/videoonlylive/mtikoimxnztxlive/broadcast_5e3c1520b2626.smil/playlist.m3u8',
+          kategori: RadyoKategori.dini,
+        ),
+        RadyoKanali(
+          ad: 'Radyo 7',
+          aciklama: 'Vaaz, sohbet ve İslami programlar',
+          url: 'http://46.20.3.250/;',
+          kategori: RadyoKategori.dini,
+        ),
+        RadyoKanali(
+          ad: 'Risale Radyo',
+          aciklama: 'Risale-i Nur sohbetleri ve dini içerik',
+          url: 'http://yayin1.canliyayin.org:7010/;',
+          kategori: RadyoKategori.dini,
         ),
       ],
     );

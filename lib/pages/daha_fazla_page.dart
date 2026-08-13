@@ -1013,13 +1013,27 @@ class DiniRadyoPage extends StatefulWidget {
 
 class _DiniRadyoPageState extends State<DiniRadyoPage> {
   final AudioPlayer _player = AudioPlayer();
-  String? _calanUrl;
+  RadyoKanali? _calanKanal;
   bool _calyor = false;
   bool _yukleniyor = false;
   String? _hata;
+  RadyoKategori? _filtre;
 
   List<RadyoKanali> get _kanallar =>
       CanliYayinKonfigurasyonu.guncel.radyoKanallari;
+
+  List<RadyoKanali> get _gorunenKanallar => _filtre == null
+      ? _kanallar
+      : _kanallar.where((k) => k.kategori == _filtre).toList();
+
+  /// Kanalları kategoriye göre gruplar (liste sırası korunur).
+  Map<RadyoKategori, List<RadyoKanali>> _grupla() {
+    final gruplar = <RadyoKategori, List<RadyoKanali>>{};
+    for (final kanal in _gorunenKanallar) {
+      gruplar.putIfAbsent(kanal.kategori, () => []).add(kanal);
+    }
+    return gruplar;
+  }
 
   @override
   void initState() {
@@ -1040,7 +1054,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
   }
 
   Future<void> _oynat(RadyoKanali kanal) async {
-    if (_calanUrl == kanal.url && _calyor) {
+    if (_calanKanal?.url == kanal.url && _calyor) {
       await _player.pause();
       if (mounted) setState(() => _calyor = false);
       return;
@@ -1058,7 +1072,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
       );
       if (mounted) {
         setState(() {
-          _calanUrl = kanal.url;
+          _calanKanal = kanal;
           _calyor = true;
           _yukleniyor = false;
         });
@@ -1074,57 +1088,224 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
     }
   }
 
+  Future<void> _durdur() async {
+    await _player.stop();
+    if (mounted) {
+      setState(() {
+        _calanKanal = null;
+        _calyor = false;
+        _yukleniyor = false;
+      });
+    }
+  }
+
+  Future<void> _kanallariYenile() async {
+    final onceki = _kanallar;
+    final basarili = await CanliYayinKonfigurasyonu.manuelYenile();
+    if (!mounted) return;
+    final yenilendi = onceki.length != _kanallar.length ||
+        onceki.map((k) => k.url).toSet() !=
+            _kanallar.map((k) => k.url).toSet();
+    setState(() {});
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: basarili ? Renkler.seciliYuzey : Renkler.kart,
+        content: Text(
+          basarili
+              ? (yenilendi
+                  ? 'Kanal listesi güncellendi. (${_kanallar.length} kanal)'
+                  : 'Kanal listesi güncel. (${_kanallar.length} kanal)')
+              : 'Sunucudan kanal listesi alınamadı; son kayıtlı liste kullanılıyor.',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final mevcutKategoriler = _kanallar.map((k) => k.kategori).toSet();
+    final calanKanal = _calanKanal;
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: const Text("Dini Radyo & İlahi Akışı"),
         backgroundColor: Renkler.seciliYuzey,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Renkler.seciliYuzey.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Renkler.cerceve),
-            ),
-            child: const Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.radio_outlined, color: Colors.indigoAccent),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    '7/24 kesintisiz Kur\'an tilaveti ve ilahi akışı. '
-                    'Kanallar sunucu tarafından yönetilir; uygulama '
-                    'güncellemesi gerektirmez.',
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
-                  ),
-                ),
-              ],
-            ),
+        actions: [
+          IconButton(
+            tooltip: 'Kanalları Güncelle',
+            onPressed: _kanallariYenile,
+            icon: const Icon(Icons.sync),
           ),
-          if (_hata != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
+        ],
+      ),
+      body: Column(
+        children: [
+          _bilgiBanneri(),
+          _kategoriFiltreleri(mevcutKategoriler),
+          Expanded(
+            child: _kanallar.isEmpty
+                ? const Center(
+                    child: Text(
+                      'Kanal bulunamadı. Güncelle butonu ile yeniden deneyin.',
+                      style: TextStyle(color: Colors.white54),
+                    ),
+                  )
+                : _kanalListesi(),
+          ),
+        ],
+      ),
+      bottomNavigationBar: calanKanal == null ? null : _miniOynatici(calanKanal),
+    );
+  }
+
+  Widget _bilgiBanneri() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Renkler.seciliYuzey.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Renkler.cerceve),
+        ),
+        child: const Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.radio_outlined, color: Colors.indigoAccent),
+            SizedBox(width: 10),
+            Expanded(
               child: Text(
-                _hata!,
-                style: const TextStyle(color: Colors.redAccent, fontSize: 12),
+                '7/24 kesintisiz Kur\'an tilaveti, ilahi ve dini sohbet akışı. '
+                'Kanallar sunucu tarafından yönetilir; uygulama güncellemesi '
+                'gerektirmez.',
+                style: TextStyle(color: Colors.white70, fontSize: 12),
               ),
             ),
-          const SizedBox(height: 12),
-          for (final kanal in _kanallar) _kanalKarti(kanal),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _kategoriFiltreleri(Set<RadyoKategori> mevcutKategoriler) {
+    final hepsiSecili = _filtre == null;
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      child: Row(
+        children: [
+          _filtreChip(
+            etiket: 'Tümü (${_kanallar.length})',
+            secili: hepsiSecili,
+            onTap: () => setState(() => _filtre = null),
+          ),
+          for (final kategori in mevcutKategoriler)
+            Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: _filtreChip(
+                etiket: kategori.etiket,
+                secili: _filtre == kategori,
+                onTap: () => setState(() => _filtre = kategori),
+              ),
+            ),
         ],
       ),
     );
   }
 
+  Widget _filtreChip({
+    required String etiket,
+    required bool secili,
+    required VoidCallback onTap,
+  }) {
+    return ChoiceChip(
+      label: Text(etiket),
+      selected: secili,
+      onSelected: (_) => onTap(),
+      selectedColor: Renkler.seciliYuzey,
+      backgroundColor: Renkler.kart,
+      side: BorderSide(
+        color: secili ? Renkler.vurgu : Renkler.cerceve,
+      ),
+      labelStyle: TextStyle(
+        color: secili ? Colors.white : Colors.white70,
+        fontSize: 12.5,
+        fontWeight: secili ? FontWeight.bold : FontWeight.normal,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      showCheckmark: false,
+    );
+  }
+
+  Widget _kanalListesi() {
+    final gruplar = _grupla();
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      children: [
+        if (_hata != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4, bottom: 4),
+            child: Text(
+              _hata!,
+              style: const TextStyle(color: Colors.redAccent, fontSize: 12),
+            ),
+          ),
+        for (final kategori in gruplar.keys) ...[
+          _grupBasligi(kategori, gruplar[kategori]!.length),
+          for (final kanal in gruplar[kategori]!) _kanalKarti(kanal),
+        ],
+      ],
+    );
+  }
+
+  Widget _grupBasligi(RadyoKategori kategori, int adet) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 8),
+      child: Row(
+        children: [
+          Icon(_kategoriIkon(kategori), size: 18, color: Renkler.vurgu),
+          const SizedBox(width: 8),
+          Text(
+            kategori.etiket,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: Renkler.seciliYuzey.withValues(alpha: 0.6),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              '$adet',
+              style: TextStyle(color: Renkler.vurgu, fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  IconData _kategoriIkon(RadyoKategori kategori) {
+    switch (kategori) {
+      case RadyoKategori.tilavet:
+        return Icons.menu_book;
+      case RadyoKategori.ilahi:
+        return Icons.music_note;
+      case RadyoKategori.dini:
+        return Icons.forum;
+      case RadyoKategori.yurtdisi:
+        return Icons.public;
+    }
+  }
+
   Widget _kanalKarti(RadyoKanali kanal) {
-    final caliyor = _calanUrl == kanal.url && _calyor;
+    final caliyor = _calanKanal?.url == kanal.url && _calyor;
+    final yukleniyor = _calanKanal?.url == kanal.url && _yukleniyor;
     return Card(
       color: Renkler.kart,
       margin: const EdgeInsets.only(bottom: 10),
@@ -1142,14 +1323,14 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                   : Renkler.seciliYuzey,
               shape: BoxShape.circle,
             ),
-            child: _yukleniyor && caliyor
+            child: yukleniyor
                 ? const Padding(
                     padding: EdgeInsets.all(13),
                     child: CircularProgressIndicator(strokeWidth: 2.4),
                   )
                 : Icon(
-                    caliyor ? Icons.stop : Icons.play_arrow,
-                    color: caliyor ? Colors.redAccent : Colors.indigoAccent,
+                    caliyor ? Icons.pause : Icons.play_arrow,
+                    color: caliyor ? Colors.indigoAccent : Renkler.vurgu,
                     size: 26,
                   ),
           ),
@@ -1172,6 +1353,69 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
           ),
         ),
         isThreeLine: true,
+      ),
+    );
+  }
+
+  Widget _miniOynatici(RadyoKanali kanal) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Renkler.seciliYuzey,
+        border: Border(top: BorderSide(color: Renkler.cerceve)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+          child: Row(
+            children: [
+              Icon(_kategoriIkon(kanal.kategori),
+                  size: 20, color: Renkler.vurgu),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      kanal.ad,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13.5,
+                      ),
+                    ),
+                    Text(
+                      _yukleniyor ? 'Bağlanıyor...' : '🔴 Canlı',
+                      style: TextStyle(
+                        color: _yukleniyor
+                            ? Colors.white54
+                            : Colors.redAccent,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                tooltip: _calyor ? 'Duraklat' : 'Devam Et',
+                onPressed: () => _oynat(kanal),
+                icon: Icon(
+                  _calyor ? Icons.pause_circle_filled : Icons.play_circle_fill,
+                  color: _calyor ? Colors.redAccent : Colors.indigoAccent,
+                  size: 38,
+                ),
+              ),
+              IconButton(
+                tooltip: 'Durdur',
+                onPressed: _durdur,
+                icon: Icon(Icons.stop_circle_outlined,
+                    color: Colors.white70, size: 28),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
