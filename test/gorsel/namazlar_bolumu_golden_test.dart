@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:islami_uygulama/pages/namazlar_bolumu_page.dart';
+import 'package:islami_uygulama/services/renkler.dart';
 
 /// Namazlar bölümünün (alt menü → Namazlar) görsel şablonunu üretir:
 /// `flutter test test/gorsel/namazlar_bolumu_golden_test.dart --update-goldens`
-/// PNG çıktısı: `test/goldens/namazlar_bolumu_page.png`
+/// PNG çıktısı: `test/gorsel/goldens/namazlar_bolumu_page.png`
 const _fontKlasoru = 'C:/src/flutter/bin/cache/artifacts/material_fonts/';
+final _cakisanVakit = DateTime(2026, 8, 13, 17, 0);
 
 Future<void> _gercekFontlariYukle() async {
   final kayit = FontLoader('Roboto');
@@ -34,6 +36,7 @@ void main() {
     } catch (_) {
       // Fontlar yoksa varsayılan test fontuyla üretilir (yalnızca şablon).
     }
+    Renkler.testVakti = _cakisanVakit;
     await tester.binding.setSurfaceSize(const Size(600, 1350));
     await tester.pumpWidget(
       MaterialApp(

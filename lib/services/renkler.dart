@@ -135,8 +135,13 @@ class Renkler {
 
   // ------------------ AKTİF VAKİT ------------------
 
+  /// Yalnızca testlerde: golden görüntülerin bilgisayar saatine bağlı
+  /// olmaması için aktif vakit paleti bununla sabitlenebilir.
+  @visibleForTesting
+  static DateTime? testVakti;
+
   static VakitPalet get aktif {
-    final saat = DateTime.now().hour;
+    final saat = (testVakti ?? DateTime.now()).hour;
     if (saat >= 4 && saat < 7) return _safak;
     if (saat >= 7 && saat < 12) return _sabah;
     if (saat >= 12 && saat < 17) return _ogle;
