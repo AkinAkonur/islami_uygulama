@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // ===========================================================================
 // DUA STORE - KALICI YEREL HAFIZA
-// Favoriler, "Kendi Dualarım", zikirmatik sayacları ve yazı boyutu
-// shared_preferences ile cihazda saklanır; değişiklikler UI'a
-// ValueNotifier üzerinden anında yansır.
+// Favoriler, "Kendi Dualarım", zikirmatik sayacları, yazı boyutu ve dua
+// hatırlatıcıları shared_preferences ile cihazda saklanır; değişiklikler
+// UI'a ValueNotifier üzerinden anında yansır.
 // ===========================================================================
 
 class OzDua {
@@ -26,6 +26,57 @@ class OzDua {
       );
 }
 
+/// Bir dua için kurulan hatırlatıcı: saat/dakika + tekrar edilecek günler.
+/// [gunler] boşsa "her gün" anlamına gelir (1 = Pazartesi ... 7 = Pazar).
+class DuaHatirlatma {
+  final String duaId;
+  final int saat;
+  final int dakika;
+  final List<int> gunler;
+
+  const DuaHatirlatma({
+    required this.duaId,
+    required this.saat,
+    required this.dakika,
+    this.gunler = const [],
+  });
+
+  /// Tekrarlı mı? (önümüzdeki hafta da geçerli)
+  bool get tekrarli => gunler.isNotEmpty;
+
+  String get saatYaz {
+    final s = saat.toString().padLeft(2, '0');
+    final d = dakika.toString().padLeft(2, '0');
+    return '$s:$d';
+  }
+
+  /// Günlerin kısa etiketi: boş = "Her gün".
+  String get gunlerYaz {
+    if (gunler.isEmpty) return 'Her gün';
+    const adlar = ['', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+    final sirali = List<int>.from(gunler)..sort();
+    return sirali.map((g) => g >= 1 && g <= 7 ? adlar[g] : '').join(', ') +
+        ' · saat $saatYaz';
+  }
+
+  Map<String, dynamic> toJson() => {
+        'duaId': duaId,
+        'saat': saat,
+        'dakika': dakika,
+        'gunler': gunler,
+      };
+
+  factory DuaHatirlatma.fromJson(Map<String, dynamic> j) => DuaHatirlatma(
+        duaId: (j['duaId'] as String?) ?? '',
+        saat: ((j['saat'] as num?) ?? 0).toInt().clamp(0, 23),
+        dakika: ((j['dakika'] as num?) ?? 0).toInt().clamp(0, 59),
+        gunler: ((j['gunler'] as List<dynamic>?) ?? const [])
+            .map((e) => ((e as num?) ?? 0).toInt().clamp(1, 7))
+            .toSet()
+            .toList(),
+      );
+}
+
 class DuaStore {
   DuaStore._();
 
@@ -33,6 +84,7 @@ class DuaStore {
   static const _ozDualarKey = 'dua_oz_dualari';
   static const _sayaclarKey = 'dua_sayaclar';
   static const _fontKey = 'dua_font_boyutu';
+  static const _hatirlatmalarKey = 'dua_hatirlatmalar';
 
   static final ValueNotifier<Set<String>> favoriler =
       ValueNotifier<Set<String>>({});
@@ -41,6 +93,10 @@ class DuaStore {
   static final ValueNotifier<Map<String, int>> sayaclar =
       ValueNotifier<Map<String, int>>({});
   static final ValueNotifier<double> fontBoyutu = ValueNotifier<double>(19);
+
+  /// duaId -> hatırlatıcı
+  static final ValueNotifier<Map<String, DuaHatirlatma>> hatirlatmalar =
+      ValueNotifier<Map<String, DuaHatirlatma>>({});
 
   static bool _yuklendi = false;
 
@@ -71,6 +127,21 @@ class DuaStore {
     }
 
     fontBoyutu.value = p.getDouble(_fontKey) ?? 19;
+
+    final hatirJson = p.getString(_hatirlatmalarKey);
+    if (hatirJson != null) {
+      try {
+        final map = (jsonDecode(hatirJson) as Map<String, dynamic>).map(
+          (k, v) => MapEntry(
+            k,
+            DuaHatirlatma.fromJson(
+              (v as Map).cast<String, dynamic>(),
+            ),
+          ),
+        );
+        hatirlatmalar.value = map;
+      } catch (_) {}
+    }
   }
 
   // ---------------- FAVORİLER ----------------
@@ -146,5 +217,33 @@ class DuaStore {
     fontBoyutu.value = deger;
     final p = await SharedPreferences.getInstance();
     await p.setDouble(_fontKey, deger);
+  }
+
+  // ---------------- DUA HATIRLATICILARI ----------------
+
+  static DuaHatirlatma? hatirlatmaOku(String duaId) =>
+      hatirlatmalar.value[duaId];
+
+  static Future<void> hatirlatmaKaydet(DuaHatirlatma kayit) async {
+    final yeni = Map<String, DuaHatirlatma>.from(hatirlatmalar.value)
+      ..[kayit.duaId] = kayit;
+    hatirlatmalar.value = yeni;
+    final p = await SharedPreferences.getInstance();
+    await p.setString(
+      _hatirlatmalarKey,
+      jsonEncode(yeni.map((k, v) => MapEntry(k, v.toJson()))),
+    );
+  }
+
+  static Future<void> hatirlatmaSil(String duaId) async {
+    if (!hatirlatmalar.value.containsKey(duaId)) return;
+    final yeni = Map<String, DuaHatirlatma>.from(hatirlatmalar.value)
+      ..remove(duaId);
+    hatirlatmalar.value = yeni;
+    final p = await SharedPreferences.getInstance();
+    await p.setString(
+      _hatirlatmalarKey,
+      jsonEncode(yeni.map((k, v) => MapEntry(k, v.toJson()))),
+    );
   }
 }

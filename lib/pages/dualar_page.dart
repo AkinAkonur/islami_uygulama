@@ -38,6 +38,15 @@ class _DualarPageState extends State<DualarPage> {
     } catch (_) {
       if (mounted) setState(() => _hata = true);
     }
+    // Bulut tabanlı içerik (lazy-load): gömülü liste hemen gösterilirken
+    // arka planda uzak JSON denenir; güncellenirse liste yenilenir.
+    final yenilendi = await DualarVerileri.uzaktanYenile();
+    if (yenilendi && mounted) {
+      try {
+        final kategoriler = await DualarVerileri.instance.kategorileriYukle();
+        if (mounted) setState(() => _kategoriler = kategoriler);
+      } catch (_) {}
+    }
   }
 
   @override

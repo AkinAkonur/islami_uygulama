@@ -7,8 +7,10 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../l10n/dil_hizmetleri.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
+import '../services/gercek_bildirimler.dart';
 import '../services/renkler.dart';
 
 // ===========================================================================
@@ -51,6 +53,201 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
   }
 
   DuaKaydi get dua => widget.dua;
+
+  Future<void> _hatirlaticiAc(BuildContext context) async {
+    final mevcut = DuaStore.hatirlatmaOku(dua.id);
+    final varsayilanZaman = mevcut != null
+        ? TimeOfDay(hour: mevcut.saat, minute: mevcut.dakika)
+        : const TimeOfDay(hour: 21, minute: 30);
+    var gunler = mevcut?.gunler.toSet() ?? <int>{};
+    TimeOfDay zaman = varsayilanZaman;
+
+    final kaydedildi = await showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: Renkler.kart,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setLocal) => Padding(
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 18,
+            bottom: 28 + MediaQuery.of(ctx).viewInsets.bottom,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.alarm, color: Colors.orangeAccent, size: 22),
+                  const SizedBox(width: 8),
+                  const Expanded(
+                    child: Text(
+                      'Dua Hatırlatıcısı Kur',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: 'Kapat',
+                    icon: const Icon(Icons.close, color: Colors.white38),
+                    onPressed: () => Navigator.pop(ctx, false),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                dua.baslik,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.white70, fontSize: 13),
+              ),
+              const SizedBox(height: 16),
+              InkWell(
+                onTap: () async {
+                  final secilen = await showTimePicker(
+                    context: ctx,
+                    initialTime: zaman,
+                    builder: (c, child) => Theme(
+                      data: ThemeData.dark().copyWith(
+                        colorScheme: const ColorScheme.dark(
+                          primary: Colors.orangeAccent,
+                          surface: Color(0xFF1D2B23),
+                        ),
+                        timePickerTheme: const TimePickerThemeData(
+                          backgroundColor: Color(0xFF1D2B23),
+                          hourMinuteTextColor: Colors.white,
+                          dayPeriodTextColor: Colors.white,
+                          dialHandColor: Colors.orangeAccent,
+                        ),
+                      ),
+                      child: child!,
+                    ),
+                  );
+                  if (secilen != null) setLocal(() => zaman = secilen);
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  decoration: BoxDecoration(
+                    color: Renkler.seciliYuzey,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.access_time, color: Colors.white70, size: 20),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Saat: ${zaman.format(context)}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Tekrar:',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _GunCho(
+                    etiket: 'Her gün',
+                    secili: gunler.isEmpty,
+                    onTap: () => setLocal(() => gunler = <int>{}),
+                  ),
+                  for (var g = 1; g <= 7; g++)
+                    _GunCho(
+                      etiket: _gunAdi(g),
+                      secili: gunler.contains(g),
+                      onTap: () => setLocal(() {
+                        if (!gunler.add(g)) gunler.remove(g);
+                      }),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              FilledButton.icon(
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent,
+                  foregroundColor: Colors.black87,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                onPressed: () => Navigator.pop(
+                  ctx,
+                  true,
+                ),
+                icon: const Icon(Icons.notifications_active_outlined, size: 18),
+                label: const Text(
+                  'Hatırlatıcıyı Kaydet',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              if (mevcut != null) ...[
+                const SizedBox(height: 8),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx, 'sil');
+                  },
+                  style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
+                  child: const Text('Hatırlatıcıyı Kaldır'),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+    if (!mounted) return;
+    if (kaydedildi == true) {
+      await DuaStore.hatirlatmaKaydet(
+        DuaHatirlatma(
+          duaId: dua.id,
+          saat: zaman.hour,
+          dakika: zaman.minute,
+          gunler: gunler.toList(),
+        ),
+      );
+      await GercekBildirimler.duaHatirlatmalariPlanla();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Hatırlatıcı kuruldu 🤲')),
+        );
+      }
+    } else if (kaydedildi == 'sil') {
+      await DuaStore.hatirlatmaSil(dua.id);
+      await GercekBildirimler.duaHatirlatmalariPlanla();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Hatırlatıcı kaldırıldı.')),
+        );
+      }
+    }
+  }
+
+  String _gunAdi(int gun) {
+    const adlar = ['', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+    return gun >= 1 && gun <= 7 ? adlar[gun] : '';
+  }
 
   Future<void> _sesCal() async {
     final url = dua.sesUrl;
@@ -164,6 +361,20 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
             icon: const Icon(Icons.share_outlined, color: Colors.white70),
             onPressed: _paylasiliyor ? null : _paylas,
           ),
+          ValueListenableBuilder<Map<String, DuaHatirlatma>>(
+            valueListenable: DuaStore.hatirlatmalar,
+            builder: (context, hatirlatmalar, _) {
+              final aktif = hatirlatmalar.containsKey(dua.id);
+              return IconButton(
+                tooltip: aktif ? 'Hatırlatıcıyı düzenle' : 'Hatırlatıcı kur',
+                icon: Icon(
+                  aktif ? Icons.alarm_on : Icons.alarm_add,
+                  color: aktif ? Colors.orangeAccent : Colors.white70,
+                ),
+                onPressed: () => _hatirlaticiAc(context),
+              );
+            },
+          ),
         ],
       ),
       body: Column(
@@ -189,10 +400,57 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   _Zikirmatik(dua: dua),
                 const SizedBox(height: 12),
                 _KaynakKarti(dua: dua),
+                if (dua.fazilet.isNotEmpty) ...[
+                  const SizedBox(height: 10),
+                  _FaziletKarti(dua: dua),
+                ],
+                const SizedBox(height: 10),
+                _HatirlatmaBanneri(dua: dua, onAc: () => _hatirlaticiAc(context)),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ===========================================================================
+// GÜN SEÇİMİ (hatırlatıcı için seçilebilir çip)
+// ===========================================================================
+class _GunCho extends StatelessWidget {
+  final String etiket;
+  final bool secili;
+  final VoidCallback onTap;
+
+  const _GunCho({
+    required this.etiket,
+    required this.secili,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: secili ? Colors.orangeAccent : Renkler.seciliYuzey,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: secili ? Colors.orangeAccent : Renkler.cerceve,
+          ),
+        ),
+        child: Text(
+          etiket,
+          style: TextStyle(
+            color: secili ? Colors.black87 : Colors.white70,
+            fontSize: 12,
+            fontWeight: secili ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
       ),
     );
   }
@@ -331,7 +589,7 @@ class _DuaKarti extends StatelessWidget {
               Container(height: 1, color: Colors.white.withValues(alpha: 0.15)),
               const SizedBox(height: 14),
               Text(
-                '"${dua.meal}"',
+                '"${dua.mealDil(DilHizmetleri.aktifDil.value.languageCode)}"',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white70,
@@ -482,6 +740,132 @@ class _ZikirmatikState extends State<_Zikirmatik> {
           ),
         ],
       ),
+    );
+  }
+}
+
+// ===========================================================================
+// FAZİLET & HİKMET KARTI
+// ===========================================================================
+class _FaziletKarti extends StatelessWidget {
+  final DuaKaydi dua;
+
+  const _FaziletKarti({required this.dua});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Renkler.seciliYuzey.withValues(alpha: 0.45),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: Colors.amberAccent.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(
+            Icons.auto_awesome,
+            color: Colors.amberAccent,
+            size: 18,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Fazileti & Hikmeti',
+                  style: TextStyle(
+                    color: Colors.amberAccent,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  dua.fazilet,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12.5,
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ===========================================================================
+// AKTİF HATIRLATICI BANNERI
+// ===========================================================================
+class _HatirlatmaBanneri extends StatelessWidget {
+  final DuaKaydi dua;
+  final VoidCallback onAc;
+
+  const _HatirlatmaBanneri({required this.dua, required this.onAc});
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<Map<String, DuaHatirlatma>>(
+      valueListenable: DuaStore.hatirlatmalar,
+      builder: (context, kayitlar, _) {
+        final kayit = kayitlar[dua.id];
+        return Material(
+          color: Renkler.kart,
+          borderRadius: BorderRadius.circular(14),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(14),
+            onTap: onAc,
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: kayit != null
+                      ? Colors.orangeAccent.withValues(alpha: 0.5)
+                      : Renkler.cerceve,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    kayit != null ? Icons.alarm_on : Icons.alarm_add,
+                    color: kayit != null
+                        ? Colors.orangeAccent
+                        : Colors.white38,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      kayit != null
+                          ? 'Hatırlatıcı aktif: ${kayit.saatYaz} · ${kayit.gunler.isEmpty ? 'Her gün' : kayit.gunlerYaz}'
+                          : 'Bu duayı hatırlamak için hatırlatıcı kur',
+                      style: TextStyle(
+                        color: kayit != null
+                            ? Colors.orangeAccent
+                            : Colors.white54,
+                        fontSize: 12.5,
+                        fontWeight: kayit != null
+                            ? FontWeight.w600
+                            : FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  const Icon(Icons.chevron_right, color: Colors.white30),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -108,6 +108,8 @@ const Map<String, String> ruDil = {
   'set.appearance': 'Оформление',
   'set.about': 'О приложении',
   'set.privacy': 'Политика конфиденциальности',
+  'set.privacyCenter': 'Центр конфиденциальности',
+  'set.privacyCenterAlt': 'Разрешения, загрузка и удаление ваших данных',
   'set.rate': 'Оценить приложение',
   'set.version': 'Версия 1.0.0',
   'set.accent': 'Акцентный цвет',

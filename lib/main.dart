@@ -36,6 +36,8 @@ import 'pages/bildirimler_sayfasi.dart';
 import 'pages/profil_sayfasi.dart';
 import 'services/manevi_store.dart';
 import 'services/canli_yayin_konfigurasyonu.dart';
+import 'services/radyo_oynatici_store.dart';
+import 'widgets/radyo_mini_oynatici.dart';
 import 'screens/namaz_screen.dart';
 import 'screens/gorsel_kilinis_screen.dart';
 import 'pages/kuran/sure_listesi_page.dart';
@@ -52,6 +54,9 @@ Future<void> main() async {
   // Canlı yayın kaynakları uzak konfigürasyondan dinamik olarak alınır
   // (Firebase Remote Config alternatifi; kaynak değişirse Store güncellemesi gerekmez).
   await CanliYayinKonfigurasyonu.baslat();
+  // Radyo oynatıcıyı uygulama genelinde başlat: başka sayfalara geçilse bile
+  // Dini Radyo & İlahi akışı kesintisiz devam eder, alt çubukta mini oynatıcı görünür.
+  await RadyoOynaticiStore.baslat();
   runApp(const MyApp());
 }
 
@@ -677,7 +682,12 @@ class AnaSayfa extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Radyo çalarken tüm sayfalarda kesintisiz görünen mini oynatıcı.
+          const RadyoMiniOynatici(),
+          BottomNavigationBar(
         backgroundColor: Renkler.navBar,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Renkler.vurgu,
@@ -733,6 +743,8 @@ class AnaSayfa extends StatelessWidget {
             icon: Icon(Icons.play_circle_outline),
             label: l.t('h.navVideo'),
           ),
+        ],
+      ),
         ],
       ),
     );

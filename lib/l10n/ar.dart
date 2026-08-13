@@ -107,6 +107,8 @@ const Map<String, String> arDil = {
   'set.appearance': 'المظهر',
   'set.about': 'حول التطبيق',
   'set.privacy': 'سياسة الخصوصية',
+  'set.privacyCenter': 'مركز الخصوصية',
+  'set.privacyCenterAlt': 'الأذونات، تحميل وحذف بياناتك',
   'set.rate': 'قيّم التطبيق',
   'set.version': 'الإصدار 1.0.0',
   'set.accent': 'اللون المميز',

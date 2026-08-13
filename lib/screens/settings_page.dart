@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/dil_hizmetleri.dart';
 import '../pages/bildirimler_sayfasi.dart';
+import '../pages/gizlilik_merkezi_page.dart';
 import '../pages/gizlilik_politikasi_page.dart';
 import '../pages/profil_sayfasi.dart';
 import '../pages/puanla_page.dart';
@@ -206,6 +207,13 @@ static const List<({String kod, String ad})> _metotlar = [
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const GizlilikPolitikasiSayfasi()),
+    );
+  }
+
+  void _gizlilikMerkeziGoster() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const GizlilikMerkeziPage()),
     );
   }
 
@@ -450,6 +458,12 @@ static const List<({String kod, String ad})> _metotlar = [
 
           const SizedBox(height: 20),
           _bolumBasligi(l.t('set.about')),
+          _ayarSecenegi(
+            Icons.shield_outlined,
+            l.t('set.privacyCenter'),
+            altMetin: l.t('set.privacyCenterAlt'),
+            onTap: _gizlilikMerkeziGoster,
+          ),
           _ayarSecenegi(
             Icons.info_outline,
             l.t('set.privacy'),

@@ -17,7 +17,15 @@
               "meal": "O Allah'ın adıyla ki O'nun adıyla beraber yerde ve gökte hiçbir şey zarar veremez. O, her şeyi işiten ve her şeyi bilendir.",
               "kaynak": "Ebu Davud, Edeb, 101",
               "tekrar": 3,
-              "etiketler": ["korunma", "güne", "sabah"]
+              "etiketler": [
+                "korunma",
+                "güne",
+                "sabah"
+              ],
+              "fazilet": "Peygamber Efendimiz (s.a.v.) sabah ve akşam bu zikirleri okumayı ihmal etmezdi. Günü koruma, ferahlık ve bereketle karşılamak için sünnet olan zikirdir.",
+              "mealler": {
+                "en": "In the name of Allah, with whose name nothing on earth or in the heavens can cause harm, and He is the All-Hearing, All-Knowing."
+              }
             },
             {
               "id": "gunluk-sabah-raditu",
@@ -27,7 +35,11 @@
               "meal": "Allah'ı Rab, İslam'ı din ve Muhammed'i (s.a.v.) peygamber olarak kabul ettim (ve bunlardan razıyım).",
               "kaynak": "Ebu Davud, Edeb, 110",
               "tekrar": 3,
-              "etiketler": ["sabah", "teslimiyet"]
+              "etiketler": [
+                "sabah",
+                "teslimiyet"
+              ],
+              "fazilet": "Peygamber Efendimiz (s.a.v.) sabah ve akşam bu zikirleri okumayı ihmal etmezdi. Günü koruma, ferahlık ve bereketle karşılamak için sünnet olan zikirdir."
             },
             {
               "id": "gunluk-sabah-isteizaz",
@@ -37,7 +49,12 @@
               "meal": "Her şeyi işiten ve bilen Allah'a, kovulmuş şeytandan sığınırım.",
               "kaynak": "Ebu Davud, Edeb, 102",
               "tekrar": 3,
-              "etiketler": ["korunma", "sabah", "şeytan"]
+              "etiketler": [
+                "korunma",
+                "sabah",
+                "şeytan"
+              ],
+              "fazilet": "Peygamber Efendimiz (s.a.v.) sabah ve akşam bu zikirleri okumayı ihmal etmezdi. Günü koruma, ferahlık ve bereketle karşılamak için sünnet olan zikirdir."
             },
             {
               "id": "gunluk-sabah-tevhid-10",
@@ -47,7 +64,11 @@
               "meal": "Allah'tan başka ilah yoktur, O tektir, ortağı yoktur. Mülk O'nundur, hamd O'nadır ve O'nun her şeye gücü yeter.",
               "kaynak": "Müslim, Zikir, 36",
               "tekrar": 10,
-              "etiketler": ["sabah", "tevhid"]
+              "etiketler": [
+                "sabah",
+                "tevhid"
+              ],
+              "fazilet": "Peygamber Efendimiz (s.a.v.) sabah ve akşam bu zikirleri okumayı ihmal etmezdi. Günü koruma, ferahlık ve bereketle karşılamak için sünnet olan zikirdir."
             },
             {
               "id": "gunluk-sabah-istigfar-100",
@@ -57,7 +78,11 @@
               "meal": "Kendisinden başka ilah olmayan, dirilik ve varlığı devamlı olan yüce Allah'tan bağışlanma diler ve O'na tövbe ederim.",
               "kaynak": "Ebu Davud, Vitir, 26",
               "tekrar": 100,
-              "etiketler": ["istiğfar", "tevbe"]
+              "etiketler": [
+                "istiğfar",
+                "tevbe"
+              ],
+              "fazilet": "Peygamber Efendimiz (s.a.v.) sabah ve akşam bu zikirleri okumayı ihmal etmezdi. Günü koruma, ferahlık ve bereketle karşılamak için sünnet olan zikirdir."
             },
             {
               "id": "gunluk-sabah-subhan-100",
@@ -67,7 +92,11 @@
               "meal": "Allah'ı hamd ile birlikte her türlü eksiklikten tenzih ederim (şanına yaraşmayan sıfatlardan uzak tutarım).",
               "kaynak": "Müslim, Zikir, 65",
               "tekrar": 100,
-              "etiketler": ["tesbih", "sabah"]
+              "etiketler": [
+                "tesbih",
+                "sabah"
+              ],
+              "fazilet": "Peygamber Efendimiz (s.a.v.) sabah ve akşam bu zikirleri okumayı ihmal etmezdi. Günü koruma, ferahlık ve bereketle karşılamak için sünnet olan zikirdir."
             }
           ]
         },
@@ -81,7 +110,11 @@
               "okunus": "Bismike Allâhümme emûtü ve ahyâ.",
               "meal": "Allah'ım! Senin adınla ölür (uyur), Senin adınla dirilirim (uyanırım).",
               "kaynak": "Buhari, Deavat, 7",
-              "etiketler": ["uyku", "gece"]
+              "etiketler": [
+                "uyku",
+                "gece"
+              ],
+              "fazilet": "Yatmadan önce okunması sünnettir. Uykuyu huzurlu kılmaya ve geceyi koruma altına almaya vesile olan duadır."
             },
             {
               "id": "gunluk-uyku-ahya",
@@ -90,7 +123,11 @@
               "okunus": "Elhamdülillâhillezî ahyânâ ba'de mâ emâtenâ ve ileyhi'n-nüşûr.",
               "meal": "Bizi öldürdükten (uyuttuktan) sonra dirilten Allah'a hamd olsun; diriliş yalnız O'nadır.",
               "kaynak": "Buhari, Deavat, 26",
-              "etiketler": ["uyku", "uyanma"]
+              "etiketler": [
+                "uyku",
+                "uyanma"
+              ],
+              "fazilet": "Yatmadan önce okunması sünnettir. Uykuyu huzurlu kılmaya ve geceyi koruma altına almaya vesile olan duadır."
             },
             {
               "id": "gunluk-uyku-son-sureler",
@@ -100,7 +137,12 @@
               "meal": "De ki: O Allah birdir. De ki: Sabahın Rabbine sığınırım. De ki: İnsanların Rabbine sığınırım. (İhlas, Felak ve Nas surelerini her gece okuyan, onları avucuna üfleyip vücudunu sıvazlardı.)",
               "kaynak": "Buhari, Fezailü'l-Kur'an, 14",
               "tekrar": 3,
-              "etiketler": ["uyku", "korunma", "gece"]
+              "etiketler": [
+                "uyku",
+                "korunma",
+                "gece"
+              ],
+              "fazilet": "Yatmadan önce okunması sünnettir. Uykuyu huzurlu kılmaya ve geceyi koruma altına almaya vesile olan duadır."
             }
           ]
         },
@@ -114,7 +156,11 @@
               "okunus": "Bismillâhi ve alâ berakatillâh.",
               "meal": "Allah'ın adıyla ve Allah'ın bereketiyle (yemeğe başlıyorum).",
               "kaynak": "Ebu Davud, Et'ime, 14",
-              "etiketler": ["yemek", "sofra"]
+              "etiketler": [
+                "yemek",
+                "sofra"
+              ],
+              "fazilet": "Yemeğe besmele ile başlamak ve bitince hamd etmek sünnettir. Rızka bereket getirir, sofrayı feyizlendirir."
             },
             {
               "id": "gunluk-yemek-bitince",
@@ -123,7 +169,11 @@
               "okunus": "Elhamdülillâhillezî et'amenî hâzâ ve razakanîhi min ğayri havlin minnî ve lâ kuvveh.",
               "meal": "Bana bu yemeği yediren, onu benden güç ve kuvvet olmaksızın rızık kılan Allah'a hamd olsun.",
               "kaynak": "Ebu Davud, Et'ime, 51",
-              "etiketler": ["yemek", "şükür"]
+              "etiketler": [
+                "yemek",
+                "şükür"
+              ],
+              "fazilet": "Yemeğe besmele ile başlamak ve bitince hamd etmek sünnettir. Rızka bereket getirir, sofrayı feyizlendirir."
             },
             {
               "id": "gunluk-yemek-bereket",
@@ -132,7 +182,12 @@
               "okunus": "Allâhümme bârik lenâ fîmâ razaktenâ ve kınâ azâbe'n-nâr.",
               "meal": "Allah'ım! Bize verdiklerinde bereket ihsan et ve bizi ateş azabından koru.",
               "kaynak": "Hakim, el-Müstedrek, 4/201",
-              "etiketler": ["yemek", "bereket", "rızık"]
+              "etiketler": [
+                "yemek",
+                "bereket",
+                "rızık"
+              ],
+              "fazilet": "Yemeğe besmele ile başlamak ve bitince hamd etmek sünnettir. Rızka bereket getirir, sofrayı feyizlendirir."
             },
             {
               "id": "gunluk-yemek-su",
@@ -141,7 +196,11 @@
               "okunus": "Elhamdülillâhillezî sekânâ azben fürâten bi-rahmetihî ve lem yec'alhü milhan ücâcen bi-zünûbinâ.",
               "meal": "Bize rahmetiyle tatlı ve içimi hoş su içiren, günahlarımız yüzünden onu tuzlu ve acı kılmayan Allah'a hamd olsun.",
               "kaynak": "İbn Mace, Eşribe, 3",
-              "etiketler": ["su", "şükür"]
+              "etiketler": [
+                "su",
+                "şükür"
+              ],
+              "fazilet": "Yemeğe besmele ile başlamak ve bitince hamd etmek sünnettir. Rızka bereket getirir, sofrayı feyizlendirir."
             }
           ]
         },
@@ -155,7 +214,12 @@
               "okunus": "Bismillâhi tevekkeltü alâllâh, ve lâ havle ve lâ kuvvete illâ billâh.",
               "meal": "Allah'ın adıyla (çıkıyorum), Allah'a tevekkül ettim. Güç ve kuvvet ancak Allah'ladır.",
               "kaynak": "Ebu Davud, Edeb, 103",
-              "etiketler": ["ev", "çıkış", "yol"]
+              "etiketler": [
+                "ev",
+                "çıkış",
+                "yol"
+              ],
+              "fazilet": "Evden çıkarken ve eve girerken okunması sünnettir. Evi, ev sahibini ve evdekilere rahmeti korumaya vesile olur."
             },
             {
               "id": "gunluk-ev-giris",
@@ -164,7 +228,11 @@
               "okunus": "Allâhümme innî es'elüke hayra'l-mevlici ve hayra'l-mehrac. Bismillâhi velcnâ ve bismillâhi haracnâ ve alâllâhi rabbinâ tevekkelnâ.",
               "meal": "Allah'ım! Senden girişin de çıkışın da hayırlısını dilerim. Allah'ın adıyla girdik, Allah'ın adıyla çıktık ve Rabbimiz Allah'a tevekkül ettik.",
               "kaynak": "Ebu Davud, Edeb, 103",
-              "etiketler": ["ev", "giriş"]
+              "etiketler": [
+                "ev",
+                "giriş"
+              ],
+              "fazilet": "Evden çıkarken ve eve girerken okunması sünnettir. Evi, ev sahibini ve evdekilere rahmeti korumaya vesile olur."
             }
           ]
         },
@@ -178,7 +246,11 @@
               "okunus": "Eşhedü en lâ ilâhe illallâhü vahdehû lâ şerîke leh, ve eşhedü enne Muhammeden abdühû ve rasûlüh.",
               "meal": "Allah'tan başka ilah olmadığına, O'nun tek olup ortağının bulunmadığına şehadet ederim; Muhammed'in O'nun kulu ve elçisi olduğuna da şehadet ederim.",
               "kaynak": "Tirmizi, Taharet, 40",
-              "etiketler": ["abdest", "temizlik"]
+              "etiketler": [
+                "abdest",
+                "temizlik"
+              ],
+              "fazilet": "Abdestten sonra ve ezanın ardından yapılan dualar, kabul olunan dualardandır. Camiye girerken ve çıkarken de okunması tavsiye edilmiştir."
             },
             {
               "id": "gunluk-ezan-duasi",
@@ -187,7 +259,11 @@
               "okunus": "Allâhümme rabbe hâzihi'd-da'veti't-tâmme ve's-salâti'l-kâime, âti Muhammeden el-vesîlete ve'l-fadîlete, veb'ashü makâmen mahmûden ellezî veadteh.",
               "meal": "Bu eksiksiz davetin ve kılınacak namazın Rabbi olan Allah'ım! Muhammed'e vesileyi ve fazileti ver, onu vaad ettiğin övülmüş makama (makam-ı mahmuda) ulaştır.",
               "kaynak": "Buhari, Ezan, 8",
-              "etiketler": ["ezan", "namaz"]
+              "etiketler": [
+                "ezan",
+                "namaz"
+              ],
+              "fazilet": "Abdestten sonra ve ezanın ardından yapılan dualar, kabul olunan dualardandır. Camiye girerken ve çıkarken de okunması tavsiye edilmiştir."
             },
             {
               "id": "gunluk-cami-giris",
@@ -196,7 +272,11 @@
               "okunus": "Allâhümme'ftah lî ebvâbe rahmetik.",
               "meal": "Allah'ım! Bana rahmetinin kapılarını aç.",
               "kaynak": "Müslim, Müsafirin, 69",
-              "etiketler": ["cami", "mescit"]
+              "etiketler": [
+                "cami",
+                "mescit"
+              ],
+              "fazilet": "Abdestten sonra ve ezanın ardından yapılan dualar, kabul olunan dualardandır. Camiye girerken ve çıkarken de okunması tavsiye edilmiştir."
             },
             {
               "id": "gunluk-cami-cikis",
@@ -205,7 +285,11 @@
               "okunus": "Allâhümme innî es'elüke min fadlik.",
               "meal": "Allah'ım! Senden lütfunu ve ikramını dilerim.",
               "kaynak": "Müslim, Müsafirin, 69",
-              "etiketler": ["cami", "rızık"]
+              "etiketler": [
+                "cami",
+                "rızık"
+              ],
+              "fazilet": "Abdestten sonra ve ezanın ardından yapılan dualar, kabul olunan dualardandır. Camiye girerken ve çıkarken de okunması tavsiye edilmiştir."
             }
           ]
         },
@@ -220,7 +304,12 @@
               "meal": "Bunu bizim hizmetimize veren Allah'ı tesbih ederim; biz buna güç yetiremezdik. Şüphesiz biz, Rabbimize döneceğiz.",
               "kaynak": "Zuhruf Suresi, 13. Ayet",
               "ayet": "43:13",
-              "etiketler": ["yolculuk", "taşıt", "araç"]
+              "etiketler": [
+                "yolculuk",
+                "taşıt",
+                "araç"
+              ],
+              "fazilet": "Yolculuğa çıkarken okunması sünnettir. Yolculukta emniyet, kolaylık ve salimen dönüş istemenin duasıdır."
             },
             {
               "id": "gunluk-yol-dua",
@@ -229,7 +318,11 @@
               "okunus": "Allâhümme innâ nes'elüke fî seferinâ hâzâ el-birra ve't-takvâ, ve mine'l-ameli mâ terdâ.",
               "meal": "Allah'ım! Bu yolculuğumuzda bizden iyilik ve takva, razı olacağın ameller dileriz.",
               "kaynak": "Müslim, Hac, 425",
-              "etiketler": ["yolculuk", "sefer"]
+              "etiketler": [
+                "yolculuk",
+                "sefer"
+              ],
+              "fazilet": "Yolculuğa çıkarken okunması sünnettir. Yolculukta emniyet, kolaylık ve salimen dönüş istemenin duasıdır."
             },
             {
               "id": "gunluk-yol-tekbir",
@@ -238,7 +331,11 @@
               "okunus": "Allâhü ekber, Allâhü ekber, Allâhü ekber. Sübhânellezî sehhara lenâ hâzâ ve mâ künnâ lehû mukrinîn.",
               "meal": "Allah en büyüktür (üç kez). Bunu bizim hizmetimize vereni tesbih ederim; biz buna güç yetiremezdik.",
               "kaynak": "Müslim, Hac, 425",
-              "etiketler": ["yolculuk", "tekbir"]
+              "etiketler": [
+                "yolculuk",
+                "tekbir"
+              ],
+              "fazilet": "Yolculuğa çıkarken okunması sünnettir. Yolculukta emniyet, kolaylık ve salimen dönüş istemenin duasıdır."
             }
           ]
         }
@@ -260,7 +357,16 @@
               "okunus": "Lâ ilâhe illallâhü'l-azîmü'l-halîm. Lâ ilâhe illallâhü rabbü'l-arşi'l-azîm. Lâ ilâhe illallâhü rabbü's-semâvâti ve rabbü'l-ardi ve rabbü'l-arşi'l-kerîm.",
               "meal": "Büyük ve halim olan Allah'tan başka ilah yoktur. Büyük arşın Rabbi olan Allah'tan başka ilah yoktur. Göklerin, yerin ve kerim arşın Rabbi olan Allah'tan başka ilah yoktur.",
               "kaynak": "Buhari, Deavat, 27",
-              "etiketler": ["sıkıntı", "kaygı", "stres", "keder"]
+              "etiketler": [
+                "sıkıntı",
+                "kaygı",
+                "stres",
+                "keder"
+              ],
+              "fazilet": "Sıkıntı, kaygı ve keder anında okunması tavsiye edilmiştir. Kalbe ferahlık ve sabır verir; teslimiyeti artırır.",
+              "mealler": {
+                "en": "There is no god but Allah, the Magnificent, the Forbearing. There is no god but Allah, Lord of the Mighty Throne. There is no god but Allah, Lord of the heavens, Lord of the earth, and Lord of the Noble Throne."
+              }
             },
             {
               "id": "duygu-sikinti-hemm",
@@ -269,7 +375,12 @@
               "okunus": "Allâhümme innî eûzü bike mine'l-hemmi ve'l-hazeni ve'l-aczi ve'l-keseli ve'l-buhli ve'l-cübni ve dalai'd-deyni ve ğalebeti'r-ricâl.",
               "meal": "Allah'ım! Üzüntüden, hüzünden, acizlikten, tembellikten, cimrilikten, korkaklıktan, borç altında ezilmekten ve insanların galip gelmesinden sana sığınırım.",
               "kaynak": "Buhari, Deavat, 37",
-              "etiketler": ["kaygı", "borç", "sıkıntı"]
+              "etiketler": [
+                "kaygı",
+                "borç",
+                "sıkıntı"
+              ],
+              "fazilet": "Sıkıntı, kaygı ve keder anında okunması tavsiye edilmiştir. Kalbe ferahlık ve sabır verir; teslimiyeti artırır."
             },
             {
               "id": "duygu-sikinti-hasbunallah",
@@ -280,7 +391,12 @@
               "kaynak": "Al-i İmran Suresi, 173. Ayet",
               "ayet": "3:173",
               "tekrar": 7,
-              "etiketler": ["tevekkül", "sıkıntı", "güven"]
+              "etiketler": [
+                "tevekkül",
+                "sıkıntı",
+                "güven"
+              ],
+              "fazilet": "Sıkıntı, kaygı ve keder anında okunması tavsiye edilmiştir. Kalbe ferahlık ve sabır verir; teslimiyeti artırır."
             },
             {
               "id": "duygu-sikinti-hayyum",
@@ -289,7 +405,12 @@
               "okunus": "Yâ Hayyü yâ Kayyûm, bi-rahmetike esteğîs, aslıh lî şe'nî küllehû ve lâ tekilnî ilâ nefsî tarrfete ayn.",
               "meal": "Ey Hayy (diri) ve Kayyum (varlığı devamlı olan)! Rahmetinle yardım istiyorum; bütün işlerimi düzelt ve beni göz açıp kapayacak kadar bir an bile nefsimle baş başa bırakma.",
               "kaynak": "Hakim, el-Müstedrek, 1/509",
-              "etiketler": ["kaygı", "sıkıntı", "istiaze"]
+              "etiketler": [
+                "kaygı",
+                "sıkıntı",
+                "istiaze"
+              ],
+              "fazilet": "Sıkıntı, kaygı ve keder anında okunması tavsiye edilmiştir. Kalbe ferahlık ve sabır verir; teslimiyeti artırır."
             },
             {
               "id": "duygu-sikinti-abduke",
@@ -298,7 +419,13 @@
               "okunus": "Allâhümme innî abdüke, ibni abdike, ibni emetik. Nâsıyetî bi-yedik, mâdin fiyye hukmük, adlün fiyye kazâük. Es'elüke bi-külli ismin hüve leke semmeyte bihî nefsek, ev enzeltehû fî kitâbik, en tec'ale'l-Kur'âne rabîa kalbî, ve nûra sadrî, ve celâe huznî, ve zehâbe hemmî.",
               "meal": "Allah'ım! Ben senin kulunum, kulunun oğluyum, cariyenin oğluyum. Perçemim senin elindedir; hükmün bende cereyan eder, kazana adaletlidir. Kendine verdiğin veya kitabında indirdiğin bütün isimlerinle senden dilerim ki Kur'an'ı kalbimin baharı, göğsümün nuru, hüznümün gidericisi ve tasamın çıkış yolu kılasın.",
               "kaynak": "Ahmed b. Hanbel, Müsned, 1/391",
-              "etiketler": ["kaygı", "keder", "hüzün", "stres"]
+              "etiketler": [
+                "kaygı",
+                "keder",
+                "hüzün",
+                "stres"
+              ],
+              "fazilet": "Sıkıntı, kaygı ve keder anında okunması tavsiye edilmiştir. Kalbe ferahlık ve sabır verir; teslimiyeti artırır."
             },
             {
               "id": "duygu-sikinti-insirah",
@@ -308,7 +435,13 @@
               "meal": "Rabbim! Göğsümü genişlet, işimi kolaylaştır ve dilimdeki düğümü çöz ki sözümü iyi anlasınlar.",
               "kaynak": "Taha Suresi, 25-28. Ayet",
               "ayet": "20:25",
-              "etiketler": ["ferahlık", "sınav", "kolaylık", "kaygı"]
+              "etiketler": [
+                "ferahlık",
+                "sınav",
+                "kolaylık",
+                "kaygı"
+              ],
+              "fazilet": "Sıkıntı, kaygı ve keder anında okunması tavsiye edilmiştir. Kalbe ferahlık ve sabır verir; teslimiyeti artırır."
             }
           ]
         },
@@ -322,7 +455,15 @@
               "okunus": "Allâhümme rabbe'n-nâs, ezhibi'l-be's, işfi ente'ş-şâfî, lâ şifâe illâ şifâük, şifâen lâ yuğâdiru sekamâ.",
               "meal": "Ey insanların Rabbi olan Allah'ım! Hastalığı gider, şifa ver. Şifa veren yalnız Sensin. Senin şifandan başka şifa yoktur; öyle bir şifa ver ki hiçbir hastalık kalmasın.",
               "kaynak": "Buhari, Tıp, 38",
-              "etiketler": ["şifa", "hastalık", "sağlık"]
+              "etiketler": [
+                "şifa",
+                "hastalık",
+                "sağlık"
+              ],
+              "fazilet": "Hasta ziyaretinde ve hastalık anında okunması sünnettir. Şifayı yalnızca Allah'tan isteme ve O'na sığınma duasıdır.",
+              "mealler": {
+                "en": "Remove the harm, O Lord of mankind, and heal, for You are the Healer. There is no healing but Your healing, a healing that leaves no ailment behind."
+              }
             },
             {
               "id": "duygu-sifa-eselullah",
@@ -332,7 +473,11 @@
               "meal": "Büyük arşın Rabbi olan Yüce Allah'tan sana şifa vermesini dilerim.",
               "kaynak": "Tirmizi, Tıp, 35",
               "tekrar": 7,
-              "etiketler": ["şifa", "hastalık"]
+              "etiketler": [
+                "şifa",
+                "hastalık"
+              ],
+              "fazilet": "Hasta ziyaretinde ve hastalık anında okunması sünnettir. Şifayı yalnızca Allah'tan isteme ve O'na sığınma duasıdır."
             },
             {
               "id": "duygu-sifa-la-bese",
@@ -341,7 +486,12 @@
               "okunus": "Lâ be'se tahûrun in şâallâh.",
               "meal": "İnşallah bir sakıncası yok; bu (hastalık) günahlara kefarettir (temizlenmedir).",
               "kaynak": "Buhari, Tıp, 19",
-              "etiketler": ["şifa", "hastalık", "ziyaret"]
+              "etiketler": [
+                "şifa",
+                "hastalık",
+                "ziyaret"
+              ],
+              "fazilet": "Hasta ziyaretinde ve hastalık anında okunması sünnettir. Şifayı yalnızca Allah'tan isteme ve O'na sığınma duasıdır."
             },
             {
               "id": "duygu-sifa-kelimat",
@@ -350,7 +500,12 @@
               "okunus": "Bismillâhi erkîke min külli şey'in yü'zîk, min şerri külli nefsin ev aynin hâsidin. Allâhü yeşfîke bismillâhi erkîk.",
               "meal": "Allah'ın adıyla sana okurum: Sana eziyet veren her şeyden, her haset eden nefsin ve gözün şerrinden. Allah sana şifa versin; Allah'ın adıyla sana okurum.",
               "kaynak": "Müslim, Selam, 62",
-              "etiketler": ["şifa", "nazar", "korunma"]
+              "etiketler": [
+                "şifa",
+                "nazar",
+                "korunma"
+              ],
+              "fazilet": "Hasta ziyaretinde ve hastalık anında okunması sünnettir. Şifayı yalnızca Allah'tan isteme ve O'na sığınma duasıdır."
             }
           ]
         },
@@ -364,7 +519,12 @@
               "okunus": "Allâhümme'kfinî bi-halâlike an harâmik, ve ağninî bi-fadlike ammen sivâk.",
               "meal": "Allah'ım! Helal rızkınla beni haramdan kanaat ettir (uzak tut) ve lütfunla beni senden başkasına muhtaç eyleme.",
               "kaynak": "Tirmizi, Deavat, 109",
-              "etiketler": ["rızık", "borç", "helal"]
+              "etiketler": [
+                "rızık",
+                "borç",
+                "helal"
+              ],
+              "fazilet": "Darlık, borç ve geçim sıkıntısı anında okunması tavsiye edilmiştir. Rızka bereket gelmesi ve borçtan kurtulmak için duadır."
             },
             {
               "id": "duygu-rizik-magrem",
@@ -373,7 +533,11 @@
               "okunus": "Allâhümme innî eûzü bike mine'l-me'semi ve'l-mağram.",
               "meal": "Allah'ım! Günaha girmekten ve borç yükünden sana sığınırım.",
               "kaynak": "Buhari, Deavat, 39",
-              "etiketler": ["borç", "günah"]
+              "etiketler": [
+                "borç",
+                "günah"
+              ],
+              "fazilet": "Darlık, borç ve geçim sıkıntısı anında okunması tavsiye edilmiştir. Rızka bereket gelmesi ve borçtan kurtulmak için duadır."
             },
             {
               "id": "duygu-rizik-fakr",
@@ -382,7 +546,12 @@
               "okunus": "Allâhümme innî eûzü bike mine'l-fakri ve'l-kille ve'z-zille, ve eûzü bike min en azlime ev uzlem.",
               "meal": "Allah'ım! Fakirlikten, azlıktan ve zillete düşmekten sana sığınırım; zulmetmekten ve zulme uğramaktan da sana sığınırım.",
               "kaynak": "Ebu Davud, Vitir, 32",
-              "etiketler": ["rızık", "fakirlik", "bereket"]
+              "etiketler": [
+                "rızık",
+                "fakirlik",
+                "bereket"
+              ],
+              "fazilet": "Darlık, borç ve geçim sıkıntısı anında okunması tavsiye edilmiştir. Rızka bereket gelmesi ve borçtan kurtulmak için duadır."
             },
             {
               "id": "duygu-rizik-bereket",
@@ -391,7 +560,12 @@
               "okunus": "Allâhümme innî es'elüke ilmen nâfian, ve rizkan tayyiben, ve amelen mütekabbelâ.",
               "meal": "Allah'ım! Senden faydalı ilim, temiz ve helal rızık ile kabul olunmuş amel dilerim.",
               "kaynak": "İbn Mace, İkame, 32",
-              "etiketler": ["rızık", "ilim", "sınav"]
+              "etiketler": [
+                "rızık",
+                "ilim",
+                "sınav"
+              ],
+              "fazilet": "Darlık, borç ve geçim sıkıntısı anında okunması tavsiye edilmiştir. Rızka bereket gelmesi ve borçtan kurtulmak için duadır."
             }
           ]
         },
@@ -405,7 +579,11 @@
               "okunus": "Elhamdülillâhi hamden kesîran tayyiben mübâraken fîh.",
               "meal": "Allah'a bol, güzel ve bereketli bir hamd ile hamd ederim.",
               "kaynak": "Ebu Davud, Edeb, 108",
-              "etiketler": ["şükür", "hamd"]
+              "etiketler": [
+                "şükür",
+                "hamd"
+              ],
+              "fazilet": "Her nimetten sonra hamd etmek, nimetin artmasına vesile olur. Şükür, müminin en kıymetli kulluğudur."
             },
             {
               "id": "duygu-sukur-ein",
@@ -414,7 +592,12 @@
               "okunus": "Allâhümme e'innî alâ zikrike ve şükrike ve hüsni ibâdetik.",
               "meal": "Allah'ım! Seni anmak, sana şükretmek ve sana güzelce ibadet edebilmek için bana yardım et.",
               "kaynak": "Ebu Davud, Vitir, 26",
-              "etiketler": ["şükür", "zikir", "ibadet"]
+              "etiketler": [
+                "şükür",
+                "zikir",
+                "ibadet"
+              ],
+              "fazilet": "Her nimetten sonra hamd etmek, nimetin artmasına vesile olur. Şükür, müminin en kıymetli kulluğudur."
             },
             {
               "id": "duygu-sukur-nimet",
@@ -423,7 +606,11 @@
               "okunus": "Elhamdülillâhillezî bi-ni'metihî tetimmü's-sâlihât.",
               "meal": "Salih ameller ancak O'nun nimetiyle tamamlanan Allah'a hamd olsun.",
               "kaynak": "Hakim, el-Müstedrek, 1/499",
-              "etiketler": ["şükür", "nimet"]
+              "etiketler": [
+                "şükür",
+                "nimet"
+              ],
+              "fazilet": "Her nimetten sonra hamd etmek, nimetin artmasına vesile olur. Şükür, müminin en kıymetli kulluğudur."
             }
           ]
         },
@@ -437,7 +624,12 @@
               "okunus": "Allâhümme ente rabbî lâ ilâhe illâ ente halaktenî ve ene abdük, ve ene alâ ahdike ve va'dike me-steta'tü. Eûzü bike min şerri mâ sana'tü. Ebûü leke bi-ni'metike aleyye ve ebûü bi-zenbî, fağfir lî fe-innehû lâ yağfiru'z-zünûbe illâ ente.",
               "meal": "Allah'ım! Sen benim Rabbimsin, senden başka ilah yoktur. Beni Sen yarattın, ben Senin kulunum. Gücüm yettiğince sana verdiğim söz ve ahd üzereyim. Yaptıklarımın şerrinden sana sığınırım. Bana verdiğin nimetleri ve günahımı itiraf ediyorum. Beni bağışla; günahları senden başka bağışlayan yoktur.",
               "kaynak": "Buhari, Deavat, 2",
-              "etiketler": ["tevbe", "istiğfar", "bağışlanma"]
+              "etiketler": [
+                "tevbe",
+                "istiğfar",
+                "bağışlanma"
+              ],
+              "fazilet": "Tövbe ve istiğfar; Allah katında en sevimli ibadetlerdendir. Her an, özellikle güne başlarken ve günü bitirirken yapılması güzeldir."
             },
             {
               "id": "duygu-tevbe-esgaf",
@@ -447,7 +639,11 @@
               "meal": "Allah'tan bağışlanma diler ve O'na tövbe ederim.",
               "kaynak": "Müslim, Zikir, 4",
               "tekrar": 100,
-              "etiketler": ["tevbe", "istiğfar"]
+              "etiketler": [
+                "tevbe",
+                "istiğfar"
+              ],
+              "fazilet": "Tövbe ve istiğfar; Allah katında en sevimli ibadetlerdendir. Her an, özellikle güne başlarken ve günü bitirirken yapılması güzeldir."
             },
             {
               "id": "duygu-tevbe-tubb",
@@ -457,7 +653,11 @@
               "meal": "Allah'ım! Beni bağışla ve tövbemi kabul et; şüphesiz tövbeleri kabul eden ve merhametli olan yalnız Sensin.",
               "kaynak": "Ebu Davud, Vitir, 26",
               "tekrar": 3,
-              "etiketler": ["tevbe", "istiğfar"]
+              "etiketler": [
+                "tevbe",
+                "istiğfar"
+              ],
+              "fazilet": "Tövbe ve istiğfar; Allah katında en sevimli ibadetlerdendir. Her an, özellikle güne başlarken ve günü bitirirken yapılması güzeldir."
             },
             {
               "id": "duygu-tevbe-muminun",
@@ -467,7 +667,11 @@
               "meal": "Rabbim! Beni bağışla ve bana merhamet et; sen merhamet edenlerin en hayırlısısın.",
               "kaynak": "Müminun Suresi, 118. Ayet",
               "ayet": "23:118",
-              "etiketler": ["tevbe", "merhamet"]
+              "etiketler": [
+                "tevbe",
+                "merhamet"
+              ],
+              "fazilet": "Tövbe ve istiğfar; Allah katında en sevimli ibadetlerdendir. Her an, özellikle güne başlarken ve günü bitirirken yapılması güzeldir."
             }
           ]
         }
@@ -490,7 +694,15 @@
               "meal": "Ey Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver ve bizi ateş azabından koru.",
               "kaynak": "Bakara Suresi, 201. Ayet",
               "ayet": "2:201",
-              "etiketler": ["rabbena", "dünya", "ahiret"]
+              "etiketler": [
+                "rabbena",
+                "dünya",
+                "ahiret"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir.",
+              "mealler": {
+                "en": "Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire."
+              }
             },
             {
               "id": "kuran-rabbena-tuzig",
@@ -500,7 +712,12 @@
               "meal": "Ey Rabbimiz! Bizi doğru yola ilettikten sonra kalplerimizi eğriltme, bize katından bir rahmet bağışla; şüphesiz Sen bol bol bağışlayansın.",
               "kaynak": "Al-i İmran Suresi, 8. Ayet",
               "ayet": "3:8",
-              "etiketler": ["rabbena", "hidayet", "iman"]
+              "etiketler": [
+                "rabbena",
+                "hidayet",
+                "iman"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir."
             },
             {
               "id": "kuran-rabbena-zalemna",
@@ -510,7 +727,11 @@
               "meal": "Ey Rabbimiz! Biz kendimize zulmettik. Eğer bizi bağışlamaz ve bize merhamet etmezsen elbette hüsrana uğrayanlardan oluruz.",
               "kaynak": "A'raf Suresi, 23. Ayet",
               "ayet": "7:23",
-              "etiketler": ["rabbena", "tevbe"]
+              "etiketler": [
+                "rabbena",
+                "tevbe"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir."
             },
             {
               "id": "kuran-rabbena-sabran",
@@ -520,7 +741,12 @@
               "meal": "Ey Rabbimiz! Üzerimize sabır yağdır, ayaklarımızı sabit kıl ve kafirler topluluğuna karşı bize zafer ver.",
               "kaynak": "Bakara Suresi, 250. Ayet",
               "ayet": "2:250",
-              "etiketler": ["rabbena", "sabır", "zafer"]
+              "etiketler": [
+                "rabbena",
+                "sabır",
+                "zafer"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir."
             },
             {
               "id": "kuran-rabbena-tekabbel",
@@ -530,7 +756,12 @@
               "meal": "Ey Rabbimiz! Bizden kabul buyur; şüphesiz Sen her şeyi işiten ve her şeyi bilensin.",
               "kaynak": "Bakara Suresi, 127. Ayet (Hz. İbrahim)",
               "ayet": "2:127",
-              "etiketler": ["rabbena", "ibadet", "kabul"]
+              "etiketler": [
+                "rabbena",
+                "ibadet",
+                "kabul"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir."
             },
             {
               "id": "kuran-rabbena-zenubina",
@@ -540,7 +771,11 @@
               "meal": "Ey Rabbimiz! Günahlarımızı ve işimizdeki aşırılıklarımızı bağışla, ayaklarımızı sabit kıl ve kafirler topluluğuna karşı bize yardım et.",
               "kaynak": "Al-i İmran Suresi, 147. Ayet",
               "ayet": "3:147",
-              "etiketler": ["rabbena", "bağışlanma"]
+              "etiketler": [
+                "rabbena",
+                "bağışlanma"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir."
             },
             {
               "id": "kuran-rabbena-ahzina",
@@ -550,7 +785,12 @@
               "meal": "Ey Rabbimiz! Unutur veya yanılırsak bizi sorumlu tutma. Ey Rabbimiz! Bizden öncekilere yüklediğin gibi bize ağır yük yükleme. Ey Rabbimiz! Gücümüzün yetmediği şeyleri bize yükleme; bizi affet, bizi bağışla, bize merhamet et. Sen bizim mevlamızsın; kafirler topluluğuna karşı bize yardım et.",
               "kaynak": "Bakara Suresi, 286. Ayet",
               "ayet": "2:286",
-              "etiketler": ["rabbena", "af", "merhamet"]
+              "etiketler": [
+                "rabbena",
+                "af",
+                "merhamet"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir."
             },
             {
               "id": "kuran-rabbena-valideyye",
@@ -560,7 +800,13 @@
               "meal": "Ey Rabbimiz! Hesap görülecek günde beni, anne-babamı ve bütün müminleri bağışla.",
               "kaynak": "İbrahim Suresi, 41. Ayet (Hz. İbrahim)",
               "ayet": "14:41",
-              "etiketler": ["rabbena", "anne", "baba", "aile"]
+              "etiketler": [
+                "rabbena",
+                "anne",
+                "baba",
+                "aile"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir."
             },
             {
               "id": "kuran-rabbena-heblena",
@@ -570,7 +816,13 @@
               "meal": "Ey Rabbimiz! Eşlerimizden ve çocuklarımızdan bize göz aydınlığı olacak nesiller bağışla ve bizi takva sahiplerine önder eyle.",
               "kaynak": "Furkan Suresi, 74. Ayet",
               "ayet": "25:74",
-              "etiketler": ["rabbena", "aile", "evlilik", "çocuk"]
+              "etiketler": [
+                "rabbena",
+                "aile",
+                "evlilik",
+                "çocuk"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir."
             },
             {
               "id": "kuran-rabbena-rahmeten",
@@ -580,7 +832,12 @@
               "meal": "Ey Rabbimiz! Bize katından bir rahmet ver ve işimizde bize doğruyu gösterip başarı ihsan et.",
               "kaynak": "Kehf Suresi, 10. Ayet (Ashab-ı Kehf)",
               "ayet": "18:10",
-              "etiketler": ["rabbena", "rahmet", "başarı"]
+              "etiketler": [
+                "rabbena",
+                "rahmet",
+                "başarı"
+              ],
+              "fazilet": "Kur'ân'da geçen, Peygamberlerin ve salih kulların yaptığı dualardandır. Namazdan sonra ve dua vakitlerinde okunması güzel ve faziletlidir."
             }
           ]
         },
@@ -595,7 +852,12 @@
               "meal": "Senden başka ilah yoktur; Seni her türlü eksiklikten tenzih ederim. Şüphesiz ben zalimlerden oldum.",
               "kaynak": "Enbiya Suresi, 87. Ayet",
               "ayet": "21:87",
-              "etiketler": ["yunus", "kurtuluş", "sıkıntı"]
+              "etiketler": [
+                "yunus",
+                "kurtuluş",
+                "sıkıntı"
+              ],
+              "fazilet": "Kur'ân-ı Kerim'de anlatılan peygamber dualarındandır. Dert, sıkıntı ve zor durum anında okunması tavsiye edilir; kabul olunan dualardandır."
             },
             {
               "id": "kuran-peygamber-musa",
@@ -605,7 +867,12 @@
               "meal": "Rabbim! Göğsümü genişlet ve işimi kolaylaştır.",
               "kaynak": "Taha Suresi, 25-26. Ayet",
               "ayet": "20:25",
-              "etiketler": ["musa", "kolaylık", "sınav"]
+              "etiketler": [
+                "musa",
+                "kolaylık",
+                "sınav"
+              ],
+              "fazilet": "Kur'ân-ı Kerim'de anlatılan peygamber dualarındandır. Dert, sıkıntı ve zor durum anında okunması tavsiye edilir; kabul olunan dualardandır."
             },
             {
               "id": "kuran-peygamber-musa-zalemtü",
@@ -615,7 +882,11 @@
               "meal": "Rabbim! Ben kendime zulmettim, beni bağışla.",
               "kaynak": "Kasas Suresi, 16. Ayet",
               "ayet": "28:16",
-              "etiketler": ["musa", "bağışlanma"]
+              "etiketler": [
+                "musa",
+                "bağışlanma"
+              ],
+              "fazilet": "Kur'ân-ı Kerim'de anlatılan peygamber dualarındandır. Dert, sıkıntı ve zor durum anında okunması tavsiye edilir; kabul olunan dualardandır."
             },
             {
               "id": "kuran-peygamber-ibrahim",
@@ -625,7 +896,12 @@
               "meal": "Rabbim! Bana hikmet ver, beni salihler arasına kat ve ileride gelecekler içinde bana iyi bir nam nasip eyle.",
               "kaynak": "Şuara Suresi, 83-84. Ayet",
               "ayet": "26:83",
-              "etiketler": ["ibrahim", "hikmet", "salih"]
+              "etiketler": [
+                "ibrahim",
+                "hikmet",
+                "salih"
+              ],
+              "fazilet": "Kur'ân-ı Kerim'de anlatılan peygamber dualarındandır. Dert, sıkıntı ve zor durum anında okunması tavsiye edilir; kabul olunan dualardandır."
             },
             {
               "id": "kuran-peygamber-zekeriyya",
@@ -635,7 +911,12 @@
               "meal": "Rabbim! Bana katından temiz bir nesil bağışla; şüphesiz Sen duayı işitensin.",
               "kaynak": "Al-i İmran Suresi, 38. Ayet",
               "ayet": "3:38",
-              "etiketler": ["zekeriyya", "evlat", "çocuk"]
+              "etiketler": [
+                "zekeriyya",
+                "evlat",
+                "çocuk"
+              ],
+              "fazilet": "Kur'ân-ı Kerim'de anlatılan peygamber dualarındandır. Dert, sıkıntı ve zor durum anında okunması tavsiye edilir; kabul olunan dualardandır."
             },
             {
               "id": "kuran-peygamber-suleyman",
@@ -645,7 +926,11 @@
               "meal": "Rabbim! Bana ve anne-babama verdiğin nimete şükretmeyi ve razı olacağın salih ameller işlemeyi bana ilham et.",
               "kaynak": "Neml Suresi, 19. Ayet",
               "ayet": "27:19",
-              "etiketler": ["süleyman", "şükür"]
+              "etiketler": [
+                "süleyman",
+                "şükür"
+              ],
+              "fazilet": "Kur'ân-ı Kerim'de anlatılan peygamber dualarındandır. Dert, sıkıntı ve zor durum anında okunması tavsiye edilir; kabul olunan dualardandır."
             },
             {
               "id": "kuran-peygamber-nuh",
@@ -655,7 +940,12 @@
               "meal": "Rabbim! Beni, anne-babamı, evime mümin olarak girenleri ve bütün mümin erkekleri ve mümin kadınları bağışla.",
               "kaynak": "Nuh Suresi, 28. Ayet",
               "ayet": "71:28",
-              "etiketler": ["nuh", "bağışlanma", "aile"]
+              "etiketler": [
+                "nuh",
+                "bağışlanma",
+                "aile"
+              ],
+              "fazilet": "Kur'ân-ı Kerim'de anlatılan peygamber dualarındandır. Dert, sıkıntı ve zor durum anında okunması tavsiye edilir; kabul olunan dualardandır."
             },
             {
               "id": "kuran-peygamber-eyyub",
@@ -665,7 +955,12 @@
               "meal": "Rabbim! Bana gerçekten dert isabet etti; Sen ise merhametlilerin en merhametlisisin.",
               "kaynak": "Enbiya Suresi, 83. Ayet",
               "ayet": "21:83",
-              "etiketler": ["eyyub", "şifa", "sabır"]
+              "etiketler": [
+                "eyyub",
+                "şifa",
+                "sabır"
+              ],
+              "fazilet": "Kur'ân-ı Kerim'de anlatılan peygamber dualarındandır. Dert, sıkıntı ve zor durum anında okunması tavsiye edilir; kabul olunan dualardandır."
             },
             {
               "id": "kuran-peygamber-yusuf",
@@ -675,7 +970,11 @@
               "meal": "Rabbim! Bana mülkten pay verdin ve bana rüyaların yorumunu öğrettin. Ey gökleri ve yeri yaratan! Dünya ve ahirette benim velim sensin; beni müslüman olarak öldür ve beni salihlere kat.",
               "kaynak": "Yusuf Suresi, 101. Ayet",
               "ayet": "12:101",
-              "etiketler": ["yusuf", "hidayet"]
+              "etiketler": [
+                "yusuf",
+                "hidayet"
+              ],
+              "fazilet": "Kur'ân-ı Kerim'de anlatılan peygamber dualarındandır. Dert, sıkıntı ve zor durum anında okunması tavsiye edilir; kabul olunan dualardandır."
             }
           ]
         },
@@ -689,7 +988,11 @@
               "okunus": "Allâhümme'ğfir lî mâ kaddemtü ve mâ ahhertü ve mâ esrartü ve mâ a'lentü ve mâ ente a'lemü bihî minnî.",
               "meal": "Allah'ım! Geçmişte işlediğim, gelecekte işleyeceğim, gizlediğim, açığa vurduğum ve Senin benden daha iyi bildiğin günahlarımı bağışla.",
               "kaynak": "Müslim, Salat, 201",
-              "etiketler": ["peygamber", "bağışlanma"]
+              "etiketler": [
+                "peygamber",
+                "bağışlanma"
+              ],
+              "fazilet": "Peygamber Efendimizin (s.a.v.) sıkça yaptığı dualardandır. Günlük yaşamda okunması sevap, sünnete ittiba ve manevi kazançtır."
             },
             {
               "id": "kuran-sav-huda",
@@ -698,7 +1001,11 @@
               "okunus": "Allâhümme innî es'elüke'l-hüdâ ve't-tükâ ve'l-afâfe ve'l-ğınâ.",
               "meal": "Allah'ım! Senden hidayet, takva, iffet ve gönül zenginliği dilerim.",
               "kaynak": "Müslim, Zikir, 72",
-              "etiketler": ["peygamber", "hidayet"]
+              "etiketler": [
+                "peygamber",
+                "hidayet"
+              ],
+              "fazilet": "Peygamber Efendimizin (s.a.v.) sıkça yaptığı dualardandır. Günlük yaşamda okunması sevap, sünnete ittiba ve manevi kazançtır."
             },
             {
               "id": "kuran-sav-sabr-kalb",
@@ -708,7 +1015,12 @@
               "meal": "Ey kalpleri evirip çeviren! Kalbimi dinin üzere sabit kıl.",
               "kaynak": "Tirmizi, Deavat, 89",
               "tekrar": 3,
-              "etiketler": ["peygamber", "iman", "sabır"]
+              "etiketler": [
+                "peygamber",
+                "iman",
+                "sabır"
+              ],
+              "fazilet": "Peygamber Efendimizin (s.a.v.) sıkça yaptığı dualardandır. Günlük yaşamda okunması sevap, sünnete ittiba ve manevi kazançtır."
             },
             {
               "id": "kuran-sav-cennet",
@@ -717,7 +1029,12 @@
               "okunus": "Allâhümme innî es'elüke'l-cennete ve mâ karrabe ileyhâ min kavlin ev amel, ve eûzü bike mine'n-nâri ve mâ karrabe ileyhâ min kavlin ev amel.",
               "meal": "Allah'ım! Senden cenneti ve ona yaklaştıran söz ve amelleri dilerim; cehennemden ve ona yaklaştıran söz ve amellerden sana sığınırım.",
               "kaynak": "Ebu Davud, Vitir, 32",
-              "etiketler": ["peygamber", "cennet", "ahiret"]
+              "etiketler": [
+                "peygamber",
+                "cennet",
+                "ahiret"
+              ],
+              "fazilet": "Peygamber Efendimizin (s.a.v.) sıkça yaptığı dualardandır. Günlük yaşamda okunması sevap, sünnete ittiba ve manevi kazançtır."
             },
             {
               "id": "kuran-sav-afiyet",
@@ -726,7 +1043,15 @@
               "okunus": "Allâhümme innî es'elüke'l-afve ve'l-âfiyete fi'd-dünyâ ve'l-âhirah.",
               "meal": "Allah'ım! Senden dünya ve ahirette afiyet ve affedicilik dilerim.",
               "kaynak": "Ebu Davud, Vitir, 32",
-              "etiketler": ["peygamber", "afiyet", "sağlık"]
+              "etiketler": [
+                "peygamber",
+                "afiyet",
+                "sağlık"
+              ],
+              "fazilet": "Peygamber Efendimizin (s.a.v.) sıkça yaptığı dualardandır. Günlük yaşamda okunması sevap, sünnete ittiba ve manevi kazançtır.",
+              "mealler": {
+                "en": "O Allah, I ask You for pardon and well-being in this world and in the Hereafter."
+              }
             },
             {
               "id": "kuran-sav-gayb",
@@ -735,7 +1060,12 @@
               "okunus": "Allâhümme âlime'l-ğaybi ve'ş-şehâdeh, Fâtıra's-semâvâti ve'l-ard, rabbe külli şey'in ve melîkeh. Eşhedü en lâ ilâhe illâ ente, eûzü bike min şerri nefsî ve min şerri'ş-şeytâni ve şirkih.",
               "meal": "Allah'ım! Gizliyi de aşikarı da bilen, gökleri ve yeri yaratan, her şeyin Rabbi ve sahibi olan Allah'ım! Senden başka ilah olmadığına şehadet ederim. Nefsimin şerrinden, şeytanın ve şirk koşmasının şerrinden sana sığınırım.",
               "kaynak": "Ebu Davud, Edeb, 103",
-              "etiketler": ["peygamber", "korunma", "esma"]
+              "etiketler": [
+                "peygamber",
+                "korunma",
+                "esma"
+              ],
+              "fazilet": "Peygamber Efendimizin (s.a.v.) sıkça yaptığı dualardandır. Günlük yaşamda okunması sevap, sünnete ittiba ve manevi kazançtır."
             }
           ]
         }
@@ -757,7 +1087,15 @@
               "okunus": "Allâhümme salli alâ Muhammedin ve alâ âli Muhammed, kemâ salleyte alâ İbrâhîme ve alâ âli İbrâhîm, inneke hamîdün mecîd. Allâhümme bârik alâ Muhammedin ve alâ âli Muhammed, kemâ bârekte alâ İbrâhîme ve alâ âli İbrâhîm, inneke hamîdün mecîd.",
               "meal": "Allah'ım! İbrahim'e ve âline rahmet ettiğin gibi Muhammed'e ve âline de rahmet et; şüphesiz Sen övülmeye layık ve yücesin. Allah'ım! İbrahim'e ve âline bereket verdiğin gibi Muhammed'e ve âline de bereket ver; şüphesiz Sen övülmeye layık ve yücesin.",
               "kaynak": "Buhari, Deavat, 32",
-              "etiketler": ["cuma", "salavat", "peygamber"]
+              "etiketler": [
+                "cuma",
+                "salavat",
+                "peygamber"
+              ],
+              "fazilet": "Cuma günü ve gecesi dua ve salavatın kabul edildiği özel bir zamandır. Bu vakitlerde dua ve salavat çokça yapılır.",
+              "mealler": {
+                "en": "O Allah, send blessings upon Muhammad and upon the family of Muhammad, as You sent blessings upon Ibrahim and the family of Ibrahim; truly You are Praiseworthy, Glorious."
+              }
             },
             {
               "id": "ozel-cuma-muminler",
@@ -766,7 +1104,12 @@
               "okunus": "Allâhümme'ğfir li'l-mü'minîne ve'l-mü'minât, ve'l-müslimîne ve'l-müslimât, el-ahyâi minhüm ve'l-emvât.",
               "meal": "Allah'ım! Mümin erkek ve kadınları, müslüman erkek ve kadınları; onların hayatta olanlarını da vefat etmişlerini de bağışla.",
               "kaynak": "Müslim, Zikir, 67",
-              "etiketler": ["cuma", "bağışlanma", "ümmet"]
+              "etiketler": [
+                "cuma",
+                "bağışlanma",
+                "ümmet"
+              ],
+              "fazilet": "Cuma günü ve gecesi dua ve salavatın kabul edildiği özel bir zamandır. Bu vakitlerde dua ve salavat çokça yapılır."
             },
             {
               "id": "ozel-cuma-hayir",
@@ -775,7 +1118,12 @@
               "okunus": "Allâhümme innî es'elüke bi-şehâdeti en lâ ilâhe illâ ente'l-ehadü's-samedü, ellezî lem yelid ve lem yûled ve lem yekün lehû küfüven ehad, en tağfira lî zünûbî inneke ente'l-ğafûru'r-rahîm.",
               "meal": "Allah'ım! Senden başka ilah olmadığına, doğurmayan, doğurulmayan ve hiçbir dengi olmayan tek ve samed olan Sen'in şanına şehadet ederek senden günahlarımı bağışlamanı dilerim; şüphesiz Sen bağışlayan ve merhamet edensin.",
               "kaynak": "Tirmizi, Deavat, 107",
-              "etiketler": ["cuma", "kısmet", "bağışlanma"]
+              "etiketler": [
+                "cuma",
+                "kısmet",
+                "bağışlanma"
+              ],
+              "fazilet": "Cuma günü ve gecesi dua ve salavatın kabul edildiği özel bir zamandır. Bu vakitlerde dua ve salavat çokça yapılır."
             }
           ]
         },
@@ -789,7 +1137,12 @@
               "okunus": "Allâhümme leke sumtü ve alâ rizkike eftartü.",
               "meal": "Allah'ım! Senin rızan için oruç tuttum, Senin verdiğin rızıkla orucumu açıyorum.",
               "kaynak": "Ebu Davud, Savm, 22",
-              "etiketler": ["ramazan", "oruç", "iftar"]
+              "etiketler": [
+                "ramazan",
+                "oruç",
+                "iftar"
+              ],
+              "fazilet": "Ramazan ayında iftar ve sahur vakitlerinde yapılan dualar kabul olunan dualardandır. Oruçlu ve misafir duası makbuldür."
             },
             {
               "id": "ozel-ramazan-iftar2",
@@ -798,7 +1151,11 @@
               "okunus": "Zehebe'z-zameü ve'btelleti'l-urûku ve sebe-te'l-ecru in şâallâh.",
               "meal": "Susuzluk gitti, damarlar ıslandı ve inşallah ecir sabit oldu.",
               "kaynak": "Ebu Davud, Savm, 23",
-              "etiketler": ["ramazan", "iftar"]
+              "etiketler": [
+                "ramazan",
+                "iftar"
+              ],
+              "fazilet": "Ramazan ayında iftar ve sahur vakitlerinde yapılan dualar kabul olunan dualardandır. Oruçlu ve misafir duası makbuldür."
             },
             {
               "id": "ozel-ramazan-sahur",
@@ -807,7 +1164,12 @@
               "okunus": "Nevveytü savme ğadin an edâi farzi şehri Ramadâne hâzihi's-seneti lillâhi teâlâ.",
               "meal": "Bu senenin Ramazan ayının farz orucunu yarına niyet ediyorum (Allah rızası için).",
               "kaynak": "Oruç Niyeti",
-              "etiketler": ["ramazan", "sahur", "oruç"]
+              "etiketler": [
+                "ramazan",
+                "sahur",
+                "oruç"
+              ],
+              "fazilet": "Ramazan ayında iftar ve sahur vakitlerinde yapılan dualar kabul olunan dualardandır. Oruçlu ve misafir duası makbuldür."
             },
             {
               "id": "ozel-ramazan-kadir",
@@ -817,7 +1179,15 @@
               "meal": "Allah'ım! Sen affedicisin, affetmeyi seversin; beni de affet.",
               "kaynak": "Tirmizi, Deavat, 84",
               "tekrar": 3,
-              "etiketler": ["kadir", "ramazan", "af"]
+              "etiketler": [
+                "kadir",
+                "ramazan",
+                "af"
+              ],
+              "fazilet": "Ramazan ayında iftar ve sahur vakitlerinde yapılan dualar kabul olunan dualardandır. Oruçlu ve misafir duası makbuldür.",
+              "mealler": {
+                "en": "O Allah, You are Ever-Pardoning and You love to pardon, so pardon me."
+              }
             }
           ]
         },
@@ -831,7 +1201,12 @@
               "okunus": "Allâhümme innî es'elüke bi-rahmetike'lletî vesiat külli şey'in en tağfira lî.",
               "meal": "Allah'ım! Her şeyi kuşatan rahmetin hürmetine senden günahlarımı bağışlamanı dilerim.",
               "kaynak": "İbn Mace, Deavat, 2",
-              "etiketler": ["kandil", "berat", "af"]
+              "etiketler": [
+                "kandil",
+                "berat",
+                "af"
+              ],
+              "fazilet": "Mübarek gece ve günlerde yapılan dua ve ibadet, rahmet ve af vesilesidir. Kandil gecelerinde bolca dua edilmesi tavsiye edilir."
             },
             {
               "id": "ozel-kandil-afiyet",
@@ -840,7 +1215,12 @@
               "okunus": "Allâhümme innî es'elüke'l-âfiyete fi'd-dünyâ ve'l-âhirah. Allâhümme'stür avrâtî ve âmin ravâtî.",
               "meal": "Allah'ım! Senden dünya ve ahirette afiyet dilerim. Allah'ım! Ayıplarımı ört ve korkularımı gider.",
               "kaynak": "Ebu Davud, Vitir, 32",
-              "etiketler": ["kandil", "afiyet", "kadir"]
+              "etiketler": [
+                "kandil",
+                "afiyet",
+                "kadir"
+              ],
+              "fazilet": "Mübarek gece ve günlerde yapılan dua ve ibadet, rahmet ve af vesilesidir. Kandil gecelerinde bolca dua edilmesi tavsiye edilir."
             },
             {
               "id": "ozel-kandil-kadir",
@@ -849,7 +1229,12 @@
               "okunus": "Allâhümme inneke afüvvün kerîmün tühıbbü'l-afve fa'fü annâ ve an vâlideynâ ve an cemîi'l-müslimîn.",
               "meal": "Allah'ım! Sen affedici ve keremsin, affetmeyi seversin; bizi, anne-babamızı ve bütün müslümanları affet.",
               "kaynak": "Tirmizi, Deavat, 84",
-              "etiketler": ["kadir", "kandil", "af"]
+              "etiketler": [
+                "kadir",
+                "kandil",
+                "af"
+              ],
+              "fazilet": "Mübarek gece ve günlerde yapılan dua ve ibadet, rahmet ve af vesilesidir. Kandil gecelerinde bolca dua edilmesi tavsiye edilir."
             }
           ]
         },
@@ -863,7 +1248,11 @@
               "okunus": "Allâhümme sayyiben nâfian.",
               "meal": "Allah'ım! Faydalı (hayırlı) bir yağmur ihsan et.",
               "kaynak": "Buhari, İstiska, 6",
-              "etiketler": ["yağmur", "tabiat"]
+              "etiketler": [
+                "yağmur",
+                "tabiat"
+              ],
+              "fazilet": "Yağmur ve tabiat olayları anında okunması sünnettir. Rahmet ve bereket istenir; nimetlere şükür vesilesidir."
             },
             {
               "id": "ozel-yagmur-isk",
@@ -872,7 +1261,12 @@
               "okunus": "Allâhümme'skıne'l-ğayse ve lâ tec'alnâ mine'l-kânitîn.",
               "meal": "Allah'ım! Bize yağmur ver ve bizi ümit kesenlerden eyleme.",
               "kaynak": "İbn Mace, İstiska, 1",
-              "etiketler": ["yağmur", "kuraklık", "rızık"]
+              "etiketler": [
+                "yağmur",
+                "kuraklık",
+                "rızık"
+              ],
+              "fazilet": "Yağmur ve tabiat olayları anında okunması sünnettir. Rahmet ve bereket istenir; nimetlere şükür vesilesidir."
             },
             {
               "id": "ozel-yagmur-sonrasi",
@@ -881,7 +1275,11 @@
               "okunus": "Mutırnâ bi-fadlillâhi ve rahmetih.",
               "meal": "Allah'ın lütfu ve rahmetiyle yağmura kavuştuk.",
               "kaynak": "Buhari, İstiska, 28",
-              "etiketler": ["yağmur", "şükür"]
+              "etiketler": [
+                "yağmur",
+                "şükür"
+              ],
+              "fazilet": "Yağmur ve tabiat olayları anında okunması sünnettir. Rahmet ve bereket istenir; nimetlere şükür vesilesidir."
             },
             {
               "id": "ozel-ruzgar",
@@ -890,7 +1288,12 @@
               "okunus": "Allâhümme innî es'elüke hayrahâ ve hayra mâ fîhâ ve hayra mâ ürsilet bih, ve eûzü bike min şerrihâ ve şerri mâ fîhâ ve şerri mâ ürsilet bih.",
               "meal": "Allah'ım! Senden rüzgarın hayrını, içindeki hayrı ve getirdiği hayrı dilerim; şerrinden, içindeki şerden ve getirdiği şerden sana sığınırım.",
               "kaynak": "Müslim, İstiska, 15",
-              "etiketler": ["rüzgar", "tabiat", "korunma"]
+              "etiketler": [
+                "rüzgar",
+                "tabiat",
+                "korunma"
+              ],
+              "fazilet": "Yağmur ve tabiat olayları anında okunması sünnettir. Rahmet ve bereket istenir; nimetlere şükür vesilesidir."
             },
             {
               "id": "ozel-simsek",
@@ -899,7 +1302,11 @@
               "okunus": "Sübhânellezî yüsebbihu'r-ra'du bi-hamdihî ve'l-melâiketü min hîfetih.",
               "meal": "Gök gürlemesinin hamd ile, meleklerin de korku ile tesbih ettiği Allah'ı tenzih ederim.",
               "kaynak": "Muvatta, Kur'an, 32",
-              "etiketler": ["şimşek", "tabiat"]
+              "etiketler": [
+                "şimşek",
+                "tabiat"
+              ],
+              "fazilet": "Yağmur ve tabiat olayları anında okunması sünnettir. Rahmet ve bereket istenir; nimetlere şükür vesilesidir."
             }
           ]
         }
@@ -921,7 +1328,12 @@
               "okunus": "Bismillâhirrahmânirrahîm. Yâ men hüve'l-kâimü alâ külli nefsin bimâ kesebet. Yâ men lâ yudâyifü'l-âilellezî lâ yecidü kâsibâ. Yâ men lâ yezhebü'l-âilellezî lâ yecidü tâlibâ.",
               "meal": "Rahman ve Rahim olan Allah'ın adıyla. Ey herkesin kazandığının karşılığını veren! Ey kazanç bulamayan aileye (rızkı) asla daraltmayan! Ey talep edeni olmayan aileyi (hiç) yitirmeyen! (Cevşen-i Kebir 100 bâbtan oluşur; bu giriş bâbıdır.)",
               "kaynak": "Cevşen-i Kebir, 1. Bâb",
-              "etiketler": ["cevşen", "esma", "korunma"]
+              "etiketler": [
+                "cevşen",
+                "esma",
+                "korunma"
+              ],
+              "fazilet": "Büyük ve meşhur korunma (hıfz) dualarındandır. Musibet, sıkıntı ve zorluk zamanlarında okunması tavsiye edilir."
             },
             {
               "id": "cevsen-son-bab",
@@ -930,7 +1342,12 @@
               "okunus": "Allâhümme ente rabbî lâ ilâhe illâ ente halaktenî ve ene abdüke ve'bnu emetik, ve ene alâ ahdike ve va'dike me-steta'tü. Eûzü bike min şerri mâ sana'tü. Ebûü leke bi-ni'metike aleyye ve ebûü leke bi-zenbî. Fağfir lî mâ tekaddeme min zenbî ve mâ teahhara, fe-innehû lâ yağfiru'z-zünûbe illâ ente.",
               "meal": "Allah'ım! Sen benim Rabbimsin, senden başka ilah yoktur. Beni Sen yarattın; ben Senin kulunum. Yaptıklarımın şerrinden sana sığınırım. Bana verdiğin nimetleri ve günahımı itiraf ediyorum. Geçmiş ve gelecek günahlarımı bağışla; günahları senden başka bağışlayan yoktur. (Cevşen'in her bâbından sonra okunan duadır.)",
               "kaynak": "Cevşen-i Kebir, Son Bâb",
-              "etiketler": ["cevşen", "tevbe", "istiğfar"]
+              "etiketler": [
+                "cevşen",
+                "tevbe",
+                "istiğfar"
+              ],
+              "fazilet": "Büyük ve meşhur korunma (hıfz) dualarındandır. Musibet, sıkıntı ve zorluk zamanlarında okunması tavsiye edilir."
             },
             {
               "id": "cevsen-ismi-azam",
@@ -939,7 +1356,12 @@
               "okunus": "Allâhümme innî es'elüke bi-enne leke'l-hamd, lâ ilâhe illâ ente, el-Hannânü'l-Mennân, Bedîu's-semâvâti ve'l-ard, Zü'l-celâli ve'l-ikrâm.",
               "meal": "Allah'ım! Senden hamdın Senin şanına ait olduğu hakkıyla, senden başka ilah olmadığı için, şefkatli ve lütufkâr olan, gökleri ve yeri yoktan yaratan, celal ve ikram sahibi isimlerinle (ismi azamınla) dilerim ki...",
               "kaynak": "Ebu Davud, Vitir, 23",
-              "etiketler": ["ismi azam", "esma", "hacet"]
+              "etiketler": [
+                "ismi azam",
+                "esma",
+                "hacet"
+              ],
+              "fazilet": "Büyük ve meşhur korunma (hıfz) dualarındandır. Musibet, sıkıntı ve zorluk zamanlarında okunması tavsiye edilir."
             }
           ]
         },
@@ -953,7 +1375,11 @@
               "okunus": "Lâ ilâhe illallâhü'l-halîmü'l-kerîm. Sübhânallâhi rabbi'l-arşi'l-azîm. Elhamdülillâhi rabbi'l-âlemîn. Es'elüke mûcibâti rahmetike ve azâime mağfiretik, ve'l-ğanîmete min külli birrin ve's-selâmete min külli ism. Lâ teda' lî zenben illâ ğaferteh, ve lâ hemmen illâ ferrecteh, ve lâ hâceten hiye leke rıdân illâ kadaytehâ, yâ erhamer-râhimîn.",
               "meal": "Halim ve kerim olan Allah'tan başka ilah yoktur. Büyük arşın Rabbi olan Allah'ı tenzih ederim. Alemlerin Rabbi olan Allah'a hamd olsun. Senden rahmetini gerektiren şeyleri, mağfiretinin azimetlerini, her hayırdan nasip ve her günahtan selamet dilerim. Hiçbir günahımı bağışlamamış bırakma; hiçbir tasamı gidermemiş bırakma; senden razı olacağın hiçbir ihtiyacımı karşılamamış bırakma. Ey merhametlilerin en merhametlisi!",
               "kaynak": "Tirmizi, Deavat, 111",
-              "etiketler": ["hacet", "ihtiyaç"]
+              "etiketler": [
+                "hacet",
+                "ihtiyaç"
+              ],
+              "fazilet": "Hacet ve istihare için okunması tavsiye edilmiştir. Allah'a yönelip dilekte bulunma ve hayırlısını isteme duasıdır."
             },
             {
               "id": "cevsen-istihare",
@@ -962,7 +1388,12 @@
               "okunus": "Allâhümme innî estehîrüke bi-ilmike ve estakdiruke bi-kudretik, ve es'elüke min fadlike'l-azîm. Fe-inneke takdiru ve lâ akdiru, ve ta'lemü ve lâ a'lemü, ve ente allâmü'l-ğuyûb. Allâhümme in künte ta'lemü enne hâze'l-emra hayrun lî fî dînî ve meâşî ve âkıbeti emrî, fa'kdürhû lî ve yessirhû lî sümme bârik lî fîh. Ve in künte ta'lemü enne hâze'l-emra şerrun lî fî dînî ve meâşî ve âkıbeti emrî, fa'srifhü annî va'srifnî anh, va'kdur liye'l-hayra haysü kâne sümme ardınî bih.",
               "meal": "Allah'ım! İlminle bana hayırlı olanı göster, kudretinle bana güç ver, büyük lütfundan iste. Sen güç yetirirsin ben güç yetiremem; Sen bilirsin ben bilemem; Sen gaybları bilensin. Allah'ım! Bu iş benim dinim, geçimim ve işimin sonu için hayırlıysa onu bana nasip eyle, kolaylaştır ve bereketlendir. Şayet bu iş benim dinim, geçimim ve işimin sonu için şerliyse onu benden, beni de ondan uzaklaştır; hayır her nerede ise onu bana nasip eyle ve beni ona razı kıl.",
               "kaynak": "Buhari, Teheccüd, 25",
-              "etiketler": ["istihare", "karar", "hayırlı"]
+              "etiketler": [
+                "istihare",
+                "karar",
+                "hayırlı"
+              ],
+              "fazilet": "Hacet ve istihare için okunması tavsiye edilmiştir. Allah'a yönelip dilekte bulunma ve hayırlısını isteme duasıdır."
             }
           ]
         },
@@ -977,7 +1408,11 @@
               "meal": "Yarattığı şeylerin şerrinden Allah'ın eksiksiz kelimelerine sığınırım.",
               "kaynak": "Müslim, Zikir, 55",
               "tekrar": 3,
-              "etiketler": ["nazar", "korunma"]
+              "etiketler": [
+                "nazar",
+                "korunma"
+              ],
+              "fazilet": "Nazar ve kötülüklerden korunmak için okunması sünnettir. Ayetel Kürsi, Felak ve Nas sureleri kul için korunma kalkanıdır."
             },
             {
               "id": "cevsen-nazar-cocuk",
@@ -987,7 +1422,12 @@
               "meal": "Sizi her türlü şeytandan, zararlı haşerattan ve bakan her kem gözden Allah'ın eksiksiz kelimelerine sığındırıyorum.",
               "kaynak": "Buhari, Enbiya, 10",
               "tekrar": 3,
-              "etiketler": ["nazar", "çocuk", "korunma"]
+              "etiketler": [
+                "nazar",
+                "çocuk",
+                "korunma"
+              ],
+              "fazilet": "Nazar ve kötülüklerden korunmak için okunması sünnettir. Ayetel Kürsi, Felak ve Nas sureleri kul için korunma kalkanıdır."
             },
             {
               "id": "cevsen-ayetel-kursi",
@@ -997,7 +1437,15 @@
               "meal": "Allah, kendisinden başka ilah olmayandır. O, diridir, kayyumdur (her şeyi ayakta tutandır). O'nu ne uyku tutar ne uyuklama. Göklerde ve yerde ne varsa O'nundur. İzni olmadan O'nun katında kim şefaat edebilir? Onların önlerindekini ve arkalarındakini bilir. O'nun ilminden ancak dilediği kadarını kavrarlar. O'nun kürsüsü gökleri ve yeri kuşatmıştır; onları koruyup gözetmek O'na güç gelmez. O, yücedir, büyüktür.",
               "kaynak": "Bakara Suresi, 255. Ayet",
               "ayet": "2:255",
-              "etiketler": ["korunma", "ayetel kürsi", "gece"]
+              "etiketler": [
+                "korunma",
+                "ayetel kürsi",
+                "gece"
+              ],
+              "fazilet": "Nazar ve kötülüklerden korunmak için okunması sünnettir. Ayetel Kürsi, Felak ve Nas sureleri kul için korunma kalkanıdır.",
+              "mealler": {
+                "en": "Allah — there is no god but Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness nor sleep overtakes Him. To Him belongs whatever is in the heavens and whatever is on the earth."
+              }
             },
             {
               "id": "cevsen-felak",
@@ -1007,7 +1455,14 @@
               "meal": "De ki: Yarattığı şeylerin şerrinden, karanlığı çöktüğü zaman gecenin şerrinden, düğümlere üfleyenlerin şerrinden ve haset ettiği zaman hasetçinin şerrinden sabahın Rabbine sığınırım.",
               "kaynak": "Felak Suresi, 1-5. Ayet",
               "ayet": "113:1",
-              "etiketler": ["korunma", "sure"]
+              "etiketler": [
+                "korunma",
+                "sure"
+              ],
+              "fazilet": "Nazar ve kötülüklerden korunmak için okunması sünnettir. Ayetel Kürsi, Felak ve Nas sureleri kul için korunma kalkanıdır.",
+              "mealler": {
+                "en": "Say: I seek refuge in the Lord of the daybreak, from the evil of what He created, and from the evil of darkness when it settles, and from the evil of the blowers in knots, and from the evil of an envier when he envies."
+              }
             },
             {
               "id": "cevsen-nas",
@@ -1017,7 +1472,15 @@
               "meal": "De ki: İnsanların Rabbine, insanların Melikine (hükümdarına), insanların ilahına, cinlerden ve insanlardan olan, insanların göğüslerine vesvese veren o sinsi vesvesecinin şerrinden sığınırım.",
               "kaynak": "Nas Suresi, 1-6. Ayet",
               "ayet": "114:1",
-              "etiketler": ["korunma", "vesvese", "sure"]
+              "etiketler": [
+                "korunma",
+                "vesvese",
+                "sure"
+              ],
+              "fazilet": "Nazar ve kötülüklerden korunmak için okunması sünnettir. Ayetel Kürsi, Felak ve Nas sureleri kul için korunma kalkanıdır.",
+              "mealler": {
+                "en": "Say: I seek refuge in the Lord of mankind, the King of mankind, the God of mankind, from the evil of the whisperer who withdraws, who whispers in the breasts of mankind, among jinn and among men."
+              }
             }
           ]
         }

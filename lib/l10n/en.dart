@@ -108,6 +108,8 @@ const Map<String, String> enDil = {
   'set.appearance': 'Appearance',
   'set.about': 'About',
   'set.privacy': 'Privacy Policy',
+  'set.privacyCenter': 'Privacy Center',
+  'set.privacyCenterAlt': 'Permissions, download & delete your data',
   'set.rate': 'Rate the App',
   'set.version': 'Version 1.0.0',
   'set.accent': 'Accent Color',

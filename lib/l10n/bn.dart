@@ -108,6 +108,8 @@ const Map<String, String> bnDil = {
   'set.appearance': 'রূপ',
   'set.about': 'সম্পর্কে',
   'set.privacy': 'গোপনীয়তা নীতি',
+  'set.privacyCenter': 'গোপনীয়তা কেন্দ্র',
+  'set.privacyCenterAlt': 'অনুমতি, ডেটা ডাউনলোড ও মুছে ফেলা',
   'set.rate': 'অ্যাপ রেট করুন',
   'set.version': 'সংস্করণ 1.0.0',
   'set.accent': 'অ্যাকসেন্ট রং',

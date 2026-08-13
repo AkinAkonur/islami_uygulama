@@ -76,6 +76,26 @@ void main() {
       final korunma = await DualarVerileri.instance.ara('nazar');
       expect(korunma, isNotEmpty);
     });
+
+    test('her duada fazilet (hikmet) metni vardır', () async {
+      final dualar = await DualarVerileri.instance.tumDualar();
+      for (final d in dualar) {
+        expect(d.fazilet, isNotEmpty, reason: 'Fazilet eksik: ${d.id}');
+      }
+    });
+
+    test('amiral dualarda çok dilli (İngilizce) meal bulunur', () async {
+      final rabbena = await DualarVerileri.instance.idIleBul('kuran-rabbena-atina');
+      expect(rabbena, isNotNull);
+      expect(rabbena!.mealler['en'], isNotEmpty);
+      expect(rabbena.mealDil('en'), rabbena.mealler['en']);
+      expect(rabbena.mealDil('fr'), rabbena.meal);
+    });
+
+    test('uzak JSON yenileme adresi boş değil; şema tutarlıdır', () {
+      expect(DualarVerileri.uzakJsonUrl, isNotEmpty);
+      expect(DualarVerileri.yenilemePeriyodu, isNotNull);
+    });
   });
 
   group('DuaStore', () {
@@ -109,6 +129,39 @@ void main() {
 
       await DuaStore.sayacSifirla('gunluk-sabah-bismillah-3');
       expect(DuaStore.sayacOku('gunluk-sabah-bismillah-3'), 0);
+    });
+
+    test('dua hatırlatıcısı kaydedilir, okunur ve silinir', () async {
+      await DuaStore.yukle();
+      const kayit = DuaHatirlatma(
+        duaId: 'kuran-rabbena-atina',
+        saat: 21,
+        dakika: 30,
+        gunler: [5, 6],
+      );
+      expect(DuaStore.hatirlatmaOku('kuran-rabbena-atina'), isNull);
+
+      await DuaStore.hatirlatmaKaydet(kayit);
+      final okunan = DuaStore.hatirlatmaOku('kuran-rabbena-atina');
+      expect(okunan, isNotNull);
+      expect(okunan!.saat, 21);
+      expect(okunan.dakika, 30);
+      expect(okunan.gunler, containsAll([5, 6]));
+      expect(okunan.gunlerYaz, isNotEmpty);
+
+      // Her gün kaydı + yeniden yükleme (kalıcılık).
+      await DuaStore.hatirlatmaKaydet(
+        const DuaHatirlatma(duaId: 'gunluk-sabah-bismillah-3', saat: 7, dakika: 0),
+      );
+      final yeniStore = DuaStore.yukle();
+      await yeniStore;
+      expect(
+        DuaStore.hatirlatmaOku('gunluk-sabah-bismillah-3')?.gunler,
+        isEmpty,
+      );
+
+      await DuaStore.hatirlatmaSil('kuran-rabbena-atina');
+      expect(DuaStore.hatirlatmaOku('kuran-rabbena-atina'), isNull);
     });
   });
 
@@ -147,6 +200,7 @@ void main() {
       expect(find.byType(DuaDetayPage), findsOneWidget);
       expect(find.textContaining('رَبَّنَا آتِنَا'), findsWidgets);
       expect(find.text('Kaynak: Bakara Suresi, 201. Ayet'), findsOneWidget);
+      expect(find.text('Fazileti & Hikmeti'), findsOneWidget);
       expect(find.textContaining('Zikirmatik'), findsNothing);
     });
 
@@ -169,6 +223,28 @@ void main() {
       await tester.pumpAndSettle();
       expect(DuaStore.sayacOku('gunluk-sabah-bismillah-3'), 1);
       expect(find.text('1'), findsOneWidget);
+    });
+
+    testWidgets('duaya hatırlatıcı kurulur ve bannerda görünür', (tester) async {
+      await tester.pumpWidget(_uygulama(const DualarPage()));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text("Kur'an-ı Kerim ve Peygamber Duaları"));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Rabbena Atina Duası'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(Icons.alarm_add));
+      await tester.pumpAndSettle();
+      expect(find.text('Dua Hatırlatıcısı Kur'), findsOneWidget);
+      expect(find.text('Her gün'), findsOneWidget);
+
+      await tester.tap(find.text('Hatırlatıcıyı Kaydet'));
+      await tester.pumpAndSettle();
+
+      expect(DuaStore.hatirlatmaOku('kuran-rabbena-atina'), isNotNull);
+      expect(find.byIcon(Icons.alarm_on), findsOneWidget);
+      expect(find.text('Hatırlatıcı kuruldu 🤲'), findsOneWidget);
     });
   });
 }

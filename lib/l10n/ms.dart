@@ -108,6 +108,8 @@ const Map<String, String> msDil = {
   'set.appearance': 'Penampilan',
   'set.about': 'Mengenai',
   'set.privacy': 'Dasar Privasi',
+  'set.privacyCenter': 'Pusat Privasi',
+  'set.privacyCenterAlt': 'Kebenaran, muat turun & padam data anda',
   'set.rate': 'Nilai Aplikasi Ini',
   'set.version': 'Versi 1.0.0',
   'set.accent': 'Warna Aksen',

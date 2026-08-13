@@ -1,0 +1,511 @@
+{
+  "ilham_hikmet_modulu": {
+    "versiyon": "1.0.0",
+    "guncelleme_tarihi": "2026-08-13",
+    "aciklama": "Gömülü ilham havuzu: her gün tarihe göre rotasyonla 5 kategori sunar. Uzak JSON'dan (ilham_hikmet.json) yeni içerik geldiğinde bu havuzun yerini alır.",
+    "gunluk_icerikler": [
+      {
+        "id": "ayet-1",
+        "kategori": "ayet",
+        "baslik": "Kalplerin Huzuru",
+        "ek": "Ellezîne âmenû ve tatmeinnu kulûbuhum bi zikrillâh. Elâ bi zikrillâhi tatmeinnul kulûb. — Kalpler ancak Allah'ı anmakla huzur bulur.",
+        "metin": "Telaşlı dünyada ilk yapılacak şey koşmaya devam etmek değil, bir an durup O'nu anmaktır. Modern stresin en kalıcı çaresi zihni susturmak değil, kalbi hatırlamaktır.",
+        "kaynak_ayet_veya_soz": "Rad Suresi, 28. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["huzur", "kalp", "zikir", "tefekkür"]
+      },
+      {
+        "id": "ayet-2",
+        "kategori": "ayet",
+        "baslik": "Zorlukla Gelen Kolaylık",
+        "ek": "Fe inne me'al usri yusra. İnne me'al usri yusra. — Şüphesiz her zorlukla birlikte bir kolaylık vardır.",
+        "metin": "Hiçbir sıkıntı kalıcı değildir; gece gündüze, kış bahara nasıl dönerse darlık da ferahlığa döner. Sabrın içinde müjde saklıdır; o yüzden darlıkta da umutlu ol.",
+        "kaynak_ayet_veya_soz": "İnşirâh Suresi, 5-6. Âyetler",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["kolaylık", "sabır", "umut"]
+      },
+      {
+        "id": "ayet-3",
+        "kategori": "ayet",
+        "baslik": "İcabet Eden Rab",
+        "ek": "Ve izâ seeleke ibâdî annî fe innî karîb. Ucîbu da'veted dâi izâ deân. — Kullarım sana beni sorarsa, ben şüphesiz çok yakınım. Bana dua edince dua edenin duasına icabet ederim.",
+        "metin": "Dua bir dilek listesi değil, kul ile Rab arasındaki en yakın iletişim hattıdır. İçten söylenen bir 'Ya Rabbî!' bile kendiliğinden bir cevaptır.",
+        "kaynak_ayet_veya_soz": "Bakara Suresi, 186. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_teal",
+        "etiketler": ["dua", "yakınlık", "icabet"]
+      },
+      {
+        "id": "ayet-4",
+        "kategori": "ayet",
+        "baslik": "İyilikle Savunmak",
+        "ek": "Ve lâ testevil hasenetü ve lâ seyyieh. İdfa' billetî hiye ahsen. — İyilikle kötülük bir olmaz. Kötülüğü en güzel davranışla sav.",
+        "metin": "Kırıcı söze yumuşaklıkla karşılık vermek, düşmanlığı dostluğa çevirebilir. Güzel söz, en etkili savunma aracıdır; en zor zafer, öfkene hâkim olduğun andır.",
+        "kaynak_ayet_veya_soz": "Fussilet Suresi, 34. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_rose",
+        "etiketler": ["iyilik", "ahlak", "sabır"]
+      },
+      {
+        "id": "ayet-5",
+        "kategori": "ayet",
+        "baslik": "Ümit Kesmemek",
+        "ek": "Kul yâ ibâdiyellezîne esrefû alâ enfüsihim lâ taknatû min rahmetillâh. — De ki: Ey kendilerine karşı aşırı giden kullarım! Allah'ın rahmetinden ümidi kesmeyin.",
+        "metin": "Hata ne kadar büyük olursa olsun, rahmet kapısı kapanmaz. Ümitsizlik, kulun en zayıf anını kollayan en büyük aldatmacadır; tövbe kapısı daima açıktır.",
+        "kaynak_ayet_veya_soz": "Zümer Suresi, 53. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_indigo",
+        "etiketler": ["ümit", "tövbe", "rahmet"]
+      },
+      {
+        "id": "ayet-6",
+        "kategori": "ayet",
+        "baslik": "Genişleyen Göğüs",
+        "ek": "Rabbişrah lî sadrî ve yessir lî emrî. — Rabbim! Göğsümü genişlet, işimi bana kolaylaştır.",
+        "metin": "Büyük işlerden önce yapılacak ilk dua budur: kalbe ferahlık ve işe kolaylık istemek. İçin daraldığında önce Rabbine, sonra adım atmaya bak.",
+        "kaynak_ayet_veya_soz": "Tâhâ Suresi, 25-26. Âyetler",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["ferahlık", "kolaylık", "iş"]
+      },
+      {
+        "id": "ayet-7",
+        "kategori": "ayet",
+        "baslik": "Çokça Anmak",
+        "ek": "Yâ eyyühellezîne âmenûzkurullâhe zikran kesîrâ. — Ey iman edenler! Allah'ı çokça anın.",
+        "metin": "Zikir bir alışkanlık değil, kalbin gıdası ve yenilenme anıdır. Modern hayatın gürültüsünde sessiz bir zikir, ruhun en sağlam şarj istasyonudur.",
+        "kaynak_ayet_veya_soz": "Ahzâb Suresi, 41. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_night",
+        "etiketler": ["zikir", "kalp", "günlük"]
+      },
+      {
+        "id": "ayet-8",
+        "kategori": "ayet",
+        "baslik": "Ailenin Duası",
+        "ek": "Rabbenâ heb lenâ min ezvâcinâ ve zurriyyâtinâ kurrate a'yünin vec'alnâ lil muttekîne imâmâ. — Rabbimiz! Bize eşlerimizden ve nesillerimizden göz aydınlığı bağışla ve bizi takva sahiplerine önder eyle.",
+        "metin": "Ev için edilecek en güzel dua, eve huzur ve iman istemektir. Aile, kalbin evidir; o evi dua ile döşemek ibadettir.",
+        "kaynak_ayet_veya_soz": "Furkân Suresi, 74. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_rose",
+        "etiketler": ["aile", "huzur", "nesil"]
+      },
+      {
+        "id": "ayet-9",
+        "kategori": "ayet",
+        "baslik": "Güzel Hayat",
+        "ek": "Men amile sâlihan min zekerin ev unsâ ve huve mü'minün fe le nuhyiyennehû hayâten tayyibeh. — Erkek olsun kadın olsun, mümin olarak kim salih amel işlerse onu elbette güzel bir hayatla yaşatırız.",
+        "metin": "Huzurlu yaşam, geçici hallerde değil; iman ve salih amelde aranmalıdır. İyi iş, güzel hayat getirir; bugünün küçük hayrı, yarının huzurudur.",
+        "kaynak_ayet_veya_soz": "Nahl Suresi, 97. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_teal",
+        "etiketler": ["amel", "huzur", "iman"]
+      },
+      {
+        "id": "ayet-10",
+        "kategori": "ayet",
+        "baslik": "Tevazu Yüceliği",
+        "ek": "Ve lâ tuas'sir haddeke lin nâsi ve lâ temşi fil ardı merahâ. — İnsanlara karşı yüzünü buruşturma ve yeryüzünde böbürlenerek yürüme.",
+        "metin": "Kibir, kalbin görünmez duvarıdır; tevazu ise onu aşan en yüce merdiven. Mütevazı insan, yüceldikçe küçülmeyi değil, küçüldükçe yücelmeyi öğrenir.",
+        "kaynak_ayet_veya_soz": "Lokmân Suresi, 18. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["tevazu", "ahlak", "kibir"]
+      },
+      {
+        "id": "ayet-11",
+        "kategori": "ayet",
+        "baslik": "Anılınca Ürperen Kalpler",
+        "ek": "İnnemel mü'minûnellezîne izâ zükirallâhu vecilet kulûbuhum. — Müminler öyle kimselerdir ki Allah anıldığında yürekleri ürperir.",
+        "metin": "Kalbin titremesi, imanın canlılık belirtisidir. Allah'ı anmak, kulun kendi sınırını ve O'nun büyüklüğünü hatırladığı andır; o an, hayatın en verimli dakikasıdır.",
+        "kaynak_ayet_veya_soz": "Enfâl Suresi, 2. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_indigo",
+        "etiketler": ["iman", "huşu", "zikir"]
+      },
+      {
+        "id": "ayet-12",
+        "kategori": "ayet",
+        "baslik": "Şükrün Dili",
+        "ek": "Fezkürûnî ezkürküm veşkürû lî ve lâ tekfürûn. — Beni anın ki sizi anayım; Bana şükredin, nankörlük etmeyin.",
+        "metin": "Allah'ı anmak, O'nun sizi anmasına vesiledir. Şükür nimetin dili, anmak kalbin dilidir; ikisi de susarsa hayat sessizleşir.",
+        "kaynak_ayet_veya_soz": "Bakara Suresi, 152. Âyet",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["şükür", "zikir", "nimet"]
+      },
+
+      {
+        "id": "hadis-1",
+        "kategori": "hadis",
+        "baslik": "Kolaylaştırın, Zorlaştırmayın",
+        "metin": "Sünnetin günlük pratiği: insanlarla muamelede yumuşaklık ve müjde esastır. Bugün en az bir kişiye işini kolaylaştırmak, sözlü olarak zorluk çıkarmamak ve bir iyilik müjdesi vermek sünneti yaşatmaktır.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Buhârî, İlim, 11",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["kolaylık", "müjde", "sünnet"]
+      },
+      {
+        "id": "hadis-2",
+        "kategori": "hadis",
+        "baslik": "Güven Veren Mümin",
+        "metin": "Dil ve el, taşıdığımız emanetin anahtarıdır. Bugün kırıcı sözden uzak durmak ve verdiğimiz sözü tutmak, insanlara huzur ve güven veren mümin olmanın adımıdır.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Buhârî, İman, 4",
+        "paylasim_gorsel_arkaplan": "linear_gradient_teal",
+        "etiketler": ["güven", "dil", "emanet"]
+      },
+      {
+        "id": "hadis-3",
+        "kategori": "hadis",
+        "baslik": "Yumuşaklığın Güzelliği",
+        "metin": "Öfke anında yumuşaklığı seçmek, insanı düşündüğünden çok yükseltir. Bugün bir tartışmayı yumuşatarak bitirmek ve sertleşmeden konuşmak, sünnetin en tatlı uygulamasıdır.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Müslim, Birr, 77",
+        "paylasim_gorsel_arkaplan": "linear_gradient_rose",
+        "etiketler": ["yumuşaklık", "öfke", "ahlak"]
+      },
+      {
+        "id": "hadis-4",
+        "kategori": "hadis",
+        "baslik": "Merhamet Zinciri",
+        "metin": "İnsanlara merhamet etmek, aynı zamanda kendimize yaptığımız bir iyiliktir. Bugün bir kimsenin halini sormak, bir hayvana su vermek ya da bir yardım eli uzatmak bu zincirin halkasıdır.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Buhârî, Tevhîd, 2",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["merhamet", "yardım", "şefkat"]
+      },
+      {
+        "id": "hadis-5",
+        "kategori": "hadis",
+        "baslik": "Kardeşi İçin Sevgi",
+        "metin": "Kendisi için istediğini din kardeşi için de istemek, imanın olgunlaşma ölçüsüdür. Bugün birinin sevincine ortak olmak ve onun başarısına içten sevinmek bunun pratiğidir.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Buhârî, İman, 7",
+        "paylasim_gorsel_arkaplan": "linear_gradient_indigo",
+        "etiketler": ["kardeşlik", "sevgi", "imani"]
+      },
+      {
+        "id": "hadis-6",
+        "kategori": "hadis",
+        "baslik": "Temizlik, İmanın Yarısı",
+        "metin": "Bedenin, elbisenin ve çevrenin temizliği ibadetin bir parçasıdır. Bugün yaşadığımız mekânı düzenlemek, abdestin hakkını vermek ve temizliğe niyet etmek, imanı büyütür.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Müslim, Tahâret, 1",
+        "paylasim_gorsel_arkaplan": "linear_gradient_teal",
+        "etiketler": ["temizlik", "abdest", "ibadet"]
+      },
+      {
+        "id": "hadis-7",
+        "kategori": "hadis",
+        "baslik": "Güzel Söz Sadakadır",
+        "metin": "Bir gülümseme, bir teşekkür, bir teselli sözü — hepsi sadakadır ve karşılıksız kalmaz. Bugün en az bir güzel söz söylemek, sadaka vermenin en kolay yoludur.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Buhârî, Edeb, 33",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["güzel söz", "sadaka", "dil"]
+      },
+      {
+        "id": "hadis-8",
+        "kategori": "hadis",
+        "baslik": "Mümin Aynadır",
+        "metin": "Kardeşinin kusurunu gören, önce kendine bakar ve ona yol gösterir. Bugün birinin hatasını yüzüne vurmak yerine nazikçe hatırlatmak, bu aynanın güzelliğidir.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Ebû Dâvûd, Edeb, 49",
+        "paylasim_gorsel_arkaplan": "linear_gradient_rose",
+        "etiketler": ["nasihat", "kardeşlik", "güzel ahlak"]
+      },
+      {
+        "id": "hadis-9",
+        "kategori": "hadis",
+        "baslik": "Anne-Babaya İhsan",
+        "metin": "Cennetin kapıları annelerin gönlünden geçer. Bugün anne veya babayı aramak, halini sormak ve dualarını almak; onları kaybettiysek de hayırla anmak en değerli ameldir.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Nesâî, Cihâd, 6",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["anne", "baba", "sıla-i rahim"]
+      },
+      {
+        "id": "hadis-10",
+        "kategori": "hadis",
+        "baslik": "Dünyada Garip Gibi Yaşa",
+        "metin": "Kalbi dünyaya bağlamamak, onu emanet gözüyle görmektir. Bugün bir ihtiyaçtan vazgeçmek, sadelikle yaşamak ve azla yetinmek bu sünnetin en şık uygulamasıdır.",
+        "kaynak_ayet_veya_soz": "Hadis-i Şerif · Tirmizî, Zühd, 25",
+        "paylasim_gorsel_arkaplan": "linear_gradient_night",
+        "etiketler": ["zühd", "sadelik", "kalp"]
+      },
+
+      {
+        "id": "alim-1",
+        "kategori": "alim",
+        "baslik": "Gayret ve Takdir",
+        "metin": "Sonuç kaderin, çaba kulun işidir. Gayret etmeyi bırakmamak, takdir edilenin de hayır olacağına güvenmektir.",
+        "kaynak_ayet_veya_soz": "Mevlânâ Celâleddîn-i Rûmî",
+        "paylasim_gorsel_arkaplan": "linear_gradient_rose",
+        "etiketler": ["gayret", "kader", "teslimiyet"]
+      },
+      {
+        "id": "alim-2",
+        "kategori": "alim",
+        "baslik": "Zikrin Sükûneti",
+        "metin": "Kalp ancak Allah'ı zikretmekle sükûnet bulur; O'ndan başka her meşgale bir oyalanmadır. Huzur arayan önce kalbine dönsün.",
+        "kaynak_ayet_veya_soz": "İmâm-ı Gazâlî",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["zikir", "huzur", "kalp"]
+      },
+      {
+        "id": "alim-3",
+        "kategori": "alim",
+        "baslik": "Kendini Bilmek",
+        "metin": "İlim ilim bilmektir; ilim kendin bilmektir. Sen kendini bilmezsen, bu nice okumaktır? Gerçek irfan, insanın kendi sınırını bilmesidir.",
+        "kaynak_ayet_veya_soz": "Yunus Emre",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["ilim", "irfan", "nefis"]
+      },
+      {
+        "id": "alim-4",
+        "kategori": "alim",
+        "baslik": "Yakınlık Ölçüsü",
+        "metin": "Kalbin huzuru, Allah'a yakınlık derecesiyle orantılıdır. İnsan O'na ne kadar yaklaşırsa, kalbi o kadar sakinleşir.",
+        "kaynak_ayet_veya_soz": "İbn Kayyim el-Cevziyye",
+        "paylasim_gorsel_arkaplan": "linear_gradient_indigo",
+        "etiketler": ["yakınlık", "huzur", "kalp"]
+      },
+      {
+        "id": "alim-5",
+        "kategori": "alim",
+        "baslik": "Sevgi İle İbadet",
+        "metin": "İbadet; korkudan, hesap için değil; sevgi ve şükran için yapılmalıdır. Sevgiyle yapılan her amel, kalpte iz bırakır.",
+        "kaynak_ayet_veya_soz": "Râbia el-Adeviyye",
+        "paylasim_gorsel_arkaplan": "linear_gradient_rose",
+        "etiketler": ["sevgi", "ibadet", "ihlas"]
+      },
+      {
+        "id": "alim-6",
+        "kategori": "alim",
+        "baslik": "İlmin Işığı",
+        "metin": "İlim; fakire zenginlik, zengine izzet kazandıran bir ışıktır. Emeğiyle ulaşan ilim, sahibini olduğundan büyük gösterir.",
+        "kaynak_ayet_veya_soz": "İmâm-ı Şâfiî",
+        "paylasim_gorsel_arkaplan": "linear_gradient_teal",
+        "etiketler": ["ilim", "çalışma", "irfan"]
+      },
+      {
+        "id": "alim-7",
+        "kategori": "alim",
+        "baslik": "Amelin Kıymeti",
+        "metin": "İnsanın kıymeti, sözlerinin güzelliğinden değil; amellerinin istikrarından bellidir. Az ama devamlı amel, çok ama kesintisiz değeri taşır.",
+        "kaynak_ayet_veya_soz": "Ferîdüddîn Attâr",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["amel", "istikrar", "devamlılık"]
+      },
+      {
+        "id": "alim-8",
+        "kategori": "alim",
+        "baslik": "Göründüğün Gibi Ol",
+        "metin": "Ya olduğun gibi görün, ya göründüğün gibi ol. Samimiyet, insanı hem kendisiyle hem Rabb'iyle barıştıran köprüdür.",
+        "kaynak_ayet_veya_soz": "Mevlânâ Celâleddîn-i Rûmî",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["samimiyet", "ihlas", "doğruluk"]
+      },
+      {
+        "id": "alim-9",
+        "kategori": "alim",
+        "baslik": "Beden ve Beden",
+        "metin": "İnsanlar bir bedenin organları gibidir; bir organ acı çekerse bütün beden uykusuz kalır. Bugün birinin derdine ortak olmak, bu bedenin sağlığıdır.",
+        "kaynak_ayet_veya_soz": "Şeyh Sâdî-i Şîrâzî",
+        "paylasim_gorsel_arkaplan": "linear_gradient_indigo",
+        "etiketler": ["dayanışma", "kardeşlik", "yardım"]
+      },
+      {
+        "id": "alim-10",
+        "kategori": "alim",
+        "baslik": "Kalbi Bağlamak",
+        "metin": "Kalp, bağlandığı yere gider. Gönlünü Allah'a bağlayanın, insanlara da sevgisi eksilmez; aksine olgunlaşır.",
+        "kaynak_ayet_veya_soz": "Hikmetli Söz · Beyânî Edebiyat",
+        "paylasim_gorsel_arkaplan": "linear_gradient_night",
+        "etiketler": ["kalp", "bağ", "muhabbet"]
+      },
+      {
+        "id": "alim-11",
+        "kategori": "alim",
+        "baslik": "Kendi Nefsini Hesaba Çek",
+        "metin": "Hesaba çekilmeden önce kendini hesaba çeken, dünyada azıcık acı çekerek dünyada rahat eden, ahirette de huzur bulan kimsedir.",
+        "kaynak_ayet_veya_soz": "Hz. Ömer (r.a.)",
+        "paylasim_gorsel_arkaplan": "linear_gradient_teal",
+        "etiketler": ["hesap", "nefis", "murakabe"]
+      },
+      {
+        "id": "alim-12",
+        "kategori": "alim",
+        "baslik": "İlimle Dirilen Kalp",
+        "metin": "Kalbini ilimle dirilt, gafletle öldürme; zira ilim kalbin gıdası, ibadet ise onun nefesidir.",
+        "kaynak_ayet_veya_soz": "İmâm-ı Azam Ebû Hanîfe",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["ilim", "kalp", "ibadet"]
+      },
+
+      {
+        "id": "bilgi-1",
+        "kategori": "bilgi",
+        "baslik": "İlk Müezzin",
+        "metin": "Ezanı ilk okuyan ve ilk müezzinlik yapan sahabî, Bilâl-i Habeşî'dir (r.a.). Gür ve güzel sesiyle sabah ezanında 'Essalâtü hayrun minen-nevm' sözünü de ilk kez o dile getirmiştir.",
+        "kaynak_ayet_veya_soz": "İslam Tarihi · Sahabe Kültürü",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["ezan", "bilal", "tarih"]
+      },
+      {
+        "id": "bilgi-2",
+        "kategori": "bilgi",
+        "baslik": "Oku ile Başlayan Medeniyet",
+        "metin": "İlk vahiy, 610 yılında Hira Mağarası'nda 'Oku!' emriyle başladı. Bu tek kelime, İslam medeniyetinin ilim yolculuğunun da ilk anahtarı oldu.",
+        "kaynak_ayet_veya_soz": "İslam Tarihi · Vahyin Başlangıcı",
+        "paylasim_gorsel_arkaplan": "linear_gradient_indigo",
+        "etiketler": ["vahiy", "ilim", "oku"]
+      },
+      {
+        "id": "bilgi-3",
+        "kategori": "bilgi",
+        "baslik": "Yüzlerce Yıllık Kâbe Örtüsü",
+        "metin": "Kâbe'nin örtüsü (kisve) her yıl hac mevsiminde yenilenir. Yaklaşık 650 metrekarelik örtü, 120 kilogramdan fazla altın ve gümüş iplikle işlenen hatlarla dokunur.",
+        "kaynak_ayet_veya_soz": "İslam Sanatı · Kisve Geleneği",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["kabe", "kisve", "sanat"]
+      },
+      {
+        "id": "bilgi-4",
+        "kategori": "bilgi",
+        "baslik": "Dünyanın En Eski Üniversiteleri",
+        "metin": "Fas'taki Karaviyyin (859) ve Mısır'daki Ezher (970) üniversiteleri, dünyanın kesintisiz eğitim veren en eski kurumları arasındadır; ikisi de İslam dünyasının ilim mirasıdır.",
+        "kaynak_ayet_veya_soz": "İslam Medeniyeti · Eğitim",
+        "paylasim_gorsel_arkaplan": "linear_gradient_teal",
+        "etiketler": ["üniversite", "ilim", "medeniyet"]
+      },
+      {
+        "id": "bilgi-5",
+        "kategori": "bilgi",
+        "baslik": "İbn Sînâ'nın Mirası",
+        "metin": "İbn Sînâ'nın 'el-Kânûn fi't-Tıb' eseri, tıbbı sistemleştiren başyapıtlardandır ve Avrupa üniversitelerinde yüzyıllarca ders kitabı olarak okutulmuştur.",
+        "kaynak_ayet_veya_soz": "İslam Bilim Tarihi · Tıp",
+        "paylasim_gorsel_arkaplan": "linear_gradient_rose",
+        "etiketler": ["tıp", "ibn sina", "bilim"]
+      },
+      {
+        "id": "bilgi-6",
+        "kategori": "bilgi",
+        "baslik": "Ezberiyle Yaşayan Kitap",
+        "metin": "Kur'an-ı Kerim, tarih boyunca nesilden nesile ezberle aktarılan tek kitaptır. Hafızlık geleneği 1400 yıldır kesintisiz sürüyor ve her gün milyonlarca kişi onu tilavet ediyor.",
+        "kaynak_ayet_veya_soz": "Kur'an Kültürü · Hafızlık",
+        "paylasim_gorsel_arkaplan": "linear_gradient_night",
+        "etiketler": ["kuran", "hafızlık", "gelenek"]
+      },
+      {
+        "id": "bilgi-7",
+        "kategori": "bilgi",
+        "baslik": "İlk Kıble",
+        "metin": "İlk kıble, yaklaşık 16-17 ay boyunca Mescid-i Aksâ idi; Bakara Suresi'nin 144. âyetiyle kıble Kâbe'ye çevrildi. Bu değişim, İslam'ın Kudüs ve Mescid-i Aksâ ile bağını da ortaya koyar.",
+        "kaynak_ayet_veya_soz": "İslam Tarihi · Kıble",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["kıble", "mescid-i aksa", "tarih"]
+      },
+      {
+        "id": "bilgi-8",
+        "kategori": "bilgi",
+        "baslik": "Hicrî Takvimin Başlangıcı",
+        "metin": "Hicrî takvim, hicretten yaklaşık 17 yıl sonra Hz. Ömer döneminde (M. 638) resmen kullanılmaya başlandı. Takvimin başlangıcı olarak hicret yılı seçildi.",
+        "kaynak_ayet_veya_soz": "İslam Tarihi · Takvim",
+        "paylasim_gorsel_arkaplan": "linear_gradient_teal",
+        "etiketler": ["takvim", "hicret", "tarih"]
+      },
+      {
+        "id": "bilgi-9",
+        "kategori": "bilgi",
+        "baslik": "El-Cezerî ve İlk Robotik El Yazmaları",
+        "metin": "Cizreli mühendis el-Cezerî (ö. 1206), 'Kitâbü'l-Hiyel' adlı eserinde su saatleri, otomatik çalışan cihazlar ve mekanik kuşlar tasarladı; eser, dünya mekanik tarihinin en değerli el yazmalarından biridir.",
+        "kaynak_ayet_veya_soz": "İslam Bilim Tarihi · Mekanik",
+        "paylasim_gorsel_arkaplan": "linear_gradient_indigo",
+        "etiketler": ["cezeri", "bilim", "mekanik"]
+      },
+      {
+        "id": "bilgi-10",
+        "kategori": "bilgi",
+        "baslik": "Vakıf Medeniyeti",
+        "metin": "Osmanlı ve öncesi İslam medeniyetinde vakıflar sayesinde yüzyıllar boyunca ücretsiz çeşme, aşevi, kütüphane ve hastane hizmeti verildi. 'İnsan öldükten sonra hayrı devam eden üç amelden biri' olan vakıf, bu medeniyetin kalbidir.",
+        "kaynak_ayet_veya_soz": "İslam Medeniyeti · Vakıf",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["vakıf", "sadaka", "medeniyet"]
+      },
+
+      {
+        "id": "dua-1",
+        "kategori": "dua",
+        "baslik": "Güne Ferahlıkla Başlamak",
+        "metin": "Ya Rabbî! Bu günü ferahlıkla, işlerimizi kolaylıkla karşılamayı ve gönlümü geniş tutmayı nasip eyle.",
+        "kaynak_ayet_veya_soz": "Günün Niyeti",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["sabah", "ferahlık", "niyet"]
+      },
+      {
+        "id": "dua-2",
+        "kategori": "dua",
+        "baslik": "Dilin ve Kalbin Niyeti",
+        "metin": "Allah'ım! Sabahıma güzel bir niyetle başla; kalbimi gafletten, dilimi kırıcı sözden ve elimi zarardan koru.",
+        "kaynak_ayet_veya_soz": "Günün Niyeti",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["niyet", "dil", "korunma"]
+      },
+      {
+        "id": "dua-3",
+        "kategori": "dua",
+        "baslik": "Rızık ve Bereket",
+        "metin": "Ya Rabbî! Rızkımı helalinden, kalbimi zikrinden ve ömrümü ibadetle bereketlendir; beni harama düşmekten muhafaza eyle.",
+        "kaynak_ayet_veya_soz": "Günün Duası",
+        "paylasim_gorsel_arkaplan": "linear_gradient_teal",
+        "etiketler": ["rızık", "helal", "bereket"]
+      },
+      {
+        "id": "dua-4",
+        "kategori": "dua",
+        "baslik": "Güzel Ahlak Niyeti",
+        "metin": "Allah'ım! Bugün kime rastlarsam hakkında hayır konuşayım; bana güzel ahlak, güler yüz ve sağlam söz nasip et.",
+        "kaynak_ayet_veya_soz": "Günün Niyeti",
+        "paylasim_gorsel_arkaplan": "linear_gradient_rose",
+        "etiketler": ["ahlak", "güzel söz", "niyet"]
+      },
+      {
+        "id": "dua-5",
+        "kategori": "dua",
+        "baslik": "Aile İçin",
+        "metin": "Ya Rabbî! Ailemi, sağlığımı ve imanımı muhafaza et; evimizi huzurla, soframızı bereketle doldur.",
+        "kaynak_ayet_veya_soz": "Günün Duası",
+        "paylasim_gorsel_arkaplan": "linear_gradient_indigo",
+        "etiketler": ["aile", "huzur", "sağlık"]
+      },
+      {
+        "id": "dua-6",
+        "kategori": "dua",
+        "baslik": "Rıza ve Şükür",
+        "metin": "Allah'ım! Darlıkta da bollukta da sana hamd ederim; kalbime senin rızana razı olmayı öğret.",
+        "kaynak_ayet_veya_soz": "Günün Duası",
+        "paylasim_gorsel_arkaplan": "linear_gradient_night",
+        "etiketler": ["rıza", "şükür", "hamd"]
+      },
+      {
+        "id": "dua-7",
+        "kategori": "dua",
+        "baslik": "Hayırlara Vesile Olmak",
+        "metin": "Ya Rabbî! Bugün kimin bir ihtiyacını giderebilirsem bana vesile ol; beni küçük hayırlardan mahrum bırakma.",
+        "kaynak_ayet_veya_soz": "Günün Niyeti",
+        "paylasim_gorsel_arkaplan": "linear_gradient_emerald",
+        "etiketler": ["hayır", "yardım", "vesile"]
+      },
+      {
+        "id": "dua-8",
+        "kategori": "dua",
+        "baslik": "Acizlikten Sığınma",
+        "metin": "Allah'ım! Acizliğimden, tembelliğimden ve unutkanlığımdan sana sığınırım; işlerimi sağlamlaştır ve kararlarımda isabet nasip eyle.",
+        "kaynak_ayet_veya_soz": "Günün Duası",
+        "paylasim_gorsel_arkaplan": "linear_gradient_gold",
+        "etiketler": ["sığınma", "azim", "isabet"]
+      },
+      {
+        "id": "dua-9",
+        "kategori": "dua",
+        "baslik": "Günün Taçlanması",
+        "metin": "Ya Rabbî! Günümü güzel bir hatırayla, akşamımı helal bir kazançla taçlandır; uykuya huzurla dalmayı nasip eyle.",
+        "kaynak_ayet_veya_soz": "Günün Duası",
+        "paylasim_gorsel_arkaplan": "linear_gradient_rose",
+        "etiketler": ["akşam", "huzur", "kazanç"]
+      },
+      {
+        "id": "dua-10",
+        "kategori": "dua",
+        "baslik": "Sabır, Şükür, Rıza",
+        "metin": "Allah'ım! Bana sabır, şükür ve rıza kapısını aç; kalbimde sana olan ümidi ve sevgiyi büyüt.",
+        "kaynak_ayet_veya_soz": "Günün Duası",
+        "paylasim_gorsel_arkaplan": "linear_gradient_indigo",
+        "etiketler": ["sabır", "şükür", "rıza"]
+      }
+    ]
+  }
+}

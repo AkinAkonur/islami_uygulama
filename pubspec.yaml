@@ -42,6 +42,7 @@ dependencies:
   # Kur'an bölümü için
   http: ^1.2.2
   audioplayers: ^6.1.0
+  just_audio: ^0.9.36
   shared_preferences: ^2.3.2
 
   # Hadis Kütüphanesi (çevrimdışı SQLite) için
@@ -105,6 +106,7 @@ flutter:
     - assets/hadis/tur-nawawi.sqlite.zip
     - assets/cuzler/
     - assets/dualar.json
+    - assets/ilham_hikmet.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

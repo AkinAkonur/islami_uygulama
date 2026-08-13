@@ -107,6 +107,8 @@ const Map<String, String> urDil = {
   'set.appearance': 'شکلیہ',
   'set.about': 'معلومات',
   'set.privacy': 'رازداری کی پالیسی',
+  'set.privacyCenter': 'رازداری مرکز',
+  'set.privacyCenterAlt': 'اجازتیں، ڈیٹا ڈاؤن لوڈ اور حذف کریں',
   'set.rate': 'ایپ کو ریٹ کریں',
   'set.version': 'ورژن 1.0.0',
   'set.accent': 'ایکسنٹ رنگ',

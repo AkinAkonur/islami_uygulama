@@ -107,6 +107,8 @@ const Map<String, String> idDil = {
   'set.appearance': 'Tampilan',
   'set.about': 'Tentang',
   'set.privacy': 'Kebijakan Privasi',
+  'set.privacyCenter': 'Pusat Privasi',
+  'set.privacyCenterAlt': 'Izin, unduh & hapus data Anda',
   'set.rate': 'Beri Rating Aplikasi',
   'set.version': 'Versi 1.0.0',
   'set.accent': 'Warna Aksen',

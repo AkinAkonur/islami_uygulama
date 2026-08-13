@@ -108,6 +108,8 @@ const Map<String, String> trDil = {
   'set.appearance': 'Görünüm',
   'set.about': 'Hakkında',
   'set.privacy': 'Gizlilik Politikası',
+  'set.privacyCenter': 'Gizlilik Merkezi',
+  'set.privacyCenterAlt': 'İzinler, verilerinizi indirme ve silme',
   'set.rate': 'Uygulamayı Puanla',
   'set.version': 'Sürüm 1.0.0',
   'set.accent': 'Vurgu Rengi',

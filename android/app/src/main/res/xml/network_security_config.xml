@@ -13,5 +13,9 @@
         <!-- Dini Radyo: Radyo 7 -->
         <domain>46.20.3.250</domain>
         <domain>46.20.3.251</domain>
+        <!-- Dini Radyo (Dünya Radyoları): Radio Sunna (Fransızca) -->
+        <domain includeSubdomains="true">andromeda.shoutca.st</domain>
+        <!-- Dini Radyo (Dünya Radyoları): Islamic Voice (İngilizce) -->
+        <domain includeSubdomains="true">streamer3.rightclickitservices.com</domain>
     </domain-config>
 </network-security-config>

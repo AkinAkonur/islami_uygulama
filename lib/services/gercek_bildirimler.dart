@@ -5,10 +5,15 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 import 'bildirim_merkezi.dart';
+import 'dua_store.dart';
+import 'dualar_verileri.dart';
+import 'ilham_store.dart';
+import 'ilham_verileri.dart';
 import 'vakit_servisi.dart';
 
-/// Telefona gerçek (OS) bildirimleri zamanlar: her namaz vakti, günün ayeti
-/// ve cuma hatırlatması. Kullanıcının ayarlarına göre planlar.
+/// Telefona gerçek (OS) bildirimleri zamanlar: her namaz vakti, günün ayeti,
+/// cuma hatırlatması ve kullanıcının kurduğu dua hatırlatıcıları.
+/// Kullanıcının ayarlarına göre planlar.
 class GercekBildirimler {
   GercekBildirimler._();
 
@@ -51,6 +56,32 @@ class GercekBildirimler {
       channelDescription: 'Günün ayeti ve cuma hatırlatmaları.',
       importance: Importance.defaultImportance,
       priority: Priority.defaultPriority,
+    ),
+    iOS: DarwinNotificationDetails(),
+    macOS: DarwinNotificationDetails(),
+  );
+
+  static const NotificationDetails _duaDetay = NotificationDetails(
+    android: AndroidNotificationDetails(
+      'dua_hatirlatmalar',
+      'Dua Hatırlatıcıları',
+      channelDescription: 'Kullanıcının seçtiği dua için kurduğu hatırlatıcılar.',
+      importance: Importance.high,
+      priority: Priority.high,
+      category: AndroidNotificationCategory.reminder,
+    ),
+    iOS: DarwinNotificationDetails(),
+    macOS: DarwinNotificationDetails(),
+  );
+
+  static const NotificationDetails _ilhamDetay = NotificationDetails(
+    android: AndroidNotificationDetails(
+      'gunun_ilhami',
+      'Günün İlhamı',
+      channelDescription: 'Kullanıcının belirlediği saatte günün hikmetli sözü.',
+      importance: Importance.high,
+      priority: Priority.high,
+      category: AndroidNotificationCategory.reminder,
     ),
     iOS: DarwinNotificationDetails(),
     macOS: DarwinNotificationDetails(),
@@ -172,8 +203,136 @@ class GercekBildirimler {
           matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
         );
       }
+
+      // 4) Kullanıcının kurduğu DUA hatırlatıcıları (id: 4001+)
+      await duaHatirlatmalariPlanla();
+
+      // 5) GÜNÜN İLHAMI hatırlatıcısı (id: 5001)
+      await ilhamHatirlatmasiPlanla();
     } catch (_) {
       // Zamanlama başarısız olursa uygulama akışını bozma.
+    }
+  }
+
+  /// Kullanıcının seçtiği saatte günün hikmetli sözünü bildirir (her gün).
+  static Future<void> ilhamHatirlatmasiPlanla() async {
+    if (!_destekleniyor() || !_zamanlayiciHazir) return;
+    try {
+      await IlhamStore.yukle();
+      final kayit = IlhamStore.hatirlatma.value;
+      if (kayit == null) return;
+
+      // Bildirim metni: bugünün içeriğinden kısa bir satır.
+      var gorunen = 'İlham ve hikmet köşesi seni bekliyor ✨';
+      try {
+        final akis = await IlhamVerileri.instance.gununAkisi();
+        if (akis.isNotEmpty) {
+          final ilk = akis.first;
+          gorunen = '${ilk.baslik}: ${ilk.metin}';
+          if (gorunen.length > 100) {
+            gorunen = '${gorunen.substring(0, 97)}...';
+          }
+        }
+      } catch (_) {}
+
+      final now = DateTime.now();
+      final bugun = DateTime(now.year, now.month, now.day);
+      var hedef = tz.TZDateTime(
+        tz.local,
+        bugun.year,
+        bugun.month,
+        bugun.day,
+        kayit.saat,
+        kayit.dakika,
+      );
+      if (hedef.isBefore(tz.TZDateTime.now(tz.local))) {
+        hedef = hedef.add(const Duration(days: 1));
+      }
+
+      await _plugin.zonedSchedule(
+        id: 5001,
+        title: 'Günün İlhamı ✨',
+        body: gorunen,
+        scheduledDate: hedef,
+        notificationDetails: _ilhamDetay,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    } catch (_) {
+      // Zamanlama hataları sessizce yutulur.
+    }
+  }
+
+  /// Kullanıcının "Hatırlatıcı Kur" ile seçtiği duaları OS takvimine işler.
+  /// Her gün → günlük tekrar; belirli günler → o günlerde haftalık tekrar.
+  /// Sessiz mod açıksa hiçbir şey planlanmaz (planla() zaten iptal eder).
+  static Future<void> duaHatirlatmalariPlanla() async {
+    if (!_destekleniyor() || !_zamanlayiciHazir) return;
+    try {
+      await DuaStore.yukle();
+      final kayitlar = DuaStore.hatirlatmalar.value.values.toList();
+      if (kayitlar.isEmpty) return;
+
+      final now = DateTime.now();
+      final bugun = DateTime(now.year, now.month, now.day);
+
+      // Bildirim başlığı için dua adını alır (önbellek kullanılır).
+      Future<String> baslikBul(String duaId) async {
+        final d = await DualarVerileri.instance.idIleBul(duaId);
+        return d?.baslik ?? 'Dua Vakti';
+      }
+
+      var id = 4001;
+      for (final kayit in kayitlar) {
+        final baslik = await baslikBul(kayit.duaId);
+        tz.TZDateTime hedef(int gun, int saat, int dakika) {
+          var tarih = tz.TZDateTime(
+            tz.local,
+            bugun.year,
+            bugun.month,
+            bugun.day,
+            saat,
+            dakika,
+          );
+          while (tarih.isBefore(tz.TZDateTime.now(tz.local))) {
+            tarih = tarih.add(const Duration(days: 1));
+          }
+          if (gun != 0 && tarih.weekday != gun) {
+            var fark = (gun - tarih.weekday) % 7;
+            if (fark < 0) fark += 7;
+            tarih = tarih.add(Duration(days: fark));
+          }
+          return tarih;
+        }
+
+        if (kayit.gunler.isEmpty) {
+          // Her gün, seçilen saatte.
+          await _plugin.zonedSchedule(
+            id: id++,
+            title: 'Dua Vakti 🤲',
+            body: baslik,
+            scheduledDate: hedef(0, kayit.saat, kayit.dakika),
+            notificationDetails: _duaDetay,
+            androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+            matchDateTimeComponents: DateTimeComponents.time,
+          );
+        } else {
+          // Belirli günlerde haftalık tekrar (her gün için bir kayıt).
+          for (final gun in kayit.gunler.toSet()) {
+            await _plugin.zonedSchedule(
+              id: id++,
+              title: 'Dua Vakti 🤲',
+              body: baslik,
+              scheduledDate: hedef(gun, kayit.saat, kayit.dakika),
+              notificationDetails: _duaDetay,
+              androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+              matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+            );
+          }
+        }
+      }
+    } catch (_) {
+      // Zamanlama hataları sessizce yutulur; uygulama akışı bozulmaz.
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:islami_uygulama/services/canli_yayin_konfigurasyonu.dart';
@@ -133,5 +135,74 @@ void main() {
     expect(konfig.radyoKanallari[1].kategori, RadyoKategori.ilahi);
     expect(konfig.radyoKanallari[2].kategori, RadyoKategori.dini);
     expect(konfig.radyoKanallari[3].kategori, RadyoKategori.yurtdisi);
+  });
+
+  test('radyo_istasyonlari JSON yapisi dogru cozulur (6 istasyon, 6 dil)', () {
+    final istasyonlar = CanliYayinKonfigurasyonu.radyoIstasyonlari;
+    expect(istasyonlar.length, 6);
+
+    final diller = istasyonlar.map((s) => s.dil).toSet();
+    expect(diller, {'tr', 'ar', 'ms', 'fr', 'ur', 'en'});
+
+    for (final istasyon in istasyonlar) {
+      expect(istasyon.id, isNotEmpty, reason: '${istasyon.kanalAdi} id');
+      expect(istasyon.kanalAdi, isNotEmpty);
+      expect(istasyon.streamUrl, isNotEmpty, reason: '${istasyon.kanalAdi} url');
+      expect(istasyon.kanal.url, istasyon.streamUrl);
+      expect(istasyon.kanal.kategori, RadyoKategori.yurtdisi);
+    }
+  });
+
+  test('radyo istasyonu JSON ozel alan adlarini cozer (kanal_adi, stream_url)', () {
+    const json = '''
+    {
+      "radyo_istasyonlari": [
+        {
+          "id": "st-test",
+          "kanal_adi": "Deneme Radyosu",
+          "dil": "ur",
+          "kategori": "Kur'an & Tefsir",
+          "stream_url": "https://ornek.com/akış.mp3",
+          "logo_url": "https://ornek.com/logo.png"
+        }
+      ]
+    }
+    ''';
+    final cozulen = [
+      for (final o in (jsonDecode(json) as Map<String, dynamic>)['radyo_istasyonlari'] as List)
+        if (o is Map<String, dynamic>) RadyoIstasyonu.json(o),
+    ];
+    final istasyon = cozulen.single;
+    expect(istasyon.id, 'st-test');
+    expect(istasyon.kanalAdi, 'Deneme Radyosu');
+    expect(istasyon.dil, 'ur');
+    expect(istasyon.streamUrl, 'https://ornek.com/akış.mp3');
+    expect(istasyon.logoUrl, 'https://ornek.com/logo.png');
+  });
+
+  test('uzak JSON radyoIstasyonlari girdisini gomuluyen uzerine alir', () {
+    final json = {
+      'radyo_istasyonlari': [
+        {
+          'id': 'st-uzak',
+          'kanal_adi': 'Uzak Radyo',
+          'dil': 'en',
+          'kategori': 'Genel',
+          'stream_url': 'https://uzak.com/ak.mp3',
+        },
+      ],
+    };
+    final konfig = CanliYayinKonfig.json(json);
+    expect(konfig.radyoIstasyonlari.single.id, 'st-uzak');
+    expect(konfig.radyoIstasyonlari.single.kanalAdi, 'Uzak Radyo');
+  });
+
+  test('dil etiketleri tanimlanan kodlar icin Turkce dondurur', () {
+    expect(radyoDilEtiketi('tr'), 'Türkçe');
+    expect(radyoDilEtiketi('ar'), 'Arapça');
+    expect(radyoDilEtiketi('ms'), 'Malayca');
+    expect(radyoDilEtiketi('fr'), 'Fransızca');
+    expect(radyoDilEtiketi('ur'), 'Urduca');
+    expect(radyoDilEtiketi('en'), 'İngilizce');
   });
 }

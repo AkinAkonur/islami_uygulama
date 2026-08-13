@@ -108,6 +108,8 @@ const Map<String, String> frDil = {
   'set.appearance': 'Apparence',
   'set.about': 'À propos',
   'set.privacy': 'Politique de confidentialité',
+  'set.privacyCenter': 'Centre de confidentialité',
+  'set.privacyCenterAlt': 'Autorisations, téléchargement et suppression de vos données',
   'set.rate': 'Noter l’application',
   'set.version': 'Version 1.0.0',
   'set.accent': 'Couleur d’accent',

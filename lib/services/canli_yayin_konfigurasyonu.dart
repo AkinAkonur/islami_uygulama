@@ -113,6 +113,156 @@ class RadyoKanali {
   );
 }
 
+// ===========================================================================
+// DÜNYA RADYO İSTASYONLARI (GLOBAL radyo_istasyonlari YAPISI)
+// ---------------------------------------------------------------------------
+// Kullanıcının istediği global yapı: radyo_istasyonlari JSON listesi. Her
+// istasyon "id", "kanal_adi", "dil", "kategori", "stream_url" ve "logo_url"
+// alanlarını taşır. Uzak konfigürasyon JSON'ı aynı şema ile "radyo_istasyonlari"
+// anahtarını döndürürse uygulama güncellenmeden bu liste de güncellenebilir.
+//
+// NOT (2026-08): Aşağıdaki akış adreslerinin tamamı HTTP başlık + akış okuma
+// ile doğrulanmıştır. Kullanıcı örneğindeki (listen.radyodiyanet.gov.tr,
+// urdu.quran.stream vb.) adresler yayından kalktığı için bunlar kullanılır.
+// ===========================================================================
+
+/// Dil kodundan görünen etikete çevirir (Dünya Radyoları filtresi).
+String radyoDilEtiketi(String dil) {
+  switch (dil.toLowerCase()) {
+    case 'tr':
+      return 'Türkçe';
+    case 'ar':
+      return 'Arapça';
+    case 'ms':
+      return 'Malayca';
+    case 'fr':
+      return 'Fransızca';
+    case 'ur':
+      return 'Urduca';
+    case 'en':
+      return 'İngilizce';
+    default:
+      return dil.toUpperCase();
+  }
+}
+
+/// Global radyo istasyonu. [radyo_istasyonlari] JSON şemasının Dart karşılığı.
+class RadyoIstasyonu {
+  final String id;
+  final String kanalAdi;
+  final String dil;
+  final String kategori;
+  final String streamUrl;
+  final String logoUrl;
+  final String aciklama;
+
+  const RadyoIstasyonu({
+    required this.id,
+    required this.kanalAdi,
+    required this.dil,
+    required this.kategori,
+    required this.streamUrl,
+    this.logoUrl = '',
+    this.aciklama = '',
+  });
+
+  factory RadyoIstasyonu.json(Map<String, dynamic> j) => RadyoIstasyonu(
+    id: j['id'] as String? ?? '',
+    kanalAdi: j['kanal_adi'] as String? ?? 'Radyo',
+    dil: j['dil'] as String? ?? '',
+    kategori: j['kategori'] as String? ?? '',
+    streamUrl: j['stream_url'] as String? ?? '',
+    logoUrl: j['logo_url'] as String? ?? '',
+    aciklama: j['aciklama'] as String? ?? '',
+  );
+
+  /// İstasyonu radyo oynatıcının anladığı [RadyoKanali] türüne çevirir.
+  /// "Yurt Dışı Kanallar" kategorisi altında listelenir.
+  RadyoKanali get kanal => RadyoKanali(
+    ad: kanalAdi,
+    aciklama: aciklama,
+    url: streamUrl,
+    kategori: RadyoKategori.yurtdisi,
+  );
+}
+
+/// Gömülü global radyo_istasyonlari JSON'u (son çare / çevrimdışı).
+const String gomuluRadyoIstasyonlariJson = '''
+{
+  "surum": 1,
+  "radyo_istasyonlari": [
+    {
+      "id": "st-tr",
+      "kanal_adi": "Diyanet Risalet Radyo",
+      "dil": "tr",
+      "kategori": "Kur'an & Sohbet",
+      "stream_url": "https://eustr73.mediatriple.net/videoonlylive/mtikoimxnztxlive/broadcast_5e3c1520b2626.smil/playlist.m3u8",
+      "logo_url": "",
+      "aciklama": "Türkçe sohbet, tefsir ve program yayınları"
+    },
+    {
+      "id": "st-ar",
+      "kanal_adi": "Kur'an-ı Kerim Radyosu (Mekke)",
+      "dil": "ar",
+      "kategori": "Kur'an-ı Kerim",
+      "stream_url": "http://m.live.net.sa:1935/live/quran/playlist.m3u8",
+      "logo_url": "",
+      "aciklama": "7/24 kesintisiz Kur'an-ı Kerim tilaveti"
+    },
+    {
+      "id": "st-ms",
+      "kanal_adi": "IKIM.fm",
+      "dil": "ms",
+      "kategori": "İslami Yaşam & İlahi",
+      "stream_url": "https://stream.rcs.revma.com/kz3pdu9wz2nwv/hls.m3u8",
+      "logo_url": "",
+      "aciklama": "Malezya resmî İslami radyosu - zikir, ilahi ve programlar"
+    },
+    {
+      "id": "st-fr",
+      "kanal_adi": "Radio Sunna",
+      "dil": "fr",
+      "kategori": "Sohbet & Hadis",
+      "stream_url": "http://andromeda.shoutca.st:8189/live",
+      "logo_url": "",
+      "aciklama": "Fransızca dini dersler, sohbet ve hadis programları"
+    },
+    {
+      "id": "st-ur",
+      "kanal_adi": "Saut-ul-Quran (Kur'an Radyosu Lahore)",
+      "dil": "ur",
+      "kategori": "Kur'an & Tefsir",
+      "stream_url": "https://stream.zeno.fm/ztxvjc0wlsstv",
+      "logo_url": "",
+      "aciklama": "Urduca Kur'an-ı Kerim ve tefsir yayını"
+    },
+    {
+      "id": "st-en",
+      "kanal_adi": "Islamic Voice",
+      "dil": "en",
+      "kategori": "Genel Yayın",
+      "stream_url": "http://streamer3.rightclickitservices.com:9755/;",
+      "logo_url": "",
+      "aciklama": "İngilizce genel İslami radyo yayını"
+    }
+  ]
+}
+''';
+
+/// Gömülü JSON'daki istasyon listesi.
+List<RadyoIstasyonu> gomuluRadyoIstasyonlari() {
+  try {
+    final json = jsonDecode(gomuluRadyoIstasyonlariJson);
+    final liste = (json as Map<String, dynamic>)['radyo_istasyonlari'] as List;
+    return [
+      for (final o in liste)
+        if (o is Map<String, dynamic>) RadyoIstasyonu.json(o),
+    ];
+  } catch (_) {
+    return const [];
+  }
+}
+
 class CanliYayinKonfig {
   final int surum;
   final String guncellenme;
@@ -123,6 +273,9 @@ class CanliYayinKonfig {
   final String? sesUrl;
   final List<RadyoKanali> radyoKanallari;
 
+  /// Uzak yapılandırmadan gelen dünya radyoları; yoksa gömülü liste.
+  final List<RadyoIstasyonu> radyoIstasyonlari;
+
   const CanliYayinKonfig({
     this.surum = 1,
     this.guncellenme = '',
@@ -132,7 +285,8 @@ class CanliYayinKonfig {
     this.hlsKaynaklar = const [],
     this.sesUrl,
     this.radyoKanallari = const [],
-  });
+    List<RadyoIstasyonu>? radyoIstasyonlari,
+  }) : radyoIstasyonlari = radyoIstasyonlari ?? const [];
 
   factory CanliYayinKonfig.varsayilan() {
     // -----------------------------------------------------------------------
@@ -141,7 +295,7 @@ class CanliYayinKonfig {
     // Config benzeri uzak JSON üzerinden yapılır: kaynak değiştiğinde
     // configUrl adresindeki JSON güncellenir, uygulama güncellemesi gerekmez.
     // -----------------------------------------------------------------------
-    return const CanliYayinKonfig(
+    return CanliYayinKonfig(
       surum: 1,
       guncellenme: 'Son çare (gömülü)',
       kaynakAdi: 'Saudi Kuran TV (Resmî)',
@@ -263,6 +417,7 @@ class CanliYayinKonfig {
           kategori: RadyoKategori.dini,
         ),
       ],
+      radyoIstasyonlari: gomuluRadyoIstasyonlari(),
     );
   }
 
@@ -282,6 +437,10 @@ class CanliYayinKonfig {
       radyoKanallari: [
         for (final k in (j['radyoKanallari'] as List? ?? []))
           if (k is Map<String, dynamic>) RadyoKanali.json(k),
+      ],
+      radyoIstasyonlari: [
+        for (final k in (j['radyo_istasyonlari'] as List? ?? []))
+          if (k is Map<String, dynamic>) RadyoIstasyonu.json(k),
       ],
     );
   }
@@ -322,6 +481,13 @@ class CanliYayinKonfigurasyonu {
 
   /// Geçerli konfigürasyon.
   static CanliYayinKonfig get guncel => aktif.value;
+
+  /// Dünya radyo istasyonları (global `radyo_istasyonlari` yapısı).
+  /// Uzak yapılandırmada yoksa gömülü liste kullanılır.
+  static List<RadyoIstasyonu> get radyoIstasyonlari {
+    final liste = aktif.value.radyoIstasyonlari;
+    return liste.isNotEmpty ? liste : gomuluRadyoIstasyonlari();
+  }
 
   static Future<void> _onbellektenYukle() async {
     try {
