@@ -97,6 +97,8 @@ const Map<String, String> frDil = {
   'set.notifAll': 'Autoriser toutes les notifications',
   'set.notifAllAlt': 'Horaires de prière, versets et jours spéciaux',
   'set.notifCenter': 'Centre de notifications',
+  'set.namazNotif': 'Rappels des heures de prière',
+  'set.namazNotifAlt': 'Définissez un rappel personnalisé pour chaque prière',
   'set.notifCenterAlt': 'Mode silencieux, compteur de rattrapage, types',
   'set.langSection': 'Langue et région',
   'set.lang': 'Langue',

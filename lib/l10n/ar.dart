@@ -96,6 +96,8 @@ const Map<String, String> arDil = {
   'set.notifAll': 'السماح بجميع الإشعارات',
   'set.notifAllAlt': 'مواقيت الصلاة والآيات والأيام الخاصة',
   'set.notifCenter': 'مركز الإشعارات',
+  'set.namazNotif': 'تذكيرات أوقات الصلاة',
+  'set.namazNotifAlt': 'حدد وقت تذكير مخصصًا لكل صلاة',
   'set.notifCenterAlt': 'الوضع الصامت، قضاء الصلاة، إعدادات الأنواع',
   'set.langSection': 'اللغة والمنطقة',
   'set.lang': 'اللغة',

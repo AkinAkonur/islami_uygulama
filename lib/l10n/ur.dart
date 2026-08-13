@@ -96,6 +96,8 @@ const Map<String, String> urDil = {
   'set.notifAll': 'تمام اطلاعات کی اجازت دیں',
   'set.notifAllAlt': 'نماز کے اوقات، آیات اور خاص ایام',
   'set.notifCenter': 'اطلاعات کا مرکز',
+  'set.namazNotif': 'نماز کے اوقات کی یاد دہانیاں',
+  'set.namazNotifAlt': 'ہر نماز کے لیے الگ یاد دہانی کا وقت مقرر کریں',
   'set.notifCenterAlt': 'خاموش موڈ، قضا کاؤنٹر، اقسام کی ترتیبات',
   'set.langSection': 'زبان اور علاقہ',
   'set.lang': 'زبان',

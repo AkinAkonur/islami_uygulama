@@ -98,6 +98,8 @@ const Map<String, String> trDil = {
   'set.notifAllAlt': 'Namaz vakitleri, ayet ve özel gün bildirimleri',
   'set.notifCenter': 'Bildirim Merkezi',
   'set.notifCenterAlt': 'Sessiz mod, kaza sayacı, tür ayarları',
+  'set.namazNotif': 'Namaz Vakti Hatırlatıcıları',
+  'set.namazNotifAlt': 'Her vakit için ayrı hatırlatma süresi',
   'set.langSection': 'Dil ve Bölge',
   'set.lang': 'Dil',
   'set.langAlt': 'Tüm dünyadan Müslümanlar kendi dilini seçer',

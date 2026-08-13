@@ -96,6 +96,8 @@ const Map<String, String> idDil = {
   'set.notifAll': 'Izinkan Semua Notifikasi',
   'set.notifAllAlt': 'Waktu salat, ayat, dan hari-hari istimewa',
   'set.notifCenter': 'Pusat Notifikasi',
+  'set.namazNotif': 'Pengingat Waktu Salat',
+  'set.namazNotifAlt': 'Atur waktu pengingat khusus untuk setiap salat',
   'set.notifCenterAlt': 'Mode senyap, penghitung qada, pengaturan jenis',
   'set.langSection': 'Bahasa & Wilayah',
   'set.lang': 'Bahasa',

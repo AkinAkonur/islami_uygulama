@@ -4,6 +4,7 @@ import '../l10n/dil_hizmetleri.dart';
 import '../pages/bildirimler_sayfasi.dart';
 import '../pages/gizlilik_merkezi_page.dart';
 import '../pages/gizlilik_politikasi_page.dart';
+import '../pages/namaz_bildirim_ayarlari_page.dart';
 import '../pages/profil_sayfasi.dart';
 import '../pages/puanla_page.dart';
 import '../services/ayarlar_store.dart';
@@ -427,6 +428,19 @@ static const List<({String kod, String ad})> _metotlar = [
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const BildirimlerSayfasi()),
+              );
+            },
+          ),
+          _ayarSecenegi(
+            Icons.alarm_add_outlined,
+            l.t('set.namazNotif'),
+            altMetin: l.t('set.namazNotifAlt'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const NamazBildirimAyarlariPage(),
+                ),
               );
             },
           ),

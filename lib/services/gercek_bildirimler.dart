@@ -9,6 +9,7 @@ import 'dua_store.dart';
 import 'dualar_verileri.dart';
 import 'ilham_store.dart';
 import 'ilham_verileri.dart';
+import 'namaz_bildirim_ayarlari.dart';
 import 'vakit_servisi.dart';
 
 /// Telefona gerçek (OS) bildirimleri zamanlar: her namaz vakti, günün ayeti,
@@ -35,19 +36,22 @@ class GercekBildirimler {
     }
   }
 
-  static const NotificationDetails _namazDetay = NotificationDetails(
-    android: AndroidNotificationDetails(
-      'namaz_vakitleri',
-      'Namaz Vakitleri',
-      channelDescription: 'Namaz vakti girdiğinde ve günlük ibadet '
-          'hatırlatmalarında bildirim gönderir.',
-      importance: Importance.high,
-      priority: Priority.high,
-      category: AndroidNotificationCategory.reminder,
-    ),
-    iOS: DarwinNotificationDetails(),
-    macOS: DarwinNotificationDetails(),
-  );
+    /// Namaz bildirimleri detayı; titreşim ayara göre açılıp kapatılabilir.
+  static NotificationDetails _namazDetay(bool titresimAktif) =>
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          'namaz_vakitleri',
+          'Namaz Vakitleri',
+          channelDescription: 'Namaz vakti girdiğinde ve günlük ibadet '
+              'hatırlatmalarında bildirim gönderir.',
+          importance: Importance.high,
+          priority: Priority.high,
+          category: AndroidNotificationCategory.reminder,
+          enableVibration: titresimAktif,
+        ),
+        iOS: DarwinNotificationDetails(),
+        macOS: DarwinNotificationDetails(),
+      );
 
   static const NotificationDetails _gunlukDetay = NotificationDetails(
     android: AndroidNotificationDetails(
@@ -157,17 +161,31 @@ class GercekBildirimler {
             : ist;
       }
 
-      // 1) NAMAZ vakitleri
+      // 1) NAMAZ vakitleri — her vakit için "X dakika önce" ayarı (id: 1001+)
       if (await BildirimMerkezi.ayarOku(BildirimTipi.namaz)) {
+        await NamazBildirimAyarlari.yukle();
+        final titresim = NamazBildirimAyarlari.titresim.value;
+        final detay = _namazDetay(titresim);
         var id = 1001;
         for (final v in vakitler) {
-          if (v.ad == 'Güneş') continue; // Güneş vaktinde bildirim yok
+          final vakit = NamazVakti.adindan(v.ad);
+          if (vakit == null) continue;
+          final dakikaOnce = NamazBildirimAyarlari.dakikaOnce(vakit);
+          if (dakikaOnce < 0) continue; // Vakit için bildirimler Kapalı
+
+          final hedef = namazBildirimZamani(
+            DateTime(bugun.year, bugun.month, bugun.day, v.saat, v.dakika),
+            dakikaOnce,
+          );
+          final vaktinde = dakikaOnce == 0;
           await _plugin.zonedSchedule(
             id: id++,
-            title: '${v.ad} vakti girdi',
-            body: 'Namaz vakti — ${v.saatYaz}',
-            scheduledDate: gunlukHedef(v.saat, v.dakika),
-            notificationDetails: _namazDetay,
+            title: vaktinde ? '${v.ad} vakti girdi' : '${v.ad} vaktine $dakikaOnce dk kaldı',
+            body: vaktinde
+                ? 'Namaz vakti — ${v.saatYaz}'
+                : 'Namaz vakti ${v.saatYaz} — ${v.ad} için hazır ol ${dakikaOnce} dakika içinde',
+            scheduledDate: gunlukHedef(hedef.hour, hedef.minute),
+            notificationDetails: detay,
             androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
             matchDateTimeComponents: DateTimeComponents.time,
           );
@@ -211,6 +229,36 @@ class GercekBildirimler {
       await ilhamHatirlatmasiPlanla();
     } catch (_) {
       // Zamanlama başarısız olursa uygulama akışını bozma.
+    }
+  }
+
+  /// Vakit zamanından "dakika önce" hedef zamanı hesaplar.
+  /// `dakikaOnce <= 0` ise vaktin kendisi döner.
+  @visibleForTesting
+  static DateTime namazBildirimZamani(DateTime vakitZamani, int dakikaOnce) {
+    if (dakikaOnce <= 0) return vakitZamani;
+    return vakitZamani.subtract(Duration(minutes: dakikaOnce));
+  }
+
+  /// Ayarlar sayfasındaki "Test Bildirimi Gönder" düğmesi için 5 saniye sonra
+  /// tek seferlik bir bildirim zamanlar (id: 9001).
+  static Future<bool> testBildirimi() async {
+    if (!_destekleniyor() || !_zamanlayiciHazir) return false;
+    try {
+      final now = tz.TZDateTime.now(tz.local);
+      await _plugin.zonedSchedule(
+        id: 9001,
+        title: 'Namaz Vakti Hatırlatıcıları',
+        body: 'Bildirimler çalışıyor. Bu bir test bildirimi. 👍',
+        scheduledDate: now.add(const Duration(seconds: 5)),
+        notificationDetails: _namazDetay(
+          NamazBildirimAyarlari.titresim.value,
+        ),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      );
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 

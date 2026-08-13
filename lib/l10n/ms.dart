@@ -97,6 +97,8 @@ const Map<String, String> msDil = {
   'set.notifAll': 'Benarkan Semua Pemberitahuan',
   'set.notifAllAlt': 'Waktu solat, ayat dan hari istimewa',
   'set.notifCenter': 'Pusat Pemberitahuan',
+  'set.namazNotif': 'Peringatan Waktu Solat',
+  'set.namazNotifAlt': 'Tetapkan masa peringatan untuk setiap solat',
   'set.notifCenterAlt': 'Mod senyap, kiraan qada, tetapan jenis',
   'set.langSection': 'Bahasa & Wilayah',
   'set.lang': 'Bahasa',

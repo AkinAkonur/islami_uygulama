@@ -13,6 +13,10 @@
     <!-- Konum tabanlı vakitler/kıble için -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- Cihaz yeniden başlatılınca arka plan bildirim görevini yeniden kaydetmek için -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Pil optimizasyonu istisna isteği (isabetli vakit bildirimleri için) -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
     <application
         android:label="islami_uygulama"
         android:name="${applicationName}"

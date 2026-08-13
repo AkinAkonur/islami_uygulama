@@ -97,6 +97,8 @@ const Map<String, String> bnDil = {
   'set.notifAll': 'সব বিজ্ঞপ্তি অনুমতি দিন',
   'set.notifAllAlt': 'নামাজের সময়, আয়াত ও বিশেষ দিন',
   'set.notifCenter': 'বিজ্ঞপ্তি কেন্দ্র',
+  'set.namazNotif': 'নামাজের সময়ের অনুস্মারক',
+  'set.namazNotifAlt': 'প্রতিটি নামাজের জন্য আলাদা অনুস্মারক সময় নির্ধারণ করুন',
   'set.notifCenterAlt': 'নীরব মোড, কাজা কাউন্টার, ধরন সেটিংস',
   'set.langSection': 'ভাষা ও অঞ্চল',
   'set.lang': 'ভাষা',

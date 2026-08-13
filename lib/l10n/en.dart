@@ -97,6 +97,8 @@ const Map<String, String> enDil = {
   'set.notifAll': 'Allow All Notifications',
   'set.notifAllAlt': 'Prayer times, verses and special days',
   'set.notifCenter': 'Notification Center',
+  'set.namazNotif': 'Prayer Time Reminders',
+  'set.namazNotifAlt': 'Set a custom reminder for each prayer time',
   'set.notifCenterAlt': 'Quiet mode, missed-prayer counter, type settings',
   'set.langSection': 'Language & Region',
   'set.lang': 'Language',

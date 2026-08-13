@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:workmanager/workmanager.dart';
 import 'l10n/app_localizations.dart';
 import 'l10n/dil_hizmetleri.dart';
 import 'services/renkler.dart';
@@ -46,6 +47,21 @@ import 'pages/soru_cevap/gunun_sorusu_karti.dart';
 import 'pages/dua_kardesligi/dua_kardesligi_store.dart';
 import 'screens/settings_page.dart';
 
+// Workmanager arka plan görevi: uygulama kapalıyken bile namaz vakitleri
+// bildirimlerinin güncel kalması için günde bir kez zamanlamayı tazeler.
+@pragma('vm:entry-point')
+void bildirimleriTazele() {
+  Workmanager().executeTask((task, inputData) async {
+    try {
+      await GercekBildirimler.kurulum();
+      await GercekBildirimler.planla();
+    } catch (_) {
+      // Arka plan hataları sessizce yutulur; bir sonraki tazeleme tekrar dener.
+    }
+    return true;
+  });
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AyarlarStore.baslat();
@@ -61,6 +77,17 @@ Future<void> main() async {
   // Dini günler (Ramazan, kandiller) Diyanet resmî takvimine dayanır ve
   // uzak yapılandırmayla otomatik tazelenir; ulaşılamazsa gömülü tablo kullanılır.
   DiniGunlerServisi.baslat();
+  // Namaz bildirimleri: arka plan görevini kaydet (yalnızca Android).
+  // Uygulama kapalıyken de günde bir kez bildirimler yeniden planlanır.
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    await Workmanager().initialize(bildirimleriTazele);
+    await Workmanager().registerPeriodicTask(
+      'namaz-bildirim-tazeleme',
+      'bildirimleriTazele',
+      frequency: const Duration(hours: 24),
+      initialDelay: const Duration(minutes: 10),
+    );
+  }
   runApp(const MyApp());
 }
 

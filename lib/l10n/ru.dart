@@ -97,6 +97,8 @@ const Map<String, String> ruDil = {
   'set.notifAll': 'Разрешить все уведомления',
   'set.notifAllAlt': 'Время намазов, аяты и особые дни',
   'set.notifCenter': 'Центр уведомлений',
+  'set.namazNotif': 'Напоминания о времени намаза',
+  'set.namazNotifAlt': 'Установите время напоминания для каждого намаза',
   'set.notifCenterAlt': 'Тихий режим, счётчик казы, настройки типов',
   'set.langSection': 'Язык и регион',
   'set.lang': 'Язык',
