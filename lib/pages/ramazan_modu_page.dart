@@ -336,7 +336,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Kandiller ve mübarek günler (yaklaşık hicri takvim)',
+            'Kandiller ve mübarek günler (Diyanet takvimi · otomatik güncellenir)',
             style: TextStyle(color: Colors.white54, fontSize: 12),
           ),
           const SizedBox(height: 12),

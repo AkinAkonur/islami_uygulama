@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'dini_gunler_servisi.dart';
+
 class KuranKonumu {
   final int sureNo;
   final int ayetNo;
@@ -93,28 +95,31 @@ class ManeviStore {
   }
 
   // ---------------- RAMAZAN MODU ----------------
+  // Tarihler Diyanet İşleri Başkanlığı resmî takvimine dayanır ve
+  // DiniGunlerServisi üzerinden bulut yapılandırmasıyla otomatik tazelenir
+  // (uygulama güncellemesi gerekmez). Aşağıdaki yöntemler uyumluluk için
+  // korunur; tüm hesaplama servise devredilmiştir.
 
-  /// Yaklaşık hicri takvime göre Ramazan başlangıcı (1 Ramazan).
-  static DateTime ramazanBaslangic(int yil) => DateTime(yil, 2, 8);
+  /// [yil] içindeki Ramazan dönemi(ler)i (2030'da iki dönem olabilir).
+  static List<({DateTime bas, DateTime bit})> ramazanAraliklari(int yil) =>
+      DiniGunlerServisi.ramazanAraliklari(yil);
 
-  /// Ramazan sonu (30 Ramazan).
-  static DateTime ramazanBitis(int yil) => DateTime(yil, 3, 9);
+  /// 1 Ramazan (yaklaşık hicri takvimden değil, Diyanet takviminden).
+  static DateTime ramazanBaslangic(int yil) =>
+      DiniGunlerServisi.ramazanBaslangic(yil);
 
-  static DateTime sonrakiRamazanBaslangic(DateTime now) {
-    final buYil = ramazanBaslangic(now.year);
-    if (now.isBefore(buYil)) return buYil;
-    final gelecek = ramazanBaslangic(now.year + 1);
-    return gelecek;
-  }
+  /// 30 Ramazan (orucun son günü).
+  static DateTime ramazanBitis(int yil) => DiniGunlerServisi.ramazanBitis(yil);
 
-  static bool ramazanIci(DateTime now) {
-    final bas = ramazanBaslangic(now.year);
-    final bit = ramazanBitis(now.year);
-    if (!now.isBefore(bas) && now.isBefore(bit)) return true;
-    final b2 = ramazanBaslangic(now.year + 1);
-    final b2b = ramazanBitis(now.year + 1);
-    return !now.isBefore(b2) && now.isBefore(b2b);
-  }
+  static DateTime sonrakiRamazanBaslangic(DateTime now) =>
+      DiniGunlerServisi.sonrakiRamazanBaslangic(now);
+
+  static bool ramazanIci(DateTime now) => DiniGunlerServisi.ramazanIci(now);
+
+  /// Kandiller, arefe ve bayramlar (Diyanet resmî tarihleri, otomatik
+  /// güncellenir).
+  static List<Map<String, String>> get ozelGunler =>
+      DiniGunlerServisi.ozelGunler;
 
   static Future<int> ramazanGunlukHatim() async {
     final p = await _p;
@@ -127,17 +132,6 @@ class ManeviStore {
     await p.setInt('ramazan_gunluk_hatim', yeni);
     return yeni;
   }
-
-  /// Yaklaşık hicri günler: kandil, arefe, bayram.
-  static const List<Map<String, String>> ozelGunler = [
-    {'tarih': '2026-10-23', 'ad': 'Mevlid Kandili', 'ikon': '🕌'},
-    {'tarih': '2027-01-08', 'ad': 'Regaib Kandili', 'ikon': '🌙'},
-    {'tarih': '2027-01-30', 'ad': 'Miraç Kandili', 'ikon': '🪜'},
-    {'tarih': '2027-02-05', 'ad': 'Berat Kandili', 'ikon': '✨'},
-    {'tarih': '2027-03-06', 'ad': 'Kadir Gecesi', 'ikon': '🌙'},
-    {'tarih': '2027-06-13', 'ad': 'Arefe Günü', 'ikon': '🕋'},
-    {'tarih': '2027-06-14', 'ad': 'Kurban Bayramı', 'ikon': '🐑'},
-  ];
 
   // ---------------- GÜNLÜK GÖREVLER ----------------
 

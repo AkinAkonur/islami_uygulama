@@ -1,0 +1,39 @@
+{
+  "dini_gunler_modulu": {
+    "aciklama": "Diyanet İşleri Başkanlığı dini günler takvimine dayalı resmî tarihler. Yeni yıllar eklendikçe uygulama güncellemesi gerekmeden devreye girer.",
+    "ramazan_periyotlari": [
+      { "yil": 2025, "baslangic": "2025-03-02", "bitis": "2025-03-30" },
+      { "yil": 2026, "baslangic": "2026-02-19", "bitis": "2026-03-19" },
+      { "yil": 2027, "baslangic": "2027-02-08", "bitis": "2027-03-08" },
+      { "yil": 2028, "baslangic": "2028-01-28", "bitis": "2028-02-25" },
+      { "yil": 2029, "baslangic": "2029-01-16", "bitis": "2029-02-13" },
+      { "yil": 2030, "baslangic": "2030-01-05", "bitis": "2030-02-03" },
+      { "yil": 2030, "baslangic": "2030-12-26", "bitis": "2031-01-24" }
+    ],
+    "ozel_gunler": [
+      { "tarih": "2025-12-25", "ad": "Regaib Kandili", "ikon": "🌙" },
+      { "tarih": "2026-01-15", "ad": "Miraç Kandili", "ikon": "🪜" },
+      { "tarih": "2026-02-02", "ad": "Berat Kandili", "ikon": "✨" },
+      { "tarih": "2026-03-16", "ad": "Kadir Gecesi", "ikon": "🌙" },
+      { "tarih": "2026-03-19", "ad": "Ramazan Bayramı Arefesi", "ikon": "🤲" },
+      { "tarih": "2026-03-20", "ad": "Ramazan Bayramı", "ikon": "🎉" },
+      { "tarih": "2026-05-26", "ad": "Kurban Bayramı Arefesi", "ikon": "🕋" },
+      { "tarih": "2026-05-27", "ad": "Kurban Bayramı", "ikon": "🐑" },
+      { "tarih": "2026-08-24", "ad": "Mevlid Kandili", "ikon": "🕌" },
+      { "tarih": "2026-12-10", "ad": "Regaib Kandili", "ikon": "🌙" },
+      { "tarih": "2027-01-04", "ad": "Miraç Kandili", "ikon": "🪜" },
+      { "tarih": "2027-01-22", "ad": "Berat Kandili", "ikon": "✨" },
+      { "tarih": "2027-03-05", "ad": "Kadir Gecesi", "ikon": "🌙" },
+      { "tarih": "2027-03-08", "ad": "Ramazan Bayramı Arefesi", "ikon": "🤲" },
+      { "tarih": "2027-03-09", "ad": "Ramazan Bayramı", "ikon": "🎉" },
+      { "tarih": "2027-05-15", "ad": "Kurban Bayramı Arefesi", "ikon": "🕋" },
+      { "tarih": "2027-05-16", "ad": "Kurban Bayramı", "ikon": "🐑" },
+      { "tarih": "2027-08-13", "ad": "Mevlid Kandili", "ikon": "🕌" },
+      { "tarih": "2027-12-02", "ad": "Regaib Kandili", "ikon": "🌙" },
+      { "tarih": "2027-12-24", "ad": "Miraç Kandili", "ikon": "🪜" },
+      { "tarih": "2028-02-22", "ad": "Kadir Gecesi", "ikon": "🌙" },
+      { "tarih": "2028-02-25", "ad": "Ramazan Bayramı Arefesi", "ikon": "🤲" },
+      { "tarih": "2028-02-26", "ad": "Ramazan Bayramı", "ikon": "🎉" }
+    ]
+  }
+}

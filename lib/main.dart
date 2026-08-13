@@ -36,6 +36,7 @@ import 'pages/bildirimler_sayfasi.dart';
 import 'pages/profil_sayfasi.dart';
 import 'services/manevi_store.dart';
 import 'services/canli_yayin_konfigurasyonu.dart';
+import 'services/dini_gunler_servisi.dart';
 import 'services/radyo_oynatici_store.dart';
 import 'widgets/radyo_mini_oynatici.dart';
 import 'screens/namaz_screen.dart';
@@ -57,6 +58,9 @@ Future<void> main() async {
   // Radyo oynatıcıyı uygulama genelinde başlat: başka sayfalara geçilse bile
   // Dini Radyo & İlahi akışı kesintisiz devam eder, alt çubukta mini oynatıcı görünür.
   await RadyoOynaticiStore.baslat();
+  // Dini günler (Ramazan, kandiller) Diyanet resmî takvimine dayanır ve
+  // uzak yapılandırmayla otomatik tazelenir; ulaşılamazsa gömülü tablo kullanılır.
+  DiniGunlerServisi.baslat();
   runApp(const MyApp());
 }
 
