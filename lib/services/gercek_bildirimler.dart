@@ -37,21 +37,40 @@ class GercekBildirimler {
   }
 
     /// Namaz bildirimleri detayı; titreşim ayara göre açılıp kapatılabilir.
-  static NotificationDetails _namazDetay(bool titresimAktif) =>
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          'namaz_vakitleri',
-          'Namaz Vakitleri',
-          channelDescription: 'Namaz vakti girdiğinde ve günlük ibadet '
-              'hatırlatmalarında bildirim gönderir.',
-          importance: Importance.high,
-          priority: Priority.high,
-          category: AndroidNotificationCategory.reminder,
-          enableVibration: titresimAktif,
-        ),
-        iOS: DarwinNotificationDetails(),
-        macOS: DarwinNotificationDetails(),
-      );
+  /// Android'de `ozel_ses` ayarındaki ezan (res/raw/ezan_kisa.mp3) çalınır;
+  /// ayar boşsa sistemin varsayılan bildirim sesi kullanılır.
+  ///
+  /// Kanal kimliği kaçınılmaz olarak `_ezan` son ekini taşır: eski kurulumlarda
+  /// `namaz_vakitleri` kanalı sesisiz oluşturulduğu için ses değişikliği ancak
+  /// yeni bir kanalla (yeniden) uygulanır.
+  static NotificationDetails _namazDetay(bool titresimAktif) {
+    final ses = _namazSesKaynagi();
+    return NotificationDetails(
+      android: AndroidNotificationDetails(
+        'namaz_vakitleri_ezan',
+        'Namaz Vakitleri',
+        channelDescription: 'Namaz vakti girdiğinde ezan sesiyle ve günlük '
+            'ibadet hatırlatmalarında bildirim gönderir.',
+        importance: Importance.high,
+        priority: Priority.high,
+        category: AndroidNotificationCategory.reminder,
+        enableVibration: titresimAktif,
+        sound: ses == null ? null : RawResourceAndroidNotificationSound(ses),
+      ),
+      iOS: DarwinNotificationDetails(),
+      macOS: DarwinNotificationDetails(),
+    );
+  }
+
+  /// `ozel_ses` ayarından Android raw kaynak adını türetir
+  /// (örn. "ezan_kisa.mp3" → "ezan_kisa"). Boşsa null döner.
+  static String? _namazSesKaynagi() {
+    final ayar = NamazBildirimAyarlari.ozelSes.trim();
+    if (ayar.isEmpty) return null;
+    return ayar.endsWith('.mp3')
+        ? ayar.substring(0, ayar.length - 4)
+        : ayar;
+  }
 
   static const NotificationDetails _gunlukDetay = NotificationDetails(
     android: AndroidNotificationDetails(

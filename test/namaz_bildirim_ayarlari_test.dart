@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -101,6 +102,36 @@ void main() {
           -1,
         ),
         DateTime(2026, 8, 13, 13, 5),
+      );
+    });
+  });
+
+  group('Ezan sesi kaynağı', () {
+    test('raw ezan_kisa.mp3 mevcut ve geçerli MP3 imzası taşıyor', () {
+      final dosya = File('android/app/src/main/res/raw/ezan_kisa.mp3');
+      expect(dosya.existsSync(), isTrue,
+          reason: 'Bildirim sesi eksik — Android kanalı sesisiz kalır.');
+      final baytlar = dosya.readAsBytesSync();
+      final imza = String.fromCharCodes(baytlar.take(3));
+      expect(
+        imza == 'ID3' || baytlar.take(2).join(',') == '255,251',
+        isTrue,
+        reason:
+            'Dosya geçerli bir MP3 değil (ID3 etiketi veya çerçeve beklenir).',
+      );
+      expect(dosya.lengthSync(), greaterThan(50000),
+          reason: 'Dosya şüpheli derecede küçük.');
+    });
+
+    test('ozelSes değeri raw kaynağa karşılık gelir', () {
+      final ses = NamazBildirimAyarlari.ozelSes;
+      expect(ses, 'ezan_kisa.mp3');
+      final kaynak = ses.endsWith('.mp3')
+          ? ses.substring(0, ses.length - 4)
+          : ses;
+      expect(
+        File('android/app/src/main/res/raw/$kaynak.mp3').existsSync(),
+        isTrue,
       );
     });
   });

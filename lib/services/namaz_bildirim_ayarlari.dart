@@ -83,9 +83,11 @@ class NamazBildirimAyarlari {
   /// Genel durum: bildirimde titreşim.
   static final ValueNotifier<bool> titresim = ValueNotifier(true);
 
-  /// Genel durum: özel bildirim sesi (şema alanı; varsayılan değer).
-  /// Uygulama paketinde `ezan_kisa.mp3` gibi bir raw ses kaynağı eklenirse
-  /// bu alan bildirimlerde kullanılabilir.
+  /// Genel durum: özel bildirim sesi (şema alanı).
+  ///
+  /// Android'de `android/app/src/main/res/raw/` altındaki ses kaynağıyla
+  /// eşleşir: değer "ezan_kisa.mp3" ise `ezan_kisa` raw kaynağı çalınır.
+  /// Kaynak: Kiwifu/adhan-mp3 (İslamî uygulamalar için ücretsiz koleksiyon).
   static const String ozelSes = 'ezan_kisa.mp3';
 
   /// Vakit başına hatırlatma süresi (dakika önce; -1 = Kapalı).
