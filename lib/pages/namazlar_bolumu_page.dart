@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
-import '../services/renkler.dart';
 import '../screens/namaz_screen.dart';
 import '../screens/guide_screen.dart';
 import '../screens/wudu_screen.dart';
 import '../screens/qada_screen.dart';
 import '../screens/special_screen.dart';
 import '../screens/gorsel_kilinis_screen.dart';
+
+// ===========================================================================
+// MODERNIZE EDİLMİŞ 3D NAMAZ PANELİ V2
+// Koyu yeşil gradient zemin + altın (D4AF37) vurgular + 3D lüks kart efektleri.
+// ===========================================================================
+
+const Color _gold = Color(0xFFD4AF37);
+const Color _bgTop = Color(0xFF1B3022);
+const Color _bgBottom = Color(0xFF0B150E);
+const Color _cardTop = Color(0xFF29432F);
+const Color _cardBottom = Color(0xFF16271C);
+const Color _cardDeep = Color(0xFF10201A);
 
 class NamazlarBolumuPage extends StatefulWidget {
   const NamazlarBolumuPage({super.key});
@@ -18,291 +29,351 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
   String _selectedMadhab = "Hanefî";
   int _activeStepIndex = 0;
 
-  final List<Map<String, String>> _namazSteps = [
+  static const List<Map<String, String>> _namazSteps = [
     {
       "title": "1. İftitah Tekbiri & Kıyam",
-      "desc": "Ayakta kıbleye yönelerek niyet edilir ve 'Allahu Ekber' denilerek eller kulak (erkekler) veya omuz (kadınlar) hizasına kaldırılıp göğüs üzerinde bağlanır.",
-      "detail": "Okunanlar: Sübhaneke, Eûzü-Besmele, Fâtiha ve Zamm-ı Sure."
+      "desc":
+          "Ayakta kıbleye yönelerek niyet edilir ve 'Allahu Ekber' denilerek eller kulak (erkekler) veya omuz (kadınlar) hizasına kaldırılıp göğüs üzerinde bağlanır.",
+      "detail": "Okunanlar: Sübhaneke, Eûzü-Besmele, Fâtiha ve Zamm-ı Sure.",
     },
     {
       "title": "2. Rükû",
-      "desc": "'Allahu Ekber' diyerek bel 90 derece bükülür, eller diz kapakları üzerine konur ve sırt düz tutulur.",
-      "detail": "Zikir: 3 defa 'Sübhane rabbiye'l-azîm' denir."
+      "desc":
+          "'Allahu Ekber' denilerek eğilir, eller dizlere konur ve en az üç kez 'Sübhâne Rabbiye'l-azîm' denir.",
+      "detail": "Sırt düz, gözler secde yerine bakar. Sakinleşip doğrulunur.",
     },
     {
-      "title": "3. Kavme (Rükûdan Doğrulma)",
-      "desc": "'Semiallâhu limen hamideh' diyerek tam dik duruşa geçilir ve ardından 'Rabbena leke'l-hamd' denir.",
-      "detail": "Ayakta sükûnetle durulur."
+      "title": "3. Secde",
+      "desc":
+          "'Allahu Ekber' ile secdeye gidilir, en az üç kez 'Sübhâne Rabbiye'l-a'lâ' denir.",
+      "detail": "Alın ve burun yere değer; iki secde arası oturulup sakinleşilir.",
     },
     {
-      "title": "4. Secde (1. ve 2. Secde)",
-      "desc": "'Allahu Ekber' denilerek alın, burun, eller, dizler ve ayak parmakları yere konur.",
-      "detail": "Zikir: 3 defa 'Sübhane rabbiye'l-a'lâ' denir."
+      "title": "4. Kâde-i Âhire & Tahiyyat",
+      "desc":
+          "Son oturuşta Tahiyyat, Salli ve Bârik duaları okunarak selam vermeye hazırlanılır.",
+      "detail": "Okunanlar: Ettehiyyâtü, Salli-Bârik, Rabbenâ üğlülleri.",
     },
     {
-      "title": "5. Oturuş (Kaide-i Ula / Akhire)",
-      "desc": "İki secde arasında kısa bir oturuş (Celse) yapıldıktan sonra son oturuşta Ettehiyyâtü, Salli-Bârik ve Rabbenâ duaları okunur.",
-      "detail": "Selâm: Önce sağ omuza 'Es-selâmu aleyküm ve rahmetullah', sonra sol omuza verilerek namaz tamamlanır."
+      "title": "5. Selam",
+      "desc":
+          "Önce sağ omuza, ardından sol omuza dönülerek 'Es-selâmü aleyküm ve rahmetullah' denir ve namaz tamamlanır.",
+      "detail": "Namazdan sonra tesbih ve dua ile ibadet sonlandırılır.",
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Renkler.zemin,
-      appBar: AppBar(
-        title: Text("Kapsamlı Namaz & Görsel Rehber"),
-        backgroundColor: Renkler.seciliYuzey,
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 12.0),
-            child: DropdownButton<String>(
-              value: _selectedMadhab,
-              dropdownColor: Renkler.seciliYuzey,
-              style: TextStyle(color: Renkler.vurgu, fontWeight: FontWeight.bold, fontSize: 13),
-              underline: SizedBox(),
-              items: ["Hanefî", "Şâfiî", "Mâlikî", "Hanbelî"].map((m) {
-                return DropdownMenuItem(value: m, child: Text("Mezhep: $m"));
-              }).toList(),
-              onChanged: (val) {
-                if (val != null) setState(() => _selectedMadhab = val);
-              },
-            ),
+      backgroundColor: _bgBottom,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [_bgTop, _bgBottom],
           ),
-        ],
-      ),
-      body: ListView(
-        padding: EdgeInsets.all(16.0),
-        children: [
-          // Banner & Madhab status
-          Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Renkler.seciliYuzey, Renkler.zemin],
-              ),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.3)),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.accessibility_new, color: Renkler.vurgu, size: 36),
-                SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Mezhep: $_selectedMadhab (Görsel Adım Rehberi)",
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        "Tüm fıkhi detaylar, rekatlar, abdest ve interaktif kılınış adımları aşağıdadır.",
-                        style: TextStyle(color: Colors.white70, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
-
-          // HIZLI ERİŞİM: Hazır ekranlar
-          _sectionTitle("📂 Namaz Modülleri (Hızlı Erişim)"),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 1.35,
+        ),
+        child: SafeArea(
+          bottom: false,
+          child: Column(
             children: [
-              _hizliKart(context, Icons.nightlight, "Namaz & İbadet", "Vakitler ve merkez", NamazScreen(), Colors.green),
-              _hizliKart(context, Icons.menu_book, "Adım Adım Kılınış", "Rehber & Stepper", GuideScreen(), Colors.lightGreen),
-              _hizliKart(context, Icons.water_drop, "Abdest & Gusül", "Temizlik Esasları", WuduScreen(), Colors.teal),
-              _hizliKart(context, Icons.calendar_today, "Kaza Takipçisi", "Takvim & Liste", QadaScreen(), Colors.orange),
-              _hizliKart(context, Icons.healing, "Özel Durumlar", "Seferî & Hasta", SpecialScreen(), Colors.blueAccent),
-              _hizliKart(context, Icons.self_improvement, "Görsel Kılınış & Abdest", "Şemalı Adım Rehberi", GorselKilinisScreen(), Colors.cyan),
+              _header(),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    _currentSectCard(),
+                    const SizedBox(height: 20),
+                    _sectionTitle("📂 Namaz Modülleri (Hızlı Erişim)"),
+                    const SizedBox(height: 12),
+                    _modulesGrid(),
+                    const SizedBox(height: 20),
+                    _sectionTitle("🚶‍♂️ İnteraktif Adım Adım Kılınış (Görsel Akış)"),
+                    const SizedBox(height: 12),
+                    _interactiveGuide(),
+                    const SizedBox(height: 20),
+                    _sectionTitle("💧 1. Hazırlık & Temizlik (6 Şart)"),
+                    const SizedBox(height: 12),
+                    _expandableTile(
+                      "Abdest ve Gusül Rehberi",
+                      "Adım adım abdest, gusül gerektiren durumlar, abdesti bozan 10+ madde.",
+                      [
+                        "• Farzları: Yüzü yıkamak, elleri kollarla beraber yıkamak, başın dörtte birini meshetmek, ayakları topuklarla beraber yıkamak.",
+                        "• Sünnetleri: Besmele ile başlamak, elleri bileklere kadar yıkamak, ağız ve buruna su vermek, misvak kullanmak.",
+                        "• Bozanlar: İdrar, dışkı, yellenme, kan/irin akması, ağız dolusu kusma, namazda sesli gülmek, uyku.",
+                      ],
+                      Icons.description_outlined,
+                    ),
+                    _expandableTile(
+                      "Teyemmüm, Mest & Sargı Üzerine Mesh",
+                      "Su bulunmadığında veya sağlık sorununda teyemmüm ve mesh hükümleri.",
+                      [
+                        "• Teyemmüm: Su bulunmadığında veya kullanma imkanı olmadığında temiz toprakla niyet edilerek alın ve kollara mesh edilir.",
+                        "• Mest Üzerine Mesh: Abdestli iken giyilen mestler üzerine 24 saat (seferî için 72 saat) mesh edilebilir.",
+                        "• Sargı/Alçı Üzerine Mesh: Yaralı organlar üzerindeki sargı veya alçı çıkarılması zararlı ise üzerine mesh çekilir.",
+                      ],
+                      Icons.public,
+                    ),
+                    const SizedBox(height: 20),
+                    _sectionTitle("📐 2. Namazın Yapısı & Farzları"),
+                    const SizedBox(height: 12),
+                    _expandableTile(
+                      "Dışındaki ve İçindeki Farzlar (Rükünler)",
+                      "Namazın 6 dış şartı, 6 iç rüknü ve 10 vacibi.",
+                      [
+                        "• Dışındaki 6 Farz (Şart): Hadesten taharet, necasetten taharet, setr-i avret, kıst-ı vakit, kıble yönü, niyet.",
+                        "• İçindeki 6 Farz (Rükün): İftitah tekbiri, kıyam, kıraat, rükû, secde, son oturuş.",
+                        "• 10 Vacip: Fâtiha okumak, zamm-ı sure eklemek, ilk oturuşta Tahiyyat okumak, secde ve rükûda ta'dîl-i erkân, vb.",
+                      ],
+                      Icons.account_balance_outlined,
+                    ),
+                    _expandableTile(
+                      "Sehiv Secdesi & Mekruh Vakitler",
+                      "Yanlışlık durumunda secde ve namaz kılınmayan yasak vakitler.",
+                      [
+                        "• Sehiv Secdesi: Vacip olan bir şey unutularak terk edildiğinde veya geciktirildiğinde namazın sonunda yapılır.",
+                        "• Mekruh Vakitler: Güneş doğarken (ilk 45 dk), tam tepedeyken (zeval), güneş batarken nafile namaz kılınmaz.",
+                      ],
+                      Icons.schedule_outlined,
+                    ),
+                    const SizedBox(height: 20),
+                    _sectionTitle("🕒 3. 5 Vakit Rekat Tablosu"),
+                    const SizedBox(height: 12),
+                    _expandableTile(
+                      "Vakitlere Göre Rekat Dağılımı",
+                      "Sabah, Öğle, İkindi, Akşam, Yatsı ve Vitir rekatları.",
+                      [
+                        "• Sabah: 2 Sünnet, 2 Farz (Toplam 4)",
+                        "• Öğle: 4 İlk Sünnet, 4 Farz, 2 Son Sünnet (Toplam 10)",
+                        "• İkindi: 4 Sünnet, 4 Farz (Toplam 8)",
+                        "• Akşam: 3 Farz, 2 Sünnet (Toplam 5)",
+                        "• Yatsı: 4 Sünnet, 4 Farz, 2 Son Sünnet, 3 Vitir Vacip (Toplam 13)",
+                      ],
+                      Icons.access_time,
+                    ),
+                    const SizedBox(height: 20),
+                    _sectionTitle("📜 4. Namazda Okunan Dualar & Sureler"),
+                    const SizedBox(height: 12),
+                    _expandableTile(
+                      "Sübhaneke, Fâtiha, Zamm-ı Sureler ve Tahiyyat",
+                      "Arapça metin, okunuş ve anlamları.",
+                      [
+                        "• Sübhaneke: Subhaneke Allahümme ve bi hamdik...",
+                        "• Ettehiyyâtü: Et-tehiyyâtü lillâhi vessalevâtü vettayyibât...",
+                        "• Salli & Bârik: Allâhümme salli alâ Muhammed...",
+                        "• Rabbenâ Duaları: Rabbenâ âtinâ fi'ddünyâ haseneten...",
+                      ],
+                      Icons.menu_book_outlined,
+                    ),
+                    const SizedBox(height: 20),
+                    _sectionTitle("🤲 5. Özel Durumlar & Kolaylıklar"),
+                    const SizedBox(height: 12),
+                    _expandableTile(
+                      "Kaza, Seferî ve Hasta Namazı",
+                      "Mazeretler, tertip kuralları ve oturanlar için ruhsatlar.",
+                      [
+                        "• Kaza Namazı: Kaçırılan farz namazlar tertibe uyularak kaza edilir (sünnetler kaza edilmez, sabah hariç).",
+                        "• Seferîlik: 90 km ve üzeri yolculuklarda 4 rekatlı farzlar 2 rekat olarak kılınır.",
+                        "• Hasta / Özürlü: Ayakta duramayacak olanlar oturarak, o da olmazsa yatarak ima ile kılabilir.",
+                      ],
+                      Icons.healing_outlined,
+                    ),
+                    const SizedBox(height: 30),
+                  ],
+                ),
+              ),
             ],
           ),
-          SizedBox(height: 20),
+        ),
+      ),
+    );
+  }
 
-          // İNTERAKTİF ADIM ADIM KILINIŞ REHBERİ
-          _sectionTitle("🚶‍♂️ İnteraktif Adım Adım Kılınış (Görsel Akış)"),
-          Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Renkler.kart,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Renkler.cerceve2),
+  // ------------------------- HEADER -------------------------
+  Widget _header() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 8, 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: _goldText(
+              "Kapsamlı Namaz & Görsel Rehber",
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
             ),
+          ),
+          _goldIconWrap(
+            icon: Icons.compass_calibration,
+            size: 22,
+          ),
+          const SizedBox(width: 10),
+          _madhabDropdown(),
+        ],
+      ),
+    );
+  }
+
+  Widget _madhabDropdown() {
+    return Theme(
+      data: ThemeData(brightness: Brightness.dark),
+      child: PopupMenuButton<String>(
+        initialValue: _selectedMadhab,
+        color: _cardDeep,
+        icon: const Icon(Icons.expand_more, color: _gold),
+        onSelected: (v) => setState(() => _selectedMadhab = v),
+        itemBuilder: (context) => ["Hanefî", "Şâfiî", "Mâlikî", "Hanbelî"]
+            .map((m) => PopupMenuItem(
+                  value: m,
+                  child: Text(
+                    "Mezhep: $m",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ))
+            .toList(),
+      ),
+    );
+  }
+
+  // ------------------- MEZHEP / CURRENT SECT CARD -------------------
+  Widget _currentSectCard() {
+    return _lux3dCard(
+      padding: const EdgeInsets.all(18),
+      radius: 22,
+      gradientColors: const [_cardTop, _cardDeep],
+      borderColor: _gold.withValues(alpha: 0.55),
+      child: Row(
+        children: [
+          _goldIconBox(
+            icon: Icons.explore,
+            size: 34,
+            boxSize: 60,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _namazSteps[_activeStepIndex]["title"]!,
-                      style: TextStyle(color: Renkler.vurgu, fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "Adım ${_activeStepIndex + 1} / ${_namazSteps.length}",
-                      style: TextStyle(color: Colors.white54, fontSize: 12),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12),
                 Text(
-                  _namazSteps[_activeStepIndex]["desc"]!,
-                  style: TextStyle(color: Colors.white, fontSize: 14, height: 1.4),
-                ),
-                SizedBox(height: 8),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Renkler.cerceve2,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    _namazSteps[_activeStepIndex]["detail"]!,
-                    style: TextStyle(color: Renkler.vurgu, fontSize: 12, fontWeight: FontWeight.bold),
+                  "Mezhep: $_selectedMadhab (Görsel Adım Rehberi)",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
                   ),
                 ),
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Renkler.cerceve2,
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: _activeStepIndex > 0
-                          ? () => setState(() => _activeStepIndex--)
-                          : null,
-                      child: Text("Önceki Adım"),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Renkler.vurgu,
-                        foregroundColor: Colors.black,
-                      ),
-                      onPressed: _activeStepIndex < _namazSteps.length - 1
-                          ? () => setState(() => _activeStepIndex++)
-                          : () => setState(() => _activeStepIndex = 0),
-                      child: Text(_activeStepIndex < _namazSteps.length - 1 ? "Sonraki Adım" : "Başa Dön"),
-                    ),
-                  ],
+                const SizedBox(height: 6),
+                Text(
+                  "Tüm fıkhi detaylar, rekatlar, abdest ve interaktif kılınış adımları aşağıdadır.",
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    fontSize: 12,
+                    height: 1.4,
+                  ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20),
-
-          // DİĞER KAPSAMLI BÖLÜMLER
-          _sectionTitle("💧 1. Hazırlık & Temizlik (6 Şart)"),
-          _expandableTile("Abdest ve Gusül Rehberi", "Adım adım abdest, gusül gerektiren durumlar, abdesti bozan 10+ madde.", [
-            "• Farzları: Yüzü yıkamak, elleri kollarla beraber yıkamak, başın dörtte birini meshetmek, ayakları topuklarla beraber yıkamak.",
-            "• Sünnetleri: Besmele ile başlamak, elleri bileklere kadar yıkamak, ağız ve buruna su vermek, misvak kullanmak.",
-            "• Bozanlar: İdrar, dışkı, yellenme, kan/irin akması, ağız dolusu kusma, namazda sesli gülmek, uyku."
-          ]),
-          _expandableTile("Teyemmüm, Mest & Sargı Üzerine Mesh", "Su bulunmadığında veya sağlık sorununda teyemmüm ve mesh hükümleri.", [
-            "• Teyemmüm: Su bulunmadığında veya kullanma imkanı olmadığında temiz toprakla niyet edilerek alın ve kollara mesh edilir.",
-            "• Mest Üzerine Mesh: Abdestli iken giyilen mestler üzerine 24 saat (seferî için 72 saat) mesh edilebilir.",
-            "• Sargı/Alçı Üzerine Mesh: Yaralı organlar üzerindeki sargı veya alçı çıkarılması zararlı ise üzerine mesh çekilir."
-          ]),
-
-          _sectionTitle("📐 2. Namazın Yapısı & Farzları"),
-          _expandableTile("Dışındaki ve İçindeki Farzlar (Rükünler)", "Namazın 6 dış şartı, 6 iç rüknü ve 10 vacibi.", [
-            "• Dışındaki 6 Farz (Şart): Hadesten taharet, necasetten taharet, setr-i avret, kıst-ı vakit, kıble yönü, niyet.",
-            "• İçindeki 6 Farz (Rükün): İftitah tekbiri, kıyam, kıraat, rükû, secde, son oturuş.",
-            "• 10 Vacip: Fâtiha okumak, zamm-ı sure eklemek, ilk oturuşta Tahiyyat okumak, secde ve rükûda ta'dîl-i erkân, vb."
-          ]),
-          _expandableTile("Sehiv Secdesi & Mekruh Vakitler", "Yanlışlık durumunda secde ve namaz kılınmayan yasak vakitler.", [
-            "• Sehiv Secdesi: Vacip olan bir şey unutularak terk edildiğinde veya geciktirildiğinde namazın sonunda yapılır.",
-            "• Mekruh Vakitler: Güneş doğarken (ilk 45 dk), tam tepedeyken (zeval), güneş batarken nafile namaz kılınmaz."
-          ]),
-
-          _sectionTitle("🕒 3. 5 Vakit Rekat Tablosu"),
-          _expandableTile("Vakitlere Göre Rekat Dağılımı", "Sabah, Öğle, İkindi, Akşam, Yatsı ve Vitir rekatları.", [
-            "• Sabah: 2 Sünnet, 2 Farz (Toplam 4)",
-            "• Öğle: 4 İlk Sünnet, 4 Farz, 2 Son Sünnet (Toplam 10)",
-            "• İkindi: 4 Sünnet, 4 Farz (Toplam 8)",
-            "• Akşam: 3 Farz, 2 Sünnet (Toplam 5)",
-            "• Yatsı: 4 Sünnet, 4 Farz, 2 Son Sünnet, 3 Vitir Vacip (Toplam 13)"
-          ]),
-
-          _sectionTitle("📜 4. Namazda Okunan Dualar & Sureler"),
-          _expandableTile("Sübhaneke, Fâtiha, Zamm-ı Sureler ve Tahiyyat", "Arapça metin, okunuş ve anlamları.", [
-            "• Sübhaneke: Subhaneke Allahümme ve bi hamdik...",
-            "• Ettehiyyâtü: Et-tehiyyâtü lillâhi vessalevâtü vettayyibât...",
-            "• Salli & Bârik: Allâhümme salli alâ Muhammed...",
-            "• Rabbenâ Duaları: Rabbenâ âtinâ fi'ddünyâ haseneten..."
-          ]),
-
-          _sectionTitle("🤲 5. Özel Durumlar & Kolaylıklar"),
-          _expandableTile("Kaza, Seferî ve Hasta Namazı", "Mazeretler, tertip kuralları ve oturanlar için ruhsatlar.", [
-            "• Kaza Namazı: Kaçırılan farz namazlar tertibe uyularak kaza edilir (sünnetler kaza edilmez, sabah hariç).",
-            "• Seferîlik: 90 km ve üzeri yolculuklarda 4 rekatlı farzlar 2 rekat olarak kılınır.",
-            "• Hasta / Özürlü: Ayakta duramayacak olanlar oturarak, o da olmazsa yatarak ima ile kılabilir."
-          ]),
-          SizedBox(height: 30),
         ],
       ),
     );
   }
 
-  Widget _sectionTitle(String title) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
-        title,
-        style: TextStyle(
-          color: Renkler.vurgu,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
+  // ------------------- MODULES GRID -------------------
+  Widget _modulesGrid() {
+    final items = <({IconData icon, String title, String subtitle, Widget page})>[
+      (
+        icon: Icons.nightlight,
+        title: "Namaz & İbadet",
+        subtitle: "Vakitler ve merkez",
+        page: const NamazScreen(),
       ),
+      (
+        icon: Icons.menu_book,
+        title: "Adım Adım Kılınış",
+        subtitle: "Rehber & Stepper",
+        page: const GuideScreen(),
+      ),
+      (
+        icon: Icons.water_drop,
+        title: "Abdest & Gusül",
+        subtitle: "Temizlik Esasları",
+        page: const WuduScreen(),
+      ),
+      (
+        icon: Icons.calendar_month,
+        title: "Kaza Takipçisi",
+        subtitle: "Takvim & Liste",
+        page: const QadaScreen(),
+      ),
+      (
+        icon: Icons.health_and_safety,
+        title: "Özel Durumlar",
+        subtitle: "Seferî & Hasta",
+        page: const SpecialScreen(),
+      ),
+      (
+        icon: Icons.self_improvement,
+        title: "Görsel Kılınış & Abdest",
+        subtitle: "Şemalı Adım Rehberi",
+        page: const GorselKilinisScreen(),
+      ),
+    ];
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: items.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 1.15,
+      ),
+      itemBuilder: (context, i) {
+        final it = items[i];
+        return _moduleCard(it.icon, it.title, it.subtitle, it.page);
+      },
     );
   }
 
-  Widget _hizliKart(
-    BuildContext context,
-    IconData icon,
-    String title,
-    String subtitle,
-    Widget targetPage,
-    Color color,
-  ) {
-    return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => targetPage),
-      ),
-      child: Container(
-        padding: EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withValues(alpha: 0.3)),
-        ),
+  Widget _moduleCard(IconData icon, String title, String subtitle, Widget page) {
+    return _lux3dCard(
+      padding: const EdgeInsets.all(14),
+      radius: 18,
+      gradientColors: const [_cardTop, _cardBottom],
+      borderColor: _gold.withValues(alpha: 0.18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: color, size: 26),
-            SizedBox(height: 8),
+            _goldIconWrap(icon: icon, size: 30),
+            const SizedBox(height: 14),
             Text(
               title,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
             ),
-            SizedBox(height: 2),
+            const SizedBox(height: 4),
             Text(
               subtitle,
-              style: TextStyle(color: Colors.white54, fontSize: 10),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.6),
+                fontSize: 11,
+              ),
             ),
           ],
         ),
@@ -310,43 +381,361 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
     );
   }
 
-  Widget _expandableTile(String title, String subtitle, List<String> bulletPoints) {
-    return Card(
-      color: Renkler.kart,
-      margin: EdgeInsets.only(bottom: 12),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Renkler.cerceve2),
-      ),
-      child: ExpansionTile(
-        collapsedIconColor: Renkler.vurgu,
-        iconColor: Renkler.vurgu,
-        title: Text(
-          title,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(color: Colors.white60, fontSize: 11),
-        ),
+  // ------------------- INTERACTIVE GUIDE -------------------
+  Widget _interactiveGuide() {
+    final step = _namazSteps[_activeStepIndex];
+    return _lux3dCard(
+      padding: const EdgeInsets.all(18),
+      radius: 22,
+      gradientColors: const [_cardTop, _cardDeep],
+      borderColor: _gold.withValues(alpha: 0.35),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: bulletPoints
-                  .map((bp) => Padding(
-                        padding: EdgeInsets.only(bottom: 6.0),
-                        child: Text(
-                          bp,
-                          style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
-                        ),
-                      ))
-                  .toList(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  step["title"]!,
+                  style: const TextStyle(
+                    color: _gold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                "Adım ${_activeStepIndex + 1} / ${_namazSteps.length}",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.55),
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          // Progress bar
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: LinearProgressIndicator(
+              value: (_activeStepIndex + 1) / _namazSteps.length,
+              minHeight: 8,
+              backgroundColor: Colors.white.withValues(alpha: 0.1),
+              valueColor: const AlwaysStoppedAnimation(_gold),
             ),
+          ),
+          const SizedBox(height: 14),
+          Text(
+            step["desc"]!,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: _gold.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: _gold.withValues(alpha: 0.3)),
+            ),
+            child: Text(
+              step["detail"]!,
+              style: const TextStyle(
+                color: _gold,
+                fontSize: 12.5,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(height: 18),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _navButton(
+                label: "Önceki Adım",
+                filled: false,
+                onTap: _activeStepIndex > 0
+                    ? () => setState(() => _activeStepIndex--)
+                    : null,
+              ),
+              _navButton(
+                label: _activeStepIndex < _namazSteps.length - 1
+                    ? "Sonraki Adım"
+                    : "Başa Dön",
+                filled: true,
+                onTap: () => setState(() {
+                  if (_activeStepIndex < _namazSteps.length - 1) {
+                    _activeStepIndex++;
+                  } else {
+                    _activeStepIndex = 0;
+                  }
+                }),
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  Widget _navButton({
+    required String label,
+    required bool filled,
+    required VoidCallback? onTap,
+  }) {
+    final bg = filled
+        ? const LinearGradient(colors: [_gold, Color(0xFFB8912B)])
+        : const LinearGradient(colors: [Color(0xFF21382A), Color(0xFF15271C)]);
+    final fg = filled ? const Color(0xFF12301F) : _gold;
+    return Material(
+      color: Colors.transparent,
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: bg,
+          borderRadius: BorderRadius.circular(14),
+          border: filled
+              ? null
+              : Border.all(color: _gold.withValues(alpha: 0.4)),
+          boxShadow: filled
+              ? [
+                  BoxShadow(
+                    color: _gold.withValues(alpha: 0.35),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
+                  )
+                ]
+              : null,
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            child: Text(
+              label,
+              style: TextStyle(
+                color: fg,
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ------------------- EXPANDABLE TILES -------------------
+  Widget _expandableTile(String title, String desc, List<String> items, IconData icon) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [_cardTop, _cardBottom],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _gold.withValues(alpha: 0.18)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.35),
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          shape: const Border(),
+          collapsedShape: const Border(),
+          leading: _goldIconWrap(icon: icon, size: 22),
+          title: Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+            ),
+          ),
+          subtitle: Text(
+            desc,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.6),
+              fontSize: 12,
+            ),
+          ),
+          iconColor: _gold,
+          collapsedIconColor: _gold,
+          children: items.map((item) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  item,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.75),
+                    fontSize: 12.5,
+                    height: 1.55,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  // ------------------- SECTION TITLE -------------------
+  Widget _sectionTitle(String title) {
+    return Row(
+      children: [
+        Container(
+          width: 4,
+          height: 18,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [_gold, Color(0xFFB8912B)],
+            ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ------------------- LUX 3D CARD WRAPPER -------------------
+  Widget _lux3dCard({
+    required Widget child,
+    required EdgeInsets padding,
+    required double radius,
+    required List<Color> gradientColors,
+    Color? borderColor,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(radius),
+        border: Border.all(color: borderColor ?? _gold.withValues(alpha: 0.15)),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: gradientColors,
+        ),
+        boxShadow: [
+          // Derinlik (3D) gölgesi
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.45),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+          // Altın ambiyans
+          BoxShadow(
+            color: _gold.withValues(alpha: 0.06),
+            blurRadius: 14,
+            offset: const Offset(0, 0),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          // Üst cam parlaması (glossy)
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(radius),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withValues(alpha: 0.06),
+                    Colors.transparent,
+                  ],
+                  stops: const [0.0, 0.35],
+                ),
+              ),
+            ),
+          ),
+          Padding(padding: padding, child: child),
+        ],
+      ),
+    );
+  }
+
+  // ------------------- GOLD MISC -------------------
+  Widget _goldIconWrap({required IconData icon, required double size}) {
+    return Container(
+      padding: const EdgeInsets.all(7),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFD4AF37), Color(0xFF9A7B1E)],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: _gold.withValues(alpha: 0.35),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Icon(icon, color: const Color(0xFF10201A), size: size),
+    );
+  }
+
+  Widget _goldIconBox({required IconData icon, required double size, required double boxSize}) {
+    return Container(
+      width: boxSize,
+      height: boxSize,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFD4AF37), Color(0xFF8F7218)],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: _gold.withValues(alpha: 0.4),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Icon(icon, color: const Color(0xFF11230F), size: size),
+    );
+  }
+
+  Widget _goldText(
+    String text, {
+    double fontSize = 16,
+    FontWeight fontWeight = FontWeight.w600,
+    Color color = _gold,
+  }) {
+    return Text(text, style: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: color));
   }
 }

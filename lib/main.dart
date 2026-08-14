@@ -24,9 +24,9 @@ import 'pages/cuzler_page.dart';
 import 'pages/ilham_page.dart';
 import 'pages/kible_pusula_page.dart';
 import 'pages/ai_tefsir_page.dart';
-import 'pages/namazlar_bolumu_page.dart';
 import 'pages/kuran_bolumu_page.dart';
 import 'pages/ummet_bolumu_page.dart';
+import 'pages/namazlar_bolumu_page.dart';
 import 'pages/ramazan_modu_page.dart';
 import 'pages/devam_et_page.dart';
 import 'pages/gunluk_gorev_page.dart';
@@ -719,63 +719,63 @@ class AnaSayfa extends StatelessWidget {
           // Radyo çalarken tüm sayfalarda kesintisiz görünen mini oynatıcı.
           const RadyoMiniOynatici(),
           BottomNavigationBar(
-        backgroundColor: Renkler.navBar,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Renkler.vurgu,
-        unselectedItemColor: Colors.white54,
-        selectedFontSize: 10,
-        unselectedFontSize: 10,
-        currentIndex: 0,
-        onTap: (index) {
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NamazlarBolumuPage()),
-            );
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AiTefsirPage()),
-            );
-          } else if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => KuranBolumuPage()),
-            );
-          } else if (index == 4) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => UmmetBolumuPage()),
-            );
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: l.t('h.navHome'),
+            backgroundColor: Renkler.navBar,
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Renkler.vurgu,
+            unselectedItemColor: Colors.white54,
+            selectedFontSize: 10,
+            unselectedFontSize: 10,
+            currentIndex: 0,
+            onTap: (index) {
+              if (index == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NamazlarBolumuPage()),
+                );
+              } else if (index == 2) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AiTefsirPage()),
+                );
+              } else if (index == 3) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => KuranBolumuPage()),
+                );
+              } else if (index == 4) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UmmetBolumuPage()),
+                );
+              }
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_filled),
+                label: l.t('h.navHome'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline),
+                label: l.t('h.navNamaz'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.auto_awesome),
+                label: l.t('h.navAi'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.menu_book_outlined),
+                label: l.t('h.navKuran'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.groups_outlined),
+                label: l.t('h.navUmmet'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.play_circle_outline),
+                label: l.t('h.navVideo'),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: l.t('h.navNamaz'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.auto_awesome),
-            label: l.t('h.navAi'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book_outlined),
-            label: l.t('h.navKuran'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups_outlined),
-            label: l.t('h.navUmmet'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.play_circle_outline),
-            label: l.t('h.navVideo'),
-          ),
-        ],
-      ),
         ],
       ),
     );
