@@ -94,7 +94,7 @@ class KisaSurelerPage extends StatelessWidget {
               ),
               SizedBox(height: 6),
               Text(
-                "Kehf: Cuma günü okunması sünnettir. Mülk: Her gece okunması tavsiye edilir.",
+                "Cuma, kandil geceleri, Arefe, bayram ve gece okunması tavsiye edilen sureler. Kehf cumada, Mülk her gece, İhlâs arefede öne çıkar.",
                 style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
               ),
             ],

@@ -91,6 +91,93 @@ class ZikirKampanyasi {
   final String birim;
 }
 
+/// Küresel yardım kampanyası: güvenilir kurumların bağış köprüleri.
+class YardimKampanyasi {
+  YardimKampanyasi({
+    required this.id,
+    required this.ad,
+    required this.aciklama,
+    required this.kurum,
+    required this.ikon,
+    required this.birim,
+    this.katilan = 0,
+    this.delil,
+    this.kaynak,
+  });
+
+  final String id;
+  final String ad;
+  final String aciklama;
+  final String kurum;
+  final String ikon;
+  final String birim;
+  int katilan;
+  final String? delil;
+  final String? kaynak;
+}
+
+/// Zekât hesabı giriş kalemi.
+class ZekatKalemi {
+  ZekatKalemi(this.ad, {this.tutar = 0});
+  final String ad;
+  double tutar;
+}
+
+/// Soru-cevap / fetva arşiv maddesi.
+class FetvaKaydi {
+  FetvaKaydi({
+    required this.id,
+    required this.soru,
+    required this.cevap,
+    required this.kategori,
+    this.kaynak = 'Diyanet İşleri Başkanlığı',
+  });
+
+  final String id;
+  final String soru;
+  final String cevap;
+  final String kategori;
+  final String kaynak;
+}
+
+/// Küresel etkinlik / program kaydı.
+class UmmetEtkinligi {
+  UmmetEtkinligi({
+    required this.id,
+    required this.ad,
+    required this.aciklama,
+    required this.tarih, // 'MM-DD' veya '' sürekli
+    required this.ikon,
+    this.canli = false,
+    this.url,
+  });
+
+  final String id;
+  final String ad;
+  final String aciklama;
+  final String tarih;
+  final String ikon;
+  final bool canli;
+  final String? url;
+}
+
+/// Manevi gelişim halkası (okuma/ibadet grubu).
+class ManeviHalka {
+  ManeviHalka({
+    required this.id,
+    required this.ad,
+    required this.aciklama,
+    required this.ikon,
+    this.uyeTabani = 0,
+  });
+
+  final String id;
+  final String ad;
+  final String aciklama;
+  final String ikon;
+  final int uyeTabani;
+}
+
 // ---------------- DUA KATEGORİLERİ ----------------
 
 final duaKategorileri = [
@@ -535,6 +622,382 @@ final hatimOnKatilim = {
 
 const hatimTabaniTamamlanan = 128940;
 
+// ---------------- KÜRESEL YARDIM KAMPANYALARI ----------------
+
+final yardimKampanyalari = [
+  YardimKampanyasi(
+    id: 'su_kuyusu',
+    ad: 'Su Kuyusu Aç',
+    aciklama: 'Kuraklık ve susuzluk bölgelerinde temiz su kaynağı. Bir kuyu yüzlerce ailenin hayatını değiştirir.',
+    kurum: 'İHH • Yeryüzü Doktorları • AFAD',
+    ikon: '🚰',
+    birim: 'kuyu',
+    katilan: 12480,
+    delil: '"Bir kişinin su ihtiyacını giderenin mükâfatı sadakadır."',
+    kaynak: 'Müslim, Zekât 67',
+  ),
+  YardimKampanyasi(
+    id: 'gida_paketi',
+    ad: 'Gıda Kolisi Paylaş',
+    aciklama: 'Ramazan ve yıl boyunca ihtiyaç sahibi ailelere temel gıda paketleri: un, bakliyat, yağ ve şeker.',
+    kurum: 'Kızılay • İHH • Deniz Feneri',
+    ikon: '🍲',
+    birim: 'koli',
+    katilan: 23140,
+    delil: '"Aç bir kimseyi doyurana, Allah kıyamet günü cennet meyvelerinden yedirir."',
+    kaynak: 'Taberânî, Evsat 5/232',
+  ),
+  YardimKampanyasi(
+    id: 'yetim_sponsorlugu',
+    ad: 'Yetim Sponsoru Ol',
+    aciklama: 'Yetim çocukların eğitim, barınma ve sağlık giderlerini üstlen. Aylık düzenli destek mumkündür.',
+    kurum: 'Yetim Vakfı • İHH • YEDEV',
+    ikon: '🧸',
+    birim: 'sponsorluk',
+    katilan: 8640,
+    delil: '"Ben ve yetime bakan kimse cennette böyle yan yanayız." (İşaret parmağı ve ortasıyla gösterdi.)',
+    kaynak: 'Buhârî, Talâk 25',
+  ),
+  YardimKampanyasi(
+    id: 'kurban_bagisi',
+    ad: 'Vekâletle Kurban',
+    aciklama: 'Kurban bayramında vekâletinle kestirilen kurbanların etleri, ihtiyaç sahibi ailelere ulaştırılır.',
+    kurum: 'Diyanet Vakfı • Kızılay • İHH',
+    ikon: '🐑',
+    birim: 'hisse',
+    katilan: 15730,
+    delil: '"Kurbanınızı güzelce kesin; o gün ihtiyaç sahibine ulaşan et, sadakadır."',
+    kaynak: 'İbn Mâce, Edâhî 13',
+  ),
+  YardimKampanyasi(
+    id: 'afet_acele',
+    ad: 'Deprem & Afet Acil Yardım',
+    aciklama: 'Afet bölgelerine acil gıda, barınma ve sağlık desteği. İlk 72 saat hayat kurtarır.',
+    kurum: 'AFAD • Kızılay • AHBAP',
+    ikon: '🆘',
+    birim: 'yardım',
+    katilan: 39210,
+    delil: '"Müminler birbirlerine merhamette tek bir beden gibidir."',
+    kaynak: 'Buhârî, Edeb 27',
+  ),
+  YardimKampanyasi(
+    id: 'ilkokul_egitim',
+    ad: 'Bir Öğrenci Okut',
+    aciklama: 'Az gelişmiş bölgelerde bir öğrencinin yıllık eğitim, kırtasiye ve ulaşım masraflarını üstlen.',
+    kurum: 'Yeryüzü Öğretmenleri • Ensar Vakfı',
+    ikon: '🎒',
+    birim: 'öğrenci',
+    katilan: 6120,
+    delil: '"İlmi öğrenmek her Müslümana farzdır."',
+    kaynak: 'İbn Mâce, Mukaddime 17',
+  ),
+];
+
+// ---------------- ZEKÂT & SADAKA ----------------
+
+/// Zekâta tabi varlık kalemleri (hesaplama girişi).
+const zekatKalemAdlari = [
+  'Nakit & Banka Bakiyesi',
+  'Altın / Gümüş',
+  'Ticaret Malı',
+  'Hisse Senetleri',
+  'Alacaklar',
+];
+
+/// Nisap miktarı için örnek altın gram fiyatı (kullanıcı değiştirebilir).
+const nisapAltinGram = 80;
+
+// ---------------- SORU-CEVAP / FETVA ARŞİVİ ----------------
+
+final fetvaKategorileri = [
+  'Namaz & İbadet',
+  'Oruç & Ramazan',
+  'Zekât & Sadaka',
+  'Temizlik & Tahâret',
+  'Aile & Evlilik',
+  'Günlük Hayat',
+];
+
+final fetvaArsivi = [
+  FetvaKaydi(
+    id: 'f1',
+    kategori: 'Namaz & İbadet',
+    soru: 'Vakit namazlarına başlamak için ezan okunması şart mıdır?',
+    cevap: 'Ezan farz değildir; vaktin girmesi yeterlidir. Ezan, cemaate duyuru ve sünnettir. Tek başına namaz kılan kimse ezansız da namazını kılabilir; ancak ezanı işitip de okunmasını beklemek faziletlidir.',
+  ),
+  FetvaKaydi(
+    id: 'f2',
+    kategori: 'Namaz & İbadet',
+    soru: 'Kılınan namazdan sonra tesbihat yapmak zorunlu mudur?',
+    cevap: 'Tesbihat farz değil, müstehaptır. Hz. Peygamber (s.a.v.) namaz sonrası tesbih, tahmid ve tekbir getirmeyi tavsiye etmiştir. Unutulursa günah olmaz; ihmal etmemek güzeldir.',
+    kaynak: 'Müslim, Mesâcid 145',
+  ),
+  FetvaKaydi(
+    id: 'f3',
+    kategori: 'Oruç & Ramazan',
+    soru: 'Oruçluyken yanlışlıkla bir şey yenirse oruç bozulur mu?',
+    cevap: 'Unutarak yemek-içmek orucu bozmaz. Ayette "Rabbinin ikramıdır" buyurulmuştur (Bakara, 2/187). Unutulduğu anda bırakıp oruca devam edilir; kaza gerekmez, günah yoktur.',
+  ),
+  FetvaKaydi(
+    id: 'f4',
+    kategori: 'Oruç & Ramazan',
+    soru: 'Kazası olan kişi nâfile oruç tutabilir mi?',
+    cevap: 'Evla olan önce kaza oruçlarını bitirmektir. Ancak kazası varken nâfile oruç tutmak da caizdir; atılmaması gerekir. Ramazana kalmadan kazaların tamamlanması tavsiye edilir.',
+  ),
+  FetvaKaydi(
+    id: 'f5',
+    kategori: 'Zekât & Sadaka',
+    soru: 'Zekât nisabı ne kadardır?',
+    cevap: 'Nisap, 80.18 gram altın veya bu değerde paraya sahip olmaktır. Bu miktar kişinin üzerinden bir kamerî yıl geçerse o varlığın %2,5\'u zekât olarak verilir. Borçlar ve asli ihtiyaçlar çıkarılır.',
+    kaynak: 'Mevsılî, el-İhtiyâr 1/113',
+  ),
+  FetvaKaydi(
+    id: 'f6',
+    kategori: 'Zekât & Sadaka',
+    soru: 'Zekât kardeşe veya babaya verilebilir mi?',
+    cevap: 'Zekât, nafakası üzerine kendisine vacip olmayan kişilere verilir. Bakmakla yükümlü olunan kişilere (çoğunluğun görüşüne göre ana-baba ve çocuklara) zekât verilmez; ancak kardeşlere verilebilir.',
+  ),
+  FetvaKaydi(
+    id: 'f7',
+    kategori: 'Temizlik & Tahâret',
+    soru: 'Abdest alırken az bir su kullanmak sünnet midir?',
+    cevap: 'Evet. Hz. Peygamber (s.a.v.) abdestte ve gusülde az su kullanmayı öğütlemiş, israfı yasaklamıştır. Abdest için küçük bir avuç hacminde su ölçüleri rivayet edilmiştir.',
+    kaynak: 'Buhârî, Vudû 47',
+  ),
+  FetvaKaydi(
+    id: 'f8',
+    kategori: 'Aile & Evlilik',
+    soru: 'Nikâhta şahit şart mıdır?',
+    cevap: 'Evet. Nikâhın geçerli olması için iki Müslüman erkek veya bir erkek ile iki kadın şahidin bulunması şarttır. Şahitsiz nikâh, cumhur ulemasına göre geçersizdir.',
+    kaynak: 'Müslim, Nikâh 16',
+  ),
+  FetvaKaydi(
+    id: 'f9',
+    kategori: 'Günlük Hayat',
+    soru: 'İş hayatında komisyon almak caiz midir?',
+    cevap: 'Komisyon, yapılan bir hizmet veya aracılık karşılığında alınıyorsa caizdir; faizli işlemlere aracılık ve aldatma içermemelidir. Şartların şeffaf ve helal olması esastır.',
+  ),
+  FetvaKaydi(
+    id: 'f10',
+    kategori: 'Günlük Hayat',
+    soru: 'Selamlaşmada "Esselâmü aleyküm" yerine kısaltma kullanmak uygun mudur?',
+    cevap: 'Selam bir ibadet ve sünnettir; kısaltmalar selamın anlamını taşımaz. Tek başına "ms" veya "sa" demek selam yerine geçmez. Tam selam vermek sünnet, selamı yaymak ise emredilmiştir.',
+    kaynak: 'Buhârî, İsti\'zân 9',
+  ),
+];
+
+// ---------------- KÜRESEL ETKİNLİKLER & CANLI YAYINLAR ----------------
+
+final ummetEtkinlikleri = [
+  UmmetEtkinligi(
+    id: 'mekke',
+    ad: 'Mescid-i Haram Canlı Yayını',
+    aciklama: 'Kâbe ve Mescid-i Haram çevresinin 7/24 kesintisiz canlı yayını.',
+    tarih: '',
+    ikon: '🕋',
+    canli: true,
+  ),
+  UmmetEtkinligi(
+    id: 'medine',
+    ad: 'Mescid-i Nebevî Canlı Yayını',
+    aciklama: 'Peygamber (s.a.v.) mescidinin canlı yayını; ezan ve namaz saatlerini takip edin.',
+    tarih: '',
+    ikon: '🕌',
+    canli: true,
+  ),
+  UmmetEtkinligi(
+    id: 'cuma_hutbesi',
+    ad: 'Haftalık Cuma Hutbesi',
+    aciklama: 'Diyanet tarafından her hafta yayımlanan cuma hutbesi; camilerde okunur ve takip edilebilir.',
+    tarih: '',
+    ikon: '📜',
+    canli: false,
+  ),
+  UmmetEtkinligi(
+    id: 'kadir',
+    ad: 'Kadir Gecesi Özel Programı',
+    aciklama: 'Kadir gecesinde camilerde düzenlenen özel programlar, mukabeleler ve dua geceleri.',
+    tarih: '03-16',
+    ikon: '🌙',
+    canli: false,
+  ),
+  UmmetEtkinligi(
+    id: 'regaib',
+    ad: 'Regaib Kandili Programı',
+    aciklama: 'Üç ayların başlangıcı olan Regaib gecesinde camilerde düzenlenen programlar.',
+    tarih: '12-10',
+    ikon: '🌙',
+    canli: false,
+  ),
+  UmmetEtkinligi(
+    id: 'mevlid',
+    ad: 'Mevlid Kandili Programı',
+    aciklama: 'Hz. Peygamber\'in (s.a.v.) dünyaya teşrifi vesilesiyle camilerde düzenlenen Mevlid-i Şerif programları.',
+    tarih: '08-24',
+    ikon: '🕌',
+    canli: false,
+  ),
+  UmmetEtkinligi(
+    id: 'ramazan',
+    ad: 'Ramazan Teravih & Mukabele',
+    aciklama: 'Ramazan ayı boyunca camilerde teravih namazı, mukabele ve iftar programları.',
+    tarih: '',
+    ikon: '🌙',
+    canli: false,
+  ),
+  UmmetEtkinligi(
+    id: 'kurs',
+    ad: 'Kur\'an Kursları & Yaz Dönemi',
+    aciklama: 'Diyanet\'e bağlı Kur\'an kurslarının kayıt dönemleri ve yaz kursları başvuruları.',
+    tarih: '',
+    ikon: '📖',
+    canli: false,
+  ),
+];
+
+// ---------------- MANEVİ GELİŞİM HALKALARI ----------------
+
+final maneviHalkalar = [
+  ManeviHalka(
+    id: '1_sayfa',
+    ad: 'Günde 1 Sayfa Kur\'an',
+    aciklama: 'Her gün en az bir sayfa Kur\'an oku; bir yılda bir hatim edinme imkânı.',
+    ikon: '📖',
+    uyeTabani: 48200,
+  ),
+  ManeviHalka(
+    id: '40_hadis',
+    ad: '40 Hadis Ezberleme Grubu',
+    aciklama: 'Haftada bir hadis ezberle, 40 hadisi tamamla; anlamlarıyla birlikte öğren.',
+    ikon: '🗂️',
+    uyeTabani: 12700,
+  ),
+  ManeviHalka(
+    id: 'sabah_aksam',
+    ad: 'Sabah-Akşam Zikirleri',
+    aciklama: 'Peygamber (s.a.v.) efendimizin sabah-akşam okuduğu derlenmiş zikirleri günde iki kez uygula.',
+    ikon: '📿',
+    uyeTabani: 31600,
+  ),
+  ManeviHalka(
+    id: 'tesbihat',
+    ad: 'Namaz Sonrası Tesbihat',
+    aciklama: 'Her farz namazdan sonra tesbihâtı bırakma; 33\'er tesbih itiyadını kazan.',
+    ikon: '🤲',
+    uyeTabani: 52900,
+  ),
+  ManeviHalka(
+    id: 'duha',
+    ad: 'Kuşluk (Duha) Namazı',
+    aciklama: 'Her gün kuşluk namazı kılanlarla birlikte ol; sevabı sadaka hanesine yazılır.',
+    ikon: '☀️',
+    uyeTabani: 8900,
+  ),
+  ManeviHalka(
+    id: 'isim_ogren',
+    ad: 'Esma-i Hüsna Öğrenme',
+    aciklama: 'Günde iki isim öğren; 99 ismi anlamı ve zikriyle birlikte tamamla.',
+    ikon: '💠',
+    uyeTabani: 15400,
+  ),
+  ManeviHalka(
+    id: 'kisa_sure',
+    ad: 'Kısa Sureleri Ezberle',
+    aciklama: 'Namazda okunan kısa sureleri (Amme cüzü) anlamıyla ezberleme grubu.',
+    ikon: '📕',
+    uyeTabani: 23800,
+  ),
+  ManeviHalka(
+    id: 'sadaka_gunluk',
+    ad: 'Her Güne Bir Sadaka',
+    aciklama: 'Her gün küçük de olsa bir sadaka ver; iktisatlı sadaka alışkanlığı kazan.',
+    ikon: '💚',
+    uyeTabani: 19800,
+  ),
+];
+
+// ---------------- GÜNÜN MESAJLARI (NİYET & HADİS) ----------------
+
+final gununMesajlari = [
+  {
+    'tip': 'Hadis',
+    'metin': 'Müslüman, elinden ve dilinden Müslümanların selamet bulduğu kimsedir.',
+    'kaynak': 'Buhârî, Îmân 4',
+  },
+  {
+    'tip': 'Söz',
+    'metin': 'Kim ahireti amaçlarsa Allah ona kalbine rahmet, işine bereket, dünyasını da kendisine yeterli kılar.',
+    'kaynak': 'Hadis meali, İbn Mâce, Zühd 5',
+  },
+  {
+    'tip': 'Ayet',
+    'metin': 'Şüphesiz Allah, adaletli olanları sever.',
+    'kaynak': 'Mâide, 5/42',
+  },
+  {
+    'tip': 'Hadis',
+    'metin': 'Sadaka malı eksiltmez. Allah, affeden kulun ancak izzetini artırır.',
+    'kaynak': 'Müslim, Birr 69',
+  },
+  {
+    'tip': 'Hadis',
+    'metin': 'Sizin en hayırlınız, Kur\'an\'ı öğrenen ve öğreteninizdir.',
+    'kaynak': 'Buhârî, Fezâilü\'l-Kur\'ân 21',
+  },
+  {
+    'tip': 'Ayet',
+    'metin': 'Kim bir canı kurtarırsa bütün insanları kurtarmış gibi olur.',
+    'kaynak': 'Mâide, 5/32',
+  },
+];
+
+// ---------------- ÜMMET BİLİNCİ: NÜFUS & TOPLULUKLAR ----------------
+
+final dunyaMuslumanNufusu = [
+  {'ulke': 'Endonezya', 'nufus': '237 milyon', 'oran': '86%', 'bayrak': '🇮🇩'},
+  {'ulke': 'Pakistan', 'nufus': '231 milyon', 'oran': '96%', 'bayrak': '🇵🇰'},
+  {'ulke': 'Hindistan', 'nufus': '211 milyon', 'oran': '15%', 'bayrak': '🇮🇳'},
+  {'ulke': 'Bangladeş', 'nufus': '153 milyon', 'oran': '91%', 'bayrak': '🇧🇩'},
+  {'ulke': 'Nijerya', 'nufus': '104 milyon', 'oran': '50%', 'bayrak': '🇳🇬'},
+  {'ulke': 'Mısır', 'nufus': '93 milyon', 'oran': '91%', 'bayrak': '🇪🇬'},
+  {'ulke': 'Türkiye', 'nufus': '84 milyon', 'oran': '99%', 'bayrak': '🇹🇷'},
+  {'ulke': 'İran', 'nufus': '83 milyon', 'oran': '99%', 'bayrak': '🇮🇷'},
+  {'ulke': 'Şu anda dünyada 1.9 milyardan fazla Müslüman yaşamaktadır.', 'nufus': '', 'oran': '', 'bayrak': '🌍'},
+];
+
+final kardesTopluluklar = [
+  {
+    'bayrak': '🇹🇷',
+    'ad': 'Anadolu',
+    'detay': 'Bayramlaşma, mevlit okutma, kırk mevlit ve taziyelerle zengin bir gelenek. Selatin camilerde cemaat, mahalle kültürünün merkezi.',
+  },
+  {
+    'bayrak': '🇮🇩',
+    'ad': 'Endonezya',
+    'detay': 'Dünyanın en kalabalık Müslüman ülkesi. Ramazan ve bayramlarda mudik (memlekete dönüş) geleneği, evlere iaşe hediye etme adeti yaygındır.',
+  },
+  {
+    'bayrak': '🇲🇦',
+    'ad': 'Fas',
+    'detay': 'Taravihlerde hatm-i şerif, Ramazan\'da harira çorbası geleneği. Endülüs\'ten taşınan mimari ve ilim mirasına sahiptir.',
+  },
+  {
+    'bayrak': '🇮🇷',
+    'ad': 'İran',
+    'detay': 'Muharrem ayında matem merasimleri, Nevruz esintili bahar kutlamaları ve büyük mukabele geleneği.',
+  },
+  {
+    'bayrak': '🇳🇬',
+    'ad': 'Nijerya',
+    'detay': 'Kuzeyde Şeri hukuku ve tarikat gelenekleri, batıda ise... halk arasında bayram namazları açık meydanlarda kılınır.',
+  },
+  {
+    'bayrak': '🇧🇦',
+    'ad': 'Bosna-Hersek',
+    'detay': 'Avrupa\'nın kalbinde İslam kimliği. Cuma vakti ezan okununca iş yerleri durur; Ramazan\'da sokaklarda sahur iftarları kurulur.',
+  },
+];
+
 // ---------------- KALICI DEPO (shared_preferences) ----------------
 
 class UmmetStore {
@@ -690,5 +1153,44 @@ class UmmetStore {
   static Future<int> gorevToplamTamamlanan() async {
     final prefs = await _p;
     return prefs.getInt(_gorevToplamKey) ?? 0;
+  }
+
+  // ---------- KÜRESEL YARDIM KAMPANYALARI ----------
+
+  static Future<int> kampanyaPayi(String id) async {
+    final prefs = await _p;
+    return prefs.getInt('ummet_kampanya_$id') ?? 0;
+  }
+
+  /// Kampanyaya destek eklendikçe sayacı artırır.
+  static Future<void> kampanyaDestekle(String id) async {
+    final prefs = await _p;
+    final yeni = (prefs.getInt('ummet_kampanya_$id') ?? 0) + 1;
+    await prefs.setInt('ummet_kampanya_$id', yeni);
+  }
+
+  // ---------- MANEVİ HALKALAR ----------
+
+  static Future<bool> halkadaMis(String id) async {
+    final prefs = await _p;
+    return prefs.getBool('ummet_halka_$id') ?? false;
+  }
+
+  static Future<void> halkayaKatil(String id) async {
+    final prefs = await _p;
+    await prefs.setBool('ummet_halka_$id', true);
+  }
+
+  static Future<void> halkadanAyril(String id) async {
+    final prefs = await _p;
+    await prefs.setBool('ummet_halka_$id', false);
+  }
+
+  // ---------- GÜNÜN MESAJI ----------
+
+  /// Günün sayısına göre mesajı seçer; her gün farklı mesaj döner.
+  static int gununMesajIndexi([DateTime? tarih]) {
+    final d = tarih ?? DateTime.now();
+    return d.year + d.month * 31 + d.day;
   }
 }

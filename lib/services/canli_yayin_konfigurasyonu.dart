@@ -305,14 +305,17 @@ class CanliYayinKonfig {
       // başarısız olursa live_stream?channel= embed'i ile yedeklenir.
       youtubeLiveChannelId: 'UCos52azQNBgW63_9uDJoPDA',
       hlsKaynaklar: [
+        // Doğrulanmış birincil kaynak: SBA resmî canlı akışı (Mekke).
+        // 2026-08 itibarıyla segment üretimi aktif ve erişilebilir durumdadır.
+        CanliYayinKaynak(
+          ad: 'Kuran TV (Resmî · Mekke)',
+          url: 'http://m.live.net.sa:1935/live/quran/playlist.m3u8',
+        ),
+        // Yedek: Suudi Yayın Kurumu CDN akışı (iptv-org aktif listesinde).
         CanliYayinKaynak(
           ad: 'Kuran TV (CDN)',
           url:
               'https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8',
-        ),
-        CanliYayinKaynak(
-          ad: 'Kuran TV (Resmî)',
-          url: 'http://m.live.net.sa:1935/live/quran/playlist.m3u8',
         ),
         // Son çare yedek: %100 çalışan, süresi dolmayan test HLS akışı.
         // İki resmî Kâbe kaynağı da kesilirse oynatıcının çalıştığını

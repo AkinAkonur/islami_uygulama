@@ -313,7 +313,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'YouTube resmî yayın · hücresel veri uyarısı · Mini Oynatıcı (PiP)',
+              'Resmî Harem yayını (canlı HLS) · hücresel veri uyarısı · Mini Oynatıcı (PiP)',
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.6),
                 fontSize: 11,

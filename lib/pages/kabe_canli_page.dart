@@ -1,15 +1,16 @@
 // ===========================================================================
-// KÂBE-İ MUAZZAMA CANLI YAYIN
+// KÂBE-İ MUAZZAMA / MESCİD-İ NEBEVÎ CANLI YAYIN
 // ---------------------------------------------------------------------------
 // Teknik tasarım kararları (bağlantı kopmalarını/siyah ekranı önlemek için):
-//  1. Yayın kaynakları ASLA gömülü değildir: CanliYayinKonfigurasyonu
-//     (Remote Config alternatifi) tarafından uzak JSON'dan dinamik getirilir.
-//     Kaynak değiştiğinde Store güncellemesi gerekmez.
-//  2. Birincil kaynak: Resmî YouTube canlı yayını (IFrame/WebView gömme).
-//     YouTube altyapısı tüm dünyada ve hücresel veride akışı otomatik
-//     optimize eder (Adaptive Bitrate: 360p/720p...) ve codec uyuşmazlığı /
-//     Cloudflare engeli gibi ham HLS sorunlarını elemine eder.
-//  3. Yedek kaynaklar: Ham HLS akışları (video_player) otomatik sıra takibi
+//  1. Yayın kaynakları ASLA gömülü tek kopya değildir: CanliYayinKonfigurasyonu
+//     (Remote Config alternatifi) tarafından dinamik getirilir; ayrıca Kâbe
+//     için Resmî SBA HLS akışı (`/live/quran`), Medine modu için `/live/sunnah`
+//     akışı öncelenir. Kaynak değiştiğinde Store güncellemesi gerekmez.
+//  2. Oynatıcı: Doğrudan canlı HLS (m3u8) akışı (video_player ExoPlayer /
+//     AVPlayer). YouTube IFrame embed'leri 2025 sonrası cihazlarda "Oynatıcı
+//     yapılandırma hatası" ile reddedildiği için kullanılmaz; HLS, codec uyumlu
+//     her cihazda canlı yayını akıtır.
+//  3. Yedek kaynaklar: HLS kaynakları video_player ile otomatik sıra takibi
 //     ile denenir; biri kesilirse diğerine geçilir.
 //  4. Hücresel veri uyarısı: Wi-Fi kapalıyken başlatmadan önce kullanıcı
 //     bilgilendirilir (connectivity_plus).
@@ -29,9 +30,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_android/webview_flutter_android.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/kabe_mini_oynatici.dart';
@@ -41,10 +39,18 @@ import '../services/renkler.dart';
 enum YayinModu { video, ses }
 
 class KabeCanliPage extends StatefulWidget {
-  const KabeCanliPage({super.key, this.baslangicModu = YayinModu.video});
+  const KabeCanliPage({
+    super.key,
+    this.baslangicModu = YayinModu.video,
+    this.medineYayini = false,
+  });
 
   /// Sayfa açılış modu: 📺 tam ekran izleme veya 🎧 sadece ses.
   final YayinModu baslangicModu;
+
+  /// true ise Mescid-i Nebevî (Medine) canlı yayını açılır: Kâbe yerine
+  /// Sünnet kanalı (`/live/sunnah`) akışı kullanılır.
+  final bool medineYayini;
 
   @override
   State<KabeCanliPage> createState() => _KabeCanliPageState();
@@ -54,10 +60,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     with WidgetsBindingObserver {
   late YayinModu _modu;
 
-  // ---- Video (YouTube WebView + HLS yedek) ----
-  WebViewController? _webKontrol;
-  bool _webYukleniyor = false;
-  bool _webHata = false;
+  // ---- Video (Canlı HLS akışı) ----
   VideoPlayerController? _videoKontrol;
   int _hlsIndex = 0;
   bool _hlsHata = false;
@@ -92,6 +95,43 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   CanliYayinKonfig get _konfig => CanliYayinKonfigurasyonu.guncel;
+
+  /// Başlık: Kâbe (Mescid-i Haram) veya Mescid-i Nebevî (Medine).
+  String get _baslik => widget.medineYayini
+      ? 'Mescid-i Nebevî Canlı Yayın'
+      : 'Kâbe-i Muazzama Canlı Yayın';
+
+  /// Video modunda denenecek HLS kaynakları. Medine modunda Kâbe'nin
+  /// `/live/quran` akışı yerine Resmî Sünnet kanalının `/live/sunnah`
+  /// akışı öncelenir (her ikisi SBA'nın 7/24 Harem yayınlarıdır).
+  List<CanliYayinKaynak> _aktifHlsKaynaklar() {
+    if (!widget.medineYayini) {
+      return [
+        for (final k in _konfig.hlsKaynaklar)
+          if (!k.youtube) k,
+      ];
+    }
+    return const [
+      CanliYayinKaynak(
+        ad: 'Sünnet TV (Resmî · Medine)',
+        url: 'http://m.live.net.sa:1935/live/sunnah/playlist.m3u8',
+      ),
+      CanliYayinKaynak(
+        ad: 'Kuran TV (CDN · Kâbe yedeği)',
+        url:
+            'https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8',
+      ),
+    ];
+  }
+
+  /// Ses modu akış adresi. Medine modunda Kâbe sesi yerine Sünnet
+  /// radyo kanalı (Mescid-i Nebevî) akışı kullanılır.
+  String? get _aktifSesAkisi {
+    if (widget.medineYayini) {
+      return 'http://m.live.net.sa:1935/live/sunnah/playlist.m3u8';
+    }
+    return CanliYayinKonfigurasyonu.sesAkisUrl;
+  }
 
   @override
   void initState() {
@@ -218,7 +258,6 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Future<void> _agKoptu() async {
-    _webKontrol = null;
     _videoKontrol?.pause();
     if (_modu == YayinModu.ses) {
       await _sesPlayer.pause();
@@ -248,8 +287,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     if (!mounted) return;
     if (_modu == YayinModu.ses && _sesHata) {
       await _sesModunubaslat();
-    } else if (_modu == YayinModu.video &&
-        (_webHata || _hlsHata || _dayanikliHata != null)) {
+    } else if (_modu == YayinModu.video && (_hlsHata || _dayanikliHata != null)) {
       await _videoyuBaslat();
     } else {
       _videoKontrol?.play();
@@ -272,7 +310,6 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       _dayanikliHata = null;
     });
     if (yeniModu == YayinModu.ses) {
-      _webKontrol = null;
       _videoKontrol = null;
       await _sesModunubaslat();
     } else {
@@ -288,7 +325,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       _sesHata = false;
       _dayanikliHata = null;
     });
-    final url = CanliYayinKonfigurasyonu.sesAkisUrl;
+    final url = _aktifSesAkisi;
     if (url == null) {
       setState(() => _sesHata = true);
       return;
@@ -328,115 +365,24 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   // =========================================================================
-  // VİDEO MODU: YouTube (WebView) birincil - HLS yedek zinciri
+  // VİDEO MODU: Canlı HLS (m3u8) akış zinciri
+  // -------------------------------------------------------------------------
+  // Resmî Harem yayınları (SBA) doğrulanmış canlı HLS kaynaklarından çalınır:
+  // biri kırılırsa otomatik sıradakine geçilir. Kâbe modunda `/live/quran`,
+  // Medine modunda `/live/sunnah` önceliklidir.
   // =========================================================================
   Future<void> _videoyuBaslat() async {
     if (!mounted) return;
     setState(() {
-      _webHata = false;
       _hlsHata = false;
       _dayanikliHata = null;
-      _webYukleniyor = false;
     });
-    if (_konfig.youtubeVideoId.isNotEmpty) {
-      await _youtubeYukle();
-    } else {
-      await _hlsDene(0);
-    }
-  }
-
-  /// YouTube IFrame gömmeyi başlatır. [kanalModu] true ise video ID yerine
-  /// kanal tabanlı `live_stream?channel=...` embed'i kullanılır (video ID
-  /// embed'i reddedildiğinde yedek). Yayın ID'si değişse bile kanal yayında
-  /// olduğu sürece kanal embed'i çalışır.
-  Future<void> _youtubeYukle({bool kanalModu = false}) async {
-    if (!mounted) return;
-    setState(() {
-      _webYukleniyor = true;
-      _webHata = false;
-    });
-    try {
-      // Platforma özel WebView kurulumu: kullanıcı dokunuşu olmadan videonun
-      // SESLİ başlaması için gereklidir. Bu olmadan tablet/telefonlarda yayın
-      // sessiz (muted) başlar veya "Oynatıcı yapılandırma hatası" ile durur.
-      // iOS/WebKit: mediaTypesRequiringUserAction boş bırakılır.
-      // Android: setMediaPlaybackRequiresUserGesture(false) çağrılır.
-      late final PlatformWebViewControllerCreationParams params;
-      if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-        params = WebKitWebViewControllerCreationParams(
-          allowsInlineMediaPlayback: true,
-          mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
-        );
-      } else {
-        params = const PlatformWebViewControllerCreationParams();
-      }
-      final kontrol = WebViewController.fromPlatformCreationParams(params)
-        ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..setNavigationDelegate(
-          NavigationDelegate(
-            onPageFinished: (_) {
-              if (mounted) setState(() => _webYukleniyor = false);
-            },
-            onWebResourceError: (hata) {
-              if (!mounted) return;
-              // Yalnızca ana çerçeve hatası yayını başlatılamadı sayılır;
-              // reklam vb. alt kaynak hataları yok sayılır.
-              if (hata.isForMainFrame ?? false) {
-                setState(() => _webHata = true);
-                if (!kanalModu &&
-                    CanliYayinKonfigurasyonu.youtubeChannelEmbedUrl() != null) {
-                  // Video ID embed'i reddedildi (yayın ID'si değişmiş
-                  // olabilir): kanal tabanlı embed ile bir kez daha dene.
-                  _youtubeYukle(kanalModu: true);
-                } else {
-                  _hlsDene(0);
-                }
-              }
-            },
-          ),
-        )
-        ..setBackgroundColor(const Color(0xFF000000));
-      if (defaultTargetPlatform == TargetPlatform.android &&
-          kontrol.platform is AndroidWebViewController) {
-        final android = kontrol.platform as AndroidWebViewController;
-        AndroidWebViewController.enableDebugging(kDebugMode);
-        await android.setMediaPlaybackRequiresUserGesture(false);
-      }
-      final embedUrl = kanalModu
-          ? CanliYayinKonfigurasyonu.youtubeChannelEmbedUrl()!
-          : CanliYayinKonfigurasyonu.youtubeEmbedUrl();
-      if (kIsWeb) {
-        // Web'de tarayıcı Referer'i kendisi gönderir; doğrudan geçerli.
-        await kontrol.loadRequest(Uri.parse(embedUrl));
-      } else {
-        // YouTube, embed isteklerinde geçerli bir HTTP Referer ister
-        // (eksikse "Hata 153: Oynatıcı yapılandırma hatası"). Embed sayfası,
-        // geçerli bir HTTPS kökeni (embedBaseUrl) üzerinden yüklenen yerel bir
-        // HTML sarmalayıcıya gömülür; WebView bu kökeni Referer olarak gönderir.
-        await kontrol.loadHtmlString(
-          CanliYayinKonfigurasyonu.youtubeEmbedHtml(embedUrl),
-          baseUrl: CanliYayinKonfigurasyonu.embedBaseUrl,
-        );
-      }
-      if (mounted) setState(() => _webKontrol = kontrol);
-      await _ekraniAcikTut(true);
-    } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _webYukleniyor = false;
-        _webHata = true;
-      });
-      // WebView bu cihazda kullanılamıyorsa HLS yedeğine düş.
-      await _hlsDene(0);
-    }
+    await _hlsDene(0);
   }
 
   Future<void> _hlsDene(int index) async {
     if (!mounted) return;
-    final kaynaklar = [
-      for (final k in _konfig.hlsKaynaklar)
-        if (!k.youtube) k,
-    ];
+    final kaynaklar = _aktifHlsKaynaklar();
     if (index >= kaynaklar.length) {
       setState(() {
         _hlsHata = true;
@@ -461,11 +407,28 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     }
     if (!mounted) return;
 
+    final kaynak = kaynaklar[index];
     final yeni = VideoPlayerController.networkUrl(
-      Uri.parse(kaynaklar[index].url),
+      Uri.parse(kaynak.url),
+      // Bazı cihazlarda .m3u8 uzantısına rağmen ExoPlayer'ın akışı doğru
+      // çözebilmesi için format ipucu verilir (canlı HLS).
+      formatHint: VideoFormat.hls,
     );
     try {
-      await yeni.initialize();
+      // Canlı HLS akışlarında ExoPlayer "first frame" gelene kadar
+      // initialize()'ı döndürmez; asılı kalmamak için zaman aşımı uygulanır.
+      await yeni
+          .initialize()
+          .timeout(_hlsZamanAsimi, onTimeout: () async {
+        // Oynatıcı, belirtilen sürede bağlanamadı: kaynağı serbest bırak
+        // ve sıradaki akışı dene.
+        try {
+          await yeni.dispose();
+        } catch (_) {}
+        if (!mounted) return;
+        await _hlsDene(index + 1);
+        throw _HlsAtlandi();
+      });
       if (!mounted) {
         try {
           await yeni.dispose();
@@ -477,6 +440,12 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       yeni.addListener(_hlsDurumDinle);
       await yeni.play();
       await _ekraniAcikTut(true);
+      // Oynatma bekçisi: initialize başarılı olduysa bile görüntü birkaç
+      // saniye içinde akışa başlamazsa sıradaki kaynağa geçilir (akış
+      // sunucusu görüntü üretmiyor olabilir - "ses var, görüntü yok").
+      _oynatmaBekcisiBaslat(index);
+    } on _HlsAtlandi {
+      // Zaman aşımı akışı zaten bir sonraki kaynağa yönlendirdi.
     } catch (_) {
       if (!mounted) return;
       try {
@@ -484,6 +453,37 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       } catch (_) {}
       await _hlsDene(index + 1);
     }
+  }
+
+  /// HLS akışının bağlanması için üst sınır. Bu sürede "ilk kare" gelmezse
+  /// kaynak atlanır ve sıradaki akış denenir.
+  Duration get _hlsZamanAsimi => const Duration(seconds: 14);
+
+  /// Oynatma bekçisi zamanlayıcısı.
+  Timer? _oynatmaBekcisi;
+
+  /// Initialize tamamlandıktan sonra akışın gerçekten oynamaya başladığını
+  /// doğrular. Ses gelip görüntü gelmeyen akışlarda (video track yoksa veya
+  /// sunucu karesi gönderemiyorsa) 8 saniye içinde oynama gerçekleşmezse
+  /// sıradaki kaynağa geçilir.
+  void _oynatmaBekcisiBaslat(int index) {
+    _oynatmaBekcisi?.cancel();
+    _oynatmaBekcisi = Timer(const Duration(seconds: 8), () async {
+      if (!mounted) return;
+      final c = _videoKontrol;
+      if (c == null) return;
+      final v = c.value;
+      // Görüntü gerçekten akıyorsa boyut bilgisi gelir ve oynatma başlamıştır.
+      final oynuyor = v.isInitialized &&
+          v.isPlaying &&
+          (v.size.width > 0 && v.size.height > 0);
+      if (oynuyor) return;
+      // Hata durumları zaten _hlsDurumDinle tarafından ele alınır.
+      if (v.hasError) return;
+      // Takıldı: bu kaynağı atla, sıradakini dene.
+      _oynatmaBekcisi = null;
+      await _hlsDene(index + 1);
+    });
   }
 
   void _hlsDurumDinle() {
@@ -495,6 +495,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Future<void> _tekrarDene() async {
+    _oynatmaBekcisi?.cancel();
     if (_modu == YayinModu.ses) {
       await _sesModunubaslat();
     } else {
@@ -555,10 +556,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   String _hlsAdi() {
-    final kaynaklar = [
-      for (final k in _konfig.hlsKaynaklar)
-        if (!k.youtube) k,
-    ];
+    final kaynaklar = _aktifHlsKaynaklar();
     if (_hlsIndex >= 0 && _hlsIndex < kaynaklar.length) {
       return kaynaklar[_hlsIndex].ad;
     }
@@ -613,7 +611,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _agTakip?.cancel();
-    _webKontrol = null;
+    _oynatmaBekcisi?.cancel();
     _ekraniAcikTut(false);
     final c = _videoKontrol;
     _videoKontrol = null;
@@ -641,7 +639,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       appBar: _tamEkran
           ? null
           : AppBar(
-              title: const Text('Kâbe-i Muazzama Canlı Yayın'),
+              title: Text(_baslik),
               backgroundColor: Renkler.seciliYuzey,
             ),
       body: Stack(
@@ -693,18 +691,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _videoOynatici() {
-    final web = _webKontrol;
     final video = _videoKontrol;
-    if (web != null && !_webHata) {
-      return Stack(
-        fit: StackFit.expand,
-        children: [
-          WebViewWidget(controller: web),
-          _canliRozeti(),
-          if (_webYukleniyor) _beklemeKatmani(),
-        ],
-      );
-    }
     if (video != null && video.value.isInitialized) {
       return GestureDetector(
         onTap: _videoDuraklatDevam,
@@ -945,11 +932,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _kaynakSatiri() {
-    final konfig = _konfig;
-    final webAktif = _webKontrol != null && !_webHata;
-    final kaynakAdi = webAktif
-        ? '${konfig.kaynakAdi} · YouTube (resmî yayın, otomatik kalite)'
-        : _hlsAdi();
+    final kaynakAdi = _hlsAdi();
     return Row(
       children: [
         Icon(Icons.sensors, color: Renkler.vurgu, size: 16),
@@ -1197,16 +1180,23 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _bilgiKartlari() {
+    final anaBaslik = widget.medineYayini
+        ? 'Mescid-i Nebevî 7/24 Canlı'
+        : 'Mescid-i Haram 7/24 Canlı';
+    final anaDetay = widget.medineYayini
+        ? 'Ravza-i Mutahhara ve Yeşil Kubbe çevresindeki canlı kamera '
+            'akışı. Sünnet kanalı, Mescid-i Nebevî\'den beş vakit namazı '
+            'yayınlar.'
+        : 'Tavaf alanı ve Hacerü\'l-Esved çevresindeki canlı kamera '
+            'akışı. Namaz vakitlerinde haram imamlarının kıldırdığı '
+            'namazlar yayınlanır.';
     return Column(
       children: [
         _bilgiKarti(
           ikon: Icons.mosque_outlined,
           renk: Colors.redAccent,
-          baslik: 'Mescid-i Haram 7/24 Canlı',
-          alt:
-              'Tavaf alanı ve Hacerü\'l-Esved çevresindeki canlı kamera '
-              'akışı. Namaz vakitlerinde haram imamlarının kıldırdığı '
-              'namazlar yayınlanır.',
+          baslik: anaBaslik,
+          alt: anaDetay,
         ),
         _bilgiKarti(
           ikon: Icons.sync_alt,
@@ -1279,3 +1269,8 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     );
   }
 }
+
+/// Zaman aşımıyla HLS kaynağının atlandığını belirten iç denetim istisnası.
+/// Normal akışta kullanıcıya gösterilmez; yalnızca `_hlsDene` içinde sıradaki
+/// kaynağa geçişi tetikler.
+class _HlsAtlandi implements Exception {}

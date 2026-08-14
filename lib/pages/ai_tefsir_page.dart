@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/gemini_servisi.dart';
 import '../services/renkler.dart';
 
 class AiTefsirPage extends StatefulWidget {
@@ -10,11 +11,13 @@ class AiTefsirPage extends StatefulWidget {
 
 class _AiTefsirPageState extends State<AiTefsirPage> {
   final TextEditingController _queryController = TextEditingController();
+  final GeminiServisi _gemini = GeminiServisi();
   String _selectedMode = "Tefsir Modu";
   bool _isLoading = false;
 
   // Active simulated result following the 7-layer architecture
-  Map<String, dynamic>? _activeResponse;
+  String? _yanitText;
+  String? _hataText;
 
   final List<String> _modes = [
     "Tefsir Modu",
@@ -24,6 +27,19 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
     "Karşılaştırma",
   ];
 
+  static const Map<String, String> _modeTalimatlari = {
+    "Tefsir Modu":
+        "Kur'an ayeti/konusu hakkında klasik tefsirler (İbn Kesîr, Râzî, Elmalılı) ve dilbilimsel açıklamayla detaylı yanıt ver. Ayet numarası verildiyse metni ve meramını açıkla.",
+    "Teselli & Umut":
+        "Kaygı, keder ve umutsuzluğa karşı Kur'an'dan ve hadislerden ferahlatıcı, şefkatli ve güven veren yanıtlar ver. Kısa, sıcak ve manevi bir üslup kullan.",
+    "Hayat Sorunu":
+        "Günlük hayattaki sorunlara (aile, iş, ilişki, alışkanlıklar) İslami çerçevede pratik ve uygulanabilir çözümler sun; adım adım, özlü ve samimi yanıtla.",
+    "Öğrenme Modu":
+        "Soruya net, düzenli, madde madde ve başlangıç seviyesinden akademik seviyeye açıklamalı eğitici bir yanıt ver. Terimleri tanımla ve örnek ver.",
+    "Karşılaştırma":
+        "İki veya daha fazla konuyu (ayet, görüş, uygulama) yan yana karşılaştır; benzerlik ve farklılıkları tablo/madde halinde nesnel şekilde sun.",
+  };
+
   final List<String> _sampleQuestions = [
     "Nisa Suresi 34. ayeti açıklar mısın?",
     "Kaygılıyım, içimi ferahlatacak ayetler hangileri?",
@@ -31,33 +47,36 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
     "Bakara Suresi 256. ayette 'dinde zorlama yoktur' ne anlama gelir?",
   ];
 
-  void _askAi(String query) {
+  Future<void> _askAi(String query) async {
     if (query.trim().isEmpty) return;
     setState(() {
       _isLoading = true;
-      _activeResponse = null;
+      _yanitText = null;
+      _hataText = null;
     });
 
-    // Simulate AI generation with the 7-layer architecture
-    Future.delayed(Duration(milliseconds: 1200), () {
+    try {
+      if (!_gemini.hazir) {
+        throw const GemiException(
+          "API anahtarı tanımlı değil.\nDerleme: flutter run --dart-define=GEMINI_API_KEY=<anahtar>",
+        );
+      }
+      final talimat = _modeTalimatlari[_selectedMode] ?? '';
+      final text = await _gemini.sor(
+        "$_selectedMode etkin. $talimat\n\nSoru: $query",
+      );
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
-        _activeResponse = {
-          "query": query,
-          "summary": "Bu ayet/konu, İslam'ın hakikatini, adalet prensibini ve insan ruhunun huzur bulacağı ilahi ölçüleri barındırır.",
-          "verse": "İlgili Ayet: Örnek Bağlam Suresi, 32. Ayet",
-          "tafsir": "İbn Kesîr tefsirine göre bu hüküm toplumsal maslahatı gözetirken; Râzî ve Elmalılı Hamdi Yazır ise hikmet boyutuna dikkat çeker.",
-          "nuzul": "Nüzul Sebebi: Asr-ı Saadet döneminde sahabelerin karşılaştığı toplumsal olaylar üzerine nazil olmuştur.",
-          "hadis": "Hadis Desteği: «Ameller niyetlere göredir» (Buhârî, Bed'ül-Vahy, 1)",
-          "modern": "Güncel Uygulama: Modern iş ve aile hayatında adalet, dürüstlük ve tevekkül prensibiyle uygulanır.",
-          "followUps": [
-            "Bu konuda farklı mezhep görüşleri var mı?",
-            "Günlük hayatta bunu nasıl pratik edebilirim?",
-            "İlgili diğer ayetler hangileridir?"
-          ]
-        };
+        _yanitText = text;
       });
-    });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _hataText = 'Hata: $e';
+      });
+    }
   }
 
   @override
@@ -130,23 +149,48 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                   final isSelected = mode == _selectedMode;
                   return GestureDetector(
                     onTap: () => setState(() => _selectedMode = mode),
-                    child: Container(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 180),
                       margin: EdgeInsets.only(right: 8),
                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
-                        color: isSelected ? Renkler.cerceve2 : Renkler.kart,
+                        color: isSelected ? Renkler.vurgu : Renkler.kart,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: isSelected ? Renkler.vurgu : Colors.transparent,
+                          color: isSelected ? Renkler.vurgu : Renkler.cerceve2,
                         ),
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: Renkler.vurgu.withValues(alpha: 0.35),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ]
+                            : null,
                       ),
-                      child: Text(
-                        mode,
-                        style: TextStyle(
-                          color: isSelected ? Renkler.vurgu : Colors.white70,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (isSelected) ...[
+                            Icon(
+                              Icons.check_circle,
+                              color: Renkler.zemin,
+                              size: 15,
+                            ),
+                            SizedBox(width: 6),
+                          ],
+                          Text(
+                            mode,
+                            style: TextStyle(
+                              color: isSelected ? Renkler.zemin : Colors.white70,
+                              fontSize: 13,
+                              fontWeight: isSelected
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );
@@ -220,8 +264,64 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                 ),
               ),
 
-            // 7 Katmanlı Cevap Mimarisi Sonucu
-            if (_activeResponse != null) ...[
+            // API anahtarı yoksa bilgilendirme
+            if (!_isLoading && !_gemini.hazir && _yanitText == null && _hataText == null)
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Renkler.yuzey,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Renkler.cerceve2),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.key_off, color: Renkler.vurgu, size: 20),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "API anahtarı ayarlanmamış",
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            "Ücretsiz anahtar için: aistudio.google.com/apikey\nSonra uygulamayı şöyle çalıştırın:\nflutter run --dart-define=GEMINI_API_KEY=ANAHTAR",
+                            style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            // Hata durumu
+            if (_hataText != null)
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Renkler.yuzey,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.redAccent),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.error_outline, color: Colors.redAccent, size: 20),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        _hataText!,
+                        style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            // Gemini'den gelen gerçek yanıt
+            if (_yanitText != null) ...[
               Container(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -236,70 +336,19 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                       children: [
                         Icon(Icons.auto_awesome, color: Renkler.vurgu, size: 20),
                         SizedBox(width: 8),
-                        Text(
-                          "AI Tefsir Analizi ($_selectedMode)",
-                          style: TextStyle(color: Renkler.vurgu, fontWeight: FontWeight.bold, fontSize: 14),
+                        Expanded(
+                          child: Text(
+                            "AI Yanıtı ($_selectedMode)",
+                            style: TextStyle(color: Renkler.vurgu, fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
                         ),
                       ],
                     ),
                     Divider(color: Renkler.cerceve2, height: 24),
-
-                    // Katman 1: Özet
-                    _layerTitle("1. Doğrudan Özet"),
-                    Text(_activeResponse!["summary"], style: TextStyle(color: Colors.white, fontSize: 14, height: 1.4)),
-                    SizedBox(height: 14),
-
-                    // Katman 2: Ayet & Bağlam
-                    _layerTitle("2. Ayet & Bağlam"),
-                    Text(_activeResponse!["verse"], style: TextStyle(color: Colors.white70, fontSize: 13)),
-                    SizedBox(height: 14),
-
-                    // Katman 3: Tefsir Karşılaştırması
-                    _layerTitle("3. Tefsir Görüşleri (İbn Kesîr, Râzî, Elmalılı)"),
-                    Text(_activeResponse!["tafsir"], style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.4)),
-                    SizedBox(height: 14),
-
-                    // Katman 4: Nüzul Sebebi
-                    _layerTitle("4. Nüzul Sebebi"),
-                    Text(_activeResponse!["nuzul"], style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.4)),
-                    SizedBox(height: 14),
-
-                    // Katman 5: Hadis Desteği
-                    _layerTitle("5. Hadis Desteği"),
-                    Text(_activeResponse!["hadis"], style: TextStyle(color: Colors.white70, fontSize: 13, fontStyle: FontStyle.italic)),
-                    SizedBox(height: 14),
-
-                    // Katman 6: Güncel Hayat Uygulaması
-                    _layerTitle("6. Güncel Hayat Bağlamı"),
-                    Text(_activeResponse!["modern"], style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.4)),
-                    SizedBox(height: 20),
-
-                    // Katman 7: Takip Soruları Önerileri
-                    Text("7. Takip Soruları Önerileri:", style: TextStyle(color: Renkler.vurgu, fontSize: 12, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
-                    ...((_activeResponse!["followUps"] as List).map((fq) => Padding(
-                          padding: EdgeInsets.only(bottom: 6.0),
-                          child: InkWell(
-                            onTap: () {
-                              _queryController.text = fq;
-                              _askAi(fq);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Renkler.cerceve2,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.subdirectory_arrow_right, color: Renkler.vurgu, size: 16),
-                                  SizedBox(width: 8),
-                                  Expanded(child: Text(fq, style: TextStyle(color: Colors.white, fontSize: 12))),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ))),
+                    Text(
+                      _yanitText!,
+                      style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+                    ),
                     SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -324,20 +373,6 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
             ],
             SizedBox(height: 30),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _layerTitle(String title) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 4.0),
-      child: Text(
-        title,
-        style: TextStyle(
-          color: Renkler.vurgu,
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );

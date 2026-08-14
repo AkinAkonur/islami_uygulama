@@ -57,27 +57,31 @@ class KuranApi {
 
   // ---------- SURE LİSTESİ ----------
   Future<List<SureBilgisi>> sureleriGetir() async {
-    final uri = Uri.parse('$_base/surah');
-    final res = await _client.get(uri).timeout(Duration(seconds: 20));
-    if (res.statusCode != 200) {
-      throw Exception('Sure listesi alınamadı (${res.statusCode})');
-    }
-    final json = jsonDecode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
-    final data = json['data'] as List<dynamic>;
+    try {
+      final uri = Uri.parse('$_base/surah');
+      final res = await _client.get(uri).timeout(Duration(seconds: 20));
+      if (res.statusCode == 200) {
+        final json = jsonDecode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
+        final data = json['data'] as List<dynamic>;
 
-    return data.map((e) {
-      final m = e as Map<String, dynamic>;
-      final numara = m['number'] as int;
-      return SureBilgisi(
-        numara: numara,
-        arapcaAdi: (m['name'] as String?) ?? '',
-        turkceAdi: sureAdiTurkce(numara),
-        anlami: sureAnlami(numara),
-        ayetSayisi: (m['numberOfAyahs'] as int?) ?? 0,
-        inisYeri: m['revelationType'] == 'Meccan' ? 'Mekkî' : 'Medenî',
-        ozet: sureOzetiMetni(numara),
-      );
-    }).toList();
+        return data.map((e) {
+          final m = e as Map<String, dynamic>;
+          final numara = m['number'] as int;
+          return SureBilgisi(
+            numara: numara,
+            arapcaAdi: (m['name'] as String?) ?? '',
+            turkceAdi: sureAdiTurkce(numara),
+            anlami: sureAnlami(numara),
+            ayetSayisi: (m['numberOfAyahs'] as int?) ?? 0,
+            inisYeri: m['revelationType'] == 'Meccan' ? 'Mekkî' : 'Medenî',
+            ozet: sureOzetiMetni(numara),
+          );
+        }).toList();
+      }
+    } catch (_) {
+      // Ağ hatası: yerel yedek veriyle devam.
+    }
+    return surelerYedekListe();
   }
 
   // ---------- SURE / CÜZ AYETLERİ (Arapça + meâl + okunuş) ----------
@@ -277,3 +281,16 @@ class KuranApi {
     _client.close();
   }
 }
+
+// İnternet yokken 114 surelik listenin gösterilmesini sağlayan yerel yedek.
+List<SureBilgisi> surelerYedekListe() => sureKayitlari.map((k) {
+      return SureBilgisi(
+        numara: k.numara,
+        arapcaAdi: k.arapcaAdi,
+        turkceAdi: sureAdiTurkce(k.numara),
+        anlami: sureAnlami(k.numara),
+        ayetSayisi: k.ayetSayisi,
+        inisYeri: k.inisYeri,
+        ozet: sureOzetiMetni(k.numara),
+      );
+    }).toList();

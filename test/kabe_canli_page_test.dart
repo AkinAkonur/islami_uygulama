@@ -50,4 +50,21 @@ void main() {
     // Mod seçici görünür ve ses modu seçili durumdadır.
     expect(find.text('📺 Video'), findsOneWidget);
   });
+
+  testWidgets('Medine modu Mescid-i Nebevi basligini gosterir', (tester) async {
+    tester.view.physicalSize = const Size(800, 2200);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(
+      const MaterialApp(home: KabeCanliPage(medineYayini: true)),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(find.text('Mescid-i Nebevî Canlı Yayın'), findsOneWidget);
+    expect(find.text('Mescid-i Nebevî 7/24 Canlı'), findsOneWidget);
+    // Medine modunda Sünnet kanalı (Mescid-i Nebevî) akışı öncelenir.
+    expect(find.textContaining('Sünnet TV'), findsOneWidget);
+  });
 }
