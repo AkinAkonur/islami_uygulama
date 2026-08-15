@@ -770,10 +770,6 @@ class AnaSayfa extends StatelessWidget {
                 icon: Icon(Icons.groups_outlined),
                 label: l.t('h.navUmmet'),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.play_circle_outline),
-                label: l.t('h.navVideo'),
-              ),
             ],
           ),
         ],

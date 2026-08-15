@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import 'yardim_kampanya_detay_page.dart';
 
 class YardimKampanyalariPage extends StatefulWidget {
   const YardimKampanyalariPage({super.key});
@@ -29,24 +30,6 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
       _paylar.addAll(paylar);
       _yukleniyor = false;
     });
-  }
-
-  Future<void> _destekle(YardimKampanyasi kampanya) async {
-    await UmmetStore.kampanyaDestekle(kampanya.id);
-    if (!mounted) return;
-    setState(() {
-      _paylar[kampanya.id] = (_paylar[kampanya.id] ?? 0) + 1;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Destek niyetin kaydedildi. ${kampanya.ad} için Allah razı olsun. 💚',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Renkler.bannerUst,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
   }
 
   @override
@@ -129,96 +112,99 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(color: Renkler.cerceve),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => _detayaGit(k),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Renkler.yuzey,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(k.ikon, style: TextStyle(fontSize: 22)),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          k.ad,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          k.kurum,
+                          style: TextStyle(color: Colors.white54, fontSize: 11),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(Icons.chevron_right, color: Colors.white24),
+                ],
+              ),
+              SizedBox(height: 10),
+              Text(
+                k.aciklama,
+                style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
+              ),
+              if (k.delil != null) ...[
+                SizedBox(height: 10),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  width: double.infinity,
+                  padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: Renkler.yuzey,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(k.ikon, style: TextStyle(fontSize: 22)),
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        k.ad,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        k.kurum,
-                        style: TextStyle(color: Colors.white54, fontSize: 11),
-                      ),
-                    ],
+                  child: Text(
+                    '"${k.delil}"',
+                    style: TextStyle(
+                      color: Colors.white54,
+                      fontSize: 11,
+                      fontStyle: FontStyle.italic,
+                      height: 1.4,
+                    ),
                   ),
                 ),
               ],
-            ),
-            SizedBox(height: 10),
-            Text(
-              k.aciklama,
-              style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
-            ),
-            if (k.delil != null) ...[
-              SizedBox(height: 10),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Renkler.yuzey,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  '"${k.delil}"',
-                  style: TextStyle(
-                    color: Colors.white54,
-                    fontSize: 11,
-                    fontStyle: FontStyle.italic,
-                    height: 1.4,
+              SizedBox(height: 12),
+              Row(
+                children: [
+                  Icon(Icons.groups, color: Renkler.vurgu, size: 16),
+                  SizedBox(width: 6),
+                  Text(
+                    '${binlikSayi(toplam)} kardeş bu hayra ortak oldu',
+                    style: TextStyle(color: Colors.white54, fontSize: 12),
                   ),
-                ),
+                  Spacer(),
+                  Icon(Icons.info_outline, color: Colors.white38, size: 16),
+                ],
               ),
             ],
-            SizedBox(height: 12),
-            Row(
-              children: [
-                Icon(Icons.groups, color: Renkler.vurgu, size: 16),
-                SizedBox(width: 6),
-                Text(
-                  '${binlikSayi(toplam)} kardeş bu hayra ortak oldu',
-                  style: TextStyle(color: Colors.white54, fontSize: 12),
-                ),
-                Spacer(),
-                FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Renkler.vurgu,
-                    foregroundColor: Renkler.zemin,
-                    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    textStyle: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () => _destekle(k),
-                  icon: Icon(Icons.favorite, size: 16),
-                  label: Text('Niyet Ettim'),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> _detayaGit(YardimKampanyasi k) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => YardimKampanyaDetayPage(kampanya: k)),
+    );
+    if (!mounted) return;
+    await _yukle();
   }
 }

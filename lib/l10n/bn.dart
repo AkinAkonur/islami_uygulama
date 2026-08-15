@@ -22,7 +22,6 @@ const Map<String, String> bnDil = {
   'h.navAi': 'AI',
   'h.navKuran': 'কুরআন',
   'h.navUmmet': 'উম্মাহ',
-  'h.navVideo': 'ভিডিও',
 
   // মেজাজ
   'm.huzurlu': 'প্রশান্ত',

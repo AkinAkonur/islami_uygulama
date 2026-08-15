@@ -22,7 +22,6 @@ const Map<String, String> urDil = {
   'h.navAi': 'AI',
   'h.navKuran': 'قرآن',
   'h.navUmmet': 'امت',
-  'h.navVideo': 'ویڈیوز',
 
   // جذباتی حالت
   'm.huzurlu': 'پرسکون',

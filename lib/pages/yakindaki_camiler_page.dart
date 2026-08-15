@@ -4,8 +4,12 @@ import '../services/location_and_mosque_service.dart';
 import '../services/renkler.dart';
 
 /// GPS konumuna göre en yakın camileri Overpass API'den çekip listeler.
+/// `lat`/`lng` verilirse GPS almadan o koordinata göre camileri çeker.
 class YakindakiCamilerPage extends StatefulWidget {
-  const YakindakiCamilerPage({super.key});
+  const YakindakiCamilerPage({super.key, this.lat, this.lng});
+
+  final double? lat;
+  final double? lng;
 
   @override
   State<YakindakiCamilerPage> createState() => _YakindakiCamilerPageState();
@@ -22,7 +26,11 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
 
   Future<void> _yukle() async {
     setState(() => _camiler = null);
-    final camiler = await LocationAndMosqueService.getKonumVeCamiler(context);
+    final lat = widget.lat;
+    final lng = widget.lng;
+    final camiler = lat != null && lng != null
+        ? await LocationAndMosqueService.fetchNearbyMosques(lat, lng)
+        : await LocationAndMosqueService.getKonumVeCamiler(context);
     if (!mounted) return;
     setState(() => _camiler = camiler);
   }

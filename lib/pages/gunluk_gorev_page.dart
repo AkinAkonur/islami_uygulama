@@ -13,6 +13,8 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
   Set<String> _gorevler = {};
   Set<String> _namaz = {};
   int _seri = 0;
+  List<(String, String)> _ozelIyilikler = [];
+  final TextEditingController _iyilikController = TextEditingController();
 
   @override
   void initState() {
@@ -20,15 +22,44 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
     _yukle();
   }
 
+  @override
+  void dispose() {
+    _iyilikController.dispose();
+    super.dispose();
+  }
+
   Future<void> _yukle() async {
     final gorevler = await ManeviStore.bugunGorevler();
     final namaz = await ManeviStore.bugunNamaz();
     final seri = await ManeviStore.seriOku();
+    final ozel = await ManeviStore.ozelIyilikler();
     if (mounted) {
       setState(() {
         _gorevler = gorevler;
         _namaz = namaz;
         _seri = seri;
+        _ozelIyilikler = ozel;
+      });
+    }
+  }
+
+  Future<void> _iyilikEkle() async {
+    final metin = _iyilikController.text.trim();
+    if (metin.isEmpty) return;
+    final yeni = await ManeviStore.ozelIyilikEkle(metin);
+    if (mounted) {
+      setState(() => _ozelIyilikler = yeni);
+      _iyilikController.clear();
+    }
+  }
+
+  Future<void> _iyilikSil(String id) async {
+    final yeni = await ManeviStore.ozelIyilikSil(id);
+    final gorevler = await ManeviStore.bugunGorevler();
+    if (mounted) {
+      setState(() {
+        _ozelIyilikler = yeni;
+        _gorevler = gorevler;
       });
     }
   }
@@ -255,7 +286,104 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
               onChanged: (t) => _gorevTikla(g['id']!, t),
             ),
           ),
+          const Divider(color: Colors.white12, height: 24),
+          if (_ozelIyilikler.isNotEmpty) ...[
+            ..._ozelIyilikler.map(
+              (i) => _ozelIyilikSatiri(
+                id: i.$1,
+                baslik: i.$2,
+                deger: _gorevler.contains(i.$1),
+                onChanged: (t) => _gorevTikla(i.$1, t),
+                onDelete: () => _iyilikSil(i.$1),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _iyilikController,
+                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                  cursorColor: Renkler.vurgu,
+                  maxLength: 80,
+                  onSubmitted: (_) => _iyilikEkle(),
+                  decoration: InputDecoration(
+                    counterText: '',
+                    isDense: true,
+                    hintText: 'Kendi iyiliğini ekle…',
+                    hintStyle: const TextStyle(color: Colors.white38),
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white24),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Renkler.vurgu),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              IconButton(
+                onPressed: _iyilikEkle,
+                tooltip: 'İyilik ekle',
+                icon: Icon(Icons.add_circle, color: Renkler.vurgu, size: 28),
+              ),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _ozelIyilikSatiri({
+    required String id,
+    required String baslik,
+    required bool deger,
+    required ValueChanged<bool> onChanged,
+    required VoidCallback onDelete,
+  }) {
+    return InkWell(
+      onTap: () => onChanged(!deger),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Renkler.seciliYuzey,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Text('✨', style: TextStyle(fontSize: 18)),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                baslik,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  decoration: deger ? TextDecoration.lineThrough : null,
+                ),
+              ),
+            ),
+            Icon(
+              deger ? Icons.check_circle : Icons.radio_button_unchecked,
+              color: deger ? Renkler.vurgu : Colors.white38,
+              size: 24,
+            ),
+            const SizedBox(width: 4),
+            IconButton(
+              onPressed: onDelete,
+              tooltip: 'İyiliği kaldır',
+              icon: const Icon(Icons.delete_outline, color: Colors.white38),
+              visualDensity: VisualDensity.compact,
+            ),
+          ],
+        ),
       ),
     );
   }

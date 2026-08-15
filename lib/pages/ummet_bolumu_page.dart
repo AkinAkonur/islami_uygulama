@@ -12,7 +12,6 @@ import 'ummet/zikir_kampanyalari_page.dart';
 import 'ummet/gunluk_iyilik_gorevleri_page.dart';
 import 'ummet/yardim_kampanyalari_page.dart';
 import 'ummet/zekat_hesaplayici_page.dart';
-import 'ummet/soru_cevap_page.dart';
 import 'ummet/etkinlikler_page.dart';
 import 'ummet/manevi_halkalar_page.dart';
 import 'ummet/islami_akis_page.dart';
@@ -268,24 +267,6 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                 context,
                 MaterialPageRoute(
                     builder: (_) => GunlukIyilikGorevleriPage()),
-              ),
-            ),
-            SizedBox(height: 20),
-
-            // ---------- 3. SORU-CEVAP & DANIŞMA ----------
-            _baslik(
-              "📖 Soru-Cevap & İslami Danışma",
-              "Güvenilir kaynaklardan fetva arşivi",
-            ),
-            _modulKart(
-              context,
-              Icons.menu_book_outlined,
-              "Fetva & Soru-Cevap",
-              "Namaz, oruç, zekât, temizlik ve günlük hayat soruları • SSS arşivi",
-              Colors.blueAccent,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => SoruCevapPage()),
               ),
             ),
             SizedBox(height: 20),

@@ -11,7 +11,17 @@ class HedefCarkiPage extends StatefulWidget {
 }
 
 class _HedefCarkiPageState extends State<HedefCarkiPage> {
-  Map<String, int> _hedefler = {'kuran': 0, 'zikir': 0, 'namaz': 0};
+  Map<String, int> _hedefler = {
+    'kuran': 0,
+    'zikir': 0,
+    'namaz': 0,
+    'dua': 0,
+    'tesbih': 0,
+    'sadaka': 0,
+  };
+  List<(String, String, int)> _ozelHedefler = [];
+  final TextEditingController _baslikController = TextEditingController();
+  final TextEditingController _limitController = TextEditingController();
 
   @override
   void initState() {
@@ -19,9 +29,22 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
     _yukle();
   }
 
+  @override
+  void dispose() {
+    _baslikController.dispose();
+    _limitController.dispose();
+    super.dispose();
+  }
+
   Future<void> _yukle() async {
     final h = await ManeviStore.hedeflerOku();
-    if (mounted) setState(() => _hedefler = h);
+    final ozel = await ManeviStore.ozelHedefler();
+    if (mounted) {
+      setState(() {
+        _hedefler = h;
+        _ozelHedefler = ozel;
+      });
+    }
   }
 
   Future<void> _arttir(String tur) async {
@@ -32,6 +55,33 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
   Future<void> _azalt(String tur) async {
     final h = await ManeviStore.hedefEkle(tur, -1);
     if (mounted) setState(() => _hedefler = h);
+  }
+
+  Future<void> _hedefEkle() async {
+    final baslik = _baslikController.text.trim();
+    final limit = int.tryParse(_limitController.text.trim());
+    if (baslik.isEmpty || limit == null || limit < 1) return;
+    final yeni = await ManeviStore.ozelHedefEkle(baslik, limit);
+    final h = await ManeviStore.hedeflerOku();
+    if (mounted) {
+      setState(() {
+        _ozelHedefler = yeni;
+        _hedefler = h;
+      });
+      _baslikController.clear();
+      _limitController.clear();
+    }
+  }
+
+  Future<void> _hedefSil(String id) async {
+    final yeni = await ManeviStore.ozelHedefSil(id);
+    final h = await ManeviStore.hedeflerOku();
+    if (mounted) {
+      setState(() {
+        _ozelHedefler = yeni;
+        _hedefler = h;
+      });
+    }
   }
 
   @override
@@ -76,6 +126,49 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
                       ikon: Icons.mosque_outlined,
                     ),
                     const SizedBox(height: 16),
+                    _halkaKarti(
+                      tur: 'dua',
+                      baslik: 'Dua',
+                      hedef: '10 dua',
+                      ikon: Icons.favorite_outline,
+                    ),
+                    const SizedBox(height: 16),
+                    _halkaKarti(
+                      tur: 'tesbih',
+                      baslik: 'Tesbih',
+                      hedef: '33 tesbih',
+                      ikon: Icons.filter_vintage_outlined,
+                    ),
+                    const SizedBox(height: 16),
+                    _halkaKarti(
+                      tur: 'sadaka',
+                      baslik: 'Sadaka',
+                      hedef: '3 sadaka',
+                      ikon: Icons.volunteer_activism_outlined,
+                    ),
+                    if (_ozelHedefler.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      const Divider(color: Colors.white12, height: 1),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Senin Eklediklerin',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      for (final h in _ozelHedefler) ...[
+                        _ozelHedefKarti(h),
+                        const SizedBox(height: 12),
+                      ],
+                    ],
+                    const SizedBox(height: 16),
+                    const Divider(color: Colors.white12, height: 1),
+                    const SizedBox(height: 16),
+                    _eklemeKarti(),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),
@@ -112,9 +205,15 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
   }
 
   Widget _ozetKarti() {
+    final toplamHedef = ManeviStore.hedefLimitleri.length + _ozelHedefler.length;
     final tamam = ManeviStore.hedefLimitleri.entries
-        .where((e) => _hedefler[e.key]! >= e.value)
+        .where((e) => (_hedefler[e.key] ?? 0) >= e.value)
         .length;
+    final tamamOzel = _ozelHedefler.where((h) {
+      final limit = h.$3;
+      return (_hedefler[h.$1] ?? 0) >= limit;
+    }).length;
+    final tumTamam = tamam + tamamOzel;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -129,15 +228,195 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              tamam >= 3
+              tumTamam >= toplamHedef
                   ? 'Bugünün tüm hedeflerini tamamladın, maşallah!'
-                  : 'Bugün $tamam/3 hedefe ulaştın. Devam et!',
+                  : 'Bugün $tumTamam/$toplamHedef hedefe ulaştın. Devam et!',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _ozelHedefKarti((String, String, int) h) {
+    final tur = h.$1;
+    final baslik = h.$2;
+    final limit = h.$3;
+    final deger = _hedefler[tur] ?? 0;
+    final oran = limit == 0 ? 0.0 : (deger / limit).clamp(0.0, 1.0);
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 16, 8, 16),
+      decoration: BoxDecoration(
+        color: Renkler.kart.withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 72,
+            height: 72,
+            child: _HalkaCizimi(oran: oran),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.star_outline, color: Renkler.vurgu, size: 16),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        baslik,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '$deger / $limit · hedef: $limit adet',
+                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: deger <= 0 ? null : () => _azalt(tur),
+                      icon: const Icon(Icons.remove_circle_outline, size: 20),
+                      color: Renkler.vurgu,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    const SizedBox(width: 4),
+                    IconButton(
+                      onPressed: deger >= limit ? null : () => _arttir(tur),
+                      icon: const Icon(Icons.add_circle_outline, size: 20),
+                      color: Renkler.vurgu,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Text(
+            '${(oran * 100).round()}%',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              fontFeatures: [FontFeature.tabularFigures()],
+            ),
+          ),
+          IconButton(
+            onPressed: () => _hedefSil(tur),
+            tooltip: 'Hedefi kaldır',
+            icon: const Icon(Icons.delete_outline, color: Colors.white38),
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _eklemeKarti() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Renkler.kart.withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Yeni Hedef Ekle',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _baslikController,
+            style: const TextStyle(color: Colors.white, fontSize: 14),
+            cursorColor: Renkler.vurgu,
+            maxLength: 40,
+            onSubmitted: (_) => _hedefEkle(),
+            decoration: InputDecoration(
+              counterText: '',
+              isDense: true,
+              labelText: 'Hedef adı',
+              labelStyle: const TextStyle(color: Colors.white54),
+              hintText: 'örn. İlmihal, Hatim, Oruç',
+              hintStyle: const TextStyle(color: Colors.white38),
+              enabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white24),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Renkler.vurgu),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _limitController,
+                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                  cursorColor: Renkler.vurgu,
+                  keyboardType: TextInputType.number,
+                  maxLength: 6,
+                  onSubmitted: (_) => _hedefEkle(),
+                  decoration: InputDecoration(
+                    counterText: '',
+                    isDense: true,
+                    labelText: 'Hedef miktarı',
+                    labelStyle: const TextStyle(color: Colors.white54),
+                    hintText: 'örn. 10',
+                    hintStyle: const TextStyle(color: Colors.white38),
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white24),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Renkler.vurgu),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              FilledButton.icon(
+                onPressed: _hedefEkle,
+                style: FilledButton.styleFrom(
+                  backgroundColor: Renkler.vurgu,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                ),
+                icon: const Icon(Icons.add, size: 18),
+                label: const Text('Ekle'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Eklediğin hedefler çarkına eklenir; çöp kutusuyla kaldırabilirsin.',
+            style: TextStyle(color: Colors.white38, fontSize: 11),
           ),
         ],
       ),
@@ -151,7 +430,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
     required IconData ikon,
   }) {
     final limit = ManeviStore.hedefLimitleri[tur]!;
-    final deger = _hedefler[tur]!;
+    final deger = _hedefler[tur] ?? 0;
     final oran = limit == 0 ? 0.0 : (deger / limit).clamp(0.0, 1.0);
     return Container(
       padding: const EdgeInsets.all(16),

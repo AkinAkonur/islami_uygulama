@@ -22,7 +22,6 @@ const Map<String, String> frDil = {
   'h.navAi': 'IA',
   'h.navKuran': 'Coran',
   'h.navUmmet': 'Oumma',
-  'h.navVideo': 'Vidéos',
 
   // Humeurs
   'm.huzurlu': 'Serein',

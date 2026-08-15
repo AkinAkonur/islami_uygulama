@@ -88,7 +88,6 @@ void main() {
     expect(find.text('Dua Odaları'), findsOneWidget);
     expect(find.text('Küresel Yardım Kampanyaları'), findsOneWidget);
     expect(find.text('Zekât & Sadaka Hesaplayıcı'), findsOneWidget);
-    expect(find.text('Fetva & Soru-Cevap'), findsOneWidget);
     expect(find.text('Günün Mesajı'), findsOneWidget);
   });
 

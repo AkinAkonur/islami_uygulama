@@ -85,6 +85,57 @@ void main() {
     expect(find.text('1 / 5 · hedef: 5 sayfa'), findsOneWidget);
   });
 
+  testWidgets("Hedef carkina kullanici hedef ekler ve kaldirir", (tester) async {
+    await buyukEkran(tester);
+    await tester.pumpWidget(const MyApp());
+    await tester.pump();
+
+    await tester.tap(find.text('Hedef Çarkı'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Yeni Hedef Ekle'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField).at(0), 'İlmihal');
+    await tester.enterText(find.byType(TextField).at(1), '3');
+    await tester.tap(find.text('Ekle'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('İlmihal'), findsOneWidget);
+    expect(find.text('0 / 3 · hedef: 3 adet'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.pumpAndSettle();
+
+    expect(find.text('İlmihal'), findsNothing);
+    expect(find.text('Kur\'an'), findsOneWidget);
+  });
+
+  testWidgets("Tesbih sayfasi zikir ekler ve kaldirir", (tester) async {
+    await buyukEkran(tester);
+    await tester.pumpWidget(const MyApp());
+    await tester.pump();
+
+    await tester.tap(find.text('Hızlı Tesbih'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Dijital Akıllı Tesbih (Zikirmatik)'), findsOneWidget);
+    expect(find.text('Sübhanallah (33)'), findsWidgets);
+
+    await tester.tap(find.byIcon(Icons.add_circle_outline));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField).last, 'Ya Rahman (33)');
+    await tester.tap(find.text('Ekle'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ya Rahman (33)'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ya Rahman (33)'), findsNothing);
+  });
+
   testWidgets("Ramazan Modu sayfasi geri sayim ve ozel gunler icerir", (
     tester,
   ) async {
@@ -108,6 +159,35 @@ void main() {
     expect(find.text('Cüz İlerlemesi'), findsOneWidget);
   });
 
+  testWidgets("Bugunun iyiliklerine kullanici iyilik ekler ve kaldirir", (
+    tester,
+  ) async {
+    await buyukEkran(tester);
+    await tester.pumpWidget(const MyApp());
+    await tester.pump();
+
+    await tester.tap(find.text('Günlük Görevler'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Kendi iyiliğini ekle…'), findsOneWidget);
+
+    await tester.enterText(
+      find.byType(TextField).last,
+      'Bir komşuyu ziyaret et',
+    );
+    await tester.tap(find.byIcon(Icons.add_circle));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Bir komşuyu ziyaret et'), findsOneWidget);
+    expect(find.text('1 Ayet Oku'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Bir komşuyu ziyaret et'), findsNothing);
+    expect(find.text('1 Ayet Oku'), findsOneWidget);
+  });
+
   testWidgets("Konum ve Widget Rehberi sayfalari acilir", (tester) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
@@ -117,6 +197,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Bulunduğun Yer'), findsOneWidget);
+    expect(find.text('Yakındaki Camiler'), findsOneWidget);
     expect(find.text('Bugünün Namaz Vakitleri'), findsOneWidget);
     expect(find.text('İmsak'), findsOneWidget);
     expect(find.text('Akşam'), findsOneWidget);

@@ -392,13 +392,15 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       });
       return;
     }
+    final eski = _videoKontrol;
     setState(() {
       _hlsIndex = index;
       _hlsHata = false;
       _dayanikliHata = null;
+      // Eski kontrolcü kaldırılır: bir sonraki kaynak bağlanırken ekranda
+      // "canlı yayın bağlanıyor" katmanı görünür.
+      _videoKontrol = null;
     });
-    final eski = _videoKontrol;
-    _videoKontrol = null;
     if (eski != null) {
       eski.removeListener(_hlsDurumDinle);
       try {
@@ -435,7 +437,12 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         } catch (_) {}
         return;
       }
-      _videoKontrol = yeni;
+      // Kontrolcü, build ağacının güncellenmesi için setState içinde atanır.
+      // Aksi hâlde widget ağacı hâlâ eski (null) kontrolle render edilir ve
+      // "bağlanıyor" katmanı ses gelsede ekranda kalır.
+      setState(() {
+        _videoKontrol = yeni;
+      });
       yeni.setLooping(true);
       yeni.addListener(_hlsDurumDinle);
       await yeni.play();
@@ -692,24 +699,9 @@ class _KabeCanliPageState extends State<KabeCanliPage>
 
   Widget _videoOynatici() {
     final video = _videoKontrol;
-    if (video != null && video.value.isInitialized) {
-      return GestureDetector(
-        onTap: _videoDuraklatDevam,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            VideoPlayer(video),
-            _canliRozeti(),
-            if (video.value.isBuffering && video.value.isPlaying)
-              _bufferingKatmani(),
-            if (!video.value.isPlaying) _oynatButonu(),
-          ],
-        ),
-      );
-    }
-    if (_dayanikliHata != null) {
-      return _videoKutu(
-        _mesajPaneli(
+    if (video == null) {
+      if (_dayanikliHata != null) {
+        return _mesajPaneli(
           ikon: Icons.cloud_off_outlined,
           baslik: 'Yayına bağlanılamadı',
           alt: _dayanikliHata!,
@@ -719,10 +711,33 @@ class _KabeCanliPageState extends State<KabeCanliPage>
             icon: const Icon(Icons.refresh),
             label: const Text('Tekrar Dene'),
           ),
-        ),
-      );
+        );
+      }
+      return _beklemeKatmani();
     }
-    return _beklemeKatmani();
+    // Kontrolcü atandığı anda widget ağacını güncelleyerek görüntünün ekrana
+    // basılmasını sağlar. `play()` sesi başlatır fakat `VideoPlayer` widget'ı
+    // bu dinleyici olmadan yeniden oluşturulmaz.
+    return ValueListenableBuilder<VideoPlayerValue>(
+      valueListenable: video,
+      builder: (context, deger, _) {
+        if (!deger.isInitialized) {
+          return _beklemeKatmani();
+        }
+        return GestureDetector(
+          onTap: _videoDuraklatDevam,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              VideoPlayer(video),
+              _canliRozeti(),
+              if (deger.isBuffering && deger.isPlaying) _bufferingKatmani(),
+              if (!deger.isPlaying) _oynatButonu(),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _videoDuraklatDevam() async {

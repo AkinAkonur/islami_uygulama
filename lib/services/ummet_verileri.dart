@@ -63,6 +63,7 @@ class DuaZinciri {
     required this.duaMetni,
     required this.hedef,
     required this.taban,
+    this.kullanicidan = false,
   });
 
   final String id;
@@ -71,6 +72,29 @@ class DuaZinciri {
   final String duaMetni;
   final int hedef;
   final int taban;
+
+  /// Kullanıcı tarafından oluşturulan zincirlerde true; sabit içerikte false.
+  final bool kullanicidan;
+
+  factory DuaZinciri.fromJson(Map<String, dynamic> j) => DuaZinciri(
+        id: j['id'] as String,
+        ad: j['ad'] as String,
+        detay: j['detay'] as String,
+        duaMetni: j['duaMetni'] as String,
+        hedef: (j['hedef'] as num).toInt(),
+        taban: (j['taban'] as num).toInt(),
+        kullanicidan: (j['kullanicidan'] as bool?) ?? false,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'ad': ad,
+        'detay': detay,
+        'duaMetni': duaMetni,
+        'hedef': hedef,
+        'taban': taban,
+        'kullanicidan': kullanicidan,
+      };
 }
 
 class ZikirKampanyasi {
@@ -103,6 +127,7 @@ class YardimKampanyasi {
     this.katilan = 0,
     this.delil,
     this.kaynak,
+    this.detay,
   });
 
   final String id;
@@ -114,13 +139,38 @@ class YardimKampanyasi {
   int katilan;
   final String? delil;
   final String? kaynak;
+  final String? detay;
 }
 
 /// Zekât hesabı giriş kalemi.
 class ZekatKalemi {
-  ZekatKalemi(this.ad, {this.tutar = 0});
+  ZekatKalemi(
+    this.ad, {
+    this.tutar = 0,
+    this.oran = 0.025,
+    this.aciklama = '',
+    this.dusulur = false,
+  });
+
   final String ad;
   double tutar;
+
+  /// Bu kalem için zekât oranı (%2,5 = 0.025, tarım ürünü %10 vb.).
+  final double oran;
+
+  /// Kaleme ilişkin kısa açıklama (kutuda görünür).
+  final String aciklama;
+
+  /// Borçlar gibi matrahtan çıkarılan kalemler için true.
+  final bool dusulur;
+
+  ZekatKalemi kopya() => ZekatKalemi(
+        ad,
+        tutar: tutar,
+        oran: oran,
+        aciklama: aciklama,
+        dusulur: dusulur,
+      );
 }
 
 /// Soru-cevap / fetva arşiv maddesi.
@@ -186,30 +236,40 @@ final duaKategorileri = [
     'ad': 'Şifa',
     'ikon': '🩺',
     'aciklama': 'Hasta kardeşlerimize şifa dilekleri',
+    'etiketler':
+        'Ağrılar,Kronik Hastalıklar,Ameliyat,Ruhsal Sıkıntı,Genel Afiyet',
   },
   {
     'id': 'borc',
     'ad': 'Borç / Rızık',
     'ikon': '💼',
     'aciklama': 'Borçtan kurtuluş ve helal rızık',
+    'etiketler':
+        'Borçtan Kurtulma,Rızık Genişliği,İş Bulma,Ticarette Bereket,Umulmadık Rızık',
   },
   {
     'id': 'sinav',
     'ad': 'Sınav / Başarı',
     'ikon': '📚',
     'aciklama': 'Sınavlar ve önemli işler için başarı',
+    'etiketler':
+        'Sınav Heyecanı,Hafıza Güçlendirme,Zorluk Kolaylaştırma,Mülakat/İş Görüşmesi,Çalışma Azmi',
   },
   {
     'id': 'aile',
     'ad': 'Aile Huzuru',
     'ikon': '🏡',
     'aciklama': 'Aile içi huzur, evlilik ve çocuklar',
+    'etiketler':
+        'Eşler Arası Sevgi,Kayınvalide İlişkisi,Hayırlı Evlat,Kötü Alışkanlıklardan Korunma,Hayırlı Kısmet',
   },
   {
     'id': 'hidayet',
     'ad': 'Hidayet',
     'ikon': '🕊️',
     'aciklama': 'Doğru yol için hidayet dilekleri',
+    'etiketler':
+        'Tövbe,Kalp Katılığı,İstikamet,Nefis Terbiyesi,Vesveseden Kurtulma',
   },
 ];
 
@@ -219,17 +279,138 @@ final kategoriDualari = <String, List<Map<String, String>>>{
       'baslik': 'Şifa Duası (Hz. Peygamber\'den)',
       'arapca':
           'اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ، اشْفِ أَنْتَ الشَّافِي، لَا شِفَاءَ إِلَّا شِفَاؤُكَ، شِفَاءً لَا يُغَادِرُ سَقَمًا',
+      'okunus':
+          "Allâhümme Rabbe'n-nâs, ezhibil-be's, eşfi ente'ş-şâfî, lâ şifâe illâ şifâüke, şifâen lâ yuğâdiru sekamen.",
       'turkce':
           'Allah\'ım! Ey insanların Rabbi! Sıkıntıyı gider, şifa ver. Şifa veren yalnız Sensin. Senin şifandan başka şifa yoktur. Öyle bir şifa ver ki hiçbir hastalık bırakmasın.',
       'kaynak': 'Buhârî, Merdâ 20; Müslim, Selâm 46',
+      'etiket': 'Genel Afiyet',
+      'amin': '14250',
+      'fazilet':
+          'Peygamberimiz (s.a.v.) hastayı ziyaret ettiğinde bu duayı yedi defa okurdu.',
     },
     {
       'baslik': 'Hz. Eyyub Duası',
       'arapca':
           'أَنِّي مَسَّنِيَ الضُّرُّ وَأَنْتَ أَرْحَمُ الرَّاحِمِينَ',
+      'okunus': "Ennî messeniyed-durru ve ente erhamü'r-râhimîn.",
       'turkce':
           'Bana gerçekten bir zarar dokundu; Sen ise merhametlilerin en merhametlisisin.',
       'kaynak': 'Enbiyâ Suresi, 83. Ayet',
+      'etiket': 'Genel Afiyet',
+      'amin': '13080',
+      'fazilet':
+          'Uzun süren hastalık ve sabır imtihanlarında Hz. Eyyub\'un (a.s.) bu duası, teslimiyetin en güzel örneğidir.',
+    },
+    {
+      'baslik': 'Hastaya Nefes (Ruqyah) Duası',
+      'arapca':
+          'بِسْمِ اللهِ أَعُوذُ بِعِزَّةِ اللهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ',
+      'okunus':
+          "Bismillâh, eûzü bi-izzetillâhi ve kudretihî min şerri mâ ecidü ve uhâzir.",
+      'turkce':
+          'Allah\'ın adıyla. Hissettiğim ve sakındığım şerrin tamamından Allah\'ın izzetine ve kudretine sığınırım.',
+      'kaynak': 'Müslim, Selâm 56',
+      'etiket': 'Ağrılar',
+      'amin': '9840',
+      'fazilet':
+          'Peygamberimiz (s.a.v.) elini hastanın üzerine koyup üç kez Bismillâh, yedi kez de bu sığınmayı okurdu.',
+    },
+    {
+      'baslik': 'Ağrılı Yer İçin Şifa Duası',
+      'arapca':
+          'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي',
+      'okunus':
+          "Allâhümme innî es'elüke'l-âfiyete fid-dünyâ vel-âhirah. Allâhümme innî es'elüke'l-afve vel-âfiyete fî dînî ve dünyâye ve ehlî ve mâlî.",
+      'turkce':
+          'Allah\'ım! Dünya ve ahirette senden afiyet isterim. Allah\'ım! Dinim, dünyam, ailem ve malım hususunda senden af ve afiyet dilerim.',
+      'kaynak': 'Ebû Dâvûd, Edeb 101',
+      'etiket': 'Kronik Hastalıklar',
+      'amin': '11240',
+      'fazilet':
+          'Sabah ve akşam üç defa okunduğunda her türlü hastalık ve beladan korunma vesilesidir.',
+    },
+    {
+      'baslik': 'Ruhsal Sıkıntı ve Vesvese Duası',
+      'arapca':
+          'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ',
+      'okunus':
+          "Allâhümme innî eûzü bike minel-hemmi vel-hazen, vel-aczi vel-kesel, vel-buhli vel-cübn, ve dala'id-deyni ve galebetir-ricâl.",
+      'turkce':
+          'Allah\'ım! Üzüntü ve tasadan, acizlik ve tembellikten, cimrilik ve korkaklıktan, borç altında ezilmekten ve insanların baskısından sana sığınırım.',
+      'kaynak': 'Buhârî, Deavât 43',
+      'etiket': 'Ruhsal Sıkıntı',
+      'amin': '15620',
+      'fazilet':
+          'Kaygı, vesvese ve sıkıntıya düştüğünde okunması tavsiye edilen kapsamlı bir sığınmadır.',
+    },
+    {
+      'baslik': 'Ameliyat Öncesi Teslimiyet Duası',
+      'arapca':
+          'حَسْبُنَا اللهُ وَنِعْمَ الْوَكِيلُ',
+      'okunus': 'Hasbünallâhü ve ni\'mel-vekîl.',
+      'turkce':
+          'Allah bize yeter, O ne güzel vekildir.',
+      'kaynak': 'Âl-i İmrân Suresi, 173. Ayet',
+      'etiket': 'Ameliyat',
+      'amin': '8730',
+      'fazilet':
+          'Önemli karar ve girişimlerden önce gönül rahatlığı için okunur.',
+    },
+    {
+      'baslik': 'Cebrail\'in (a.s.) Şifa Duası',
+      'arapca':
+          'بِسْمِ اللهِ أَرْقِيكَ، مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ، مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنٍ حَاسِدٍ، اللهُ يَشْفِيكَ',
+      'okunus':
+          "Bismillâhi erkîke, min külli şey'in yü'zîke, min şerri külli nefsin ev aynin hâsidin, Allâhu yeşfîke.",
+      'turkce':
+          'Allah\'ın adıyla sana okurum. Sana eziyet veren her şeyden, haset eden her nefis ve gözün şerrinden şifa dilerim; Allah seni iyileştirsin.',
+      'kaynak': 'Müslim, Selâm 44',
+      'etiket': 'Ağrılar',
+      'amin': '10240',
+      'fazilet':
+          'Cebrail (a.s.) tarafından Rasûlullah\'a (s.a.v.) okunan, hastalara karşı yapılan meşhur ruqyah duasıdır.',
+    },
+    {
+      'baslik': 'Genel Afiyet ve Sıhhat Duası',
+      'arapca':
+          'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ',
+      'okunus':
+          "Allâhümme âfinî fî bedenî, Allâhümme âfinî fî sem'î, Allâhümme âfinî fî basarî, lâ ilâhe illâ ente.",
+      'turkce':
+          'Allah\'ım! Bedenime afiyet ver. Allah\'ım! Kulağıma afiyet ver. Allah\'ım! Gözüme afiyet ver. Senden başka ilah yoktur.',
+      'kaynak': 'Ebû Dâvûd, Edeb 101',
+      'etiket': 'Genel Afiyet',
+      'amin': '13360',
+      'fazilet':
+          'Peygamberimiz (s.a.v.) her sabah akşam üç defa okuduğu kapsamlı afiyet duasıdır.',
+    },
+    {
+      'baslik': 'Kronik Hastalıkta Sabır Duası',
+      'arapca':
+          'اللَّهُمَّ اجْعَلْ مَا بِي مِنَ الْبَلَاءِ طَهُورًا وَكَفَّارَةً لِذُنُوبِي',
+      'okunus':
+          "Allâhümmec'al mâ bî minel-belâi tahûren ve keffâraten li-zünûbî.",
+      'turkce':
+          'Allah\'ım! İçinde bulunduğum bu hastalığı ve belayı günahlarıma keffaret ve benim için bir temizlik vesilesi eyle.',
+      'kaynak': 'Sabır edebi duası',
+      'etiket': 'Kronik Hastalıklar',
+      'amin': '9120',
+      'fazilet':
+          'Uzun süreli hastalıklarda sabrı artırmak ve hastalığın sevaba dönüşmesi için okunur.',
+    },
+    {
+      'baslik': 'Şifa Halkaları İçin Dua',
+      'arapca':
+          'اللَّهُمَّ اشْفِ مَرْضَى الْمُسْلِمِينَ',
+      'okunus': "Allâhümişfi merdâ'l-müslimîn.",
+      'turkce':
+          'Allah\'ım! Müslüman hastalarına şifa ver.',
+      'kaynak': 'Şifa halkası duası',
+      'etiket': 'Genel Afiyet',
+      'amin': '8450',
+      'fazilet':
+          'Bir hasta adına ya da tüm ümmetin hastaları için edilen kısa ve güçlü duadır.',
     },
   ],
   'borc': [
@@ -237,17 +418,110 @@ final kategoriDualari = <String, List<Map<String, String>>>{
       'baslik': 'Borçtan Kurtuluş Duası',
       'arapca':
           'اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ',
+      'okunus':
+          "Allâhümmekfinî bi-halâlike an harâmik, ve ağninî bi-fadlike ammen sivâk.",
       'turkce':
           'Allah\'ım! Bana haramdan kaçınmayı helal rızıkla nasip et; beni Senden başkasına muhtaç etmeyecek şekilde lutfunla zengin kıl.',
       'kaynak': 'Tirmizî, Deavât 109',
+      'etiket': 'Borçtan Kurtulma',
+      'amin': '15230',
+      'fazilet':
+          'Hz. Ali\'ye (r.a.) borçtan kurtulması için öğretilen dua; sabah akşam okunması tavsiye edilir.',
     },
     {
       'baslik': 'Rızık Duası (Hz. Musa)',
       'arapca':
           'رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ',
+      'okunus': "Rabbi innî limâ enzelte ileyye min hayrin fakîr.",
       'turkce':
           'Rabbim! Bana indireceğin her hayra muhtacım.',
       'kaynak': 'Kasas Suresi, 24. Ayet',
+      'etiket': 'Rızık Genişliği',
+      'amin': '12410',
+      'fazilet':
+          'Hz. Musa\'nın (a.s.) Medyen\'de yaptığı bu dua, ihtiyaç anında rızkın kapısını açar.',
+    },
+    {
+      'baslik': 'Umulmadık Yerden Rızık (Rızık Ayeti)',
+      'arapca':
+          'وَمَنْ يَتَّقِ اللهَ يَجْعَلْ لَهُ مَخْرَجًا ۝ وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ',
+      'okunus':
+          "Ve men yetteki'llâhe yec'al lehû mahracâ. Ve yerzukhu min haysü lâ yahtesib.",
+      'turkce':
+          'Kim Allah\'tan sakınırsa, Allah ona bir çıkış yolu açar ve onu ummadığı yerden rızıklandırır.',
+      'kaynak': 'Talâk Suresi, 2-3. Ayetler',
+      'etiket': 'Umulmadık Rızık',
+      'amin': '18750',
+      'fazilet':
+          'İstiğfar ve takva ile birlikte okunduğunda umulmadık kapılardan rızık vesilesi olduğu nakledilir.',
+    },
+    {
+      'baslik': 'Ticarette Bereket Duası',
+      'arapca':
+          'اللَّهُمَّ بَارِكْ لَنَا فِي رِزْقِنَا، وَاجْعَلْنَا مِنَ الشَّاكِرِينَ',
+      'okunus':
+          "Allâhümme bârik lenâ fî rızkınâ vec-alnâ mine'ş-şâkirîn.",
+      'turkce':
+          'Allah\'ım! Rızkımızda bize bereket ver ve bizi şükredenlerden eyle.',
+      'kaynak': 'Yerleşik edeb duası (âdâb-ı rızk)',
+      'etiket': 'Ticarette Bereket',
+      'amin': '9860',
+      'fazilet':
+          'Sabah ticaretine başlarken okunduğunda bereket ve helal kazanç duasıdır.',
+    },
+    {
+      'baslik': 'İş ve Kariyer Kolaylığı Duası',
+      'arapca':
+          'رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي',
+      'okunus': "Rabbişrah lî sadrî ve yessir lî emrî.",
+      'turkce':
+          'Rabbim! Gönlüme ferahlık ver ve işimi kolaylaştır.',
+      'kaynak': 'Tâhâ Suresi, 25-26. Ayetler',
+      'etiket': 'İş Bulma',
+      'amin': '11050',
+      'fazilet':
+          'Yeni bir işe, görüşmeye veya girişime başlarken okunur.',
+    },
+    {
+      'baslik': 'Borç Öderken Okunacak Dua',
+      'arapca':
+          'اللَّهُمَّ اكْفِنِي كُلَّ بَارِّ الْبَخِيلِ، وَمَلِّكْنِي جَمِيعَ الْجُزُرِ، وَانْصُرْنِي عَلَى الظَّالِمِينَ، وَاكْفِنِي هَمَّ الدَّيْنِ',
+      'okunus':
+          "Allâhümkfinî külle bârril-bahîl, ve melliknî cemîal-cüzer, vensurnî alez-zâlimîn, vekfinî hemmed-deyn.",
+      'turkce':
+          'Allah\'ım! Her cimriyi bana yeterli kıl, bana bütün hayırları ihsan et, zalimlere karşı bana yardım et ve beni borç derdinden koru.',
+      'kaynak': 'Tergib ve Terhib (deyn duası)',
+      'etiket': 'Borçtan Kurtulma',
+      'amin': '9870',
+      'fazilet':
+          'Borç altındayken sabah akşam okunması tavsiye edilen, borcun ödenmesi için güçlü bir vesile sayılır.',
+    },
+    {
+      'baslik': 'Rızık Kapısını Açma Duası',
+      'arapca':
+          'اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ وَرَحْمَتِكَ، فَإِنَّهُ لَا يَمْلِكُهَا إِلَّا أَنْتَ',
+      'okunus':
+          "Allâhümme innî es'elüke min fadlike ve rahmetik, fe-innehû lâ yemlikühâ illâ ente.",
+      'turkce':
+          'Allah\'ım! Senden lutfunu ve rahmetini dilerim; çünkü onları senden başka kimse veremez.',
+      'kaynak': 'Ebû Dâvûd, Salât 186',
+      'etiket': 'Rızık Genişliği',
+      'amin': '11840',
+      'fazilet':
+          'Bolluk ve bereket istendiğinde edilen, duası kabul edilen sahâbîlerden aktarılan bir duadır.',
+    },
+    {
+      'baslik': 'Umulmadık Kapılar İçin Dua',
+      'arapca':
+          'وَمَنْ يَتَوَكَّلْ عَلَى اللهِ فَهُوَ حَسْبُهُ',
+      'okunus': "Ve men yetevekkel alallâhi fe-hüve hasbüh.",
+      'turkce':
+          'Kim Allah\'a tevekkül ederse, O ona yeter.',
+      'kaynak': 'Talâk Suresi, 3. Ayet',
+      'etiket': 'Umulmadık Rızık',
+      'amin': '13210',
+      'fazilet':
+          'Rızkın umulmadık yerden gelmesi için tevekkülle birlikte okunan ayettir.',
     },
   ],
   'sinav': [
@@ -255,17 +529,112 @@ final kategoriDualari = <String, List<Map<String, String>>>{
       'baslik': 'Başarı Duası (Hz. Musa)',
       'arapca':
           'رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي',
+      'okunus':
+          "Rabbişrah lî sadrî ve yessir lî emrî, vahlül ukdeten min lisânî.",
       'turkce':
           'Rabbim! Gönlüme ferahlık ver, işimi kolaylaştır ve dilimdeki düğümü çöz ki sözümü iyi anlasınlar.',
       'kaynak': 'Tâhâ Suresi, 25-28. Ayetler',
+      'etiket': 'Sınav Heyecanı',
+      'amin': '19320',
+      'fazilet':
+          'Sınav öncesi ve sınav esnasında okunduğunda heyecanı dindirir, zihni açar.',
     },
     {
       'baslik': 'İlim Duası',
       'arapca':
           'اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي وَعَلِّمْنِي مَا يَنْفَعُنِي وَزِدْنِي عِلْمًا',
+      'okunus':
+          "Allâhümmenfa'nî bimâ allemtenî, ve allimnî mâ yenfaunî, ve zidnî ilmâ.",
       'turkce':
           'Allah\'ım! Bana öğrettiklerinle faydalandır, bana faydalı ilmi öğret ve ilmimi artır.',
       'kaynak': 'Tirmizî, Deavât 128',
+      'etiket': 'Hafıza Güçlendirme',
+      'amin': '17280',
+      'fazilet':
+          'Ders çalışmaya başlamadan önce okunduğunda ilmin hayra dönüşmesi için vesile olur.',
+    },
+    {
+      'baslik': 'Zihin Açıklığı Esmaları',
+      'arapca':
+          'يَا حَسِيبُ يَا عَلِيمُ يَا مُفَتِّحُ الْعَلِيمُ، افْتَحْ عَلَيْنَا أَبْوَابَ فَهْمِكَ',
+      'okunus':
+          "Yâ Hasîb, Yâ Alîm, Yâ Müfettihu'l-alîm, iftah aleynâ ebvâbe fehmik.",
+      'turkce':
+          'Ey hesaba çeken, ey her şeyi bilen, ey ilim kapılarını açan! Bize anlayış kapılarını aç.',
+      'kaynak': 'Esmâ-i Hüsnâ duâsı',
+      'etiket': 'Zihni Açıklık',
+      'amin': '14110',
+      'fazilet':
+          'Unutkanlık ve zihin bulanıklığı için Yâ Hasîb, Yâ Alîm esmalarıyla yapılan yakarıştır.',
+    },
+    {
+      'baslik': 'Zorlukları Kolaylaştırma Duası',
+      'arapca':
+          'اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا',
+      'okunus':
+          "Allâhümme lâ sehle illâ mâ cealtehû sehlâ, ve ente tec'alü'l-hazne izâ şi'te sehlâ.",
+      'turkce':
+          'Allah\'ım! Senin kolaylaştırdığından başka kolay yoktur. Sen dilediğinde zor olanı kolaylaştırırsın.',
+      'kaynak': 'İbn Hibbân, Sahih',
+      'etiket': 'Zorluk Kolaylaştırma',
+      'amin': '13540',
+      'fazilet':
+          'Sınav kâğıdını açarken ve mülakata girerken okunması tavsiye edilir.',
+    },
+    {
+      'baslik': 'Çalışma Azmi Duası',
+      'arapca':
+          'اللَّهُمَّ وَفِّقْنِي لِمَا تُحِبُّ وَتَرْضَى، وَاجْعَلْ اجْتِهَادِي فِي مَرْضَاتِكَ',
+      'okunus':
+          "Allâhümme vaffıknî limâ tuhibbü ve terdâ, vec'al ictihâdî fî merzâtik.",
+      'turkce':
+          'Allah\'ım! Beni sevdiğin ve razı olduğun şeye muvaffak kıl; çalışmamı rızana uygun eyle.',
+      'kaynak': 'İslamî edeb duası',
+      'etiket': 'Çalışma Azmi',
+      'amin': '10270',
+      'fazilet':
+          'Ders programına başlarken azim ve sebat için okunur.',
+    },
+    {
+      'baslik': 'Sınav Sabahı Duası',
+      'arapca':
+          'اللَّهُمَّ أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ',
+      'okunus':
+          "Allâhümme aslih lî şe'nî küllehû, ve lâ tekilnî ilâ nefsî tarfete ayn.",
+      'turkce':
+          'Allah\'ım! Bütün işimi düzene koy; beni bir göz kırpışı kadar bile olsa kendi nefsime bırakma.',
+      'kaynak': 'Sahih deyn ve iş duası',
+      'etiket': 'Sınav Heyecanı',
+      'amin': '12130',
+      'fazilet':
+          'Önemli bir güne başlarken okunduğunda güven ve sükûnet verir.',
+    },
+    {
+      'baslik': 'Hafıza ve Anlayış Duası',
+      'arapca':
+          'اللَّهُمَّ ارْزُقْنِي فَهْمَ النَّبِيِّينَ وَحِفْظَ الْمُرْسَلِينَ وَإِلْهَامَ الْمَلَائِكَةِ الْمُقَرَّبِينَ',
+      'okunus':
+          "Allâhümmerzuknî fehmel-ümmiyyîn, ve hıfzal-mürselîn, ve ilhâmel-melâiketil-mukarrabîn.",
+      'turkce':
+          'Allah\'ım! Bana peygamberlerin anlayışını, elçilerin ezberini ve meleklerin ilhamını nasip eyle.',
+      'kaynak': 'İlim talebesi duası',
+      'etiket': 'Hafıza Güçlendirme',
+      'amin': '14670',
+      'fazilet':
+          'Ders çalışmaya başlarken ve sınavdan önce okunan, hafıza ve kavrama gücü duasıdır.',
+    },
+    {
+      'baslik': 'Mülakat İçin Kolaylık Duası',
+      'arapca':
+          'رَبِّ زِدْنِي عِلْمًا وَارْزُقْنِي فَهْمًا',
+      'okunus': "Rabbi zidnî ilmâ, verzuknî fehmâ.",
+      'turkce':
+          'Rabbim! İlmimi artır ve bana anlayış ver.',
+      'kaynak': 'Tâhâ Suresi, 114. Ayet (meâlen)',
+      'etiket': 'Mülakat/İş Görüşmesi',
+      'amin': '10940',
+      'fazilet':
+          'İş görüşmesi ve mülakat öncesi okunduğunda zihin berraklığı sağlar.',
     },
   ],
   'aile': [
@@ -273,17 +642,112 @@ final kategoriDualari = <String, List<Map<String, String>>>{
       'baslik': 'Aile Huzuru Duası',
       'arapca':
           'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا',
+      'okunus':
+          "Rabbenâ heb lenâ min ezvâcinâ ve zürriyyâtinâ kurrate a'yünin vec'alnâ lil-müttekîne imâmâ.",
       'turkce':
           'Rabbimiz! Bize eşlerimizden ve çocuklarımızdan göz aydınlığı ver ve bizi takva sahiplerine önder kıl.',
       'kaynak': 'Furkân Suresi, 74. Ayet',
+      'etiket': 'Eşler Arası Sevgi',
+      'amin': '16420',
+      'fazilet':
+          'Ev halkı huzur bulsun diye sabah ve akşam okunması tavsiye edilir.',
     },
     {
       'baslik': 'Evlilik Hayır Duası',
       'arapca':
           'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',
+      'okunus':
+          "Rabbenâ âtinâ fid-dünyâ haseneten ve fil-âhirati haseneten ve kınâ azâben-nâr.",
       'turkce':
           'Rabbimiz! Bize dünyada iyilik ver, ahirette de iyilik ver ve bizi ateş azabından koru.',
       'kaynak': 'Bakara Suresi, 201. Ayet',
+      'etiket': 'Hayırlı Kısmet',
+      'amin': '12890',
+      'fazilet':
+          'Evlilik öncesi hayırlı kısmet ve yuva kurmak isteyenlerin çokça okuduğu dualardandır.',
+    },
+    {
+      'baslik': 'Nazar ve Huzursuzluktan Korunma',
+      'arapca':
+          'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',
+      'okunus':
+          "Eûzü bi-kelimâti'llâhi't-tâmmâti min şerri mâ halaka.",
+      'turkce':
+          'Yarattıklarının şerrinden Allah\'ın eksiksiz kelimelerine sığınırım.',
+      'kaynak': 'Müslim, Zikir 57',
+      'etiket': 'Kötü Alışkanlıklardan Korunma',
+      'amin': '14560',
+      'fazilet':
+          'Akşam olduğunda üç defa okunması, nazar ve evdeki huzursuzluktan korunma vesilesidir.',
+    },
+    {
+      'baslik': 'Hayırlı Evlat İçin Dua',
+      'arapca':
+          'رَبِّ هَبْ لِي مِنَ الصَّالِحِينَ',
+      'okunus': "Rabbi heb lî mine's-sâlihîn.",
+      'turkce':
+          'Rabbim! Bana salihlerden bir evlat lütfeyle.',
+      'kaynak': 'Sâffât Suresi, 100. Ayet',
+      'etiket': 'Hayırlı Evlat',
+      'amin': '11730',
+      'fazilet':
+          'Hz. İbrahim\'in (a.s.) duası; çocuk sahibi olmak isteyenlerin ve evladının salahı için okunur.',
+    },
+    {
+      'baslik': 'Aile İlişkileri İçin Birleştirme Duası',
+      'arapca':
+          'اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا، وَاهْدِنَا سُبُلَ السَّلَامِ',
+      'okunus':
+          "Allâhümme ellif beyne kulûbinâ, ve aslih zâte beyninâ, vehdinâ sübüle's-selâm.",
+      'turkce':
+          'Allah\'ım! Kalplerimizi birleştir, aramızdaki anlaşmazlıkları düzelt ve bizi esenlik yollarına ilet.',
+      'kaynak': 'Ebû Dâvûd, Edeb 74',
+      'etiket': 'Kayınvalide İlişkisi',
+      'amin': '10980',
+      'fazilet':
+          'Aile içi küslük ve geçimsizlik yaşandığında birlik ve muhabbet için okunur.',
+    },
+    {
+      'baslik': 'Eşler Arası Sevgi Duası',
+      'arapca':
+          'اللَّهُمَّ اجْعَلْ بَيْنَنَا مَوَدَّةً وَرَحْمَةً وَأَلْقِ بَيْنَنَا مَحَبَّةً، وَاجْعَلْنَا هَادِينَ مُهْتَدِينَ',
+      'okunus':
+          "Allâhümc'al beynenâ meveddeten ve rahmeten, ve elkı beynenâ mehabbeten, vec'alnâ hâdîne mühtedîn.",
+      'turkce':
+          'Allah\'ım! Aramızda sevgi ve merhamet kıl, kalplerimize birbirine karşı muhabbet at, bizi hidayete erenlerden eyle.',
+      'kaynak': 'Aile muhabbeti duası',
+      'etiket': 'Eşler Arası Sevgi',
+      'amin': '12470',
+      'fazilet':
+          'Eşler arasındaki soğukluğu gidermek ve muhabbeti artırmak için okunur.',
+    },
+    {
+      'baslik': 'Hayırlı Kısmet İçin Dua',
+      'arapca':
+          'اللَّهُمَّ إِنِّي أَسْأَلُكَ الزَّوْجَ الصَّالِحَ وَالْبَيْتِ السَّالِمِ',
+      'okunus':
+          "Allâhümme innî es'elüke'z-zevces-sâliha vel-beytis-sâlim.",
+      'turkce':
+          'Allah\'ım! Senden salih bir eş ve sıhhatli bir yuva isterim.',
+      'kaynak': 'Kısmet duası',
+      'etiket': 'Hayırlı Kısmet',
+      'amin': '13190',
+      'fazilet':
+          'Evlilik düşünenlerin hayırlı kısmet için okudukları samimi bir yakarıştır.',
+    },
+    {
+      'baslik': 'Evlatların Gönlü için Dua',
+      'arapca':
+          'رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِنْ ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ',
+      'okunus':
+          "Rabbic'alnî mukîmes-salâti ve min zürriyyetî Rabbenâ ve tekabbel duâî.",
+      'turkce':
+          'Rabbim! Beni namaza devam eden bir kul eyle; neslimden de namaz kılanlar kıl. Rabbimiz, duamı kabul buyur.',
+      'kaynak': 'İbrâhîm Suresi, 40. Ayet',
+      'etiket': 'Hayırlı Evlat',
+      'amin': '14630',
+      'fazilet':
+          'Hz. İbrahim\'in (a.s.) duası; evlatların ibadet ehli ve salih olması için okunur.',
     },
   ],
   'hidayet': [
@@ -291,16 +755,122 @@ final kategoriDualari = <String, List<Map<String, String>>>{
       'baslik': 'Hidayet Duası (Fâtiha)',
       'arapca':
           'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',
+      'okunus': "İhdina's-sırâtal-müstekîm.",
       'turkce': 'Bizi dosdoğru yola ilet.',
       'kaynak': 'Fâtiha Suresi, 6. Ayet',
+      'etiket': 'İstikamet',
+      'amin': '18260',
+      'fazilet':
+          'Her namazda tekrarlanan bu ayet, istikamet üzere olmanın özüdür.',
     },
     {
       'baslik': 'Sevgi ve Hidayet Duası',
       'arapca':
           'اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا، وَاهْدِنَا سُبُلَ السَّلَامِ',
+      'okunus':
+          "Allâhümme ellif beyne kulûbinâ, ve aslih zâte beyninâ, vehdinâ sübüle's-selâm.",
       'turkce':
           'Allah\'ım! Kalplerimizi birleştir, aramızı düzelt ve bizi esenlik yollarına ilet.',
       'kaynak': 'Ebû Dâvûd, Edeb 74',
+      'etiket': 'Kalp Katılığı',
+      'amin': '13820',
+      'fazilet':
+          'Kalplerin birbirine ısınması ve aradaki soğukluğun giderilmesi için okunur.',
+    },
+    {
+      'baslik': 'Kalbi Sabit Kılma Duası',
+      'arapca':
+          'يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ',
+      'okunus':
+          "Yâ mukallibel-kulûb, sebbit kalbî alâ dînik.",
+      'turkce':
+          'Ey kalpleri evirip çeviren Allah\'ım! Kalbimi dinin üzerine sabit kıl.',
+      'kaynak': 'Tirmizî, Deavât 98',
+      'etiket': 'İstikamet',
+      'amin': '17540',
+      'fazilet':
+          'Peygamberimiz (s.a.v.) bu duayı çokça yapardı; imanda sebat için okunur.',
+    },
+    {
+      'baslik': 'Seyyidü\'l-İstiğfar (Tövbenin En Üstünü)',
+      'arapca':
+          'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ',
+      'okunus':
+          "Allâhümme ente Rabbî lâ ilâhe illâ ente, halaktenî ve ene abduk, ve ene alâ ahdike ve va'dike mesteta'tü, eûzü bike min şerri mâ sana'tü, ebûü leke bi-ni'metike aleyye, ve ebûü bi-zenbî, fağfir lî fe-innehû lâ yağfiruz-zünûbe illâ ente.",
+      'turkce':
+          'Allah\'ım! Sen benim Rabbimsin, senden başka ilah yoktur. Beni sen yarattın, ben senin kulunum. Gücüm yettiğince sana verdiğim söz ve ahde vefalıyım. Yaptıklarımın şerrinden sana sığınırım. Üzerimdeki nimetini ikrar eder, günahımı itiraf ederim. Beni bağışla; zira günahları ancak Sen bağışlarsın.',
+      'kaynak': 'Buhârî, Deavât 2',
+      'etiket': 'Tövbe',
+      'amin': '20310',
+      'fazilet':
+          'Peygamberimiz (s.a.v.) bunu tövbenin en üstünü olarak nitelendirmiş; güne onunla başlayanın akşama kadar cennet ehlinden yazılacağını müjdelemiştir.',
+    },
+    {
+      'baslik': 'Nefsin Şerrinden Sığınma',
+      'arapca':
+          'اللَّهُمَّ آتِ نَفْسِي تَقْوَاهَا، وَزَكِّهَا أَنْتَ خَيْرُ مَنْ زَكَّاهَا، أَنْتَ وَلِيُّهَا وَمَوْلَاهَا',
+      'okunus':
+          "Allâhümme âti nefsî takvâhâ, ve zekkihâ ente hayru men zekkâhâ, ente veliyyühâ ve mevlâhâ.",
+      'turkce':
+          'Allah\'ım! Nefsime takvasını ver, onu arındır; onu en iyi arındıran Sensin. Onun velisi ve sahibi de Sensin.',
+      'kaynak': 'Müslim, Zikir 72',
+      'etiket': 'Nefis Terbiyesi',
+      'amin': '12460',
+      'fazilet':
+          'Nefis terbiyesi ve kötü arzulardan arınmak isteyenlerin günlük duasıdır.',
+    },
+    {
+      'baslik': 'Vesveseden Kurtulma Duası',
+      'arapca':
+          'آمَنْتُ بِاللهِ وَرُسُلِهِ',
+      'okunus': "Âmentü billâhi ve rusulihî.",
+      'turkce': 'Allah\'a ve elçilerine iman ettim.',
+      'kaynak': 'Müslim, Salât 107',
+      'etiket': 'Vesveseden Kurtulma',
+      'amin': '9130',
+      'fazilet':
+          'Şeytanın vesvesesi geldiğinde söylenmesi tavsiye edilen dua; vesvese anında okunur.',
+    },
+    {
+      'baslik': 'Tövbe Kapısı Duası',
+      'arapca':
+          'اللَّهُمَّ تَوَبْ عَلَيَّ وَارْحَمْنِي وَاهْدِنِي',
+      'okunus': "Allâhümme tüb aleyye verhamnî vehdinî.",
+      'turkce':
+          'Allah\'ım! Tövbemi kabul et, bana merhamet et ve bana hidayet ver.',
+      'kaynak': 'Buhârî, Deavât 88',
+      'etiket': 'Tövbe',
+      'amin': '11870',
+      'fazilet':
+          'Peygamberimiz (s.a.v.) günde yetmişten fazla istiğfar eder; kısa ve öz tövbe yakarışıdır.',
+    },
+    {
+      'baslik': 'Kalbin Yumuşaması için Dua',
+      'arapca':
+          'اللَّهُمَّ ارْزُقْنِي لِينَةَ الْقَلْبِ وَحَلَاوَةَ الْإِيمَانِ',
+      'okunus':
+          "Allâhümmerzuknî lînetel-kalb ve halâvetel-îmân.",
+      'turkce':
+          'Allah\'ım! Bana kalp yumuşaklığı ve imanın tadını nasip eyle.',
+      'kaynak': 'Kalp yumuşaklığı duası',
+      'etiket': 'Kalp Katılığı',
+      'amin': '10420',
+      'fazilet':
+          'Kalp katılaşması yaşandığında, kalbin yumuşaması ve iman tatlılığı için okunur.',
+    },
+    {
+      'baslik': 'Nefis ve Vesveseden Sığınma',
+      'arapca':
+          'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَشَرِّ الشَّيْطَانِ وَشِرْكِهِ',
+      'okunus':
+          "Allâhümme innî eûzü bike min şerri nefsî ve şerri'ş-şeytâni ve şirkihî.",
+      'turkce':
+          'Allah\'ım! Nefsimin şerrinden, şeytanın şerrinden ve onun şirkinden sana sığınırım.',
+      'kaynak': 'Ebû Dâvûd, Edeb 101',
+      'etiket': 'Vesveseden Kurtulma',
+      'amin': '9920',
+      'fazilet':
+          'Namazdan çıkışta ve gün içinde okunan, nefis ve vesveseye karşı koruma duasıdır.',
     },
   ],
 };
@@ -405,6 +975,105 @@ final duaZincirleriSeed = [
         'Rabbimiz, ümmetin kalbine merhametinle dokun; hidayete erdir.',
     hedef: 1000000,
     taban: 487900,
+  ),
+  DuaZinciri(
+    id: 'salavat_peygamber',
+    ad: 'Hz. Peygamber\'e (s.a.v.) Salavat',
+    detay: 'Küresel hedef: 100.000 salavat',
+    duaMetni:
+        'Allah\'ım! Efendimiz Muhammed\'e (s.a.v.) salat ü selam eyle. Salavat, sevgimizin en güzel ifadesidir.',
+    hedef: 100000,
+    taban: 35120,
+  ),
+  DuaZinciri(
+    id: 'anne_baba',
+    ad: 'Ana-Babamız için İstiğfar',
+    detay: 'Küresel hedef: 200.000 istiğfar',
+    duaMetni:
+        'Rabbimiz! Bizi ve anne-babamızı bağışla. Onların hayatları boyunca yaptığı dualar bizim nasibimizdir.',
+    hedef: 200000,
+    taban: 84230,
+  ),
+  DuaZinciri(
+    id: 'sifa_ummet',
+    ad: 'Hastalar için Şifa Okulu (Zemzem)',
+    detay: 'Küresel hedef: 300.000 dua',
+    duaMetni:
+        'Allah\'ım! Hastalarımıza şifa ver. Her hastalık için vesile ol, dertlere deva eyle.',
+    hedef: 300000,
+    taban: 45120,
+  ),
+  DuaZinciri(
+    id: 'ilim_talebesi',
+    ad: 'İlim Talebeleri için Dua',
+    detay: 'Küresel hedef: 150.000 dua',
+    duaMetni:
+        'Rabbim! İlim öğrenen kardeşlerimize anlayış, zihin açıklığı ve azim ver. İlmini hayra vesile eyle.',
+    hedef: 150000,
+    taban: 22450,
+  ),
+  DuaZinciri(
+    id: 'yetim',
+    ad: 'Yetimler için Dua Halkası',
+    detay: 'Küresel hedef: 250.000 dua',
+    duaMetni:
+        'Rabbimiz! Yetimlerin kalbini sevginle doldur. Onlara koruyan, kollayan, sevgi veren gönüller nasip eyle.',
+    hedef: 250000,
+    taban: 38970,
+  ),
+  DuaZinciri(
+    id: 'kalp_yumusama',
+    ad: 'Kalpleri Yumuşayanlar için',
+    detay: 'Küresel hedef: 100.000 istiğfar',
+    duaMetni:
+        'Allah\'ım! Taşlaşmış kalplerimizi yumuşat, kalplerimize huzur ve huşu ver.',
+    hedef: 100000,
+    taban: 19840,
+  ),
+  DuaZinciri(
+    id: 'evlilik',
+    ad: 'Hayırlı Eş ve Yuva için',
+    detay: 'Küresel hedef: 120.000 dua',
+    duaMetni:
+        'Rabbimiz! Evlenip yuva kuran kardeşlerimize hayırlı, huzurlu ve bereketli bir evlilik nasip eyle.',
+    hedef: 120000,
+    taban: 15210,
+  ),
+  DuaZinciri(
+    id: 'cocuk',
+    ad: 'Salih Evlat için Dua',
+    detay: 'Küresel hedef: 180.000 dua',
+    duaMetni:
+        'Rabbim! Bize salihlerden evlatlar nasip et. Evlatlarımızı sana hayırlı kul, ümmete faydalı insan eyle.',
+    hedef: 180000,
+    taban: 24760,
+  ),
+  DuaZinciri(
+    id: 'vatan_millet',
+    ad: 'Vatan ve Millet için Dua',
+    detay: 'Küresel hedef: 400.000 dua',
+    duaMetni:
+        'Allah\'ım! Vatanımızı ve milletimizi her türlü felaketten koru. Birlik ve beraberliğimizi daim eyle.',
+    hedef: 400000,
+    taban: 66130,
+  ),
+  DuaZinciri(
+    id: 'ramazan',
+    ad: 'Ramazan Ayı için Dua',
+    detay: 'Küresel hedef: 200.000 dua',
+    duaMetni:
+        'Rabbimiz! Bizi Ramazan\'a ulaştır, günahlarımızı bağışla ve Kadir Gecesi\'nin faziletine erdir.',
+    hedef: 200000,
+    taban: 31280,
+  ),
+  DuaZinciri(
+    id: 'kuraklik',
+    ad: 'Yağmur ve Bereket için Dua',
+    detay: 'Küresel hedef: 150.000 dua',
+    duaMetni:
+        'Rabbim! Üzerimize rahmet yağmurlarını indir, topraklarımıza bereket ver, bizi kuraklıkla imtihan etme.',
+    hedef: 150000,
+    taban: 18730,
   ),
 ];
 
@@ -635,6 +1304,12 @@ final yardimKampanyalari = [
     katilan: 12480,
     delil: '"Bir kişinin su ihtiyacını giderenin mükâfatı sadakadır."',
     kaynak: 'Müslim, Zekât 67',
+    detay: 'Kuraklık ve susuzluk yaşayan bölgelerde açılan bir su kuyusu, '
+        'yüzlerce ailenin temiz su ihtiyacını karşılar. Sadaka-i câriye '
+        'niyetiyle verilen su kuyusu bağışları, uzun yıllar boyunca sevap '
+        'kazandırmaya devam eder.\n\nNasıl bağış yapılır: Tercih ettiğiniz '
+        'kurumun bağış sayfasından "Su Kuyusu" veya "Su Vakfı" kampanyasını '
+        'seçip miktarı belirleyebilirsiniz.',
   ),
   YardimKampanyasi(
     id: 'gida_paketi',
@@ -646,6 +1321,11 @@ final yardimKampanyalari = [
     katilan: 23140,
     delil: '"Aç bir kimseyi doyurana, Allah kıyamet günü cennet meyvelerinden yedirir."',
     kaynak: 'Taberânî, Evsat 5/232',
+    detay: 'Bir gıda kolisi; un, bakliyat, yağ ve şeker gibi temel ürünlerle '
+        'bir ailenin en az bir ay geçimine katkı sağlar. Ramazan ayında ve '
+        'yıl boyunca ihtiyaç sahibi ailelere ulaştırılır.\n\nNasıl bağış '
+        'yapılır: Kurumun bağış sayfasından "Gıda Kolisi" ya da "Aileye '
+        'Destek Paketi" kampanyasını seçerek destek olabilirsiniz.',
   ),
   YardimKampanyasi(
     id: 'yetim_sponsorlugu',
@@ -657,6 +1337,11 @@ final yardimKampanyalari = [
     katilan: 8640,
     delil: '"Ben ve yetime bakan kimse cennette böyle yan yanayız." (İşaret parmağı ve ortasıyla gösterdi.)',
     kaynak: 'Buhârî, Talâk 25',
+    detay: 'Yetim sponsorluğu; bir çocuğun eğitim, barınma, sağlık ve temel '
+        'ihtiyaçlarının aylık düzenli destekle karşılanmasıdır. Düzenli '
+        'destekle bir çocuğun geleceğine ortak olabilirsiniz.\n\nNasıl bağış '
+        'yapılır: Kurumun "Yetim Sponsorluğu" sayfasından şehir veya ülke '
+        'seçerek aylık sponsor başvurusu yapabilirsiniz.',
   ),
   YardimKampanyasi(
     id: 'kurban_bagisi',
@@ -668,6 +1353,11 @@ final yardimKampanyalari = [
     katilan: 15730,
     delil: '"Kurbanınızı güzelce kesin; o gün ihtiyaç sahibine ulaşan et, sadakadır."',
     kaynak: 'İbn Mâce, Edâhî 13',
+    detay: 'Vekâletle kurban; kurban ibadetini yerine getirirken, kurban '
+        'etlerinin ihtiyaç sahibi ailelere ulaştırılmasını sağlar. Hisseli '
+        'veya tam kurban olarak seçilebilir.\n\nNasıl bağış yapılır: Kurban '
+        'bayramında tercih ettiğiniz vakfın "Vekâletle Kurban Bağışı" '
+        'sayfasından hissenizi alın. Yurt içi veya yurt dışı seçimi yapabilirsiniz.',
   ),
   YardimKampanyasi(
     id: 'afet_acele',
@@ -679,6 +1369,11 @@ final yardimKampanyalari = [
     katilan: 39210,
     delil: '"Müminler birbirlerine merhamette tek bir beden gibidir."',
     kaynak: 'Buhârî, Edeb 27',
+    detay: 'Afet sonrası ilk 72 saat hayat kurtarır. Acil gıda, barınma, '
+        'ısınma ve sağlık desteği; afetten etkilenen insanların en temel '
+        'ihtiyaçlarını karşılar.\n\nNasıl bağış yapılır: AFAD, Kızılay veya '
+        'gönüllü ağların afet bölgesine yönelik acil yardım kampanyalarından '
+        'birini seçerek destek olabilirsiniz.',
   ),
   YardimKampanyasi(
     id: 'ilkokul_egitim',
@@ -690,18 +1385,69 @@ final yardimKampanyalari = [
     katilan: 6120,
     delil: '"İlmi öğrenmek her Müslümana farzdır."',
     kaynak: 'İbn Mâce, Mukaddime 17',
+    detay: 'Bir öğrencinin yıllık eğitim, kitap, kırtasiye ve ulaşım '
+        'masraflarını üstlenerek onun okula devam etmesini sağlayabilirsiniz. '
+        'Burs desteği, ilim yolundaki bir çocuğun geleceğini değiştirir.\n\n'
+        'Nasıl bağış yapılır: "Bir Öğrenci Okut" veya "Burs Desteği" '
+        'kampanyasından bir öğrenci seçerek yıllık destek başvurusu '
+        'yapabilirsiniz.',
   ),
 ];
 
 // ---------------- ZEKÂT & SADAKA ----------------
 
 /// Zekâta tabi varlık kalemleri (hesaplama girişi).
-const zekatKalemAdlari = [
-  'Nakit & Banka Bakiyesi',
-  'Altın / Gümüş',
-  'Ticaret Malı',
-  'Hisse Senetleri',
-  'Alacaklar',
+/// Zekât hesaplayıcıda sunulan varlık kalemleri. Oranlar bilgilendirme
+/// amaçlıdır; fitre/varlıklar kullanıcı tercihine göre değerlendirilir.
+final zekatKalemleri = <ZekatKalemi>[
+  ZekatKalemi(
+    'Nakit & Banka Bakiyesi',
+    oran: 0.025,
+    aciklama: 'Kasa ve bankadaki para, üzerinden bir yıl geçtiyse %2,5.',
+  ),
+  ZekatKalemi(
+    'Altın / Gümüş',
+    oran: 0.025,
+    aciklama:
+        'Biriktirme amaçlı altın ve gümüş değeri nisaba ulaşırsa %2,5. '
+        'Zinet eşyası için mezhepler arasında farklı görüşler vardır.',
+  ),
+  ZekatKalemi(
+    'Ticaret Malı',
+    oran: 0.025,
+    aciklama:
+        'Satılmak üzere eldeki malın değeri (alış veya satış fiyatına göre) '
+        '%2,5 ile zekâta tabidir.',
+  ),
+  ZekatKalemi(
+    'Hisse Senetleri',
+    oran: 0.025,
+    aciklama:
+        'Uzun vadeli yatırım hisselerinde kâr payı zekâtı; borsada kısa '
+        'vadeli ticaret hisseleri ticaret malı gibi değerlendirilir.',
+  ),
+  ZekatKalemi(
+    'Alacaklar',
+    oran: 0.025,
+    aciklama:
+        'Güçlü ve tahsil edilebilir alacaklar zekâta tabidir; riskli '
+        'alacaklar tahsil edilince zekâtı verilir.',
+  ),
+  ZekatKalemi(
+    'Tarım Ürünü',
+    oran: 0.10,
+    aciklama:
+        'Mahsulün zekâtı: yağmur/sulama masrafsız ise %10 (öşür), '
+        'sulama masraflı ise %5.',
+  ),
+  ZekatKalemi(
+    'Borçlarım',
+    oran: 0.0,
+    aciklama:
+        'Vadesi gelmiş borçlarınız varsa zekât matrahından düşülebilir. '
+        'Pozitif girin, toplamdan çıkarılır.',
+    dusulur: true,
+  ),
 ];
 
 /// Nisap miktarı için örnek altın gram fiyatı (kullanıcı değiştirebilir).
@@ -1070,6 +1816,66 @@ class UmmetStore {
     await prefs.setInt('ummet_zincir_$id', yeni);
   }
 
+  static const _zincirUserKey = 'ummet_zincirlerim';
+
+  /// Kullanıcının eklediği dua zincirlerinin tamamı (sabit seed'ler hariç).
+  static Future<List<DuaZinciri>> kullaniciZincirleri() async {
+    final prefs = await _p;
+    final raw = prefs.getString(_zincirUserKey);
+    if (raw == null) return [];
+    try {
+      final liste = (jsonDecode(raw) as List<dynamic>)
+          .map((e) => DuaZinciri.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return liste;
+    } catch (_) {
+      return [];
+    }
+  }
+
+  /// Sayfada görünen tüm zincirler: sabit içerik + kullanıcı zincirleri.
+  static Future<List<DuaZinciri>> tumZincirler() async {
+    final kullanici = await kullaniciZincirleri();
+    return [...duaZincirleriSeed, ...kullanici];
+  }
+
+  static Future<DuaZinciri> zincirEkle({
+    required String ad,
+    required String detay,
+    required String duaMetni,
+    required int hedef,
+    String? baslangicId,
+  }) async {
+    final prefs = await _p;
+    final liste = await kullaniciZincirleri();
+    final id = baslangicId ?? 'kullanici_${DateTime.now().millisecondsSinceEpoch}';
+    final zincir = DuaZinciri(
+      id: id,
+      ad: ad,
+      detay: detay,
+      duaMetni: duaMetni,
+      hedef: hedef,
+      taban: 0,
+      kullanicidan: true,
+    );
+    liste.insert(0, zincir);
+    await prefs.setString(
+      _zincirUserKey,
+      jsonEncode(liste.map((e) => e.toJson()).toList()),
+    );
+    return zincir;
+  }
+
+  static Future<void> zincirSil(String id) async {
+    final prefs = await _p;
+    final liste = await kullaniciZincirleri();
+    liste.removeWhere((z) => z.id == id);
+    await prefs.setString(
+      _zincirUserKey,
+      jsonEncode(liste.map((e) => e.toJson()).toList()),
+    );
+  }
+
   // ---------- ZİKİR KAMPANYALARI ----------
 
   static Future<int> zikirPayi(String id) async {
@@ -1094,6 +1900,203 @@ class UmmetStore {
     final prefs = await _p;
     final yeni = (prefs.getInt('ummet_oda_$id') ?? 0) + 1;
     await prefs.setInt('ummet_oda_$id', yeni);
+  }
+
+  /// Oda genelinde her iki duanın Âmin sayacı. Anahtar "odaId|duaBaşlık".
+  static Future<int> duaAminSayisi(String odaId, String duaBaslik) async {
+    final prefs = await _p;
+    return prefs.getInt('ummet_oda_amin_${odaId}_$duaBaslik') ?? 0;
+  }
+
+  static Future<int> duaAminVer(String odaId, String duaBaslik) async {
+    final prefs = await _p;
+    final anahtar = 'ummet_oda_amin_${odaId}_$duaBaslik';
+    final yeni = (prefs.getInt(anahtar) ?? 0) + 1;
+    await prefs.setInt(anahtar, yeni);
+    return yeni;
+  }
+
+  /// Kullanıcının favori/takipte tuttuğu dua anahtarları: "odaId|duaBaşlık".
+  static const _duaFavoriKey = 'ummet_oda_favorilerim';
+
+  static Future<Set<String>> duaFavorilerim() async {
+    final prefs = await _p;
+    return (prefs.getStringList(_duaFavoriKey) ?? []).toSet();
+  }
+
+  static Future<bool> duaFavoriDegistir(String anahtar) async {
+    final prefs = await _p;
+    final set = await duaFavorilerim();
+    final eklendi = !set.contains(anahtar);
+    if (eklendi) {
+      set.add(anahtar);
+    } else {
+      set.remove(anahtar);
+    }
+    await prefs.setStringList(_duaFavoriKey, set.toList());
+    return eklendi;
+  }
+
+  static Future<bool> duaFavoriMi(String anahtar) async {
+    final set = await duaFavorilerim();
+    return set.contains(anahtar);
+  }
+
+  /// Favorilerdeki anahtarların (odaId|duaBaşlık) çözümlenmiş dua kayıtları.
+  static Future<List<Map<String, String>>> duaFavoriDualari() async {
+    final set = await duaFavorilerim();
+    final kullaniciDualari = await kullaniciOdaDualari();
+    final sonuc = <Map<String, String>>[];
+    for (final k in set) {
+      final ayrik = k.split('|');
+      if (ayrik.length != 2) continue;
+      final odaId = ayrik[0];
+      final baslik = ayrik[1];
+      final dualar = kategoriDualari[odaId];
+      Map<String, dynamic>? eslesen;
+      if (dualar != null) {
+        final sabit = dualar.where((d) => d['baslik'] == baslik).toList();
+        if (sabit.isNotEmpty) eslesen = sabit.first;
+      }
+      if (eslesen == null) {
+        final kullanici =
+            kullaniciDualari.where((d) => d['baslik'] == baslik).toList();
+        if (kullanici.isNotEmpty) eslesen = kullanici.first;
+      }
+      if (eslesen == null) continue;
+      final dua = Map<String, String>.from(
+        eslesen.map((key, value) => MapEntry(key.toString(), value.toString())),
+      );
+      dua['odaId'] = odaId;
+      dua['odaAd'] = duaKategorileri
+          .firstWhere((k) => k['id'] == odaId, orElse: () => const {})['ad'] ??
+          '';
+      dua['odaIkon'] = duaKategorileri
+          .firstWhere((k) => k['id'] == odaId, orElse: () => const {})['ikon'] ??
+          '';
+      sonuc.add(dua);
+    }
+    return sonuc;
+  }
+
+  /// Bulut tabanlı arama simülasyonu: tüm odalarda başlık, etiket, Türkçe
+  /// ve okunuş üzerinden filtre yapar. İlk açılışta tam liste sunulur;
+  /// arama yapılmadığında [onSayfa] kadar kayıt sayfalanır (lazy loading).
+  static List<Map<String, dynamic>> duaAra(
+    String sorgu, {
+    int? onSayfa,
+    String? odaId,
+    String? etiket,
+  }) {
+    final s = sorgu.trim().toLowerCase();
+    final sonuc = <Map<String, dynamic>>[];
+    for (final k in duaKategorileri) {
+      if (odaId != null && k['id'] != odaId) continue;
+      final dualar = kategoriDualari[k['id']] ?? [];
+      for (final d in dualar) {
+        if (etiket != null && (d['etiket'] ?? '') != etiket) continue;
+        if (s.isNotEmpty) {
+          final metin = [
+            d['baslik'],
+            d['etiket'],
+            d['turkce'],
+            d['okunus'],
+          ].join(' ').toLowerCase();
+          if (!metin.contains(s)) continue;
+        }
+        sonuc.add({
+          'odaId': k['id'],
+          'odaAd': k['ad'],
+          'odaIkon': k['ikon'],
+          ...d,
+        });
+      }
+    }
+    if (onSayfa != null && s.isEmpty && etiket == null && odaId == null) {
+      return sonuc.take(onSayfa).toList();
+    }
+    return sonuc;
+  }
+
+  /// Kullanıcının eklediği dualar için kalıcı depo anahtarı.
+  static const _odaDuaUserKey = 'ummet_oda_dualarim';
+
+  /// Kullanıcının eklediği tüm dualar. [odaId] verilirse yalnızca o odaya
+  /// ait dualar döndürülür.
+  static Future<List<Map<String, String>>> kullaniciOdaDualari([String? odaId]) async {
+    final prefs = await _p;
+    final raw = prefs.getString(_odaDuaUserKey);
+    if (raw == null) return [];
+    try {
+      final liste = (jsonDecode(raw) as List<dynamic>)
+          .map((e) => Map<String, String>.from(e as Map))
+          .toList();
+      if (odaId != null) {
+        return liste.where((d) => d['odaId'] == odaId).toList();
+      }
+      return liste;
+    } catch (_) {
+      return [];
+    }
+  }
+
+  static Future<void> _odaDualariKaydet(List<Map<String, String>> liste) async {
+    final prefs = await _p;
+    await prefs.setString(_odaDuaUserKey, jsonEncode(liste));
+  }
+
+  /// Kullanıcının odaya yeni dua eklemesi. Eklenen dua başa sıralanır.
+  static Future<Map<String, String>> odaDuaEkle({
+    required String odaId,
+    required String baslik,
+    required String arapca,
+    required String secimi, // okunus ya da turkce (kaynak girilmeyebilir)
+    String? kaynak,
+  }) async {
+    final liste = await kullaniciOdaDualari();
+    final dua = <String, String>{
+      'id': 'kullanici_${DateTime.now().millisecondsSinceEpoch}',
+      'odaId': odaId,
+      'baslik': baslik,
+      'arapca': arapca,
+      'okunus': secimi,
+      'turkce': secimi,
+      'kaynak': kaynak ?? 'Kullanıcı duası',
+      'etiket': 'Genel',
+      'amin': '0',
+      'kullanicidan': 'true',
+    };
+    liste.insert(0, dua);
+    await _odaDualariKaydet(liste);
+    return dua;
+  }
+
+  static Future<void> odaDuaSil(String duaId) async {
+    final liste = await kullaniciOdaDualari();
+    liste.removeWhere((d) => d['id'] == duaId);
+    await _odaDualariKaydet(liste);
+  }
+
+  /// Duvardaki/odaya ait tüm duaları döndürür: sabit + kullanıcı eklemeleri.
+  static Future<List<Map<String, dynamic>>> odaDualariHepsi(String odaId) async {
+    final kategori = duaKategorileri
+        .firstWhere((k) => k['id'] == odaId, orElse: () => const {});
+    final sabit = kategoriDualari[odaId] ?? [];
+    final kullanici = await kullaniciOdaDualari(odaId);
+    return [
+      ...sabit.map((d) => <String, dynamic>{
+            'odaId': odaId,
+            'odaAd': kategori['ad'],
+            'odaIkon': kategori['ikon'],
+            ...d,
+          }),
+      ...kullanici.map((d) => <String, dynamic>{
+            'odaId': odaId,
+            'odaAd': kategori['ad'],
+            'odaIkon': kategori['ikon'],
+            ...d,
+          }),
+    ];
   }
 
   // ---------- HATİM HALKALARI ----------

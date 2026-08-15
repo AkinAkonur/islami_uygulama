@@ -22,7 +22,6 @@ const Map<String, String> arDil = {
   'h.navAi': 'AI',
   'h.navKuran': 'القرآن',
   'h.navUmmet': 'الأمة',
-  'h.navVideo': 'الفيديو',
 
   // الحالات النفسية
   'm.huzurlu': 'هادئ',

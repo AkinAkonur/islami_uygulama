@@ -94,6 +94,40 @@ class ManeviStore {
     return yeni;
   }
 
+  // Varsayılan zikirler her zaman korunur; kullanıcı eklemeleri
+  // 'manevi_ozel_zikirler' listesinde saklanır ve istenirse silinir.
+  static const List<String> varsayilanZikirler = [
+    'Sübhanallah (33)',
+    'Elhamdülillah (33)',
+    'Allahu Ekber (33)',
+    'Estağfirullah el-Azim (100)',
+    'La ilahe illallah (100)',
+    'Salavat-ı Şerife (100)',
+    'Lâ havle ve lâ kuvvete illâ billâh (33)',
+    'Hasbünallahü ve ni\'mel vekîl (33)',
+    'Sübhanallahi ve bihamdihi (100)',
+    'Sübhânallah, elhamdülillâh, Allâhü ekber (33)',
+  ];
+
+  static Future<List<String>> ozelZikirler() async {
+    final p = await _p;
+    return p.getStringList('manevi_ozel_zikirler') ?? const [];
+  }
+
+  static Future<List<String>> zikirEkle(String zikir) async {
+    final p = await _p;
+    final list = p.getStringList('manevi_ozel_zikirler') ?? const [];
+    await p.setStringList('manevi_ozel_zikirler', [...list, zikir]);
+    return ozelZikirler();
+  }
+
+  static Future<List<String>> zikirSil(String zikir) async {
+    final p = await _p;
+    final list = p.getStringList('manevi_ozel_zikirler') ?? const [];
+    await p.setStringList('manevi_ozel_zikirler', list.where((z) => z != zikir).toList());
+    return ozelZikirler();
+  }
+
   // ---------------- RAMAZAN MODU ----------------
   // Tarihler Diyanet İşleri Başkanlığı resmî takvimine dayanır ve
   // DiniGunlerServisi üzerinden bulut yapılandırmasıyla otomatik tazelenir
@@ -209,6 +243,46 @@ class ManeviStore {
     return p.getInt('manevi_seri') ?? 0;
   }
 
+  // Kullanıcının kendi eklediği iyilikler. Varsayılan 4 görev her zaman
+  // korunur; kullanıcı eklemeleri buradan eklenir/silinir.
+  static const _ozelIyilikKey = 'manevi_ozel_iyilikler';
+
+  static Future<List<(String, String)>> ozelIyilikler() async {
+    final p = await _p;
+    final list = p.getStringList(_ozelIyilikKey) ?? const [];
+    final sonuc = <(String, String)>[];
+    for (final s in list) {
+      final ayrac = s.indexOf('\u0001');
+      if (ayrac <= 0) continue;
+      sonuc.add((s.substring(0, ayrac), s.substring(ayrac + 1)));
+    }
+    return sonuc;
+  }
+
+  static Future<List<(String, String)>> ozelIyilikEkle(String metin) async {
+    final p = await _p;
+    final list = p.getStringList(_ozelIyilikKey) ?? const [];
+    final id = 'ozel_${DateTime.now().microsecondsSinceEpoch}';
+    await p.setStringList(_ozelIyilikKey, [...list, '$id\u0001$metin']);
+    return ozelIyilikler();
+  }
+
+  static Future<List<(String, String)>> ozelIyilikSil(String id) async {
+    final p = await _p;
+    final list = p.getStringList(_ozelIyilikKey) ?? const [];
+    await p.setStringList(
+      _ozelIyilikKey,
+      list.where((s) => !s.startsWith('$id\u0001')).toList(),
+    );
+    // Aynı günün tamamlanan listesinden de kaldır.
+    final key = 'manevi_gorev_${_tarih(DateTime.now())}';
+    final set = (p.getStringList(key) ?? const []).toSet();
+    if (set.remove(id)) {
+      await p.setStringList(key, set.toList());
+    }
+    return ozelIyilikler();
+  }
+
   static Future<void> _seriGuncelle(SharedPreferences p) async {
     final bugun = _tarih(DateTime.now());
     final dun = _tarih(DateTime.now().subtract(const Duration(days: 1)));
@@ -234,23 +308,77 @@ class ManeviStore {
     'kuran': 5,
     'zikir': 100,
     'namaz': 5,
+    'dua': 10,
+    'tesbih': 33,
+    'sadaka': 3,
   };
 
   static Future<Map<String, int>> hedeflerOku() async {
     final p = await _p;
-    return {
-      'kuran': p.getInt('hedef_kuran') ?? 0,
-      'zikir': p.getInt('hedef_zikir') ?? 0,
-      'namaz': p.getInt('hedef_namaz') ?? 0,
-    };
+    final sonuc = <String, int>{};
+    for (final key in hedefLimitleri.keys) {
+      sonuc[key] = p.getInt('hedef_$key') ?? 0;
+    }
+    for (final h in await ozelHedefler()) {
+      sonuc[h.$1] = p.getInt('hedef_${h.$1}') ?? 0;
+    }
+    return sonuc;
+  }
+
+  static Future<int> hedefLimiti(String tur) async {
+    final sabit = hedefLimitleri[tur];
+    if (sabit != null) return sabit;
+    for (final h in await ozelHedefler()) {
+      if (h.$1 == tur) return h.$3;
+    }
+    return 1;
   }
 
   static Future<Map<String, int>> hedefEkle(String tur, int delta) async {
     final p = await _p;
     final key = 'hedef_$tur';
-    final limit = hedefLimitleri[tur] ?? 1;
+    final limit = await hedefLimiti(tur);
     final yeni = ((p.getInt(key) ?? 0) + delta).clamp(0, limit);
     await p.setInt(key, yeni);
     return hedeflerOku();
+  }
+
+  // Kullanıcının kendi eklediği hedefler. Varsayılan hedefler her zaman
+  // korunur; kullanıcı eklemeleri buradan eklenir/silinir.
+  static const _ozelHedefKey = 'manevi_ozel_hedefler';
+
+  static Future<List<(String, String, int)>> ozelHedefler() async {
+    final p = await _p;
+    final list = p.getStringList(_ozelHedefKey) ?? const [];
+    final sonuc = <(String, String, int)>[];
+    for (final s in list) {
+      final parca = s.split('|');
+      if (parca.length != 3) continue;
+      final limit = int.tryParse(parca[2]) ?? 1;
+      sonuc.add((parca[0], parca[1], limit));
+    }
+    return sonuc;
+  }
+
+  static Future<List<(String, String, int)>> ozelHedefEkle(
+    String baslik,
+    int limit,
+  ) async {
+    final p = await _p;
+    final list = p.getStringList(_ozelHedefKey) ?? const [];
+    final id = 'ozel_${DateTime.now().microsecondsSinceEpoch}';
+    await p.setStringList(_ozelHedefKey, [...list, '$id|$baslik|$limit']);
+    return ozelHedefler();
+  }
+
+  static Future<List<(String, String, int)>> ozelHedefSil(String id) async {
+    final p = await _p;
+    final list = p.getStringList(_ozelHedefKey) ?? const [];
+    await p.setStringList(
+      _ozelHedefKey,
+      list.where((s) => !s.startsWith('$id|')).toList(),
+    );
+    await p.remove('hedef_$id');
+    return ozelHedefler();
   }
 }

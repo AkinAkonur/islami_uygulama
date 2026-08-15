@@ -22,7 +22,6 @@ const Map<String, String> enDil = {
   'h.navAi': 'AI',
   'h.navKuran': "Qur'an",
   'h.navUmmet': 'Ummah',
-  'h.navVideo': 'Videos',
 
   // Mood states
   'm.huzurlu': 'Peaceful',

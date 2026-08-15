@@ -22,7 +22,6 @@ const Map<String, String> trDil = {
   'h.navAi': 'AI',
   'h.navKuran': "Kur'an",
   'h.navUmmet': 'Ümmet',
-  'h.navVideo': 'Videolar',
 
   // Duygu durumları
   'm.huzurlu': 'Huzurlu',

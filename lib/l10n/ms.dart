@@ -22,7 +22,6 @@ const Map<String, String> msDil = {
   'h.navAi': 'AI',
   'h.navKuran': "Al-Qur'an",
   'h.navUmmet': 'Umat',
-  'h.navVideo': 'Video',
 
   // Perasaan
   'm.huzurlu': 'Tenang',

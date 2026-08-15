@@ -22,7 +22,6 @@ const Map<String, String> ruDil = {
   'h.navAi': 'ИИ',
   'h.navKuran': 'Коран',
   'h.navUmmet': 'Умма',
-  'h.navVideo': 'Видео',
 
   // Настроение
   'm.huzurlu': 'Спокойный',

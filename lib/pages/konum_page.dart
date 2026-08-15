@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import '../services/location_and_mosque_service.dart';
 import '../services/renkler.dart';
 import '../services/turkiye_illeri.dart';
 import '../services/vakit_servisi.dart';
 import 'kible_pusula_page.dart';
+import 'yakindaki_camiler_page.dart';
 
 class KonumPage extends StatefulWidget {
   const KonumPage({super.key});
@@ -16,6 +18,8 @@ class _KonumPageState extends State<KonumPage> {
   String? _sehir;
   String? _ulke;
   (double, double)? _koordinat;
+  List<Mosque>? _camiler;
+  bool _camiYukleniyor = false;
 
   @override
   void initState() {
@@ -34,6 +38,25 @@ class _KonumPageState extends State<KonumPage> {
       _sehir = sehir;
       _ulke = ulke;
       _koordinat = koordinat;
+    });
+    await _camiYukle();
+  }
+
+  Future<void> _camiYukle() async {
+    final koordinat = _koordinat;
+    if (koordinat == null) {
+      if (mounted) setState(() => _camiler = null);
+      return;
+    }
+    if (mounted) setState(() => _camiYukleniyor = true);
+    final camiler = await LocationAndMosqueService.fetchNearbyMosques(
+      koordinat.$1,
+      koordinat.$2,
+    );
+    if (!mounted) return;
+    setState(() {
+      _camiler = camiler;
+      _camiYukleniyor = false;
     });
   }
 
@@ -127,6 +150,8 @@ class _KonumPageState extends State<KonumPage> {
                   padding: const EdgeInsets.all(16),
                   children: [
                     _konumKarti(context),
+                    const SizedBox(height: 16),
+                    _camiKarti(),
                     const SizedBox(height: 16),
                     _kibleKarti(context),
                     const SizedBox(height: 16),
@@ -233,6 +258,261 @@ class _KonumPageState extends State<KonumPage> {
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _camiKarti() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Renkler.kart.withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.mosque_outlined, color: Renkler.vurgu, size: 20),
+              const SizedBox(width: 8),
+              const Text(
+                'Yakındaki Camiler',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(Icons.refresh, color: Colors.white54, size: 20),
+                onPressed: _camiYukleniyor ? null : _camiYukle,
+                tooltip: 'Yenile',
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          if (_camiYukleniyor)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Center(child: CircularProgressIndicator()),
+            )
+          else if (_camiler == null)
+            _camiBosSatir(
+              Icons.location_off_outlined,
+              'Konumunu belirle; yakınındaki camiler burada listelenecek.',
+            )
+          else if (_camiler!.isEmpty)
+            _camiBosSatir(
+              Icons.mosque_outlined,
+              'Yakınlarda cami bulunamadı. Konum iznini ve internet bağlantını kontrol et, sonra yenile.',
+            )
+          else
+            Column(
+              children: [
+                for (final cami in _camiler!.take(5)) _camiSatiri(cami),
+                const SizedBox(height: 4),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      final koordinat = _koordinat;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => YakindakiCamilerPage(
+                            lat: koordinat?.$1,
+                            lng: koordinat?.$2,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.chevron_right, size: 18),
+                    label: const Text('Tümünü Gör'),
+                  ),
+                ),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _camiBosSatir(IconData ikon, String metin) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Column(
+        children: [
+          Icon(ikon, color: Colors.white38, size: 40),
+          const SizedBox(height: 10),
+          Text(
+            metin,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white54, fontSize: 13, height: 1.5),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _camiSatiri(Mosque cami) {
+    return InkWell(
+      onTap: () => _camiSec(cami),
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          children: [
+            Icon(Icons.mosque_outlined, color: Renkler.vurgu, size: 22),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    cami.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    cami.distanceInMeters != null
+                        ? _mesafeYaz(cami.distanceInMeters!)
+                        : 'Uzaklık bilinmiyor',
+                    style: const TextStyle(color: Colors.white54, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: Colors.white24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _mesafeYaz(double metre) {
+    if (metre < 1000) return '${metre.round()} m';
+    return '${(metre / 1000).toStringAsFixed(1)} km';
+  }
+
+  Future<void> _camiSec(Mosque cami) async {
+    await showModalBottomSheet<String>(
+      context: context,
+      backgroundColor: Renkler.kart,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.mosque_outlined, color: Colors.white70),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      cami.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              _camiEylemButonu(
+                Icons.directions_walk,
+                'Yürüyerek Yol Tarifi',
+                () => Navigator.pop(ctx, 'walking'),
+              ),
+              const SizedBox(height: 10),
+              _camiEylemButonu(
+                Icons.directions_car,
+                'Arabayla Yol Tarifi',
+                () => Navigator.pop(ctx, 'driving'),
+              ),
+              const SizedBox(height: 10),
+              _camiEylemButonu(
+                Icons.map_outlined,
+                'Haritada Gör',
+                () => Navigator.pop(ctx, 'harita'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ).then((secim) async {
+      if (secim == null || !mounted) return;
+      if (secim == 'harita') {
+        final acildi = await LocationAndMosqueService.haritadaGoster(cami);
+        if (!acildi && mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Harita uygulaması açılamadı.')),
+          );
+        }
+        return;
+      }
+      final koordinat = _koordinat;
+      final acildi = await LocationAndMosqueService.yolTarifiAc(
+        cami,
+        baslangicLat: koordinat?.$1.toString(),
+        baslangicLng: koordinat?.$2.toString(),
+        mod: secim,
+      );
+      if (!acildi && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Yol tarifi açılamadı.')),
+        );
+      }
+    });
+  }
+
+  Widget _camiEylemButonu(
+    IconData ikon,
+    String baslik,
+    VoidCallback onPressed,
+  ) {
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        foregroundColor: Colors.white,
+        side: BorderSide(color: Colors.white24),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(ikon, color: Renkler.vurgu, size: 24),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              baslik,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          ),
+          const Icon(Icons.chevron_right, color: Colors.white38),
         ],
       ),
     );
