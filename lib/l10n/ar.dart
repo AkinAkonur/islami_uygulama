@@ -46,8 +46,6 @@ const Map<String, String> arDil = {
   'mod.pusulaAlt': 'اكتشف الاتجاه نحو الكعبة',
   'mod.gorsel': 'دليل الصلاة المصوّر',
   'mod.gorselAlt': 'دليل الصلاة والوضوء',
-  'mod.tesbih': 'التسبيح',
-  'mod.tesbihAlt': 'عداد الذكر',
 
   // مواقيت الصلاة
   'p.imsak': 'صلاة الفجر',

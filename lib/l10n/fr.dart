@@ -46,8 +46,6 @@ const Map<String, String> frDil = {
   'mod.pusulaAlt': "Trouver la direction de la Kaaba",
   'mod.gorsel': 'Guide de prière illustré',
   'mod.gorselAlt': 'Guide de la prière et des ablutions',
-  'mod.tesbih': 'Tasbih',
-  'mod.tesbihAlt': 'Compteur de dhikr',
 
   // Horaires de prière
   'p.imsak': 'Prière du Fajr',

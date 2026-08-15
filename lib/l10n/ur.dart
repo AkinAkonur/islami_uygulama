@@ -46,8 +46,6 @@ const Map<String, String> urDil = {
   'mod.pusulaAlt': 'کعبہ کی سمت تلاش کریں',
   'mod.gorsel': 'نماز کا تصویری گائیڈ',
   'mod.gorselAlt': 'نماز اور وضو کا گائیڈ',
-  'mod.tesbih': 'تسبیح',
-  'mod.tesbihAlt': 'ذکر کا شمار',
 
   // نماز کے اوقات
   'p.imsak': 'فجر کی نماز',

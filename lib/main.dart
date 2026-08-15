@@ -419,18 +419,6 @@ class AnaSayfa extends StatelessWidget {
                     Colors.greenAccent,
                     GorselKilinisScreen(),
                   ),
-                  _ozelModulKarti(
-                    context,
-                    Icons.radio_button_checked,
-                    l.t('mod.tesbih'),
-                    Text(
-                      l.t('mod.tesbihAlt'),
-                      style: TextStyle(color: Colors.white54, fontSize: 11),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Colors.pinkAccent,
-                    TesbihPage(),
-                  ),
                 ],
               ),
               SizedBox(height: 24),

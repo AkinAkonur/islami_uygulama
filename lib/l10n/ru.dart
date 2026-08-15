@@ -46,8 +46,6 @@ const Map<String, String> ruDil = {
   'mod.pusulaAlt': 'Найти направление к Каабе',
   'mod.gorsel': 'Наглядный гид по намазу',
   'mod.gorselAlt': 'Гид по намазу и омовению',
-  'mod.tesbih': 'Тасбих',
-  'mod.tesbihAlt': 'Счётчик зикра',
 
   // Время намазов
   'p.imsak': 'Намаз Фаджр',

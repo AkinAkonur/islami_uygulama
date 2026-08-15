@@ -46,8 +46,6 @@ const Map<String, String> enDil = {
   'mod.pusulaAlt': "Find the direction to the Ka'bah",
   'mod.gorsel': 'Visual Prayer Guide',
   'mod.gorselAlt': 'Prayer & ablution guide',
-  'mod.tesbih': 'Tasbih',
-  'mod.tesbihAlt': 'Dhikr counter',
 
   // Prayer times
   'p.imsak': 'Fajr Prayer',

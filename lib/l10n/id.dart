@@ -46,8 +46,6 @@ const Map<String, String> idDil = {
   'mod.pusulaAlt': "Cari arah menuju Ka'bah",
   'mod.gorsel': 'Panduan Salat Visual',
   'mod.gorselAlt': 'Panduan salat & wudu',
-  'mod.tesbih': 'Tasbih',
-  'mod.tesbihAlt': 'Penghitung zikir',
 
   // Waktu salat
   'p.imsak': 'Salat Subuh',

@@ -46,8 +46,6 @@ const Map<String, String> trDil = {
   'mod.pusulaAlt': "Kabe'ye yönü bul",
   'mod.gorsel': 'Görsel Kılınış',
   'mod.gorselAlt': 'Namaz & abdest rehberi',
-  'mod.tesbih': 'Tesbih',
-  'mod.tesbihAlt': 'Zikir sayacı',
 
   // Namaz vakitleri
   'p.imsak': 'İmsak Namazı',

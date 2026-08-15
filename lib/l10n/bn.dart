@@ -46,8 +46,6 @@ const Map<String, String> bnDil = {
   'mod.pusulaAlt': 'কাবার দিক খুঁজুন',
   'mod.gorsel': 'নামাজের চিত্রগাইড',
   'mod.gorselAlt': 'নামাজ ও অজু গাইড',
-  'mod.tesbih': 'তসবিহ',
-  'mod.tesbihAlt': 'জিকির গণনা',
 
   // নামাজের সময়
   'p.imsak': 'ফজরের নামাজ',

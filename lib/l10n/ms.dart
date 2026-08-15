@@ -46,8 +46,6 @@ const Map<String, String> msDil = {
   'mod.pusulaAlt': 'Cari arah ke Kaabah',
   'mod.gorsel': 'Panduan Solat Visual',
   'mod.gorselAlt': 'Panduan solat & wudhu',
-  'mod.tesbih': 'Tasbih',
-  'mod.tesbihAlt': 'Pengira zikir',
 
   // Waktu solat
   'p.imsak': 'Solat Subuh',
