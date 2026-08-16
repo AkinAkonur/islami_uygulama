@@ -26,34 +26,62 @@ class GeminiServisi {
 
   bool get hazir => _anahtar.isNotEmpty;
 
+  /// Yaygın dil kodlarını Gemini'nin anlayacağı yanıt dili etiketine çevirir.
+  /// Desteklenmeyen kodlarda İngilizce varsayılır; böylece yanıt her zaman
+  /// kullanıcının uygulama diliyle uyumlu bir dille döner.
+  static String yanitDili(String kod) {
+    return switch (kod) {
+      'tr' => 'Türkçe',
+      'en' => 'English',
+      'ar' => 'العربية',
+      'id' => 'Bahasa Indonesia',
+      'ms' => 'Bahasa Melayu',
+      'ur' => 'اردو',
+      'bn' => 'বাংলা',
+      'fr' => 'Français',
+      'ru' => 'Русский',
+      _ => 'English',
+    };
+  }
+
   /// Kullanıcı sorusunu Gemini'ye gönderir ve metin yanıtını döndürür.
-  Future<String> sor(String soru) async {
+  ///
+  /// [dilKodu] ile AI'ın yanıt dilini kullanıcının uygulama diline sabitler
+  /// (global kullanıcılar için). [ekTalimat] kategoriye özel yönergeleri
+  /// (ör. tefsir, fıkıh, karşılaştırma) ekler.
+  Future<String> sor(
+    String soru, {
+    String dilKodu = 'tr',
+    String? ekTalimat,
+  }) async {
     if (_anahtar.isEmpty) {
       throw const GemiException('API anahtarı tanımlı değil');
     }
+
+    final dilEtiketi = yanitDili(dilKodu);
 
     final uri = Uri.parse(
       'https://generativelanguage.googleapis.com/v1beta/models/$_model'
       ':generateContent?key=$_anahtar',
     );
 
+    final talimat = [
+      "Sen İslam dinine, Kur'an tefsirine ve fıkha hâkim, bilgili ve "
+          "ihtiyatlı bir İslam bilgini asistanısın.",
+      "Soruya kesinlikle $dilEtiketi dilinde yanıt ver.",
+      "Doğru, net ve kaynak güvenilirliğini gözeterek yanıtla.",
+      "Mümkün olduğunca delil göster (sure-adı + ayet numarası, hadis kaynağı "
+          "ve numarası); kesin dini hüküm konusunda ihtiyatlı ol ve fetva "
+          "gerektiren konularda bir âlime danışılmasını hatırlat.",
+      "Yanıtı kısa, düzenli paragraflar hâlinde ve madde madde ver.",
+      if (ekTalimat != null && ekTalimat.isNotEmpty) ekTalimat,
+    ].join(' ');
+
     final payload = {
       "contents": [
-        {
-          "parts": [
-            {
-              "text":
-                  "Sen İslam dinine, Kur'an tefsirine ve fıkha hâkim, bilgili ve "
-                  "ihtiyatlı bir İslam bilgini asistanısın. Kullanıcının sorusunu "
-                  "Türkçe, doğru, net ve kaynak güvenilirliğini gözeterek yanıtla. "
-                  "Kesin dini hüküm konusunda ihtiyatlı ol, temel bilgiler için "
-                  "delil (ayet/hadis) göster. Yanıtı kısa ve düzenli paragraflarla ver.\n\n"
-                  "Soru: $soru"
-            }
-          ]
-        }
+        {"parts": [{"text": "$talimat\n\nSoru: $soru"}]}
       ],
-      "generationConfig": {"temperature": 0.7, "maxOutputTokens": 900},
+      "generationConfig": {"temperature": 0.5, "maxOutputTokens": 1100},
     };
 
     final response = await http
@@ -70,7 +98,7 @@ class GeminiServisi {
       );
     }
 
-    final json = jsonDecode(response.body) as Map<String, dynamic>;
+    final json = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
     final candidates = json["candidates"] as List?;
     if (candidates == null || candidates.isEmpty) {
       throw const GemiException('Yanıt alınamadı (yedek doğrulama).');

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import '../screens/namaz_screen.dart';
 import '../screens/guide_screen.dart';
@@ -326,10 +328,10 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: items.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 1.15,
+        crossAxisCount: 3,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        childAspectRatio: 0.9,
       ),
       itemBuilder: (context, i) {
         final it = items[i];
@@ -339,40 +341,83 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
   }
 
   Widget _moduleCard(IconData icon, String title, String subtitle, Widget page) {
-    return _lux3dCard(
-      padding: const EdgeInsets.all(14),
-      radius: 18,
-      gradientColors: const [_cardTop, _cardBottom],
-      borderColor: _gold.withValues(alpha: 0.18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => page));
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            _goldIconWrap(icon: icon, size: 30),
-            const SizedBox(height: 14),
-            Text(
-              title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
+            // 3D altıgen gövde (gölge + gövde + kenarlar + parlaklık)
+            Positioned.fill(
+              child: CustomPaint(
+                painter: _HexagonPainter(gold: _gold),
               ),
             ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: Colors.white.withValues(alpha: 0.6),
-                fontSize: 11,
+            // İçerik
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 14, 12, 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFFEED07A), Color(0xFF9A7B1E)],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.45),
+                          blurRadius: 6,
+                          offset: const Offset(0, 4),
+                        ),
+                        BoxShadow(
+                          color: _gold.withValues(alpha: 0.5),
+                          blurRadius: 10,
+                          offset: const Offset(0, 0),
+                        ),
+                      ],
+                    ),
+                    child: Icon(icon, color: const Color(0xFF10201A), size: 21),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 11,
+                      height: 1.2,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black54,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.65),
+                      fontSize: 9,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -738,4 +783,112 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
   }) {
     return Text(text, style: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: color));
   }
+}
+
+/// Ucu yukarı bakan düzgün altıgen (honeycomb) çizer. 3D derinlik için: önce
+/// gölge, sonra gradyanlı gövde, sonra üst ışık çizgisi ve cam parlaması.
+class _HexagonPainter extends CustomPainter {
+  final Color gold;
+  const _HexagonPainter({required this.gold});
+
+  /// Ucu yukarı bakan altıgenin yolunu verir (merkezli).
+  static Path _yol(Size size) {
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+    final r = math.min(size.width, size.height) / 2 - 1;
+    final yol = Path();
+    for (var i = 0; i < 6; i++) {
+      final aci = -math.pi / 2 + i * math.pi / 3;
+      final x = cx + r * math.cos(aci);
+      final y = cy + r * math.sin(aci);
+      if (i == 0) {
+        yol.moveTo(x, y);
+      } else {
+        yol.lineTo(x, y);
+      }
+    }
+    return yol..close();
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final yol = _yol(size);
+
+    // Yer gölgesi (hafif kaydırılmış, bulanık)
+    canvas.save();
+    canvas.translate(0, 5);
+    canvas.drawPath(
+      yol,
+      Paint()
+        ..color = Colors.black.withValues(alpha: 0.45)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8),
+    );
+    canvas.restore();
+
+    // Gövde: 3D gradyan
+    final govde = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Color(0xFF3A5C46), _cardTop, _cardBottom],
+        stops: [0.0, 0.45, 1.0],
+      ).createShader(Offset.zero & size);
+    canvas.drawPath(yol, govde);
+
+    // Altın çerçeve
+    canvas.drawPath(
+      yol,
+      Paint()
+        ..color = gold.withValues(alpha: 0.6)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
+
+    // Üst ışık çizgisi + cam parlaması
+    canvas.save();
+    canvas.clipPath(yol);
+    canvas.drawLine(
+      Offset(size.width * 0.15, 1),
+      Offset(size.width * 0.85, 1),
+      Paint()
+        ..color = Colors.white.withValues(alpha: 0.5)
+        ..strokeWidth = 2,
+    );
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height * 0.4),
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.white.withValues(alpha: 0.12),
+            Colors.transparent,
+          ],
+        ).createShader(Rect.fromLTWH(0, 0, size.width, size.height * 0.4)),
+    );
+    canvas.restore();
+
+    // İç kenar vurguları
+    final kose = _koseNoktalari(size);
+    final kenar = Paint()
+      ..color = Colors.black.withValues(alpha: 0.28)
+      ..strokeWidth = 1;
+    for (var i = 0; i < 6; i++) {
+      canvas.drawLine(kose[i], kose[(i + 1) % 6], kenar);
+    }
+  }
+
+  static List<Offset> _koseNoktalari(Size size) {
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+    final r = math.min(size.width, size.height) / 2 - 1;
+    return List.generate(6, (i) {
+      final aci = -math.pi / 2 + i * math.pi / 3;
+      return Offset(cx + r * math.cos(aci), cy + r * math.sin(aci));
+    });
+  }
+
+  @override
+  bool shouldRepaint(covariant _HexagonPainter oldDelegate) =>
+      oldDelegate.gold != gold;
 }
