@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 import '../services/renkler.dart';
 
 /// Hatim duası sayfası. Metin (Arapça, okunuş ve Türkçe anlam) Diyanet'in
 /// yayımladığı hatim duası esas alınarak uygulama içine sabit kodlanmıştır;
-/// internet gerektirmez.
-class HatimDuasiPage extends StatelessWidget {
+/// internet gerektirmez. "Hatim Duasını Oku" butonu cihazın TTS motoruyla
+/// duayı bölüm bölüm seslendirir; okunan bölüm ekranda vurgulanır ve
+/// otomatik olarak ekrana kaydırılır (takip ederek okuma).
+class HatimDuasiPage extends StatefulWidget {
   const HatimDuasiPage({super.key});
 
+  @override
+  State<HatimDuasiPage> createState() => _HatimDuasiPageState();
+}
+
+class _HatimDuasiPageState extends State<HatimDuasiPage> {
   static const _giris =
       "Kur'ân-ı Kerîm'i hatmeden kimse, Nâs sûresini bitirdikten sonra "
       "Fâtiha ve Bakara sûresinin ilk beş âyetini okur. Ardından kıbleye "
@@ -58,6 +66,186 @@ class HatimDuasiPage extends StatelessWidget {
     },
   ];
 
+  static const _bitis =
+      'Duadan sonra "el-Fâtiha" denir ve Fâtiha sûresi okunarak '
+      'hatim duası tamamlanır.';
+
+  final FlutterTts _tts = FlutterTts();
+  final ScrollController _kaydirici = ScrollController();
+  final List<GlobalKey> _bolumAnahtarlari =
+      List.generate(_bolumler.length, (_) => GlobalKey());
+
+  bool _okuyor = false;
+  int? _aktifBolum;
+  bool _arapca = false;
+  String? _ttsHata;
+
+  @override
+  void initState() {
+    super.initState();
+    _ttsKur();
+  }
+
+  @override
+  void dispose() {
+    _tts.stop();
+    _kaydirici.dispose();
+    super.dispose();
+  }
+
+  /// TTS olaylarını bağlar. Bölüm bitince [setCompletionHandler] sayesinde
+  /// sıradaki bölüme geçilir; böylece bölüm bölüm okuma cihazın motorunun
+  /// gerçek "okuma bitti" olayına dayanır ve her platformda kararlıdır.
+  void _ttsKur() {
+    _tts.awaitSpeakCompletion(false);
+    _tts.setCompletionHandler(() async {
+      if (!mounted || !_okuyor) return;
+      _ilerle();
+    });
+    _tts.setCancelHandler(() {
+      if (mounted && _okuyor) setState(() => _okuyor = false);
+    });
+    _tts.setErrorHandler((dynamic msg) {
+      if (!mounted) return;
+      setState(() {
+        _okuyor = false;
+        _ttsHata = 'Ses okunamadı: $msg';
+      });
+    });
+  }
+
+  /// Okunan bölüm bittikten sonra sıradaki bölüme geçer (ya da tamamlar).
+  void _ilerle() {
+    final sira = (_aktifBolum ?? 0) + 1;
+    if (sira >= _bolumler.length) {
+      setState(() {
+        _okuyor = false;
+        _aktifBolum = null;
+        _ttsHata = null;
+      });
+      return;
+    }
+    setState(() {
+      _aktifBolum = sira;
+      _ttsHata = null;
+    });
+    _kaydir(sira);
+    _sesOku(sira);
+  }
+
+  /// Dua seslendirmesini [_baslangic] numaralı bölümden başlatır (null ise
+  /// kaldığı yerden ya da baştan).
+  Future<void> _baslat(int? baslangic) async {
+    if (_okuyor) return;
+    final sira = baslangic ?? _aktifBolum ?? 0;
+    setState(() {
+      _okuyor = true;
+      _aktifBolum = sira;
+      _ttsHata = null;
+    });
+    _kaydir(sira);
+    await _sesOku(sira);
+  }
+
+  /// Tek bir bölümü seslendirir. İstenen dil yoksa cihazdaki mevcut bir dile
+  /// düşer; hiç ses yoksa kullanıcıya açıklayıcı hata gösterilir.
+  Future<void> _sesOku(int index) async {
+    if (!mounted) return;
+    final bolum = _bolumler[index];
+    final metin = _arapca ? bolum['arapca']! : bolum['okunus']!;
+    try {
+      var dil = _arapca ? 'ar' : 'tr-TR';
+      final durum = await _tts.setLanguage(dil);
+      if (_sonucYok(durum)) {
+        dil = await _yedekDil();
+        if (dil.isEmpty) {
+          if (mounted) {
+            setState(() => _ttsHata =
+                'Cihazınızda okuma ses yok. '
+                'Cihaz Ayarları > Giriş > Metin okuma alanından bir ses kurun.');
+          }
+          return;
+        }
+        await _tts.setLanguage(dil);
+      }
+      await _tts.setSpeechRate(0.5);
+      final sonuc = await _tts.speak(metin);
+      if (_sonucYok(sonuc)) {
+        if (mounted) {
+          setState(() => _ttsHata = 'Ses okunamadı: cihazda ses bulunamadı.');
+        }
+      }
+    } catch (e) {
+      if (mounted) setState(() => _ttsHata = 'Ses okunamadı: $e');
+    }
+  }
+
+  /// TTS yöntemlerinden gelen hata değerlerini esnek biçimde tanır.
+  /// Dikkat: `speak` Android'de "kuyruğa alındı" anlamında 0, iOS'te başarı
+  /// anlamında 1 döner; ikisi de hata DEĞİLDİR. Hata yalnızca Android'de
+  /// `setLanguage`'in döndürdüğü `false` ve bazı platformlardaki -1'dir.
+  bool _sonucYok(dynamic sonuc) =>
+      sonuc == -1 ||
+      sonuc == false ||
+      sonuc == 'false' ||
+      sonuc == '-1';
+
+  /// Cihazda tercih edilen dil için bir eşleşme bulur; hiç uygun ses yoksa
+  /// son çare olarak İngilizce sesle okutur, o da yoksa boş döner.
+  Future<String> _yedekDil() async {
+    var diller = const <String>[];
+    try {
+      final ham = await _tts.getLanguages;
+      if (ham is List) {
+        diller = ham.map((e) => e.toString()).toList();
+      } else if (ham != null && ham.toString().isNotEmpty) {
+        diller = ham.toString().split(',');
+      }
+    } catch (_) {}
+    final hedefler = _arapca ? ['ar', 'arab'] : ['tr', 'turk'];
+    for (final h in hedefler) {
+      for (final d in diller) {
+        if (d.toLowerCase().contains(h)) return d;
+      }
+    }
+    // İstenen dilde ses yoksa İngilizce sesle okut (çoğu cihazda kurulu).
+    for (final d in diller) {
+      final k = d.toLowerCase();
+      if (k.contains('en') && (k.contains('us') || k.contains('gb'))) return d;
+    }
+    for (final d in diller) {
+      if (d.toLowerCase() == 'en') return d;
+    }
+    return '';
+  }
+
+  /// Okumayı duraklatır (kaldığı bölümden "Devam Et" ile sürdürülebilir).
+  void _duraklat() {
+    _tts.stop();
+    setState(() => _okuyor = false);
+  }
+
+  /// Okumayı tamamen durdurur ve başlangıca döner.
+  void _durdur() {
+    _tts.stop();
+    setState(() {
+      _okuyor = false;
+      _aktifBolum = null;
+      _ttsHata = null;
+    });
+  }
+
+  void _kaydir(int index) {
+    final ctx = _bolumAnahtarlari[index].currentContext;
+    if (ctx == null) return;
+    Scrollable.ensureVisible(
+      ctx,
+      alignment: 0.2,
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,18 +257,189 @@ class HatimDuasiPage extends StatelessWidget {
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
+        actions: [
+          IconButton(
+            tooltip: _okuyor ? 'Durdur' : 'Hatim Duasını Oku',
+            onPressed: _okuyor ? _duraklat : () => _baslat(null),
+            icon: Icon(
+              _okuyor ? Icons.stop_circle_outlined : Icons.play_circle_outline,
+              color: Renkler.vurgu,
+              size: 26,
+            ),
+          ),
+        ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
+      body: Column(
         children: [
-          _girisKarti(),
-          const SizedBox(height: 14),
-          for (var i = 0; i < _bolumler.length; i++) ...[
-            _bolumKarti(i),
-            if (i < _bolumler.length - 1) const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+            child: _kontrolKarti(),
+          ),
+          Expanded(
+            child: ListView(
+              controller: _kaydirici,
+              padding: const EdgeInsets.all(16),
+              children: [
+                _girisKarti(),
+                const SizedBox(height: 14),
+                for (var i = 0; i < _bolumler.length; i++) ...[
+                  _bolumKarti(i, _okuyor && _aktifBolum == i),
+                  if (i < _bolumler.length - 1) const SizedBox(height: 12),
+                ],
+                const SizedBox(height: 14),
+                _bitisKarti(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Başlat/durdur kontrolleri ve okuma ilerlemesi kartı.
+  Widget _kontrolKarti() {
+    final aktif = _aktifBolum;
+    final toplam = _bolumler.length;
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Renkler.bannerUst, Renkler.bannerAlt],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.35)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                _okuyor ? Icons.graphic_eq : Icons.play_circle_outline,
+                color: Colors.white,
+                size: 24,
+              ),
+              const SizedBox(width: 10),
+              const Expanded(
+                child: Text(
+                  'Hatim Duasını Oku',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            children: [
+              ChoiceChip(
+                label: const Text('Okunuşla'),
+                selected: !_arapca,
+                onSelected:
+                    _okuyor ? null : (_) => setState(() => _arapca = false),
+              ),
+              ChoiceChip(
+                label: const Text('Arapça'),
+                selected: _arapca,
+                onSelected:
+                    _okuyor ? null : (_) => setState(() => _arapca = true),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          if (_okuyor) ...[
+            Row(
+              children: [
+                Expanded(
+                  child: LinearProgressIndicator(
+                    value: ((aktif ?? 0) + 1) / toplam,
+                    backgroundColor: Colors.white24,
+                    valueColor: const AlwaysStoppedAnimation(Colors.white),
+                    minHeight: 6,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  '${(aktif ?? 0) + 1} / $toplam',
+                  style: const TextStyle(color: Colors.white, fontSize: 12),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
           ],
-          const SizedBox(height: 14),
-          _bitisKarti(),
+          if (_ttsHata != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                _ttsHata!,
+                style: const TextStyle(color: Colors.orangeAccent, fontSize: 12),
+              ),
+            ),
+          if (_okuyor)
+            Row(
+              children: [
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: _duraklat,
+                    icon: const Icon(Icons.pause),
+                    label: const Text('Duraklat'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      side: const BorderSide(color: Colors.white54),
+                    ),
+                    onPressed: _durdur,
+                    icon: const Icon(Icons.stop),
+                    label: const Text('Durdur'),
+                  ),
+                ),
+              ],
+            )
+          else
+            Row(
+              children: [
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: () => _baslat(null),
+                    icon: Icon(
+                      aktif == null ? Icons.play_arrow : Icons.play_circle_outline,
+                    ),
+                    label: Text(aktif == null ? 'Hatim Duasını Oku' : 'Devam Et'),
+                  ),
+                ),
+                if (aktif != null) ...[
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.white54),
+                      ),
+                      onPressed: _durdur,
+                      icon: const Icon(Icons.replay),
+                      label: const Text('Baştan'),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          const SizedBox(height: 10),
+          const Text(
+            'Okuma başladığında okunan bölüm vurgulanır ve ekran otomatik '
+            'olarak takip eder. Dilediğin bölüme dokunup oradan da '
+            'dinleyebilirsin.',
+            style: TextStyle(color: Colors.white70, fontSize: 11, height: 1.4),
+          ),
         ],
       ),
     );
@@ -101,61 +460,123 @@ class HatimDuasiPage extends StatelessWidget {
     );
   }
 
-  Widget _bolumKarti(int index) {
+  Widget _bolumKarti(int index, bool aktif) {
     final bolum = _bolumler[index];
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Renkler.kart,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Renkler.cerceve2),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            bolum['arapca']!,
-            textAlign: TextAlign.right,
-            textDirection: TextDirection.rtl,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              height: 1.9,
-              fontWeight: FontWeight.w500,
-            ),
+    return GestureDetector(
+      onTap: _okuyor ? null : () => _baslat(index),
+      child: AnimatedContainer(
+        key: _bolumAnahtarlari[index],
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: aktif ? Renkler.seciliYuzey : Renkler.kart,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: aktif ? Renkler.vurgu : Renkler.cerceve2,
+            width: aktif ? 1.6 : 1,
           ),
-          const SizedBox(height: 10),
-          Text(
-            bolum['okunus']!,
-            style: const TextStyle(
-              color: Colors.white54,
-              fontSize: 13,
-              fontStyle: FontStyle.italic,
-              height: 1.5,
+          boxShadow: aktif
+              ? [
+                  BoxShadow(
+                    color: Renkler.vurgu.withValues(alpha: 0.25),
+                    blurRadius: 14,
+                    spreadRadius: 1,
+                  ),
+                ]
+              : null,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (aktif) ...[
+              Row(
+                children: [
+                  const Icon(Icons.graphic_eq,
+                      color: Colors.greenAccent, size: 16),
+                  const SizedBox(width: 6),
+                  Text(
+                    'Şu an okunuyor',
+                    style: TextStyle(
+                      color: Renkler.vurgu,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    '${index + 1} / ${_bolumler.length}',
+                    style: TextStyle(color: Renkler.acikVurgu, fontSize: 11),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+            ],
+            Text(
+              bolum['arapca']!,
+              textAlign: TextAlign.right,
+              textDirection: TextDirection.rtl,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                height: 1.9,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          const Divider(color: Colors.white12),
-          const SizedBox(height: 8),
-          Text(
-            'ANLAMI',
-            style: TextStyle(
-              color: Renkler.vurgu,
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
+            const SizedBox(height: 10),
+            Text(
+              bolum['okunus']!,
+              style: const TextStyle(
+                color: Colors.white54,
+                fontSize: 13,
+                fontStyle: FontStyle.italic,
+                height: 1.5,
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            bolum['anlam']!,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 13,
-              height: 1.5,
+            const SizedBox(height: 10),
+            const Divider(color: Colors.white12),
+            const SizedBox(height: 8),
+            Text(
+              'ANLAMI',
+              style: TextStyle(
+                color: Renkler.vurgu,
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 6),
+            Text(
+              bolum['anlam']!,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 13,
+                height: 1.5,
+              ),
+            ),
+            if (!_okuyor) ...[
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Buradan dinle',
+                    style: TextStyle(
+                      color: Renkler.vurgu.withValues(alpha: 0.85),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(
+                    Icons.play_circle_outline,
+                    color: Renkler.vurgu.withValues(alpha: 0.85),
+                    size: 16,
+                  ),
+                ],
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -178,8 +599,7 @@ class HatimDuasiPage extends StatelessWidget {
           SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Duadan sonra "el-Fâtiha" denir ve Fâtiha sûresi okunarak '
-              'hatim duası tamamlanır.',
+              _bitis,
               style: TextStyle(color: Colors.white, fontSize: 13, height: 1.4),
             ),
           ),
