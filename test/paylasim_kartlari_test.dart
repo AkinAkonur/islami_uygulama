@@ -60,4 +60,49 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(CircularProgressIndicator), findsNothing);
   });
+
+  testWidgets("Kendi yazdigin icerik karta donusecektir", (tester) async {
+    await buyukEkran(tester);
+    await tester.pumpWidget(
+      const MaterialApp(home: PaylasimKartlariStudioPage()),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Kendi İçeriğini Yaz'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byType(TextField).first,
+      'Her şeyin bir vazgeçişi var, ibadetin değil.',
+    );
+    await tester.pump(const Duration(milliseconds: 900));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Her şeyin bir vazgeçişi var'), findsWidgets);
+    expect(find.textContaining('Kendi mesajım'), findsWidgets);
+  });
+
+  testWidgets("Arapca metin yazilinca otomatik aynen kopyalanir", (
+    tester,
+  ) async {
+    await buyukEkran(tester);
+    await tester.pumpWidget(
+      const MaterialApp(home: PaylasimKartlariStudioPage()),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Kendi İçeriğini Yaz'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byType(TextField).first,
+      'إِنَّ مَعَ الْعُسْرِ يُسْرًا',
+    );
+    await tester.pump(const Duration(milliseconds: 900));
+    await tester.pumpAndSettle();
+
+    final arapcaAlan = find.byType(TextField).at(2);
+    final kontrol = tester.widget<TextField>(arapcaAlan).controller;
+    expect(kontrol?.text, 'إِنَّ مَعَ الْعُسْرِ يُسْرًا');
+  });
 }

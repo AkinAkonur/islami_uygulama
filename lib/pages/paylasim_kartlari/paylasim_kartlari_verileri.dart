@@ -21,16 +21,19 @@ class KartIcerik {
   });
 
   factory KartIcerik.duadan(DuaKaydi d) => KartIcerik(
-        id: 'dua_${d.id}',
-        tip: KartIcerikTipi.dua,
-        baslik: d.baslik,
-        kaynak: d.kaynak.isNotEmpty ? d.kaynak : 'Dua',
-        metin: d.meal.isNotEmpty ? d.meal : d.okunus,
-        arapca: d.arapca.isNotEmpty ? d.arapca : null,
-      );
+    id: 'dua_${d.id}',
+    tip: KartIcerikTipi.dua,
+    baslik: d.baslik,
+    kaynak: d.kaynak.isNotEmpty ? d.kaynak : 'Dua',
+    metin: d.meal.isNotEmpty ? d.meal : d.okunus,
+    arapca: d.arapca.isNotEmpty ? d.arapca : null,
+  );
 
-  String get etiket =>
-      switch (tip) { KartIcerikTipi.ayet => 'Ayet', KartIcerikTipi.hadis => 'Hadis', KartIcerikTipi.dua => 'Dua' };
+  String get etiket => switch (tip) {
+    KartIcerikTipi.ayet => 'Ayet',
+    KartIcerikTipi.hadis => 'Hadis',
+    KartIcerikTipi.dua => 'Dua',
+  };
 }
 
 const String uygulamaAdi = 'Huzur & Manevi Yolculuk';
@@ -57,7 +60,8 @@ List<KartIcerik> kartAyetleri = [
     tip: KartIcerikTipi.ayet,
     baslik: 'Bakara Suresi',
     kaynak: 'Bakara Suresi, 152. Âyet',
-    metin: 'Öyleyse beni anın ki, ben de sizi anayım. Bana şükredin, sakın nankörlük etmeyin.',
+    metin:
+        'Öyleyse beni anın ki, ben de sizi anayım. Bana şükredin, sakın nankörlük etmeyin.',
     arapca: 'فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ',
   ),
   KartIcerik(
@@ -65,8 +69,10 @@ List<KartIcerik> kartAyetleri = [
     tip: KartIcerikTipi.ayet,
     baslik: 'İbrâhîm Suresi',
     kaynak: 'İbrâhîm Suresi, 7. Âyet',
-    metin: 'Andolsun, eğer şükrederseniz elbette size nimetimi artırırım. Eğer nankörlük ederseniz hiç şüphesiz azabım pek şiddetlidir.',
-    arapca: 'لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ',
+    metin:
+        'Andolsun, eğer şükrederseniz elbette size nimetimi artırırım. Eğer nankörlük ederseniz hiç şüphesiz azabım pek şiddetlidir.',
+    arapca:
+        'لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ',
   ),
   KartIcerik(
     id: 'ayet_talak_3',
@@ -81,8 +87,10 @@ List<KartIcerik> kartAyetleri = [
     tip: KartIcerikTipi.ayet,
     baslik: 'Zümer Suresi',
     kaynak: 'Zümer Suresi, 53. Âyet',
-    metin: 'De ki: Ey kendilerine karşı aşırı giderek zulmeden kullarım! Allah\'ın rahmetinden ümidinizi kesmeyin. Şüphesiz Allah, bütün günahları bağışlar.',
-    arapca: 'قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ ۚ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا',
+    metin:
+        'De ki: Ey kendilerine karşı aşırı giderek zulmeden kullarım! Allah\'ın rahmetinden ümidinizi kesmeyin. Şüphesiz Allah, bütün günahları bağışlar.',
+    arapca:
+        'قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ ۚ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا',
   ),
   KartIcerik(
     id: 'ayet_bakara_286',
@@ -97,8 +105,10 @@ List<KartIcerik> kartAyetleri = [
     tip: KartIcerikTipi.ayet,
     baslik: 'Bakara Suresi',
     kaynak: 'Bakara Suresi, 201. Âyet',
-    metin: 'Rabbimiz! Bize dünyada da iyilik ver, âhirette de iyilik ver ve bizi ateş azabından koru.',
-    arapca: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',
+    metin:
+        'Rabbimiz! Bize dünyada da iyilik ver, âhirette de iyilik ver ve bizi ateş azabından koru.',
+    arapca:
+        'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',
   ),
   KartIcerik(
     id: 'ayet_rahman_13',
@@ -121,7 +131,8 @@ List<KartIcerik> kartAyetleri = [
     tip: KartIcerikTipi.ayet,
     baslik: 'Asr Suresi',
     kaynak: 'Asr Suresi, 1-3. Âyetler',
-    metin: 'Andolsun zamana ki, insan gerçekten ziyan içindedir. Ancak iman edip salih ameller işleyenler, birbirlerine hakkı ve sabrı tavsiye edenler müstesna.',
+    metin:
+        'Andolsun zamana ki, insan gerçekten ziyan içindedir. Ancak iman edip salih ameller işleyenler, birbirlerine hakkı ve sabrı tavsiye edenler müstesna.',
     arapca: 'وَالْعَصْرِ ۝ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ',
   ),
   KartIcerik(
@@ -129,31 +140,38 @@ List<KartIcerik> kartAyetleri = [
     tip: KartIcerikTipi.ayet,
     baslik: 'Furkân Suresi',
     kaynak: 'Furkân Suresi, 74. Âyet',
-    metin: 'Rabbimiz! Bize gözümüzü aydınlatacak eşler ve zürriyetler bağışla ve bizi takva sahiplerine önder kıl.',
-    arapca: 'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا',
+    metin:
+        'Rabbimiz! Bize gözümüzü aydınlatacak eşler ve zürriyetler bağışla ve bizi takva sahiplerine önder kıl.',
+    arapca:
+        'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا',
   ),
   KartIcerik(
     id: 'ayet_bakara_45',
     tip: KartIcerikTipi.ayet,
     baslik: 'Bakara Suresi',
     kaynak: 'Bakara Suresi, 45. Âyet',
-    metin: 'Sabrederek ve namaz kılarak Allah\'tan yardım isteyin. Şüphesiz bu, huşû duyanların dışındakilere çok ağır gelir.',
-    arapca: 'وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ وَإِنَّهَا لَكَبِيرَةٌ إِلَّا عَلَى الْخَاشِعِينَ',
+    metin:
+        'Sabrederek ve namaz kılarak Allah\'tan yardım isteyin. Şüphesiz bu, huşû duyanların dışındakilere çok ağır gelir.',
+    arapca:
+        'وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ وَإِنَّهَا لَكَبِيرَةٌ إِلَّا عَلَى الْخَاشِعِينَ',
   ),
   KartIcerik(
     id: 'ayet_yunus_62',
     tip: KartIcerikTipi.ayet,
     baslik: 'Yûnus Suresi',
     kaynak: 'Yûnus Suresi, 62. Âyet',
-    metin: 'Bilesiniz ki, Allah\'ın dostlarına korku yoktur; onlar üzülmeyeceklerdir de.',
-    arapca: 'أَلَا إِنَّ أَوْلِيَاءَ اللَّهِ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ',
+    metin:
+        'Bilesiniz ki, Allah\'ın dostlarına korku yoktur; onlar üzülmeyeceklerdir de.',
+    arapca:
+        'أَلَا إِنَّ أَوْلِيَاءَ اللَّهِ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ',
   ),
   KartIcerik(
     id: 'ayet_kaf_16',
     tip: KartIcerikTipi.ayet,
     baslik: 'Kâf Suresi',
     kaynak: 'Kâf Suresi, 16. Âyet',
-    metin: 'Andolsun, insanı biz yarattık ve nefsinin ona ne vesveseler verdiğini de biliriz. Biz ona şah damarından daha yakınız.',
+    metin:
+        'Andolsun, insanı biz yarattık ve nefsinin ona ne vesveseler verdiğini de biliriz. Biz ona şah damarından daha yakınız.',
     arapca: 'وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ الْوَرِيدِ',
   ),
   KartIcerik(
@@ -161,8 +179,10 @@ List<KartIcerik> kartAyetleri = [
     tip: KartIcerikTipi.ayet,
     baslik: 'Hûd Suresi',
     kaynak: 'Hûd Suresi, 88. Âyet',
-    metin: 'Benim başarım ancak Allah\'ın yardımıyladır. Ona tevekkül ettim ve ona yöneliyorum.',
-    arapca: 'وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ۚ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ',
+    metin:
+        'Benim başarım ancak Allah\'ın yardımıyladır. Ona tevekkül ettim ve ona yöneliyorum.',
+    arapca:
+        'وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ۚ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ',
   ),
   KartIcerik(
     id: 'ayet_nur_35',
@@ -177,8 +197,10 @@ List<KartIcerik> kartAyetleri = [
     tip: KartIcerikTipi.ayet,
     baslik: 'Âl-i İmrân Suresi',
     kaynak: 'Âl-i İmrân Suresi, 139. Âyet',
-    metin: 'Gevşemeyin, üzülmeyin. Eğer gerçekten iman etmişseniz, üstün gelecek olan sizsiniz.',
-    arapca: 'وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ إِن كُنتُم مُّؤْمِنِينَ',
+    metin:
+        'Gevşemeyin, üzülmeyin. Eğer gerçekten iman etmişseniz, üstün gelecek olan sizsiniz.',
+    arapca:
+        'وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ إِن كُنتُم مُّؤْمِنِينَ',
   ),
   KartIcerik(
     id: 'ayet_duha_5',
@@ -193,7 +215,8 @@ List<KartIcerik> kartAyetleri = [
     tip: KartIcerikTipi.ayet,
     baslik: 'Bakara Suresi',
     kaynak: 'Bakara Suresi, 216. Âyet',
-    metin: 'Olur ki bir şey hoşunuza gitmez ama o sizin için hayırlıdır. Olur ki bir şey hoşunuza gider ama o sizin için kötüdür. Siz bilmezsiniz, Allah bilir.',
+    metin:
+        'Olur ki bir şey hoşunuza gitmez ama o sizin için hayırlıdır. Olur ki bir şey hoşunuza gider ama o sizin için kötüdür. Siz bilmezsiniz, Allah bilir.',
     arapca: 'وَعَسَىٰ أَن تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَّكُمْ',
   ),
 ];
@@ -204,15 +227,18 @@ List<KartIcerik> kartHadisleri = [
     tip: KartIcerikTipi.hadis,
     baslik: 'Niyetin Önemi',
     kaynak: 'Buhârî, Bed\'ü\'l-Vahy 1; Müslim, İmâre 155',
-    metin: 'Ameller ancak niyetlere göredir. Herkese ancak niyet ettiği şey vardır.',
-    arapca: 'إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
+    metin:
+        'Ameller ancak niyetlere göredir. Herkese ancak niyet ettiği şey vardır.',
+    arapca:
+        'إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
   ),
   KartIcerik(
     id: 'hadis_musluman',
     tip: KartIcerikTipi.hadis,
     baslik: 'Müslüman Kime Denir',
     kaynak: 'Buhârî, Îmân 4; Müslim, Îmân 64-66',
-    metin: 'Müslüman; elinden ve dilinden diğer Müslümanların güvende olduğu kimsedir.',
+    metin:
+        'Müslüman; elinden ve dilinden diğer Müslümanların güvende olduğu kimsedir.',
     arapca: 'الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ',
   ),
   KartIcerik(
@@ -235,8 +261,10 @@ List<KartIcerik> kartHadisleri = [
     tip: KartIcerikTipi.hadis,
     baslik: 'Selâmı Yayın',
     kaynak: 'Müslim, Îmân 93',
-    metin: 'Birbirinizi sevmedikçe iman etmiş olmazsınız. Aranızda selâmı yayın ki sevginiz artar.',
-    arapca: 'لَا تَدْخُلُونَ الْجَنَّةَ حَتَّى تُؤْمِنُوا وَلَا تُؤْمِنُوا حَتَّى تَحَابُّوا أَفْشُوا السَّلَامَ بَيْنَكُمْ',
+    metin:
+        'Birbirinizi sevmedikçe iman etmiş olmazsınız. Aranızda selâmı yayın ki sevginiz artar.',
+    arapca:
+        'لَا تَدْخُلُونَ الْجَنَّةَ حَتَّى تُؤْمِنُوا وَلَا تُؤْمِنُوا حَتَّى تَحَابُّوا أَفْشُوا السَّلَامَ بَيْنَكُمْ',
   ),
   KartIcerik(
     id: 'hadis_temizlik',
@@ -251,7 +279,8 @@ List<KartIcerik> kartHadisleri = [
     tip: KartIcerikTipi.hadis,
     baslik: 'Hayırlı Dua',
     kaynak: 'Müslim, Zikir 73',
-    metin: 'Allah\'ım! Faydasız ilimden, korkmayan kalpten, doymayan nefisten ve kabul olunmayan duadan sana sığınırım.',
+    metin:
+        'Allah\'ım! Faydasız ilimden, korkmayan kalpten, doymayan nefisten ve kabul olunmayan duadan sana sığınırım.',
   ),
   KartIcerik(
     id: 'hadis_ahlak',
@@ -265,22 +294,26 @@ List<KartIcerik> kartHadisleri = [
     tip: KartIcerikTipi.hadis,
     baslik: 'Müminin Yardımı',
     kaynak: 'Müslim, Birr 58',
-    metin: 'Kim mümin bir kardeşinin dünyevî bir sıkıntısını giderirse, Allah da kıyamet günü onun sıkıntılarından birini giderir.',
-    arapca: 'مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً مِنْ كُرَبِ الدُّنْيَا نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ الْقِيَامَةِ',
+    metin:
+        'Kim mümin bir kardeşinin dünyevî bir sıkıntısını giderirse, Allah da kıyamet günü onun sıkıntılarından birini giderir.',
+    arapca:
+        'مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً مِنْ كُرَبِ الدُّنْيَا نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ الْقِيَامَةِ',
   ),
   KartIcerik(
     id: 'hadis_haklar',
     tip: KartIcerikTipi.hadis,
     baslik: 'Müslümanın Hakkı',
     kaynak: 'Buhârî, Cenâiz 2; Müslim, Selâm 4',
-    metin: 'Müslümanın Müslüman üzerindeki hakkı beştir: Selâmı almak, hastayı ziyaret etmek, cenazenin ardından gitmek, davete icabet etmek ve aksırana "yerhamükellah" demek.',
+    metin:
+        'Müslümanın Müslüman üzerindeki hakkı beştir: Selâmı almak, hastayı ziyaret etmek, cenazenin ardından gitmek, davete icabet etmek ve aksırana "yerhamükellah" demek.',
   ),
   KartIcerik(
     id: 'hadis_hayir_elci',
     tip: KartIcerikTipi.hadis,
     baslik: 'Hayra Vesile Olan',
     kaynak: 'Müslim, İmâre 45',
-    metin: 'Her kim bir hayra aracılık ederse, o hayırdan kendisine de bir pay vardır.',
+    metin:
+        'Her kim bir hayra aracılık ederse, o hayırdan kendisine de bir pay vardır.',
   ),
   KartIcerik(
     id: 'hadis_kuran_ogren',
@@ -295,8 +328,10 @@ List<KartIcerik> kartHadisleri = [
     tip: KartIcerikTipi.hadis,
     baslik: 'Hayırlı Söz',
     kaynak: 'Buhârî, Edeb 31; Müslim, Îmân 74',
-    metin: 'Kim Allah\'a ve âhiret gününe iman ediyorsa, ya hayır söylesin ya da sussun.',
-    arapca: 'مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ',
+    metin:
+        'Kim Allah\'a ve âhiret gününe iman ediyorsa, ya hayır söylesin ya da sussun.',
+    arapca:
+        'مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ',
   ),
   KartIcerik(
     id: 'hadis_zikir',
@@ -318,7 +353,8 @@ List<KartIcerik> kartHadisleri = [
     tip: KartIcerikTipi.hadis,
     baslik: 'Sadakanın Bereketi',
     kaynak: 'Müslim, Birr 69',
-    metin: 'Sadaka, malı eksiltmez. Allah, affeden kulun ancak izzetini artırır.',
+    metin:
+        'Sadaka, malı eksiltmez. Allah, affeden kulun ancak izzetini artırır.',
     arapca: 'مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ',
   ),
   KartIcerik(
@@ -342,7 +378,8 @@ List<KartIcerik> kartHadisleri = [
     tip: KartIcerikTipi.hadis,
     baslik: 'Kul Olmak',
     kaynak: 'Buhârî, Rikâk 15',
-    metin: 'Zühd, helâli değil; dünyadan ahirete yöneliştir. Allah\'ın katında olanlar bâkîdir.',
+    metin:
+        'Zühd, helâli değil; dünyadan ahirete yöneliştir. Allah\'ın katında olanlar bâkîdir.',
   ),
   KartIcerik(
     id: 'hadis_komu',
@@ -478,23 +515,166 @@ List<KartTema> kartTemalari = [
     camEfekti: true,
     koyu: false,
   ),
+  const KartTema(
+    ad: 'Altın Silsile',
+    ikon: Icons.workspace_premium_outlined,
+    gradient: [Color(0xFF1C1205), Color(0xFF4A3310)],
+    metin: Colors.white,
+    arapca: Color(0xFFF5C869),
+    kaynak: Color(0xFFE8B54A),
+    ornament: Color(0xFFF5C869),
+    filigran: Color(0x99FFFFFF),
+    secimRenk: Color(0xFF4A3310),
+    desen: 'hilal',
+    koyu: true,
+  ),
+  const KartTema(
+    ad: 'Nil Yeşili',
+    ikon: Icons.water_drop_outlined,
+    gradient: [Color(0xFF03242B), Color(0xFF0F5663)],
+    metin: Colors.white,
+    arapca: Color(0xFFA5E8D0),
+    kaynak: Color(0xFF7FD4C0),
+    ornament: Color(0xFF7FD4C0),
+    filigran: Color(0x99FFFFFF),
+    secimRenk: Color(0xFF0F5663),
+    desen: 'isik',
+    koyu: true,
+  ),
+  const KartTema(
+    ad: 'Lâcivert Yıldız',
+    ikon: Icons.star_outline,
+    gradient: [Color(0xFF0A1440), Color(0xFF1E2A6B)],
+    metin: Colors.white,
+    arapca: Color(0xFFE8C877),
+    kaynak: Color(0xFF9DB8E8),
+    ornament: Color(0xFFC9A860),
+    filigran: Color(0x99FFFFFF),
+    secimRenk: Color(0xFF1E2A6B),
+    desen: 'yildiz',
+    koyu: true,
+  ),
+  const KartTema(
+    ad: 'Şafak',
+    ikon: Icons.wb_twilight,
+    gradient: [Color(0xFFF7E8C8), Color(0xFFE8B7A0)],
+    metin: Color(0xFF3E2A1E),
+    arapca: Color(0xFF9A5B2F),
+    kaynak: Color(0xFF8C5A33),
+    ornament: Color(0xFFC97B4A),
+    filigran: Color(0x9940282A),
+    secimRenk: Color(0xFFF3D9B8),
+    desen: 'hilal',
+    koyu: false,
+  ),
+  const KartTema(
+    ad: 'Buz Mavisi',
+    ikon: Icons.ac_unit_outlined,
+    gradient: [Color(0xFFEAF6FA), Color(0xFFCFE8F2)],
+    metin: Color(0xFF123448),
+    arapca: Color(0xFF1F5F7A),
+    kaynak: Color(0xFF2B6E8C),
+    ornament: Color(0xFF6FA8C4),
+    filigran: Color(0x99123448),
+    secimRenk: Color(0xFFD6ECF5),
+    desen: 'isik',
+    koyu: false,
+  ),
+  const KartTema(
+    ad: 'Menekşe Gecesi',
+    ikon: Icons.nights_stay_outlined,
+    gradient: [Color(0xFF1A0B2E), Color(0xFF3A1E5C)],
+    metin: Colors.white,
+    arapca: Color(0xFFD9A5F5),
+    kaynak: Color(0xFFC9A5E8),
+    ornament: Color(0xFFB98AD9),
+    filigran: Color(0x99FFFFFF),
+    secimRenk: Color(0xFF3A1E5C),
+    desen: 'yildiz',
+    koyu: true,
+  ),
+  const KartTema(
+    ad: 'Kızıl Huzur',
+    ikon: Icons.local_fire_department_outlined,
+    gradient: [Color(0xFF3B0A14), Color(0xFF8C2638)],
+    metin: Colors.white,
+    arapca: Color(0xFFF5B8A5),
+    kaynak: Color(0xFFE8A0B0),
+    ornament: Color(0xFFF5A0B5),
+    filigran: Color(0x99FFFFFF),
+    secimRenk: Color(0xFF6E1E2E),
+    desen: 'isik',
+    koyu: true,
+  ),
+  const KartTema(
+    ad: 'Fildişi Zarafet',
+    ikon: Icons.spa_outlined,
+    gradient: [Color(0xFFFFFDF5), Color(0xFFF2E6CE)],
+    metin: Color(0xFF3A3226),
+    arapca: Color(0xFF8C6B35),
+    kaynak: Color(0xFF7A653D),
+    ornament: Color(0xFFC0A060),
+    filigran: Color(0x993A3226),
+    secimRenk: Color(0xFFF7EDD8),
+    desen: 'hilal',
+    koyu: false,
+  ),
+  const KartTema(
+    ad: 'Okyanus Derinliği',
+    ikon: Icons.waves_outlined,
+    gradient: [Color(0xFF03182E), Color(0xFF0B3B5C)],
+    metin: Colors.white,
+    arapca: Color(0xFF8FD8E8),
+    kaynak: Color(0xFF6FB8D0),
+    ornament: Color(0xFF4FA0C0),
+    filigran: Color(0x99FFFFFF),
+    secimRenk: Color(0xFF0B3B5C),
+    desen: 'kabe',
+    koyu: true,
+  ),
+  const KartTema(
+    ad: 'Mercan',
+    ikon: Icons.terrain_outlined,
+    gradient: [Color(0xFF2B0E1E), Color(0xFF7A3A52)],
+    metin: Colors.white,
+    arapca: Color(0xFFF5C9D0),
+    kaynak: Color(0xFFE8A0B8),
+    ornament: Color(0xFFF5A0C0),
+    filigran: Color(0x99FFFFFF),
+    secimRenk: Color(0xFF5E2E44),
+    desen: 'yildiz',
+    koyu: true,
+  ),
+  const KartTema(
+    ad: 'Zeytin Dalı',
+    ikon: Icons.eco_outlined,
+    gradient: [Color(0xFFF4F0E0), Color(0xFFD9D3B5)],
+    metin: Color(0xFF2E3220),
+    arapca: Color(0xFF6B7A3A),
+    kaynak: Color(0xFF5A6A33),
+    ornament: Color(0xFF8A9A50),
+    filigran: Color(0x992E3220),
+    secimRenk: Color(0xFFE8E2C8),
+    desen: 'isik',
+    koyu: false,
+  ),
 ];
 
 enum KartFormat { hikaye, kare }
 
 extension KartFormatUzanti on KartFormat {
   double get oran => switch (this) {
-        KartFormat.hikaye => 9 / 16,
-        KartFormat.kare => 1,
-      };
+    KartFormat.hikaye => 9 / 16,
+    KartFormat.kare => 1,
+  };
 
   String get ad => switch (this) {
-        KartFormat.hikaye => 'Hikaye (9:16)',
-        KartFormat.kare => 'Kare (1:1)',
-      };
+    KartFormat.hikaye => 'Hikaye (9:16)',
+    KartFormat.kare => 'Kare (1:1)',
+  };
 
-      IconData get ikon => switch (this) {
-        KartFormat.hikaye => Icons.crop_portrait,
-        KartFormat.kare => Icons.crop_square,
-      };
+  IconData get ikon => switch (this) {
+    KartFormat.hikaye => Icons.crop_portrait,
+    KartFormat.kare => Icons.crop_square,
+  };
 }

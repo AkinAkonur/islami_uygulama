@@ -1,9 +1,12 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -18,7 +21,8 @@ class PaylasimKartlariStudioPage extends StatefulWidget {
       _PaylasimKartlariStudioPageState();
 }
 
-class _PaylasimKartlariStudioPageState extends State<PaylasimKartlariStudioPage> {
+class _PaylasimKartlariStudioPageState
+    extends State<PaylasimKartlariStudioPage> {
   final GlobalKey _kartAnahtari = GlobalKey();
 
   KartIcerikTipi _tip = KartIcerikTipi.ayet;
@@ -30,21 +34,47 @@ class _PaylasimKartlariStudioPageState extends State<PaylasimKartlariStudioPage>
   double _fontBoyutu = 20;
   bool _paylasiliyor = false;
   bool _dualarYukleniyor = false;
+  bool _ozelIcerik = false;
+  bool _otomatikArapca = true;
+  bool _ceviriliyor = false;
+  String? _sonArapca;
+  Timer? _ceviriZamani;
+  final TextEditingController _ozelMetin = TextEditingController();
+  final TextEditingController _ozelKaynak = TextEditingController();
+  final TextEditingController _ozelArapca = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _icerik = _liste.isNotEmpty ? _liste.first : null;
+    _ozelMetin.addListener(_otomatikArapcaGuncelle);
+  }
+
+  @override
+  void dispose() {
+    _ceviriZamani?.cancel();
+    _ozelMetin.removeListener(_otomatikArapcaGuncelle);
+    _ozelMetin.dispose();
+    _ozelKaynak.dispose();
+    _ozelArapca.dispose();
+    super.dispose();
   }
 
   KartTema get _tema => kartTemalari[_temaIndex];
 
   Future<void> _tipDegistir(KartIcerikTipi tip) async {
     if (_tip == tip) return;
-    setState(() => _tip = tip);
-    if (tip == KartIcerikTipi.dua) {
-      setState(() => _dualarYukleniyor = true);
-    }
+    _ceviriZamani?.cancel();
+    _ozelMetin.clear();
+    _ozelKaynak.clear();
+    _ozelArapca.clear();
+    setState(() {
+      _tip = tip;
+      _ozelIcerik = false;
+      _ceviriliyor = false;
+      _sonArapca = null;
+      if (tip == KartIcerikTipi.dua) _dualarYukleniyor = true;
+    });
     final liste = await PaylasimKartlariVerileri.instance.listeGetir(tip);
     if (!mounted || _tip != tip) return;
     setState(() {
@@ -56,6 +86,100 @@ class _PaylasimKartlariStudioPageState extends State<PaylasimKartlariStudioPage>
 
   void _icerikSec(KartIcerik icerik) {
     setState(() => _icerik = icerik);
+  }
+
+  KartIcerik? get _ozelKart {
+    final metin = _ozelMetin.text.trim();
+    if (metin.isEmpty) return null;
+    final kaynak = _ozelKaynak.text.trim();
+    final arapca = _ozelArapca.text.trim();
+    var baslik = metin.replaceAll(RegExp(r'\s+'), ' ').trim();
+    if (baslik.length > 32) baslik = '${baslik.substring(0, 32)}…';
+    return KartIcerik(
+      id: 'ozel_kart',
+      tip: _tip,
+      baslik: baslik,
+      kaynak: kaynak.isEmpty ? 'Kendi mesajım' : kaynak,
+      metin: metin,
+      arapca: arapca.isEmpty ? null : arapca,
+    );
+  }
+
+  void _ozelModGec(bool aktif) {
+    _ceviriZamani?.cancel();
+    setState(() {
+      _ozelIcerik = aktif;
+      _ceviriliyor = false;
+      _sonArapca = null;
+      _icerik = aktif ? _ozelKart : (_liste.isNotEmpty ? _liste.first : null);
+    });
+  }
+
+  void _ozelIcerigiGuncelle() {
+    setState(() => _icerik = _ozelKart);
+  }
+
+  void _otomatikArapcaGuncelle() {
+    final metin = _ozelMetin.text.trim();
+    if (!_otomatikArapca || metin.isEmpty) {
+      _ceviriZamani?.cancel();
+      if (_ceviriliyor) setState(() => _ceviriliyor = false);
+      return;
+    }
+    _ceviriZamani?.cancel();
+    _ceviriZamani = Timer(
+      const Duration(milliseconds: 800),
+      () => _arapcayaCevir(metin),
+    );
+  }
+
+  Future<void> _arapcayaCevir(String metin) async {
+    if (!mounted || !_otomatikArapca) return;
+    setState(() => _ceviriliyor = true);
+    try {
+      String? sonuc;
+      if (RegExp(r'[\u0600-\u06FF]').hasMatch(metin)) {
+        sonuc = metin;
+      } else {
+        final uri = Uri.https(
+          'translate.googleapis.com',
+          '/translate_a/single',
+          {'client': 'gtx', 'sl': 'auto', 'tl': 'ar', 'dt': 't', 'q': metin},
+        );
+        final yanit = await http.get(uri).timeout(const Duration(seconds: 10));
+        if (yanit.statusCode != 200) return;
+        final veri = jsonDecode(utf8.decode(yanit.bodyBytes)) as List;
+        if (veri.isEmpty) return;
+        final parcalar = veri.first as List;
+        sonuc = parcalar
+            .where((p) => p is List && p.isNotEmpty)
+            .map((p) => (p as List).first as String)
+            .join()
+            .trim();
+      }
+      if (!mounted) return;
+      if (!_otomatikArapca || !_ozelIcerik) return;
+      if (sonuc.isEmpty) return;
+      final mevcut = _ozelArapca.text.trim();
+      if (mevcut.isNotEmpty && mevcut != _sonArapca) return;
+      _sonArapca = sonuc;
+      _ozelArapca.text = sonuc;
+      setState(() => _icerik = _ozelKart);
+    } catch (_) {
+      // Ağ hatası: arapça alanı boş bırakılır
+    } finally {
+      if (mounted) setState(() => _ceviriliyor = false);
+    }
+  }
+
+  void _otomatikArapcaDegis(bool v) {
+    setState(() => _otomatikArapca = v);
+    if (v) {
+      _otomatikArapcaGuncelle();
+    } else {
+      _ceviriZamani?.cancel();
+      setState(() => _ceviriliyor = false);
+    }
   }
 
   void _rastgele() {
@@ -72,11 +196,9 @@ class _PaylasimKartlariStudioPageState extends State<PaylasimKartlariStudioPage>
     try {
       final context = _kartAnahtari.currentContext;
       if (context == null) throw Exception('Kart hazırlanamadı');
-      final boundary =
-          context.findRenderObject()! as RenderRepaintBoundary;
+      final boundary = context.findRenderObject()! as RenderRepaintBoundary;
       final resim = await boundary.toImage(pixelRatio: 3);
-      final byteData =
-          await resim.toByteData(format: ui.ImageByteFormat.png);
+      final byteData = await resim.toByteData(format: ui.ImageByteFormat.png);
       resim.dispose();
       if (byteData == null) throw Exception('Görsel oluşturulamadı');
 
@@ -130,14 +252,15 @@ class _PaylasimKartlariStudioPageState extends State<PaylasimKartlariStudioPage>
             onDegis: (f) => setState(() => _format = f),
           ),
           const SizedBox(height: 14),
-          if (icerik != null) _KartOnizleme(
-            anahtar: _kartAnahtari,
-            icerik: icerik,
-            tema: _tema,
-            format: _format,
-            fontBoyutu: _fontBoyutu,
-            arapcaGoster: _arapcaGoster,
-          ),
+          if (icerik != null)
+            _KartOnizleme(
+              anahtar: _kartAnahtari,
+              icerik: icerik,
+              tema: _tema,
+              format: _format,
+              fontBoyutu: _fontBoyutu,
+              arapcaGoster: _arapcaGoster,
+            ),
           const SizedBox(height: 16),
           _TemaSecici(
             seciliIndex: _temaIndex,
@@ -158,6 +281,15 @@ class _PaylasimKartlariStudioPageState extends State<PaylasimKartlariStudioPage>
             dualarYukleniyor: _dualarYukleniyor,
             onTipDegis: _tipDegistir,
             onSec: _icerikSec,
+            ozelMod: _ozelIcerik,
+            onOzelGec: _ozelModGec,
+            metinKontroller: _ozelMetin,
+            kaynakKontroller: _ozelKaynak,
+            arapcaKontroller: _ozelArapca,
+            onIcerikDegis: _ozelIcerigiGuncelle,
+            otomatikArapca: _otomatikArapca,
+            ceviriliyor: _ceviriliyor,
+            onOtomatikArapca: _otomatikArapcaDegis,
           ),
         ],
       ),
@@ -307,10 +439,10 @@ class _PaylasimKarti extends StatelessWidget {
   });
 
   IconData get _tipIkon => switch (icerik.tip) {
-        KartIcerikTipi.ayet => Icons.menu_book_outlined,
-        KartIcerikTipi.hadis => Icons.forum_outlined,
-        KartIcerikTipi.dua => Icons.waving_hand_outlined,
-      };
+    KartIcerikTipi.ayet => Icons.menu_book_outlined,
+    KartIcerikTipi.hadis => Icons.forum_outlined,
+    KartIcerikTipi.dua => Icons.waving_hand_outlined,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -407,10 +539,7 @@ class _PaylasimKarti extends StatelessWidget {
         ),
         if (arapcaVar) ...[
           const SizedBox(height: 10),
-          Container(
-            height: 1,
-            color: tema.ornament.withValues(alpha: 0.35),
-          ),
+          Container(height: 1, color: tema.ornament.withValues(alpha: 0.35)),
           const SizedBox(height: 10),
           Expanded(
             child: _UyumluMetin(
@@ -453,20 +582,14 @@ class _Ornament extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Container(
-            height: 1,
-            color: renk.withValues(alpha: 0.5),
-          ),
+          child: Container(height: 1, color: renk.withValues(alpha: 0.5)),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Icon(Icons.auto_awesome, size: 13, color: renk),
         ),
         Expanded(
-          child: Container(
-            height: 1,
-            color: renk.withValues(alpha: 0.5),
-          ),
+          child: Container(height: 1, color: renk.withValues(alpha: 0.5)),
         ),
       ],
     );
@@ -611,8 +734,7 @@ class _UyumluMetin extends StatelessWidget {
         maxLines: maxSatir,
         textDirection: yon,
       )..layout(maxWidth: maxGenislik);
-      final uyar =
-          !tp.didExceedMaxLines && tp.height <= maxYukseklik + 1;
+      final uyar = !tp.didExceedMaxLines && tp.height <= maxYukseklik + 1;
       tp.dispose();
       if (uyar) return b;
       b -= 1;
@@ -672,9 +794,11 @@ class _TemaSecici extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(tema.ikon,
-                          size: 20,
-                          color: tema.koyu ? tema.arapca : tema.metin),
+                      Icon(
+                        tema.ikon,
+                        size: 20,
+                        color: tema.koyu ? tema.arapca : tema.metin,
+                      ),
                       const SizedBox(height: 6),
                       Text(
                         tema.ad,
@@ -777,6 +901,15 @@ class _IcerikSecici extends StatelessWidget {
   final bool dualarYukleniyor;
   final ValueChanged<KartIcerikTipi> onTipDegis;
   final ValueChanged<KartIcerik> onSec;
+  final bool ozelMod;
+  final ValueChanged<bool> onOzelGec;
+  final TextEditingController metinKontroller;
+  final TextEditingController kaynakKontroller;
+  final TextEditingController arapcaKontroller;
+  final VoidCallback onIcerikDegis;
+  final bool otomatikArapca;
+  final bool ceviriliyor;
+  final ValueChanged<bool> onOtomatikArapca;
 
   const _IcerikSecici({
     required this.tip,
@@ -785,6 +918,15 @@ class _IcerikSecici extends StatelessWidget {
     required this.dualarYukleniyor,
     required this.onTipDegis,
     required this.onSec,
+    required this.ozelMod,
+    required this.onOzelGec,
+    required this.metinKontroller,
+    required this.kaynakKontroller,
+    required this.arapcaKontroller,
+    required this.onIcerikDegis,
+    required this.otomatikArapca,
+    required this.ceviriliyor,
+    required this.onOtomatikArapca,
   });
 
   @override
@@ -824,12 +966,74 @@ class _IcerikSecici extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
+        Material(
+          color: ozelMod ? Renkler.seciliYuzey : Renkler.kart,
+          borderRadius: BorderRadius.circular(14),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(14),
+            onTap: () => onOzelGec(!ozelMod),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: ozelMod ? Renkler.vurgu : Renkler.cerceve,
+                  width: ozelMod ? 1.6 : 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.edit_note,
+                    size: 22,
+                    color: ozelMod ? Renkler.vurgu : Colors.white70,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Kendi İçeriğini Yaz',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Kısa bir ayet, hadis, dua ya da kendi mesajını yaz',
+                          style: TextStyle(color: Colors.white54, fontSize: 11),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    ozelMod ? Icons.check_circle : Icons.radio_button_unchecked,
+                    size: 20,
+                    color: ozelMod ? Renkler.vurgu : Colors.white38,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
         if (dualarYukleniyor)
           const SizedBox(
             height: 84,
-            child: Center(
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
+            child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+          )
+        else if (ozelMod)
+          _OzelIcerikEditoru(
+            metinKontroller: metinKontroller,
+            kaynakKontroller: kaynakKontroller,
+            arapcaKontroller: arapcaKontroller,
+            onIcerikDegis: onIcerikDegis,
+            otomatikArapca: otomatikArapca,
+            ceviriliyor: ceviriliyor,
+            onOtomatikArapca: onOtomatikArapca,
           )
         else if (liste.isEmpty)
           SizedBox(
@@ -902,6 +1106,164 @@ class _IcerikSecici extends StatelessWidget {
   }
 }
 
+class _OzelIcerikEditoru extends StatelessWidget {
+  final TextEditingController metinKontroller;
+  final TextEditingController kaynakKontroller;
+  final TextEditingController arapcaKontroller;
+  final VoidCallback onIcerikDegis;
+  final bool otomatikArapca;
+  final bool ceviriliyor;
+  final ValueChanged<bool> onOtomatikArapca;
+
+  const _OzelIcerikEditoru({
+    required this.metinKontroller,
+    required this.kaynakKontroller,
+    required this.arapcaKontroller,
+    required this.onIcerikDegis,
+    required this.otomatikArapca,
+    required this.ceviriliyor,
+    required this.onOtomatikArapca,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Renkler.kart,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+        side: BorderSide(color: Renkler.cerceve),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              title: const Text(
+                'Arapçasını otomatik yaz',
+                style: TextStyle(color: Colors.white, fontSize: 13),
+              ),
+              subtitle: Text(
+                ceviriliyor ? 'Çevriliyor…' : 'Türkçe metni Arapçaya çevir',
+                style: const TextStyle(color: Colors.white54, fontSize: 11),
+              ),
+              value: otomatikArapca,
+              activeThumbColor: Renkler.vurgu,
+              onChanged: onOtomatikArapca,
+            ),
+            const SizedBox(height: 4),
+            TextField(
+              controller: metinKontroller,
+              onChanged: (_) => onIcerikDegis(),
+              minLines: 2,
+              maxLines: 4,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                height: 1.4,
+              ),
+              decoration: InputDecoration(
+                hintText: 'Mesajını, ayet meali ya da duanı yaz…',
+                hintStyle: TextStyle(color: Colors.white38, fontSize: 12),
+                filled: true,
+                fillColor: Renkler.zemin,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Renkler.cerceve),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Renkler.cerceve),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Renkler.vurgu),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: kaynakKontroller,
+              onChanged: (_) => onIcerikDegis(),
+              style: const TextStyle(color: Colors.white, fontSize: 13),
+              decoration: InputDecoration(
+                hintText: 'Kaynak / imza (opsiyonel, örn: "Senin için")',
+                hintStyle: TextStyle(color: Colors.white38, fontSize: 12),
+                filled: true,
+                fillColor: Renkler.zemin,
+                isDense: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Renkler.cerceve),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Renkler.cerceve),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Renkler.vurgu),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: arapcaKontroller,
+              onChanged: (_) => onIcerikDegis(),
+              style: const TextStyle(color: Colors.white, fontSize: 13),
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+              decoration: InputDecoration(
+                hintText: 'Arapça metin (opsiyonel)',
+                hintStyle: TextStyle(color: Colors.white38, fontSize: 12),
+                filled: true,
+                fillColor: Renkler.zemin,
+                isDense: true,
+                suffixIcon: ceviriliyor
+                    ? const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      )
+                    : null,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Renkler.cerceve),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Renkler.cerceve),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Renkler.vurgu),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _PaylasButonu extends StatelessWidget {
   final bool paylasiliyor;
   final bool aktif;
@@ -927,20 +1289,15 @@ class _PaylasButonu extends StatelessWidget {
               ),
             )
           : const Icon(Icons.share_outlined),
-      label: Text(paylasiliyor
-          ? 'Kart hazırlanıyor…'
-          : 'WhatsApp & Instagram\'da Paylaş'),
+      label: Text(
+        paylasiliyor ? 'Kart hazırlanıyor…' : 'WhatsApp & Instagram\'da Paylaş',
+      ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Renkler.vurgu,
         foregroundColor: Colors.black,
         minimumSize: const Size.fromHeight(52),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        textStyle: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -1034,20 +1391,12 @@ class _KabeSiluetiPainter extends CustomPainter {
 
     final finyal = Path.combine(
       PathOperation.difference,
-      Path()
-        ..addOval(
-          Rect.fromCircle(
-            center: domeM + Offset(0, -domeR - 8),
-            radius: 8,
-          ),
-        ),
-      Path()
-        ..addOval(
-          Rect.fromCircle(
-            center: domeM + Offset(4, -domeR - 10),
-            radius: 7,
-          ),
-        ),
+      Path()..addOval(
+        Rect.fromCircle(center: domeM + Offset(0, -domeR - 8), radius: 8),
+      ),
+      Path()..addOval(
+        Rect.fromCircle(center: domeM + Offset(4, -domeR - 10), radius: 7),
+      ),
     );
     canvas.drawPath(finyal, boya);
 
@@ -1086,13 +1435,12 @@ class _HilalPainter extends CustomPainter {
     final hilal = Path.combine(
       PathOperation.difference,
       Path()..addOval(Rect.fromCircle(center: merkez, radius: r)),
-      Path()
-        ..addOval(
-          Rect.fromCircle(
-            center: merkez + Offset(r * 0.42, -r * 0.16),
-            radius: r * 0.94,
-          ),
+      Path()..addOval(
+        Rect.fromCircle(
+          center: merkez + Offset(r * 0.42, -r * 0.16),
+          radius: r * 0.94,
         ),
+      ),
     );
     canvas.drawPath(hilal, boya);
 
