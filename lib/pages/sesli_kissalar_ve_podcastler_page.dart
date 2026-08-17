@@ -130,6 +130,7 @@ class _SesliKissalarVePodcastlerPageState
   String? _ttsKalanBaslik;
   bool _ttsCalyor = false;
   String? _ttsHata;
+  bool _ttsBasladi = false;
 
   // ---- URL ses (kıssa sesUrl + podcast/radyo) ----
   final AudioPlayer _sesPlayer = AudioPlayer();
@@ -160,11 +161,33 @@ class _SesliKissalarVePodcastlerPageState
     _tts.setLanguage('tr-TR').catchError((_) {});
     _tts.setSpeechRate(_ttsHiz()).catchError((_) {});
     _tts.awaitSpeakCompletion(false).catchError((_) {});
+    // setStartHandler, Android tarafında speak.onStart olayı ile gerçek ses
+    // üretimi başladığında tetiklenir. speak() çağrısının 1 dönmesi yalnızca
+    // kuyruğa alındığını gösterir; ses verisi eksikse 1 döner ama onStart hiç
+    // gelmez. Bu yüzden "çalıyor" durumu gerçek başlangıca bağlanır.
+    _tts.setStartHandler(() {
+      _ttsBasladi = true;
+      if (mounted) {
+        setState(() {
+          _ttsCalyor = true;
+          _ttsHata = null;
+        });
+      }
+    });
     _tts.setCompletionHandler(() {
       if (mounted) setState(() => _ttsCalyor = false);
     });
     _tts.setCancelHandler(() {
       if (mounted) setState(() => _ttsCalyor = false);
+    });
+    _tts.setErrorHandler((message) {
+      _ttsBasladi = false;
+      if (mounted) {
+        setState(() {
+          _ttsCalyor = false;
+          _ttsHata = 'Seslendirme hatası: $message';
+        });
+      }
     });
   }
 
@@ -198,20 +221,35 @@ class _SesliKissalarVePodcastlerPageState
       });
       SesliOynatmaStore.pozisyonGuncelle(0);
     });
-    _sesPlayer.onLog.listen((mesaj) {
-      final alt = mesaj.toLowerCase();
-      if (alt.contains('error') || alt.contains('fail')) {
-        // ExoPlayer/HLS akışlarında loglar gürültülü olabilir; akış fiilen
-        // çalıyorsa bu loglar hata değildir (yanlış-pozitif önleme).
-        if (_sesCalyor) return;
+    _sesPlayer.onLog.listen(
+      (mesaj) {
+        final alt = mesaj.toLowerCase();
+        if (alt.contains('error') || alt.contains('fail')) {
+          // Yalnızca oynatma gerçekten başlamadan önce gelen hata logları
+          // gerçek bir başarısızlığı gösterir; akış fiilen çalıyorsa gürültü
+          // kabul edilir (yanlış-pozitif önleme).
+          if (_sesCalyor) return;
+          if (!mounted) return;
+          setState(() {
+            _sesCalyor = false;
+            _sesYukleniyor = false;
+            _sesHata =
+                'Bu ses kaynağına ulaşılamadı. Bağlantınızı kontrol edin.';
+          });
+        }
+      },
+      onError: (Object hata) {
+        // Android'de gerçek oynatma hataları onLog mesajlarına değil, olay
+        // akışının hatasına düşer; aksi takdirde sessizce yutulurdu.
         if (!mounted) return;
         setState(() {
           _sesCalyor = false;
           _sesYukleniyor = false;
-          _sesHata = 'Bu ses kaynağına ulaşılamadı. Bağlantınızı kontrol edin.';
+          _sesHata =
+              'Bu ses kaynağına ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin.';
         });
-      }
-    });
+      },
+    );
   }
 
   @override
@@ -341,17 +379,41 @@ class _SesliKissalarVePodcastlerPageState
       }
       await _tts.setSpeechRate(_ttsHiz());
       final metin = [kissa.ozet, ...kissa.metin, ...kissa.hikmetler].join('. ');
-      final sonuc = await _tts.speak(metin);
+      // flutter_tts, Android'de motor bağlanamadığında speak() çağrısına
+      // hiçbir yanıt dönmeyebilir (pending method call askıda kalır). Bu
+      // yüzden sonsuz bekleme yerine zaman aşımı ile tespit edilir; aksi
+      // hâlde "ne ses, ne hata" durumu oluşurdu.
+      _ttsBasladi = false;
+      final sonuc = await _tts
+          .speak(metin)
+          .timeout(const Duration(seconds: 12));
+      if (sonuc == 1 && !_ttsBasladi) {
+        // speak() başarılı döndü ama gerçek konuşma (onStart) gelmedi.
+        // Cihazda Türkçe ses verisi/motor eksikliği veya bozuk bir TTS
+        // motoru söz konusu; Android bunu sessizce geçer. Kısa bir pencere
+        // verip hâlâ başlamadıysa kullanıcıya net hata gösterilir.
+        await Future.delayed(const Duration(milliseconds: 1500));
+      }
       if (mounted) {
         setState(() {
           _ttsKalanId = kissa.id;
           _ttsKalanBaslik = kissa.baslik;
-          _ttsCalyor = sonuc == 1 || sonuc == 0;
-          _ttsHata = (sonuc == 1 || sonuc == 0)
+          _ttsCalyor = _ttsBasladi;
+          _ttsHata = _ttsBasladi
               ? null
-              : 'Cihazınızda Türkçe ses paketi yok. Ses paketini kurunuz.';
+              : 'Cihazınızda Türkçe seslendirme paketi yok veya '
+                  'seslendirme motoru çalışmıyor. Cihaz Ayarları > '
+                  'Sistem > Diller ve giriş > Metin okuma > Türkçe ses '
+                  'verisini yükleyin, sonra tekrar deneyin.';
         });
       }
+    } on TimeoutException {
+      if (!mounted) return;
+      setState(() {
+        _ttsCalyor = false;
+        _ttsHata =
+            'Cihazınızda Türkçe seslendirme başlatılamadı. Ses paketini kurunuz.';
+      });
     } catch (_) {
       if (mounted) {
         setState(() {
@@ -384,9 +446,12 @@ class _SesliKissalarVePodcastlerPageState
           ? DeviceFileSource(yerelYol)
           : UrlSource(url);
 
-      // Android'de HLS (.m3u8) akışları yalnızca ExoPlayer (lowLatency) ile
-      // oynatılabilir; medya oynatıcı (MediaPlayer) modu m3u8'leri desteklemez.
-      await _sesPlayer.play(kaynak, mode: PlayerMode.lowLatency);
+      // Not: Bu audioplayers sürümünde PlayerMode.lowLatency, ExoPlayer değil
+      // SoundPool önceler. SoundPool HTTP canlı akışları / m3u8 çalamaz ve
+      // başarısız olduğunda sessizce kalır. MediaPlayer modu (varsayılan) hem
+      // MP3/HTTP akışlarını hem de Android'in kendi çözücüsüyle HLS m3u8'i
+      // oynatabilir; bu yüzden mode belirtilmez (MEDIA_PLAYER kullanılır).
+      await _sesPlayer.play(kaynak);
       if (pozisyonMs > 0) {
         await _sesPlayer.seek(Duration(milliseconds: pozisyonMs));
       }

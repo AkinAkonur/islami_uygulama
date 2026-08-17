@@ -8,8 +8,11 @@
 // eder.
 // ===========================================================================
 
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../services/canli_yayin_konfigurasyonu.dart';
@@ -36,6 +39,7 @@ class _YoutubeEmbedPageState extends State<YoutubeEmbedPage> {
   WebViewController? _kontrol;
   bool _yukleniyor = true;
   bool _hata = false;
+  Timer? _zamanAsimi;
   bool get _desteklenmiyor => !_webDestekleniyor();
 
   bool _webDestekleniyor() {
@@ -57,7 +61,14 @@ class _YoutubeEmbedPageState extends State<YoutubeEmbedPage> {
     if (!_desteklenmiyor) _yukle();
   }
 
+  @override
+  void dispose() {
+    _zamanAsimi?.cancel();
+    super.dispose();
+  }
+
   Future<void> _yukle() async {
+    _zamanAsimi?.cancel();
     setState(() {
       _yukleniyor = true;
       _hata = false;
@@ -69,10 +80,19 @@ class _YoutubeEmbedPageState extends State<YoutubeEmbedPage> {
         ..setNavigationDelegate(
           NavigationDelegate(
             onPageFinished: (_) {
+              _zamanAsimi?.cancel();
               if (mounted) setState(() => _yukleniyor = false);
             },
-            onWebResourceError: (_) {
-              if (mounted) setState(() => _hata = true);
+            onWebResourceError: (hata) {
+              // WebView, reklam/izleyici gibi ikincil kaynakların yüklenme
+              // hatalarını da bu geri çağırmaya bildirir; bunlar sayfa
+              // düzenini bozmaz ve oynatıcıyı etkilemez. Yalnızca ana
+              // çerçeve (video sayfasının kendisi) yüklenemezse gerçek hata
+              // kabul edilir.
+              if (hata.isForMainFrame == true && mounted) {
+                _zamanAsimi?.cancel();
+                setState(() => _hata = true);
+              }
             },
           ),
         );
@@ -84,7 +104,7 @@ class _YoutubeEmbedPageState extends State<YoutubeEmbedPage> {
         await kontrol.loadRequest(Uri.parse(embedUrl));
       } else {
         // YouTube, embed isteklerinde geçerli bir HTTP Referer ister
-        // (eksiksse "Hata 153: Oynatıcı yapılandırma hatası"). Embed sayfası,
+        // (eksikse "Hata 153: Oynatıcı yapılandırma hatası"). Embed sayfası,
         // geçerli bir HTTPS kökeni (embedBaseUrl) üzerinden yüklenen yerel bir
         // HTML sarmalayıcıya gömülür; WebView bu kökeni Referer olarak gönderir.
         await kontrol.loadHtmlString(
@@ -92,8 +112,19 @@ class _YoutubeEmbedPageState extends State<YoutubeEmbedPage> {
           baseUrl: CanliYayinKonfigurasyonu.embedBaseUrl,
         );
       }
+      // Sayfa hiçbir zaman "bitti" sinyali vermezse (yavaş ağ / WebView
+      // asılı kalması) kullanıcıyı süresiz "yükleniyor" ekranında bırakma.
+      _zamanAsimi = Timer(const Duration(seconds: 20), () {
+        if (mounted) {
+          setState(() {
+            _yukleniyor = false;
+            _hata = true;
+          });
+        }
+      });
       if (mounted) setState(() => _kontrol = kontrol);
     } catch (_) {
+      _zamanAsimi?.cancel();
       if (mounted) {
         setState(() {
           _yukleniyor = false;
@@ -199,9 +230,39 @@ class _YoutubeEmbedPageState extends State<YoutubeEmbedPage> {
             icon: const Icon(Icons.refresh),
             label: const Text('Tekrar Dene'),
           ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white70,
+              side: const BorderSide(color: Colors.white24),
+            ),
+            onPressed: _youtubeDaAc,
+            icon: const Icon(Icons.open_in_new, size: 18),
+            label: const Text('YouTube\'da Aç'),
+          ),
         ],
       ),
     );
+  }
+
+  /// Video, YouTube uygulaması veya cihaz tarayıcısında açılır.
+  /// WebView/IFrame bu cihazda çalışmasa bile bu yol her zaman oynatır.
+  Future<void> _youtubeDaAc() async {
+    final uri = Uri.parse('https://www.youtube.com/watch?v=${widget.videoId}');
+    try {
+      final acildi = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!acildi && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('YouTube açılamadı')),
+        );
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('YouTube açılamadı')),
+        );
+      }
+    }
   }
 
   Widget _kutu(Widget child) {

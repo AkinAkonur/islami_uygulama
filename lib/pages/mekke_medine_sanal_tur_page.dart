@@ -4,17 +4,16 @@
 // İnteraktif Medya Merkezi modülü: dünyanın neresinden olursanız olun kutsal
 // mekânları anlık izleyin.
 //  🔴 Canlı Yayınlar: Mescid-i Haram (Kâbe) ve Mescid-i Nebevî canlı yayını
-//     YouTube IFrame gömme ile (kalite internet hızına göre otomatik).
-//  🎥 360° Sanal Tur: 360 derece video turlar.
+//     HLS (ExoPlayer) ile, WebView/YouTube IFrame'e bağımlı olmadan (KabeCanliPage).
+//  🎥 360° Sanal Tur: 360 derece video turlar (YouTube uygulamasında açılır).
 //  📍 Mekânlar: Google Haritalar üzerinden konum & yol tarifi.
 // ===========================================================================
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/renkler.dart';
-import 'youtube_embed_page.dart';
+import 'kabe_canli_page.dart';
 
 class SanalTurNoktasi {
   final String baslik;
@@ -156,9 +155,30 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
     }
   }
 
+  /// 360° turu harici YouTube uygulamasında/tarayıcıda açar. WebView - IFrame
+  /// görüntüsü bu cihazda render edilemediği için (ses geliyor, görüntü siyah)
+  /// tur doğrudan YouTube'tan oynatılır; 360° sensör/kaydırma desteği de
+  /// orada tam çalışır.
+  Future<void> _youtubeDaAc(BuildContext context, String videoId) async {
+    final uri = Uri.parse('https://www.youtube.com/watch?v=$videoId');
+    try {
+      final acildi = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!acildi && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('YouTube açılamadı')),
+        );
+      }
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('YouTube açılamadı')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final mekkeCanliId = CanliYayinKonfigurasyonu.guncel.youtubeVideoId;
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
@@ -173,28 +193,19 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
 
           _bolumBasligi('🔴 Canlı Yayınlar', '7/24 kesintisiz · otomatik kalite'),
           const SizedBox(height: 10),
-          if (mekkeCanliId.isNotEmpty)
-            _videoKarti(
-              ikon: Icons.mosque_outlined,
-              renk: Colors.redAccent,
-              baslik: 'Mescid-i Haram - Kâbe Canlı',
-              alt: 'Resmî Suudi yayını · tavaf ve namazlar canlı',
-              canli: true,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => YoutubeEmbedPage(
-                    videoId: mekkeCanliId,
-                    baslik: 'Kâbe Canlı Yayın',
-                    aciklama:
-                        'Mescid-i Haram 7/24 canlı yayını: tavaf alanı, '
-                        'Hacerü\'l-Esved ve namaz vakitlerinde imamların '
-                        'kıldırdığı namazlar. Kalite internet hızınıza göre '
-                        'otomatik belirlenir.',
-                  ),
-                ),
+          _videoKarti(
+            ikon: Icons.mosque_outlined,
+            renk: Colors.redAccent,
+            baslik: 'Mescid-i Haram - Kâbe Canlı',
+            alt: 'Resmî Suudi yayını · tavaf ve namazlar canlı',
+            canli: true,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const KabeCanliPage(),
               ),
             ),
+          ),
           _videoKarti(
             ikon: Icons.place_outlined,
             renk: Colors.greenAccent,
@@ -204,13 +215,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const YoutubeEmbedPage(
-                  videoId: 'QYCZzl--IQs',
-                  baslik: 'Mescid-i Nebevî Canlı Yayın',
-                  aciklama:
-                      'Mescid-i Nebevî 7/24 canlı yayını: Ravza-i Mutahhara, '
-                      'Yeşil Kubbe ve Medine\'nin huzur veren atmosferi.',
-                ),
+                builder: (_) => const KabeCanliPage(medineYayini: true),
               ),
             ),
           ),
@@ -224,16 +229,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
               renk: Colors.amberAccent,
               baslik: tur.baslik,
               alt: tur.aciklama,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => YoutubeEmbedPage(
-                    videoId: tur.videoId,
-                    baslik: tur.baslik,
-                    aciklama: tur.aciklama,
-                  ),
-                ),
-              ),
+              onTap: () => _youtubeDaAc(context, tur.videoId),
             ),
           const SizedBox(height: 18),
 
