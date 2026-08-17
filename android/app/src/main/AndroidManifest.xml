@@ -56,6 +56,11 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <!-- Sesli kıssalar: flutter_tts, Android 11+ (API 30) paket görünürlüğü
+             için TTS motoru servisini sorgulayabilmelidir. -->
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE"/>
+        </intent>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

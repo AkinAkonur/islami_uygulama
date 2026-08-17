@@ -39,13 +39,13 @@ import 'kissalar/peygamberler_verileri.dart';
 import 'kissalar/siyer_verileri.dart';
 
 /// Süre filtresi seçenekleri (kullanıcı "Zamanım Var" mekanizması).
-const List<({String id, String etiket, int minDk, int maksDk})> _sureFiltreleri =
-    [
-      (id: 'mikro', etiket: '<5 dk', minDk: 0, maksDk: 5),
-      (id: 'kisa', etiket: '5-15 dk', minDk: 5, maksDk: 15),
-      (id: 'orta', etiket: '15-30 dk', minDk: 15, maksDk: 30),
-      (id: 'uzun', etiket: '30+ dk', minDk: 30, maksDk: 9999),
-    ];
+const List<({String id, String etiket, int minDk, int maksDk})>
+_sureFiltreleri = [
+  (id: 'mikro', etiket: '<5 dk', minDk: 0, maksDk: 5),
+  (id: 'kisa', etiket: '5-15 dk', minDk: 5, maksDk: 15),
+  (id: 'orta', etiket: '15-30 dk', minDk: 15, maksDk: 30),
+  (id: 'uzun', etiket: '30+ dk', minDk: 30, maksDk: 9999),
+];
 
 /// Ruh hali / mod seçenekleri. `anahtarKelime` listesi kıssanın tema ve
 /// etiketleriyle eşleştirilir; `kosul` özel durumları (çocuk, öğrenme) belirler.
@@ -68,13 +68,29 @@ const List<_ModSecenegi> _modlar = [
     id: 'huzur',
     ad: 'Huzur',
     ikon: Icons.spa_outlined,
-    anahtarKelime: ['sabır', 'tevekkül', 'şükür', 'huzur', 'dua', 'zühd', 'rahatlık'],
+    anahtarKelime: [
+      'sabır',
+      'tevekkül',
+      'şükür',
+      'huzur',
+      'dua',
+      'zühd',
+      'rahatlık',
+    ],
   ),
   _ModSecenegi(
     id: 'motivasyon',
     ad: 'Motivasyon',
     ikon: Icons.bolt_outlined,
-    anahtarKelime: ['cesaret', 'zafer', 'azim', 'gayret', 'fedakarlık', 'cihad', 'kahramanlık'],
+    anahtarKelime: [
+      'cesaret',
+      'zafer',
+      'azim',
+      'gayret',
+      'fedakarlık',
+      'cihad',
+      'kahramanlık',
+    ],
   ),
   _ModSecenegi(
     id: 'uyku',
@@ -82,16 +98,8 @@ const List<_ModSecenegi> _modlar = [
     ikon: Icons.nightlight_outlined,
     anahtarKelime: ['sabır', 'merhamet', 'huzur', 'şefkat', 'dua', 'sevgi'],
   ),
-  _ModSecenegi(
-    id: 'cocuk',
-    ad: 'Çocuk İçin',
-    ikon: Icons.child_care_outlined,
-  ),
-  _ModSecenegi(
-    id: 'ogrenme',
-    ad: 'Öğrenme',
-    ikon: Icons.school_outlined,
-  ),
+  _ModSecenegi(id: 'cocuk', ad: 'Çocuk İçin', ikon: Icons.child_care_outlined),
+  _ModSecenegi(id: 'ogrenme', ad: 'Öğrenme', ikon: Icons.school_outlined),
 ];
 
 /// Oynatma hızı çarpanları.
@@ -161,16 +169,13 @@ class _SesliKissalarVePodcastlerPageState
   }
 
   void _sesPlayerKur() {
-    _sesPlayer.onPlayerStateChanged.listen(
-      (durum) {
-        if (!mounted) return;
-        setState(() {
-          _sesCalyor = durum == PlayerState.playing;
-          if (durum != PlayerState.disposed) _sesYukleniyor = false;
-        });
-      },
-      onError: (_) {},
-    );
+    _sesPlayer.onPlayerStateChanged.listen((durum) {
+      if (!mounted) return;
+      setState(() {
+        _sesCalyor = durum == PlayerState.playing;
+        if (durum != PlayerState.disposed) _sesYukleniyor = false;
+      });
+    }, onError: (_) {});
     _sesPlayer.onPositionChanged.listen((pozisyon) {
       if (!mounted) return;
       _pozisyonMs = pozisyon.inMilliseconds;
@@ -196,6 +201,9 @@ class _SesliKissalarVePodcastlerPageState
     _sesPlayer.onLog.listen((mesaj) {
       final alt = mesaj.toLowerCase();
       if (alt.contains('error') || alt.contains('fail')) {
+        // ExoPlayer/HLS akışlarında loglar gürültülü olabilir; akış fiilen
+        // çalıyorsa bu loglar hata değildir (yanlış-pozitif önleme).
+        if (_sesCalyor) return;
         if (!mounted) return;
         setState(() {
           _sesCalyor = false;
@@ -245,7 +253,8 @@ class _SesliKissalarVePodcastlerPageState
       (s) => s.id == id,
       orElse: () => _sureFiltreleri.first,
     );
-    return kissa.tahminiSureDk >= secenek.minDk && kissa.tahminiSureDk < secenek.maksDk;
+    return kissa.tahminiSureDk >= secenek.minDk &&
+        kissa.tahminiSureDk < secenek.maksDk;
   }
 
   bool _modEslesir(KissaKaydi kissa, _ModSecenegi mod) {
@@ -255,7 +264,9 @@ class _SesliKissalarVePodcastlerPageState
         // Kısa anlatımlar ve çocuk dostu içerikler.
         return kissa.tahminiSureDk <= 15 ||
             etiketler.any(
-              (t) => t.toLowerCase().contains('çocuk') || t.toLowerCase().contains('hz.'),
+              (t) =>
+                  t.toLowerCase().contains('çocuk') ||
+                  t.toLowerCase().contains('hz.'),
             );
       case 'ogrenme':
         // Akademik notlu / tarih & siyer içerikleri.
@@ -329,21 +340,16 @@ class _SesliKissalarVePodcastlerPageState
         return;
       }
       await _tts.setSpeechRate(_ttsHiz());
-      final metin = [
-        kissa.ozet,
-        ...kissa.metin,
-        ...kissa.hikmetler,
-      ].join('. ');
+      final metin = [kissa.ozet, ...kissa.metin, ...kissa.hikmetler].join('. ');
       final sonuc = await _tts.speak(metin);
       if (mounted) {
         setState(() {
           _ttsKalanId = kissa.id;
           _ttsKalanBaslik = kissa.baslik;
           _ttsCalyor = sonuc == 1 || sonuc == 0;
-          _ttsHata =
-              (sonuc == 1 || sonuc == 0)
-                  ? null
-                  : 'Cihazınızda Türkçe ses paketi yok. Ses paketini kurunuz.';
+          _ttsHata = (sonuc == 1 || sonuc == 0)
+              ? null
+              : 'Cihazınızda Türkçe ses paketi yok. Ses paketini kurunuz.';
         });
       }
     } catch (_) {
@@ -378,7 +384,9 @@ class _SesliKissalarVePodcastlerPageState
           ? DeviceFileSource(yerelYol)
           : UrlSource(url);
 
-      await _sesPlayer.play(kaynak, mode: PlayerMode.mediaPlayer);
+      // Android'de HLS (.m3u8) akışları yalnızca ExoPlayer (lowLatency) ile
+      // oynatılabilir; medya oynatıcı (MediaPlayer) modu m3u8'leri desteklemez.
+      await _sesPlayer.play(kaynak, mode: PlayerMode.lowLatency);
       if (pozisyonMs > 0) {
         await _sesPlayer.seek(Duration(milliseconds: pozisyonMs));
       }
@@ -421,7 +429,8 @@ class _SesliKissalarVePodcastlerPageState
           _ttsCalyor = false;
         });
       }
-      final baslangicMs = devamEt && SesliOynatmaStore.sonKanalUrl.value == kanal.url
+      final baslangicMs =
+          devamEt && SesliOynatmaStore.sonKanalUrl.value == kanal.url
           ? SesliOynatmaStore.podcastPozisyonMs.value
           : 0;
       SesliOynatmaStore.kanalKaydet(kanal.url, kanal.ad);
@@ -492,7 +501,9 @@ class _SesliKissalarVePodcastlerPageState
                         '${h == h.toInt() ? h.toInt() : h}×',
                         style: TextStyle(
                           color: h == hiz ? Renkler.vurgu : Colors.white70,
-                          fontWeight: h == hiz ? FontWeight.bold : FontWeight.normal,
+                          fontWeight: h == hiz
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                       trailing: h == hiz
@@ -517,7 +528,9 @@ class _SesliKissalarVePodcastlerPageState
     if (_calanUrl != null) {
       await _sesPlayer.setPlaybackRate(secili);
     }
-    _bilgiGoster('Oynatma hızı: ${secili == secili.toInt() ? secili.toInt() : secili}×');
+    _bilgiGoster(
+      'Oynatma hızı: ${secili == secili.toInt() ? secili.toInt() : secili}×',
+    );
   }
 
   /// Uyku zamanlayıcı menüsü.
@@ -572,7 +585,9 @@ class _SesliKissalarVePodcastlerPageState
                       title: Text(
                         etiket,
                         style: TextStyle(
-                          color: seciliDk == deger ? Renkler.vurgu : Colors.white70,
+                          color: seciliDk == deger
+                              ? Renkler.vurgu
+                              : Colors.white70,
                           fontWeight: seciliDk == deger
                               ? FontWeight.bold
                               : FontWeight.normal,
@@ -603,10 +618,7 @@ class _SesliKissalarVePodcastlerPageState
       SesliOynatmaStore.uykuZamanlayici(null);
       _bilgiGoster('Bölüm bitince otomatik durur.');
     } else {
-      SesliOynatmaStore.uykuZamanlayici(
-        secim,
-        durdugunda: _uykuBitti,
-      );
+      SesliOynatmaStore.uykuZamanlayici(secim, durdugunda: _uykuBitti);
       _bilgiGoster('Uyku zamanlayıcısı: $secim dakika.');
     }
   }
@@ -640,10 +652,7 @@ class _SesliKissalarVePodcastlerPageState
       ),
       body: TabBarView(
         controller: _tablar,
-        children: [
-          _sesliKissalarBolumu(),
-          _podcastBolumu(),
-        ],
+        children: [_sesliKissalarBolumu(), _podcastBolumu()],
       ),
       bottomNavigationBar: _miniOynaticiBar(),
     );
@@ -749,9 +758,7 @@ class _SesliKissalarVePodcastlerPageState
                 child: _devamKarti(
                   ikon: Icons.radio_outlined,
                   baslik: 'Podcast\'e Devam Et',
-                  alt: pozisyon > 0
-                      ? '$ad · ${_saniyeFormati(pozisyon)}'
-                      : ad,
+                  alt: pozisyon > 0 ? '$ad · ${_saniyeFormati(pozisyon)}' : ad,
                   onTap: () => _podcastDinle(kanal, devamEt: true),
                 ),
               );
@@ -761,7 +768,8 @@ class _SesliKissalarVePodcastlerPageState
             _devamKarti(
               ikon: Icons.wb_twilight,
               baslik: '🕰️ Günün Kıssası',
-              alt: '${gununKissasi.emoji} ${gununKissasi.baslik} · ${gununKissasi.sureEtiketi}',
+              alt:
+                  '${gununKissasi.emoji} ${gununKissasi.baslik} · ${gununKissasi.sureEtiketi}',
               onTap: () => _kissaDinle(gununKissasi),
             ),
         ],
@@ -780,13 +788,21 @@ class _SesliKissalarVePodcastlerPageState
       ),
       child: Row(
         children: [
-          Icon(Icons.record_voice_over_outlined, color: Renkler.vurgu, size: 20),
+          Icon(
+            Icons.record_voice_over_outlined,
+            color: Renkler.vurgu,
+            size: 20,
+          ),
           const SizedBox(width: 8),
           const Expanded(
             child: Text(
               'Karta dokununca kıssa sesli anlatılır (TTS, internet gerektirmez). '
               'Hız ve uyku zamanlayıcısı alt çubuktan ayarlanır.',
-              style: TextStyle(color: Colors.white70, fontSize: 11.5, height: 1.35),
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 11.5,
+                height: 1.35,
+              ),
             ),
           ),
         ],
@@ -850,7 +866,11 @@ class _SesliKissalarVePodcastlerPageState
                 ],
               ),
             ),
-            const Icon(Icons.play_circle_outline, color: Colors.white54, size: 26),
+            const Icon(
+              Icons.play_circle_outline,
+              color: Colors.white54,
+              size: 26,
+            ),
           ],
         ),
       ),
@@ -870,11 +890,19 @@ class _SesliKissalarVePodcastlerPageState
             decoration: InputDecoration(
               hintText: '🔍 Ara: başlık, konu (Sabır, Dua), seslendiren...',
               hintStyle: const TextStyle(color: Colors.white38, fontSize: 12.5),
-              prefixIcon: const Icon(Icons.search, color: Colors.white38, size: 20),
+              prefixIcon: const Icon(
+                Icons.search,
+                color: Colors.white38,
+                size: 20,
+              ),
               suffixIcon: _aramaSorgusu.isEmpty
                   ? null
                   : IconButton(
-                      icon: const Icon(Icons.clear, color: Colors.white38, size: 18),
+                      icon: const Icon(
+                        Icons.clear,
+                        color: Colors.white38,
+                        size: 18,
+                      ),
                       onPressed: () {
                         _aramaKontrol.clear();
                         setState(() => _aramaSorgusu = '');
@@ -955,10 +983,7 @@ class _SesliKissalarVePodcastlerPageState
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (ikon != null) ...[
-                ikon,
-                const SizedBox(width: 4),
-              ],
+              if (ikon != null) ...[ikon, const SizedBox(width: 4)],
               Text(
                 etiket,
                 style: TextStyle(
@@ -976,7 +1001,8 @@ class _SesliKissalarVePodcastlerPageState
 
   Widget _sesliKissaKarti(KissaKaydi kissa) {
     final caliyor = _ttsKalanId == kissa.id && _ttsCalyor;
-    final urlCaliniyor = _calanUrl != null && _calanBaslik == kissa.baslik && _sesCalyor;
+    final urlCaliniyor =
+        _calanUrl != null && _calanBaslik == kissa.baslik && _sesCalyor;
     final aktif = caliyor || urlCaliniyor;
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -1025,9 +1051,7 @@ class _SesliKissalarVePodcastlerPageState
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  aktif
-                      ? '🔊 Şu an sesli anlatılıyor...'
-                      : kissa.ozet,
+                  aktif ? '🔊 Şu an sesli anlatılıyor...' : kissa.ozet,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -1087,8 +1111,7 @@ class _SesliKissalarVePodcastlerPageState
                         ),
                       ),
                     ),
-                    if (kissa.sesUrl != null &&
-                        kissa.sesUrl!.isNotEmpty)
+                    if (kissa.sesUrl != null && kissa.sesUrl!.isNotEmpty)
                       _indirmeButonu(url: kissa.sesUrl!, ad: kissa.baslik),
                   ],
                 ),
@@ -1121,7 +1144,11 @@ class _SesliKissalarVePodcastlerPageState
             etiket,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: renk, fontSize: 10, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: renk,
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
@@ -1150,7 +1177,11 @@ class _SesliKissalarVePodcastlerPageState
             const SizedBox(width: 4),
             Text(
               etiket,
-              style: TextStyle(color: renk, fontSize: 11, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: renk,
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
@@ -1172,13 +1203,13 @@ class _SesliKissalarVePodcastlerPageState
               ikon: indirildi
                   ? Icons.offline_pin
                   : indiriyor
-                      ? Icons.hourglass_top
-                      : Icons.download_for_offline_outlined,
+                  ? Icons.hourglass_top
+                  : Icons.download_for_offline_outlined,
               etiket: indirildi
                   ? 'İndirildi'
                   : indiriyor
-                      ? 'İndiriliyor...'
-                      : 'İndir',
+                  ? 'İndiriliyor...'
+                  : 'İndir',
               renk: indirildi ? Colors.greenAccent : Colors.orangeAccent,
               onTap: () async {
                 if (indirildi) {
@@ -1186,7 +1217,9 @@ class _SesliKissalarVePodcastlerPageState
                   _bilgiGoster('İndirme silindi.');
                 } else if (!indiriyor) {
                   final ok = await MedyaIndirmeServisi.instance.indir(url, ad);
-                  _bilgiGoster(ok ? 'Çevrimdışı için indirildi.' : 'İndirilemedi.');
+                  _bilgiGoster(
+                    ok ? 'Çevrimdışı için indirildi.' : 'İndirilemedi.',
+                  );
                 }
               },
             );
@@ -1241,9 +1274,7 @@ class _SesliKissalarVePodcastlerPageState
         Expanded(
           child: ListView(
             padding: const EdgeInsets.all(16),
-            children: [
-              for (final kanal in kanallar) _kanalKarti(kanal),
-            ],
+            children: [for (final kanal in kanallar) _kanalKarti(kanal)],
           ),
         ),
       ],
@@ -1319,10 +1350,6 @@ class _SesliKissalarVePodcastlerPageState
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: _indirmeButonu(url: kanal.url, ad: kanal.ad),
-          ),
         ],
       ),
     );
@@ -1334,8 +1361,7 @@ class _SesliKissalarVePodcastlerPageState
 
   Widget _miniOynaticiBar() {
     final baslik = _calanBaslik ?? _ttsKalanBaslik;
-    final aktif =
-        (_calanUrl != null || _ttsKalanId != null) && baslik != null;
+    final aktif = (_calanUrl != null || _ttsKalanId != null) && baslik != null;
     if (!aktif) return const SizedBox.shrink();
     final sesAktif = _calanUrl != null;
     final caliyor = sesAktif ? _sesCalyor : _ttsCalyor;
@@ -1465,9 +1491,7 @@ class _SesliKissalarVePodcastlerPageState
                   valueListenable: SesliOynatmaStore.uykuKalanDk,
                   builder: (context, kalan, _) => Icon(
                     Icons.bedtime_outlined,
-                    color: kalan != null
-                        ? Colors.amberAccent
-                        : Colors.white70,
+                    color: kalan != null ? Colors.amberAccent : Colors.white70,
                     size: 22,
                   ),
                 ),
