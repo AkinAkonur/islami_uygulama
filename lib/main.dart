@@ -1146,8 +1146,8 @@ class _BildirimZiliState extends State<_BildirimZili> {
           ),
           if (_sayi > 0)
             Positioned(
-              right: -3,
-              top: -3,
+              top: 2,
+              right: 2,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                 decoration: BoxDecoration(
