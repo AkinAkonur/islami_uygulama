@@ -138,12 +138,54 @@ class MyApp extends StatelessWidget {
 // ===========================================================================
 // ANA SAYFA
 // ===========================================================================
-class AnaSayfa extends StatelessWidget {
+class AnaSayfa extends StatefulWidget {
   const AnaSayfa({super.key});
+
+  @override
+  State<AnaSayfa> createState() => _AnaSayfaState();
+}
+
+class _AnaSayfaState extends State<AnaSayfa> {
+  Uint8List? _profilResim;
+  String _profilIsim = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _profiliYukle();
+  }
+
+  Future<void> _profiliYukle() async {
+    final resim = await ProfilStore.resimOku();
+    final isim = await ProfilStore.isimOku();
+    if (mounted) {
+      setState(() {
+        _profilResim = resim;
+        _profilIsim = isim;
+      });
+    }
+  }
+
+  Future<void> _profilAc() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const ProfilSayfasi()),
+    );
+    if (mounted) await _profiliYukle();
+  }
+
+  Future<void> _ayarlarAc() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const AyarlarSayfasi()),
+    );
+    if (mounted) await _profiliYukle();
+  }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final isim = _profilIsim.trim().isEmpty ? 'kardeş' : _profilIsim.trim();
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -151,81 +193,105 @@ class AnaSayfa extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Uçtan Uca Gizlilik Etiketi
-              Center(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Renkler.seciliYuzey,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.shield_outlined,
-                        color: Renkler.vurgu,
-                        size: 14,
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        l.t('h.priv'),
-                        style: TextStyle(
-                          color: Renkler.vurgu,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-
-              // Profil ve Tarih Satırı
-              Row(
-                children: [
-                  _ProfilAvatar(),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              // Hoşgeldin + Profil Kartı (3D)
+              UcdKart(
+                radius: 20,
+                maxTilt: 0.09,
+                sekil: KartSekli.kose,
+                child: GestureDetector(
+                  onTap: _profilAc,
+                  child: Container(
+                    padding: EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: Renkler.kart,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Renkler.cerceve),
+                    ),
+                    child: Row(
                       children: [
-                        Text(
-                          "18 Safer / 15 Ağustos",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        CircleAvatar(
+                          radius: 27,
+                          backgroundColor: Renkler.seciliYuzey,
+                          backgroundImage: _profilResim != null
+                              ? MemoryImage(_profilResim!)
+                              : null,
+                          child: _profilResim == null
+                              ? const Icon(
+                                  Icons.person_outline,
+                                  color: Colors.white70,
+                                  size: 30,
+                                )
+                              : null,
                         ),
-                        SizedBox(height: 2),
-                        Text(
-                          "Hicri ${ProfilStore.hicriYil()} · ${DateTime.now().year}",
-                          style: TextStyle(color: Colors.white54, fontSize: 12),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Hoşgeldin, $isim 👋',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Hicri ${ProfilStore.hicriYil()} · '
+                                '${DateTime.now().year} · profili düzenle',
+                                style: const TextStyle(
+                                  color: Colors.white54,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        UcdIkon(
+                          ikon: Icons.edit_outlined,
+                          renk: Renkler.vurgu,
+                          boyut: 18,
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(width: 8),
-                  _SessizChip(),
-                  SizedBox(width: 10),
-                  _BildirimZili(),
-                  SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AyarlarSayfasi(),
+                ),
+              ),
+              SizedBox(height: 12),
+
+              // Sessiz vakit, Bildirim ve Ayarlar (3D)
+              Row(
+                children: [
+                  UcdKart(
+                    radius: 14,
+                    maxTilt: 0.14,
+                    sekil: KartSekli.klasik,
+                    child: _SessizChip(),
+                  ),
+                  const Spacer(),
+                  UcdKart(
+                    radius: 24,
+                    maxTilt: 0.16,
+                    sekil: KartSekli.yuvar,
+                    child: _BildirimZili(),
+                  ),
+                  SizedBox(width: 12),
+                  UcdKart(
+                    radius: 24,
+                    maxTilt: 0.16,
+                    sekil: KartSekli.yuvar,
+                    child: GestureDetector(
+                      onTap: _ayarlarAc,
+                      child: _yuvarZemin(
+                        boyut: 48,
+                        child: UcdIkon(
+                          ikon: Icons.settings_outlined,
+                          renk: Colors.white,
+                          boyut: 22,
                         ),
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: Renkler.cerceve,
-                      child: UcdIkon(
-                        ikon: Icons.settings_outlined,
-                        renk: Colors.white70,
-                        boyut: 20,
                       ),
                     ),
                   ),
@@ -989,46 +1055,42 @@ const List<_VakitBilgisi> _gunVakitleri = [
 ];
 
 // ===========================================================================
-// PROFİL, BİLDİRİM ZİLİ VE SESSİZ VAKİT ÇİPİ
+// BİLDİRİM ZİLİ VE SESSİZ VAKİT ÇİPİ
 // ===========================================================================
-class _ProfilAvatar extends StatefulWidget {
-  @override
-  State<_ProfilAvatar> createState() => _ProfilAvatarState();
-}
-
-class _ProfilAvatarState extends State<_ProfilAvatar> {
-  Uint8List? _resim;
-
-  @override
-  void initState() {
-    super.initState();
-    _yukle();
-  }
-
-  Future<void> _yukle() async {
-    final resim = await ProfilStore.resimOku();
-    if (mounted) setState(() => _resim = resim);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const ProfilSayfasi()),
-        ).then((_) => _yukle());
-      },
-      child: CircleAvatar(
-        radius: 20,
-        backgroundColor: Renkler.cerceve,
-        backgroundImage: _resim != null ? MemoryImage(_resim!) : null,
-        child: _resim == null
-            ? const Icon(Icons.person_outline, color: Colors.white70)
-            : null,
+/// Yuvarlak yüzeylere belirgin bir 3D görünüm kazandıran zemin: üstten inen
+/// ışık, taban gölgesi ve ince kenar parıltısı ile diğer 3D kartlarla uyumlu.
+Widget _yuvarZemin({required double boyut, required Widget child}) {
+  return Container(
+    width: boyut,
+    height: boyut,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Renkler.seciliYuzey.withValues(alpha: 0.9),
+          Renkler.cerceve,
+          Renkler.kart,
+        ],
+        stops: const [0.0, 0.55, 1.0],
       ),
-    );
-  }
+      border: Border.all(color: Colors.white.withValues(alpha: 0.25), width: 1),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withValues(alpha: 0.45),
+          offset: const Offset(0, 3),
+          blurRadius: 6,
+        ),
+        BoxShadow(
+          color: Colors.white.withValues(alpha: 0.10),
+          offset: const Offset(-1, -1),
+          blurRadius: 3,
+        ),
+      ],
+    ),
+    child: Center(child: child),
+  );
 }
 
 class _BildirimZili extends StatefulWidget {
@@ -1074,31 +1136,30 @@ class _BildirimZiliState extends State<_BildirimZili> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          CircleAvatar(
-            radius: 18,
-            backgroundColor: Renkler.cerceve,
+          _yuvarZemin(
+            boyut: 48,
             child: UcdIkon(
               ikon: Icons.notifications_none,
-              renk: Colors.white70,
-              boyut: 20,
+              renk: Colors.white,
+              boyut: 22,
             ),
           ),
           if (_sayi > 0)
             Positioned(
-              right: -6,
-              top: -6,
+              right: -3,
+              top: -3,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                 decoration: BoxDecoration(
                   color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Renkler.zemin, width: 1.5),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Renkler.zemin, width: 1),
                 ),
                 child: Text(
                   '$_sayi',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 9,
+                    fontSize: 8,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -1136,33 +1197,35 @@ class _SessizChipState extends State<_SessizChip> {
     return GestureDetector(
       onTap: _degistir,
       child: Tooltip(
-        message: 'Sessiz vakit 21:00 - 06:00 · tek dokunuşla sessize al',
+        message: 'Sessiz vakit 21:00 - 06:00 · tek dokunuşla bildirimleri sustur',
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(
             color: _sessiz
                 ? Renkler.vurgu.withValues(alpha: 0.35)
                 : Renkler.seciliYuzey,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: _sessiz
                   ? Renkler.vurgu.withValues(alpha: 0.7)
-                  : Colors.transparent,
+                  : Colors.white12,
             ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                _sessiz ? Icons.notifications_off : Icons.volume_off,
-                color: _sessiz ? Renkler.vurgu : Colors.white54,
-                size: 12,
+                _sessiz
+                    ? Icons.notifications_off_outlined
+                    : Icons.notifications_paused_outlined,
+                color: _sessiz ? Renkler.vurgu : Colors.white70,
+                size: 14,
               ),
               const SizedBox(width: 4),
               Text(
-                _sessiz ? 'Sessiz' : '21-06',
+                _sessiz ? 'Sessiz' : 'Sessiz Vakit',
                 style: TextStyle(
-                  color: _sessiz ? Renkler.vurgu : Colors.white54,
+                  color: _sessiz ? Renkler.vurgu : Colors.white70,
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
                 ),
