@@ -5,14 +5,14 @@
         <!-- Canli yayin: Kabe/Mekke ve Medine ses akislari -->
         <domain includeSubdomains="true">m.live.net.sa</domain>
         <!-- Dini Radyo: Kuran Meal Radyo -->
-        <domain>37.247.98.8</domain>
+        <domain includeSubdomains="true">37.247.98.8</domain>
         <!-- Dini Radyo: Radyo 3 Hilal -->
         <domain includeSubdomains="true">uchilal.com</domain>
         <!-- Dini Radyo: Risale Radyo -->
-        <domain>yayin1.canliyayin.org</domain>
+        <domain includeSubdomains="true">yayin1.canliyayin.org</domain>
         <!-- Dini Radyo: Radyo 7 -->
-        <domain>46.20.3.250</domain>
-        <domain>46.20.3.251</domain>
+        <domain includeSubdomains="true">46.20.3.250</domain>
+        <domain includeSubdomains="true">46.20.3.251</domain>
         <!-- Dini Radyo (Dünya Radyoları): Radio Sunna (Fransızca) -->
         <domain includeSubdomains="true">andromeda.shoutca.st</domain>
         <!-- Dini Radyo (Dünya Radyoları): Islamic Voice (İngilizce) -->
