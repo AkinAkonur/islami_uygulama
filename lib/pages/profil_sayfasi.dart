@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 
@@ -139,7 +140,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
     await ProfilStore.isimKaydet(_isimCtrl.text.trim());
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('İsim kaydedildi')),
+        SnackBar(content: Text(AppLocalizations.of(context).t('pf.nameSaved'))),
       );
       Navigator.of(context).pop();
     }
@@ -147,6 +148,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final bugun = DateTime.now();
     const aylar = [
       'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
@@ -169,9 +171,9 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    _profilKarti(bugun, aylar),
+                    _profilKarti(l, bugun, aylar),
                     const SizedBox(height: 16),
-                    _isimKarti(),
+                    _isimKarti(l),
                     const SizedBox(height: 16),
                   ],
                 ),
@@ -208,7 +210,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
     );
   }
 
-  Widget _profilKarti(DateTime bugun, List<String> aylar) {
+  Widget _profilKarti(AppLocalizations l, DateTime bugun, List<String> aylar) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -280,7 +282,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                   onPressed: _fotografSil,
                   style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
                   icon: const UcdIkon(ikon: Icons.delete_outline, renk: Colors.redAccent, boyut: 16),
-                  label: const Text('Kaldır'),
+                  label: Text(l.t('c.remove')),
                 ),
             ],
           ),
@@ -289,7 +291,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
     );
   }
 
-  Widget _isimKarti() {
+  Widget _isimKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -318,7 +320,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
             controller: _isimCtrl,
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
-              hintText: 'Adını yaz…',
+              hintText: l.t('pf.nameHint'),
               hintStyle: const TextStyle(color: Colors.white38),
               filled: true,
               fillColor: Renkler.seciliYuzey,

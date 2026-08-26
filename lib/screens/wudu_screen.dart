@@ -7,6 +7,7 @@ class WuduScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return DefaultTabController(
       length: 3,
         child: Scaffold(
@@ -24,16 +25,16 @@ class WuduScreen extends StatelessWidget {
             labelColor: Renkler.vurgu,
             unselectedLabelColor: Colors.white60,
             tabs: [
-              Tab(text: "Abdest"),
-              Tab(text: "Gusül"),
-              Tab(text: "Teyemmüm"),
+              Tab(text: l.t('wu.tabWudu')),
+              Tab(text: l.t('wu.tabGusl')),
+              Tab(text: l.t('wu.tabTeyemmum')),
             ],
           ),
         ),
         body: TabBarView(
           children: [
             _WuduTabContent(
-              title: "Namaz Abdesti Nasıl Alınır?",
+              title: l.t('wu.wuduTitle'),
               steps: [
                 "1. Niyet edilir ve 'Eûzü billâhi mine'ş-şeytâni'r-racîm, Bismillâhi'r-rahmâni'r-rahîm' denir.",
                 "2. Eller bileklere kadar 3 defa yıkanır.",
@@ -48,7 +49,7 @@ class WuduScreen extends StatelessWidget {
               ],
             ),
             _WuduTabContent(
-              title: "Gusül (Boy Abdesti) Esasları",
+              title: l.t('wu.guslTitle'),
               steps: [
                 "1. 'Niyet ettim rıza-i ilahi için gusül abdesti almaya' diye niyet edilir.",
                 "2. Besmele çekilerek eller ve avret mahalli yıkanır.",
@@ -61,7 +62,7 @@ class WuduScreen extends StatelessWidget {
               ],
             ),
             _WuduTabContent(
-              title: "Teyemmüm Nasıl Alınır?",
+              title: l.t('wu.teyemmumTitle'),
               steps: [
                 "1. Su bulunmadığında veya sağlık sorunları nedeniyle su kullanımı yasak olduğunda teyemmüme niyet edilir.",
                 "2. Temiz toprak, kum veya mermer gibi toprak cinsinden bir nesneye eller vurulur.",

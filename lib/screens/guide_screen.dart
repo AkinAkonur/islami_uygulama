@@ -45,11 +45,12 @@ class _GuideScreenState extends State<GuideScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Color(0xFF0F1410),
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).t('g.stepByStep'),
+          l.t('gu.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
         ),
         backgroundColor: Color(0xFF141F18),
@@ -63,7 +64,7 @@ class _GuideScreenState extends State<GuideScreen> {
             color: Color(0xFF141F18),
             child: Row(
               children: [
-                Text("Mezhep:", style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
+                Text(l.t('gu.madhab'), style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
                 SizedBox(width: 12),
                 Expanded(
                   child: SizedBox(
@@ -117,13 +118,13 @@ class _GuideScreenState extends State<GuideScreen> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(backgroundColor: Renkler.vurgu, foregroundColor: Colors.black),
                         onPressed: details.onStepContinue,
-                        child: Text(_currentStep == _steps.length - 1 ? "Tamamla" : "Sonraki Adım"),
+                        child: Text(_currentStep == _steps.length - 1 ? l.t('gu.complete') : l.t('gu.nextStep')),
                       ),
                       SizedBox(width: 12),
                       if (_currentStep > 0)
                         TextButton(
                           onPressed: details.onStepCancel,
-                          child: Text("Geri", style: TextStyle(color: Colors.white70)),
+                          child: Text(l.t('gu.prevStep'), style: TextStyle(color: Colors.white70)),
                         ),
                     ],
                   ),

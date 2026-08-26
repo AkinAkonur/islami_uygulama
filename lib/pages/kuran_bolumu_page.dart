@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/kuran_verileri.dart';
@@ -46,20 +47,21 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final gununAyeti = _bugununAyeti();
 
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          "Kur'an-ı Kerim",
+          l.t('qn.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: "Kur'an Adabı",
+            tooltip: l.t('qn.etiquette'),
             icon: UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu),
             onPressed: () => Navigator.push(
               context,
@@ -97,7 +99,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Kur'an-ı Kerim",
+                              l.t('qn.title'),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
@@ -106,7 +108,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "Okuma • Dinleme • Ezber • Takip",
+                              l.t('qn.subtitle'),
                               style: TextStyle(color: Renkler.acikVurgu, fontSize: 12),
                             ),
                           ],
@@ -122,12 +124,12 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    '"Hakkında hiçbir şüphe olmayan bu kitap, muttakiler için yol göstericidir."',
+                    l.t('qn.verseText'),
                     style: TextStyle(color: Colors.white70, fontSize: 12, fontStyle: FontStyle.italic),
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "Bakara Suresi, 2. Ayet",
+                    l.t('qn.verseRef'),
                     style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -151,7 +153,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                       UcdIkon(ikon: Icons.wb_sunny_outlined, renk: Renkler.vurgu, boyut: 18),
                       SizedBox(width: 8),
                       Text(
-                        "Günün Ayeti",
+                        l.t('qn.dailyVerse'),
                         style: TextStyle(color: Renkler.vurgu, fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                       Spacer(),
@@ -189,12 +191,12 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             SizedBox(height: 24),
 
             // ---------- A. OKUMA ----------
-            _baslik("📖 Okuma", "Sureler, cüzler ve meâl"),
+            _baslik(l.t('qn.readTab'), l.t('qn.readDesc')),
             _modulKart(
               context,
               Icons.format_list_numbered,
-              "Sure Listesi (114)",
-              "Numara, isim, âyet sayısı ve iniş yeri • arama",
+              l.t('qn.sureList'),
+              l.t('qn.sureListDesc'),
               Colors.green,
               () => Navigator.push(
                 context,
@@ -204,8 +206,8 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             _modulKart(
               context,
               Icons.filter_alt_outlined,
-              "Cüz Listesi (30)",
-              "Bölüm bölüm Kur'an okuma",
+              l.t('qn.cuzList'),
+              l.t('qn.cuzListDesc'),
               Colors.teal,
               () => Navigator.push(
                 context,
@@ -215,8 +217,8 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             _modulKart(
               context,
               Icons.search,
-              "Ayet Arama",
-              "Türkçe kelimeyle veya sure:âyet numarasıyla",
+              l.t('qn.verseSearch'),
+              l.t('qn.verseSearchDesc'),
               Colors.lightGreen,
               () => Navigator.push(
                 context,
@@ -226,7 +228,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             SizedBox(height: 20),
 
             // ---------- B. DİNLEME ----------
-            _baslik("🎧 Dinleme", "Seçtiğiniz kârîden tilâvet"),
+            _baslik(l.t('qn.listenTab'), l.t('qn.listenDesc')),
             Container(
               padding: EdgeInsets.all(14),
               decoration: BoxDecoration(
@@ -238,7 +240,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Kârî Seçimi",
+                    l.t('qn.selectReciter'),
                     style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
@@ -270,7 +272,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          "Tilâveti dinlemek için bir sure açın: Sure Listesi'nden seçin veya aşağıdan hızlı erişin.",
+                          l.t('qn.noRecitation'),
                           style: TextStyle(color: Colors.white54, fontSize: 11),
                         ),
                       ),
@@ -282,12 +284,12 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             SizedBox(height: 20),
 
             // ---------- C. EZBER & TAKİP ----------
-            _baslik("📈 Ezber & Takip", "Hatim ve hedefler"),
+            _baslik(l.t('qn.memorizeTab'), l.t('qn.memorizeDesc')),
             _modulKart(
               context,
               Icons.flag_outlined,
-              "Hatim Takibi",
-              "Okunan sayfalar, ilerleme çubuğu ve bitince kutlama",
+              l.t('qn.hatimTrack'),
+              l.t('qn.hatimTrackDesc'),
               Colors.orange,
               () => Navigator.push(
                 context,
@@ -297,12 +299,12 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             SizedBox(height: 20),
 
             // ---------- D. KELİME & ANLAM ----------
-            _baslik("🔍 Kelime & Anlam", "Öğrenme ve keşif"),
+            _baslik(l.t('qn.exploreTab'), l.t('qn.exploreDesc')),
             _modulKart(
               context,
               Icons.folder_special_outlined,
-              "Tematik Âyetler",
-              "Sabır, tövbe, rızık, anne-baba, huzur... hazır paketler",
+              l.t('qn.thematic'),
+              l.t('qn.thematicDesc'),
               Colors.pinkAccent,
               () => Navigator.push(
                 context,
@@ -312,12 +314,12 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             SizedBox(height: 20),
 
             // ---------- E. ÖZEL BÖLÜMLER ----------
-            _baslik("✨ Özel Bölümler"),
+            _baslik(l.t('qn.specialTab')),
             _modulKart(
               context,
               Icons.self_improvement,
-              "Amme Cüzü & Kısa Sureler",
-              "Namazda okunan sûreler • ezber desteği",
+              l.t('qn.shortSures'),
+              l.t('qn.shortSuresDesc'),
               Colors.purpleAccent,
               () => Navigator.push(
                 context,
@@ -327,8 +329,8 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             _modulKart(
               context,
               Icons.star_outline,
-              "Özel Gün Sureleri",
-              "Kehf (cuma), Mülk (her gece), Vâkıa, Yâsîn",
+              l.t('qn.specialDays'),
+              l.t('qn.specialDaysDesc'),
               Colors.amber,
               () => Navigator.push(
                 context,
@@ -338,8 +340,8 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             _modulKart(
               context,
               Icons.auto_stories_outlined,
-              "Kur'an'a Dokunma Adabı",
-              "Abdest, tilâvet secdesi ve okuma edepleri",
+              l.t('qn.mannersTitle'),
+              l.t('qn.mannersDesc'),
               Colors.cyan,
               () => Navigator.push(
                 context,

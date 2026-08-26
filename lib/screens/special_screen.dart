@@ -7,6 +7,7 @@ class SpecialScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Color(0xFF0F1410),
       appBar: AppBar(
@@ -22,7 +23,8 @@ class SpecialScreen extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         children: [
           _specialCard(
-            "✈️ Seferîlik (Yolculuk) Namazı",
+            context,
+            l.t('sp.travel'),
             "90 km ve üzeri yolculuklarda (Hanefî mezhebine göre) 4 rekatlı farz namazlar 2 rekat olarak kılınır (kasr). Vitir namazı tam kılınır.",
             [
               "• Şartları: 90 km mesafeye çıkmak, niyet etmek, seyahat halinde olmak.",
@@ -32,7 +34,8 @@ class SpecialScreen extends StatelessWidget {
             Colors.blueAccent,
           ),
           _specialCard(
-            "🛌 Hasta ve Özürlü Namazı",
+            context,
+            l.t('sp.sick'),
             "Ayakta duramayacak veya sağlığına zarar gelecek hastalar için dinimiz kolaylık sağlamıştır.",
             [
               "• Ayakta duramayan: Oturarak rüku ve secde ile kılar.",
@@ -42,7 +45,8 @@ class SpecialScreen extends StatelessWidget {
             Colors.teal,
           ),
           _specialCard(
-            "👥 Cemaatle Namaz & Cuma",
+            context,
+            l.t('sp.congregation'),
             "Cemaatle kılınan namazların sevabı tek başına kılınana göre 27 kat daha fazladır.",
             [
               "• Cuma Namazı: Cuma günü öğle vaktinde cemaatle kılınması farzdır. Hutbe dinlemek şarttır.",
@@ -56,7 +60,7 @@ class SpecialScreen extends StatelessWidget {
     );
   }
 
-  Widget _specialCard(String title, String summary, List<String> details, Color accentColor) {
+  Widget _specialCard(BuildContext context, String title, String summary, List<String> details, Color accentColor) {
     return Container(
       margin: EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.all(20),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 import '../services/canli_yayin_konfigurasyonu.dart';
@@ -24,10 +25,11 @@ class DahaFazlaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: Text("Tüm Modüller & Özellikler"),
+        title: Text(l.t('df.title')),
         backgroundColor: Renkler.seciliYuzey,
         elevation: 0,
       ),
@@ -53,7 +55,7 @@ class DahaFazlaPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Keşif ve Maneviyat Merkezi",
+                          l.t('df.subtitle'),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -62,7 +64,7 @@ class DahaFazlaPage extends StatelessWidget {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "İhtiyacınız olan tüm dini araçlar, rehberler ve içerikler burada.",
+                          l.t('df.desc'),
                           style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                       ],
@@ -74,20 +76,20 @@ class DahaFazlaPage extends StatelessWidget {
             SizedBox(height: 24),
 
             // 1. GÜNLÜK KULLANIM
-            _buildSectionHeader("📅 Günlük Kullanım"),
+            _buildSectionHeader(l.t('df.dailySection')),
             SizedBox(height: 12),
             _buildModuleCard(
               context,
               Icons.star_outline_rounded,
-              "Esma-ül Hüsna",
-              "Allah'ın 99 ismi ve derin anlamları",
+              l.t('df.esmaTitle'),
+              l.t('df.esmaDesc'),
               EsmaulHusnaPage(),
               Colors.amberAccent,
             ),
             _buildModuleCard(
               context,
               Icons.mosque_rounded,
-              "Cami Bul",
+              l.t('df.camiiTitle'),
               "Konumunuza yakın cami ve mescitleri listeleyin",
               const YakindakiCamilerPage(),
               Colors.tealAccent,
@@ -95,7 +97,7 @@ class DahaFazlaPage extends StatelessWidget {
             _buildModuleCard(
               context,
               Icons.calendar_month_rounded,
-              "Hicri Takvim",
+              l.t('df.hijriTitle'),
               "Kandiller, dini bayramlar ve Ramazan sayacı",
               HicriTakvimPage(),
               Colors.orangeAccent,
@@ -103,7 +105,7 @@ class DahaFazlaPage extends StatelessWidget {
             _buildModuleCard(
               context,
               Icons.calculate_rounded,
-              "Zekat & Fitre Hesaplayıcı",
+              l.t('df.zekatTitle'),
               "Mal varlığına göre zekat ve fitre hesaplama aracı",
               ZekatHesaplamaPage(),
               Colors.lightGreenAccent,
@@ -215,8 +217,8 @@ class DahaFazlaPage extends StatelessWidget {
             _buildModuleCard(
               context,
               Icons.radio_rounded,
-              "Dini Radyo & İlahi",
-              "Kesintisiz Kuran tilaveti, sohbet ve ilahi akışı",
+              l.t('df.radioTitle'),
+              l.t('df.radioDesc'),
               DiniRadyoPage(),
               Colors.indigoAccent,
             ),
@@ -560,11 +562,12 @@ Es-Sabûr|الصَّبُور|Çok sabırlı|Günahkârlara ceza vermekte acele e
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final list = _veriler.trim().split('\n').map((s) => s.split('|')).toList();
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text("Esma-ül Hüsna (99 İsim)"),
+        title: Text(l.t('df.esmaFull')),
         backgroundColor: Renkler.seciliYuzey,
       ),
       body: ListView.builder(
@@ -610,7 +613,8 @@ class HicriTakvimPage extends StatelessWidget {
   const HicriTakvimPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return _buildStandardSubPage("Hicri Takvim & Önemli Günler", [
+    final l = AppLocalizations.of(context);
+    return _buildStandardSubPage(l.t('df.hijriFull'), [
       _item(
         "Bugün: 18 Safer 1448",
         "Mübarek üç aylara ve kandillere kalan süreler.",
@@ -699,25 +703,26 @@ class _ZekatHesaplamaPageState extends State<ZekatHesaplamaPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: Text("Zekat Hesaplayıcı"),
+        title: Text(l.t('df.zekatTitle')),
         backgroundColor: Renkler.seciliYuzey,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            'Bu araç yaklaşık bir hesap sunar. Zekât için nisap miktarı, malın üzerinden bir kamerî yıl geçmesi ve borçlar gibi şartları kendi durumunuza göre değerlendiriniz.',
+            l.t('df.zekatDesc'),
             style: TextStyle(color: Colors.white70, height: 1.4),
           ),
           const SizedBox(height: 18),
           _baslik('1. Nisap tercihi'),
           SegmentedButton<bool>(
-            segments: const [
-              ButtonSegment(value: true, label: Text('Altın nisabı (85 g)')),
-              ButtonSegment(value: false, label: Text('Gümüş nisabı (595 g)')),
+            segments: [
+              ButtonSegment(value: true, label: Text(l.t('df.goldNisab'))),
+              ButtonSegment(value: false, label: Text(l.t('df.silverNisab'))),
             ],
             selected: {_nisabAltin},
             onSelectionChanged: (v) => setState(() => _nisabAltin = v.first),
@@ -778,7 +783,7 @@ class _ZekatHesaplamaPageState extends State<ZekatHesaplamaPage> {
             ),
             onPressed: _hesapla,
             icon: const UcdIkon(ikon: Icons.calculate_rounded, renk: Colors.white70),
-            label: const Text('Hesapla'),
+            label: Text(l.t('df.zekatCalc')),
           ),
           if (_netVarlik != null) ...[
             const SizedBox(height: 18),
@@ -1077,15 +1082,16 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final mevcutKategoriler = _kanallar.map((k) => k.kategori).toSet();
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text("Dini Radyo & İlahi Akışı"),
+        title: Text(l.t('df.radioTitle')),
         backgroundColor: Renkler.seciliYuzey,
         actions: [
           IconButton(
-            tooltip: 'Kanalları Güncelle',
+            tooltip: l.t('df.radioRefresh'),
             onPressed: _kanallariYenile,
             icon: const UcdIkon(ikon: Icons.sync_rounded, renk: Colors.white70),
           ),
@@ -1093,7 +1099,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
       ),
       body: Column(
         children: [
-          _bilgiBanneri(),
+          _bilgiBanneri(l),
           ValueListenableBuilder<RadyoKanali?>(
             valueListenable: RadyoOynaticiStore.calanKanal,
             builder: (context, calan, _) => calan == null
@@ -1106,9 +1112,9 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
           _kategoriFiltreleri(mevcutKategoriler),
           Expanded(
             child: _kanallar.isEmpty
-                ? const Center(
+                ? Center(
                     child: Text(
-                      'Kanal bulunamadı. Güncelle butonu ile yeniden deneyin.',
+                      l.t('df.radioNotFound'),
                       style: TextStyle(color: Colors.white54),
                     ),
                   )
@@ -1120,7 +1126,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
     );
   }
 
-  Widget _bilgiBanneri() {
+  Widget _bilgiBanneri(AppLocalizations l) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       child: Container(
@@ -1130,16 +1136,14 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: Renkler.cerceve),
         ),
-        child: const Row(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            UcdIkon(ikon: Icons.radio_rounded, renk: Colors.indigoAccent),
-            SizedBox(width: 10),
+            const UcdIkon(ikon: Icons.radio_rounded, renk: Colors.indigoAccent),
+            const SizedBox(width: 10),
             Expanded(
               child: Text(
-                '7/24 kesintisiz Kur\'an tilaveti, ilahi ve dini sohbet akışı. '
-                'Kanallar sunucu tarafından yönetilir; uygulama güncellemesi '
-                'gerektirmez.',
+                l.t('df.radioDesc'),
                 style: TextStyle(color: Colors.white70, fontSize: 12),
               ),
             ),

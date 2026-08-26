@@ -36,6 +36,7 @@ class _QadaScreenState extends State<QadaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     int totalQada = _qadaCounts.values.fold(0, (sum, val) => sum + val);
 
     return Scaffold(
@@ -74,7 +75,7 @@ class _QadaScreenState extends State<QadaScreen> {
                     children: [
                       Text("TOPLAM BEKLEYEN KAZA", style: TextStyle(color: Colors.orangeAccent, fontSize: 11, fontWeight: FontWeight.bold)),
                       SizedBox(height: 6),
-                      Text("$totalQada Vakit", style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)),
+                      Text(l.t('qd.prayerTimes').replaceAll('{count}', totalQada.toString()), style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)),
                     ],
                   ),
                   UcdIkon(ikon: Icons.assignment_turned_in_rounded, renk: Colors.orangeAccent, boyut: 40),
@@ -83,7 +84,7 @@ class _QadaScreenState extends State<QadaScreen> {
             ),
             SizedBox(height: 24),
 
-            Text("Vakit Bazlı Kaza Borçları", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(l.t('qd.byTime'), style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
             SizedBox(height: 12),
 
             // Kaza Listesi / Grid

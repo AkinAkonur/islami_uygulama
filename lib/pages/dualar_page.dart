@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
 import '../services/renkler.dart';

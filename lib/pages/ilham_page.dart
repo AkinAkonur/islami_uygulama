@@ -25,6 +25,7 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/gercek_bildirimler.dart';
 import '../services/ilham_store.dart';
 import '../services/ilham_verileri.dart';
@@ -96,7 +97,7 @@ class _IlhamPageState extends State<IlhamPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Paylaşım hazırlanamadı: $e')),
+          SnackBar(content: Text(AppLocalizations.of(context).t('il.shareError').replaceAll('{error}', e.toString()))),
         );
       }
     } finally {
@@ -222,7 +223,7 @@ class _IlhamPageState extends State<IlhamPage> {
                 TextButton(
                   onPressed: () => Navigator.pop(ctx, 'sil'),
                   style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
-                  child: const Text('Hatırlatıcıyı Kaldır'),
+                  child: Text(AppLocalizations.of(context).t('il.removeReminder')),
                 ),
               ],
             ],
@@ -238,7 +239,7 @@ class _IlhamPageState extends State<IlhamPage> {
       await GercekBildirimler.ilhamHatirlatmasiPlanla();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Hatırlatıcı kuruldu ✨')),
+          SnackBar(content: Text(AppLocalizations.of(context).t('il.reminderSet'))),
         );
       }
     } else if (kaydedildi == 'sil') {
@@ -246,7 +247,7 @@ class _IlhamPageState extends State<IlhamPage> {
       await GercekBildirimler.ilhamHatirlatmasiPlanla();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Hatırlatıcı kaldırıldı.')),
+          SnackBar(content: Text(AppLocalizations.of(context).t('il.reminderRemoved'))),
         );
       }
     }
@@ -269,6 +270,7 @@ class _IlhamPageState extends State<IlhamPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -281,7 +283,7 @@ class _IlhamPageState extends State<IlhamPage> {
           backgroundColor: const Color(0xFF2D1E1E),
           actions: [
             IconButton(
-              tooltip: 'Bulut içeriği tazele',
+              tooltip: l.t('il.refresh'),
               icon: const UcdIkon(ikon: Icons.refresh, renk: Colors.white70),
               onPressed: _bulutuTazele,
             ),
@@ -303,9 +305,9 @@ class _IlhamPageState extends State<IlhamPage> {
             indicatorColor: Colors.orangeAccent,
             labelColor: Colors.orangeAccent,
             unselectedLabelColor: Colors.white54,
-            tabs: const [
-              Tab(text: 'Günün Akışı'),
-              Tab(text: 'Arşiv'),
+            tabs: [
+              Tab(text: l.t('il.tabFlow')),
+              Tab(text: l.t('il.tabArchive')),
               Tab(text: 'Favoriler'),
             ],
           ),
@@ -836,7 +838,7 @@ class _IlhamKarti extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               IconButton(
-                tooltip: 'Görsel kart olarak paylaş',
+                tooltip: AppLocalizations.of(context).t('il.shareVisual'),
                 icon: const UcdIkon(
                   ikon: Icons.share_outlined,
                   renk: Colors.white54,

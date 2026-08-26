@@ -377,4 +377,434 @@ const Map<String, String> enDil = {
 
   // ---------------- SETTINGS ----------------
   'set.methodInfo2': 'Prayer times are calculated based on the Sun\'s position.',
+
+  // ---------------- COMMON ----------------
+  'c.cancel': 'Cancel',
+  'c.delete': 'Yes, Delete Permanently',
+  'c.close': 'Close',
+  'c.confirm': 'Confirm',
+  'c.copy': 'Copied',
+  'c.done': 'Done',
+  'c.retry': 'Try Again',
+  'c.save': 'Save',
+  'c.send': 'Send',
+  'c.share': 'Share',
+  'c.remove': 'Remove',
+  'c.manage': 'Manage',
+  'c.local': 'Local',
+  'c.buy': 'Buy',
+  'c.create': 'Create',
+  'c.next': 'Next',
+  'cPrev': 'Previous',
+
+  // ---------------- MOOD PAGES ----------------
+  'mz.huzur': '😊 Peace Room & Reflection',
+  'mz.sukur': '🙏 Gratitude Room & Praise',
+  'mz.yorgun': '😴 Fatigue & Refreshment Room',
+  'mz.umut': '🤲 Hope & Mercy Room',
+  'mz.kaygi': '😟 Anxiety & Trust Room',
+  'mz.umutHint': 'e.g. Pray tahajjud tomorrow, give charity...',
+  'mz.sukurHint': 'e.g. My health, a warm cup of tea, good news...',
+
+  // ---------------- TASBIH ----------------
+  'ts.title': 'Digital Smart Tasbih (Dhikr Counter)',
+  'ts.zikirHint': 'Dhikr text... (e.g. Ya Rahman (33))',
+  'ts.zikirName': 'Dhikr name',
+  'ts.counterReset': 'Reset counter',
+  'ts.counterRemove': 'Remove dhikr',
+
+  // ---------------- NEARBY MOSQUES ----------------
+  'yc.title': 'Nearby Mosques',
+  'yc.mapError': 'Could not open map app.',
+  'yc.routeError': 'Could not open directions.',
+
+  // ---------------- LOCATION ----------------
+  'kn.selectCity': 'Select City',
+  'kn.viewAll': 'View All',
+  'kn.mapError': 'Could not open map app.',
+  'kn.routeError': 'Could not open directions.',
+  'kn.searchHint': 'Search province... (e.g. Istanbul)',
+
+  // ---------------- QIBLA ----------------
+  'kp.title': 'Qibla Compass',
+
+  // ---------------- PROFILE ----------------
+  'pf.nameSaved': 'Name saved',
+  'pf.nameHint': 'Type your name...',
+
+  // ---------------- INSPIRATION ----------------
+  'il.shareError': 'Could not prepare share: {error}',
+  'il.removeReminder': 'Remove Reminder',
+  'il.reminderSet': 'Reminder set ✨',
+  'il.reminderRemoved': 'Reminder removed.',
+  'il.refresh': 'Refresh cloud content',
+  'il.tabFlow': 'Today\'s Flow',
+  'il.tabArchive': 'Archive',
+  'il.shareVisual': 'Share as visual card',
+
+  // ---------------- DUA DETAIL ----------------
+  'dd.removeReminder': 'Remove Reminder',
+  'dd.reminderSet': 'Reminder set 🤲',
+  'dd.reminderRemoved': 'Reminder removed.',
+  'dd.shareError': 'Could not prepare share: {error}',
+  'dd.shareVisual': 'Share as visual card',
+  'dd.counterReset': 'Reset',
+
+  // ---------------- DUAS ----------------
+  'dp.myDuas': 'My Own Duas',
+  'dp.searchHint': 'Search: debt, sleep, exam, protection...',
+
+  // ---------------- KAABA LIVE ----------------
+  'kb.miniPlayer': 'Send to Mini Player',
+  'kb.exitFullscreen': 'Exit fullscreen',
+
+  // ---------------- HADITH LIBRARY ----------------
+  'hk.download': 'Download',
+  'hk.removeBook': 'Remove book',
+
+  // ---------------- HATIM DUA ----------------
+  'hd.recitation': 'With Recitation',
+  'hd.arabic': 'Arabic',
+  'hd.fromStart': 'From Start',
+
+  // ---------------- STORIES ----------------
+  'kp.titleKP': 'Stories & Prophets',
+  'kp.tabProphets': '📜 Prophets',
+  'kp.tabQuran': '📖 Quran Stories',
+  'kp.tabSeerah': '🕋 Seerah',
+  'kp.tabDua': '🤲 Prophets\' Duas',
+  'kp.tabThematic': '🎯 Thematic',
+  'kp.searchHint': 'Search prophets, stories, nations, verses, duas or themes...',
+  'kp.resultsCount': '{count} results found',
+  'kp.noResults': 'No content found for your search.\nTry different keywords.',
+  'kp.recitationLabel': 'Recitation',
+  'kp.meaningLabel': 'Meaning',
+  'kp.whenLabel': 'When to read',
+  'kp.sourceLabel': 'Source',
+  'kp.copyArabic': 'Copy Arabic Text',
+  'kp.copiedSnackbar': 'Dua text copied',
+
+  // ---------------- Q&A ----------------
+  'sc.searchHint': 'Search questions, concepts or verses...',
+  'sc.tabBank': '📚 Knowledge Bank',
+  'sc.tabDaily': '📅 Question of the Day',
+  'sc.shareQuestion': 'Share this question',
+  'sc.copiedSnackbar': 'Question text copied',
+
+  // ---------------- AUDIO STORIES ----------------
+  'sk.tabStories': '📖 Audio Stories',
+  'sk.title': 'Audio Stories & Podcasts',
+  'sk.searchHint': '🔍 Search: title, topic (Patience, Dua), narrator...',
+  'sk.playbackSpeed': 'Playback speed',
+  'sk.sleepTimer': 'Sleep timer',
+
+  // ---------------- RAMADAN MODE ----------------
+  'rm.hatimPage': 'Go to Hatim page',
+
+  // ---------------- MECCA MEDINA ----------------
+  'ms.mapError': 'Could not open map',
+  'ms.youtubeError': 'Could not open YouTube',
+
+  // ---------------- PRAYER NOTIFICATIONS ----------------
+  'nb.settingsError': 'Could not open settings page.',
+  'nb.testNotification': 'Send Test Notification',
+  'nb.openSettings': 'Open App Settings',
+
+  // ---------------- SHARING CARDS ----------------
+  'pk.shareError': 'Could not prepare share: {error}',
+  'pk.messageHint': 'Write your message, verse meaning or dua...',
+  'pk.signatureHint': 'Source / signature (optional, e.g. "For you")',
+  'pk.arabicHint': 'Arabic text (optional)',
+
+  // ---------------- NOTIFICATIONS ----------------
+  'bs.allRead': 'All notifications marked as read.',
+  'bs.markAllRead': 'Mark all as read',
+  'bs.increase': 'Increase',
+
+  // ---------------- PRIVACY CENTER ----------------
+  'gz.exportError': 'Could not generate data export. Please try again.',
+  'gz.exportSuccess': 'Your data is ready and the share page has opened.',
+  'gz.deleteTitle': 'Permanent Delete Confirmation',
+  'gz.deleteBody': 'This action cannot be undone. All your data will be instantly deleted.',
+  'gz.deletedSnackbar': 'All your data has been permanently deleted.',
+  'gz.policyError': 'Could not open privacy policy page.',
+  'gz.title': 'Privacy Center',
+  'gz.permissions': 'Your Permissions',
+  'gz.rights': 'Your Rights (KVKK Art. 11)',
+  'gz.legal': 'Legal Notice',
+  'gz.statusGranted': 'Status: Permission granted — changeable from device.',
+  'gz.statusDenied': 'Status: No permission — prayer times can be calculated manually.',
+  'gz.statusEmpty': 'Status: No downloaded content yet.',
+  'gz.statusCount': 'Status: {count} audio files stored on your device.',
+  'gz.techGuarantee': 'Technical Security Infrastructure',
+  'gz.readFull': 'Read full text in app',
+  'gz.openOnline': 'Open online',
+
+  // ---------------- DUA BROTHERHOOD ----------------
+  'dk.published': 'Your dua request has been published. May Allah accept it.',
+  'dk.title': 'Dua Brotherhood',
+  'dk.request': 'Request Dua',
+  'dk.report': 'Report',
+  'dk.reportBtn': 'Report',
+  'dk.wishHint': 'Write your wish for your brother...',
+  'dk.shareDua': 'Share Dua',
+
+  // ---------------- DUA ROOMS ----------------
+  'do.searchHint': 'Search dua... (e.g. "exam", "debt", "healing")',
+  'do.myList': 'My Personal Dua List',
+  'do.joinRoom': 'Join Room',
+  'do.deleteDua': 'Delete dua',
+  'do.copiedSnackbar': 'Dua copied to clipboard',
+  'do.share': 'Share',
+  'do.audioNotFound': 'Arabic audio not found on your device.',
+  'do.aminMessage': 'You said Ameen 🤲 You joined with the ummah.',
+  'do.nameLabel': 'Dua name',
+  'do.nameHint': 'e.g. Morning Dua',
+  'do.arabicLabel': 'Arabic text',
+  'do.arabicHint': 'Write the dua in Arabic',
+  'do.meaningLabel': 'Turkish/English meaning',
+  'do.meaningHint': 'Recitation and meaning',
+  'do.sourceLabel': 'Source (optional)',
+
+  // ---------------- DUA WALL ----------------
+  'dw.addedSnackbar': 'Added to your wall; the ummah will pray for you. 🤲',
+  'dw.requestLabel': 'Dua Request',
+  'dw.prayedLabel': 'I Prayed for You',
+
+  // ---------------- DUA CHAINS ----------------
+  'dz.inputHint': 'Dua text or dhikr to recite',
+  'dz.target': 'Target: {count}',
+  'dz.title': 'Dua Chains',
+  'dz.newChain': 'Create New Dua Chain',
+  'dz.createLabel': 'Create Chain',
+
+  // ---------------- UMMAH Q&A ----------------
+  'usq.searchHint': 'Search: prayer, fasting, zakat...',
+
+  // ---------------- UMMAH SECTION ----------------
+  'ub.title': 'Ummah',
+  'ub.liveStreams': 'Live Broadcasts & Events',
+
+  // ---------------- THEMATIC VERSES ----------------
+  'ta.loadError': 'Could not load verses. Check your internet connection.',
+  'ta.notLoaded': 'Verses could not be loaded.',
+
+  // ---------------- SURE DETAIL ----------------
+  'sd.translation': 'Translation Selection',
+  'sd.listenFromStart': 'Listen from the beginning',
+  'sd.listenStart': 'Listen from Start',
+  'sd.selectSure': 'Select Sure',
+
+  // ---------------- HATIM TRACKING ----------------
+  'ht.pages': '{count} pages',
+  'ht.newHatim': 'Start new Hatim',
+  'ht.dailyTarget': 'Daily target',
+
+  // ---------------- SHORT SURES ----------------
+  'ks.tabAmme': 'Amme Juz / Short',
+  'ks.tabSpecial': 'Special Day Sures',
+  'ks.openSure': 'Open Sure',
+
+  // ---------------- VERSE SEARCH ----------------
+  'aa.openSure': 'Open Sure',
+  'aa.noResults': 'No results found.',
+
+  // ---------------- SURE LIST ----------------
+  'sl.searchHint': 'Search sure name or number...',
+
+  // ---------------- QURAN SECTION ----------------
+  'qn.title': 'The Holy Quran',
+  'qn.etiquette': 'Quran Etiquette',
+  'qn.subtitle': 'Reading • Listening • Memorization • Tracking',
+  'qn.verseText': 'This is the Book about which there is no doubt, a guidance for those conscious of Allah.',
+  'qn.verseRef': 'Al-Baqarah, Verse 2',
+  'qn.dailyVerse': 'Verse of the Day',
+  'qn.readTab': '📖 Reading',
+  'qn.readDesc': 'Sures, Juz and translations',
+  'qn.sureList': 'Sure List (114)',
+  'qn.sureListDesc': 'Number, name, verse count & revelation place • search',
+  'qn.cuzList': 'Juz List (30)',
+  'qn.cuzListDesc': 'Read Quran section by section',
+  'qn.verseSearch': 'Verse Search',
+  'qn.verseSearchDesc': 'By Turkish word or sure:verse number',
+  'qn.listenTab': '🎧 Listening',
+  'qn.listenDesc': 'Recitation by chosen Qari',
+  'qn.selectReciter': 'Select Reciter',
+  'qn.noRecitation': 'Open a sure to listen to recitation...',
+  'qn.memorizeTab': '📈 Memorization & Tracking',
+  'qn.memorizeDesc': 'Hatim and goals',
+  'qn.hatimTrack': 'Hatim Tracking',
+  'qn.hatimTrackDesc': 'Pages read, progress bar and celebration on completion',
+  'qn.exploreTab': '🔍 Word & Meaning',
+  'qn.exploreDesc': 'Learning and discovery',
+  'qn.thematic': 'Thematic Verses',
+  'qn.thematicDesc': 'Patience, repentance, provision, parents, peace... ready packs',
+  'qn.specialTab': '✨ Special Sections',
+  'qn.shortSures': 'Amme Juz & Short Sures',
+  'qn.shortSuresDesc': 'Sures recited in prayer • memorization support',
+  'qn.specialDays': 'Special Day Sures',
+  'qn.specialDaysDesc': 'Al-Kahf (Friday), Al-Mulk (every night), Al-Waqi\'ah, Ya-Sin',
+  'qn.mannersTitle': 'Etiquette of Reciting Quran',
+  'qn.mannersDesc': 'Ablution, prostration of recitation and proper manners',
+
+  // ---------------- CONTINUE ----------------
+  'de.title': 'Continue',
+  'de.quranSpot': 'Your place in the Quran',
+  'de.lastVerse': 'Last verse read: {verse}',
+  'de.readContinue': 'Continue reading verses',
+  'de.tasbihCounter': 'Your tasbih counter',
+  'de.goTasbih': 'Go to Tasbih',
+  'de.hatimSpot': 'Incomplete Hatim',
+  'de.page': 'Page',
+  'de.readToday': 'Read today',
+  'de.goHatim': 'Go to Hatim tracking',
+  'de.motivation': 'Read one page daily and complete your Hatim in about 3 months...',
+
+  // ---------------- JUZ READING ----------------
+  'co.audioError': 'Could not play audio. Check your internet connection.',
+  'co.markedRead': 'Juz {cuz} marked as read.',
+  'co.unmarkedRead': 'Juz {cuz} read mark removed.',
+  'co.title': 'Juz {cuz}',
+  'co.loadError': 'Could not load juz text.',
+  'co.sureLabel': 'Sure {no}',
+  'co.sehivAyet': 'Sajdah Verse',
+  'co.stop': 'Stop',
+  'co.play': 'Listen',
+  'co.markedCheck': 'I read this juz (✓)',
+  'co.markAsRead': 'Mark as read',
+
+  // ---------------- GOAL WHEEL ----------------
+  'hc.yourTargets': 'Your Added Goals',
+  'hc.title': 'Spiritual Goal Wheel',
+  'hc.allComplete': 'You completed all today\'s goals, MashaAllah!',
+  'hc.progress': 'You reached {done}/{total} goals today. Keep going!',
+  'hc.targetDetail': '{deger} / {limit} · goal: {limit} items',
+  'hc.removeTarget': 'Remove goal',
+  'hc.addNew': 'Add New Goal',
+  'hc.targetName': 'Goal name',
+  'hc.targetNameHint': 'e.g. Islamic Studies, Hatim, Fasting',
+  'hc.targetAmount': 'Goal amount',
+  'hc.targetAmountHint': 'e.g. 10',
+  'hc.add': 'Add',
+  'hc.addNote': 'Your goals are added to the wheel; remove with the trash icon.',
+
+  // ---------------- DAILY TASKS ----------------
+  'gg.title': 'Daily Tasks',
+  'gg.allComplete': 'You completed all today\'s tasks, your streak is protected!',
+  'gg.encourage': 'Complete your tasks and 5 prayers to grow your streak.',
+  'gg.namaz5': 'Prayer · 5 Daily',
+  'gg.goodDeeds': 'Today\'s Good Deeds',
+  'gg.goodDeedsDesc': 'Each completion strengthens your streak.',
+  'gg.goodDeedsHint': 'Add your own good deed...',
+  'gg.addGoodDeed': 'Add good deed',
+  'gg.removeGoodDeed': 'Remove good deed',
+
+  // ---------------- DAILY GOAL DIALOGS ----------------
+  'ghd.kissaTitle': '📖 {title}',
+  'ghd.later': 'Later',
+  'ghd.readDone': 'Read, Complete',
+  'ghd.questionTitle': '❓ Question of the Day',
+  'ghd.correct': '✅ Correct! {answer}',
+  'ghd.wrong': 'Wrong answer. You can try until you find the correct one.',
+  'ghd.dhikrTitle': '📿 Today\'s Dhikr',
+  'ghd.dhikrCount': '33 times "SubhanAllah"',
+  'ghd.completed': 'Completed ✓',
+  'ghd.zikret': 'Recite (+1)',
+
+  // ---------------- DAILY GOAL CELEBRATION ----------------
+  'ghk.complete': '🎉 You completed today\'s goal!',
+  'ghk.badge': '🏅 New Badge Earned!',
+  'ghk.streakMessage': 'Your streak rose to {streak} days. Continue tomorrow!',
+
+  // ---------------- DAILY GOAL WIDGETS ----------------
+  'ghw.streakFreeze': '🧊 Streak Freezer',
+  'ghw.freezeDesc': 'You\'re protected today. Your streak won\'t reset.',
+  'ghw.freezeWarn': 'If you skip a day your streak is preserved, but use the freezer to prevent it.',
+  'ghw.freezePrice': 'Price: {price} XP',
+  'ghw.totalXP': 'Total XP',
+  'ghw.longestStreak': 'Longest Streak',
+  'ghw.freeze': 'Freezer',
+  'ghw.namaz5Vakit': '5 Daily Prayers',
+  'ghw.namazDesc': 'Mark your prayed times. Independent of streak.',
+  'ghw.namazCount': '{count} Prayers',
+
+  // ---------------- DAILY GOALS ----------------
+  'ghp.celebration': 'Celebration',
+  'ghp.freezeBought': 'Streak Freezer purchased! 🧊',
+  'ghp.insufficientXP': 'Insufficient XP.',
+  'ghp.title': 'Daily Goals & Streak',
+  'ghp.todayTargets': '📋 Today\'s Goals',
+  'ghp.namazVakit': '🕌 Prayer · 5 Daily',
+  'ghp.milestones': '🏅 Milestones',
+  'ghp.shop': '🛒 Shop',
+  'ghp.stats': '📊 Statistics',
+  'ghp.days': 'days',
+  'ghp.streakActive': 'Streak continues',
+  'ghp.streakStart': 'Start your streak',
+  'ghp.freezeMessage': 'Protected by Streak Freezer. Complete your goal!',
+  'ghp.progressMessage': 'Today {done}/{total} tasks completed.',
+  'ghp.xpMessage': 'Earned today: {xp} XP',
+  'ghp.today': 'Today',
+  'ghp.weekDays': 'Mon,Tue,Wed,Thu,Fri,Sat,Sun',
+
+  // ---------------- WIDGET GUIDE ----------------
+  'wr.title': 'Widget Guide',
+  'wr.steps': 'Setup Steps',
+  'wr.preview': 'Widget Preview',
+  'wr.nextVakit': 'Next Prayer Time',
+  'wr.widgetNote': 'Widget support is currently in preview...',
+
+  // ---------------- JUZ LIST ----------------
+  'cl.hatimDua': 'Hatim Dua',
+
+  // ---------------- HAC/UMRE ----------------
+  'hs.counterTitle': '{name} Counter',
+  'hs.previousSavt': 'Previous Circumambulation',
+  'hs.reset': 'Reset',
+  'mu.title': 'Miqat Warning Engine',
+  'mu.stopTracking': 'Stop Tracking',
+  'mu.startTracking': 'Start Tracking',
+  'im.title': 'Worship Mode',
+  'im.reset': 'Reset',
+  'fka.restart': 'Start Over',
+  'fka.restartBtn': 'Start over',
+  'ads.title': 'Emergency Dictionary',
+  'zr.openMap': 'Open on map',
+
+  // ---------------- MORE ----------------
+  'df.title': 'All Modules & Features',
+  'df.subtitle': 'Discovery & Spirituality Center',
+  'df.desc': 'All the religious tools, guides and content you need are here.',
+  'df.dailySection': '📅 Daily Use',
+  'df.esmaTitle': 'Asmaul Husna',
+  'df.esmaDesc': 'Allah\'s 99 names and deep meanings',
+  'df.camiiTitle': 'Find Mosque',
+  'df.hijriTitle': 'Hijri Calendar',
+  'df.esmaFull': 'Asmaul Husna (99 Names)',
+  'df.hijriFull': 'Hijri Calendar & Important Days',
+  'df.zekatTitle': 'Zakat Calculator',
+  'df.zekatDesc': 'This tool provides an approximate calculation...',
+  'df.goldNisab': 'Gold nisab (85g)',
+  'df.silverNisab': 'Silver nisab (595g)',
+  'df.zekatCalc': 'Calculate',
+  'df.radioTitle': 'Islamic Radio & Nasheed Stream',
+  'df.radioRefresh': 'Refresh Channels',
+  'df.radioNotFound': 'No channels found. Try again with the refresh button.',
+  'df.radioDesc': '24/7 Quran recitation, nasheed and Islamic lectures...',
+
+  // ---------------- DONATE ----------------
+  'bg.title': 'Charity & Good Deed Projects',
+  'bg.collected': 'Collected: {amount} TL',
+  'bg.target': 'Target: {amount} TL',
+  'bg.redirectSnackbar': 'Redirecting to donation page... May Allah accept.',
+  'bg.donateButton': 'Donate / Give Sadaqah',
+
+  // ---------------- RADIO PLAYER ----------------
+  'rd.previous': 'Previous',
+  'rd.next': 'Next',
+  'rd.stop': 'Stop',
+  'rd.sleepTimer': 'Sleep Timer',
+
+  // ---------------- HOME (extra) ----------------
+  'h.silentTip': 'Silent time 21:00 - 06:00 · mute notifications with one tap',
 };

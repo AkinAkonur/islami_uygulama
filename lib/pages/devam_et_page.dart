@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
@@ -45,6 +46,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -62,11 +64,11 @@ class _DevamEtPageState extends State<DevamEtPage> {
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    _ayetKarti(),
+                    _ayetKarti(l),
                     const SizedBox(height: 16),
-                    _tesbihKarti(),
+                    _tesbihKarti(l),
                     const SizedBox(height: 16),
-                    _hatimKarti(),
+                    _hatimKarti(l),
                     const SizedBox(height: 16),
                     _ipucuKarti(),
                   ],
@@ -115,7 +117,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
     );
   }
 
-  Widget _ayetKarti() {
+  Widget _ayetKarti(AppLocalizations l) {
     return _kartTasi(
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +127,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
               UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
-                'Kur\'an\'da kaldığın yer',
+                l.t('de.quranSpot'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -142,8 +144,8 @@ class _DevamEtPageState extends State<DevamEtPage> {
               color: Renkler.seciliYuzey,
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Text(
-              'Son okuduğun ayet: $_sonAyet',
+              child: Text(
+                l.t('de.lastVerse').replaceAll('{verse}', _sonAyet),
               style: const TextStyle(color: Colors.white, fontSize: 14),
             ),
           ),
@@ -164,7 +166,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
               },
               style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
               icon: UcdIkon(ikon: Icons.arrow_forward_rounded, renk: Renkler.vurgu, boyut: 16),
-              label: const Text('Ayet okumaya devam et'),
+              label: Text(l.t('de.readContinue')),
             ),
           ),
         ],
@@ -172,7 +174,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
     );
   }
 
-  Widget _tesbihKarti() {
+  Widget _tesbihKarti(AppLocalizations l) {
     return _kartTasi(
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,7 +184,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
               UcdIkon(ikon: Icons.radio_button_checked_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
-                'Tesbih sayacın',
+                l.t('de.tasbihCounter'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -213,7 +215,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
                 },
                 style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
                 icon: const UcdIkon(ikon: Icons.radio_button_checked_rounded, renk: Colors.black, boyut: 16),
-                label: const Text('Tesbih\'e Git'),
+                label: Text(l.t('de.goTasbih')),
               ),
             ],
           ),
@@ -222,7 +224,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
     );
   }
 
-  Widget _hatimKarti() {
+  Widget _hatimKarti(AppLocalizations l) {
     final toplam = _hatim['sayfa']!;
     return _kartTasi(
       Column(
@@ -233,7 +235,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
               UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
-                'Yarım kalan hatim',
+                l.t('de.hatimSpot'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -245,9 +247,9 @@ class _DevamEtPageState extends State<DevamEtPage> {
           const SizedBox(height: 12),
           Row(
             children: [
-              _hatimKutusu('Sayfa', '$toplam'),
+              _hatimKutusu(l.t('de.page'), '$toplam'),
               const SizedBox(width: 12),
-              _hatimKutusu('Bugün okunan', '${_hatim['bugun']}'),
+              _hatimKutusu(l.t('de.readToday'), '${_hatim['bugun']}'),
               const SizedBox(width: 12),
               _hatimKutusu('Seri', '${_hatim['seri']} 🔥'),
             ],
@@ -264,7 +266,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
               },
               style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
               icon: UcdIkon(ikon: Icons.arrow_forward_rounded, renk: Renkler.vurgu, boyut: 16),
-              label: const Text('Hatim takibine git'),
+              label: Text(l.t('de.goHatim')),
             ),
           ),
         ],
@@ -307,7 +309,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
           SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Her gün bir sayfa okusan, hatimini yaklaşık 3 ayda tamamlarsın. Küçük adımlar en kalıcı olanlardır.',
+              AppLocalizations.of(context).t('de.motivation'),
               style: TextStyle(
                 color: Colors.white70,
                 fontSize: 13,

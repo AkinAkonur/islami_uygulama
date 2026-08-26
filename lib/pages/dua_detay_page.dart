@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../l10n/app_localizations.dart';
 import '../l10n/dil_hizmetleri.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';

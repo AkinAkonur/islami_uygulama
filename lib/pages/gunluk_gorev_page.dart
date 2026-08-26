@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../widgets/kart_sekilleri.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
@@ -89,6 +90,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final tumGorev = ManeviStore.gorevler.every((g) => _gorevler.contains(g['id']));
     final tumNamaz = ManeviStore.namazVakitleri.every(_namaz.contains);
     final bugunBitti = tumGorev && tumNamaz;
@@ -126,6 +128,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
   }
 
   Widget _baslikSatiri(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -135,9 +138,9 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
             icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
           ),
           const SizedBox(width: 8),
-          const Text(
-            'Günlük Görevler',
-            style: TextStyle(
+          Text(
+            l.t('gg.title'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -151,6 +154,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
   }
 
   Widget _seriKarti(bool bugunBitti) {
+    final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -179,8 +183,8 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
                 const SizedBox(height: 2),
                 Text(
                   bugunBitti
-                      ? 'Bugünün tüm görevlerini tamamladın, serin korundu!'
-                      : 'Görevlerini ve 5 vaktini tamamla, serini büyüt.',
+                      ? l.t('gg.allComplete')
+                      : l.t('gg.encourage'),
                   style: const TextStyle(color: Colors.white70, fontSize: 12),
                 ),
               ],
@@ -192,6 +196,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
   }
 
   Widget _namazKarti() {
+    final l = AppLocalizations.of(context);
     final tamam = ManeviStore.namazVakitleri.where(_namaz.contains).length;
     return Container(
       padding: const EdgeInsets.all(16),
@@ -207,7 +212,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
               UcdIkon(ikon: Icons.mosque_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
               Text(
-                'Namaz · 5 Vakit',
+                l.t('gg.namaz5'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,

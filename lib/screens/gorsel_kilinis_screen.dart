@@ -10,6 +10,7 @@ class GorselKilinisScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -28,8 +29,8 @@ class GorselKilinisScreen extends StatelessWidget {
             unselectedLabelColor: Colors.white60,
             labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
             tabs: [
-              Tab(text: "5 Vakit Kılınış"),
-              Tab(text: "Görsel Abdest"),
+              Tab(text: l.t('gv.prayerSteps')),
+              Tab(text: l.t('gv.visualWudu')),
             ],
           ),
         ),

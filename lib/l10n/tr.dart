@@ -376,4 +376,435 @@ const Map<String, String> trDil = {
 
   // ---------------- AYARLAR ----------------
   'set.methodInfo2': 'Namaz vakitleri Güneşin konumuna göre hesaplanır.',
+
+  // ---------------- ORTAK ----------------
+  'c.cancel': 'Vazgeç',
+  'c.delete': 'Evet, Kalıcı Sil',
+  'c.close': 'Kapat',
+  'c.confirm': 'Tamamla',
+  'c.copy': 'Kopyalandı',
+  'c.done': 'Tamamlandı',
+  'c.retry': 'Tekrar Dene',
+  'c.save': 'Kaydet',
+  'c.send': 'Gönder',
+  'c.share': 'Paylaş',
+  'c.remove': 'Kaldır',
+  'c.manage': 'Yönet',
+  'c.local': 'Yerel',
+  'c.buy': 'Al',
+  'c.create': 'Oluştur',
+  'c.next': 'Sonraki',
+  'cPrev': 'Önceki',
+
+  // ---------------- MOOD SAYFALARI ----------------
+  'mz.huzur': '😊 Huzur Odası & Tefekkür',
+  'mz.sukur': '🙏 Şükür Odası & Hamd',
+  'mz.yorgun': '😴 Yorgunluk & Ferahlık Odası',
+  'mz.umut': '🤲 Umut & Rahmet Odası',
+  'mz.kaygi': '😟 Kaygı & Tevekkül Odası',
+  'mz.umutHint': 'Örn: Yarın teheccüt kılmak, sadaka vermek...',
+  'mz.sukurHint': 'Örn: Sağlığım, sıcak bir çay, güzel bir haber...',
+
+  // ---------------- TESBİH ----------------
+  'ts.title': 'Dijital Akıllı Tesbih (Zikirmatik)',
+  'ts.zikirHint': 'Zikir metni… (örn. Ya Rahman (33))',
+  'ts.zikirName': 'Zikir adı',
+  'ts.counterReset': 'Sayacı sıfırla',
+  'ts.counterRemove': 'Zikri kaldır',
+
+  // ---------------- YAKIN CAMİ ----------------
+  'yc.title': 'Yakındaki Camiler',
+  'yc.mapError': 'Harita uygulaması açılamadı.',
+  'yc.routeError': 'Yol tarifi açılamadı.',
+
+  // ---------------- KONUM ----------------
+  'kn.selectCity': 'Şehir Seç',
+  'kn.viewAll': 'Tümünü Gör',
+  'kn.mapError': 'Harita uygulaması açılamadı.',
+  'kn.routeError': 'Yol tarifi açılamadı.',
+  'kn.searchHint': 'İl ara… (örn. İstanbul)',
+
+  // ---------------- KIBLE ----------------
+  'kp.title': 'Kıble Pusulası',
+
+  // ---------------- PROFİL ----------------
+  'pf.nameSaved': 'İsim kaydedildi',
+  'pf.nameHint': 'Adını yaz…',
+
+  // ---------------- İLHAM ----------------
+  'il.shareError': 'Paylaşım hazırlanamadı: {error}',
+  'il.removeReminder': 'Hatırlatıcıyı Kaldır',
+  'il.reminderSet': 'Hatırlatıcı kuruldu ✨',
+  'il.reminderRemoved': 'Hatırlatıcı kaldırıldı.',
+  'il.refresh': 'Bulut içeriği tazele',
+  'il.tabFlow': 'Günün Akışı',
+  'il.tabArchive': 'Arşiv',
+  'il.shareVisual': 'Görsel kart olarak paylaş',
+
+  // ---------------- DUA DETAY ----------------
+  'dd.removeReminder': 'Hatırlatıcıyı Kaldır',
+  'dd.reminderSet': 'Hatırlatıcı kuruldu 🤲',
+  'dd.reminderRemoved': 'Hatırlatıcı kaldırıldı.',
+  'dd.shareError': 'Paylaşım hazırlanamadı: {error}',
+  'dd.shareVisual': 'Görsel kart paylaş',
+  'dd.counterReset': 'Sıfırla',
+
+  // ---------------- DUALAR ----------------
+  'dp.myDuas': 'Kendi Dualarım',
+  'dp.searchHint': 'Ara: borç, uyku, sınav, korunma…',
+
+  // ---------------- KÂBE CANLI ----------------
+  'kb.miniPlayer': 'Mini Oynatıcıya Gönder',
+  'kb.exitFullscreen': 'Tam ekrandan çık',
+
+  // ---------------- HADİS KÜTÜPHANESİ ----------------
+  'hk.download': 'İndir',
+  'hk.removeBook': 'Kitabı kaldır',
+
+  // ---------------- HATİM DUASI ----------------
+  'hd.recitation': 'Okunuşla',
+  'hd.arabic': 'Arapça',
+  'hd.fromStart': 'Baştan',
+
+  // ---------------- KISSALAR ----------------
+  'kp.titleKP': 'Kıssalar ve Peygamberler',
+  'kp.tabProphets': '📜 Peygamberler',
+  'kp.tabQuran': '📖 Kur\'an Kıssaları',
+  'kp.tabSeerah': '🕋 Siyer-i Nebi',
+  'kp.tabDua': '🤲 Peygamber Duaları',
+  'kp.tabThematic': '🎯 Tematik',
+  'kp.searchHint': 'Peygamber, kıssa, kavim, ayet, dua veya tema arayın...',
+  'kp.resultsCount': '{count} sonuç bulundu',
+  'kp.noResults': 'Aradığınıza uygun içerik bulunamadı.\nFarklı bir sözcük deneyin.',
+  'kp.recitationLabel': 'Okunuşu',
+  'kp.meaningLabel': 'Meali',
+  'kp.whenLabel': 'Ne zaman okunur',
+  'kp.sourceLabel': 'Kaynak',
+  'kp.copyArabic': 'Arapça Metni Kopyala',
+  'kp.copiedSnackbar': 'Dua metni kopyalandı',
+
+  // ---------------- SORU CEVAP ----------------
+  'sc.searchHint': 'Soru, kavram veya ayet arayın...',
+  'sc.tabBank': '📚 Bilgi Bankası',
+  'sc.tabDaily': '📅 Günün Sorusu',
+  'sc.shareQuestion': 'Bu soruyu paylaş',
+  'sc.copiedSnackbar': 'Soru metni kopyalandı',
+
+  // ---------------- SESLİ KISSALAR ----------------
+  'sk.tabStories': '📖 Sesli Kıssalar',
+  'sk.title': 'Sesli Kıssalar ve Podcastler',
+  'sk.searchHint': '🔍 Ara: başlık, konu (Sabır, Dua), seslendiren...',
+  'sk.playbackSpeed': 'Oynatma hızı',
+  'sk.sleepTimer': 'Uyku zamanlayıcısı',
+
+  // ---------------- RAMAZAN MODU ----------------
+  'rm.hatimPage': 'Hatim sayfasına git',
+
+  // ---------------- MEKKE MEDİNE ----------------
+  'ms.mapError': 'Harita açılamadı',
+  'ms.youtubeError': 'YouTube açılamadı',
+
+  // ---------------- NAMAZ BİLDİRİM ----------------
+  'nb.settingsError': 'Ayarlar sayfası açılamadı.',
+  'nb.testNotification': 'Test Bildirimi Gönder',
+  'nb.openSettings': 'Uygulama Ayarlarını Aç',
+
+  // ---------------- PAYLAŞIM KARTLARI ----------------
+  'pk.shareError': 'Paylaşım hazırlanamadı: {error}',
+  'pk.messageHint': 'Mesajını, ayet meali ya da duanı yaz…',
+  'pk.signatureHint': 'Kaynak / imza (opsiyonel, örn: "Senin için")',
+  'pk.arabicHint': 'Arapça metin (opsiyonel)',
+
+  // ---------------- BİLDİRİMLER ----------------
+  'bs.allRead': 'Tüm bildirimler okundu olarak işaretlendi.',
+  'bs.markAllRead': 'Tümünü okundu yap',
+  'bs.increase': 'Artır',
+
+  // ---------------- GİZLİLİK ----------------
+  'gz.exportError': 'Veri dökümü oluşturulamadı. Lütfen tekrar deneyin.',
+  'gz.exportSuccess': 'Verileriniz hazırlandı ve paylaşım sayfası açıldı.',
+  'gz.deleteTitle': 'Kalıcı Silme Onayı',
+  'gz.deleteBody': 'Bu işlem geri alınamaz. Tüm verileriniz anında silinir.',
+  'gz.deletedSnackbar': 'Tüm verileriniz kalıcı olarak silindi.',
+  'gz.policyError': 'Gizlilik politikası sayfası açılamadı.',
+  'gz.title': 'Gizlilik Merkezi',
+  'gz.permissions': 'İzinleriniz',
+  'gz.rights': 'Haklarınız (KVKK · md.11)',
+  'gz.legal': 'Yasal Bilgilendirme',
+  'gz.statusGranted': 'Durum: İzin verildi — cihazdan değiştirilebilir.',
+  'gz.statusDenied': 'Durum: İzin yok — namaz vakitleri manuel şehirle hesaplanabilir.',
+  'gz.statusEmpty': 'Durum: Şu an indirilmiş içerik yok.',
+  'gz.statusCount': 'Durum: {count} ses dosyası cihazınızda saklanıyor.',
+  'gz.techGuarantee': 'Teknik Güvence Altyapısı',
+  'gz.readFull': 'Uygulamada tam metni oku',
+  'gz.openOnline': 'İnternette aç',
+
+  // ---------------- DUA KARDEŞLİĞİ ----------------
+  'dk.published': 'Dua isteğiniz yayınlandı. Rabbim kabul etsin.',
+  'dk.title': 'Dua Kardeşliği',
+  'dk.request': 'Dua İste',
+  'dk.report': 'Şikâyet Et',
+  'dk.reportBtn': 'Şikâyet et',
+  'dk.wishHint': 'Kardeşin için dileğini yaz...',
+  'dk.shareDua': 'Duayı Paylaş',
+
+  // ---------------- DUA ODALARI ----------------
+  'do.searchHint': 'Dua ara… (örn. "sınav", "borç", "şifa")',
+  'do.myList': 'Kişisel Dua Listem',
+  'do.joinRoom': 'Odaya Katıl',
+  'do.deleteDua': 'Duayı sil',
+  'do.copiedSnackbar': 'Dua panoya kopyalandı',
+  'do.share': 'Paylaş',
+  'do.audioNotFound': 'Cihazınızda Arapça ses bulunamadı.',
+  'do.aminMessage': 'Âmin dediniz 🤲 Ümmetle birlikte katıldınız.',
+  'do.nameLabel': 'Duanın adı',
+  'do.nameHint': 'Örn. Sabah Duası',
+  'do.arabicLabel': 'Arapça metin',
+  'do.arabicHint': 'Dua metnini Arapça yazın',
+  'do.meaningLabel': 'Türkçe anlamı',
+  'do.meaningHint': 'Okunuşu ve anlamı',
+  'do.sourceLabel': 'Kaynak (isteğe bağlı)',
+
+  // ---------------- DUA DUVARI ----------------
+  'dw.addedSnackbar': 'Duvarına eklendi; ümmet senin için dua edecek. 🤲',
+  'dw.requestLabel': 'Dua İsteği',
+  'dw.prayedLabel': 'Senin İçin Dua Ettim',
+
+  // ---------------- DUA ZİNCİRLERİ ----------------
+  'dz.inputHint': 'Dua metni veya okunacak zikir',
+  'dz.target': 'Hedef: {count}',
+  'dz.title': 'Dua Zincirleri',
+  'dz.newChain': 'Yeni Dua Zinciri Oluştur',
+  'dz.createLabel': 'Zincir Oluştur',
+
+  // ---------------- ÜMMET SORU CEVAP ----------------
+  'usq.searchHint': 'Ara: namaz, oruç, zekat...',
+
+  // ---------------- ÜMMET BÖLÜMÜ ----------------
+  'ub.title': 'Ümmet',
+  'ub.liveStreams': 'Canlı Yayınlar & Etkinlikler',
+
+  // ---------------- TEMATİK AYETLER ----------------
+  'ta.loadError': 'Âyetler alınamadı. İnternet bağlantınızı kontrol edin.',
+  'ta.notLoaded': 'Âyetler yüklenemedi.',
+
+  // ---------------- SURE DETAY ----------------
+  'sd.translation': 'Meâl Seçimi',
+  'sd.listenFromStart': 'Surenin başından dinle',
+  'sd.listenStart': 'Baştan Dinle',
+  'sd.selectSure': 'Sure Seç',
+
+  // ---------------- HATİM TAKİBİ ----------------
+  'ht.pages': '{count} sayfa',
+  'ht.newHatim': 'Yeni hatme başla',
+  'ht.dailyTarget': 'Günlük hedef',
+
+  // ---------------- KISA SURELER ----------------
+  'ks.tabAmme': 'Amme Cüzü / Kısa',
+  'ks.tabSpecial': 'Özel Gün Sureleri',
+  'ks.openSure': 'Sureyi Aç',
+
+  // ---------------- AYET ARAMA ----------------
+  'aa.openSure': 'Sureyi Aç',
+  'aa.noResults': 'Sonuç bulunamadı.',
+
+  // ---------------- SURE LİSTESİ ----------------
+  'sl.searchHint': 'Sure adı veya numara ara...',
+
+  // ---------------- KUR'AN BÖLÜMÜ ----------------
+  'qn.title': 'Kur\'an-ı Kerim',
+  'qn.etiquette': 'Kur\'an Adabı',
+  'qn.subtitle': 'Okuma • Dinleme • Ezber • Takip',
+  'qn.verseText': 'Hakkında hiçbir şüphe olmayan bu kitap, muttakiler için yol göstericidir.',
+  'qn.verseRef': 'Bakara Suresi, 2. Ayet',
+  'qn.dailyVerse': 'Günün Ayeti',
+  'qn.readTab': '📖 Okuma',
+  'qn.readDesc': 'Sureler, cüzler ve meâl',
+  'qn.sureList': 'Sure Listesi (114)',
+  'qn.sureListDesc': 'Numara, isim, âyet sayısı ve iniş yeri • arama',
+  'qn.cuzList': 'Cüz Listesi (30)',
+  'qn.cuzListDesc': 'Bölüm bölüm Kur\'an okuma',
+  'qn.verseSearch': 'Ayet Arama',
+  'qn.verseSearchDesc': 'Türkçe kelimeyle veya sure:âyet numarasıyla',
+  'qn.listenTab': '🎧 Dinleme',
+  'qn.listenDesc': 'Seçtiğiniz kârîden tilâvet',
+  'qn.selectReciter': 'Kârî Seçimi',
+  'qn.noRecitation': 'Tilâveti dinlemek için bir sure açın...',
+  'qn.memorizeTab': '📈 Ezber & Takip',
+  'qn.memorizeDesc': 'Hatim ve hedefler',
+  'qn.hatimTrack': 'Hatim Takibi',
+  'qn.hatimTrackDesc': 'Okunan sayfalar, ilerleme çubuğu ve bitince kutlama',
+  'qn.exploreTab': '🔍 Kelime & Anlam',
+  'qn.exploreDesc': 'Öğrenme ve keşif',
+  'qn.thematic': 'Tematik Âyetler',
+  'qn.thematicDesc': 'Sabır, tövbe, rızık, anne-baba, huzur... hazır paketler',
+  'qn.specialTab': '✨ Özel Bölümler',
+  'qn.shortSures': 'Amme Cüzü & Kısa Sureler',
+  'qn.shortSuresDesc': 'Namazda okunan sûreler • ezber desteği',
+  'qn.specialDays': 'Özel Gün Sureleri',
+  'qn.specialDaysDesc': 'Kehf (cuma), Mülk (her gece), Vâkıa, Yâsîn',
+  'qn.mannersTitle': 'Kur\'an\'a Dokunma Adabı',
+  'qn.mannersDesc': 'Abdest, tilâvet secdesi ve okuma edepleri',
+
+  // ---------------- DEVAM ET ----------------
+  'de.title': 'Devam Et',
+  'de.quranSpot': 'Kur\'an\'da kaldığın yer',
+  'de.lastVerse': 'Son okuduğun ayet: {verse}',
+  'de.readContinue': 'Ayet okumaya devam et',
+  'de.tasbihCounter': 'Tesbih sayacın',
+  'de.goTasbih': 'Tesbih\'e Git',
+  'de.hatimSpot': 'Yarım kalan hatim',
+  'de.page': 'Sayfa',
+  'de.readToday': 'Bugün okunan',
+  'de.goHatim': 'Hatim takibine git',
+  'de.motivation': 'Her gün bir sayfa okusan, hatimini yaklaşık 3 ayda tamamlarsın...',
+
+  // ---------------- CÜZ OKUMA ----------------
+  'co.audioError': 'Ses çalınamadı. İnternet bağlantınızı kontrol edin.',
+  'co.markedRead': '{cuz}. cüz okundu olarak işaretlendi.',
+  'co.unmarkedRead': '{cuz}. cüz okundu işareti kaldırıldı.',
+  'co.title': '{cuz}. Cüz',
+  'co.loadError': 'Cüz metni yüklenemedi.',
+  'co.sureLabel': 'Sûre {no}',
+  'co.sehivAyet': 'Secde Âyeti',
+  'co.stop': 'Durdur',
+  'co.play': 'Dinle',
+  'co.markedCheck': 'Bu cüzü okudum (✓)',
+  'co.markAsRead': 'Bu cüzü okudum',
+
+  // ---------------- HEDEF ÇARKI ----------------
+  'hc.yourTargets': 'Senin Eklediklerin',
+  'hc.title': 'Manevi Hedef Çarkı',
+  'hc.allComplete': 'Bugünün tüm hedeflerini tamamladın, maşallah!',
+  'hc.progress': 'Bugün {done}/{total} hedefe ulaştın. Devam et!',
+  'hc.targetDetail': '{deger} / {limit} · hedef: {limit} adet',
+  'hc.removeTarget': 'Hedefi kaldır',
+  'hc.addNew': 'Yeni Hedef Ekle',
+  'hc.targetName': 'Hedef adı',
+  'hc.targetNameHint': 'örn. İlmihal, Hatim, Oruç',
+  'hc.targetAmount': 'Hedef miktarı',
+  'hc.targetAmountHint': 'örn. 10',
+  'hc.add': 'Ekle',
+  'hc.addNote': 'Eklediğin hedefler çarkına eklenir; çöp kutusuyla kaldırabilirsin.',
+
+  // ---------------- GÖREV ----------------
+  'gg.title': 'Günlük Görevler',
+  'gg.allComplete': 'Bugünün tüm görevlerini tamamladın, serin korundu!',
+  'gg.encourage': 'Görevlerini ve 5 vaktini tamamla, serini büyüt.',
+  'gg.namaz5': 'Namaz · 5 Vakit',
+  'gg.goodDeeds': 'Bugünün İyilikleri',
+  'gg.goodDeedsDesc': 'Her biri tamamlanınca serin güçlenir.',
+  'gg.goodDeedsHint': 'Kendi iyiliğini ekle…',
+  'gg.addGoodDeed': 'İyilik ekle',
+  'gg.removeGoodDeed': 'İyiliği kaldır',
+
+  // ---------------- GÜNLÜK HEDEF DİYALOGLARI ----------------
+  'ghd.kissaTitle': '📖 {title}',
+  'ghd.later': 'Sonra',
+  'ghd.readDone': 'Okudum, Tamamla',
+  'ghd.questionTitle': '❓ Günün Sorusu',
+  'ghd.correct': '✅ Doğru! {answer}',
+  'ghd.wrong': 'Yanlış oldu. Doğru cevabı bulana kadar deneyebilirsin.',
+  'ghd.dhikrTitle': '📿 Günün Zikri',
+  'ghd.dhikrCount': '33 kez "Sübhanallah"',
+  'ghd.completed': 'Tamamlandı ✓',
+  'ghd.zikret': 'Zikret (+1)',
+
+  // ---------------- GÜNLÜK HEFD KUTLAMA ----------------
+  'ghk.complete': '🎉 Bugünün hedefini tamamladın!',
+  'ghk.badge': '🏅 Yeni Rozet Kazandın!',
+  'ghk.streakMessage': 'Serin {streak} güne yükseldi. Yarın da devam et!',
+
+  // ---------------- GÜNLÜK HEDEF WIDGETLARI ----------------
+  'ghw.streakFreeze': '🧊 Seri Dondurucu',
+  'ghw.freezeDesc': 'Bugün korunuyorsun. Serin sıfırlanmayacak.',
+  'ghw.freezeWarn': 'Bir gün ara verirsen serin korunur ama dondurucu kullanarak engelleyebilirsin.',
+  'ghw.freezePrice': 'Fiyat: {price} XP',
+  'ghw.totalXP': 'Toplam XP',
+  'ghw.longestStreak': 'En Uzun Seri',
+  'ghw.freeze': 'Dondurucu',
+  'ghw.namaz5Vakit': '5 Vakit Namaz',
+  'ghw.namazDesc': 'Kıldığın vakitleri işaretle. Seriden bağımsızdır.',
+  'ghw.namazCount': '{count} Namazı',
+
+  // ---------------- GÜNLÜK HEDEFLER ----------------
+  'ghp.celebration': 'Kutlama',
+  'ghp.freezeBought': 'Seri Dondurucu satın alındı! 🧊',
+  'ghp.insufficientXP': 'Yetersiz XP.',
+  'ghp.title': 'Günlük Hedefler & Streak',
+  'ghp.todayTargets': '📋 Bugünün Hedefleri',
+  'ghp.namazVakit': '🕌 Namaz · 5 Vakit',
+  'ghp.milestones': '🏅 Kilometre Taşları',
+  'ghp.shop': '🛒 Mağaza',
+  'ghp.stats': '📊 İstatistik',
+  'ghp.days': 'gün',
+  'ghp.streakActive': 'Serin devam ediyor',
+  'ghp.streakStart': 'Serine başla',
+  'ghp.freezeMessage': 'Seri Dondurucu ile bugün korundu. Hedefini tamamla!',
+  'ghp.progressMessage': 'Bugün {done}/{total} görev tamamlandı.',
+  'ghp.xpMessage': 'Bugün kazanılan: {xp} XP',
+  'ghp.today': 'Bugün',
+  'ghp.weekDays': 'Pzt,Sal,Çar,Per,Cum,Cmt,Paz',
+
+  // ---------------- WIDGET REHBERİ ----------------
+  'wr.title': 'Widget Rehberi',
+  'wr.steps': 'Kurulum Adımları',
+  'wr.preview': 'Widget Önizleme',
+  'wr.nextVakit': 'Sıradaki Vakit',
+  'wr.widgetNote': 'Widget desteği şu anda önizleme aşamasında...',
+
+  // ---------------- CÜZLER ----------------
+  'cl.hatimDua': 'Hatim Duası',
+
+  // ---------------- HAC/UMRE ----------------
+  'hs.counterTitle': '{name} Sayacı',
+  'hs.previousSavt': 'Önceki Şavt',
+  'hs.reset': 'Sıfırla',
+  'mu.title': 'Mikat Uyarı Motoru',
+  'mu.stopTracking': 'İzlemeyi Durdur',
+  'mu.startTracking': 'İzlemeyi Başlat',
+  'im.title': 'İbadet Modu',
+  'im.reset': 'Sıfırla',
+  'fka.restart': 'Baştan Başla',
+  'fka.restartBtn': 'Baştan başla',
+  'ads.title': 'Acil Durum Sözlüğü',
+  'zr.openMap': 'Haritada aç',
+
+  // ---------------- DAHA FAZLA ----------------
+  'df.title': 'Tüm Modüller & Özellikler',
+  'df.subtitle': 'Keşif ve Maneviyat Merkezi',
+  'df.desc': 'İhtiyacınız olan tüm dini araçlar, rehberler ve içerikler burada.',
+  'df.dailySection': '📅 Günlük Kullanım',
+  'df.esmaTitle': 'Esma-ül Hüsna',
+  'df.esmaDesc': 'Allah\'ın 99 ismi ve derin anlamları',
+  'df.camiiTitle': 'Cami Bul',
+  'df.hijriTitle': 'Hicri Takvim',
+  'df.esmaFull': 'Esma-ül Hüsna (99 İsim)',
+  'df.hijriFull': 'Hicri Takvim & Önemli Günler',
+  'df.zekatTitle': 'Zekat Hesaplayıcı',
+  'df.zekatDesc': 'Bu araç yaklaşık bir hesap sunar...',
+  'df.goldNisab': 'Altın nisabı (85 g)',
+  'df.silverNisab': 'Gümüş nisabı (595 g)',
+  'df.zekatCalc': 'Hesapla',
+  'df.radioTitle': 'Dini Radyo & İlahi Akışı',
+  'df.radioRefresh': 'Kanalları Güncelle',
+  'df.radioNotFound': 'Kanal bulunamadı. Güncelle butonu ile yeniden deneyin.',
+  'df.radioDesc': '7/24 kesintisiz Kur\'an tilaveti, ilahi ve dini sohbet akışı...',
+
+  // ---------------- BAĞIŞ ----------------
+  'bg.title': 'Sadaka & İyilik Projeleri',
+  'bg.collected': 'Toplanan: {amount} TL',
+  'bg.target': 'Hedef: {amount} TL',
+  'bg.redirectSnackbar': 'Bağış sayfasına yönlendiriliyorsunuz... Allah kabul etsin.',
+  'bg.donateButton': 'Bağış Yap / Sadaka Ver',
+
+  // ---------------- RADYO ----------------
+  'rd.previous': 'Önceki',
+  'rd.next': 'Sonraki',
+  'rd.stop': 'Durdur',
+  'rd.sleepTimer': 'Uyku Zamanlayıcısı',
+
+  // ---------------- ANA SAYFA (ek) ----------------
+  'h.silentTip': 'Sessiz vakit 21:00 - 06:00 · tek dokunuşla bildirimleri sustur',
+
 };

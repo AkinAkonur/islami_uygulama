@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../widgets/kart_sekilleri.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
