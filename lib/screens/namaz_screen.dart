@@ -58,7 +58,7 @@ class _NamazScreenState extends State<NamazScreen> {
     var hedef = v.dakikaToplam - (now.hour * 60 + now.minute);
     if (hedef < 0) hedef += 1440; // gece yarısını aşan vakit
     final sn = hedef * 60 - now.second;
-    return '${_sureYaz(sn)} kaldı';
+    return AppLocalizations.of(context).t('vakitRemaining').replaceAll('{time}', _sureYaz(sn));
   }
 
   double _ilerleme(DateTime now) {

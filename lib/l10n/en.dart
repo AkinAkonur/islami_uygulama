@@ -286,4 +286,95 @@ const Map<String, String> enDil = {
   'h.ilhamDesc': 'A new inspiration every day, a new discovery every moment.',
   'h.ilhamExplore': 'Explore the Inspiration page →',
   'h.greeting.sub': 'Hijri {year}',
+  'h.active': 'UPCOMING PRAYER',
+  'vakitTitle': 'Prayer',
+  'vakitlerTitle': "Today's Prayer Times",
+  'vakitRemaining': '{time} remaining',
+
+  // ---------------- PRAYER SCREEN ----------------
+  'pr.title': 'Prayer & Worship Center',
+  'pr.upcoming': 'UPCOMING PRAYER',
+  'pr.todayTimes': "Today's Prayer Times",
+  'pr.remaining': '{time} remaining',
+
+  // ---------------- PRAYER SECTION ----------------
+  'pr.sectionTitle': 'Comprehensive Prayer & Visual Guide',
+  'pr.madhab': 'School: {madhab}',
+  'pr.madhabGuide': 'Visual Step Guide',
+  'pr.madhabDesc': 'All fiqh details, rak\'ahs, ablution and interactive prayer steps are below.',
+  'pr.modulesTitle': '📂 Prayer Modules (Quick Access)',
+  'pr.guideTitle': '🚶‍♂️ Interactive Step-by-Step Prayer (Visual Flow)',
+  'pr.wuduTitle': '💧 1. Preparation & Purification (6 Conditions)',
+  'pr.structureTitle': '📐 2. Prayer Structure & Obligations',
+  'pr.timesTitle': '🕒 3. 5 Daily Prayers Rak\'ah Table',
+  'pr.duasTitle': '📜 4. Prayers & Surahs Recited in Prayer',
+  'pr.specialTitle': '🤲 5. Special Cases & Accommodations',
+  'pr.step': 'Step {current} / {total}',
+  'pr.prevStep': 'Previous Step',
+  'pr.nextStep': 'Next Step',
+  'pr.backToStart': 'Back to Start',
+  'pr.namazIbadet': 'Prayer & Worship',
+  'pr.namazIbadetAlt': 'Times and center',
+  'pr.stepByStep': 'Step-by-Step Guide',
+  'pr.stepByStepAlt': 'Guide & Stepper',
+  'pr.wuduGusl': 'Ablution & Ghusl',
+  'pr.wuduGuslAlt': 'Purification Basics',
+  'pr.qadaTracker': 'Qada Tracker',
+  'pr.qadaTrackerAlt': 'Calendar & List',
+  'pr.specialCases': 'Special Cases',
+  'pr.specialCasesAlt': 'Travel & Illness',
+  'pr.visualGuide': 'Visual Prayer & Ablution',
+  'pr.visualGuideAlt': 'Illustrated Step Guide',
+  'pr.abdestTitle': 'Ablution and Ghusl Guide',
+  'pr.abdestDesc': 'Step-by-step ablution, situations requiring ghusl, 10+ things that invalidate ablution.',
+  'pr.teyemmumTitle': 'Tayammum, Masmoo\'h & Bandage Wiping',
+  'pr.teyemmumDesc': 'Tayammum and wiping rulings when water is unavailable or for health reasons.',
+  'pr.farzlarTitle': 'Outer & Inner Obligations (Pillars)',
+  'pr.farzlarDesc': '6 outer conditions, 6 inner pillars and 10 wajib acts of prayer.',
+  'pr.sehivTitle': 'Sajdah Sahw & Disliked Times',
+  'pr.sehivDesc': 'Sajdah for errors and prohibited times for nafl prayer.',
+  'pr.rekatTitle': 'Rak\'ah Distribution by Prayer Time',
+  'pr.rekatDesc': 'Fajr, Dhuhr, Asr, Maghrib, Isha and Witr rak\'ahs.',
+  'pr.duaTitle': 'Subhanaka, Fatihah, Supplementary Surahs & Tashahhud',
+  'pr.duaDesc': 'Arabic text, transliteration and meanings.',
+  'pr.kazaTitle': 'Qada, Traveler & Sick Prayer',
+  'pr.kazaDesc': 'Excuses, timing rules and concessions for those unable to stand.',
+
+  // ---------------- PRAYER SCREEN DETAIL ----------------
+  'pr.namazTitle': '{name} Prayer',
+  'pr.qadaTotal': 'TOTAL PENDING QADA',
+  'pr.qadaCount': '{count} Times',
+  'pr.qadaByTime': 'Qada Debts by Prayer Time',
+
+  // ---------------- GUIDE SCREEN ----------------
+  'gu.title': 'Step-by-Step Prayer Guide',
+  'gu.madhab': 'School:',
+  'gu.complete': 'Complete',
+  'gu.nextStep': 'Next Step',
+  'gu.prevStep': 'Back',
+
+  // ---------------- ABLUTION SCREEN ----------------
+  'wu.tabWudu': 'Ablution',
+  'wu.tabGusl': 'Ghusl',
+  'wu.tabTeyemmum': 'Tayammum',
+  'wu.wuduTitle': 'How to Perform Wudu?',
+  'wu.guslTitle': 'Ghusl (Full Body Ablution) Basics',
+  'wu.teyemmumTitle': 'How to Perform Tayammum?',
+
+  // ---------------- SPECIAL CASES ----------------
+  'sp.travel': '✈️ Traveler Prayer',
+  'sp.sick': '🛌 Sick & Disabled Prayer',
+  'sp.congregation': '👥 Congregational Prayer & Jumu\'ah',
+
+  // ---------------- QADA SCREEN ----------------
+  'qd.totalPending': 'TOTAL PENDING QADA',
+  'qd.prayerTimes': '{count} Times',
+  'qd.byTime': 'Qada Debts by Prayer Time',
+
+  // ---------------- VISUAL GUIDE ----------------
+  'gv.prayerSteps': '5 Daily Prayer Steps',
+  'gv.visualWudu': 'Visual Ablution',
+
+  // ---------------- SETTINGS ----------------
+  'set.methodInfo2': 'Prayer times are calculated based on the Sun\'s position.',
 };

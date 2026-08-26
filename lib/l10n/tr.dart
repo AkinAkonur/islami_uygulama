@@ -285,4 +285,95 @@ const Map<String, String> trDil = {
   'h.ilhamDesc': 'Her gün yeni bir ilham, her an yeni bir keşif.',
   'h.ilhamExplore': 'İlham sayfasını keşfet →',
   'h.greeting.sub': 'Hicri {year}',
+  'h.active': 'YAKLAŞAN VAKİT',
+  'vakitTitle': 'Namazı',
+  'vakitlerTitle': 'Bugünkü Vakitler',
+  'vakitRemaining': '{time} kaldı',
+
+  // ---------------- NAMAZ EKRANI ----------------
+  'pr.title': 'Namaz & İbadet Merkezi',
+  'pr.upcoming': 'YAKLAŞAN VAKİT',
+  'pr.todayTimes': 'Bugünkü Vakitler',
+  'pr.remaining': '{time} kaldı',
+
+  // ---------------- NAMAZ BÖLÜMÜ ----------------
+  'pr.sectionTitle': 'Kapsamlı Namaz & Görsel Rehber',
+  'pr.madhab': 'Mezhep: {madhab}',
+  'pr.madhabGuide': 'Görsel Adım Rehberi',
+  'pr.madhabDesc': 'Tüm fıkhi detaylar, rekatlar, abdest ve interaktif kılınış adımları aşağıdadır.',
+  'pr.modulesTitle': '📂 Namaz Modülleri (Hızlı Erişim)',
+  'pr.guideTitle': '🚶‍♂️ İnteraktif Adım Adım Kılınış (Görsel Akış)',
+  'pr.wuduTitle': '💧 1. Hazırlık & Temizlik (6 Şart)',
+  'pr.structureTitle': '📐 2. Namazın Yapısı & Farzları',
+  'pr.timesTitle': '🕒 3. 5 Vakit Rekat Tablosu',
+  'pr.duasTitle': '📜 4. Namazda Okunan Dualar & Sureler',
+  'pr.specialTitle': '🤲 5. Özel Durumlar & Kolaylıklar',
+  'pr.step': 'Adım {current} / {total}',
+  'pr.prevStep': 'Önceki Adım',
+  'pr.nextStep': 'Sonraki Adım',
+  'pr.backToStart': 'Başa Dön',
+  'pr.namazIbadet': 'Namaz & İbadet',
+  'pr.namazIbadetAlt': 'Vakitler ve merkez',
+  'pr.stepByStep': 'Adım Adım Kılınış',
+  'pr.stepByStepAlt': 'Rehber & Stepper',
+  'pr.wuduGusl': 'Abdest & Gusül',
+  'pr.wuduGuslAlt': 'Temizlik Esasları',
+  'pr.qadaTracker': 'Kaza Takipçisi',
+  'pr.qadaTrackerAlt': 'Takvim & Liste',
+  'pr.specialCases': 'Özel Durumlar',
+  'pr.specialCasesAlt': 'Seferî & Hasta',
+  'pr.visualGuide': 'Görsel Kılınış & Abdest',
+  'pr.visualGuideAlt': 'Şemalı Adım Rehberi',
+  'pr.abdestTitle': 'Abdest ve Gusül Rehberi',
+  'pr.abdestDesc': 'Adım adım abdest, gusül gerektiren durumlar, abdesti bozan 10+ madde.',
+  'pr.teyemmumTitle': 'Teyemmüm, Mest & Sargı Üzerine Mesh',
+  'pr.teyemmumDesc': 'Su bulunmadığında veya sağlık sorununda teyemmüm ve mesh hükümleri.',
+  'pr.farzlarTitle': 'Dışındaki ve İçindeki Farzlar (Rükünler)',
+  'pr.farzlarDesc': 'Namazın 6 dış şartı, 6 iç rüknü ve 10 vacibi.',
+  'pr.sehivTitle': 'Sehiv Secdesi & Mekruh Vakitler',
+  'pr.sehivDesc': 'Yanlışlık durumunda secde ve namaz kılınmayan yasak vakitler.',
+  'pr.rekatTitle': 'Vakitlere Göre Rekat Dağılımı',
+  'pr.rekatDesc': 'Sabah, Öğle, İkindi, Akşam, Yatsı ve Vitir rekatları.',
+  'pr.duaTitle': 'Sübhaneke, Fâtiha, Zamm-ı Sureler ve Tahiyyat',
+  'pr.duaDesc': 'Arapça metin, okunuş ve anlamları.',
+  'pr.kazaTitle': 'Kaza, Seferî ve Hasta Namazı',
+  'pr.kazaDesc': 'Mazeretler, tertip kuralları ve oturanlar için ruhsatlar.',
+
+  // ---------------- NAMAZ EKRANI DETAY ----------------
+  'pr.namazTitle': '{name} Namazı',
+  'pr.qadaTotal': 'TOPLAM BEKLEYEN KAZA',
+  'pr.qadaCount': '{count} Vakit',
+  'pr.qadaByTime': 'Vakit Bazlı Kaza Borçları',
+
+  // ---------------- REHBER EKRANI ----------------
+  'gu.title': 'Adım Adım Kılınış Rehberi',
+  'gu.madhab': 'Mezhep:',
+  'gu.complete': 'Tamamla',
+  'gu.nextStep': 'Sonraki Adım',
+  'gu.prevStep': 'Geri',
+
+  // ---------------- ABDEST EKRANI ----------------
+  'wu.tabWudu': 'Abdest',
+  'wu.tabGusl': 'Gusül',
+  'wu.tabTeyemmum': 'Teyemmüm',
+  'wu.wuduTitle': 'Namaz Abdesti Nasıl Alınır?',
+  'wu.guslTitle': 'Gusül (Boy Abdesti) Esasları',
+  'wu.teyemmumTitle': 'Teyemmüm Nasıl Alınır?',
+
+  // ---------------- ÖZEL DURUMLAR ----------------
+  'sp.travel': '✈️ Seferîlik (Yolculuk) Namazı',
+  'sp.sick': '🛌 Hasta ve Özürlü Namazı',
+  'sp.congregation': '👥 Cemaatle Namaz & Cuma',
+
+  // ---------------- KAZA EKRANI ----------------
+  'qd.totalPending': 'TOPLAM BEKLEYEN KAZA',
+  'qd.prayerTimes': '{count} Vakit',
+  'qd.byTime': 'Vakit Bazlı Kaza Borçları',
+
+  // ---------------- GÖRSEL KILINIŞ ----------------
+  'gv.prayerSteps': '5 Vakit Kılınış',
+  'gv.visualWudu': 'Görsel Abdest',
+
+  // ---------------- AYARLAR ----------------
+  'set.methodInfo2': 'Namaz vakitleri Güneşin konumuna göre hesaplanır.',
 };

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../screens/namaz_screen.dart';
 import '../screens/guide_screen.dart';
 import '../screens/wudu_screen.dart';
@@ -65,6 +66,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: _bgBottom,
       body: Container(
@@ -86,19 +88,19 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                   children: [
                     _currentSectCard(),
                     const SizedBox(height: 20),
-                    _sectionTitle("📂 Namaz Modülleri (Hızlı Erişim)"),
+                    _sectionTitle(l.t('pr.modulesTitle')),
                     const SizedBox(height: 12),
                     _modulesGrid(),
                     const SizedBox(height: 20),
-                    _sectionTitle("🚶‍♂️ İnteraktif Adım Adım Kılınış (Görsel Akış)"),
+                    _sectionTitle(l.t('pr.guideTitle')),
                     const SizedBox(height: 12),
                     _interactiveGuide(),
                     const SizedBox(height: 20),
-                    _sectionTitle("💧 1. Hazırlık & Temizlik (6 Şart)"),
+                    _sectionTitle(l.t('pr.wuduTitle')),
                     const SizedBox(height: 12),
                     _expandableTile(
-                      "Abdest ve Gusül Rehberi",
-                      "Adım adım abdest, gusül gerektiren durumlar, abdesti bozan 10+ madde.",
+                      l.t('pr.abdestTitle'),
+                      l.t('pr.abdestDesc'),
                       [
                         "• Farzları: Yüzü yıkamak, elleri kollarla beraber yıkamak, başın dörtte birini meshetmek, ayakları topuklarla beraber yıkamak.",
                         "• Sünnetleri: Besmele ile başlamak, elleri bileklere kadar yıkamak, ağız ve buruna su vermek, misvak kullanmak.",
@@ -107,8 +109,8 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                       Icons.description_rounded,
                     ),
                     _expandableTile(
-                      "Teyemmüm, Mest & Sargı Üzerine Mesh",
-                      "Su bulunmadığında veya sağlık sorununda teyemmüm ve mesh hükümleri.",
+                      l.t('pr.teyemmumTitle'),
+                      l.t('pr.teyemmumDesc'),
                       [
                         "• Teyemmüm: Su bulunmadığında veya kullanma imkanı olmadığında temiz toprakla niyet edilerek alın ve kollara mesh edilir.",
                         "• Mest Üzerine Mesh: Abdestli iken giyilen mestler üzerine 24 saat (seferî için 72 saat) mesh edilebilir.",
@@ -117,11 +119,11 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                       Icons.public_rounded,
                     ),
                     const SizedBox(height: 20),
-                    _sectionTitle("📐 2. Namazın Yapısı & Farzları"),
+                    _sectionTitle(l.t('pr.structureTitle')),
                     const SizedBox(height: 12),
                     _expandableTile(
-                      "Dışındaki ve İçindeki Farzlar (Rükünler)",
-                      "Namazın 6 dış şartı, 6 iç rüknü ve 10 vacibi.",
+                      l.t('pr.farzlarTitle'),
+                      l.t('pr.farzlarDesc'),
                       [
                         "• Dışındaki 6 Farz (Şart): Hadesten taharet, necasetten taharet, setr-i avret, kıst-ı vakit, kıble yönü, niyet.",
                         "• İçindeki 6 Farz (Rükün): İftitah tekbiri, kıyam, kıraat, rükû, secde, son oturuş.",
@@ -130,8 +132,8 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                       Icons.account_balance_rounded,
                     ),
                     _expandableTile(
-                      "Sehiv Secdesi & Mekruh Vakitler",
-                      "Yanlışlık durumunda secde ve namaz kılınmayan yasak vakitler.",
+                      l.t('pr.sehivTitle'),
+                      l.t('pr.sehivDesc'),
                       [
                         "• Sehiv Secdesi: Vacip olan bir şey unutularak terk edildiğinde veya geciktirildiğinde namazın sonunda yapılır.",
                         "• Mekruh Vakitler: Güneş doğarken (ilk 45 dk), tam tepedeyken (zeval), güneş batarken nafile namaz kılınmaz.",
@@ -139,11 +141,11 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                       Icons.schedule_rounded,
                     ),
                     const SizedBox(height: 20),
-                    _sectionTitle("🕒 3. 5 Vakit Rekat Tablosu"),
+                    _sectionTitle(l.t('pr.timesTitle')),
                     const SizedBox(height: 12),
                     _expandableTile(
-                      "Vakitlere Göre Rekat Dağılımı",
-                      "Sabah, Öğle, İkindi, Akşam, Yatsı ve Vitir rekatları.",
+                      l.t('pr.rekatTitle'),
+                      l.t('pr.rekatDesc'),
                       [
                         "• Sabah: 2 Sünnet, 2 Farz (Toplam 4)",
                         "• Öğle: 4 İlk Sünnet, 4 Farz, 2 Son Sünnet (Toplam 10)",
@@ -154,11 +156,11 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                       Icons.access_time_rounded,
                     ),
                     const SizedBox(height: 20),
-                    _sectionTitle("📜 4. Namazda Okunan Dualar & Sureler"),
+                    _sectionTitle(l.t('pr.duasTitle')),
                     const SizedBox(height: 12),
                     _expandableTile(
-                      "Sübhaneke, Fâtiha, Zamm-ı Sureler ve Tahiyyat",
-                      "Arapça metin, okunuş ve anlamları.",
+                      l.t('pr.duaTitle'),
+                      l.t('pr.duaDesc'),
                       [
                         "• Sübhaneke: Subhaneke Allahümme ve bi hamdik...",
                         "• Ettehiyyâtü: Et-tehiyyâtü lillâhi vessalevâtü vettayyibât...",
@@ -168,11 +170,11 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                       Icons.menu_book_rounded,
                     ),
                     const SizedBox(height: 20),
-                    _sectionTitle("🤲 5. Özel Durumlar & Kolaylıklar"),
+                    _sectionTitle(l.t('pr.specialTitle')),
                     const SizedBox(height: 12),
                     _expandableTile(
-                      "Kaza, Seferî ve Hasta Namazı",
-                      "Mazeretler, tertip kuralları ve oturanlar için ruhsatlar.",
+                      l.t('pr.kazaTitle'),
+                      l.t('pr.kazaDesc'),
                       [
                         "• Kaza Namazı: Kaçırılan farz namazlar tertibe uyularak kaza edilir (sünnetler kaza edilmez, sabah hariç).",
                         "• Seferîlik: 90 km ve üzeri yolculuklarda 4 rekatlı farzlar 2 rekat olarak kılınır.",
@@ -193,13 +195,14 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
 
   // ------------------------- HEADER -------------------------
   Widget _header() {
+    final l = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 8, 4),
       child: Row(
         children: [
           Expanded(
             child: _goldText(
-              "Kapsamlı Namaz & Görsel Rehber",
+              l.t('pr.sectionTitle'),
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -217,6 +220,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
   }
 
   Widget _madhabDropdown() {
+    final l = AppLocalizations.of(context);
     return Theme(
       data: ThemeData(brightness: Brightness.dark),
       child: PopupMenuButton<String>(
@@ -228,7 +232,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
             .map((m) => PopupMenuItem(
                   value: m,
                   child: Text(
-                    "Mezhep: $m",
+                    "${l.t('pr.madhab').replaceAll('{madhab}', '')}$m",
                     style: const TextStyle(color: Colors.white),
                   ),
                 ))
@@ -239,6 +243,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
 
   // ------------------- MEZHEP / CURRENT SECT CARD -------------------
   Widget _currentSectCard() {
+    final l = AppLocalizations.of(context);
     return _lux3dCard(
       padding: const EdgeInsets.all(18),
       radius: 22,
@@ -257,7 +262,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Mezhep: $_selectedMadhab (Görsel Adım Rehberi)",
+                  "${l.t('pr.madhab').replaceAll('{madhab}', _selectedMadhab)} (${l.t('pr.madhabGuide')})",
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -266,7 +271,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  "Tüm fıkhi detaylar, rekatlar, abdest ve interaktif kılınış adımları aşağıdadır.",
+                  l.t('pr.madhabDesc'),
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.7),
                     fontSize: 12,
@@ -283,41 +288,42 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
 
   // ------------------- MODULES GRID -------------------
   Widget _modulesGrid() {
+    final l = AppLocalizations.of(context);
     final items = <({IconData icon, String title, String subtitle, Widget page})>[
       (
         icon: Icons.nightlight_rounded,
-        title: "Namaz & İbadet",
-        subtitle: "Vakitler ve merkez",
+        title: l.t('pr.namazIbadet'),
+        subtitle: l.t('pr.namazIbadetAlt'),
         page: const NamazScreen(),
       ),
       (
         icon: Icons.menu_book_rounded,
-        title: "Adım Adım Kılınış",
-        subtitle: "Rehber & Stepper",
+        title: l.t('pr.stepByStep'),
+        subtitle: l.t('pr.stepByStepAlt'),
         page: const GuideScreen(),
       ),
       (
         icon: Icons.water_drop_rounded,
-        title: "Abdest & Gusül",
-        subtitle: "Temizlik Esasları",
+        title: l.t('pr.wuduGusl'),
+        subtitle: l.t('pr.wuduGuslAlt'),
         page: const WuduScreen(),
       ),
       (
         icon: Icons.calendar_month_rounded,
-        title: "Kaza Takipçisi",
-        subtitle: "Takvim & Liste",
+        title: l.t('pr.qadaTracker'),
+        subtitle: l.t('pr.qadaTrackerAlt'),
         page: const QadaScreen(),
       ),
       (
         icon: Icons.health_and_safety_rounded,
-        title: "Özel Durumlar",
-        subtitle: "Seferî & Hasta",
+        title: l.t('pr.specialCases'),
+        subtitle: l.t('pr.specialCasesAlt'),
         page: const SpecialScreen(),
       ),
       (
         icon: Icons.self_improvement_rounded,
-        title: "Görsel Kılınış & Abdest",
-        subtitle: "Şemalı Adım Rehberi",
+        title: l.t('pr.visualGuide'),
+        subtitle: l.t('pr.visualGuideAlt'),
         page: const GorselKilinisScreen(),
       ),
     ];
@@ -427,6 +433,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
 
   // ------------------- INTERACTIVE GUIDE -------------------
   Widget _interactiveGuide() {
+    final l = AppLocalizations.of(context);
     final step = _namazSteps[_activeStepIndex];
     return _lux3dCard(
       padding: const EdgeInsets.all(18),
@@ -451,7 +458,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
               ),
               const SizedBox(width: 12),
               Text(
-                "Adım ${_activeStepIndex + 1} / ${_namazSteps.length}",
+                l.t('pr.step').replaceAll('{current}', '${_activeStepIndex + 1}').replaceAll('{total}', '${_namazSteps.length}'),
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.55),
                   fontSize: 12,
@@ -501,7 +508,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _navButton(
-                label: "Önceki Adım",
+                label: l.t('pr.prevStep'),
                 filled: false,
                 onTap: _activeStepIndex > 0
                     ? () => setState(() => _activeStepIndex--)
@@ -509,8 +516,8 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
               ),
               _navButton(
                 label: _activeStepIndex < _namazSteps.length - 1
-                    ? "Sonraki Adım"
-                    : "Başa Dön",
+                    ? l.t('pr.nextStep')
+                    : l.t('pr.backToStart'),
                 filled: true,
                 onTap: () => setState(() {
                   if (_activeStepIndex < _namazSteps.length - 1) {
