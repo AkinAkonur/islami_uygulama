@@ -338,7 +338,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Hoşgeldin, $isim',
+                        l.t('h.welcome').replaceAll('{name}', isim),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -348,7 +348,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
                         ),
                       ),
                       Text(
-                        'Hicri ${ProfilStore.hicriYil()}',
+                        l.t('h.hijriYear').replaceAll('{year}', '${ProfilStore.hicriYil()}'),
                         style: TextStyle(color: Colors.white54, fontSize: 11),
                       ),
                     ],
@@ -1314,20 +1314,21 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
   }
 
   Widget _ilhamIcerigi() {
+    final l = widget.l;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
           UcdIkon(ikon: Icons.auto_awesome, renk: Renkler.vurgu, boyut: 28),
           const SizedBox(height: 10),
-          const Text(
-            'Her gün yeni bir ilham, her an yeni bir keşif.',
+          Text(
+            l.t('h.ilhamDesc'),
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white70, fontSize: 13, fontStyle: FontStyle.italic, height: 1.5),
+            style: const TextStyle(color: Colors.white70, fontSize: 13, fontStyle: FontStyle.italic, height: 1.5),
           ),
           const SizedBox(height: 8),
           Text(
-            'İlham sayfasını keşfet →',
+            l.t('h.ilhamExplore'),
             style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
           ),
         ],

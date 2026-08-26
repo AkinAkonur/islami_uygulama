@@ -281,4 +281,9 @@ const Map<String, String> enDil = {
       'the verse and hadith references from tafsir and hadith sources.',
   'ai.yardimBaslik': 'How can I help you?',
   'ai.ornekBaslik': 'Quick Examples',
+  'h.welcome': 'Welcome, {name}',
+  'h.hijriYear': 'Hijri {year}',
+  'h.ilhamDesc': 'A new inspiration every day, a new discovery every moment.',
+  'h.ilhamExplore': 'Explore the Inspiration page →',
+  'h.greeting.sub': 'Hijri {year}',
 };

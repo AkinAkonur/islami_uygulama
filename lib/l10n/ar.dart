@@ -270,4 +270,9 @@ const Map<String, String> arDil = {
       'والأحاديث من مصادر التفسير والحديث.',
   'ai.yardimBaslik': 'كيف يمكنني مساعدتك؟',
   'ai.ornekBaslik': 'أمثلة سريعة',
+  'h.welcome': 'مرحباً، {name}',
+  'h.hijriYear': 'هجري {year}',
+  'h.ilhamDesc': 'إلهام جديد كل يوم، اكتشاف جديد كل لحظة.',
+  'h.ilhamExplore': 'استكشف صفحة الإلهام ←',
+  'h.greeting.sub': 'هجري {year}',
 };

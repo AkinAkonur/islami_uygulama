@@ -280,4 +280,9 @@ const Map<String, String> trDil = {
       'numaralarını mutlaka tefsir ve hadis kaynaklarından doğrulayınız.',
   'ai.yardimBaslik': 'Sana nasıl yardımcı olabilirim?',
   'ai.ornekBaslik': 'Hızlı Örnekler',
+  'h.welcome': 'Hoşgeldin, {name}',
+  'h.hijriYear': 'Hicri {year}',
+  'h.ilhamDesc': 'Her gün yeni bir ilham, her an yeni bir keşif.',
+  'h.ilhamExplore': 'İlham sayfasını keşfet →',
+  'h.greeting.sub': 'Hicri {year}',
 };

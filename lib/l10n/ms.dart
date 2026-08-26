@@ -283,4 +283,9 @@ const Map<String, String> msDil = {
       'ayat dan hadis daripada sumber tafsir dan hadis.',
   'ai.yardimBaslik': 'Bagaimana saya boleh membantu anda?',
   'ai.ornekBaslik': 'Contoh Pantas',
+  'h.welcome': 'Selamat datang, {name}',
+  'h.hijriYear': 'Hijri {year}',
+  'h.ilhamDesc': 'Inspirasi baharu setiap hari, penemuan baharu setiap masa.',
+  'h.ilhamExplore': 'Jelajahi halaman Inspirasi →',
+  'h.greeting.sub': 'Hijri {year}',
 };

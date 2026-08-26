@@ -279,4 +279,9 @@ const Map<String, String> bnDil = {
       'সর্বদা তাফসির ও হাদিসের উৎস থেকে যাচাই করুন।',
   'ai.yardimBaslik': 'আমি কীভাবে আপনাকে সাহায্য করতে পারি?',
   'ai.ornekBaslik': 'দ্রুত উদাহরণ',
+  'h.welcome': 'স্বাগতম, {name}',
+  'h.hijriYear': 'হিজরি {year}',
+  'h.ilhamDesc': 'প্রতিদিন নতুন অনুপ্রেরণা, প্রতি মুহূর্তে নতুন আবিষ্কার।',
+  'h.ilhamExplore': 'অনুপ্রেরণার পৃষ্ঠা অনুসন্ধান করুন →',
+  'h.greeting.sub': 'হিজরি {year}',
 };

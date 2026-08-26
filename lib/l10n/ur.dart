@@ -279,4 +279,9 @@ const Map<String, String> urDil = {
       'نمبر ہمیشہ تفسیر و حدیث کے ذرائع سے تصدیق کریں۔',
   'ai.yardimBaslik': 'میں آپ کی کس طرح مدد کر سکتا ہوں؟',
   'ai.ornekBaslik': 'فوری مثالیں',
+  'h.welcome': 'خوش آمدید، {name}',
+  'h.hijriYear': 'ہجری {year}',
+  'h.ilhamDesc': 'ہر دن نئی روحانی تازگی، ہر لمحے نئی دریافت۔',
+  'h.ilhamExplore': 'تازہ ترین صفحہ دریافت کریں ←',
+  'h.greeting.sub': 'ہجری {year}',
 };

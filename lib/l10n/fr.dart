@@ -291,4 +291,9 @@ const Map<String, String> frDil = {
       'de hadith.',
   'ai.yardimBaslik': 'Comment puis-je vous aider ?',
   'ai.ornekBaslik': 'Exemples rapides',
+  'h.welcome': 'Bienvenue, {name}',
+  'h.hijriYear': 'Hijri {year}',
+  'h.ilhamDesc': 'Une nouvelle inspiration chaque jour, une nouvelle découverte à chaque instant.',
+  'h.ilhamExplore': 'Explorer la page Inspiration →',
+  'h.greeting.sub': 'Hijri {year}',
 };
