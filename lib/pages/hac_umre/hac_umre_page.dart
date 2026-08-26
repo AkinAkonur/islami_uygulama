@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../services/renkler.dart';
+import '../../../widgets/kart_sekilleri.dart';
 import 'acil_durum_sozlugu_page.dart';
 import 'fikih_karar_agaci_page.dart';
 import 'ibadet_modu_page.dart';
@@ -36,7 +37,7 @@ class HacUmreRehberPage extends StatelessWidget {
             _bolumBasligi('🕋 İbadet Rehberi'),
             _modulKarti(
               context,
-              icon: Icons.checklist_rtl,
+              icon: Icons.checklist_rtl_rounded,
               renk: Colors.tealAccent,
               baslik: 'İbadet Modu (Adım Adım)',
               altBaslik:
@@ -45,7 +46,7 @@ class HacUmreRehberPage extends StatelessWidget {
             ),
             _modulKarti(
               context,
-              icon: Icons.rotate_90_degrees_cw,
+              icon: Icons.rotate_90_degrees_cw_rounded,
               renk: Colors.amberAccent,
               baslik: 'Tavaf Sayacı',
               altBaslik: 'Ekrana dokunarak 7 şavt takibi + şavt duaları',
@@ -53,7 +54,7 @@ class HacUmreRehberPage extends StatelessWidget {
             ),
             _modulKarti(
               context,
-              icon: Icons.swap_horiz,
+              icon: Icons.swap_horiz_rounded,
               renk: Colors.lightGreenAccent,
               baslik: 'Sa\'y Sayacı',
               altBaslik: 'Safa-Merve arası 7 gidiş-geliş sayacı',
@@ -61,7 +62,7 @@ class HacUmreRehberPage extends StatelessWidget {
             ),
             _modulKarti(
               context,
-              icon: Icons.account_tree_outlined,
+              icon: Icons.account_tree_rounded,
               renk: Colors.orangeAccent,
               baslik: 'Dem & Fidye Karar Ağacı',
               altBaslik: 'İhram ihlalinde mezhebe göre ceza rehberi',
@@ -71,7 +72,7 @@ class HacUmreRehberPage extends StatelessWidget {
             _bolumBasligi('🗺️ Ziyaret Rehberi'),
             _modulKarti(
               context,
-              icon: Icons.explore_outlined,
+              icon: Icons.explore_rounded,
               renk: Colors.blueAccent,
               baslik: 'Mekke & Medine Ziyaret Rehberi',
               altBaslik: 'Hira, Sevr, Ravza, Uhud ve daha fazlası',
@@ -81,7 +82,7 @@ class HacUmreRehberPage extends StatelessWidget {
             _bolumBasligi('📡 Saha Araçları'),
             _modulKarti(
               context,
-              icon: Icons.gps_fixed,
+              icon: Icons.gps_fixed_rounded,
               renk: Colors.purpleAccent,
               baslik: 'Mikat Uyarı Motoru',
               altBaslik: 'GPS ile mikat sınırına yaklaşma bildirimi',
@@ -89,7 +90,7 @@ class HacUmreRehberPage extends StatelessWidget {
             ),
             _modulKarti(
               context,
-              icon: Icons.record_voice_over_outlined,
+              icon: Icons.record_voice_over_rounded,
               renk: Colors.pinkAccent,
               baslik: 'Acil Durum Sözlüğü',
               altBaslik: '30 temel Arapça cümle, sesli okuma ile',
@@ -136,7 +137,7 @@ class HacUmreRehberPage extends StatelessWidget {
             color: renk.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, color: renk, size: 24),
+          child: UcdIkon(ikon: icon, renk: renk, boyut: 24),
         ),
         title: Text(
           baslik,
@@ -150,7 +151,7 @@ class HacUmreRehberPage extends StatelessWidget {
           altBaslik,
           style: const TextStyle(color: Colors.white70, fontSize: 12),
         ),
-        trailing: const Icon(Icons.chevron_right, color: Colors.white38),
+        trailing: const UcdIkon(ikon: Icons.chevron_right_rounded, renk: Colors.white38),
         onTap: () {
           Navigator.push(
             context,
@@ -178,7 +179,7 @@ class _HeaderBanner extends StatelessWidget {
       ),
       child: const Row(
         children: [
-          Icon(Icons.mosque_outlined, color: Colors.white, size: 36),
+          UcdIkon(ikon: Icons.mosque_rounded, renk: Colors.white, boyut: 36),
           SizedBox(width: 16),
           Expanded(
             child: Column(

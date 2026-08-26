@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 class IyilikHikayeleriPage extends StatelessWidget {
   const IyilikHikayeleriPage({super.key});
@@ -32,7 +33,7 @@ class IyilikHikayeleriPage extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.auto_stories, color: Renkler.vurgu, size: 22),
+                UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu, boyut: 22),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -121,17 +122,17 @@ class IyilikHikayeleriPage extends StatelessWidget {
             SizedBox(height: 12),
             Row(
               children: [
-                Icon(Icons.favorite, color: Color(0xFFEF5350), size: 14),
+                UcdIkon(ikon: Icons.favorite_rounded, renk: Color(0xFFEF5350), boyut: 14),
                 SizedBox(width: 6),
                 Text(
                   'Paylaşılan iyilik',
                   style: TextStyle(color: Colors.white38, fontSize: 11),
                 ),
                 Spacer(),
-                Icon(
-                  Icons.auto_awesome,
-                  color: Renkler.vurgu.withValues(alpha: 0.5),
-                  size: 16,
+                UcdIkon(
+                  ikon: Icons.auto_awesome_rounded,
+                  renk: Renkler.vurgu.withValues(alpha: 0.5),
+                  boyut: 16,
                 ),
               ],
             ),

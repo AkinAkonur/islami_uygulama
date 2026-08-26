@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class SukurPage extends StatefulWidget {
   const SukurPage({super.key});
@@ -54,7 +55,7 @@ class _SukurPageState extends State<SukurPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.favorite, color: Colors.amber, size: 40),
+                  UcdIkon(ikon: Icons.favorite_rounded, renk: Colors.amber, boyut: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -193,10 +194,10 @@ class _SukurPageState extends State<SukurPage> {
                 SizedBox(width: 8),
                 IconButton(
                   onPressed: _addSukur,
-                  icon: Icon(
-                    Icons.add_circle,
-                    color: Colors.amber,
-                    size: 40,
+                  icon: UcdIkon(
+                    ikon: Icons.add_circle,
+                    renk: Colors.amber,
+                    boyut: 40,
                   ),
                 ),
               ],
@@ -231,7 +232,7 @@ class _SukurPageState extends State<SukurPage> {
                             : null,
                       ),
                     ),
-                    secondary: Icon(Icons.favorite_border, color: Colors.amber),
+                    secondary: UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.amber),
                   ),
                 );
               },

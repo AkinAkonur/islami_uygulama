@@ -7,6 +7,7 @@ import '../services/cuz_hatim_store.dart';
 import '../services/cuz_verileri.dart';
 import '../services/kuran_verileri.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 /// Bir cüzün okuma sayfası.
 /// Metin uygulamayla birlikte gelen varlıklardan (assets/cuzler) çevrimdışı
@@ -162,7 +163,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.error_outline, color: Colors.white38, size: 48),
+            UcdIkon(ikon: Icons.error_outline_rounded, renk: Colors.white38, boyut: 48),
             const SizedBox(height: 12),
             const Text(
               'Cüz metni yüklenemedi.',
@@ -256,10 +257,10 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
                 visualDensity: VisualDensity.compact,
                 tooltip: caliyorMu ? 'Durdur' : 'Dinle',
                 onPressed: () => caliyorMu ? _durdur() : _cal(index),
-                icon: Icon(
-                  caliyorMu ? Icons.stop_circle : Icons.play_circle,
-                  color: Renkler.vurgu,
-                  size: 26,
+                icon: UcdIkon(
+                  ikon: caliyorMu ? Icons.stop_circle_rounded : Icons.play_circle_rounded,
+                  renk: Renkler.vurgu,
+                  boyut: 26,
                 ),
               ),
               const SizedBox(width: 6),
@@ -346,7 +347,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
             ),
           ),
           onPressed: _okunduDegistir,
-          icon: Icon(_okundu ? Icons.check_circle : Icons.check_circle_outline),
+          icon: UcdIkon(ikon: _okundu ? Icons.check_circle_rounded : Icons.check_circle_outline_rounded, renk: Colors.black, boyut: 20),
           label: Text(
             _okundu ? 'Bu cüzü okudum (✓)' : 'Bu cüzü okudum',
             style: const TextStyle(fontWeight: FontWeight.bold),

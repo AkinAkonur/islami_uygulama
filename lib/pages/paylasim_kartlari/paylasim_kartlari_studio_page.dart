@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../services/renkler.dart';
+import '../../widgets/kart_sekilleri.dart';
 import 'paylasim_kartlari_verileri.dart';
 
 class PaylasimKartlariStudioPage extends StatefulWidget {
@@ -239,7 +240,7 @@ class _PaylasimKartlariStudioPageState
         actions: [
           IconButton(
             tooltip: 'Rastgele kart',
-            icon: const Icon(Icons.shuffle, color: Colors.white70),
+            icon: const UcdIkon(ikon: Icons.shuffle_rounded, renk: Colors.white70, boyut: 24),
             onPressed: _rastgele,
           ),
         ],
@@ -336,10 +337,10 @@ class _FormatSecici extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        f.ikon,
-                        size: 16,
-                        color: format == f ? Colors.black : Colors.white70,
+                      UcdIkon(
+                        ikon: f.ikon,
+                        renk: format == f ? Colors.black : Colors.white70,
+                        boyut: 16,
                       ),
                       const SizedBox(width: 6),
                       Text(
@@ -486,7 +487,7 @@ class _PaylasimKarti extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(_tipIkon, size: 15, color: tema.kaynak),
+                      UcdIkon(ikon: _tipIkon, renk: tema.kaynak, boyut: 15),
                       const SizedBox(width: 8),
                       Flexible(
                         child: Text(
@@ -586,7 +587,7 @@ class _Ornament extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Icon(Icons.auto_awesome, size: 13, color: renk),
+          child: UcdIkon(ikon: Icons.auto_awesome_rounded, renk: renk, boyut: 13),
         ),
         Expanded(
           child: Container(height: 1, color: renk.withValues(alpha: 0.5)),
@@ -606,7 +607,7 @@ class _Filigran extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.spa_outlined, size: 13, color: tema.filigran),
+        UcdIkon(ikon: Icons.spa_rounded, renk: tema.filigran, boyut: 13),
         const SizedBox(width: 6),
         Flexible(
           child: Text(
@@ -794,10 +795,10 @@ class _TemaSecici extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        tema.ikon,
-                        size: 20,
-                        color: tema.koyu ? tema.arapca : tema.metin,
+                      UcdIkon(
+                        ikon: tema.ikon,
+                        renk: tema.koyu ? tema.arapca : tema.metin,
+                        boyut: 20,
                       ),
                       const SizedBox(height: 6),
                       Text(
@@ -850,7 +851,7 @@ class _Secenekler extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(Icons.format_size, color: Colors.white54, size: 18),
+                const UcdIkon(ikon: Icons.format_size_rounded, renk: Colors.white54, boyut: 18),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Slider(
@@ -983,10 +984,10 @@ class _IcerikSecici extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.edit_note,
-                    size: 22,
-                    color: ozelMod ? Renkler.vurgu : Colors.white70,
+                  UcdIkon(
+                    ikon: Icons.edit_note_rounded,
+                    renk: ozelMod ? Renkler.vurgu : Colors.white70,
+                    boyut: 22,
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -1009,10 +1010,10 @@ class _IcerikSecici extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Icon(
-                    ozelMod ? Icons.check_circle : Icons.radio_button_unchecked,
-                    size: 20,
-                    color: ozelMod ? Renkler.vurgu : Colors.white38,
+                  UcdIkon(
+                    ikon: ozelMod ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
+                    renk: ozelMod ? Renkler.vurgu : Colors.white38,
+                    boyut: 20,
                   ),
                 ],
               ),
@@ -1288,7 +1289,7 @@ class _PaylasButonu extends StatelessWidget {
                 color: Colors.black,
               ),
             )
-          : const Icon(Icons.share_outlined),
+          : UcdIkon(ikon: Icons.share_rounded, renk: Colors.black, boyut: 20),
       label: Text(
         paylasiliyor ? 'Kart hazırlanıyor…' : 'WhatsApp & Instagram\'da Paylaş',
       ),

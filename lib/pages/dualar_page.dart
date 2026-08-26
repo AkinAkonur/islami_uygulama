@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 import 'dua_detay_page.dart';
 
 // ===========================================================================
@@ -152,11 +153,11 @@ class _AramaCubugu extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'Ara: borç, uyku, sınav, korunma…',
           hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
-          prefixIcon: const Icon(Icons.search, color: Colors.white38, size: 20),
+          prefixIcon: const UcdIkon(ikon: Icons.search_rounded, renk: Colors.white38, boyut: 20),
           suffixIcon: controller.text.isEmpty
               ? null
               : IconButton(
-                  icon: const Icon(Icons.clear, color: Colors.white38, size: 18),
+                  icon: const UcdIkon(ikon: Icons.close_rounded, renk: Colors.white38, boyut: 18),
                   onPressed: () {
                     controller.clear();
                     onChanged('');
@@ -286,7 +287,7 @@ class _KategorilerListesi extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(Icons.chevron_right, color: renk, size: 22),
+                UcdIkon(ikon: Icons.chevron_right, renk: renk, boyut: 22),
               ],
             ),
           ),
@@ -422,10 +423,10 @@ class _DuaKarti extends StatelessWidget {
                     color: Renkler.seciliYuzey,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(
-                    Icons.auto_awesome_outlined,
-                    color: Renkler.vurgu,
-                    size: 18,
+                  child: UcdIkon(
+                    ikon: Icons.auto_awesome_outlined,
+                    renk: Renkler.vurgu,
+                    boyut: 18,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -477,10 +478,10 @@ class _DuaKarti extends StatelessWidget {
                 const SizedBox(width: 6),
                 GestureDetector(
                   onTap: () => DuaStore.favoriDegistir(dua.id),
-                  child: Icon(
-                    favori ? Icons.favorite : Icons.favorite_border,
-                    color: favori ? Colors.redAccent : Colors.white30,
-                    size: 20,
+                  child: UcdIkon(
+                    ikon: favori ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                    renk: favori ? Colors.redAccent : Colors.white30,
+                    boyut: 20,
                   ),
                 ),
               ],
@@ -536,7 +537,7 @@ class _FavorilerListesi extends StatelessWidget {
                 tum.where((d) => fav.contains(d.id)).toList();
             if (favoriler.isEmpty) {
               return const _BosMesaj(
-                ikon: Icons.favorite_border,
+                ikon: Icons.favorite_border_rounded,
                 metin:
                     'Henüz favori duanız yok.\nBeğendiğiniz duaları yıldızla işaretleyin.',
               );
@@ -668,7 +669,7 @@ class _OzDualarListesi extends StatelessWidget {
                     ),
                   ),
                   onPressed: () => _yeniDua(context),
-                  icon: const Icon(Icons.add, size: 18),
+                  icon: UcdIkon(ikon: Icons.add, renk: Renkler.vurgu, boyut: 18),
                   label: const Text('Yeni dua / not ekle'),
                 ),
               ),
@@ -676,7 +677,7 @@ class _OzDualarListesi extends StatelessWidget {
             Expanded(
               child: liste.isEmpty
                   ? const _BosMesaj(
-                      ikon: Icons.edit_note,
+                      ikon: Icons.edit_note_rounded,
                       metin:
                           'Kendi özel dualarınızı ve notlarınızı\nburaya yazıp saklayabilirsiniz.',
                     )
@@ -724,10 +725,10 @@ class _OzDualarListesi extends StatelessWidget {
                               ),
                               IconButton(
                                 tooltip: 'Sil',
-                                icon: const Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.white30,
-                                  size: 20,
+                                icon: const UcdIkon(
+                                  ikon: Icons.delete_outline_rounded,
+                                  renk: Colors.white30,
+                                  boyut: 20,
                                 ),
                                 onPressed: () => DuaStore.ozDuaSil(oz.id),
                               ),
@@ -756,7 +757,7 @@ class _BosMesaj extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(ikon, color: Colors.white24, size: 44),
+          UcdIkon(ikon: ikon, renk: Colors.white24, boyut: 44),
           const SizedBox(height: 12),
           Text(
             metin,

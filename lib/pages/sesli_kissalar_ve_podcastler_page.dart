@@ -37,6 +37,7 @@ import 'kissalar/kissa_store.dart';
 import 'kissalar/kissalar_verileri.dart';
 import 'kissalar/peygamberler_verileri.dart';
 import 'kissalar/siyer_verileri.dart';
+import '../widgets/kart_sekilleri.dart';
 
 /// Süre filtresi seçenekleri (kullanıcı "Zamanım Var" mekanizması).
 const List<({String id, String etiket, int minDk, int maksDk})>
@@ -67,7 +68,7 @@ const List<_ModSecenegi> _modlar = [
   _ModSecenegi(
     id: 'huzur',
     ad: 'Huzur',
-    ikon: Icons.spa_outlined,
+    ikon: Icons.spa_rounded,
     anahtarKelime: [
       'sabır',
       'tevekkül',
@@ -81,7 +82,7 @@ const List<_ModSecenegi> _modlar = [
   _ModSecenegi(
     id: 'motivasyon',
     ad: 'Motivasyon',
-    ikon: Icons.bolt_outlined,
+    ikon: Icons.bolt_rounded,
     anahtarKelime: [
       'cesaret',
       'zafer',
@@ -95,11 +96,11 @@ const List<_ModSecenegi> _modlar = [
   _ModSecenegi(
     id: 'uyku',
     ad: 'Uykudan Önce',
-    ikon: Icons.nightlight_outlined,
+    ikon: Icons.nightlight_round,
     anahtarKelime: ['sabır', 'merhamet', 'huzur', 'şefkat', 'dua', 'sevgi'],
   ),
-  _ModSecenegi(id: 'cocuk', ad: 'Çocuk İçin', ikon: Icons.child_care_outlined),
-  _ModSecenegi(id: 'ogrenme', ad: 'Öğrenme', ikon: Icons.school_outlined),
+  _ModSecenegi(id: 'cocuk', ad: 'Çocuk İçin', ikon: Icons.child_care_rounded),
+  _ModSecenegi(id: 'ogrenme', ad: 'Öğrenme', ikon: Icons.school_rounded),
 ];
 
 /// Oynatma hızı çarpanları.
@@ -572,10 +573,10 @@ class _SesliKissalarVePodcastlerPageState
                         ),
                       ),
                       trailing: h == hiz
-                          ? const Icon(
-                              Icons.check_circle,
-                              color: Colors.greenAccent,
-                              size: 20,
+                          ? const UcdIkon(
+                              ikon: Icons.check_circle_rounded,
+                              renk: Colors.greenAccent,
+                              boyut: 20,
                             )
                           : null,
                       onTap: () => Navigator.pop(sheetContext, h),
@@ -659,10 +660,10 @@ class _SesliKissalarVePodcastlerPageState
                         ),
                       ),
                       trailing: seciliDk == deger
-                          ? const Icon(
-                              Icons.check_circle,
-                              color: Colors.greenAccent,
-                              size: 20,
+                          ? const UcdIkon(
+                              ikon: Icons.check_circle_rounded,
+                              renk: Colors.greenAccent,
+                              boyut: 20,
                             )
                           : null,
                       onTap: () => Navigator.pop(sheetContext, deger),
@@ -801,7 +802,7 @@ class _SesliKissalarVePodcastlerPageState
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: _devamKarti(
-                  ikon: Icons.play_circle_fill,
+                  ikon: Icons.play_circle_fill_rounded,
                   baslik: 'Kaldığın Yerden Devam Et',
                   alt: '${kissa.emoji} ${kissa.baslik} · ${kissa.sureEtiketi}',
                   onTap: () => _kissaDinle(kissa),
@@ -821,7 +822,7 @@ class _SesliKissalarVePodcastlerPageState
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: _devamKarti(
-                  ikon: Icons.radio_outlined,
+                  ikon: Icons.radio_rounded,
                   baslik: 'Podcast\'e Devam Et',
                   alt: pozisyon > 0 ? '$ad · ${_saniyeFormati(pozisyon)}' : ad,
                   onTap: () => _podcastDinle(kanal, devamEt: true),
@@ -831,7 +832,7 @@ class _SesliKissalarVePodcastlerPageState
           ),
           if (_gununKissasi() case final gununKissasi?)
             _devamKarti(
-              ikon: Icons.wb_twilight,
+              ikon: Icons.wb_twilight_rounded,
               baslik: '🕰️ Günün Kıssası',
               alt:
                   '${gununKissasi.emoji} ${gununKissasi.baslik} · ${gununKissasi.sureEtiketi}',
@@ -853,10 +854,10 @@ class _SesliKissalarVePodcastlerPageState
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.record_voice_over_outlined,
-            color: Renkler.vurgu,
-            size: 20,
+          UcdIkon(
+            ikon: Icons.record_voice_over_rounded,
+            renk: Renkler.vurgu,
+            boyut: 20,
           ),
           const SizedBox(width: 8),
           const Expanded(
@@ -906,7 +907,7 @@ class _SesliKissalarVePodcastlerPageState
                 color: Colors.white.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(ikon, color: Renkler.vurgu, size: 24),
+              child: UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 24),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -931,10 +932,10 @@ class _SesliKissalarVePodcastlerPageState
                 ],
               ),
             ),
-            const Icon(
-              Icons.play_circle_outline,
-              color: Colors.white54,
-              size: 26,
+            const UcdIkon(
+              ikon: Icons.play_circle_fill_rounded,
+              renk: Colors.white54,
+              boyut: 26,
             ),
           ],
         ),
@@ -955,18 +956,18 @@ class _SesliKissalarVePodcastlerPageState
             decoration: InputDecoration(
               hintText: '🔍 Ara: başlık, konu (Sabır, Dua), seslendiren...',
               hintStyle: const TextStyle(color: Colors.white38, fontSize: 12.5),
-              prefixIcon: const Icon(
-                Icons.search,
-                color: Colors.white38,
-                size: 20,
+              prefixIcon: const UcdIkon(
+                ikon: Icons.search_rounded,
+                renk: Colors.white38,
+                boyut: 20,
               ),
               suffixIcon: _aramaSorgusu.isEmpty
                   ? null
                   : IconButton(
-                      icon: const Icon(
-                        Icons.clear,
-                        color: Colors.white38,
-                        size: 18,
+                      icon: const UcdIkon(
+                        ikon: Icons.close_rounded,
+                        renk: Colors.white38,
+                        boyut: 18,
                       ),
                       onPressed: () {
                         _aramaKontrol.clear();
@@ -1012,7 +1013,7 @@ class _SesliKissalarVePodcastlerPageState
                 for (final m in _modlar)
                   _filtreChip(
                     etiket: m.ad,
-                    ikon: Icon(m.ikon, size: 12, color: null),
+                    ikon: UcdIkon(ikon: m.ikon, boyut: 12, renk: Colors.white54),
                     secili: _modSecimi == m.id,
                     onTap: () => setState(() => _modSecimi = m.id),
                   ),
@@ -1094,10 +1095,10 @@ class _SesliKissalarVePodcastlerPageState
                     : Renkler.seciliYuzey,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                aktif ? Icons.stop_circle_outlined : Icons.headphones_outlined,
-                color: aktif ? Colors.redAccent : Renkler.vurgu,
-                size: 24,
+              child: UcdIkon(
+                ikon: aktif ? Icons.stop_circle_rounded : Icons.headphones_rounded,
+                renk: aktif ? Colors.redAccent : Renkler.vurgu,
+                boyut: 24,
               ),
             ),
           ),
@@ -1132,24 +1133,24 @@ class _SesliKissalarVePodcastlerPageState
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     _kucukRozet(
-                      ikon: Icons.schedule,
+                      ikon: Icons.schedule_rounded,
                       etiket: kissa.sureEtiketi,
                       renk: Colors.lightBlueAccent,
                     ),
                     _kucukRozet(
-                      ikon: Icons.record_voice_over_outlined,
+                      ikon: Icons.record_voice_over_rounded,
                       etiket: kissa.seslendirenEtiketi,
                       renk: Colors.tealAccent,
                     ),
                     if (kissa.temalar.isNotEmpty)
                       _kucukRozet(
-                        ikon: Icons.tag,
+                        ikon: Icons.tag_rounded,
                         etiket: kissa.temalar.first,
                         renk: Renkler.vurgu,
                       ),
                     if (kissa.sesUrl == null)
                       _kucukRozet(
-                        ikon: Icons.offline_pin,
+                        ikon: Icons.offline_pin_rounded,
                         etiket: 'Çevrimdışı',
                         renk: Colors.greenAccent,
                       ),
@@ -1160,13 +1161,13 @@ class _SesliKissalarVePodcastlerPageState
                   spacing: 6,
                   children: [
                     _kucukButon(
-                      ikon: aktif ? Icons.stop : Icons.play_arrow,
+                      ikon: aktif ? Icons.stop_rounded : Icons.play_arrow_rounded,
                       etiket: aktif ? 'Durdur' : 'Dinle',
                       renk: aktif ? Colors.redAccent : Renkler.vurgu,
                       onTap: () => _kissaDinle(kissa),
                     ),
                     _kucukButon(
-                      ikon: Icons.menu_book_outlined,
+                      ikon: Icons.menu_book_rounded,
                       etiket: 'Oku',
                       renk: Colors.lightBlueAccent,
                       onTap: () => Navigator.push(
@@ -1203,7 +1204,7 @@ class _SesliKissalarVePodcastlerPageState
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(ikon, color: renk, size: 11),
+          UcdIkon(ikon: ikon, renk: renk, boyut: 11),
           const SizedBox(width: 4),
           Text(
             etiket,
@@ -1238,7 +1239,7 @@ class _SesliKissalarVePodcastlerPageState
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(ikon, color: renk, size: 14),
+            UcdIkon(ikon: ikon, renk: renk, boyut: 14),
             const SizedBox(width: 4),
             Text(
               etiket,
@@ -1266,10 +1267,10 @@ class _SesliKissalarVePodcastlerPageState
             final indiriyor = calisan.contains(url);
             return _kucukButon(
               ikon: indirildi
-                  ? Icons.offline_pin
+                  ? Icons.offline_pin_rounded
                   : indiriyor
-                  ? Icons.hourglass_top
-                  : Icons.download_for_offline_outlined,
+                  ? Icons.hourglass_top_rounded
+                  : Icons.download_rounded,
               etiket: indirildi
                   ? 'İndirildi'
                   : indiriyor
@@ -1314,7 +1315,7 @@ class _SesliKissalarVePodcastlerPageState
             ),
             child: Row(
               children: [
-                Icon(Icons.radio_outlined, color: Renkler.vurgu),
+                UcdIkon(ikon: Icons.radio_rounded, renk: Renkler.vurgu),
                 const SizedBox(width: 10),
                 const Expanded(
                   child: Text(
@@ -1372,10 +1373,10 @@ class _SesliKissalarVePodcastlerPageState
                     : Renkler.seciliYuzey,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                caliyor && _sesCalyor ? Icons.pause : Icons.play_arrow,
-                color: caliyor ? Colors.redAccent : Renkler.vurgu,
-                size: 26,
+              child: UcdIkon(
+                ikon: caliyor && _sesCalyor ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                renk: caliyor ? Colors.redAccent : Renkler.vurgu,
+                boyut: 26,
               ),
             ),
           ),
@@ -1477,10 +1478,10 @@ class _SesliKissalarVePodcastlerPageState
                     color: Renkler.vurgu.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    caliyor ? Icons.pause : Icons.play_arrow,
-                    color: Renkler.vurgu,
-                    size: 26,
+                  child: UcdIkon(
+                    ikon: caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                    renk: Renkler.vurgu,
+                    boyut: 26,
                   ),
                 ),
               ),
@@ -1541,11 +1542,10 @@ class _SesliKissalarVePodcastlerPageState
                 tooltip: 'Oynatma hızı',
                 icon: ValueListenableBuilder<double>(
                   valueListenable: SesliOynatmaStore.hiz,
-                  builder: (context, hiz, _) => Icon(
-                    Icons.speed,
-                    color: Colors.white70,
-                    size: 22,
-                    semanticLabel: '$hiz×',
+                  builder: (context, hiz, _) => UcdIkon(
+                    ikon: Icons.speed_rounded,
+                    renk: Colors.white70,
+                    boyut: 22,
                   ),
                 ),
                 onPressed: _hizMenusu,
@@ -1554,17 +1554,17 @@ class _SesliKissalarVePodcastlerPageState
                 tooltip: 'Uyku zamanlayıcısı',
                 icon: ValueListenableBuilder<int?>(
                   valueListenable: SesliOynatmaStore.uykuKalanDk,
-                  builder: (context, kalan, _) => Icon(
-                    Icons.bedtime_outlined,
-                    color: kalan != null ? Colors.amberAccent : Colors.white70,
-                    size: 22,
+                  builder: (context, kalan, _) => UcdIkon(
+                    ikon: Icons.bedtime_rounded,
+                    renk: kalan != null ? Colors.amberAccent : Colors.white70,
+                    boyut: 22,
                   ),
                 ),
                 onPressed: _uykuMenusu,
               ),
               IconButton(
                 tooltip: 'Durdur ve kapat',
-                icon: const Icon(Icons.close, color: Colors.white54, size: 22),
+                icon: const UcdIkon(ikon: Icons.close_rounded, renk: Colors.white54, boyut: 22),
                 onPressed: _tumuDurdur,
               ),
             ],

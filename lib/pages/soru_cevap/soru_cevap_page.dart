@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../services/renkler.dart';
+import '../../widgets/kart_sekilleri.dart';
 import 'soru_cevap_model.dart';
 import 'soru_cevap_store.dart';
 import 'soru_cevap_verileri.dart';
@@ -118,10 +119,10 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
                     color: Colors.white38,
                     fontSize: 13,
                   ),
-                  prefixIcon: const Icon(Icons.search, color: Colors.white54),
+                  prefixIcon: const UcdIkon(ikon: Icons.search_rounded, renk: Colors.white54, boyut: 20),
                   suffixIcon: aramaAktif
                       ? IconButton(
-                          icon: const Icon(Icons.clear, color: Colors.white38),
+                          icon: const UcdIkon(ikon: Icons.clear_rounded, renk: Colors.white38, boyut: 20),
                           onPressed: () => setState(() => _arama = ''),
                         )
                       : null,
@@ -226,7 +227,7 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.info_outline, color: Renkler.vurgu, size: 18),
+          UcdIkon(ikon: Icons.info_outline_rounded, renk: Renkler.vurgu, boyut: 18),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -294,9 +295,9 @@ class _FaqKartiState extends State<_FaqKarti> {
                   AnimatedRotation(
                     turns: _acik ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: Icon(
-                      Icons.expand_more,
-                      color: _acik ? Renkler.vurgu : Colors.white38,
+                    child: UcdIkon(
+                      ikon: Icons.expand_more_rounded,
+                      renk: _acik ? Renkler.vurgu : Colors.white38,
                     ),
                   ),
                 ],
@@ -343,10 +344,10 @@ class _FaqKartiState extends State<_FaqKarti> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(
-                                  Icons.menu_book_outlined,
-                                  color: Renkler.vurgu,
-                                  size: 14,
+                                UcdIkon(
+                                  ikon: Icons.menu_book_rounded,
+                                  renk: Renkler.vurgu,
+                                  boyut: 14,
                                 ),
                                 const SizedBox(width: 6),
                                 Flexible(
@@ -588,7 +589,7 @@ class _TestIcerigiState extends State<_TestIcerigi> {
         children: [
           Row(
             children: [
-              Icon(Icons.emoji_events_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.emoji_events_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
               const Text(
                 'Rozetlerim',
@@ -775,16 +776,16 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                           ),
                           child: Row(
                             children: [
-                              Icon(
-                                cevaplandi && i == s.dogruIndex
-                                    ? Icons.check_circle
+                              UcdIkon(
+                                ikon: cevaplandi && i == s.dogruIndex
+                                    ? Icons.check_circle_rounded
                                     : cevaplandi && i == _secim
-                                    ? Icons.cancel
-                                    : Icons.radio_button_unchecked,
-                                size: 18,
-                                color: cevaplandi && i == s.dogruIndex
+                                    ? Icons.cancel_rounded
+                                    : Icons.radio_button_unchecked_rounded,
+                                renk: cevaplandi && i == s.dogruIndex
                                     ? const Color(0xFF66BB6A)
                                     : Colors.white38,
+                                boyut: 18,
                               ),
                               const SizedBox(width: 10),
                               Expanded(
@@ -821,10 +822,10 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          widget.acik ? Icons.expand_less : Icons.expand_more,
-                          color: Renkler.vurgu,
-                          size: 16,
+                        UcdIkon(
+                          ikon: widget.acik ? Icons.expand_less_rounded : Icons.expand_more_rounded,
+                          renk: Renkler.vurgu,
+                          boyut: 16,
                         ),
                         const SizedBox(width: 4),
                         Text(
@@ -870,10 +871,10 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                         const SizedBox(height: 10),
                         Row(
                           children: [
-                            Icon(
-                              Icons.menu_book_outlined,
-                              color: Renkler.vurgu,
-                              size: 14,
+                            UcdIkon(
+                              ikon: Icons.menu_book_rounded,
+                              renk: Renkler.vurgu,
+                              boyut: 14,
                             ),
                             const SizedBox(width: 6),
                             Expanded(
@@ -945,7 +946,7 @@ class _GununSorusuState extends State<_GununSorusu> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.event_available, color: Renkler.vurgu, size: 18),
+              UcdIkon(ikon: Icons.event_available_rounded, renk: Renkler.vurgu, boyut: 18),
               const SizedBox(width: 10),
               const Expanded(
                 child: Text(
@@ -1062,7 +1063,7 @@ class _GununSorusuState extends State<_GununSorusu> {
             ),
           ],
           const SizedBox(height: 20),
-          Icon(Icons.touch_app, color: Colors.white70, size: 22),
+          UcdIkon(ikon: Icons.touch_app_rounded, renk: Colors.white70, boyut: 22),
           const SizedBox(height: 6),
           const Text(
             'Cevabı görmek için dokunun',
@@ -1130,7 +1131,7 @@ class _GununSorusuState extends State<_GununSorusu> {
           const SizedBox(height: 14),
           Row(
             children: [
-              Icon(Icons.menu_book_outlined, color: Renkler.vurgu, size: 14),
+              UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 14),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
@@ -1168,7 +1169,7 @@ class _GununSorusuState extends State<_GununSorusu> {
             ),
             child: const Row(
               children: [
-                Icon(Icons.check_circle, color: Color(0xFF66BB6A), size: 18),
+                UcdIkon(ikon: Icons.check_circle_rounded, renk: const Color(0xFF66BB6A), boyut: 18),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -1281,7 +1282,7 @@ class _GununSorusuState extends State<_GununSorusu> {
               foregroundColor: Renkler.vurgu,
               side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
             ),
-            icon: const Icon(Icons.share_outlined, size: 16),
+            icon: UcdIkon(ikon: Icons.share_rounded, renk: Renkler.vurgu, boyut: 16),
             label: const Text('Bu soruyu paylaş'),
             onPressed: () {
               Clipboard.setData(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/kart_sekilleri.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
 
@@ -131,7 +132,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
           ),
           const SizedBox(width: 8),
           const Text(
@@ -143,8 +144,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
             ),
           ),
           const Spacer(),
-          const Icon(Icons.local_fire_department_outlined,
-              color: Colors.white54),
+          const UcdIkon(ikon: Icons.local_fire_department_rounded, renk: Colors.white54),
         ],
       ),
     );
@@ -204,7 +204,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.mosque_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.mosque_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
               Text(
                 'Namaz · 5 Vakit',
@@ -228,7 +228,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
           const SizedBox(height: 12),
           ...ManeviStore.namazVakitleri.map((v) => _kontrolSatiri(
                 etiket: '$v Namazı',
-                ikon: Icons.check_circle,
+                ikon: Icons.check_circle_rounded,
                 deger: _namaz.contains(v),
                 onChanged: (t) => _namazTikla(v, t),
               )),
@@ -250,7 +250,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.checklist_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.checklist_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
               Text(
                 'Bugünün İyilikleri',
@@ -326,7 +326,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
               IconButton(
                 onPressed: _iyilikEkle,
                 tooltip: 'İyilik ekle',
-                icon: Icon(Icons.add_circle, color: Renkler.vurgu, size: 28),
+                icon: UcdIkon(ikon: Icons.add_circle_rounded, renk: Renkler.vurgu, boyut: 28),
               ),
             ],
           ),
@@ -370,16 +370,14 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
                 ),
               ),
             ),
-            Icon(
-              deger ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: deger ? Renkler.vurgu : Colors.white38,
-              size: 24,
+            UcdIkon(ikon: 
+              deger ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, renk: deger ? Renkler.vurgu : Colors.white38, boyut: 24,
             ),
             const SizedBox(width: 4),
             IconButton(
               onPressed: onDelete,
               tooltip: 'İyiliği kaldır',
-              icon: const Icon(Icons.delete_outline, color: Colors.white38),
+              icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white38),
               visualDensity: VisualDensity.compact,
             ),
           ],
@@ -400,10 +398,8 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
         padding: const EdgeInsets.symmetric(vertical: 6),
         child: Row(
           children: [
-            Icon(
-              deger ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: deger ? Renkler.vurgu : Colors.white38,
-              size: 22,
+            UcdIkon(ikon: 
+              deger ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, renk: deger ? Renkler.vurgu : Colors.white38, boyut: 22,
             ),
             const SizedBox(width: 12),
             Text(
@@ -415,7 +411,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
               ),
             ),
             const Spacer(),
-            if (deger) Icon(Icons.done, color: Renkler.vurgu, size: 16),
+            if (deger) UcdIkon(ikon: Icons.done_rounded, renk: Renkler.vurgu, boyut: 16),
           ],
         ),
       ),
@@ -470,10 +466,8 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
                 ],
               ),
             ),
-            Icon(
-              deger ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: deger ? Renkler.vurgu : Colors.white38,
-              size: 24,
+            UcdIkon(ikon: 
+              deger ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, renk: deger ? Renkler.vurgu : Colors.white38, boyut: 24,
             ),
           ],
         ),

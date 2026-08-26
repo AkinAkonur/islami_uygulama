@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class QadaScreen extends StatefulWidget {
   const QadaScreen({super.key});
@@ -72,7 +73,7 @@ class _QadaScreenState extends State<QadaScreen> {
                       Text("$totalQada Vakit", style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  Icon(Icons.assignment_turned_in, color: Colors.orangeAccent, size: 40),
+                  UcdIkon(ikon: Icons.assignment_turned_in_rounded, renk: Colors.orangeAccent, boyut: 40),
                 ],
               ),
             ),
@@ -100,7 +101,7 @@ class _QadaScreenState extends State<QadaScreen> {
                       children: [
                         IconButton(
                           onPressed: () => _decrement(vakit),
-                          icon: Icon(Icons.remove_circle_outline, color: Colors.orangeAccent),
+                          icon: UcdIkon(ikon: Icons.remove_circle_outline_rounded, renk: Colors.orangeAccent),
                         ),
                         Container(
                           width: 50,
@@ -109,7 +110,7 @@ class _QadaScreenState extends State<QadaScreen> {
                         ),
                         IconButton(
                           onPressed: () => _increment(vakit),
-                          icon: Icon(Icons.add_circle_outline, color: Renkler.vurgu),
+                          icon: UcdIkon(ikon: Icons.add_circle_outline_rounded, renk: Renkler.vurgu),
                         ),
                       ],
                     ),

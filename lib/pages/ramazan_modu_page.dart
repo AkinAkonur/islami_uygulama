@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 import '../services/vakit_servisi.dart';
 import 'kuran/hatim_takibi_page.dart';
 
@@ -154,7 +155,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new_rounded, renk: Colors.white),
           ),
           const SizedBox(width: 8),
           const Text(
@@ -166,7 +167,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
             ),
           ),
           const Spacer(),
-          const Icon(Icons.nights_stay_outlined, color: Colors.white54),
+          const UcdIkon(ikon: Icons.nights_stay_rounded, renk: Colors.white54, boyut: 24),
         ],
       ),
     );
@@ -245,11 +246,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
           children: [
             Row(
               children: [
-                Icon(
-                  Icons.auto_stories_outlined,
-                  color: Renkler.vurgu,
-                  size: 20,
-                ),
+                UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu, boyut: 20),
                 SizedBox(width: 8),
                 Text(
                   'Günlük Hatim Hedefi',
@@ -298,7 +295,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
                   foregroundColor: Renkler.vurgu,
                   side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
                 ),
-                icon: const Icon(Icons.arrow_forward, size: 16),
+                icon: UcdIkon(ikon: Icons.arrow_forward_rounded, renk: Renkler.vurgu, boyut: 16),
                 label: const Text('Hatim sayfasına git'),
               ),
             ),
@@ -322,7 +319,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.event_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.event_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
                 'Özel Günler',
@@ -558,7 +555,7 @@ class _RamazanBannerState extends State<RamazanBanner> {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.white70),
+            const UcdIkon(ikon: Icons.chevron_right_rounded, renk: Colors.white70),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/renkler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/kuran_verileri.dart';
+import '../widgets/kart_sekilleri.dart';
 import 'kuran/sure_listesi_page.dart';
 import 'kuran/ayet_arama_page.dart';
 import 'kuran/hatim_takibi_page.dart';
@@ -59,7 +60,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
         actions: [
           IconButton(
             tooltip: "Kur'an Adabı",
-            icon: Icon(Icons.auto_stories_outlined, color: Renkler.vurgu),
+            icon: UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => KuranAdabiPage()),
@@ -89,7 +90,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.menu_book, color: Renkler.vurgu, size: 40),
+                      UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 40),
                       SizedBox(width: 14),
                       Expanded(
                         child: Column(
@@ -147,7 +148,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.wb_sunny_outlined, color: Renkler.vurgu, size: 18),
+                      UcdIkon(ikon: Icons.wb_sunny_outlined, renk: Renkler.vurgu, boyut: 18),
                       SizedBox(width: 8),
                       Text(
                         "Günün Ayeti",
@@ -159,7 +160,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                           context,
                           MaterialPageRoute(builder: (_) => AyetAramaPage()),
                         ),
-                        child: Icon(Icons.search, color: Colors.white38, size: 20),
+                        child: UcdIkon(ikon: Icons.search_rounded, renk: Colors.white38, boyut: 20),
                       ),
                     ],
                   ),
@@ -265,7 +266,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      Icon(Icons.headphones, color: Renkler.vurgu, size: 16),
+                      UcdIkon(ikon: Icons.headphones_rounded, renk: Renkler.vurgu, boyut: 16),
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -402,7 +403,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
             color: renk.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(ikon, color: renk, size: 24),
+          child: UcdIkon(ikon: ikon, renk: renk, boyut: 24),
         ),
         title: Text(
           baslik,
@@ -412,7 +413,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
           alt,
           style: TextStyle(color: Colors.white54, fontSize: 11),
         ),
-        trailing: Icon(Icons.chevron_right, color: Colors.white38),
+        trailing: UcdIkon(ikon: Icons.chevron_right, renk: Colors.white38),
         onTap: onTap,
       ),
     );

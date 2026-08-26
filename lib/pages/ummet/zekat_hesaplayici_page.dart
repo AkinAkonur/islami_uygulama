@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 class ZekatHesaplayiciPage extends StatefulWidget {
   const ZekatHesaplayiciPage({super.key});
@@ -102,7 +103,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     return InputDecoration(
       hintText: hint,
       hintStyle: TextStyle(color: Colors.white38, fontSize: 13),
-      prefixIcon: Icon(ikon, color: Renkler.vurgu, size: 20),
+      prefixIcon: UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 20),
       filled: true,
       fillColor: Renkler.yuzey,
       border: OutlineInputBorder(
@@ -165,7 +166,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.calculate, color: Renkler.vurgu, size: 22),
+              UcdIkon(ikon: Icons.calculate_rounded, renk: Renkler.vurgu, boyut: 22),
               SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -207,7 +208,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.tune, color: Renkler.vurgu, size: 20),
+                UcdIkon(ikon: Icons.tune_rounded, renk: Renkler.vurgu, boyut: 20),
                 SizedBox(width: 8),
                 Text(
                   'Nisap Ayarı',
@@ -237,7 +238,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
               ],
               style: TextStyle(color: Colors.white),
-              decoration: _dekor('Gram altın fiyatı (TL)', Icons.paid_outlined),
+              decoration: _dekor('Gram altın fiyatı (TL)', Icons.paid_rounded),
               onChanged: (_) => setState(() {}),
             ),
           ],
@@ -261,7 +262,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.monetization_on, color: Renkler.vurgu, size: 20),
+                UcdIkon(ikon: Icons.monetization_on_rounded, renk: Renkler.vurgu, boyut: 20),
                 SizedBox(width: 8),
                 Text(
                   'Altın Miktarı',
@@ -281,7 +282,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
               ],
               style: TextStyle(color: Colors.white),
-              decoration: _dekor('Kaç gram altının var?', Icons.stars_outlined),
+              decoration: _dekor('Kaç gram altının var?', Icons.stars_rounded),
               onChanged: (_) => setState(() {}),
             ),
             SizedBox(height: 8),
@@ -311,10 +312,10 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
           children: [
             Row(
               children: [
-                Icon(
-                  Icons.account_balance_wallet,
-                  color: Renkler.vurgu,
-                  size: 20,
+                UcdIkon(
+                  ikon: Icons.account_balance_wallet_rounded,
+                  renk: Renkler.vurgu,
+                  boyut: 20,
                 ),
                 SizedBox(width: 8),
                 Expanded(
@@ -348,7 +349,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                   padding: EdgeInsets.symmetric(vertical: 12),
                 ),
                 onPressed: _hesapla,
-                icon: Icon(Icons.calculate_outlined),
+                icon: UcdIkon(ikon: Icons.calculate_rounded, renk: Renkler.zemin),
                 label: Text(
                   'Zekatımı Hesapla',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -422,7 +423,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.people_alt_outlined, color: Renkler.vurgu, size: 20),
+                UcdIkon(ikon: Icons.people_alt_rounded, renk: Renkler.vurgu, boyut: 20),
                 SizedBox(width: 8),
                 Text(
                   'Fitre (Fıtır Sadakası)',
@@ -455,7 +456,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     ],
                     style: TextStyle(color: Colors.white, fontSize: 13),
-                    decoration: _dekor('Kişi sayısı', Icons.person_outline),
+                    decoration: _dekor('Kişi sayısı', Icons.person_outline_rounded),
                     onChanged: (_) => setState(() {}),
                   ),
                 ),
@@ -470,7 +471,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                     style: TextStyle(color: Colors.white, fontSize: 13),
                     decoration: _dekor(
                       'Kişi başı (TL)',
-                      Icons.payments_outlined,
+                      Icons.payments_rounded,
                     ),
                     onChanged: (_) => setState(() {}),
                   ),
@@ -510,10 +511,10 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
           children: [
             Row(
               children: [
-                Icon(
-                  _nisabaUlasti ? Icons.check_circle : Icons.info_outline,
-                  color: _nisabaUlasti ? Renkler.vurgu : Colors.white54,
-                  size: 20,
+                UcdIkon(
+                  ikon: _nisabaUlasti ? Icons.check_circle_rounded : Icons.info_outline_rounded,
+                  renk: _nisabaUlasti ? Renkler.vurgu : Colors.white54,
+                  boyut: 20,
                 ),
                 SizedBox(width: 8),
                 Text(
@@ -587,7 +588,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                           foregroundColor: Renkler.zemin,
                         ),
                         onPressed: _bagisaGonder,
-                        icon: Icon(Icons.volunteer_activism, size: 18),
+                        icon: UcdIkon(ikon: Icons.volunteer_activism_rounded, renk: Renkler.zemin, boyut: 18),
                         label: Text(
                           'Zekatımı Ulaştır',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -604,7 +605,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                           foregroundColor: Renkler.zemin,
                         ),
                         onPressed: _bagisaGonder,
-                        icon: Icon(Icons.volunteer_activism, size: 18),
+                        icon: UcdIkon(ikon: Icons.volunteer_activism_rounded, renk: Renkler.zemin, boyut: 18),
                         label: Text(
                           'Fitremi Ulaştır',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -657,7 +658,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.menu_book_outlined, color: Renkler.vurgu, size: 20),
+                UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 20),
                 SizedBox(width: 8),
                 Text(
                   'Zekat & Sadaka Rehberi',

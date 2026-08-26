@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/radyo_oynatici_store.dart';
 import '../widgets/radyo_media_player.dart';
@@ -45,7 +46,7 @@ class DahaFazlaPage extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.explore, color: Renkler.vurgu, size: 32),
+                  UcdIkon(ikon: Icons.explore_rounded, renk: Renkler.vurgu, boyut: 32),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -77,7 +78,7 @@ class DahaFazlaPage extends StatelessWidget {
             SizedBox(height: 12),
             _buildModuleCard(
               context,
-              Icons.star_outline,
+              Icons.star_outline_rounded,
               "Esma-ül Hüsna",
               "Allah'ın 99 ismi ve derin anlamları",
               EsmaulHusnaPage(),
@@ -85,7 +86,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.mosque_outlined,
+              Icons.mosque_rounded,
               "Cami Bul",
               "Konumunuza yakın cami ve mescitleri listeleyin",
               const YakindakiCamilerPage(),
@@ -93,7 +94,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.calendar_month_outlined,
+              Icons.calendar_month_rounded,
               "Hicri Takvim",
               "Kandiller, dini bayramlar ve Ramazan sayacı",
               HicriTakvimPage(),
@@ -101,7 +102,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.calculate_outlined,
+              Icons.calculate_rounded,
               "Zekat & Fitre Hesaplayıcı",
               "Mal varlığına göre zekat ve fitre hesaplama aracı",
               ZekatHesaplamaPage(),
@@ -114,7 +115,7 @@ class DahaFazlaPage extends StatelessWidget {
             SizedBox(height: 12),
             _buildModuleCard(
               context,
-              Icons.menu_book_outlined,
+              Icons.menu_book_rounded,
               "Hatim Takibi",
               "Kur'an okuma ilerlemesi, cüz ve sayfa takibi",
               HatimTakibiPage(),
@@ -122,7 +123,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.format_quote_outlined,
+              Icons.format_quote_rounded,
               "Hadis Kütüphanesi",
               "Kütüb-i Sitte'den seçkin hadisler ve günlük rehber",
               HadisKutuphanesiPage(),
@@ -130,7 +131,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.history_edu_outlined,
+              Icons.history_edu_rounded,
               "Kıssalar & Peygamberler",
               "Sîre-i Nebi, peygamberler tarihi ve ibretlik hikayeler",
               KissalarPage(),
@@ -138,7 +139,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.quiz_outlined,
+              Icons.quiz_rounded,
               "Soru-Cevap (Fetva)",
               "Günlük hayata dair ilmihal ve SSS başlıkları",
               SoruCevapPage(),
@@ -146,7 +147,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.luggage_outlined,
+              Icons.luggage_rounded,
               "Hac & Umre Rehberi",
               "Adım adım kutsal topraklar yolculuğu ve duaları",
               const HacUmreRehberPage(),
@@ -159,7 +160,7 @@ class DahaFazlaPage extends StatelessWidget {
             SizedBox(height: 12),
             _buildModuleCard(
               context,
-              Icons.groups_outlined,
+              Icons.groups_rounded,
               "Dua Kardeşliği",
               "Anonim olarak kardeşlerin için dua iste ve dua et",
               const DuaKardesligiPage(),
@@ -167,7 +168,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.local_fire_department_outlined,
+              Icons.local_fire_department_rounded,
               "Günlük Hedefler / Streak",
               "İbadet alışkanlığı ve seri (streak) takibi",
               GunlukHedeflerPage(),
@@ -175,7 +176,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.share_outlined,
+              Icons.share_rounded,
               "Paylaşım Kartları",
               "WhatsApp ve Instagram için ayet/hadis görsel kartları",
               PaylasimKartlariStudioPage(),
@@ -197,7 +198,7 @@ class DahaFazlaPage extends StatelessWidget {
             SizedBox(height: 12),
             _buildModuleCard(
               context,
-              Icons.record_voice_over_outlined,
+              Icons.record_voice_over_rounded,
               "Sesli Kıssalar ve Podcastler",
               "Kıssaları dinle, podcast ve radyo akışları",
               const SesliKissalarVePodcastlerPage(),
@@ -213,7 +214,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.radio_outlined,
+              Icons.radio_rounded,
               "Dini Radyo & İlahi",
               "Kesintisiz Kuran tilaveti, sohbet ve ilahi akışı",
               DiniRadyoPage(),
@@ -221,7 +222,7 @@ class DahaFazlaPage extends StatelessWidget {
             ),
             _buildModuleCard(
               context,
-              Icons.security_outlined,
+              Icons.security_rounded,
               "Gizlilik & Veri Güvenliği",
               "\"Verilerim cihazımda saklanır\" gizlilik taahhüdü",
               const GizlilikMerkeziPage(),
@@ -283,7 +284,7 @@ class DahaFazlaPage extends StatelessWidget {
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.circle, size: 8, color: Colors.white),
+                  UcdIkon(ikon: Icons.circle, renk: Colors.white, boyut: 8),
                   SizedBox(width: 6),
                   Text(
                     'KABE-İ MUAZZAMA CANLI YAYINI',
@@ -324,7 +325,7 @@ class DahaFazlaPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: _heroButon(
-                    ikon: Icons.headphones_outlined,
+                    ikon: Icons.headphones_rounded,
                     etiket: '🎧 Ses Modu\n(Arkaplanda Çal)',
                     dolu: true,
                     onTap: () => Navigator.push(
@@ -340,7 +341,7 @@ class DahaFazlaPage extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: _heroButon(
-                    ikon: Icons.fullscreen_outlined,
+                    ikon: Icons.fullscreen_rounded,
                     etiket: '📺 Tam Ekran İzle',
                     dolu: false,
                     onTap: () => Navigator.push(
@@ -383,11 +384,7 @@ class DahaFazlaPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              ikon,
-              color: dolu ? Colors.black : Colors.white,
-              size: 20,
-            ),
+            UcdIkon(ikon: ikon, renk: dolu ? Colors.black : Colors.white, boyut: 20),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -427,7 +424,7 @@ class DahaFazlaPage extends StatelessWidget {
             color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, color: color, size: 24),
+          child: UcdIkon(ikon: icon, renk: color, boyut: 24),
         ),
         title: Text(
           title,
@@ -441,7 +438,7 @@ class DahaFazlaPage extends StatelessWidget {
           subtitle,
           style: TextStyle(color: Colors.white70, fontSize: 12),
         ),
-        trailing: Icon(Icons.chevron_right, color: Colors.white38),
+        trailing: UcdIkon(ikon: Icons.chevron_right, renk: Colors.white38),
         onTap: () {
           Navigator.push(
             context,
@@ -780,7 +777,7 @@ class _ZekatHesaplamaPageState extends State<ZekatHesaplamaPage> {
               padding: const EdgeInsets.symmetric(vertical: 15),
             ),
             onPressed: _hesapla,
-            icon: const Icon(Icons.calculate),
+            icon: const UcdIkon(ikon: Icons.calculate_rounded, renk: Colors.white70),
             label: const Text('Hesapla'),
           ),
           if (_netVarlik != null) ...[
@@ -975,7 +972,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
         contentPadding: const EdgeInsets.only(left: 16, right: 4),
         leading: CircleAvatar(
           backgroundColor: Renkler.vurgu.withValues(alpha: 0.15),
-          child: Icon(Icons.menu_book_outlined, color: Renkler.vurgu, size: 20),
+          child: UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 20),
         ),
         title: Text(
           baslik,
@@ -992,7 +989,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
         trailing: IconButton(
           tooltip: 'Sil',
           onPressed: () => _sil(baslik),
-          icon: const Icon(Icons.delete_outline, color: Colors.white38),
+          icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white38),
         ),
       ),
     );
@@ -1090,7 +1087,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
           IconButton(
             tooltip: 'Kanalları Güncelle',
             onPressed: _kanallariYenile,
-            icon: const Icon(Icons.sync),
+            icon: const UcdIkon(ikon: Icons.sync_rounded, renk: Colors.white70),
           ),
         ],
       ),
@@ -1136,7 +1133,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
         child: const Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(Icons.radio_outlined, color: Colors.indigoAccent),
+            UcdIkon(ikon: Icons.radio_rounded, renk: Colors.indigoAccent),
             SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -1277,7 +1274,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
       padding: const EdgeInsets.only(top: 10, bottom: 8),
       child: Row(
         children: [
-          const Icon(Icons.public, size: 18, color: Colors.tealAccent),
+          const UcdIkon(ikon: Icons.public_rounded, renk: Colors.tealAccent, boyut: 18),
           const SizedBox(width: 8),
           const Text(
             'Dünya Radyoları',
@@ -1395,12 +1392,10 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                               child:
                                   CircularProgressIndicator(strokeWidth: 2.4),
                             )
-                          : Icon(
-                              caliyor ? Icons.pause : Icons.play_arrow,
-                              color: caliyor
+                          : UcdIkon(ikon: 
+                              caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded, renk: caliyor
                                   ? Colors.tealAccent
-                                  : Renkler.vurgu,
-                              size: 26,
+                                  : Renkler.vurgu, boyut: 26,
                             ),
                     ),
                   ),
@@ -1462,10 +1457,8 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                         favori ? 'Favorilerden Çıkar' : 'Favorilere Ekle',
                     onPressed: () =>
                         RadyoOynaticiStore.favoriDegistir(kanal.url),
-                    icon: Icon(
-                      favori ? Icons.favorite : Icons.favorite_border,
-                      color: favori ? Colors.pinkAccent : Colors.white30,
-                      size: 22,
+                    icon: UcdIkon(ikon: 
+                      favori ? Icons.favorite_rounded : Icons.favorite_border_rounded, renk: favori ? Colors.pinkAccent : Colors.white30, boyut: 22,
                     ),
                   ),
                 ),
@@ -1482,7 +1475,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
       padding: const EdgeInsets.only(top: 10, bottom: 8),
       child: Row(
         children: [
-          Icon(_kategoriIkon(kategori), size: 18, color: Renkler.vurgu),
+          UcdIkon(ikon: _kategoriIkon(kategori), renk: Renkler.vurgu, boyut: 18),
           const SizedBox(width: 8),
           Text(
             kategori.etiket,
@@ -1512,13 +1505,13 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
   IconData _kategoriIkon(RadyoKategori kategori) {
     switch (kategori) {
       case RadyoKategori.tilavet:
-        return Icons.menu_book;
+        return Icons.menu_book_rounded;
       case RadyoKategori.ilahi:
-        return Icons.music_note;
+        return Icons.music_note_rounded;
       case RadyoKategori.dini:
-        return Icons.forum;
+        return Icons.forum_rounded;
       case RadyoKategori.yurtdisi:
-        return Icons.public;
+        return Icons.public_rounded;
     }
   }
 
@@ -1561,10 +1554,8 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                               padding: EdgeInsets.all(13),
                               child: CircularProgressIndicator(strokeWidth: 2.4),
                             )
-                          : Icon(
-                              caliyor ? Icons.pause : Icons.play_arrow,
-                              color: caliyor ? Colors.indigoAccent : Renkler.vurgu,
-                              size: 26,
+                          : UcdIkon(ikon: 
+                              caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded, renk: caliyor ? Colors.indigoAccent : Renkler.vurgu, boyut: 26,
                             ),
                     ),
                   ),
@@ -1589,10 +1580,8 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                   trailing: IconButton(
                     tooltip: favori ? 'Favorilerden Çıkar' : 'Favorilere Ekle',
                     onPressed: () => RadyoOynaticiStore.favoriDegistir(kanal.url),
-                    icon: Icon(
-                      favori ? Icons.favorite : Icons.favorite_border,
-                      color: favori ? Colors.pinkAccent : Colors.white30,
-                      size: 22,
+                    icon: UcdIkon(ikon: 
+                      favori ? Icons.favorite_rounded : Icons.favorite_border_rounded, renk: favori ? Colors.pinkAccent : Colors.white30, boyut: 22,
                     ),
                   ),
                 ),

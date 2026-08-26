@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 import '../pages/tesbih_page.dart';
 import 'kuran/hatim_takibi_page.dart';
 import 'kuran/sure_detay_page.dart';
@@ -85,7 +86,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new_rounded, renk: Colors.white),
           ),
           const SizedBox(width: 8),
           const Text(
@@ -97,7 +98,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
             ),
           ),
           const Spacer(),
-          const Icon(Icons.play_circle_outline, color: Colors.white54),
+          const UcdIkon(ikon: Icons.play_circle_rounded, renk: Colors.white54, boyut: 24),
         ],
       ),
     );
@@ -121,7 +122,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.menu_book_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
                 'Kur\'an\'da kaldığın yer',
@@ -162,7 +163,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
                 );
               },
               style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
-              icon: const Icon(Icons.arrow_forward, size: 16),
+              icon: UcdIkon(ikon: Icons.arrow_forward_rounded, renk: Renkler.vurgu, boyut: 16),
               label: const Text('Ayet okumaya devam et'),
             ),
           ),
@@ -178,7 +179,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.radio_button_checked, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.radio_button_checked_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
                 'Tesbih sayacın',
@@ -211,7 +212,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
                   );
                 },
                 style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
-                icon: const Icon(Icons.radio_button_checked, size: 16),
+                icon: const UcdIkon(ikon: Icons.radio_button_checked_rounded, renk: Colors.black, boyut: 16),
                 label: const Text('Tesbih\'e Git'),
               ),
             ],
@@ -229,7 +230,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.auto_stories_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
                 'Yarım kalan hatim',
@@ -262,7 +263,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
                 );
               },
               style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
-              icon: const Icon(Icons.arrow_forward, size: 16),
+              icon: UcdIkon(ikon: Icons.arrow_forward_rounded, renk: Renkler.vurgu, boyut: 16),
               label: const Text('Hatim takibine git'),
             ),
           ),
@@ -302,7 +303,7 @@ class _DevamEtPageState extends State<DevamEtPage> {
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.lightbulb_outline, color: Renkler.vurgu, size: 18),
+          UcdIkon(ikon: Icons.lightbulb_outline_rounded, renk: Renkler.vurgu, boyut: 18),
           SizedBox(width: 10),
           Expanded(
             child: Text(

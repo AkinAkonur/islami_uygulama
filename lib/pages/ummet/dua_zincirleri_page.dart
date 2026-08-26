@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 class DuaZincirleriPage extends StatefulWidget {
   const DuaZincirleriPage({super.key});
@@ -108,7 +109,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                     style: const TextStyle(color: Colors.white),
                     decoration: _dekor(
                       'Zincirin adı (örn. "Komşularım için Şükür")',
-                      Icons.link,
+                      Icons.link_rounded,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -232,7 +233,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
     return InputDecoration(
       hintText: hint,
       hintStyle: const TextStyle(color: Colors.white38),
-      prefixIcon: Icon(ikon, color: Colors.white54),
+      prefixIcon: UcdIkon(ikon: ikon, renk: Colors.white54),
       filled: true,
       fillColor: Renkler.yuzey,
       counterText: '',
@@ -268,7 +269,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
           IconButton(
             tooltip: 'Yeni Dua Zinciri Oluştur',
             onPressed: _zincirEkleDialog,
-            icon: const Icon(Icons.add_link, color: Colors.white),
+            icon: UcdIkon(ikon: Icons.link_rounded, renk: Colors.white),
           ),
         ],
       ),
@@ -276,7 +277,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
         onPressed: _zincirEkleDialog,
         backgroundColor: Renkler.vurgu,
         foregroundColor: Colors.white,
-        icon: const Icon(Icons.add),
+        icon: UcdIkon(ikon: Icons.add_rounded, renk: Colors.white),
         label: const Text('Zincir Oluştur'),
       ),
       body: _yukleniyor
@@ -290,7 +291,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                     style: const TextStyle(color: Colors.white),
                     decoration: _dekor(
                       'Zincir ara… (örn. "Gazze", "sınav", "evlat")',
-                      Icons.search,
+                      Icons.search_rounded,
                     ),
                   ),
                 ),
@@ -313,7 +314,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                           children: [
                             Row(
                               children: [
-                                Icon(Icons.link, color: Renkler.vurgu, size: 20),
+                                UcdIkon(ikon: Icons.link_rounded, renk: Renkler.vurgu, boyut: 20),
                                 const SizedBox(width: 8),
                                 const Text(
                                   'Zincire Katıl, Sevaba Ortak Ol',
@@ -349,8 +350,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                           child: Center(
                             child: Column(
                               children: [
-                                Icon(Icons.search_off,
-                                    color: Colors.white24, size: 44),
+                                UcdIkon(ikon: Icons.search_off, renk: Colors.white24, boyut: 44),
                                 SizedBox(height: 10),
                                 Text(
                                   'Aramanızla eşleşen zincir yok.',
@@ -465,7 +465,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
             Row(
               children: [
                 if (pay > 0) ...[
-                  Icon(Icons.check_circle, color: Renkler.vurgu, size: 16),
+                  UcdIkon(ikon: Icons.check_circle_rounded, renk: Renkler.vurgu, boyut: 16),
                   const SizedBox(width: 6),
                   Text(
                     'Senin payın: ${binlikSayi(pay)}',
@@ -481,8 +481,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                   IconButton(
                     tooltip: 'Zincirini Sil',
                     onPressed: () => _zinciriSil(zincir),
-                    icon: const Icon(Icons.delete_outline,
-                        color: Colors.redAccent, size: 20),
+                    icon: UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.redAccent, boyut: 20),
                   ),
                 for (final adet in [1, 5, 10]) ...[
                   if (adet > 1) const SizedBox(width: 6),

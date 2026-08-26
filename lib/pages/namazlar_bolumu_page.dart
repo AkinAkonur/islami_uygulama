@@ -7,6 +7,7 @@ import '../screens/wudu_screen.dart';
 import '../screens/qada_screen.dart';
 import '../screens/special_screen.dart';
 import '../screens/gorsel_kilinis_screen.dart';
+import '../widgets/kart_sekilleri.dart';
 
 // ===========================================================================
 // MODERNIZE EDİLMİŞ 3D NAMAZ PANELİ V2
@@ -105,7 +106,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                         "• Sünnetleri: Besmele ile başlamak, elleri bileklere kadar yıkamak, ağız ve buruna su vermek, misvak kullanmak.",
                         "• Bozanlar: İdrar, dışkı, yellenme, kan/irin akması, ağız dolusu kusma, namazda sesli gülmek, uyku.",
                       ],
-                      Icons.description_outlined,
+                      Icons.description_rounded,
                     ),
                     _expandableTile(
                       "Teyemmüm, Mest & Sargı Üzerine Mesh",
@@ -115,7 +116,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                         "• Mest Üzerine Mesh: Abdestli iken giyilen mestler üzerine 24 saat (seferî için 72 saat) mesh edilebilir.",
                         "• Sargı/Alçı Üzerine Mesh: Yaralı organlar üzerindeki sargı veya alçı çıkarılması zararlı ise üzerine mesh çekilir.",
                       ],
-                      Icons.public,
+                      Icons.public_rounded,
                     ),
                     const SizedBox(height: 20),
                     _sectionTitle("📐 2. Namazın Yapısı & Farzları"),
@@ -128,7 +129,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                         "• İçindeki 6 Farz (Rükün): İftitah tekbiri, kıyam, kıraat, rükû, secde, son oturuş.",
                         "• 10 Vacip: Fâtiha okumak, zamm-ı sure eklemek, ilk oturuşta Tahiyyat okumak, secde ve rükûda ta'dîl-i erkân, vb.",
                       ],
-                      Icons.account_balance_outlined,
+                      Icons.account_balance_rounded,
                     ),
                     _expandableTile(
                       "Sehiv Secdesi & Mekruh Vakitler",
@@ -137,7 +138,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                         "• Sehiv Secdesi: Vacip olan bir şey unutularak terk edildiğinde veya geciktirildiğinde namazın sonunda yapılır.",
                         "• Mekruh Vakitler: Güneş doğarken (ilk 45 dk), tam tepedeyken (zeval), güneş batarken nafile namaz kılınmaz.",
                       ],
-                      Icons.schedule_outlined,
+                      Icons.schedule_rounded,
                     ),
                     const SizedBox(height: 20),
                     _sectionTitle("🕒 3. 5 Vakit Rekat Tablosu"),
@@ -152,7 +153,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                         "• Akşam: 3 Farz, 2 Sünnet (Toplam 5)",
                         "• Yatsı: 4 Sünnet, 4 Farz, 2 Son Sünnet, 3 Vitir Vacip (Toplam 13)",
                       ],
-                      Icons.access_time,
+                      Icons.access_time_rounded,
                     ),
                     const SizedBox(height: 20),
                     _sectionTitle("📜 4. Namazda Okunan Dualar & Sureler"),
@@ -166,7 +167,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                         "• Salli & Bârik: Allâhümme salli alâ Muhammed...",
                         "• Rabbenâ Duaları: Rabbenâ âtinâ fi'ddünyâ haseneten...",
                       ],
-                      Icons.menu_book_outlined,
+                      Icons.menu_book_rounded,
                     ),
                     const SizedBox(height: 20),
                     _sectionTitle("🤲 5. Özel Durumlar & Kolaylıklar"),
@@ -179,7 +180,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                         "• Seferîlik: 90 km ve üzeri yolculuklarda 4 rekatlı farzlar 2 rekat olarak kılınır.",
                         "• Hasta / Özürlü: Ayakta duramayacak olanlar oturarak, o da olmazsa yatarak ima ile kılabilir.",
                       ],
-                      Icons.healing_outlined,
+                      Icons.healing_rounded,
                     ),
                     const SizedBox(height: 30),
                   ],
@@ -207,7 +208,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
             ),
           ),
           _goldIconWrap(
-            icon: Icons.compass_calibration,
+            icon: Icons.compass_calibration_rounded,
             size: 22,
           ),
           const SizedBox(width: 10),
@@ -223,7 +224,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
       child: PopupMenuButton<String>(
         initialValue: _selectedMadhab,
         color: _cardDeep,
-        icon: const Icon(Icons.expand_more, color: _gold),
+        icon: const UcdIkon(ikon: Icons.expand_more_rounded, renk: _gold),
         onSelected: (v) => setState(() => _selectedMadhab = v),
         itemBuilder: (context) => ["Hanefî", "Şâfiî", "Mâlikî", "Hanbelî"]
             .map((m) => PopupMenuItem(
@@ -248,7 +249,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
       child: Row(
         children: [
           _goldIconBox(
-            icon: Icons.explore,
+            icon: Icons.explore_rounded,
             size: 34,
             boxSize: 60,
           ),
@@ -286,37 +287,37 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
   Widget _modulesGrid() {
     final items = <({IconData icon, String title, String subtitle, Widget page})>[
       (
-        icon: Icons.nightlight,
+        icon: Icons.nightlight_rounded,
         title: "Namaz & İbadet",
         subtitle: "Vakitler ve merkez",
         page: const NamazScreen(),
       ),
       (
-        icon: Icons.menu_book,
+        icon: Icons.menu_book_rounded,
         title: "Adım Adım Kılınış",
         subtitle: "Rehber & Stepper",
         page: const GuideScreen(),
       ),
       (
-        icon: Icons.water_drop,
+        icon: Icons.water_drop_rounded,
         title: "Abdest & Gusül",
         subtitle: "Temizlik Esasları",
         page: const WuduScreen(),
       ),
       (
-        icon: Icons.calendar_month,
+        icon: Icons.calendar_month_rounded,
         title: "Kaza Takipçisi",
         subtitle: "Takvim & Liste",
         page: const QadaScreen(),
       ),
       (
-        icon: Icons.health_and_safety,
+        icon: Icons.health_and_safety_rounded,
         title: "Özel Durumlar",
         subtitle: "Seferî & Hasta",
         page: const SpecialScreen(),
       ),
       (
-        icon: Icons.self_improvement,
+        icon: Icons.self_improvement_rounded,
         title: "Görsel Kılınış & Abdest",
         subtitle: "Şemalı Adım Rehberi",
         page: const GorselKilinisScreen(),
@@ -385,7 +386,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
                         ),
                       ],
                     ),
-                    child: Icon(icon, color: const Color(0xFF10201A), size: 21),
+                    child: UcdIkon(ikon: icon, renk: const Color(0xFF10201A), boyut: 21),
                   ),
                   const SizedBox(height: 12),
                   Text(
@@ -748,7 +749,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
           ),
         ],
       ),
-      child: Icon(icon, color: const Color(0xFF10201A), size: size),
+      child: UcdIkon(ikon: icon, renk: const Color(0xFF10201A), boyut: size),
     );
   }
 
@@ -771,7 +772,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
           ),
         ],
       ),
-      child: Icon(icon, color: const Color(0xFF11230F), size: size),
+      child: UcdIkon(ikon: icon, renk: const Color(0xFF11230F), boyut: size),
     );
   }
 

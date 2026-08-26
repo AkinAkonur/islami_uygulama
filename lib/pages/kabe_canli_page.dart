@@ -34,6 +34,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/kabe_mini_oynatici.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 /// Yayın izleme modu.
 enum YayinModu { video, ses }
@@ -221,7 +222,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         backgroundColor: Renkler.kart,
         title: const Row(
           children: [
-            Icon(Icons.wifi_tethering, color: Colors.orangeAccent),
+            UcdIkon(ikon: Icons.wifi_tethering_rounded, renk: Colors.orangeAccent, boyut: 24),
             SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -685,7 +686,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     if (_desteklenmiyor) {
       return _videoKutu(
         _mesajPaneli(
-          ikon: Icons.live_tv_outlined,
+          ikon: Icons.live_tv_rounded,
           baslik: 'Canlı yayın bu cihazda desteklenmiyor',
           alt:
               'Kâbe canlı yayınını Android, iOS, web, Windows ve macOS '
@@ -702,13 +703,13 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     if (video == null) {
       if (_dayanikliHata != null) {
         return _mesajPaneli(
-          ikon: Icons.cloud_off_outlined,
+          ikon: Icons.cloud_off_rounded,
           baslik: 'Yayına bağlanılamadı',
           alt: _dayanikliHata!,
           buton: FilledButton.icon(
             style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
             onPressed: _tekrarDene,
-            icon: const Icon(Icons.refresh),
+            icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white, boyut: 18),
             label: const Text('Tekrar Dene'),
           ),
         );
@@ -754,7 +755,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     if (_sesHata) {
       return _videoKutu(
         _mesajPaneli(
-          ikon: Icons.headset_off_outlined,
+          ikon: Icons.headset_off_rounded,
           baslik: 'Ses akışı başlatılamadı',
           alt:
               _dayanikliHata ??
@@ -763,7 +764,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
           buton: FilledButton.icon(
             style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
             onPressed: _tekrarDene,
-            icon: const Icon(Icons.refresh),
+            icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white, boyut: 18),
             label: const Text('Tekrar Dene'),
           ),
         ),
@@ -797,10 +798,10 @@ class _KabeCanliPageState extends State<KabeCanliPage>
                         color: Colors.white.withValues(alpha: 0.12),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
-                        Icons.mosque_outlined,
-                        color: Colors.white,
-                        size: 44,
+                      child: const UcdIkon(
+                        ikon: Icons.mosque_rounded,
+                        renk: Colors.white,
+                        boyut: 44,
                       ),
                     ),
                     const SizedBox(height: 14),
@@ -840,7 +841,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.circle, size: 8, color: Colors.white),
+                      UcdIkon(ikon: Icons.circle, renk: Colors.white, boyut: 8),
                       SizedBox(width: 6),
                       Text(
                         'CANLI SES',
@@ -884,7 +885,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       children: [
         Expanded(
           child: _secimButonu(
-            ikon: Icons.play_circle_fill_outlined,
+            ikon: Icons.play_circle_rounded,
             etiket: '📺 Video',
             secili: _modu == YayinModu.video,
             onTap: () => _moduDegistir(YayinModu.video),
@@ -893,7 +894,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         const SizedBox(width: 10),
         Expanded(
           child: _secimButonu(
-            ikon: Icons.headphones_outlined,
+            ikon: Icons.headphones_rounded,
             etiket: '🎧 Ses Modu (Arkaplanda Çal)',
             secili: _modu == YayinModu.ses,
             onTap: () => _moduDegistir(YayinModu.ses),
@@ -926,7 +927,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         ),
         child: Row(
           children: [
-            Icon(ikon, color: secili ? Renkler.vurgu : Colors.white54, size: 20),
+            UcdIkon(ikon: ikon, renk: secili ? Renkler.vurgu : Colors.white54, boyut: 20),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -939,7 +940,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
               ),
             ),
             if (secili)
-              const Icon(Icons.check_circle, color: Colors.greenAccent, size: 16),
+              const UcdIkon(ikon: Icons.check_circle_rounded, renk: Colors.greenAccent, boyut: 16),
           ],
         ),
       ),
@@ -950,7 +951,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     final kaynakAdi = _hlsAdi();
     return Row(
       children: [
-        Icon(Icons.sensors, color: Renkler.vurgu, size: 16),
+        UcdIkon(ikon: Icons.sensors_rounded, renk: Renkler.vurgu, boyut: 16),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
@@ -965,10 +966,10 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   Widget _agDurumuSatiri() {
     return Row(
       children: [
-        Icon(
-          _baglantiVar ? Icons.wifi : Icons.wifi_off,
-          color: _baglantiVar ? Colors.greenAccent : Colors.redAccent,
-          size: 16,
+        UcdIkon(
+          ikon: _baglantiVar ? Icons.wifi_rounded : Icons.wifi_off_rounded,
+          renk: _baglantiVar ? Colors.greenAccent : Colors.redAccent,
+          boyut: 16,
         ),
         const SizedBox(width: 8),
         Expanded(
@@ -993,7 +994,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
               side: const BorderSide(color: Colors.white24),
             ),
             onPressed: _tekrarDene,
-            icon: const Icon(Icons.refresh, size: 18),
+            icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white70, boyut: 18),
             label: const Text('Tekrar Dene'),
           ),
         ),
@@ -1005,7 +1006,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
               side: const BorderSide(color: Colors.white24),
             ),
             onPressed: _modu == YayinModu.video ? _miniOynaticiyaGonder : null,
-            icon: const Icon(Icons.picture_in_picture_alt, size: 18),
+            icon: const UcdIkon(ikon: Icons.picture_in_picture_alt_rounded, renk: Colors.white70, boyut: 18),
             label: const Text('Mini Oynatıcıya Gönder'),
           ),
         ),
@@ -1013,9 +1014,9 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         IconButton(
           tooltip: 'Tam ekran',
           onPressed: _tamEkraniDegistir,
-          icon: Icon(
-            _tamEkran ? Icons.fullscreen_exit : Icons.fullscreen,
-            color: Colors.white70,
+          icon: UcdIkon(
+            ikon: _tamEkran ? Icons.fullscreen_exit_rounded : Icons.fullscreen_rounded,
+            renk: Colors.white70,
           ),
         ),
       ],
@@ -1029,7 +1030,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       child: IconButton(
         tooltip: 'Tam ekrandan çık',
         onPressed: _tamEkraniDegistir,
-        icon: const Icon(Icons.fullscreen_exit, color: Colors.white),
+        icon: const UcdIkon(ikon: Icons.fullscreen_exit_rounded, renk: Colors.white),
       ),
     );
   }
@@ -1047,7 +1048,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         ),
         child: const Row(
           children: [
-            Icon(Icons.cloud_off, color: Colors.white, size: 18),
+            UcdIkon(ikon: Icons.cloud_off_rounded, renk: Colors.white, boyut: 18),
             SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -1125,7 +1126,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         child: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.circle, size: 8, color: Colors.white),
+            UcdIkon(ikon: Icons.circle, renk: Colors.white, boyut: 8),
             SizedBox(width: 6),
             Text(
               'CANLI',
@@ -1149,7 +1150,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         shape: const CircleBorder(),
         child: IconButton(
           onPressed: _videoDuraklatDevam,
-          icon: const Icon(Icons.play_arrow, color: Colors.white, size: 44),
+          icon: const UcdIkon(ikon: Icons.play_arrow_rounded, renk: Colors.white, boyut: 44),
           padding: const EdgeInsets.all(10),
         ),
       ),
@@ -1168,7 +1169,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(ikon, color: Colors.white54, size: 40),
+          UcdIkon(ikon: ikon, renk: Colors.white54, boyut: 40),
           const SizedBox(height: 12),
           Text(
             baslik,
@@ -1208,13 +1209,13 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     return Column(
       children: [
         _bilgiKarti(
-          ikon: Icons.mosque_outlined,
+          ikon: Icons.mosque_rounded,
           renk: Colors.redAccent,
           baslik: anaBaslik,
           alt: anaDetay,
         ),
         _bilgiKarti(
-          ikon: Icons.sync_alt,
+          ikon: Icons.sync_alt_rounded,
           renk: Colors.tealAccent,
           baslik: 'Otomatik Yedek Kaynak',
           alt:
@@ -1223,7 +1224,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
               'kendiliğinden yeniden başlar.',
         ),
         _bilgiKarti(
-          ikon: Icons.phonelink_erase,
+          ikon: Icons.phonelink_erase_rounded,
           renk: Colors.orangeAccent,
           baslik: 'Veri Tasarrufu',
           alt:
@@ -1232,7 +1233,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
               'internet hızına göre otomatik ayarlar (360p-1080p).',
         ),
         _bilgiKarti(
-          ikon: Icons.picture_in_picture_alt,
+          ikon: Icons.picture_in_picture_alt_rounded,
           renk: Colors.amberAccent,
           baslik: 'Mini Oynatıcı (PiP)',
           alt:
@@ -1262,7 +1263,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
             color: renk.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(ikon, color: renk, size: 24),
+          child: UcdIkon(ikon: ikon, renk: renk, boyut: 24),
         ),
         title: Text(
           baslik,

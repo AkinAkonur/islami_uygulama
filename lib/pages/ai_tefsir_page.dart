@@ -5,6 +5,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/dil_hizmetleri.dart';
 import '../services/gemini_servisi.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 /// Dokunma imlecine göre X/Y ekseninde perspektifli olarak eğilen 3D kart.
 /// Kartın içinden geçen ışık ve gölge derinlik hissi verir.
@@ -277,14 +278,14 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
   static const List<_AiKategori> _kategoriler = [
     _AiKategori(
       kod: 'tefsir',
-      ikon: Icons.menu_book,
+      ikon: Icons.menu_book_rounded,
       talimat: "Kur'an ayeti veya suresini klasik tefsirler (İbn Kesîr, "
           "Taberî, Râzî, Elmalılı) ve dilbilimsel açıklamayla detaylı yorumla. "
           "Ayet numarası verildiyse metni ve meramını açıkla.",
     ),
     _AiKategori(
       kod: 'fikih',
-      ikon: Icons.mosque,
+      ikon: Icons.mosque_rounded,
       talimat: "Namaz, oruç, zekât, hac, temizlik ve günlük ibadet konularında "
           "fıkıh mezheplerinin görüşlerini gözeterek sade ve pratik açıklamalar "
           "yap. Görüş farkı varsa kısaca belirt; kesin fetva gereken konularda "
@@ -292,53 +293,53 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
     ),
     _AiKategori(
       kod: 'akaid',
-      ikon: Icons.verified_user,
+      ikon: Icons.verified_user_rounded,
       talimat: "Akaid ve iman esaslarını (Allah'a iman, ahiret, melekler, "
           "kitaplar, peygamberler, kader) kaynaklarıyla ve sade biçimde açıkla.",
     ),
     _AiKategori(
       kod: 'hadis',
-      ikon: Icons.collections_bookmark,
+      ikon: Icons.collections_bookmark_rounded,
       talimat: "Hadis ve sünnet konularını kaynak göstererek (Buhârî, Müslim "
           "vb.) açıkla; sahih ile zayıf hadis arasındaki farkı belirt.",
     ),
     _AiKategori(
       kod: 'siyer',
-      ikon: Icons.history_edu,
+      ikon: Icons.history_edu_rounded,
       talimat: "Peygamberimizin hayatı, sahabe ve İslam tarihi konularını "
           "kronolojik ve kaynaklı biçimde anlat.",
     ),
     _AiKategori(
       kod: 'dua',
-      ikon: Icons.front_hand,
+      ikon: Icons.front_hand_rounded,
       talimat: "Dua, zikir ve tesbih konularında Kur'an'dan ve sahih "
           "kaynaklardan örnekler ver; Arapça metni, okunuşu ve anlamını "
           "birlikte sun.",
     ),
     _AiKategori(
       kod: 'aile',
-      ikon: Icons.family_restroom,
+      ikon: Icons.family_restroom_rounded,
       talimat: "Nikâh, evlilik, boşanma, anne-baba hakları, çocuk terbiyesi ve "
           "aile hayatı konularını İslam ahlakı çerçevesinde dengeli ve "
           "uygulanabilir biçimde açıkla.",
     ),
     _AiKategori(
       kod: 'teselli',
-      ikon: Icons.volunteer_activism,
+      ikon: Icons.volunteer_activism_rounded,
       talimat: "Kaygı, keder ve umutsuzluğa karşı Kur'an'dan ve hadislerden "
           "ferahlatıcı, şefkatli ve güven veren yanıtlar ver. Kısa, sıcak ve "
           "manevi bir üslup kullan.",
     ),
     _AiKategori(
       kod: 'karsilastirma',
-      ikon: Icons.compare_arrows,
+      ikon: Icons.compare_arrows_rounded,
       talimat: "İki veya daha fazla konuyu (ayet, görüş, uygulama) yan yana "
           "karşılaştır; benzerlik ve farklılıkları tablo/madde halinde nesnel "
           "şekilde sun.",
     ),
     _AiKategori(
       kod: 'ogrenme',
-      ikon: Icons.school,
+      ikon: Icons.school_rounded,
       talimat: "Soruya net, düzenli, madde madde ve başlangıç seviyesinden "
           "akademik seviyeye açıklamalı eğitici bir yanıt ver. Terimleri "
           "tanımla ve örnek ver.",
@@ -492,8 +493,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.auto_awesome,
-                          color: Colors.white, size: 13),
+                      const UcdIkon(ikon: Icons.auto_awesome,
+                          renk: Colors.white, boyut: 13),
                       SizedBox(width: 4),
                       Text(
                         "${l.t('ai.hak')}: 5/5",
@@ -603,8 +604,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                       ),
                     ],
                   ),
-                  child: Icon(Icons.shield_outlined,
-                      color: Colors.white, size: 18),
+                  child: UcdIkon(ikon: Icons.shield_rounded,
+                      renk: Colors.white, boyut: 18),
                 ),
                 SizedBox(width: 10),
                 Expanded(
@@ -695,10 +696,10 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          kategori.ikon,
-                          color: isSelected ? Colors.white : Renkler.acikVurgu,
-                          size: 16,
+                        UcdIkon(
+                          ikon: kategori.ikon,
+                          renk: isSelected ? Colors.white : Renkler.acikVurgu,
+                          boyut: 16,
                         ),
                         SizedBox(width: 6),
                         Text(
@@ -762,8 +763,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                             borderRadius: BorderRadius.circular(14),
                             borderSide: BorderSide.none,
                           ),
-                          prefixIcon: Icon(Icons.auto_awesome,
-                              color: Renkler.vurgu, size: 18),
+                          prefixIcon: UcdIkon(ikon: Icons.auto_awesome,
+                              renk: Renkler.vurgu, boyut: 18),
                         ),
                       ),
                     ),
@@ -805,8 +806,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                                     color: Colors.white,
                                   ),
                                 )
-                              : Icon(Icons.arrow_upward,
-                                  color: Colors.white, size: 22),
+                              : UcdIkon(ikon: Icons.keyboard_arrow_up_rounded,
+                                   renk: Colors.white, boyut: 22),
                         ),
                       ),
                     ),
@@ -861,8 +862,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                         ],
                       ),
                     ),
-                    child: Icon(kategori.ikon,
-                        color: Colors.white, size: 13),
+                    child: UcdIkon(ikon: kategori.ikon,
+                        renk: Colors.white, boyut: 13),
                   ),
                   labelStyle:
                       TextStyle(color: Colors.white70, fontSize: 12),
@@ -902,7 +903,7 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                   ),
                 ],
               ),
-              child: Icon(Icons.key_off, color: Colors.white, size: 20),
+              child: UcdIkon(ikon: Icons.key_off_rounded, renk: Colors.white, boyut: 20),
             ),
             SizedBox(width: 12),
             Expanded(
@@ -968,7 +969,7 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                 color: Colors.redAccent.withValues(alpha: 0.2),
               ),
               child:
-                  Icon(Icons.error_outline, color: Colors.redAccent, size: 20),
+                  UcdIkon(ikon: Icons.error_outline_rounded, renk: Colors.redAccent, boyut: 20),
             ),
             SizedBox(width: 10),
             Expanded(
@@ -1018,8 +1019,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                           ),
                         ],
                       ),
-                      child: Icon(Icons.auto_awesome,
-                          color: Colors.white, size: 20),
+                      child: UcdIkon(ikon: Icons.auto_awesome,
+                          renk: Colors.white, boyut: 20),
                     ),
                     SizedBox(width: 10),
                     Expanded(
@@ -1063,8 +1064,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.verified_user,
-                          color: Renkler.vurgu, size: 16),
+                      UcdIkon(ikon: Icons.verified_user_rounded,
+                          renk: Renkler.vurgu, boyut: 16),
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -1093,8 +1094,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                         style: IconButton.styleFrom(
                           backgroundColor: Colors.white.withValues(alpha: 0.05),
                         ),
-                        icon: Icon(Icons.thumb_up_outlined,
-                            color: Colors.white60, size: 20),
+                        icon: UcdIkon(ikon: Icons.thumb_up_rounded,
+                            renk: Colors.white60, boyut: 20),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -1109,8 +1110,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                         style: IconButton.styleFrom(
                           backgroundColor: Colors.white.withValues(alpha: 0.05),
                         ),
-                        icon: Icon(Icons.thumb_down_outlined,
-                            color: Colors.white60, size: 20),
+                        icon: UcdIkon(ikon: Icons.thumb_down_rounded,
+                            renk: Colors.white60, boyut: 20),
                       ),
                     ),
                   ],

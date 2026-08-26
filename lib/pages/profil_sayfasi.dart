@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 /// Profil verileri (fotoğraf + isim) için kalıcı depo.
 class ProfilStore {
@@ -95,8 +96,8 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.photo_library_outlined,
-                  color: Colors.white70),
+              leading: const UcdIkon(ikon: Icons.photo_library_rounded,
+                  renk: Colors.white70),
               title: const Text(
                 'Galeriden Seç',
                 style: TextStyle(color: Colors.white),
@@ -104,8 +105,8 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
               onTap: () => Navigator.pop(ctx, ImageSource.gallery),
             ),
             ListTile(
-              leading: const Icon(Icons.camera_alt_outlined,
-                  color: Colors.white70),
+              leading: const UcdIkon(ikon: Icons.camera_alt_rounded,
+                  renk: Colors.white70),
               title: const Text(
                 'Kamera ile Çek',
                 style: TextStyle(color: Colors.white),
@@ -189,7 +190,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
           ),
           const SizedBox(width: 8),
           const Text(
@@ -201,7 +202,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
             ),
           ),
           const Spacer(),
-          const Icon(Icons.person_outline, color: Colors.white54),
+          const UcdIkon(ikon: Icons.person_rounded, renk: Colors.white54),
         ],
       ),
     );
@@ -226,8 +227,8 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                   backgroundImage:
                       _resim != null ? MemoryImage(_resim!) : null,
                   child: _resim == null
-                      ? const Icon(Icons.person_outline,
-                          color: Colors.white70, size: 44)
+                      ? const UcdIkon(ikon: Icons.person_rounded,
+                          renk: Colors.white70, boyut: 44)
                       : null,
                 ),
                 Positioned(
@@ -239,8 +240,8 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                       color: Renkler.vurgu,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.camera_alt_outlined,
-                        color: Colors.white, size: 16),
+                    child: const UcdIkon(ikon: Icons.camera_alt_rounded,
+                        renk: Colors.white, boyut: 16),
                   ),
                 ),
               ],
@@ -270,7 +271,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                   foregroundColor: Renkler.vurgu,
                   side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
                 ),
-                icon: const Icon(Icons.photo_library_outlined, size: 16),
+                icon: const UcdIkon(ikon: Icons.photo_library_rounded, renk: Colors.white70, boyut: 16),
                 label: Text(_resim == null ? 'Fotoğraf Ekle' : 'Değiştir'),
               ),
               const SizedBox(width: 10),
@@ -278,7 +279,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                 TextButton.icon(
                   onPressed: _fotografSil,
                   style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
-                  icon: const Icon(Icons.delete_outline, size: 16),
+                  icon: const UcdIkon(ikon: Icons.delete_outline, renk: Colors.redAccent, boyut: 16),
                   label: const Text('Kaldır'),
                 ),
             ],
@@ -300,7 +301,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
         children: [
           Row(
             children: [
-              Icon(Icons.edit_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.edit_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
                 'İsmin',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 enum NamazPosture { kiyam, ruku, secde, oturus }
 
@@ -110,7 +111,7 @@ _Rekat _rekat(String ad, String hukuk, List<_Durus> duruslar) =>
     _Rekat(ad, hukuk, duruslar);
 
 final List<_VakitPlani> _vakitler = [
-  _VakitPlani("Sabah", "4 rekat: 2 Sünnet + 2 Farz", Icons.wb_twilight, [
+  _VakitPlani("Sabah", "4 rekat: 2 Sünnet + 2 Farz", Icons.wb_twilight_rounded, [
     _rekat("1. Rekat (Sünnet)", "SÜNNET", [
       _ilksira(),
       _rk(),
@@ -144,7 +145,7 @@ final List<_VakitPlani> _vakitler = [
       _sl(),
     ]),
   ]),
-  _VakitPlani("Öğle", "10 rekat: 4 Sünnet + 4 Farz + 2 Son Sünnet", Icons.wb_sunny, [
+  _VakitPlani("Öğle", "10 rekat: 4 Sünnet + 4 Farz + 2 Son Sünnet", Icons.wb_sunny_rounded, [
     _rekat("1. Rekat (İlk Sünnet)", "SÜNNET", [
       _ilksira(),
       _rk(),
@@ -224,7 +225,7 @@ final List<_VakitPlani> _vakitler = [
       _sl(),
     ]),
   ]),
-  _VakitPlani("İkindi", "8 rekat: 4 Sünnet + 4 Farz", Icons.brightness_5, [
+  _VakitPlani("İkindi", "8 rekat: 4 Sünnet + 4 Farz", Icons.brightness_5_rounded, [
     _rekat("1. Rekat (Sünnet)", "SÜNNET", [
       _ilksira(),
       _rk(),
@@ -288,7 +289,7 @@ final List<_VakitPlani> _vakitler = [
       _sl(),
     ]),
   ]),
-  _VakitPlani("Akşam", "5 rekat: 3 Farz + 2 Sünnet", Icons.landscape, [
+  _VakitPlani("Akşam", "5 rekat: 3 Farz + 2 Sünnet", Icons.landscape_rounded, [
     _rekat("1. Rekat (Farz)", "FÂRZ", [
       _ilksira(),
       _rk(),
@@ -331,7 +332,7 @@ final List<_VakitPlani> _vakitler = [
     ]),
   ]),
   _VakitPlani("Yatsı", "13 rekat: 4 Sünnet + 4 Farz + 2 Son Sünnet + 3 Vitir",
-      Icons.nights_stay, [
+      Icons.nights_stay_rounded, [
     _rekat("1. Rekat (İlk Sünnet)", "SÜNNET", [
       _ilksira(),
       _rk(),
@@ -483,7 +484,7 @@ class _KilinisTabState extends State<_KilinisTab> {
       padding: EdgeInsets.all(16),
       children: [
         _introBanner(
-          Icons.accessibility_new,
+          Icons.accessibility_new_rounded,
           "Görsel Kılınış Rehberi",
           "Hanefî usulüne göre her vakit, rekat rekat şemalı olarak gösterilir.",
         ),
@@ -529,8 +530,8 @@ class _KilinisTabState extends State<_KilinisTab> {
               return Padding(
                 padding: EdgeInsets.only(right: 8),
                 child: ChoiceChip(
-                  avatar: Icon(v.ikon, size: 16,
-                      color: secili ? Colors.black : Renkler.vurgu),
+                  avatar: UcdIkon(ikon: v.ikon, boyut: 16,
+                      renk: secili ? Colors.black : Renkler.vurgu),
                   label: Text(v.ad),
                   selected: secili,
                   selectedColor: Renkler.vurgu,
@@ -556,7 +557,7 @@ class _KilinisTabState extends State<_KilinisTab> {
           ),
           child: Row(
             children: [
-              Icon(plan.ikon, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: plan.ikon, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -602,7 +603,7 @@ class _KilinisTabState extends State<_KilinisTab> {
       ),
       child: Row(
         children: [
-          Icon(icon, color: Renkler.vurgu, size: 36),
+          UcdIkon(ikon: icon, renk: Renkler.vurgu, boyut: 36),
           SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -722,10 +723,10 @@ class _RekatKartiState extends State<_RekatKarti> {
                   if (i < duruslar.length - 1)
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 2),
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 10,
-                        color: Colors.white24,
+                      child: UcdIkon(
+                        ikon: Icons.chevron_right,
+                        boyut: 10,
+                        renk: Colors.white24,
                       ),
                     ),
                 ],
@@ -742,7 +743,7 @@ class _RekatKartiState extends State<_RekatKarti> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.info_outline, size: 16, color: Renkler.vurgu),
+                UcdIkon(ikon: Icons.info_outline_rounded, boyut: 16, renk: Renkler.vurgu),
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -856,7 +857,7 @@ class _AbdestTab extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(Icons.water_drop, color: Renkler.vurgu, size: 36),
+              UcdIkon(ikon: Icons.water_drop_rounded, renk: Renkler.vurgu, boyut: 36),
               SizedBox(width: 16),
               Expanded(
                 child: Column(

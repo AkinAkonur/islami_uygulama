@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/kart_sekilleri.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 import '../services/renkler.dart';
@@ -181,9 +182,9 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
   }
 
   /// TTS yöntemlerinden gelen hata değerlerini esnek biçimde tanır.
-  /// Dikkat: `speak` Android'de "kuyruğa alındı" anlamında 0, iOS'te başarı
+  /// Dikkat: speak Android'de "kuyruğa alındı" anlamında 0, iOS'te başarı
   /// anlamında 1 döner; ikisi de hata DEĞİLDİR. Hata yalnızca Android'de
-  /// `setLanguage`'in döndürdüğü `false` ve bazı platformlardaki -1'dir.
+  /// setLanguage'in döndürdüğü false ve bazı platformlardaki -1'dir.
   bool _sonucYok(dynamic sonuc) =>
       sonuc == -1 ||
       sonuc == false ||
@@ -261,10 +262,8 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
           IconButton(
             tooltip: _okuyor ? 'Durdur' : 'Hatim Duasını Oku',
             onPressed: _okuyor ? _duraklat : () => _baslat(null),
-            icon: Icon(
-              _okuyor ? Icons.stop_circle_outlined : Icons.play_circle_outline,
-              color: Renkler.vurgu,
-              size: 26,
+            icon: UcdIkon(ikon: 
+              _okuyor ? Icons.stop_circle_rounded : Icons.play_circle_rounded, renk: Renkler.vurgu, boyut: 26,
             ),
           ),
         ],
@@ -316,10 +315,8 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
         children: [
           Row(
             children: [
-              Icon(
-                _okuyor ? Icons.graphic_eq : Icons.play_circle_outline,
-                color: Colors.white,
-                size: 24,
+              UcdIkon(ikon: 
+                _okuyor ? Icons.graphic_eq_rounded : Icons.play_circle_rounded, renk: Colors.white, boyut: 24,
               ),
               const SizedBox(width: 10),
               const Expanded(
@@ -387,7 +384,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                 Expanded(
                   child: FilledButton.icon(
                     onPressed: _duraklat,
-                    icon: const Icon(Icons.pause),
+                    icon: const UcdIkon(ikon: Icons.pause_rounded, renk: Colors.white70),
                     label: const Text('Duraklat'),
                   ),
                 ),
@@ -399,7 +396,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                       side: const BorderSide(color: Colors.white54),
                     ),
                     onPressed: _durdur,
-                    icon: const Icon(Icons.stop),
+                    icon: const UcdIkon(ikon: Icons.stop_rounded, renk: Colors.white70),
                     label: const Text('Durdur'),
                   ),
                 ),
@@ -411,9 +408,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                 Expanded(
                   child: FilledButton.icon(
                     onPressed: () => _baslat(null),
-                    icon: Icon(
-                      aktif == null ? Icons.play_arrow : Icons.play_circle_outline,
-                    ),
+                    icon: UcdIkon(ikon: aktif == null ? Icons.play_arrow_rounded : Icons.play_circle_rounded, renk: Colors.white70),
                     label: Text(aktif == null ? 'Hatim Duasını Oku' : 'Devam Et'),
                   ),
                 ),
@@ -426,7 +421,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                         side: const BorderSide(color: Colors.white54),
                       ),
                       onPressed: _durdur,
-                      icon: const Icon(Icons.replay),
+                      icon: const UcdIkon(ikon: Icons.replay_rounded, renk: Colors.white70),
                       label: const Text('Baştan'),
                     ),
                   ),
@@ -491,8 +486,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
             if (aktif) ...[
               Row(
                 children: [
-                  const Icon(Icons.graphic_eq,
-                      color: Colors.greenAccent, size: 16),
+                  const UcdIkon(ikon: Icons.graphic_eq_rounded, renk: Colors.greenAccent, boyut: 16),
                   const SizedBox(width: 6),
                   Text(
                     'Şu an okunuyor',
@@ -567,10 +561,8 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                     ),
                   ),
                   const SizedBox(width: 4),
-                  Icon(
-                    Icons.play_circle_outline,
-                    color: Renkler.vurgu.withValues(alpha: 0.85),
-                    size: 16,
+                  UcdIkon(ikon: 
+                    Icons.play_circle_rounded, renk: Renkler.vurgu.withValues(alpha: 0.85), boyut: 16,
                   ),
                 ],
               ),
@@ -595,7 +587,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
       ),
       child: const Row(
         children: [
-          Icon(Icons.auto_stories, color: Colors.white70, size: 22),
+          UcdIkon(ikon: Icons.auto_stories_rounded, renk: Colors.white70, boyut: 22),
           SizedBox(width: 10),
           Expanded(
             child: Text(

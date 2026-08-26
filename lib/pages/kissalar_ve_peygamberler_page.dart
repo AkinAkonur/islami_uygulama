@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 import 'kissalar/dualar_verileri.dart';
 import 'kissalar/ibret_verileri.dart';
 import 'kissalar/kissa_detay_page.dart';
@@ -108,10 +109,10 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
           hintText:
               'Peygamber, kıssa, kavim, ayet, dua veya tema arayın...',
           hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
-          prefixIcon: const Icon(Icons.search, color: Colors.white54),
+          prefixIcon: const UcdIkon(ikon: Icons.search_rounded, renk: Colors.white54, boyut: 20),
           suffixIcon: _aramaAktif
               ? IconButton(
-                  icon: const Icon(Icons.clear, color: Colors.white38),
+                  icon: const UcdIkon(ikon: Icons.clear_rounded, renk: Colors.white38, boyut: 20),
                   onPressed: () => setState(() => _aramaSorgusu = ''),
                 )
               : null,
@@ -400,7 +401,7 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
                     backgroundColor: Renkler.vurgu,
                     foregroundColor: Colors.black87,
                   ),
-                  icon: const Icon(Icons.copy, size: 18),
+                  icon: const UcdIkon(ikon: Icons.copy_rounded, renk: Colors.black87, boyut: 18),
                   label: const Text('Arapça Metni Kopyala'),
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: dua.arapca));
@@ -543,7 +544,7 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.info_outline, color: Renkler.vurgu, size: 18),
+          UcdIkon(ikon: Icons.info_outline_rounded, renk: Renkler.vurgu, boyut: 18),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -693,7 +694,7 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
             const SizedBox(width: 6),
             const Padding(
               padding: EdgeInsets.only(top: 14),
-              child: Icon(Icons.chevron_right, color: Colors.white24, size: 20),
+              child: UcdIkon(ikon: Icons.chevron_right_rounded, renk: Colors.white24, boyut: 20),
             ),
           ],
         ),

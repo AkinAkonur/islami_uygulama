@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class YorgunPage extends StatefulWidget {
   const YorgunPage({super.key});
@@ -47,7 +48,7 @@ class _YorgunPageState extends State<YorgunPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.bedtime_outlined, color: Colors.blueAccent, size: 40),
+                  UcdIkon(ikon: Icons.bedtime_rounded, renk: Colors.blueAccent, boyut: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -85,7 +86,7 @@ class _YorgunPageState extends State<YorgunPage> {
               ),
               child: Column(
                 children: [
-                  Icon(Icons.air, color: Colors.blueAccent, size: 44),
+                  UcdIkon(ikon: Icons.air_rounded, renk: Colors.blueAccent, boyut: 44),
                   SizedBox(height: 12),
                   Text(
                     _breathStep,
@@ -109,7 +110,7 @@ class _YorgunPageState extends State<YorgunPage> {
                       foregroundColor: Colors.white,
                     ),
                     onPressed: _startBreathing,
-                    icon: Icon(Icons.play_arrow),
+                    icon: UcdIkon(ikon: Icons.play_arrow_rounded, renk: Colors.white),
                     label: Text(_isBreathingActive ? "Devam Ediyor..." : "Egzersizi Başlat"),
                   ),
                 ],
@@ -203,7 +204,7 @@ class _YorgunPageState extends State<YorgunPage> {
       margin: EdgeInsets.only(bottom: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
-        leading: Icon(Icons.bedtime, color: Colors.blueAccent),
+        leading: UcdIkon(ikon: Icons.bedtime, renk: Colors.blueAccent),
         title: Text(
           title,
           style: TextStyle(
@@ -215,7 +216,7 @@ class _YorgunPageState extends State<YorgunPage> {
           subtitle,
           style: TextStyle(color: Colors.white54, fontSize: 12),
         ),
-        trailing: Icon(Icons.chevron_right, color: Colors.white38),
+        trailing: UcdIkon(ikon: Icons.chevron_right, renk: Colors.white38),
       ),
     );
   }

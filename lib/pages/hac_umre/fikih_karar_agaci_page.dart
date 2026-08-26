@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../services/renkler.dart';
+import '../../../widgets/kart_sekilleri.dart';
 import 'fikih_verileri.dart';
 import 'hac_umre_verileri.dart';
 
@@ -87,8 +88,8 @@ class _FikihKararAgaciPageState extends State<FikihKararAgaciPage> {
                   child: const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.info_outline,
-                          color: Colors.orangeAccent, size: 18),
+                      UcdIkon(ikon: Icons.info_outline_rounded,
+                          renk: Colors.orangeAccent, boyut: 18),
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -109,7 +110,7 @@ class _FikihKararAgaciPageState extends State<FikihKararAgaciPage> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
                     onPressed: _bastanBasla,
-                    icon: const Icon(Icons.replay),
+                    icon: UcdIkon(ikon: Icons.replay_rounded, renk: Renkler.vurgu),
                     label: const Text('Baştan Başla'),
                   ),
                 ],
@@ -141,8 +142,8 @@ class _MezhepSecici extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
-            const Icon(Icons.filter_alt_outlined,
-                color: Colors.white38, size: 18),
+            const UcdIkon(ikon: Icons.filter_alt_rounded,
+                renk: Colors.white38, boyut: 18),
             const SizedBox(width: 8),
             for (final m in mezhepler)
               Padding(
@@ -213,8 +214,8 @@ class _SoruKarti extends StatelessWidget {
                   color: Renkler.vurgu.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(Icons.account_tree_outlined,
-                    color: Renkler.vurgu, size: 22),
+                child: UcdIkon(ikon: Icons.account_tree_rounded,
+                    renk: Renkler.vurgu, boyut: 22),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -244,7 +245,7 @@ class _SoruKarti extends StatelessWidget {
                 IconButton(
                   tooltip: 'Baştan başla',
                   onPressed: geri,
-                  icon: const Icon(Icons.refresh, color: Colors.white38),
+                  icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white38),
                 ),
             ],
           ),
@@ -280,8 +281,8 @@ class _SoruKarti extends StatelessWidget {
                         horizontal: 16, vertical: 14),
                     child: Row(
                       children: [
-                        Icon(Icons.radio_button_unchecked,
-                            color: Renkler.vurgu, size: 18),
+                        UcdIkon(ikon: Icons.radio_button_unchecked_rounded,
+                            renk: Renkler.vurgu, boyut: 18),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
@@ -292,8 +293,8 @@ class _SoruKarti extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Icon(Icons.chevron_right,
-                            color: Colors.white38, size: 20),
+                        const UcdIkon(ikon: Icons.chevron_right_rounded,
+                            renk: Colors.white38, boyut: 20),
                       ],
                     ),
                   ),
@@ -338,7 +339,7 @@ class _SonucKarti extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child:
-                    const Icon(Icons.gavel_outlined, color: Colors.white, size: 22),
+                    const UcdIkon(ikon: Icons.gavel_rounded, renk: Colors.white, boyut: 22),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -426,8 +427,8 @@ class _SonucKarti extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.tips_and_updates_outlined,
-                        color: Colors.amberAccent, size: 16),
+                    const UcdIkon(ikon: Icons.tips_and_updates_rounded,
+                        renk: Colors.amberAccent, boyut: 16),
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(

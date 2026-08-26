@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/kuran_api.dart';
 import '../../services/kuran_verileri.dart';
 import '../../services/manevi_store.dart';
+import '../../widgets/kart_sekilleri.dart';
 import 'sure_listesi_page.dart';
 
 class SureDetayPage extends StatefulWidget {
@@ -234,7 +235,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
   Widget _mealMenu() {
     return PopupMenuButton<int>(
       tooltip: "Meâl Seçimi",
-      icon: Icon(Icons.translate, color: Renkler.vurgu),
+      icon: UcdIkon(ikon: Icons.translate_rounded, renk: Renkler.vurgu),
       color: Renkler.seciliYuzey,
       onSelected: (val) => setState(() => _mealIndex = val),
       itemBuilder: (_) => [
@@ -243,12 +244,12 @@ class _SureDetayPageState extends State<SureDetayPage> {
             value: i,
             child: Row(
               children: [
-                Icon(
-                  i == _mealIndex
-                      ? Icons.check_circle
+                UcdIkon(
+                  ikon: i == _mealIndex
+                      ? Icons.check_circle_rounded
                       : Icons.radio_button_unchecked,
-                  color: i == _mealIndex ? Renkler.vurgu : Colors.white38,
-                  size: 16,
+                  renk: i == _mealIndex ? Renkler.vurgu : Colors.white38,
+                  boyut: 16,
                 ),
                 SizedBox(width: 8),
                 Text(
@@ -277,7 +278,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.wifi_off, color: Colors.white38, size: 48),
+            UcdIkon(ikon: Icons.wifi_off_rounded, renk: Colors.white38, boyut: 48),
             SizedBox(height: 12),
             Text(
               "Âyetler alınamadı. İnternet bağlantınızı kontrol edin.",
@@ -397,12 +398,12 @@ class _SureDetayPageState extends State<SureDetayPage> {
             IconButton(
               tooltip: "Surenin başından dinle",
               onPressed: _caliyor ? _durdur : _sureyiCal,
-              icon: Icon(
-                _caliyor && _calanAyetIndex == 0
+              icon: UcdIkon(
+                ikon: _caliyor && _calanAyetIndex == 0
                     ? Icons.stop_circle
                     : Icons.play_circle,
-                color: Renkler.vurgu,
-                size: 34,
+                renk: Renkler.vurgu,
+                boyut: 34,
               ),
             ),
             SizedBox(width: 6),
@@ -434,7 +435,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
             IconButton(
               tooltip: "Durdur",
               onPressed: _durdur,
-              icon: Icon(Icons.stop, color: Colors.white54),
+              icon: UcdIkon(ikon: Icons.stop_rounded, renk: Colors.white54),
             ),
         ],
       ),
@@ -468,7 +469,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: _sureyiCal,
-                  icon: const Icon(Icons.replay),
+                  icon: const UcdIkon(ikon: Icons.replay_rounded, renk: Colors.white),
                   label: const Text('Baştan Dinle'),
                 ),
               ),
@@ -483,7 +484,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
                     context,
                     MaterialPageRoute(builder: (_) => const SureListesiPage()),
                   ),
-                  icon: const Icon(Icons.menu_book_outlined),
+                  icon: const UcdIkon(ikon: Icons.menu_book_rounded, renk: Colors.white),
                   label: const Text('Sure Seç'),
                 ),
               ),
@@ -512,14 +513,14 @@ class _SureDetayPageState extends State<SureDetayPage> {
             value: e.key,
             child: Row(
               children: [
-                Icon(
-                  _tekrarSayisi == e.key
-                      ? Icons.check_circle
+                UcdIkon(
+                  ikon: _tekrarSayisi == e.key
+                      ? Icons.check_circle_rounded
                       : Icons.radio_button_unchecked,
-                  color: _tekrarSayisi == e.key
+                  renk: _tekrarSayisi == e.key
                       ? Renkler.vurgu
                       : Colors.white38,
-                  size: 16,
+                  boyut: 16,
                 ),
                 SizedBox(width: 8),
                 Text(
@@ -539,7 +540,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: [
-            Icon(Icons.repeat, color: Colors.white54, size: 18),
+            UcdIkon(ikon: Icons.repeat, renk: Colors.white54, boyut: 18),
             if (_tekrarSayisi != 0) ...[
               SizedBox(width: 4),
               Text(
@@ -617,7 +618,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
                 ),
               Spacer(),
               if (caliyorMu) ...[
-                Icon(Icons.graphic_eq, color: Renkler.vurgu, size: 16),
+                UcdIkon(ikon: Icons.graphic_eq, renk: Renkler.vurgu, boyut: 16),
                 SizedBox(width: 6),
               ],
               Text(

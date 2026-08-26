@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import '../widgets/kart_sekilleri.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
 
@@ -200,7 +201,7 @@ class _TesbihPageState extends State<TesbihPage>
                 isExpanded: true,
                 dropdownColor: Renkler.kart,
                 style: const TextStyle(color: Colors.white, fontSize: 16),
-                icon: const Icon(Icons.arrow_drop_down, color: Colors.pinkAccent),
+                icon: const UcdIkon(ikon: Icons.arrow_drop_down_rounded, renk: Colors.pinkAccent),
                 items: _zikirListesi.map((String zikir) {
                   return DropdownMenuItem<String>(
                     value: zikir,
@@ -221,18 +222,18 @@ class _TesbihPageState extends State<TesbihPage>
           IconButton(
             onPressed: _reset,
             tooltip: 'Sayacı sıfırla',
-            icon: const Icon(Icons.refresh, color: Colors.white54),
+            icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white54),
           ),
           IconButton(
             onPressed: _zikirEkleDialog,
             tooltip: 'Zikir ekle',
-            icon: Icon(Icons.add_circle_outline, color: Colors.pinkAccent),
+            icon: UcdIkon(ikon: Icons.add_circle_outline_rounded, renk: Colors.pinkAccent),
           ),
           if (_ozelZikirler.contains(_selectedZikir))
             IconButton(
               onPressed: () => _zikirSil(_selectedZikir),
               tooltip: 'Zikri kaldır',
-              icon: const Icon(Icons.delete_outline, color: Colors.white54),
+              icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white54),
             ),
         ],
       ),
@@ -387,17 +388,17 @@ class _TesbihPageState extends State<TesbihPage>
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _istatistik(
-            ikon: Icons.track_changes,
+            ikon: Icons.track_changes_rounded,
             deger: '$hedef',
             etiket: 'Hedef',
           ),
           _istatistik(
-            ikon: Icons.bolt,
+            ikon: Icons.bolt_rounded,
             deger: '$_totalCount',
             etiket: 'Toplam Zikir',
           ),
           _istatistik(
-            ikon: Icons.percent,
+            ikon: Icons.percent_rounded,
             deger: '${(oran * 100).round()}%',
             etiket: 'İlerleme',
           ),
@@ -413,7 +414,7 @@ class _TesbihPageState extends State<TesbihPage>
   }) {
     return Column(
       children: [
-        Icon(ikon, color: Colors.pinkAccent, size: 20),
+        UcdIkon(ikon: ikon, renk: Colors.pinkAccent, boyut: 20),
         const SizedBox(height: 6),
         Text(
           deger,

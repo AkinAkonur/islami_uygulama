@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 import '../../services/renkler.dart';
+import '../../../widgets/kart_sekilleri.dart';
 import 'hac_umre_store.dart';
 import 'hac_umre_verileri.dart';
 import 'ibadet_akis_verileri.dart';
@@ -151,12 +152,12 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              secili
-                                  ? Icons.check_circle
-                                  : Icons.radio_button_unchecked,
-                              color: secili ? Renkler.vurgu : Colors.white38,
-                              size: 18,
+                            UcdIkon(
+                              ikon: secili
+                                  ? Icons.check_circle_rounded
+                                  : Icons.radio_button_unchecked_rounded,
+                              renk: secili ? Renkler.vurgu : Colors.white38,
+                              boyut: 18,
                             ),
                             const Spacer(),
                             Text(
@@ -222,7 +223,7 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                 IconButton(
                   tooltip: 'Sıfırla',
                   onPressed: tamam == 0 ? null : _sifirla,
-                  icon: const Icon(Icons.refresh, color: Colors.white54),
+                  icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white54),
                 ),
               ],
             ),
@@ -267,12 +268,12 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                     child: ListTile(
                       leading: InkWell(
                         onTap: () => _adimTikla(adim.id),
-                        child: Icon(
-                          isaretli
-                              ? Icons.check_circle
-                              : Icons.radio_button_unchecked,
-                          color: isaretli ? Colors.greenAccent : Colors.white38,
-                          size: 26,
+                        child: UcdIkon(
+                          ikon: isaretli
+                              ? Icons.check_circle_rounded
+                              : Icons.radio_button_unchecked_rounded,
+                          renk: isaretli ? Colors.greenAccent : Colors.white38,
+                          boyut: 26,
                         ),
                       ),
                       title: Row(
@@ -317,10 +318,10 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                           ),
                         ),
                       ),
-                      trailing: const Icon(
-                        Icons.expand_less,
-                        color: Colors.white24,
-                        size: 18,
+                      trailing: const UcdIkon(
+                        ikon: Icons.expand_less_rounded,
+                        renk: Colors.white24,
+                        boyut: 18,
                       ),
                     ),
                   ),
@@ -362,7 +363,7 @@ class _AdimDetayKarti extends StatelessWidget {
         const SizedBox(height: 16),
         Row(
           children: [
-            Icon(Icons.fact_check_outlined, color: Renkler.vurgu, size: 22),
+            UcdIkon(ikon: Icons.fact_check_rounded, renk: Renkler.vurgu, boyut: 22),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -378,7 +379,7 @@ class _AdimDetayKarti extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         _bolumKart(
-          ikon: Icons.task_alt,
+            ikon: Icons.task_alt_rounded,
           renk: Colors.lightGreenAccent,
           baslik: 'Ne Yapılmalı?',
           cocuklar: [
@@ -485,7 +486,7 @@ class _AdimDetayKarti extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(ikon, color: renk, size: 18),
+              UcdIkon(ikon: ikon, renk: renk, boyut: 18),
               const SizedBox(width: 8),
               Text(
                 baslik,
@@ -532,10 +533,10 @@ class _DuaKarti extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(
-                Icons.volunteer_activism_outlined,
-                color: Colors.white70,
-                size: 18,
+              const UcdIkon(
+                ikon: Icons.volunteer_activism_rounded,
+                renk: Colors.white70,
+                boyut: 18,
               ),
               const SizedBox(width: 8),
               const Text(

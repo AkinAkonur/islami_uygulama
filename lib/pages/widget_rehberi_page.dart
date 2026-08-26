@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class WidgetRehberiPage extends StatelessWidget {
   const WidgetRehberiPage({super.key});
@@ -68,7 +69,7 @@ class WidgetRehberiPage extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new_rounded, renk: Colors.white),
           ),
           const SizedBox(width: 8),
           const Text(
@@ -80,7 +81,7 @@ class WidgetRehberiPage extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          const Icon(Icons.widgets_outlined, color: Colors.white54),
+          const UcdIkon(ikon: Icons.widgets_rounded, renk: Colors.white54, boyut: 24),
         ],
       ),
     );
@@ -100,7 +101,7 @@ class WidgetRehberiPage extends StatelessWidget {
         children: [
           const Row(
             children: [
-              Icon(Icons.schedule_outlined, color: Colors.white, size: 18),
+              UcdIkon(ikon: Icons.schedule_rounded, renk: Colors.white, boyut: 18),
               SizedBox(width: 8),
               Text(
                 'Widget Önizleme',
@@ -195,7 +196,7 @@ class WidgetRehberiPage extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.touch_app_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.touch_app_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
                 'Kurulum Adımları',
@@ -271,7 +272,7 @@ class WidgetRehberiPage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.construction_outlined, color: Renkler.vurgu, size: 18),
+          UcdIkon(ikon: Icons.construction_rounded, renk: Renkler.vurgu, boyut: 18),
           SizedBox(width: 10),
           Expanded(
             child: Text(

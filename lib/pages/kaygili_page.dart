@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class KaygiliPage extends StatefulWidget {
   const KaygiliPage({super.key});
@@ -39,7 +40,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.shield_outlined, color: Colors.redAccent, size: 40),
+                  UcdIkon(ikon: Icons.shield_outlined, renk: Colors.redAccent, boyut: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -146,7 +147,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                     ),
                     onPressed: () => setState(() => _hasbunallahCount++),
-                    icon: Icon(Icons.touch_app),
+                    icon: UcdIkon(ikon: Icons.touch_app, renk: Colors.white),
                     label: Text(
                       "Zikir Çek: $_hasbunallahCount",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

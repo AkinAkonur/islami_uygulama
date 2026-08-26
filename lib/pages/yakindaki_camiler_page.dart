@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import '../services/location_and_mosque_service.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 /// GPS konumuna göre en yakın camileri Overpass API'den çekip listeler.
 /// `lat`/`lng` verilirse GPS almadan o koordinata göre camileri çeker.
@@ -55,7 +56,7 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.mosque_outlined, color: Colors.white70),
+                   UcdIkon(ikon: Icons.mosque_rounded, renk: Colors.white70, boyut: 24),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
@@ -164,7 +165,7 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
       ),
       child: Row(
         children: [
-          Icon(ikon, color: Renkler.vurgu, size: 24),
+                UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 24),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -185,7 +186,7 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, color: Colors.white38),
+          const UcdIkon(ikon: Icons.chevron_right_rounded, renk: Colors.white38),
         ],
       ),
     );
@@ -200,7 +201,7 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
         backgroundColor: Renkler.seciliYuzey,
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white, boyut: 24),
             onPressed: _camiler == null ? null : _yukle,
           ),
         ],
@@ -214,11 +215,7 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.mosque_outlined,
-                          color: Colors.white38,
-                          size: 56,
-                        ),
+                          UcdIkon(ikon: Icons.mosque_rounded, renk: Colors.white38, boyut: 56),
                         const SizedBox(height: 12),
                         const Text(
                           'Cami bulunamadı.',
@@ -242,7 +239,7 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
                             foregroundColor: Renkler.vurgu,
                             side: BorderSide(color: Renkler.vurgu),
                           ),
-                          icon: const Icon(Icons.refresh, size: 18),
+                          icon: UcdIkon(ikon: Icons.refresh_rounded, renk: Renkler.vurgu, boyut: 18),
                           label: const Text('Tekrar Dene'),
                         ),
                       ],
@@ -261,9 +258,9 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
                         onTap: () => _camiSec(cami),
                         leading: CircleAvatar(
                           backgroundColor: Renkler.seciliYuzey,
-                          child: Icon(
-                            Icons.mosque_outlined,
-                            color: Renkler.vurgu,
+                          child: UcdIkon(
+                            ikon: Icons.mosque_rounded,
+                            renk: Renkler.vurgu,
                           ),
                         ),
                         title: Text(
@@ -282,10 +279,7 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
                             fontSize: 12,
                           ),
                         ),
-                        trailing: const Icon(
-                          Icons.chevron_right,
-                          color: Colors.white38,
-                        ),
+                        trailing: const UcdIkon(ikon: Icons.chevron_right_rounded, renk: Colors.white38),
                       ),
                     );
                   },

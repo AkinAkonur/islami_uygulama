@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 import 'sure_detay_page.dart';
 
@@ -242,7 +243,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           IconButton(
             tooltip: 'Günlük hedef',
             onPressed: _hedefSec,
-            icon: const Icon(Icons.tune_rounded),
+            icon: const UcdIkon(ikon: Icons.tune_rounded, renk: Colors.white),
           ),
         ],
       ),
@@ -279,7 +280,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           CircleAvatar(
             radius: 18,
             backgroundColor: Color(0x334D421D),
-            child: Icon(Icons.lightbulb_outline, color: _altin, size: 18),
+            child: const UcdIkon(ikon: Icons.lightbulb_rounded, renk: _altin, boyut: 18),
           ),
           SizedBox(width: 12),
           Expanded(
@@ -415,7 +416,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           const SizedBox(height: 5),
           Row(
             children: [
-              const Icon(Icons.menu_book_outlined, color: _mint, size: 20),
+              const UcdIkon(ikon: Icons.menu_book_rounded, renk: _mint, boyut: 20),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -443,7 +444,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               ),
               onPressed: _okumayaDevamEt,
               iconAlignment: IconAlignment.end,
-              icon: const Icon(Icons.arrow_forward, size: 18),
+              icon: const UcdIkon(ikon: Icons.arrow_forward, renk: Color(0xFF003829), boyut: 18),
               label: const Text(
                 'Okumaya Devam Et',
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -475,10 +476,10 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               ),
               IconButton(
                 onPressed: _hedefSec,
-                icon: const Icon(
-                  Icons.settings_outlined,
-                  color: Colors.white54,
-                  size: 20,
+                icon: const UcdIkon(
+                  ikon: Icons.settings_outlined,
+                  renk: Colors.white54,
+                  boyut: 20,
                 ),
               ),
             ],
@@ -752,7 +753,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           const CircleAvatar(
             radius: 16,
             backgroundColor: Color(0x196EDAB4),
-            child: Icon(Icons.menu_book_outlined, color: _mint, size: 16),
+            child: const UcdIkon(ikon: Icons.menu_book_rounded, renk: _mint, boyut: 16),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -791,7 +792,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
         foregroundColor: Colors.white,
         side: const BorderSide(color: Colors.white12),
       ),
-      icon: Icon(ikon),
+      icon: UcdIkon(ikon: ikon, renk: Colors.white),
     );
   }
 

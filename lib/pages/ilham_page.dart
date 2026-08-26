@@ -29,6 +29,7 @@ import '../services/gercek_bildirimler.dart';
 import '../services/ilham_store.dart';
 import '../services/ilham_verileri.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class IlhamPage extends StatefulWidget {
   const IlhamPage({super.key});
@@ -130,7 +131,7 @@ class _IlhamPageState extends State<IlhamPage> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.wb_twilight, color: Colors.orangeAccent, size: 22),
+                  const UcdIkon(ikon: Icons.wb_twilight_rounded, renk: Colors.orangeAccent, boyut: 22),
                   const SizedBox(width: 8),
                   const Expanded(
                     child: Text(
@@ -144,7 +145,7 @@ class _IlhamPageState extends State<IlhamPage> {
                   ),
                   IconButton(
                     tooltip: 'Kapat',
-                    icon: const Icon(Icons.close, color: Colors.white38),
+                    icon: const UcdIkon(ikon: Icons.close_rounded, renk: Colors.white38),
                     onPressed: () => Navigator.pop(ctx, false),
                   ),
                 ],
@@ -188,7 +189,7 @@ class _IlhamPageState extends State<IlhamPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.access_time, color: Colors.white70, size: 20),
+                      const UcdIkon(ikon: Icons.access_time_rounded, renk: Colors.white70, boyut: 20),
                       const SizedBox(width: 10),
                       Text(
                         'Saat: ${zaman.format(context)}',
@@ -210,7 +211,7 @@ class _IlhamPageState extends State<IlhamPage> {
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () => Navigator.pop(ctx, true),
-                icon: const Icon(Icons.notifications_active_outlined, size: 18),
+                icon: const UcdIkon(ikon: Icons.notifications_active_outlined, renk: Colors.orangeAccent, boyut: 18),
                 label: const Text(
                   'Hatırlatıcıyı Kaydet',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -281,7 +282,7 @@ class _IlhamPageState extends State<IlhamPage> {
           actions: [
             IconButton(
               tooltip: 'Bulut içeriği tazele',
-              icon: const Icon(Icons.refresh, color: Colors.white70),
+              icon: const UcdIkon(ikon: Icons.refresh, renk: Colors.white70),
               onPressed: _bulutuTazele,
             ),
             ValueListenableBuilder<IlhamHatirlatma?>(
@@ -290,9 +291,9 @@ class _IlhamPageState extends State<IlhamPage> {
                 tooltip: kayit != null
                     ? 'Günün ilhamı · ${kayit.saatYaz} (düzenle)'
                     : 'Günün ilhamı hatırlatıcısı kur',
-                icon: Icon(
-                  kayit != null ? Icons.alarm_on : Icons.alarm_add,
-                  color: kayit != null ? Colors.orangeAccent : Colors.white70,
+                icon: UcdIkon(
+                  ikon: kayit != null ? Icons.alarm_on : Icons.alarm_add,
+                  renk: kayit != null ? Colors.orangeAccent : Colors.white70,
                 ),
                 onPressed: () => _hatirlaticiAc(context),
               ),
@@ -370,7 +371,7 @@ class _GununAkisiTab extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.wb_sunny_outlined, color: Colors.orangeAccent, size: 18),
+                  const UcdIkon(ikon: Icons.wb_sunny_rounded, renk: Colors.orangeAccent, boyut: 18),
                   const SizedBox(width: 8),
                   Text(
                     _tarihYaz(DateTime.now()),
@@ -473,7 +474,7 @@ class _ArsivGunu extends StatelessWidget {
         border: Border.all(color: Renkler.cerceve),
       ),
       child: ExpansionTile(
-        leading: const Icon(Icons.history, color: Colors.orangeAccent, size: 20),
+        leading: const UcdIkon(ikon: Icons.history, renk: Colors.orangeAccent, boyut: 20),
         title: Text(
           _tarihYaz,
           style: const TextStyle(
@@ -520,7 +521,7 @@ class _ArsivMiniKarti extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(_kategoriIkon(icerik.kategori), color: renk, size: 15),
+              UcdIkon(ikon: _kategoriIkon(icerik.kategori), renk: renk, boyut: 15),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
@@ -591,7 +592,7 @@ class _FavorilerTab extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.favorite_border, color: Colors.white24, size: 44),
+                const UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.white24, boyut: 44),
                 const SizedBox(height: 12),
                 Text(
                   'Henüz favori ilhamınız yok.\n'
@@ -711,7 +712,7 @@ class _IlhamKarti extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(_kategoriIkon(kategori), color: Colors.white70, size: 16),
+                  UcdIkon(ikon: _kategoriIkon(kategori), renk: Colors.white70, boyut: 16),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -822,10 +823,10 @@ class _IlhamKarti extends StatelessWidget {
                   final favori = fav.contains(icerik.id);
                   return IconButton(
                     tooltip: favori ? 'Favorilerden çıkar' : 'Favorilere ekle',
-                    icon: Icon(
-                      favori ? Icons.favorite : Icons.favorite_border,
-                      color: favori ? Colors.redAccent : Colors.white38,
-                      size: 22,
+                    icon: UcdIkon(
+                      ikon: favori ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                      renk: favori ? Colors.redAccent : Colors.white38,
+                      boyut: 22,
                     ),
                     onPressed: () => (context
                             .findAncestorStateOfType<_IlhamPageState>())
@@ -836,10 +837,10 @@ class _IlhamKarti extends StatelessWidget {
               const SizedBox(width: 4),
               IconButton(
                 tooltip: 'Görsel kart olarak paylaş',
-                icon: const Icon(
-                  Icons.share_outlined,
-                  color: Colors.white54,
-                  size: 22,
+                icon: const UcdIkon(
+                  ikon: Icons.share_outlined,
+                  renk: Colors.white54,
+                  boyut: 22,
                 ),
                 onPressed: () => (context
                         .findAncestorStateOfType<_IlhamPageState>())

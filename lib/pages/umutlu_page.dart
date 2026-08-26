@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class UmutluPage extends StatefulWidget {
   const UmutluPage({super.key});
@@ -55,7 +56,7 @@ class _UmutluPageState extends State<UmutluPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.wb_sunny, color: Colors.purpleAccent, size: 40),
+                  UcdIkon(ikon: Icons.wb_sunny_rounded, renk: Colors.purpleAccent, boyut: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -148,10 +149,10 @@ class _UmutluPageState extends State<UmutluPage> {
                 SizedBox(width: 8),
                 IconButton(
                   onPressed: _addGoal,
-                  icon: Icon(
-                    Icons.add_circle,
-                    color: Colors.purpleAccent,
-                    size: 40,
+                  icon: UcdIkon(
+                    ikon: Icons.add_circle,
+                    renk: Colors.purpleAccent,
+                    boyut: 40,
                   ),
                 ),
               ],
@@ -187,7 +188,7 @@ class _UmutluPageState extends State<UmutluPage> {
                             : null,
                       ),
                     ),
-                    secondary: Icon(Icons.star_border, color: Colors.purpleAccent),
+                    secondary: UcdIkon(ikon: Icons.star_border_rounded, renk: Colors.purpleAccent),
                   ),
                 );
               },

@@ -16,6 +16,7 @@ import 'ummet/etkinlikler_page.dart';
 import 'ummet/manevi_halkalar_page.dart';
 import 'ummet/islami_akis_page.dart';
 import 'ummet/dunya_ummeti_page.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class UmmetBolumuPage extends StatefulWidget {
   const UmmetBolumuPage({super.key});
@@ -58,7 +59,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
         actions: [
           IconButton(
             tooltip: "Canlı Yayınlar & Etkinlikler",
-            icon: Icon(Icons.videocam, color: Renkler.vurgu),
+            icon: UcdIkon(ikon: Icons.videocam_rounded, renk: Renkler.vurgu),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => EtkinliklerPage()),
@@ -90,7 +91,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.groups, color: Renkler.vurgu, size: 40),
+                      UcdIkon(ikon: Icons.groups_rounded, renk: Renkler.vurgu, boyut: 40),
                       SizedBox(width: 14),
                       Expanded(
                         child: Column(
@@ -151,7 +152,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               children: [
                 Expanded(
                   child: _miniSayac(
-                    Icons.favorite_outline,
+                    Icons.favorite_outline_rounded,
                     'Bugün dua',
                     binlikSayi(_bugunDua),
                     Colors.pinkAccent,
@@ -164,7 +165,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                 SizedBox(width: 10),
                 Expanded(
                   child: _miniSayac(
-                    Icons.menu_book_outlined,
+                    Icons.menu_book_rounded,
                     'Tamamlanan hatim',
                     binlikSayi(_hatimTamamlanan),
                     Colors.orangeAccent,
@@ -186,7 +187,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.campaign_outlined,
+              Icons.campaign_rounded,
               "Canlı Dua Duvarı",
               "Dünyanın dört bir yanından dua istekleri • Amin ile destekle",
               Colors.pinkAccent,
@@ -197,7 +198,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.link,
+              Icons.link_rounded,
               "Dua Zincirleri",
               '"Gazze için 100.000 Fetih" • 1, 5 veya 10 üstlen',
               Colors.amber,
@@ -208,7 +209,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.chat_bubble_outline,
+              Icons.chat_bubble_outline_rounded,
               "Dua Odaları",
               "Şifa • Borç/Rızık • Sınav • Aile Huzuru • Hidayet",
               Colors.teal,
@@ -219,7 +220,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.groups_2_outlined,
+              Icons.groups_2_rounded,
               "Hatim & Yâsîn Halkaları",
               "30 cüz, 30 kardeş • ortak hatim ve Yâsîn-i Şerif organizasyonları",
               Colors.orange,
@@ -237,7 +238,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.volunteer_activism,
+              Icons.volunteer_activism_rounded,
               "Küresel Yardım Kampanyaları",
               "Su kuyusu, gıda, yetim sponsorluğu, kurban ve afet bağışları",
               Colors.deepOrange,
@@ -248,7 +249,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.calculate_outlined,
+              Icons.calculate_rounded,
               "Zekât & Sadaka Hesaplayıcı",
               "Nisap kontrolü, %2,5 zekât hesabı ve bağış köprüsü",
               Colors.green,
@@ -259,7 +260,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.task_alt,
+              Icons.task_alt_rounded,
               "Günlük İyilik Görevleri",
               '"Bugün bir yetimi sevindir" • ümmet tamamlanma oranı',
               Colors.lightGreen,
@@ -278,7 +279,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.videocam_outlined,
+              Icons.videocam_rounded,
               "Canlı Yayın & Etkinlikler",
               "Mescid-i Haram ve Mescid-i Nebevî 7/24 • kandil programları",
               Colors.redAccent,
@@ -289,7 +290,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.public,
+              Icons.public_rounded,
               "Canlı Ümmet Haritası",
               "Şu an namaz kılan, zikir çeken milyonlarca kardeşin",
               Colors.green,
@@ -307,7 +308,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.wb_sunny_outlined,
+              Icons.wb_sunny_rounded,
               "Günün Mesajı",
               "Her gün yeni bir ayet, hadis ve hikmetli söz",
               Colors.purpleAccent,
@@ -318,7 +319,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.groups_outlined,
+              Icons.groups_rounded,
               "Manevi Gelişim Halkaları",
               '"Günde 1 Sayfa", "40 Hadis", "Sabah-Akşam zikirleri"',
               Colors.cyan,
@@ -329,7 +330,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.auto_awesome,
+              Icons.auto_awesome_rounded,
               "Milyonluk Zikir Kampanyaları",
               "Ortak salavat, kelime-i tevhid ve istiğfar sayaçları",
               Colors.pink,
@@ -340,7 +341,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.auto_stories,
+              Icons.auto_stories_rounded,
               "İlham Veren Hikayeler",
               "İyilik örnekleri ve yeni Müslümanların hikayeleri",
               Colors.lightBlue,
@@ -358,7 +359,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.map_outlined,
+              Icons.map_rounded,
               "Dünya Ümmeti",
               "Müslüman nüfus dağılımı ve kardeş toplulukların gelenekleri",
               Colors.indigoAccent,
@@ -369,7 +370,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             ),
             _modulKart(
               context,
-              Icons.flag_outlined,
+              Icons.flag_rounded,
               "Mazlum Coğrafyalar & Bülten",
               "Filistin, Doğu Türkistan, Yemen, Arakan... manevi destek kartları",
               Colors.deepOrange,
@@ -401,7 +402,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
           children: [
             Row(
               children: [
-                Icon(ikon, color: renk, size: 16),
+                UcdIkon(ikon: ikon, renk: renk, boyut: 16),
                 SizedBox(width: 6),
                 Text(
                   etiket,
@@ -468,7 +469,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             color: renk.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(ikon, color: renk, size: 24),
+          child: UcdIkon(ikon: ikon, renk: renk, boyut: 24),
         ),
         title: Text(
           baslik,
@@ -479,7 +480,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
           alt,
           style: TextStyle(color: Colors.white54, fontSize: 11),
         ),
-        trailing: Icon(Icons.chevron_right, color: Colors.white38),
+        trailing: UcdIkon(ikon: Icons.chevron_right_rounded, renk: Colors.white38),
         onTap: onTap,
       ),
     );

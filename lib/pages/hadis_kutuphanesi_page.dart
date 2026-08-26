@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import '../l10n/dil_hizmetleri.dart';
 import '../services/hadis_kutuphanesi_service.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class HadisKutuphanesiPage extends StatefulWidget {
   const HadisKutuphanesiPage({super.key});
@@ -133,8 +134,7 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.menu_book_outlined,
-                  color: Colors.white38, size: 48),
+              const UcdIkon(ikon: Icons.menu_book_rounded, renk: Colors.white38, boyut: 48),
               const SizedBox(height: 12),
               const Text(
                 'Bu dil için hadis kitabı bulunamadı. Ayarlar bölümünden desteklenen bir dil seçebilirsiniz.',
@@ -148,7 +148,7 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
                   foregroundColor: Colors.black,
                 ),
                 onPressed: () => setState(() => _yukle()),
-                icon: const Icon(Icons.refresh),
+                icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white70),
                 label: const Text('Tekrar Dene'),
               ),
             ],
@@ -197,7 +197,7 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
       ),
       child: Row(
         children: [
-          Icon(Icons.translate, color: Renkler.vurgu, size: 26),
+          UcdIkon(ikon: Icons.translate_rounded, renk: Renkler.vurgu, boyut: 26),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -224,10 +224,8 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
         contentPadding: const EdgeInsets.only(left: 16, right: 4),
         leading: CircleAvatar(
           backgroundColor: Renkler.vurgu.withValues(alpha: 0.15),
-          child: Icon(
-            Icons.menu_book,
-            color: Renkler.vurgu,
-            size: 20,
+          child: UcdIkon(ikon: 
+            Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 20,
           ),
         ),
         title: Text(
@@ -246,17 +244,15 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (hazir)
-              const Icon(Icons.offline_pin_outlined,
-                  color: Colors.greenAccent, size: 18)
+              const UcdIkon(ikon: Icons.offline_pin_rounded, renk: Colors.greenAccent, boyut: 18)
             else
               IconButton(
                 tooltip: 'İndir',
                 onPressed: () => _kitapAc(kitap),
-                icon: const Icon(Icons.download_outlined,
-                    color: Colors.white54, size: 20),
+                icon: const UcdIkon(ikon: Icons.download_rounded, renk: Colors.white54, boyut: 20),
               ),
             const SizedBox(width: 4),
-            const Icon(Icons.chevron_right, color: Colors.white38),
+            const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white38),
           ],
         ),
         onTap: () => _kitapAc(kitap),
@@ -389,7 +385,7 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
               foregroundColor: Colors.black,
             ),
             onPressed: _baslat,
-            icon: const Icon(Icons.refresh, size: 16),
+            icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white70, boyut: 16),
             label: const Text('Tekrar Dene'),
           ),
         ],
@@ -491,7 +487,7 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
           IconButton(
             tooltip: 'Kitabı kaldır',
             onPressed: _kaldir,
-            icon: const Icon(Icons.delete_outline, color: Colors.white54),
+            icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white54),
           ),
         ],
       ),
@@ -551,14 +547,14 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
         decoration: InputDecoration(
           hintText: 'Bu kitapta ara…',
           hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
-          prefixIcon: const Icon(Icons.search, color: Colors.white38, size: 20),
+          prefixIcon: const UcdIkon(ikon: Icons.search_rounded, renk: Colors.white38, boyut: 20),
           suffixIcon: _arama.text.isNotEmpty
               ? IconButton(
                   onPressed: () {
                     _arama.clear();
                     _aramaYap('');
                   },
-                  icon: const Icon(Icons.close, color: Colors.white38, size: 18),
+                  icon: const UcdIkon(ikon: Icons.close_rounded, renk: Colors.white38, boyut: 18),
                 )
               : null,
           filled: true,
@@ -580,7 +576,7 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.error_outline, color: Colors.white38, size: 44),
+            UcdIkon(ikon: Icons.error_outline_rounded, renk: Colors.white38, boyut: 44),
             const SizedBox(height: 12),
             Text(
               _hata!,
@@ -629,7 +625,7 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
           '${bolum.hadisSayisi} hadis',
           style: const TextStyle(color: Colors.white54, fontSize: 11),
         ),
-        trailing: const Icon(Icons.chevron_right, color: Colors.white38),
+        trailing: const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white38),
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(

@@ -4,6 +4,7 @@ import '../l10n/app_localizations.dart';
 import '../services/cuz_hatim_store.dart';
 import '../services/kuran_verileri.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 import 'cuz_okuma_page.dart';
 import 'hatim_duasi_page.dart';
 
@@ -70,7 +71,7 @@ class _CuzlerPageState extends State<CuzlerPage> {
           IconButton(
             tooltip: 'Hatim Duası',
             onPressed: _hatimDuasiAc,
-            icon: Icon(Icons.auto_stories_outlined, color: Renkler.vurgu),
+            icon: UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu),
           ),
         ],
       ),
@@ -150,7 +151,7 @@ class _CuzlerPageState extends State<CuzlerPage> {
                 side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
               ),
               onPressed: _hatimDuasiAc,
-              icon: const Icon(Icons.auto_stories_outlined, size: 18),
+              icon: const UcdIkon(ikon: Icons.auto_stories_rounded, renk: Colors.white, boyut: 18),
               label: const Text('Hatim Duası'),
             ),
           ),
@@ -213,12 +214,12 @@ class _CuzlerPageState extends State<CuzlerPage> {
             if (okundu)
               const Tooltip(
                 message: 'Okundu',
-                child: Icon(Icons.check_circle, color: Colors.greenAccent),
+                child: const UcdIkon(ikon: Icons.check_circle_rounded, renk: Colors.greenAccent),
               )
             else
-              const Icon(Icons.circle_outlined, color: Colors.white24),
+              const UcdIkon(ikon: Icons.circle_outlined, renk: Colors.white24),
             const SizedBox(width: 6),
-            Icon(Icons.chevron_right, color: Colors.white38, size: 20),
+            UcdIkon(ikon: Icons.chevron_right, renk: Colors.white38, boyut: 20),
           ],
         ),
       ),

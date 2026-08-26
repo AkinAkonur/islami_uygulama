@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../services/renkler.dart';
 import '../../services/manevi_store.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 import '../kabe_canli_page.dart';
 import '../mekke_medine_sanal_tur_page.dart';
 
@@ -68,19 +69,19 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
                 ),
                 SizedBox(height: 6),
                 _canliYayinKarti(
-                  ikon: Icons.location_city,
+                  ikon: Icons.location_city_rounded,
                   baslik: 'Mescid-i Haram • Kâbe',
                   alt: '7/24 kesintisiz canlı yayın ve Kâbe görüntüsü',
                   renk: Color(0xFF4FC3C9),
                 ),
                 _canliYayinKarti(
-                  ikon: Icons.mosque_outlined,
+                  ikon: Icons.mosque_rounded,
                   baslik: 'Mescid-i Nebevî',
                   alt: 'Peygamber (s.a.v.) mescidinin canlı manzarası',
                   renk: Color(0xFF5FA8E8),
                 ),
                 _canliYayinKarti(
-                  ikon: Icons.explore_outlined,
+                  ikon: Icons.explore_rounded,
                   baslik: 'Mekke & Medine Sanal Tur',
                   alt: 'Kâbe, Ravza ve tarihi mekânlarda gezin',
                   renk: Color(0xFFF2C14E),
@@ -135,7 +136,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.videocam, color: Renkler.vurgu, size: 22),
+              UcdIkon(ikon: Icons.videocam_rounded, renk: Renkler.vurgu, boyut: 22),
               SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -180,7 +181,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
             color: renk.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(ikon, color: renk, size: 24),
+          child: UcdIkon(ikon: ikon, renk: renk, boyut: 24),
         ),
         title: Row(
           children: [
@@ -204,7 +205,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.circle, color: Colors.redAccent, size: 8),
+                      UcdIkon(ikon: Icons.circle_rounded, renk: Colors.redAccent, boyut: 8),
                   SizedBox(width: 4),
                   Text(
                     'CANLI',
@@ -219,7 +220,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
           alt,
           style: TextStyle(color: Colors.white54, fontSize: 11),
         ),
-        trailing: Icon(Icons.play_circle_outline, color: renk),
+        trailing: UcdIkon(ikon: Icons.play_circle_outline_rounded, renk: renk),
         onTap: () {
           if (baslik.contains('Mescid-i Nebevî')) {
             Navigator.push(
@@ -280,7 +281,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
                     ),
                     if (e.canli) ...[
                       SizedBox(width: 6),
-                      Icon(Icons.circle, color: Colors.redAccent, size: 8),
+                  UcdIkon(ikon: Icons.circle_rounded, renk: Colors.redAccent, boyut: 8),
                     ],
                   ],
                 ),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 import '../services/vakit_servisi.dart';
 
 class NamazScreen extends StatefulWidget {
@@ -217,10 +218,10 @@ class _NamazScreenState extends State<NamazScreen> {
         children: [
           Row(
             children: [
-              Icon(
-                isCurrent ? Icons.access_time_filled : Icons.access_time,
-                color: isCurrent ? Renkler.vurgu : Colors.white54,
-                size: 20,
+              UcdIkon(
+                ikon: isCurrent ? Icons.access_time_filled : Icons.access_time_rounded,
+                renk: isCurrent ? Renkler.vurgu : Colors.white54,
+                boyut: 20,
               ),
               SizedBox(width: 12),
               Text(

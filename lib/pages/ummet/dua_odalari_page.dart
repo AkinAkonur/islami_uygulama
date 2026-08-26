@@ -5,6 +5,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 /// Dua Odaları: Şifa, Borç/Rızık, Sınav, Aile Huzuru ve Hidayet odalarından
 /// oluşan, bulut tabanlı arama / sayfalama / önbellekleme mantığıyla çalışan
@@ -132,7 +133,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
           IconButton(
             tooltip: 'Kişisel Dua Listem',
             onPressed: _duaListemeGit,
-            icon: const Icon(Icons.favorite_outline, color: Colors.white),
+            icon: UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.white),
           ),
         ],
       ),
@@ -161,11 +162,11 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
       decoration: InputDecoration(
         hintText: 'Dua ara… (örn. "sınav", "borç", "şifa")',
         hintStyle: TextStyle(color: Colors.white38),
-        prefixIcon: const Icon(Icons.search, color: Colors.white54),
+        prefixIcon: UcdIkon(ikon: Icons.search_rounded, renk: Colors.white54),
         suffixIcon: _aramaSorgusu.isEmpty
             ? null
             : IconButton(
-                icon: const Icon(Icons.clear, color: Colors.white54),
+                icon: UcdIkon(ikon: Icons.close_rounded, renk: Colors.white54),
                 onPressed: () {
                   _aramaCtrl.clear();
                   setState(() {
@@ -222,7 +223,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
       padding: const EdgeInsets.only(top: 40),
       child: Column(
         children: [
-          Icon(Icons.search_off, color: Colors.white24, size: 48),
+                UcdIkon(ikon: Icons.search_off, renk: Colors.white24, boyut: 48),
           const SizedBox(height: 12),
           Text(
             'Farklı bir kelime deneyin ya da bir odaya girin.',
@@ -356,7 +357,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
             const SizedBox(height: 12),
             Row(
               children: [
-                Icon(Icons.groups, color: Renkler.vurgu, size: 16),
+                UcdIkon(ikon: Icons.groups_rounded, renk: Renkler.vurgu, boyut: 16),
                 const SizedBox(width: 6),
                 Text(
                   '${binlikSayi(katilim)} kardeş odada',
@@ -510,7 +511,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.auto_awesome, color: Renkler.vurgu, size: 16),
+                    UcdIkon(ikon: Icons.auto_awesome, renk: Renkler.vurgu, boyut: 16),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -563,7 +564,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
         ),
         _ikonAksiyon(
           tooltip: 'Paylaş',
-          ikon: Icons.share_outlined,
+          ikon: Icons.share_rounded,
           onTap: () async {
             await SharePlus.instance.share(
               ShareParams(text: _duaPaylasimMetni(dua)),
@@ -588,7 +589,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
       tooltip: tooltip,
       visualDensity: VisualDensity.compact,
       onPressed: onTap,
-      icon: Icon(ikon, color: Colors.white54, size: 20),
+      icon: UcdIkon(ikon: ikon, renk: Colors.white54, boyut: 20),
     );
   }
 }
@@ -648,10 +649,10 @@ class _DinletButonuState extends State<_DinletButonu> {
       tooltip: _caliyor ? 'Durdur' : 'Dinle',
       visualDensity: VisualDensity.compact,
       onPressed: _dinle,
-      icon: Icon(
-        _caliyor ? Icons.stop_circle_outlined : Icons.volume_up_outlined,
-        color: _caliyor ? Renkler.vurgu : Colors.white54,
-        size: 20,
+      icon: UcdIkon(
+        ikon: _caliyor ? Icons.stop_circle_outlined : Icons.volume_up_outlined,
+        renk: _caliyor ? Renkler.vurgu : Colors.white54,
+        boyut: 20,
       ),
     );
   }
@@ -711,10 +712,10 @@ class _FavoriButonuState extends State<_FavoriButonu> {
       tooltip: _favori ? 'Listemden çıkar' : 'Kişisel Dua Listeme ekle',
       visualDensity: VisualDensity.compact,
       onPressed: _degistir,
-      icon: Icon(
-        _favori ? Icons.favorite : Icons.favorite_border,
-        color: _favori ? Colors.redAccent : Colors.white54,
-        size: 20,
+      icon: UcdIkon(
+        ikon: _favori ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+        renk: _favori ? Colors.redAccent : Colors.white54,
+        boyut: 20,
       ),
     );
   }
@@ -924,7 +925,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
         backgroundColor: Renkler.yuzey,
         title: Row(
           children: [
-            const Icon(Icons.add_link, color: Colors.white),
+            UcdIkon(ikon: Icons.link_rounded, renk: Colors.white),
             const SizedBox(width: 8),
             const Text(
               'Dua Ekle',
@@ -1027,7 +1028,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
               await _ilkSayfayiYukle();
               setState(() => _seciliEtiket = null);
             },
-            icon: const Icon(Icons.check),
+            icon: UcdIkon(ikon: Icons.check_circle_rounded, renk: Renkler.zemin, boyut: 18),
             label: const Text('Kaydet'),
           ),
         ],
@@ -1053,7 +1054,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
           IconButton(
             tooltip: 'Kişisel Dua Listem',
             onPressed: _duaListemeGit,
-            icon: const Icon(Icons.favorite_outline, color: Colors.white),
+            icon: UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.white),
           ),
         ],
       ),
@@ -1086,7 +1087,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Icon(Icons.self_improvement, color: Renkler.vurgu, size: 26),
+                  UcdIkon(ikon: Icons.self_improvement, renk: Renkler.vurgu, boyut: 26),
                 ],
               ),
             ),
@@ -1164,7 +1165,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
                           onPressed: _odaDuaEt,
-                          icon: const Icon(Icons.favorite_outline),
+                          icon: UcdIkon(ikon: Icons.favorite_border_rounded, renk: Renkler.zemin),
                           label: Text(
                             _okunma == 0
                                 ? 'Bu Odada Dua Ettim'
@@ -1183,7 +1184,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
         onPressed: _duaEkleDialog,
         backgroundColor: Renkler.vurgu,
         foregroundColor: Renkler.zemin,
-        icon: const Icon(Icons.add),
+        icon: UcdIkon(ikon: Icons.add_rounded, renk: Renkler.zemin),
         label: const Text(
           'Dua Ekle',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -1345,7 +1346,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.auto_awesome, color: Renkler.vurgu, size: 16),
+                    UcdIkon(ikon: Icons.auto_awesome, renk: Renkler.vurgu, boyut: 16),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -1398,7 +1399,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
         ),
         _ikonAksiyon(
           tooltip: 'Paylaş',
-          ikon: Icons.share_outlined,
+          ikon: Icons.share_rounded,
           onTap: () async {
             await SharePlus.instance.share(
               ShareParams(
@@ -1429,7 +1430,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
       tooltip: tooltip,
       visualDensity: VisualDensity.compact,
       onPressed: onTap,
-      icon: Icon(ikon, color: Colors.white54, size: 20),
+      icon: UcdIkon(ikon: ikon, renk: Colors.white54, boyut: 20),
     );
   }
 
@@ -1487,7 +1488,7 @@ class _DuaListemPageState extends State<_DuaListemPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.favorite_border, color: Colors.white24, size: 48),
+                  UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.white24, boyut: 48),
                   SizedBox(height: 12),
                   Text(
                     'Henüz dua eklemediniz.\nDuaların yanındaki kalbe dokunarak ekleyin.',
@@ -1580,10 +1581,10 @@ class _DuaListemPageState extends State<_DuaListemPage> {
                                     );
                                   }
                                 },
-                                icon: const Icon(
-                                  Icons.copy_outlined,
-                                  color: Colors.white54,
-                                  size: 20,
+                                icon: UcdIkon(
+                                  ikon: Icons.copy_outlined,
+                                  renk: Colors.white54,
+                                  boyut: 20,
                                 ),
                               ),
                               IconButton(
@@ -1594,10 +1595,10 @@ class _DuaListemPageState extends State<_DuaListemPage> {
                                   );
                                   _yukle();
                                 },
-                                icon: const Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.redAccent,
-                                  size: 20,
+                                icon: UcdIkon(
+                                  ikon: Icons.delete_outline_rounded,
+                                  renk: Colors.redAccent,
+                                  boyut: 20,
                                 ),
                               ),
                             ],

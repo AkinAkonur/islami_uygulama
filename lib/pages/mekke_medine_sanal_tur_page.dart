@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 import 'kabe_canli_page.dart';
 
 class SanalTurNoktasi {
@@ -259,7 +260,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.travel_explore, color: Colors.white, size: 26),
+              UcdIkon(ikon: Icons.travel_explore_rounded, renk: Colors.white, boyut: 26),
               SizedBox(width: 10),
               Text(
                 'Kutsal mekânları keşfet',
@@ -334,7 +335,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
                 color: renk.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(ikon, color: renk, size: 24),
+              child: UcdIkon(ikon: Icons.mosque_rounded, renk: renk, boyut: 24),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -366,7 +367,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
                           child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.circle, size: 6, color: Colors.white),
+                              UcdIkon(ikon: Icons.circle, renk: Colors.white, boyut: 6),
                               SizedBox(width: 4),
                               Text(
                                 'CANLI',
@@ -395,7 +396,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(Icons.play_circle_outline, color: Colors.white38),
+            const UcdIkon(ikon: Icons.play_circle_rounded, renk: Colors.white38, boyut: 24),
           ],
         ),
       ),
@@ -422,7 +423,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
                 color: mekan.renk.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(mekan.ikon, color: mekan.renk, size: 20),
+              child: UcdIkon(ikon: mekan.ikon, renk: mekan.renk, boyut: 20),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -450,7 +451,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(Icons.map_outlined, color: Colors.white38, size: 22),
+            const UcdIkon(ikon: Icons.map_rounded, renk: Colors.white38, boyut: 22),
           ],
         ),
       ),

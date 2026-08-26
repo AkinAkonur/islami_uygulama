@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class HuzurluPage extends StatefulWidget {
   const HuzurluPage({super.key});
@@ -52,7 +53,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.spa, color: Renkler.vurgu, size: 40),
+                  UcdIkon(ikon: Icons.spa_rounded, renk: Renkler.vurgu, boyut: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -170,7 +171,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
             // Sakinleştirici Hadis & Tavsiyeler
             _buildCardTitle("Manevi Reçete"),
             _buildTipCard(
-              Icons.wb_sunny_outlined,
+              Icons.wb_sunny_rounded,
               "Güne Teşekkürle Başla",
               "Sabah ve akşam ezanlarından sonra İhlas, Felak ve Nas surelerini 3'er defa okumak kalbe emniyet verir.",
             ),
@@ -211,7 +212,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
                   foregroundColor: Colors.white,
                 ),
                 onPressed: _addJournalEntry,
-                icon: Icon(Icons.save),
+                icon: UcdIkon(ikon: Icons.save_rounded, renk: Colors.white70),
                 label: Text("Notu Kaydet"),
               ),
             ),
@@ -230,7 +231,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
                   color: Renkler.kart,
                   margin: EdgeInsets.only(bottom: 8),
                   child: ListTile(
-                    leading: Icon(Icons.bookmark, color: Renkler.vurgu),
+                    leading: UcdIkon(ikon: Icons.bookmark_rounded, renk: Renkler.vurgu),
                     title: Text(
                       entry,
                       style: TextStyle(color: Colors.white),
@@ -275,7 +276,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
                 color: Renkler.cerceve2,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: Renkler.vurgu, size: 24),
+              child: UcdIkon(ikon: icon, renk: Renkler.vurgu, boyut: 24),
             ),
             SizedBox(width: 16),
             Expanded(

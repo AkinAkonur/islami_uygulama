@@ -17,6 +17,7 @@ import 'gizlilik_politikasi_page.dart';
 import '../services/gizlilik_merkezi.dart';
 import '../services/medya_indirme_servisi.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class GizlilikMerkeziPage extends StatefulWidget {
   const GizlilikMerkeziPage({super.key});
@@ -73,7 +74,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
       builder: (ctx) => AlertDialog(
         backgroundColor: Renkler.yuzey,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        icon: const Icon(Icons.warning_amber_rounded, color: Colors.redAccent),
+        icon: const UcdIkon(ikon: Icons.warning_amber_rounded, renk: Colors.redAccent),
         title: Text(
           'Kalıcı Silme Onayı',
           textAlign: TextAlign.center,
@@ -156,21 +157,21 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
         children: [
           _baslikKarti(),
           const SizedBox(height: 20),
-          _bolumBasligi('İzinleriniz', Icons.shield_outlined, Colors.tealAccent),
+          _bolumBasligi('İzinleriniz', Icons.shield_rounded, Colors.tealAccent),
           const SizedBox(height: 2),
           for (final izin in _merkez.izinKartlari) ...[
             _izinKarti(izin),
             const SizedBox(height: 10),
           ],
           const SizedBox(height: 12),
-          _bolumBasligi('Haklarınız (KVKK · md.11)', Icons.verified_user_outlined, Colors.amberAccent),
+          _bolumBasligi('Haklarınız (KVKK · md.11)', Icons.verified_user_rounded, Colors.amberAccent),
           const SizedBox(height: 2),
           for (final hak in _merkez.kullaniciHaklari) ...[
             _hakKarti(hak),
             const SizedBox(height: 10),
           ],
           const SizedBox(height: 12),
-          _bolumBasligi('Yasal Bilgilendirme', Icons.gavel_outlined, Colors.orangeAccent),
+          _bolumBasligi('Yasal Bilgilendirme', Icons.gavel_rounded, Colors.orangeAccent),
           const SizedBox(height: 2),
           _yasalKart(),
           const SizedBox(height: 12),
@@ -205,7 +206,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
               color: Colors.greenAccent.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.shield, color: Colors.greenAccent, size: 28),
+            child: const UcdIkon(ikon: Icons.shield_rounded, renk: Colors.greenAccent, boyut: 28),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -236,7 +237,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
   Widget _bolumBasligi(String metin, IconData ikon, Color renk) {
     return Row(
       children: [
-        Icon(ikon, size: 17, color: renk),
+        UcdIkon(ikon: ikon, renk: renk, boyut: 17),
         const SizedBox(width: 8),
         Text(
           metin,
@@ -271,10 +272,10 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
                   color: Renkler.seciliYuzey,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  GizlilikMerkeziServisi.ikonCevir(izin.ikon),
-                  color: Renkler.vurgu,
-                  size: 22,
+                child: UcdIkon(
+                  ikon: GizlilikMerkeziServisi.ikonCevir(izin.ikon),
+                  renk: Renkler.vurgu,
+                  boyut: 22,
                 ),
               ),
               const SizedBox(width: 12),
@@ -393,10 +394,10 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
           ),
           child: Row(
             children: [
-              Icon(
-                tehlikeli ? Icons.delete_forever : Icons.download,
-                color: renk,
-                size: 26,
+              UcdIkon(
+                ikon: tehlikeli ? Icons.delete_forever_rounded : Icons.download_rounded,
+                renk: renk,
+                boyut: 26,
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -416,7 +417,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
                   child: CircularProgressIndicator(strokeWidth: 2.4),
                 )
               else
-                Icon(Icons.chevron_right, color: renk.withValues(alpha: 0.8)),
+                UcdIkon(ikon: Icons.chevron_right_rounded, renk: renk.withValues(alpha: 0.8)),
             ],
           ),
         ),
@@ -455,14 +456,14 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
                     ),
                   );
                 },
-                icon: const Icon(Icons.menu_book_outlined, size: 17),
+                icon: UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 17),
                 label: const Text('Uygulamada tam metni oku'),
                 style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
               ),
               const Spacer(),
               TextButton.icon(
                 onPressed: _tamMetniAc,
-                icon: const Icon(Icons.open_in_new, size: 17),
+                icon: const UcdIkon(ikon: Icons.open_in_new_rounded, renk: Colors.white70, boyut: 17),
                 label: const Text('İnternette aç'),
                 style: TextButton.styleFrom(foregroundColor: Colors.white70),
               ),
@@ -475,9 +476,9 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
 
   Widget _teknikGuvenceKarti() {
     const satirlar = [
-      (Icons.lock_outline, 'HTTPS / SSL', 'Tüm ağ istekleri (canlı yayın, podcast listeleri) uçtan uca şifreli taşınır.'),
-      (Icons.phone_android, 'Minimal Veri', 'Uygulama yalnızca çalışması için gereken izinleri ister; rehbere, kameraya veya gereksiz verilere erişmez.'),
-      (Icons.cloud_off_outlined, 'Sunucusuz Mimarî', 'Favoriler, dinleme geçmişi ve notlarınız yalnızca cihazınızda saklanır; hiçbir sunucuya aktarılmaz.'),
+      (Icons.lock_outline_rounded, 'HTTPS / SSL', 'Tüm ağ istekleri (canlı yayın, podcast listeleri) uçtan uca şifreli taşınır.'),
+      (Icons.phone_android_rounded, 'Minimal Veri', 'Uygulama yalnızca çalışması için gereken izinleri ister; rehbere, kameraya veya gereksiz verilere erişmez.'),
+      (Icons.cloud_off_rounded, 'Sunucusuz Mimarî', 'Favoriler, dinleme geçmişi ve notlarınız yalnızca cihazınızda saklanır; hiçbir sunucuya aktarılmaz.'),
     ];
     return Container(
       padding: const EdgeInsets.all(16),
@@ -504,8 +505,9 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(ikon, color: Renkler.vurgu, size: 18),
+                  UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 18),
                   const SizedBox(width: 10),
+
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

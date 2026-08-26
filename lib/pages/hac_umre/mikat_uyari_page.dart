@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../services/renkler.dart';
+import '../../../widgets/kart_sekilleri.dart';
 import 'hac_umre_verileri.dart';
 import 'mikat_verileri.dart';
 
@@ -152,7 +153,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
             child: const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.gps_fixed, color: Colors.purpleAccent, size: 20),
+                UcdIkon(ikon: Icons.gps_fixed_rounded, renk: Colors.purpleAccent, boyut: 20),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -190,7 +191,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
                         onPressed: _izlemeyiDurdur,
-                        icon: const Icon(Icons.stop_circle_outlined),
+                        icon: const UcdIkon(ikon: Icons.stop_circle_rounded, renk: Colors.redAccent),
                         label: const Text('İzlemeyi Durdur'),
                       )
                     : ElevatedButton.icon(
@@ -209,7 +210,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Icon(Icons.play_arrow),
+                            : const UcdIkon(ikon: Icons.play_arrow_rounded, renk: Colors.white),
                         label: const Text('İzlemeyi Başlat'),
                       ),
               ),
@@ -221,7 +222,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                   backgroundColor: Renkler.kart,
                   disabledForegroundColor: Colors.white24,
                 ),
-                icon: const Icon(Icons.my_location, color: Colors.white70),
+                icon: const UcdIkon(ikon: Icons.my_location_rounded, renk: Colors.white70),
               ),
             ],
           ),
@@ -238,7 +239,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.error_outline, color: Colors.redAccent),
+                  const UcdIkon(ikon: Icons.error_outline_rounded, renk: Colors.redAccent),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -298,7 +299,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.flight_takeoff, color: Colors.amberAccent),
+                    UcdIkon(ikon: Icons.flight_takeoff_rounded, renk: Colors.amberAccent),
                     SizedBox(width: 8),
                     Text(
                       'Uçakla Geliyorsanız',
@@ -354,10 +355,10 @@ class _UyariKarti extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
-                ciddi ? Icons.notification_important : Icons.warning_amber,
-                color: renk,
-                size: 28,
+              UcdIkon(
+                ikon: ciddi ? Icons.notification_important_rounded : Icons.warning_amber_rounded,
+                renk: renk,
+                boyut: 28,
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -408,7 +409,7 @@ class _NormalKart extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.check_circle_outline, color: Colors.greenAccent),
+          const UcdIkon(ikon: Icons.check_circle_outline_rounded, renk: Colors.greenAccent),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -439,7 +440,7 @@ class _BeklemeKarti extends StatelessWidget {
       ),
       child: const Row(
         children: [
-          Icon(Icons.gps_off, color: Colors.white38),
+          UcdIkon(ikon: Icons.gps_off_rounded, renk: Colors.white38),
           SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -487,7 +488,7 @@ class _MikatSatir extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.location_on_outlined, color: Colors.white38),
+          const UcdIkon(ikon: Icons.location_on_rounded, renk: Colors.white38),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 class DuaDuvariPage extends StatefulWidget {
   const DuaDuvariPage({super.key});
@@ -77,7 +78,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                     style: TextStyle(color: Colors.white),
                     decoration: _dekor(
                       'Rumuz (boş bırakırsan anonim)',
-                      Icons.badge_outlined,
+                      Icons.badge_rounded,
                     ),
                   ),
                   SizedBox(height: 12),
@@ -85,7 +86,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                     initialValue: kategori,
                     dropdownColor: Renkler.seciliYuzey,
                     style: TextStyle(color: Colors.white, fontSize: 14),
-                    decoration: _dekor('Kategori', Icons.category_outlined),
+                    decoration: _dekor('Kategori', Icons.category_rounded),
                     items: duaKategorileri
                         .map((k) => DropdownMenuItem(
                               value: k['ad'],
@@ -104,7 +105,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                     maxLines: 3,
                     maxLength: 200,
                     style: TextStyle(color: Colors.white),
-                    decoration: _dekor('Dua isteğin', Icons.favorite_outline),
+                    decoration: _dekor('Dua isteğin', Icons.favorite_outline_rounded),
                     validator: (v) =>
                         (v == null || v.trim().isEmpty) ? 'Dua isteğinizi yazın' : null,
                   ),
@@ -161,7 +162,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
     return InputDecoration(
       hintText: hint,
       hintStyle: TextStyle(color: Colors.white38, fontSize: 13),
-      prefixIcon: Icon(ikon, color: Renkler.vurgu, size: 20),
+      prefixIcon: UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 20),
       filled: true,
       fillColor: Renkler.yuzey,
       border: OutlineInputBorder(
@@ -188,7 +189,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
         backgroundColor: Renkler.vurgu,
         foregroundColor: Renkler.zemin,
         onPressed: _istekEkle,
-        icon: Icon(Icons.add),
+        icon: UcdIkon(ikon: Icons.add_rounded, renk: Colors.white, boyut: 24),
         label: Text('Dua İsteği',
             style: TextStyle(fontWeight: FontWeight.bold)),
       ),
@@ -212,8 +213,8 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.volunteer_activism,
-                          color: Renkler.vurgu, size: 22),
+                      UcdIkon(ikon: Icons.volunteer_activism_rounded,
+                          renk: Renkler.vurgu, boyut: 22),
                       SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -344,7 +345,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
             SizedBox(height: 12),
             Row(
               children: [
-                Icon(Icons.favorite, color: Color(0xFFEF5350), size: 16),
+                UcdIkon(ikon: Icons.favorite_rounded, renk: Color(0xFFEF5350), boyut: 16),
                 SizedBox(width: 6),
                 Text(
                   '${binlikSayi(istek.duaSayisi)} kardeş dua etti',
@@ -361,7 +362,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                         fontSize: 12, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () => _duaEt(istek),
-                  icon: Icon(Icons.volunteer_activism, size: 16),
+                  icon: UcdIkon(ikon: Icons.volunteer_activism_rounded, renk: Renkler.zemin, boyut: 16),
                   label: Text('Senin İçin Dua Ettim'),
                 ),
               ],

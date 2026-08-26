@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/location_and_mosque_service.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 import '../services/turkiye_illeri.dart';
 import '../services/vakit_servisi.dart';
 import 'kible_pusula_page.dart';
@@ -175,7 +176,7 @@ class _KonumPageState extends State<KonumPage> {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
           ),
           const SizedBox(width: 8),
           const Text(
@@ -187,7 +188,7 @@ class _KonumPageState extends State<KonumPage> {
             ),
           ),
           const Spacer(),
-          const Icon(Icons.location_on_outlined, color: Colors.white54),
+          const UcdIkon(ikon: Icons.location_on_outlined, renk: Colors.white54),
         ],
       ),
     );
@@ -240,7 +241,7 @@ class _KonumPageState extends State<KonumPage> {
                     foregroundColor: Colors.white,
                     side: const BorderSide(color: Colors.white54),
                   ),
-                  icon: const Icon(Icons.my_location, size: 18),
+                  icon: const UcdIkon(ikon: Icons.my_location, renk: Colors.white, boyut: 18),
                   label: const Text('GPS ile Bul'),
                 ),
               ),
@@ -252,7 +253,7 @@ class _KonumPageState extends State<KonumPage> {
                     foregroundColor: Colors.white,
                     side: const BorderSide(color: Colors.white54),
                   ),
-                  icon: const Icon(Icons.edit_location_alt_outlined, size: 18),
+                  icon: const UcdIkon(ikon: Icons.edit_location_alt_outlined, renk: Colors.white, boyut: 18),
                   label: const Text('Şehir Seç'),
                 ),
               ),
@@ -275,7 +276,7 @@ class _KonumPageState extends State<KonumPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.mosque_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.mosque_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
               const Text(
                 'Yakındaki Camiler',
@@ -287,7 +288,7 @@ class _KonumPageState extends State<KonumPage> {
               ),
               const Spacer(),
               IconButton(
-                icon: const Icon(Icons.refresh, color: Colors.white54, size: 20),
+                icon: const UcdIkon(ikon: Icons.refresh, renk: Colors.white54, boyut: 20),
                 onPressed: _camiYukleniyor ? null : _camiYukle,
                 tooltip: 'Yenile',
               ),
@@ -306,7 +307,7 @@ class _KonumPageState extends State<KonumPage> {
             )
           else if (_camiler!.isEmpty)
             _camiBosSatir(
-              Icons.mosque_outlined,
+              Icons.mosque_rounded,
               'Yakınlarda cami bulunamadı. Konum iznini ve internet bağlantını kontrol et, sonra yenile.',
             )
           else
@@ -329,7 +330,7 @@ class _KonumPageState extends State<KonumPage> {
                         ),
                       );
                     },
-                    icon: const Icon(Icons.chevron_right, size: 18),
+                    icon: const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white, boyut: 18),
                     label: const Text('Tümünü Gör'),
                   ),
                 ),
@@ -345,7 +346,7 @@ class _KonumPageState extends State<KonumPage> {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          Icon(ikon, color: Colors.white38, size: 40),
+          UcdIkon(ikon: ikon, renk: Colors.white38, boyut: 40),
           const SizedBox(height: 10),
           Text(
             metin,
@@ -365,7 +366,7 @@ class _KonumPageState extends State<KonumPage> {
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
-            Icon(Icons.mosque_outlined, color: Renkler.vurgu, size: 22),
+            UcdIkon(ikon: Icons.mosque_rounded, renk: Renkler.vurgu, boyut: 22),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -391,7 +392,7 @@ class _KonumPageState extends State<KonumPage> {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.white24),
+            const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white24),
           ],
         ),
       ),
@@ -419,7 +420,7 @@ class _KonumPageState extends State<KonumPage> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.mosque_outlined, color: Colors.white70),
+                  const UcdIkon(ikon: Icons.mosque_rounded, renk: Colors.white70),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
@@ -500,7 +501,7 @@ class _KonumPageState extends State<KonumPage> {
       ),
       child: Row(
         children: [
-          Icon(ikon, color: Renkler.vurgu, size: 24),
+          UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 24),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -512,7 +513,7 @@ class _KonumPageState extends State<KonumPage> {
               ),
             ),
           ),
-          const Icon(Icons.chevron_right, color: Colors.white38),
+          const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white38),
         ],
       ),
     );
@@ -538,7 +539,7 @@ class _KonumPageState extends State<KonumPage> {
         ),
         child: Row(
           children: [
-            Icon(Icons.explore_outlined, color: Renkler.vurgu, size: 34),
+            UcdIkon(ikon: Icons.explore_rounded, renk: Renkler.vurgu, boyut: 34),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -566,7 +567,7 @@ class _KonumPageState extends State<KonumPage> {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.white70),
+            const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white70),
           ],
         ),
       ),
@@ -585,7 +586,7 @@ class _KonumPageState extends State<KonumPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.schedule_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.schedule_outlined, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
                 'Bugünün Namaz Vakitleri',
@@ -636,7 +637,7 @@ class _KonumPageState extends State<KonumPage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.info_outline, color: Renkler.vurgu, size: 18),
+          UcdIkon(ikon: Icons.info_outline, renk: Renkler.vurgu, boyut: 18),
           SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -702,7 +703,7 @@ class _IlSecimDialoguState extends State<_IlSecimDialogu> {
               decoration: InputDecoration(
                 hintText: 'İl ara… (örn. İstanbul)',
                 hintStyle: const TextStyle(color: Colors.white38),
-                prefixIcon: const Icon(Icons.search, color: Colors.white54),
+                prefixIcon: const UcdIkon(ikon: Icons.search, renk: Colors.white54),
                 enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white24),
                 ),
@@ -725,9 +726,9 @@ class _IlSecimDialoguState extends State<_IlSecimDialogu> {
                       itemBuilder: (ctx, i) {
                         final il = filtreli[i];
                         return ListTile(
-                          leading: Icon(
-                            Icons.location_city,
-                            color: Renkler.vurgu,
+                          leading: UcdIkon(
+                            ikon: Icons.location_city,
+                            renk: Renkler.vurgu,
                           ),
                           title: Text(
                             il.ad,
@@ -736,9 +737,9 @@ class _IlSecimDialoguState extends State<_IlSecimDialogu> {
                               fontSize: 14,
                             ),
                           ),
-                          trailing: const Icon(
-                            Icons.chevron_right,
-                            color: Colors.white24,
+                          trailing: const UcdIkon(
+                            ikon: Icons.chevron_right,
+                            renk: Colors.white24,
                           ),
                           onTap: () => Navigator.pop(ctx, il),
                         );

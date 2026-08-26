@@ -12,6 +12,7 @@ import '../services/bildirim_merkezi.dart';
 import '../services/gercek_bildirimler.dart';
 import '../services/renkler.dart';
 import '../services/vakit_servisi.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
   const AyarlarSayfasi({super.key});
@@ -260,7 +261,7 @@ static const List<({String kod, String ad})> _metotlar = [
                         ),
                       ),
                       child: s.kod == _vurguKod
-                          ? const Icon(Icons.check, color: Colors.white, size: 24)
+                          ? const UcdIkon(ikon: Icons.check_rounded, renk: Colors.white, boyut: 24)
                           : (s.renk == null
                               ? const Icon(Icons.auto_awesome,
                                   color: Colors.white54, size: 20)
@@ -384,7 +385,7 @@ static const List<({String kod, String ad})> _metotlar = [
         children: [
           _bolumBasligi(l.t('set.account')),
           _ayarSecenegi(
-            Icons.person_outline,
+            Icons.person_rounded,
             l.t('set.editProfile'),
             altMetin: l.t('set.editProfileAlt'),
             onTap: () {
@@ -398,14 +399,14 @@ static const List<({String kod, String ad})> _metotlar = [
           const SizedBox(height: 20),
           _bolumBasligi(l.t('set.time')),
           _ayarSwitch(
-            Icons.location_on_outlined,
+            Icons.location_on_rounded,
             l.t('set.autoLoc'),
             l.t('set.autoLocAlt'),
             _konumOtomatik,
             _konumDegistir,
           ),
           _ayarSecenegi(
-            Icons.calculate_outlined,
+            Icons.calculate_rounded,
             l.t('set.method'),
             altMetin: _metotAd(l),
             onTap: _metotSec,
@@ -414,14 +415,14 @@ static const List<({String kod, String ad})> _metotlar = [
           const SizedBox(height: 20),
           _bolumBasligi(l.t('set.notif')),
           _ayarSwitch(
-            Icons.notifications_active_outlined,
+            Icons.notifications_active_rounded,
             l.t('set.notifAll'),
             l.t('set.notifAllAlt'),
             _masterBildirim,
             _masterBildirimDegistir,
           ),
           _ayarSecenegi(
-            Icons.tune_outlined,
+            Icons.tune_rounded,
             l.t('set.notifCenter'),
             altMetin: l.t('set.notifCenterAlt'),
             onTap: () {
@@ -432,7 +433,7 @@ static const List<({String kod, String ad})> _metotlar = [
             },
           ),
           _ayarSecenegi(
-            Icons.alarm_add_outlined,
+            Icons.alarm_add_rounded,
             l.t('set.namazNotif'),
             altMetin: l.t('set.namazNotifAlt'),
             onTap: () {
@@ -448,7 +449,7 @@ static const List<({String kod, String ad})> _metotlar = [
           const SizedBox(height: 20),
           _bolumBasligi(l.t('set.langSection')),
           _ayarSecenegi(
-            Icons.language,
+            Icons.language_rounded,
             l.t('set.lang'),
             altMetin: _aktifDilAdi(),
             onTap: _dilSec,
@@ -457,13 +458,13 @@ static const List<({String kod, String ad})> _metotlar = [
           const SizedBox(height: 20),
           _bolumBasligi(l.t('set.appearance')),
           _ayarSecenegi(
-            Icons.color_lens_outlined,
+            Icons.color_lens_rounded,
             l.t('set.accent'),
             altMetin: _vurguAdi(l),
             onTap: _vurguSec,
           ),
           _ayarSwitch(
-            Icons.dark_mode_outlined,
+            Icons.dark_mode_rounded,
             l.t('set.dark'),
             l.t('set.darkAlt'),
             _karanlikMod,
@@ -473,18 +474,18 @@ static const List<({String kod, String ad})> _metotlar = [
           const SizedBox(height: 20),
           _bolumBasligi(l.t('set.about')),
           _ayarSecenegi(
-            Icons.shield_outlined,
+            Icons.shield_rounded,
             l.t('set.privacyCenter'),
             altMetin: l.t('set.privacyCenterAlt'),
             onTap: _gizlilikMerkeziGoster,
           ),
           _ayarSecenegi(
-            Icons.info_outline,
+            Icons.info_outline_rounded,
             l.t('set.privacy'),
             onTap: _gizlilikGoster,
           ),
           _ayarSecenegi(
-            Icons.star_rate_outlined,
+            Icons.star_rounded,
             l.t('set.rate'),
             onTap: _puanlaGoster,
           ),
@@ -530,7 +531,7 @@ static const List<({String kod, String ad})> _metotlar = [
           color: const Color(0xFF14382B),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(ikon, color: Colors.white70, size: 20),
+        child: UcdIkon(ikon: ikon, renk: Colors.white70, boyut: 20),
       ),
       title: Text(
         baslik,
@@ -542,8 +543,8 @@ static const List<({String kod, String ad})> _metotlar = [
               style: const TextStyle(color: Colors.white54, fontSize: 12),
             )
           : null,
-      trailing: const Icon(Icons.arrow_forward_ios,
-          color: Colors.white54, size: 16),
+      trailing: const UcdIkon(ikon: Icons.chevron_right,
+          renk: Colors.white54, boyut: 16),
       onTap: onTap,
     );
   }
@@ -563,7 +564,7 @@ static const List<({String kod, String ad})> _metotlar = [
           color: const Color(0xFF14382B),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(ikon, color: Colors.white70, size: 20),
+        child: UcdIkon(ikon: ikon, renk: Colors.white70, boyut: 20),
       ),
       title: Text(
         baslik,

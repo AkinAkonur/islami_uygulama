@@ -189,623 +189,77 @@ class _AnaSayfaState extends State<AnaSayfa> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Hoşgeldin + Profil Kartı (3D)
-              UcdKart(
-                radius: 20,
-                maxTilt: 0.09,
-                sekil: KartSekli.kose,
-                child: GestureDetector(
-                  onTap: _profilAc,
-                  child: Container(
-                    padding: EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Renkler.kart,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Renkler.cerceve),
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 27,
-                          backgroundColor: Renkler.seciliYuzey,
-                          backgroundImage: _profilResim != null
-                              ? MemoryImage(_profilResim!)
-                              : null,
-                          child: _profilResim == null
-                              ? const Icon(
-                                  Icons.person_outline,
-                                  color: Colors.white70,
-                                  size: 30,
-                                )
-                              : null,
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Hoşgeldin, $isim 👋',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                'Hicri ${ProfilStore.hicriYil()} · '
-                                '${DateTime.now().year} · profili düzenle',
-                                style: const TextStyle(
-                                  color: Colors.white54,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        UcdIkon(
-                          ikon: Icons.edit_outlined,
-                          renk: Renkler.vurgu,
-                          boyut: 18,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 12),
+              // ═══ 1. ÜST BANT: HOŞGELDİN + BİLDİRİM + AYARLAR ═══
+              _buildTopBar(context, l, isim),
+              const SizedBox(height: 20),
 
-              // Sessiz vakit, Bildirim ve Ayarlar (3D)
-              Row(
-                children: [
-                  UcdKart(
-                    radius: 14,
-                    maxTilt: 0.14,
-                    sekil: KartSekli.klasik,
-                    child: _SessizChip(),
-                  ),
-                  const Spacer(),
-                  UcdKart(
-                    radius: 24,
-                    maxTilt: 0.16,
-                    sekil: KartSekli.yuvar,
-                    child: _BildirimZili(),
-                  ),
-                  SizedBox(width: 12),
-                  UcdKart(
-                    radius: 24,
-                    maxTilt: 0.16,
-                    sekil: KartSekli.yuvar,
-                    child: GestureDetector(
-                      onTap: _ayarlarAc,
-                      child: _yuvarZemin(
-                        boyut: 48,
-                        child: UcdIkon(
-                          ikon: Icons.settings_outlined,
-                          renk: Colors.white,
-                          boyut: 22,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 24),
+              // ═══ 2. HERO VAKİT KARTI ═══
+              _HeroVakitKarti(),
+              const SizedBox(height: 20),
 
-              // Duygu Modları
-              Text(
-                l.t('h.how'),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 12),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
+              // ═══ 3. HIZLI EYLEM ÇUBUĞU ═══
+              _buildQuickActions(context, l),
+              const SizedBox(height: 28),
+
+              // ═══ 4. DUYGU MODLARI ═══
+              _buildSectionHeader(l.t('h.how')),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 42,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
                   children: [
-                    _buildMoodChip(
-                      context,
-                      "😊",
-                      l.t('m.huzurlu'),
-                      true,
-                      HuzurluPage(),
-                    ),
-                    _buildMoodChip(
-                      context,
-                      "🙏",
-                      l.t('m.sukurlu'),
-                      false,
-                      SukurPage(),
-                    ),
-                    _buildMoodChip(
-                      context,
-                      "😴",
-                      l.t('m.yorgun'),
-                      false,
-                      YorgunPage(),
-                    ),
-                    _buildMoodChip(
-                      context,
-                      "🤲",
-                      l.t('m.umutlu'),
-                      false,
-                      UmutluPage(),
-                    ),
-                    _buildMoodChip(
-                      context,
-                      "😟",
-                      l.t('m.kaygili'),
-                      false,
-                      KaygiliPage(),
-                    ),
+                    _buildMoodChip(context, "😊", l.t('m.huzurlu'), HuzurluPage()),
+                    _buildMoodChip(context, "🙏", l.t('m.sukurlu'), SukurPage()),
+                    _buildMoodChip(context, "😴", l.t('m.yorgun'), YorgunPage()),
+                    _buildMoodChip(context, "🤲", l.t('m.umutlu'), UmutluPage()),
+                    _buildMoodChip(context, "😟", l.t('m.kaygili'), KaygiliPage()),
                   ],
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 28),
 
-              _VakitKartlari(),
-              SizedBox(height: 16),
+              // ═══ 5. GÜNLÜK MANEVİYAT ═══
+              _buildSectionHeader(l.t('h.daily')),
+              const SizedBox(height: 12),
+              _buildHorizontalModules(context, l),
+              const SizedBox(height: 28),
 
+              // ═══ 6. RAMAZAN BANNER ═══
               UcdKart(
                 radius: 18,
                 sekil: KartSekli.kose,
                 child: RamazanBanner(),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 28),
 
-              // Günlük Maneviyat Modülleri
-              Text(
-                l.t('h.daily'),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 12),
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 2.7,
-                children: [
-                  _ozelModulKarti(
-                    context,
-                    Icons.play_circle_fill_outlined,
-                    l.t('mod.devam'),
-                    _DevamOzetMetni(),
-                    Colors.lightGreenAccent,
-                    DevamEtPage(),
-                    kartSekli: KartSekli.yuvar,
-                    plakaSekli: PlakaSekli.daire,
-                  ),
-                  _ozelModulKarti(
-                    context,
-                    Icons.local_fire_department_outlined,
-                    l.t('mod.gorev'),
-                    _GorevOzetMetni(),
-                    Colors.deepOrangeAccent,
-                    GunlukGorevPage(),
-                    kartSekli: KartSekli.kose,
-                    plakaSekli: PlakaSekli.baklava,
-                  ),
-                  _ozelModulKarti(
-                    context,
-                    Icons.mosque_outlined,
-                    l.t('mod.cami'),
-                    Text(
-                      l.t('mod.camiAlt'),
-                      style: TextStyle(color: Colors.white54, fontSize: 11),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Colors.cyanAccent,
-                    KonumPage(),
-                    kartSekli: KartSekli.klasik,
-                    plakaSekli: PlakaSekli.mihrap,
-                  ),
-                  _ozelModulKarti(
-                    context,
-                    Icons.donut_large_outlined,
-                    l.t('mod.carki'),
-                    Text(
-                      l.t('mod.carkiAlt'),
-                      style: TextStyle(color: Colors.white54, fontSize: 11),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Colors.amberAccent,
-                    HedefCarkiPage(),
-                    kartSekli: KartSekli.yuvar,
-                    plakaSekli: PlakaSekli.daire,
-                  ),
-                  _HizliTesbihKarti(),
-                  _ozelModulKarti(
-                    context,
-                    Icons.headphones_outlined,
-                    l.t('mod.dinle'),
-                    Text(
-                      l.t('mod.dinleAlt'),
-                      style: TextStyle(color: Colors.white54, fontSize: 11),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Colors.blueAccent,
-                    SureListesiPage(),
-                    kartSekli: KartSekli.kose,
-                    plakaSekli: PlakaSekli.altigen,
-                  ),
-                ],
-              ),
-              SizedBox(height: 24),
+              // ═══ 7. KEŞFET & MODÜLLER ═══
+              _buildSectionHeader(l.t('h.discover')),
+              const SizedBox(height: 12),
+              _buildHorizontalDiscover(context, l),
+              const SizedBox(height: 28),
 
-              // Keşfet
-              Text(
-                l.t('h.discover'),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 12),
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 2.7,
-                children: [
-                  _ozelModulKarti(
-                    context,
-                    Icons.widgets_outlined,
-                    l.t('mod.widget'),
-                    Text(
-                      l.t('mod.widgetAlt'),
-                      style: TextStyle(color: Colors.white54, fontSize: 11),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Colors.purpleAccent,
-                    WidgetRehberiPage(),
-                    kartSekli: KartSekli.klasik,
-                    plakaSekli: PlakaSekli.yuvarlakKare,
-                  ),
-                  _ozelModulKarti(
-                    context,
-                    Icons.explore_outlined,
-                    l.t('mod.pusula'),
-                    Text(
-                      l.t('mod.pusulaAlt'),
-                      style: TextStyle(color: Colors.white54, fontSize: 11),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Colors.tealAccent,
-                    KiblePusulaPage(),
-                    kartSekli: KartSekli.kose,
-                    plakaSekli: PlakaSekli.baklava,
-                  ),
-                  _ozelModulKarti(
-                    context,
-                    Icons.self_improvement_outlined,
-                    l.t('mod.gorsel'),
-                    Text(
-                      l.t('mod.gorselAlt'),
-                      style: TextStyle(color: Colors.white54, fontSize: 11),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Colors.greenAccent,
-                    GorselKilinisScreen(),
-                    kartSekli: KartSekli.yuvar,
-                    plakaSekli: PlakaSekli.altigen,
-                  ),
-                ],
-              ),
-              SizedBox(height: 24),
+              // ═══ 8. GÜNÜN İÇERİĞİ (Tek kart, iç geçişli) ═══
+              _GununIcerigiKarti(l: l),
+              const SizedBox(height: 24),
 
-              // Daha Fazla Butonu
-              UcdKart(
-                radius: 20,
-                maxTilt: 0.09,
-                sekil: KartSekli.kose,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DahaFazlaPage()),
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Renkler.kart,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          l.t('h.more'),
-                          style: TextStyle(color: Colors.white70, fontSize: 12),
-                        ),
-                        SizedBox(width: 4),
-                        Icon(
-                          Icons.chevron_right,
-                          color: Colors.white54,
-                          size: 16,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
+              // ═══ 9. KIBLE BÖLÜMÜ ═══
+              _buildSectionHeader(l.t('h.qiblaTitle')),
+              const SizedBox(height: 12),
+              _buildKibleCard(context, l),
+              const SizedBox(height: 24),
 
-              // İkonlu Menü (Dualar, Bağış, Cüz'ler, İlham)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildIconMenu(
-                    context,
-                    Icons.pan_tool_alt_outlined,
-                    l.t('h.duas'),
-                    Colors.orangeAccent,
-                    DualarPage(),
-                    plakaSekli: PlakaSekli.daire,
-                    kartSekli: KartSekli.yuvar,
-                  ),
-                  _buildIconMenu(
-                    context,
-                    Icons.dark_mode_outlined,
-                    l.t('h.donate'),
-                    Colors.amber,
-                    BagisPage(),
-                    plakaSekli: PlakaSekli.altigen,
-                    kartSekli: KartSekli.klasik,
-                  ),
-                  _buildIconMenu(
-                    context,
-                    Icons.filter_frames,
-                    l.t('h.cuzler'),
-                    Colors.tealAccent,
-                    CuzlerPage(),
-                    plakaSekli: PlakaSekli.yuvarlakKare,
-                    kartSekli: KartSekli.yuvar,
-                  ),
-                  _buildIconMenu(
-                    context,
-                    Icons.menu_book_outlined,
-                    l.t('h.ilham'),
-                    Colors.orange,
-                    IlhamPage(),
-                    plakaSekli: PlakaSekli.baklava,
-                    kartSekli: KartSekli.klasik,
-                  ),
-                ],
-              ),
-              SizedBox(height: 24),
+              // ═══ 10. ALT İKONLU MENÜ ═══
+              _buildBottomIconRow(context, l),
+              const SizedBox(height: 24),
 
-              // Kıble Bölümü
-              _buildSectionTitle(l.t('h.qiblaTitle')),
-              SizedBox(height: 12),
-              UcdKart(
-                radius: 16,
-                sekil: KartSekli.yuvar,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => KiblePusulaPage(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Renkler.yuzey,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Renkler.cerceve2, width: 1),
-                    ),
-                    child: Row(
-                      children: [
-                        SekilPlaka(
-                          sekil: PlakaSekli.mihrap,
-                          ikon: Icons.explore_outlined,
-                          ikonRenk: Renkler.vurgu,
-                          boyut: 34,
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                l.t('h.qiblaDir'),
-                                style: TextStyle(
-                                  color: Renkler.vurgu,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                l.t('h.kaaba'),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 2),
-                              const _KibleOzeti(),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        const Icon(
-                          Icons.chevron_right,
-                          color: Colors.white38,
-                          size: 16,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 24),
-
-              // Günün Sorusu (her gün değişir)
-              UcdKart(
-                radius: 16,
-                sekil: KartSekli.yuvar,
-                child: GununSorusuKarti(),
-              ),
-              SizedBox(height: 16),
-
-              // Günün Ayeti (Her gün otomatik değişir)
-              Builder(
-                builder: (context) {
-                  final now = DateTime.now();
-                  final dayOfYear = now
-                      .difference(DateTime(now.year, 1, 1))
-                      .inDays;
-                  final verses = [
-                    {
-                      "arabic": "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
-                      "translation":
-                          "Şüphesiz her zorlukla beraber bir kolaylık vardır.",
-                      "reference": "İnşirah Suresi, 6. Ayet",
-                    },
-                    {
-                      "arabic": "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
-                      "translation":
-                          "Bilesiniz ki, kalpler ancak Allah’ı anmakla huzur bulur.",
-                      "reference": "Ra'd Suresi, 28. Ayet",
-                    },
-                    {
-                      "arabic": "فَاذْكُرُونِي أَذْكُرْكُمْ",
-                      "translation": "Öyleyse beni anın ki ben de sizi anayım.",
-                      "reference": "Bakara Suresi, 152. Ayet",
-                    },
-                    {
-                      "arabic": "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
-                      "translation":
-                          "Andolsun, eğer şükrederseniz elbette size nimetimi artırırım.",
-                      "reference": "İbrahim Suresi, 7. Ayet",
-                    },
-                    {
-                      "arabic":
-                          "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
-                      "translation":
-                          "Kim Allah’a tevekkül ederse, O, kendisine yeter.",
-                      "reference": "Talak Suresi, 3. Ayet",
-                    },
-                    {
-                      "arabic": "لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
-                      "translation": "Allah’ın rahmetinden ümidinizi kesmeyin.",
-                      "reference": "Zümer Suresi, 53. Ayet",
-                    },
-                    {
-                      "arabic":
-                          "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
-                      "translation":
-                          "Allah, hiç kimseye gücünün üstünde bir yük yüklemez.",
-                      "reference": "Bakara Suresi, 286. Ayet",
-                    },
-                  ];
-                  final ayetIndex = dayOfYear % verses.length;
-                  final todayVerse = verses[ayetIndex];
-
-                  return UcdKart(
-                    radius: 16,
-                    sekil: KartSekli.kose,
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Renkler.kart,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Renkler.cerceve, width: 1),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            children: [
-                              UcdIkon(
-                                ikon: Icons.menu_book_outlined,
-                                renk: Renkler.vurgu,
-                                boyut: 18,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                l.t('h.ayet'),
-                                style: TextStyle(
-                                  color: Renkler.vurgu,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Spacer(),
-                              UcdIkon(
-                                ikon: Icons.share_outlined,
-                                renk: Colors.white54,
-                                boyut: 18,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 14),
-                          Text(
-                            todayVerse["arabic"]!,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold,
-                              height: 1.4,
-                            ),
-                          ),
-                          SizedBox(height: 14),
-                          Text(
-                            '"${l.t('ay.${ayetIndex + 1}')}"',
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 13,
-                              fontStyle: FontStyle.italic,
-                              height: 1.4,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            l.t('ref.${ayetIndex + 1}'),
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Renkler.vurgu,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 30),
+              // ═══ 11. DAHA FAZLA ═══
+              _buildDahaFazlaButton(context, l),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -813,7 +267,6 @@ class _AnaSayfaState extends State<AnaSayfa> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Radyo çalarken tüm sayfalarda kesintisiz görünen mini oynatıcı.
           const RadyoMiniOynatici(),
           BottomNavigationBar(
             backgroundColor: Renkler.navBar,
@@ -827,49 +280,352 @@ class _AnaSayfaState extends State<AnaSayfa> {
               if (index == 1) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NamazlarBolumuPage()),
+                  MaterialPageRoute(builder: (_) => NamazlarBolumuPage()),
                 );
               } else if (index == 2) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AiTefsirPage()),
+                  MaterialPageRoute(builder: (_) => AiTefsirPage()),
                 );
               } else if (index == 3) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => KuranBolumuPage()),
+                  MaterialPageRoute(builder: (_) => KuranBolumuPage()),
                 );
               } else if (index == 4) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UmmetBolumuPage()),
+                  MaterialPageRoute(builder: (_) => UmmetBolumuPage()),
                 );
               }
             },
             items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_filled),
-                label: l.t('h.navHome'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
-                label: l.t('h.navNamaz'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.auto_awesome),
-                label: l.t('h.navAi'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.menu_book_outlined),
-                label: l.t('h.navKuran'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.groups_outlined),
-                label: l.t('h.navUmmet'),
-              ),
+              BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: l.t('h.navHome')),
+              BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: l.t('h.navNamaz')),
+              BottomNavigationBarItem(icon: Icon(Icons.auto_awesome), label: l.t('h.navAi')),
+              BottomNavigationBarItem(icon: Icon(Icons.menu_book_outlined), label: l.t('h.navKuran')),
+              BottomNavigationBarItem(icon: Icon(Icons.groups_outlined), label: l.t('h.navUmmet')),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // ÜST BANT
+  // ────────────────────────────────────────────────────────────
+  Widget _buildTopBar(BuildContext context, AppLocalizations l, String isim) {
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: _profilAc,
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 18,
+                  backgroundColor: Renkler.seciliYuzey,
+                  backgroundImage:
+                      _profilResim != null ? MemoryImage(_profilResim!) : null,
+                  child: _profilResim == null
+                      ? const Icon(Icons.person_outline, color: Colors.white70, size: 20)
+                      : null,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hoşgeldin, $isim',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Hicri ${ProfilStore.hicriYil()}',
+                        style: TextStyle(color: Colors.white54, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // Bildirim
+        UcdKart(
+          radius: 22,
+          maxTilt: 0.16,
+          sekil: KartSekli.yuvar,
+          child: _BildirimZili(),
+        ),
+        const SizedBox(width: 8),
+        // Ayarlar
+        UcdKart(
+          radius: 22,
+          maxTilt: 0.16,
+          sekil: KartSekli.yuvar,
+          child: GestureDetector(
+            onTap: _ayarlarAc,
+            child: _yuvarZemin(
+              boyut: 44,
+              child: UcdIkon(ikon: Icons.settings_outlined, renk: Colors.white, boyut: 20),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // HIZLI EYLEM ÇUBUĞU (Glassmorphic Dairesel Butonlar)
+  // ────────────────────────────────────────────────────────────
+  Widget _buildQuickActions(BuildContext context, AppLocalizations l) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: Renkler.kart.withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Renkler.cerceve.withValues(alpha: 0.5)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _QuickAction(
+            ikon: Icons.menu_book_outlined,
+            renk: Colors.lightBlueAccent,
+            label: l.t('h.navKuran'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KuranBolumuPage())),
+          ),
+          _QuickAction(
+            ikon: Icons.explore_outlined,
+            renk: Colors.tealAccent,
+            label: l.t('mod.pusulaAlt'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+          ),
+          _QuickAction(
+            ikon: Icons.radio_button_checked,
+            renk: Colors.pinkAccent,
+            label: l.t('mod.hizli'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
+          ),
+          _QuickAction(
+            ikon: Icons.pan_tool_alt_outlined,
+            renk: Colors.orangeAccent,
+            label: l.t('h.duas'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DualarPage())),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // YATAY MODÜL LİSTESİ (Günlük Maneviyat)
+  // ────────────────────────────────────────────────────────────
+  Widget _buildHorizontalModules(BuildContext context, AppLocalizations l) {
+    return SizedBox(
+      height: 72,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _ModuleCard(
+            ikon: Icons.play_circle_fill_outlined,
+            renk: Colors.lightGreenAccent,
+            baslik: l.t('mod.devam'),
+            altMetin: '',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DevamEtPage())),
+          ),
+          _ModuleCard(
+            ikon: Icons.local_fire_department_outlined,
+            renk: Colors.deepOrangeAccent,
+            baslik: l.t('mod.gorev'),
+            altMetin: '',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => GunlukGorevPage())),
+          ),
+          _ModuleCard(
+            ikon: Icons.mosque_outlined,
+            renk: Colors.cyanAccent,
+            baslik: l.t('mod.cami'),
+            altMetin: l.t('mod.camiAlt'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KonumPage())),
+          ),
+          _ModuleCard(
+            ikon: Icons.donut_large_outlined,
+            renk: Colors.amberAccent,
+            baslik: l.t('mod.carki'),
+            altMetin: l.t('mod.carkiAlt'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => HedefCarkiPage())),
+          ),
+          _ModuleCard(
+            ikon: Icons.radio_button_checked,
+            renk: Colors.pinkAccent,
+            baslik: l.t('mod.hizli'),
+            altMetin: '',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
+          ),
+          _ModuleCard(
+            ikon: Icons.headphones_outlined,
+            renk: Colors.blueAccent,
+            baslik: l.t('mod.dinle'),
+            altMetin: l.t('mod.dinleAlt'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SureListesiPage())),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // YATAY KEŞFET LİSTESİ
+  // ────────────────────────────────────────────────────────────
+  Widget _buildHorizontalDiscover(BuildContext context, AppLocalizations l) {
+    return SizedBox(
+      height: 72,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _ModuleCard(
+            ikon: Icons.widgets_outlined,
+            renk: Colors.purpleAccent,
+            baslik: l.t('mod.widget'),
+            altMetin: l.t('mod.widgetAlt'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => WidgetRehberiPage())),
+          ),
+          _ModuleCard(
+            ikon: Icons.explore_outlined,
+            renk: Colors.tealAccent,
+            baslik: l.t('mod.pusula'),
+            altMetin: l.t('mod.pusulaAlt'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+          ),
+          _ModuleCard(
+            ikon: Icons.self_improvement_outlined,
+            renk: Colors.greenAccent,
+            baslik: l.t('mod.gorsel'),
+            altMetin: l.t('mod.gorselAlt'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => GorselKilinisScreen())),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // BÖLÜM BAŞLIĞI
+  // ────────────────────────────────────────────────────────────
+  Widget _buildSectionHeader(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // KIBLE KARTI
+  // ────────────────────────────────────────────────────────────
+  Widget _buildKibleCard(BuildContext context, AppLocalizations l) {
+    return UcdKart(
+      radius: 16,
+      sekil: KartSekli.yuvar,
+      child: GestureDetector(
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: Renkler.yuzey,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Renkler.cerceve2),
+          ),
+          child: Row(
+            children: [
+              SekilPlaka(
+                sekil: PlakaSekli.mihrap,
+                ikon: Icons.explore_outlined,
+                ikonRenk: Renkler.vurgu,
+                boyut: 38,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l.t('h.qiblaDir'),
+                      style: TextStyle(color: Renkler.vurgu, fontSize: 10, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      l.t('h.kaaba'),
+                      style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    const _KibleOzeti(),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right, color: Colors.white38, size: 18),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // ALT İKON SIRASI
+  // ────────────────────────────────────────────────────────────
+  Widget _buildBottomIconRow(BuildContext context, AppLocalizations l) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _buildIconMenu(context, Icons.pan_tool_alt_outlined, l.t('h.duas'), Colors.orangeAccent, DualarPage()),
+        _buildIconMenu(context, Icons.dark_mode_outlined, l.t('h.donate'), Colors.amber, BagisPage()),
+        _buildIconMenu(context, Icons.filter_frames, l.t('h.cuzler'), Colors.tealAccent, CuzlerPage()),
+        _buildIconMenu(context, Icons.menu_book_outlined, l.t('h.ilham'), Colors.orange, IlhamPage()),
+      ],
+    );
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // DAHA FAZLA BUTONU
+  // ────────────────────────────────────────────────────────────
+  Widget _buildDahaFazlaButton(BuildContext context, AppLocalizations l) {
+    return UcdKart(
+      radius: 20,
+      maxTilt: 0.09,
+      sekil: KartSekli.kose,
+      child: GestureDetector(
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DahaFazlaPage())),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          decoration: BoxDecoration(
+            color: Renkler.kart,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Renkler.cerceve),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l.t('h.more'), style: const TextStyle(color: Colors.white70, fontSize: 13)),
+              const SizedBox(width: 4),
+              const Icon(Icons.chevron_right, color: Colors.white54, size: 16),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -878,48 +634,34 @@ class _AnaSayfaState extends State<AnaSayfa> {
     BuildContext context,
     String emoji,
     String text,
-    bool isSelected,
     Widget targetPage,
   ) {
-    final moodKart = GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => targetPage),
-        );
-      },
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => targetPage)),
       child: Container(
-        margin: EdgeInsets.only(right: 12),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        margin: const EdgeInsets.only(right: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? Renkler.seciliYuzey : Renkler.kart,
+          color: Renkler.kart,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? Renkler.vurgu : Colors.transparent,
-            width: 1,
-          ),
+          border: Border.all(color: Renkler.cerceve),
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(emoji, style: TextStyle(fontSize: 16)),
-            SizedBox(width: 8),
+            Text(emoji, style: const TextStyle(fontSize: 15)),
+            const SizedBox(width: 6),
             Text(
               text,
               style: TextStyle(
-                color: isSelected ? Renkler.vurgu : Colors.white70,
-                fontSize: 14,
+                color: Colors.white70,
+                fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ],
         ),
       ),
-    );
-    return UcdKart(
-      radius: 20,
-      maxTilt: 0.09,
-      sekil: KartSekli.yuvar,
-      child: moodKart,
     );
   }
 
@@ -959,14 +701,636 @@ class _AnaSayfaState extends State<AnaSayfa> {
     );
     return UcdKart(radius: 20, maxTilt: 0.09, child: ikonMenu);
   }
+}
 
-  Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
+// ===========================================================================
+// HERO VAKİT KARTI (Tam Genişlik, Gradient Arka Plan + Geri Sayım)
+// ===========================================================================
+class _HeroVakitKarti extends StatefulWidget {
+  const _HeroVakitKarti();
+
+  @override
+  State<_HeroVakitKarti> createState() => _HeroVakitKartiState();
+}
+
+class _HeroVakitKartiState extends State<_HeroVakitKarti> {
+  Timer? _sureci;
+  List<_VakitBilgisi> _vakitler = const [];
+  String _metotEtiketi = 'Diyanet (Türkiye)';
+
+  List<_VakitBilgisi> get _liste =>
+      _vakitler.isNotEmpty ? _vakitler : _gunVakitleri;
+
+  @override
+  void initState() {
+    super.initState();
+    _bastaBaslat();
+    _sureci = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) setState(() {});
+    });
+    VakitServisi.vakitGuncellendi.addListener(_vakitleriYukle);
+  }
+
+  Future<void> _bastaBaslat() async {
+    await VakitServisi.ilkkonum();
+    await _vakitleriYukle();
+  }
+
+  Future<void> _vakitleriYukle() async {
+    final guncel = await VakitServisi.gunlukVakitler();
+    final metotKod = await VakitServisi.aktifMetotKodu();
+    if (!mounted) return;
+    setState(() {
+      _vakitler = guncel.map(_servisVaktiniCevir).toList();
+      _metotEtiketi = AyarlarStore.metotEtiketi(metotKod);
+    });
+  }
+
+  @override
+  void dispose() {
+    _sureci?.cancel();
+    VakitServisi.vakitGuncellendi.removeListener(_vakitleriYukle);
+    super.dispose();
+  }
+
+  String _sureYaz(int sn) {
+    String iki(int n) => n.toString().padLeft(2, '0');
+    final s = sn % 60;
+    final dk = (sn ~/ 60) % 60;
+    final sa = sn ~/ 3600;
+    return '${iki(sa)}:${iki(dk)}:${iki(s)}';
+  }
+
+  (int kalan, String vakitAdi, String vakitSaat, IconData vakitIkon, int index)
+  _vakitHesapla(DateTime simdi) {
+    final dakika = simdi.hour * 60 + simdi.minute;
+    final saniye = dakika * 60 + simdi.second;
+    int sonrakiIndex = _liste.indexWhere((v) => v.dakika > dakika);
+    if (sonrakiIndex == -1) sonrakiIndex = 0;
+    final siradaki = _liste[sonrakiIndex];
+    final bool geceGecisi = sonrakiIndex == 0;
+    final int bitisSn = geceGecisi
+        ? (_liste.first.dakika + 1440) * 60
+        : siradaki.dakika * 60;
+    final int kalan = bitisSn - saniye;
+    return (kalan, siradaki.ad, siradaki.saat, siradaki.ikon, sonrakiIndex);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final (kalan, vakitAdi, vakitSaat, vakitIkon, aktifIndex) = _vakitHesapla(
+      DateTime.now(),
+    );
+    final l = AppLocalizations.of(context);
+
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const NamazScreen()),
+      ),
+      child: UcdKart(
+        radius: 24,
+        maxTilt: 0.08,
+        sekil: KartSekli.kose,
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Renkler.bannerUst, Renkler.bannerAlt],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Renkler.vurgu.withValues(alpha: 0.20),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              // Dekoratif kubbe silüeti
+              Positioned(
+                top: -40,
+                right: -20,
+                width: 140,
+                height: 110,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.04),
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(70),
+                    ),
+                  ),
+                ),
+              ),
+              // Büyük su-ikoni
+              Positioned(
+                right: -12,
+                top: -10,
+                child: Icon(vakitIkon, size: 100, color: Colors.white.withValues(alpha: 0.06)),
+              ),
+              // Işık yayılımı
+              Positioned(
+                top: -60,
+                left: -30,
+                width: 200,
+                height: 200,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        Colors.white.withValues(alpha: 0.10),
+                        Colors.white.withValues(alpha: 0.0),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Üst satır: Konum + Metot
+                    Row(
+                      children: [
+                        Container(
+                          width: 7,
+                          height: 7,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(color: Colors.white.withValues(alpha: 0.8), blurRadius: 6),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          l.t('v.yaklasan'),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.18),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.calculate_outlined, color: Colors.white70, size: 11),
+                              const SizedBox(width: 4),
+                              Flexible(
+                                child: Text(
+                                  _metotEtiketi,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(color: Colors.white70, fontSize: 9, fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Geri Sayım + Vakit Adı
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                vakitAdi,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
+                                children: [
+                                  Flexible(
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        _sureYaz(kalan),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 36,
+                                          fontWeight: FontWeight.w800,
+                                          letterSpacing: 1.2,
+                                          fontFeatures: [const FontFeature.tabularFigures()],
+                                          shadows: [
+                                            Shadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 4, offset: const Offset(0, 2)),
+                                            Shadow(color: Colors.white.withValues(alpha: 0.25), blurRadius: 16),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    l.t('v.kaldi'),
+                                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                vakitSaat,
+                                style: const TextStyle(color: Colors.white54, fontSize: 13, fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        _VakitHalkasi(
+                          ilerleme: 0,
+                          ikon: vakitIkon,
+                          boyut: 68,
+                          renk: Colors.white,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Alt vakit bantları (6 vakit)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(_liste.length, (i) {
+                        final v = _liste[i];
+                        final aktif = i == aktifIndex;
+                        return Column(
+                          children: [
+                            Icon(
+                              v.ikon,
+                              size: 16,
+                              color: aktif ? Colors.white : Colors.white38,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              v.ad.substring(0, v.ad.length > 4 ? 4 : v.ad.length),
+                              style: TextStyle(
+                                color: aktif ? Colors.white : Colors.white38,
+                                fontSize: 9,
+                                fontWeight: aktif ? FontWeight.bold : FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              v.saat,
+                              style: TextStyle(
+                                color: aktif ? Renkler.vurgu : Colors.white24,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================================
+// HIZLI EYLEM BUTONU (Dairesel, Glassmorphic)
+// ===========================================================================
+class _QuickAction extends StatelessWidget {
+  final IconData ikon;
+  final Color renk;
+  final String label;
+  final VoidCallback onTap;
+
+  const _QuickAction({
+    required this.ikon,
+    required this.renk,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [
+                  renk.withValues(alpha: 0.30),
+                  renk.withValues(alpha: 0.10),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              border: Border.all(color: renk.withValues(alpha: 0.25)),
+            ),
+            child: Center(
+              child: UcdIkon(ikon: ikon, renk: renk, boyut: 24),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 10),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ===========================================================================
+// YATAY MODÜL KARTI (Tek satır, yatay kaydırmalı)
+// ===========================================================================
+class _ModuleCard extends StatelessWidget {
+  final IconData ikon;
+  final Color renk;
+  final String baslik;
+  final String altMetin;
+  final VoidCallback onTap;
+
+  const _ModuleCard({
+    required this.ikon,
+    required this.renk,
+    required this.baslik,
+    required this.altMetin,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 160,
+        margin: const EdgeInsets.only(right: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: Renkler.kart,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Renkler.cerceve),
+        ),
+        child: Row(
+          children: [
+            SekilPlaka(
+              sekil: PlakaSekli.daire,
+              ikon: ikon,
+              ikonRenk: renk,
+              boyut: 36,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    baslik,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (altMetin.isNotEmpty) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      altMetin,
+                      style: const TextStyle(color: Colors.white38, fontSize: 10),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================================================
+// GÜNÜN İÇERİĞİ KARTI (Tab geçişli: Ayeti / Sorusu / Hadisi)
+// ===========================================================================
+class _GununIcerigiKarti extends StatefulWidget {
+  final AppLocalizations l;
+  const _GununIcerigiKarti({required this.l});
+
+  @override
+  State<_GununIcerigiKarti> createState() => _GununIcerigiKartiState();
+}
+
+class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
+  int _aktif = 0;
+
+  static const _verses = [
+    {
+      "arabic": "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+      "translation": "Şüphesiz her zorlukla beraber bir kolaylık vardır.",
+      "reference": "İnşirah Suresi, 6. Ayet",
+    },
+    {
+      "arabic": "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+      "translation": "Bilesiniz ki, kalpler ancak Allah'ı anmakla huzur bulur.",
+      "reference": "Ra'd Suresi, 28. Ayet",
+    },
+    {
+      "arabic": "فَاذْكُرُونِي أَذْكُرْكُمْ",
+      "translation": "Öyleyse beni anın ki ben de sizi anayım.",
+      "reference": "Bakara Suresi, 152. Ayet",
+    },
+    {
+      "arabic": "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
+      "translation": "Andolsun, eğer şükrederseniz elbette size nimetimi artırırım.",
+      "reference": "İbrahim Suresi, 7. Ayet",
+    },
+    {
+      "arabic": "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+      "translation": "Kim Allah'a tevekkül ederse, O, kendisine yeter.",
+      "reference": "Talak Suresi, 3. Ayet",
+    },
+    {
+      "arabic": "لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
+      "translation": "Allah'ın rahmetinden ümidinizi kesmeyin.",
+      "reference": "Zümer Suresi, 53. Ayet",
+    },
+    {
+      "arabic": "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+      "translation": "Allah, hiç kimseye gücünün üstünde bir yük yüklemez.",
+      "reference": "Bakara Suresi, 286. Ayet",
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final l = widget.l;
+    final now = DateTime.now();
+    final dayOfYear = now.difference(DateTime(now.year, 1, 1)).inDays;
+
+    return UcdKart(
+      radius: 20,
+      sekil: KartSekli.yuvar,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Renkler.kart,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Renkler.cerceve),
+        ),
+        child: Column(
+          children: [
+            // Tab çubuğu
+            Container(
+              margin: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Renkler.zemin,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  _tabButonu(l.t('h.ayet'), 0, Icons.menu_book_outlined),
+                  _tabButonu(l.t('h.soru'), 1, Icons.help_outline),
+                  _tabButonu(l.t('h.ilham'), 2, Icons.auto_awesome),
+                ],
+              ),
+            ),
+            // İçerik
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: _aktif == 0
+                  ? _ayetIcerigi(dayOfYear, l)
+                  : _aktif == 1
+                      ? const GununSorusuKarti()
+                      : _ilhamIcerigi(),
+            ),
+            const SizedBox(height: 14),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _tabButonu(String text, int index, IconData ikon) {
+    final aktif = _aktif == index;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => setState(() => _aktif = index),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: aktif ? Renkler.vurgu.withValues(alpha: 0.18) : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+            border: aktif
+                ? Border.all(color: Renkler.vurgu.withValues(alpha: 0.4))
+                : null,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(ikon, size: 14, color: aktif ? Renkler.vurgu : Colors.white38),
+              const SizedBox(width: 4),
+              Text(
+                text,
+                style: TextStyle(
+                  color: aktif ? Renkler.vurgu : Colors.white54,
+                  fontSize: 11,
+                  fontWeight: aktif ? FontWeight.bold : FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _ayetIcerigi(int dayOfYear, AppLocalizations l) {
+    final ayetIndex = dayOfYear % _verses.length;
+    final v = _verses[ayetIndex];
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          Text(
+            v["arabic"]!,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold, height: 1.4),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            '"${l.t('ay.${ayetIndex + 1}')}"',
+            style: const TextStyle(color: Colors.white70, fontSize: 13, fontStyle: FontStyle.italic, height: 1.4),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l.t('ref.${ayetIndex + 1}'),
+            textAlign: TextAlign.right,
+            style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _ilhamIcerigi() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          UcdIkon(ikon: Icons.auto_awesome, renk: Renkler.vurgu, boyut: 28),
+          const SizedBox(height: 10),
+          const Text(
+            'Her gün yeni bir ilham, her an yeni bir keşif.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white70, fontSize: 13, fontStyle: FontStyle.italic, height: 1.5),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'İlham sayfasını keşfet →',
+            style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }
@@ -1241,73 +1605,6 @@ class _SessizChipState extends State<_SessizChip> {
 // ===========================================================================
 // GÜNLÜK MANEVİYAT MODÜL KARTLARI
 // ===========================================================================
-Widget _ozelModulKarti(
-  BuildContext context,
-  IconData ikon,
-  String baslik,
-  Widget altIcerik,
-  Color renk,
-  Widget hedefSayfa, {
-  KartSekli kartSekli = KartSekli.klasik,
-  PlakaSekli plakaSekli = PlakaSekli.yuvarlakKare,
-}) {
-  return UcdKart(
-    radius: 16,
-    maxTilt: 0.09,
-    sekil: kartSekli,
-    child: GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => hedefSayfa));
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.cerceve),
-        ),
-        child: Row(
-          children: [
-            SekilPlaka(
-              sekil: plakaSekli,
-              ikon: ikon,
-              ikonRenk: renk,
-              boyut: 34,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    baslik,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  DefaultTextStyle(
-                    style: const TextStyle(color: Colors.white54, fontSize: 11),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    child: altIcerik,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 6),
-            const Icon(Icons.chevron_right, color: Colors.white38, size: 16),
-          ],
-        ),
-      ),
-    ),
-  );
-}
 
 class _DevamOzetMetni extends StatefulWidget {
   @override
@@ -1330,22 +1627,6 @@ class _DevamOzetMetniState extends State<_DevamOzetMetni> {
           '${AppLocalizations.of(context).t('h.last')} ${konum.gosterim}',
           style: TextStyle(color: Colors.white54, fontSize: 11),
           maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        );
-      },
-    );
-  }
-}
-
-class _GorevOzetMetni extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<int>(
-      future: ManeviStore.seriOku(),
-      builder: (context, snp) {
-        return Text(
-          '🔥 ${AppLocalizations.of(context).t('h.streak').replaceAll('{n}', '${snp.data ?? 0}')}',
-          style: TextStyle(color: Colors.white54, fontSize: 11),
           overflow: TextOverflow.ellipsis,
         );
       },

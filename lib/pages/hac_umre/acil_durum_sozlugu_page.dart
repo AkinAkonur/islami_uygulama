@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 import '../../services/renkler.dart';
+import '../../../widgets/kart_sekilleri.dart';
 import 'acil_durum_verileri.dart';
 import 'hac_umre_verileri.dart';
 
@@ -134,7 +135,7 @@ class _AcilDurumSozluguPageState extends State<AcilDurumSozluguPage> {
               child: const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.info_outline, color: Colors.white38, size: 16),
+                  UcdIkon(ikon: Icons.info_outline_rounded, renk: Colors.white38, boyut: 16),
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -226,11 +227,11 @@ class _CumleKarti extends StatelessWidget {
                         ? Renkler.vurgu.withValues(alpha: 0.25)
                         : Colors.white.withValues(alpha: 0.06),
                   ),
-                  icon: Icon(
-                    caliyor
-                        ? Icons.stop_circle_outlined
-                        : Icons.volume_up_outlined,
-                    color: caliyor ? Renkler.vurgu : Colors.white70,
+                  icon: UcdIkon(
+                    ikon: caliyor
+                        ? Icons.stop_circle_rounded
+                        : Icons.volume_up_rounded,
+                    renk: caliyor ? Renkler.vurgu : Colors.white70,
                   ),
                 ),
               ],
@@ -273,8 +274,8 @@ class _CumleKarti extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  const Icon(Icons.tips_and_updates_outlined,
-                      color: Colors.amberAccent, size: 15),
+                  const UcdIkon(ikon: Icons.tips_and_updates_rounded,
+                      renk: Colors.amberAccent, boyut: 15),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(

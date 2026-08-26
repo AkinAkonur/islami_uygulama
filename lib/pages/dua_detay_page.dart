@@ -12,6 +12,7 @@ import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
 import '../services/gercek_bildirimler.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 // ===========================================================================
 // DUA DETAY SAYFASI
@@ -83,7 +84,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.alarm, color: Colors.orangeAccent, size: 22),
+                  UcdIkon(ikon: Icons.alarm_rounded, renk: Colors.orangeAccent, boyut: 22),
                   const SizedBox(width: 8),
                   const Expanded(
                     child: Text(
@@ -97,7 +98,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   ),
                   IconButton(
                     tooltip: 'Kapat',
-                    icon: const Icon(Icons.close, color: Colors.white38),
+                    icon: UcdIkon(ikon: Icons.close_rounded, renk: Colors.white38),
                     onPressed: () => Navigator.pop(ctx, false),
                   ),
                 ],
@@ -142,7 +143,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.access_time, color: Colors.white70, size: 20),
+                      UcdIkon(ikon: Icons.access_time_rounded, renk: Colors.white70, boyut: 20),
                       const SizedBox(width: 10),
                       Text(
                         'Saat: ${zaman.format(context)}',
@@ -196,7 +197,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   ctx,
                   true,
                 ),
-                icon: const Icon(Icons.notifications_active_outlined, size: 18),
+                icon: UcdIkon(ikon: Icons.notifications_active_outlined, renk: Colors.black87, boyut: 18),
                 label: const Text(
                   'Hatırlatıcıyı Kaydet',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -336,9 +337,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : Icon(
-                      _caliyor ? Icons.stop_circle_outlined : Icons.play_circle_outline,
-                      color: Renkler.vurgu,
+                  : UcdIkon(
+                      ikon: _caliyor ? Icons.stop_circle_outlined : Icons.play_circle_outline,
+                      renk: Renkler.vurgu,
                     ),
               onPressed: _yukleniyorSes ? null : _sesCal,
             ),
@@ -348,9 +349,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
               final secili = fav.contains(dua.id);
               return IconButton(
                 tooltip: secili ? 'Favorilerden çıkar' : 'Favorilere ekle',
-                icon: Icon(
-                  secili ? Icons.favorite : Icons.favorite_border,
-                  color: secili ? Colors.redAccent : Colors.white70,
+                icon: UcdIkon(
+                  ikon: secili ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                  renk: secili ? Colors.redAccent : Colors.white70,
                 ),
                 onPressed: () => DuaStore.favoriDegistir(dua.id),
               );
@@ -358,7 +359,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
           ),
           IconButton(
             tooltip: 'Görsel kart paylaş',
-            icon: const Icon(Icons.share_outlined, color: Colors.white70),
+            icon: UcdIkon(ikon: Icons.share_rounded, renk: Colors.white70),
             onPressed: _paylasiliyor ? null : _paylas,
           ),
           ValueListenableBuilder<Map<String, DuaHatirlatma>>(
@@ -367,9 +368,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
               final aktif = hatirlatmalar.containsKey(dua.id);
               return IconButton(
                 tooltip: aktif ? 'Hatırlatıcıyı düzenle' : 'Hatırlatıcı kur',
-                icon: Icon(
-                  aktif ? Icons.alarm_on : Icons.alarm_add,
-                  color: aktif ? Colors.orangeAccent : Colors.white70,
+                icon: UcdIkon(
+                  ikon: aktif ? Icons.alarm_on : Icons.alarm_add,
+                  renk: aktif ? Colors.orangeAccent : Colors.white70,
                 ),
                 onPressed: () => _hatirlaticiAc(context),
               );
@@ -476,7 +477,7 @@ class _FontBoyutuCubugu extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const Icon(Icons.format_size, color: Colors.white54, size: 18),
+                UcdIkon(ikon: Icons.format_size, renk: Colors.white54, boyut: 18),
                 const SizedBox(width: 6),
                 Expanded(
                   child: Slider(
@@ -546,7 +547,7 @@ class _DuaKarti extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(Icons.mosque_outlined, color: Renkler.acikVurgu, size: 18),
+                  UcdIkon(ikon: Icons.mosque_rounded, renk: Renkler.acikVurgu, boyut: 18),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -664,10 +665,10 @@ class _ZikirmatikState extends State<_Zikirmatik> {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.radio_button_checked,
-                color: tamamlandi ? Colors.greenAccent : Colors.pinkAccent,
-                size: 18,
+              UcdIkon(
+                ikon: Icons.radio_button_checked,
+                renk: tamamlandi ? Colors.greenAccent : Colors.pinkAccent,
+                boyut: 18,
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -684,7 +685,7 @@ class _ZikirmatikState extends State<_Zikirmatik> {
               ),
               IconButton(
                 tooltip: 'Sıfırla',
-                icon: const Icon(Icons.refresh, color: Colors.white54, size: 18),
+                icon: UcdIkon(ikon: Icons.refresh, renk: Colors.white54, boyut: 18),
                 onPressed: _sifirla,
               ),
             ],
@@ -766,10 +767,10 @@ class _FaziletKarti extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.auto_awesome,
-            color: Colors.amberAccent,
-            size: 18,
+          UcdIkon(
+            ikon: Icons.auto_awesome,
+            renk: Colors.amberAccent,
+            boyut: 18,
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -835,12 +836,12 @@ class _HatirlatmaBanneri extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    kayit != null ? Icons.alarm_on : Icons.alarm_add,
-                    color: kayit != null
+                  UcdIkon(
+                    ikon: kayit != null ? Icons.alarm_on : Icons.alarm_add,
+                    renk: kayit != null
                         ? Colors.orangeAccent
                         : Colors.white38,
-                    size: 20,
+                    boyut: 20,
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -859,7 +860,7 @@ class _HatirlatmaBanneri extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(Icons.chevron_right, color: Colors.white30),
+                  UcdIkon(ikon: Icons.chevron_right, renk: Colors.white30),
                 ],
               ),
             ),
@@ -888,7 +889,7 @@ class _KaynakKarti extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.menu_book_outlined, color: Colors.white38, size: 16),
+          UcdIkon(ikon: Icons.menu_book_outlined, renk: Colors.white38, boyut: 16),
           const SizedBox(width: 8),
           Expanded(
             child: Text(

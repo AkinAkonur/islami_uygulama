@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../widgets/kart_sekilleri.dart';
 import '../services/bildirim_merkezi.dart';
 import '../services/gercek_bildirimler.dart';
 import '../services/renkler.dart';
@@ -220,7 +221,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
             tooltip: 'Geri',
           ),
           const SizedBox(width: 8),
@@ -236,7 +237,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           IconButton(
             onPressed: _hepsiniOkundu,
             tooltip: 'Tümünü okundu yap',
-            icon: const Icon(Icons.done_all_outlined, color: Colors.white70),
+            icon: const UcdIkon(ikon: Icons.done_all_rounded, renk: Colors.white70),
           ),
         ],
       ),
@@ -259,10 +260,10 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           InkWell(
             onTap: () => _sessizDegistir(),
             borderRadius: BorderRadius.circular(20),
-            child: Icon(
-              _sessiz ? Icons.notifications_off_outlined : Icons.nights_stay,
-              color: Colors.white,
-              size: 26,
+            child: UcdIkon(
+              ikon: _sessiz ? Icons.notifications_off_rounded : Icons.nights_stay_rounded,
+              renk: Colors.white,
+              boyut: 26,
             ),
           ),
           const SizedBox(width: 12),
@@ -317,7 +318,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
         children: [
           Row(
             children: [
-              Icon(Icons.tune_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.tune_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
               const Text(
                 'Bildirim Türleri',
@@ -361,10 +362,10 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           const Divider(color: Colors.white12, height: 20),
           Row(
             children: [
-              Icon(
-                Icons.exposure_plus_1_outlined,
-                color: Renkler.vurgu,
-                size: 20,
+              UcdIkon(
+                ikon: Icons.exposure_plus_1_rounded,
+                renk: Renkler.vurgu,
+                boyut: 20,
               ),
               const SizedBox(width: 8),
               const Expanded(
@@ -375,7 +376,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
               ),
               IconButton(
                 onPressed: _kaza > 0 ? () => _kazaDegistir(-1) : null,
-                icon: const Icon(Icons.remove_circle_outline, size: 22),
+                icon: const UcdIkon(ikon: Icons.remove_circle_outline_rounded, renk: Colors.white70, boyut: 22),
                 color: Renkler.vurgu,
                 tooltip: 'Eksilt',
               ),
@@ -389,7 +390,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
               ),
               IconButton(
                 onPressed: () => _kazaDegistir(1),
-                icon: const Icon(Icons.add_circle_outline, size: 22),
+                icon: const UcdIkon(ikon: Icons.add_circle_outline_rounded, renk: Colors.white70, boyut: 22),
                 color: Renkler.vurgu,
                 tooltip: 'Artır',
               ),
@@ -473,7 +474,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
         children: [
           Row(
             children: [
-              Icon(Icons.schedule_outlined, color: Renkler.vurgu, size: 20),
+              UcdIkon(ikon: Icons.schedule_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
               const Text(
                 'Bugünün Namaz Vakitleri',
@@ -570,7 +571,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
         ),
         child: const Column(
           children: [
-            Icon(Icons.notifications_none, color: Colors.white38, size: 40),
+            UcdIkon(ikon: Icons.notifications_outlined, renk: Colors.white38, boyut: 40),
             SizedBox(height: 10),
             Text(
               'Henüz bildirim yok',
@@ -694,7 +695,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                 color: renk.withValues(alpha: 0.18),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(ikon, color: renk, size: 20),
+              child: UcdIkon(ikon: ikon, renk: renk, boyut: 20),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -748,14 +749,14 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
   (Color, IconData) _tipGorsel(BildirimTipi tip) {
     switch (tip) {
       case BildirimTipi.namaz:
-        return (Renkler.vurgu, Icons.mosque_outlined);
+        return (Renkler.vurgu, Icons.mosque_rounded);
       case BildirimTipi.gunluk:
-        return (Colors.amberAccent, Icons.wb_sunny_outlined);
+        return (Colors.amberAccent, Icons.wb_sunny_rounded);
       case BildirimTipi.ozelGun:
-        return (Colors.purpleAccent, Icons.nights_stay_outlined);
+        return (Colors.purpleAccent, Icons.nights_stay_rounded);
       case BildirimTipi.ummet:
       case BildirimTipi.diger:
-        return (Colors.cyanAccent, Icons.public);
+        return (Colors.cyanAccent, Icons.public_rounded);
     }
   }
 }

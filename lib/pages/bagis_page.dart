@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
 
 class BagisPage extends StatefulWidget {
   const BagisPage({super.key});
@@ -50,7 +51,7 @@ class _BagisPageState extends State<BagisPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(Icons.volunteer_activism, color: Colors.amber, size: 24),
+                      UcdIkon(ikon: Icons.volunteer_activism_rounded, renk: Colors.amber, boyut: 24),
                     ],
                   ),
                   SizedBox(height: 6),

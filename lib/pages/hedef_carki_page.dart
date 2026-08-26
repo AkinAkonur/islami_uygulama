@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../widgets/kart_sekilleri.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
 
@@ -109,42 +110,42 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
                       tur: 'kuran',
                       baslik: 'Kur\'an',
                       hedef: '5 sayfa',
-                      ikon: Icons.menu_book_outlined,
+                      ikon: Icons.menu_book_rounded,
                     ),
                     const SizedBox(height: 16),
                     _halkaKarti(
                       tur: 'zikir',
                       baslik: 'Zikir',
                       hedef: '100 zikir',
-                      ikon: Icons.radio_button_checked,
+                      ikon: Icons.radio_button_checked_rounded,
                     ),
                     const SizedBox(height: 16),
                     _halkaKarti(
                       tur: 'namaz',
                       baslik: 'Namaz',
                       hedef: '5 vakit',
-                      ikon: Icons.mosque_outlined,
+                      ikon: Icons.mosque_rounded,
                     ),
                     const SizedBox(height: 16),
                     _halkaKarti(
                       tur: 'dua',
                       baslik: 'Dua',
                       hedef: '10 dua',
-                      ikon: Icons.favorite_outline,
+                      ikon: Icons.favorite_outline_rounded,
                     ),
                     const SizedBox(height: 16),
                     _halkaKarti(
                       tur: 'tesbih',
                       baslik: 'Tesbih',
                       hedef: '33 tesbih',
-                      ikon: Icons.filter_vintage_outlined,
+                      ikon: Icons.filter_vintage_rounded,
                     ),
                     const SizedBox(height: 16),
                     _halkaKarti(
                       tur: 'sadaka',
                       baslik: 'Sadaka',
                       hedef: '3 sadaka',
-                      ikon: Icons.volunteer_activism_outlined,
+                      ikon: Icons.volunteer_activism_rounded,
                     ),
                     if (_ozelHedefler.isNotEmpty) ...[
                       const SizedBox(height: 16),
@@ -186,7 +187,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
           ),
           const SizedBox(width: 8),
           const Text(
@@ -198,7 +199,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
             ),
           ),
           const Spacer(),
-          const Icon(Icons.donut_large_outlined, color: Colors.white54),
+          const UcdIkon(ikon: Icons.donut_large_rounded, renk: Colors.white54),
         ],
       ),
     );
@@ -224,7 +225,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
       ),
       child: Row(
         children: [
-          const Icon(Icons.emoji_events_outlined, color: Colors.white, size: 30),
+          const UcdIkon(ikon: Icons.emoji_events_rounded, renk: Colors.white, boyut: 30),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -269,7 +270,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.star_outline, color: Renkler.vurgu, size: 16),
+                    UcdIkon(ikon: Icons.star_outline_rounded, renk: Renkler.vurgu, boyut: 16),
                     const SizedBox(width: 6),
                     Flexible(
                       child: Text(
@@ -295,17 +296,11 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
                   children: [
                     IconButton(
                       onPressed: deger <= 0 ? null : () => _azalt(tur),
-                      icon: const Icon(Icons.remove_circle_outline, size: 20),
-                      color: Renkler.vurgu,
-                      visualDensity: VisualDensity.compact,
-                    ),
+                      icon: UcdIkon(ikon: Icons.remove_circle_outline_rounded, renk: Renkler.vurgu, boyut: 20)),
                     const SizedBox(width: 4),
                     IconButton(
                       onPressed: deger >= limit ? null : () => _arttir(tur),
-                      icon: const Icon(Icons.add_circle_outline, size: 20),
-                      color: Renkler.vurgu,
-                      visualDensity: VisualDensity.compact,
-                    ),
+                      icon: UcdIkon(ikon: Icons.add_circle_outline_rounded, renk: Renkler.vurgu, boyut: 20)),
                   ],
                 ),
               ],
@@ -323,8 +318,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
           IconButton(
             onPressed: () => _hedefSil(tur),
             tooltip: 'Hedefi kaldır',
-            icon: const Icon(Icons.delete_outline, color: Colors.white38),
-            visualDensity: VisualDensity.compact,
+            icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white38),
           ),
         ],
       ),
@@ -408,7 +402,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
                     vertical: 12,
                   ),
                 ),
-                icon: const Icon(Icons.add, size: 18),
+                icon: const UcdIkon(ikon: Icons.add_rounded, renk: Colors.white, boyut: 18),
                 label: const Text('Ekle'),
               ),
             ],
@@ -452,7 +446,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
               children: [
                 Row(
                   children: [
-                    Icon(ikon, color: Renkler.vurgu, size: 16),
+                    UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 16),
                     const SizedBox(width: 6),
                     Text(
                       baslik,
@@ -474,17 +468,11 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
                   children: [
                     IconButton(
                       onPressed: deger <= 0 ? null : () => _azalt(tur),
-                      icon: const Icon(Icons.remove_circle_outline, size: 20),
-                      color: Renkler.vurgu,
-                      visualDensity: VisualDensity.compact,
-                    ),
+                      icon: UcdIkon(ikon: Icons.remove_circle_outline_rounded, renk: Renkler.vurgu, boyut: 20)),
                     const SizedBox(width: 4),
                     IconButton(
                       onPressed: deger >= limit ? null : () => _arttir(tur),
-                      icon: const Icon(Icons.add_circle_outline, size: 20),
-                      color: Renkler.vurgu,
-                      visualDensity: VisualDensity.compact,
-                    ),
+                      icon: UcdIkon(ikon: Icons.add_circle_outline_rounded, renk: Renkler.vurgu, boyut: 20)),
                   ],
                 ),
               ],

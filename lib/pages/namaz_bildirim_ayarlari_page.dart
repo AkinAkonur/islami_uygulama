@@ -7,6 +7,7 @@ import '../services/gercek_bildirimler.dart';
 import '../services/namaz_bildirim_ayarlari.dart';
 import '../services/renkler.dart';
 import '../services/vakit_servisi.dart';
+import '../widgets/kart_sekilleri.dart';
 
 /// Namaz vakitleri hatırlatıcı ayarları:
 /// - genel aç/kapa ve titreşim
@@ -177,7 +178,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new_rounded, renk: Colors.white),
           ),
           const SizedBox(width: 8),
           const Expanded(
@@ -203,7 +204,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
               ],
             ),
           ),
-          const Icon(Icons.alarm_on, color: Colors.white54),
+          const UcdIkon(ikon: Icons.alarm_on_rounded, renk: Colors.white54),
         ],
       ),
     );
@@ -216,8 +217,8 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
         children: [
           Row(
             children: [
-              const Icon(Icons.notifications_active_outlined,
-                  color: Colors.white70, size: 20),
+              UcdIkon(ikon: Icons.notifications_active_rounded,
+                  renk: Colors.white70, boyut: 20),
               const SizedBox(width: 8),
               const Expanded(
                 child: Text(
@@ -240,7 +241,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
           const Divider(height: 24, color: Colors.white12),
           Row(
             children: [
-              const Icon(Icons.vibration, color: Colors.white70, size: 20),
+              const UcdIkon(ikon: Icons.vibration_rounded, renk: Colors.white70, boyut: 20),
               const SizedBox(width: 8),
               const Expanded(
                 child: Text(
@@ -285,10 +286,10 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
                         color: Colors.white10,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Icon(
-                        _vakitIkonu(vakit),
-                        color: Colors.lightGreenAccent,
-                        size: 20,
+                      child: UcdIkon(
+                        ikon: _vakitIkonu(vakit),
+                        renk: Colors.lightGreenAccent,
+                        boyut: 20,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -329,9 +330,9 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
                             color: Colors.white,
                             fontSize: 13,
                           ),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.white70,
+                          icon: const UcdIkon(
+                            ikon: Icons.arrow_drop_down_rounded,
+                            renk: Colors.white70,
                           ),
                           items: [
                             for (final dk in NamazVakti.tumSecenekler(vakit))
@@ -359,15 +360,15 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
     switch (vakit) {
       case NamazVakti.gunes:
       case NamazVakti.ogle:
-        return Icons.wb_sunny;
+        return Icons.wb_sunny_rounded;
       case NamazVakti.ikindi:
-        return Icons.brightness_5;
+        return Icons.brightness_5_rounded;
       case NamazVakti.aksam:
-        return Icons.wb_twilight;
+        return Icons.wb_twilight_rounded;
       case NamazVakti.yatsi:
-        return Icons.nights_stay;
+        return Icons.nights_stay_rounded;
       default:
-        return Icons.wb_twilight;
+        return Icons.wb_twilight_rounded;
     }
   }
 
@@ -393,7 +394,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
           const SizedBox(height: 12),
           FilledButton.icon(
             onPressed: _testGonder,
-            icon: const Icon(Icons.notifications_active, size: 18),
+            icon: const UcdIkon(ikon: Icons.notifications_active_rounded, renk: Colors.lightGreenAccent, boyut: 18),
             label: const Text('Test Bildirimi Gönder'),
             style: FilledButton.styleFrom(
               backgroundColor: Colors.lightGreenAccent.withValues(alpha: 0.2),
@@ -412,8 +413,8 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
         children: [
           Row(
             children: [
-              const Icon(Icons.battery_alert_outlined,
-                  color: Colors.amberAccent, size: 20),
+              UcdIkon(ikon: Icons.battery_alert_rounded,
+                  renk: Colors.amberAccent, boyut: 20),
               const SizedBox(width: 8),
               const Expanded(
                 child: Text(
@@ -442,7 +443,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
             children: [
               OutlinedButton.icon(
                 onPressed: _pilOptimizasyonuIste,
-                icon: const Icon(Icons.battery_charging_full, size: 16),
+                icon: const UcdIkon(ikon: Icons.battery_charging_full_rounded, renk: Colors.amberAccent, boyut: 16),
                 label: const Text('Pil Optimizasyonunu Kapat'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.amberAccent,
@@ -451,7 +452,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
               ),
               OutlinedButton.icon(
                 onPressed: _uygulamaAyarlari,
-                icon: const Icon(Icons.settings_outlined, size: 16),
+                icon: UcdIkon(ikon: Icons.settings_rounded, renk: Colors.white70, boyut: 16),
                 label: const Text('Uygulama Ayarlarını Aç'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white70,
