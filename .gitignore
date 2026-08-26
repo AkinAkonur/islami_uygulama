@@ -44,12 +44,13 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Kimlik bilgileri (paylaþýlmaz)
+# Kimlik bilgileri (paylaï¿½ï¿½lmaz)
 /config_with_secrets*
 /api_key*
 lib/ayarlar/gizli*
 
 
-# API anahtarlarý (asla commit edilmez)
+# API anahtarlarÄ± (asla commit edilmez)
 lib/services/gizli_anahtar.dart
+.env
 
