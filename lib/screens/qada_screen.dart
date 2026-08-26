@@ -40,7 +40,10 @@ class _QadaScreenState extends State<QadaScreen> {
     return Scaffold(
       backgroundColor: Color(0xFF0F1410),
       appBar: AppBar(
-        title: Text("Kaza Namazı Takipçisi", style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu)),
+        title: Text(
+          AppLocalizations.of(context).t('c.kazaTracker'),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
+        ),
         backgroundColor: Color(0xFF141F18),
         elevation: 0,
         iconTheme: IconThemeData(color: Renkler.vurgu),

@@ -12,12 +12,12 @@ class GorselKilinisScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Renkler.zemin,
-        appBar: AppBar(
-          title: Text(
-            "Görsel Namaz & Abdest Rehberi",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
-          ),
+          backgroundColor: Renkler.zemin,
+          appBar: AppBar(
+            title: Text(
+              AppLocalizations.of(context).t('g.visualGuide'),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
+            ),
           backgroundColor: Renkler.seciliYuzey,
           elevation: 0,
           iconTheme: IconThemeData(color: Renkler.vurgu),

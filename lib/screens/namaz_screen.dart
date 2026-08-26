@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 import '../services/vakit_servisi.dart';
@@ -87,7 +88,7 @@ class _NamazScreenState extends State<NamazScreen> {
       backgroundColor: Color(0xFF0F1410),
       appBar: AppBar(
         title: Text(
-          "Namaz & İbadet Merkezi",
+          AppLocalizations.of(context).t('h.navNamaz'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
         ),
         backgroundColor: Color(0xFF141F18),
@@ -124,18 +125,18 @@ class _NamazScreenState extends State<NamazScreen> {
                           horizontal: 10,
                           vertical: 4,
                         ),
-                        decoration: BoxDecoration(
-                          color: Renkler.vurgu.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          "YAKLAŞAN VAKİT",
-                          style: TextStyle(
-                            color: Renkler.vurgu,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
+                          decoration: BoxDecoration(
+                            color: Renkler.vurgu.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ),
+                          child: Text(
+                            AppLocalizations.of(context).t('h.active'),
+                            style: TextStyle(
+                              color: Renkler.vurgu,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                       ),
                       Text(
                         (siradaki?.saatYaz ?? '--:--'),
@@ -147,14 +148,14 @@ class _NamazScreenState extends State<NamazScreen> {
                     ],
                   ),
                   SizedBox(height: 16),
-                  Text(
-                    "${siradaki?.ad ?? ''} Namazı",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+          Text(
+              "${siradaki?.ad ?? ''} ${AppLocalizations.of(context).t('vakitTitle')}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
                   SizedBox(height: 6),
                   Text(
                     siradaki != null
@@ -182,7 +183,7 @@ class _NamazScreenState extends State<NamazScreen> {
             SizedBox(height: 24),
 
             Text(
-              "Bugünkü Vakitler",
+              AppLocalizations.of(context).t('vakitlerTitle'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
