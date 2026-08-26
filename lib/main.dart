@@ -106,6 +106,7 @@ class MyApp extends StatelessWidget {
         builder: (context, _, _) => ValueListenableBuilder<bool>(
           valueListenable: AyarlarStore.karanlikMod,
           builder: (context, karanlik, _) => MaterialApp(
+            key: ValueKey('app_${dil.languageCode}_$karanlik'),
             title: 'Huzur & Manevi Yolculuk',
             debugShowCheckedModeBanner: false,
             locale: dil,
