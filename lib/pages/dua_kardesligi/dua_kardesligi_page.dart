@@ -402,11 +402,7 @@ class _DuaKarti extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                Icon(
-                  Icons.person_outline,
-                  color: Colors.white38,
-                  size: 16,
-                ),
+                Icon(Icons.person_outline, color: Colors.white38, size: 16),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
@@ -483,8 +479,8 @@ class _DuaKarti extends StatelessWidget {
     final sureEtiketi = istek.sureSaat == 24
         ? '24 saat'
         : istek.sureSaat == 72
-            ? '3 gün'
-            : '1 hafta';
+        ? '3 gün'
+        : '1 hafta';
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
@@ -492,7 +488,7 @@ class _DuaKarti extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
-        '⏳ ${saat} sa  ·  $sureEtiketi',
+        '⏳ $saat sa  ·  $sureEtiketi',
         style: const TextStyle(color: Colors.white54, fontSize: 11),
       ),
     );
@@ -517,10 +513,7 @@ class _DuaKarti extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '🤲',
-              style: const TextStyle(fontSize: 15),
-            ),
+            Text('🤲', style: const TextStyle(fontSize: 15)),
             const SizedBox(width: 6),
             Text(
               'Amin · ${istek.aminSayisi}',
@@ -783,8 +776,7 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
                   ButtonSegment(value: saat, label: Text(etiket)),
               ],
               selected: {_sureSaat},
-              onSelectionChanged: (v) =>
-                  setState(() => _sureSaat = v.first),
+              onSelectionChanged: (v) => setState(() => _sureSaat = v.first),
             ),
             const SizedBox(height: 20),
             SizedBox(

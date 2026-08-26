@@ -120,9 +120,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
     if (!_yuklendi) {
       return const Scaffold(
         backgroundColor: _siyah,
-        body: Center(
-          child: CircularProgressIndicator(color: Colors.white24),
-        ),
+        body: Center(child: CircularProgressIndicator(color: Colors.white24)),
       );
     }
     final tamamlandi = _sira >= tur.hedef;
@@ -147,9 +145,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                 child: Row(
                   children: [
                     Text(
-                      tur == SayacTuru.tavaf
-                          ? 'KÂBE TAVAFI'
-                          : 'SAFA - MERVE',
+                      tur == SayacTuru.tavaf ? 'KÂBE TAVAFI' : 'SAFA - MERVE',
                       style: const TextStyle(
                         color: Colors.white54,
                         fontSize: 12,
@@ -161,7 +157,9 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                     Text(
                       'Toplam: $_toplam',
                       style: const TextStyle(
-                          color: Colors.white38, fontSize: 12),
+                        color: Colors.white38,
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
@@ -191,7 +189,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                         Text(
                           tamamlandi
                               ? '${tur.hedef}/${tur.hedef} · Tebrikler! 🕋'
-                              : '${_sira} / ${tur.hedef}',
+                              : '$_sira / ${tur.hedef}',
                           style: const TextStyle(
                             color: Colors.white54,
                             fontSize: 16,

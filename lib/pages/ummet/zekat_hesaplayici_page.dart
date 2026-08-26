@@ -11,8 +11,9 @@ class ZekatHesaplayiciPage extends StatefulWidget {
 }
 
 class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
-  final List<ZekatKalemi> _kalemler =
-      zekatKalemleri.map((k) => k.kopya()).toList();
+  final List<ZekatKalemi> _kalemler = zekatKalemleri
+      .map((k) => k.kopya())
+      .toList();
   final _altinCtrl = TextEditingController();
   final _altinFiyatCtrl = TextEditingController(text: '2400');
   final _fitreKisiCtrl = TextEditingController(text: '1');
@@ -21,11 +22,9 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
   List<ZekatKalemi> get _varliklar =>
       _kalemler.where((k) => !k.dusulur).toList();
 
-  List<ZekatKalemi> get _borclar =>
-      _kalemler.where((k) => k.dusulur).toList();
+  List<ZekatKalemi> get _borclar => _kalemler.where((k) => k.dusulur).toList();
 
-  double get _varlikToplami =>
-      _varliklar.fold(0.0, (a, k) => a + k.tutar);
+  double get _varlikToplami => _varliklar.fold(0.0, (a, k) => a + k.tutar);
 
   double get _borcToplami => _borclar.fold(0.0, (a, k) => a + k.tutar);
 
@@ -224,14 +223,18 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
             Text(
               'Gram altın fiyatını günün değerine göre girin. Nisap sınırı ve '
               'altın zekâtı bu tutara göre hesaplanır (varsayılan: 2.400 TL).',
-              style: TextStyle(color: Colors.white54, fontSize: 12, height: 1.5),
+              style: TextStyle(
+                color: Colors.white54,
+                fontSize: 12,
+                height: 1.5,
+              ),
             ),
             SizedBox(height: 10),
             TextField(
               controller: _altinFiyatCtrl,
               keyboardType: TextInputType.number,
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
               ],
               style: TextStyle(color: Colors.white),
               decoration: _dekor('Gram altın fiyatı (TL)', Icons.paid_outlined),
@@ -275,7 +278,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
               controller: _altinCtrl,
               keyboardType: TextInputType.number,
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
               ],
               style: TextStyle(color: Colors.white),
               decoration: _dekor('Kaç gram altının var?', Icons.stars_outlined),
@@ -308,8 +311,11 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.account_balance_wallet,
-                    color: Renkler.vurgu, size: 20),
+                Icon(
+                  Icons.account_balance_wallet,
+                  color: Renkler.vurgu,
+                  size: 20,
+                ),
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -323,7 +329,10 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 ),
                 TextButton(
                   onPressed: _sifirla,
-                  child: Text('Sıfırla', style: TextStyle(color: Renkler.vurgu)),
+                  child: Text(
+                    'Sıfırla',
+                    style: TextStyle(color: Renkler.vurgu),
+                  ),
                 ),
               ],
             ),
@@ -362,7 +371,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
             style: TextStyle(color: Colors.white, fontSize: 13),
             keyboardType: TextInputType.number,
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
             ],
             decoration: InputDecoration(
               labelText: kalem.ad,
@@ -386,7 +395,11 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
             child: Text(
               '${kalem.dusulur ? "Matrahtan düşülür" : "Oran: %${(kalem.oran * 100).toStringAsFixed(0).replaceAll(".0", "")}"}'
               ' • ${kalem.aciklama}',
-              style: TextStyle(color: Colors.white38, fontSize: 10, height: 1.4),
+              style: TextStyle(
+                color: Colors.white38,
+                fontSize: 10,
+                height: 1.4,
+              ),
             ),
           ),
         ],
@@ -425,7 +438,11 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
             Text(
               'Ramazan Bayramı\'ndan önce, kişi başı belirlenen güncel fitre '
               'bedeli üzerinden hesaplanır.',
-              style: TextStyle(color: Colors.white54, fontSize: 12, height: 1.5),
+              style: TextStyle(
+                color: Colors.white54,
+                fontSize: 12,
+                height: 1.5,
+              ),
             ),
             SizedBox(height: 10),
             Row(
@@ -435,7 +452,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                     controller: _fitreKisiCtrl,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     ],
                     style: TextStyle(color: Colors.white, fontSize: 13),
                     decoration: _dekor('Kişi sayısı', Icons.person_outline),
@@ -448,10 +465,13 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                     controller: _fitreBedelCtrl,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                     ],
                     style: TextStyle(color: Colors.white, fontSize: 13),
-                    decoration: _dekor('Kişi başı (TL)', Icons.payments_outlined),
+                    decoration: _dekor(
+                      'Kişi başı (TL)',
+                      Icons.payments_outlined,
+                    ),
                     onChanged: (_) => setState(() {}),
                   ),
                 ),
@@ -508,7 +528,8 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
             ),
             SizedBox(height: 12),
             _sonucSatiri('Varlıklar toplamı', _varlikToplami),
-            if (_borcToplami > 0) _sonucSatiri('Düşülen borçlar (-)', _borcToplami),
+            if (_borcToplami > 0)
+              _sonucSatiri('Düşülen borçlar (-)', _borcToplami),
             _sonucSatiri('Matrah (net varlık)', _matrah),
             _sonucSatiri('Nisap sınırı', _nisapDegeri),
             Divider(color: Colors.white24, height: 20),
@@ -534,14 +555,12 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    'Kalemler farklı oranlarla hesaplandı: ' +
-                        _varliklar
-                            .where((k) => k.tutar > 0)
-                            .map((k) => '${k.ad} %${(k.oran * 100).toStringAsFixed(0)}')
-                            .join(', ') +
-                        '.',
-                    style:
-                        TextStyle(color: Colors.white54, fontSize: 11, height: 1.4),
+                    'Kalemler farklı oranlarla hesaplandı: ${_varliklar.where((k) => k.tutar > 0).map((k) => '${k.ad} %${(k.oran * 100).toStringAsFixed(0)}').join(', ')}.',
+                    style: TextStyle(
+                      color: Colors.white54,
+                      fontSize: 11,
+                      height: 1.4,
+                    ),
                   ),
                 ),
               ],
@@ -550,7 +569,11 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 'Varlıklarınız (borçlar düşüldükten sonra) nisap sınırının '
                 'altında. Şu an zekat yükümlülüğünüz bulunmuyor; gönüllü '
                 'sadaka vermeye devam edebilirsiniz.',
-                style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                  height: 1.5,
+                ),
               ),
             SizedBox(height: 12),
             if (_zekatTutari > 0 || _fitreTutari > 0) ...[
@@ -572,8 +595,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                       ),
                     ),
                   ],
-                  if (_zekatTutari > 0 && _fitreTutari > 0)
-                    SizedBox(width: 10),
+                  if (_zekatTutari > 0 && _fitreTutari > 0) SizedBox(width: 10),
                   if (_fitreTutari > 0 && _zekatTutari <= 0) ...[
                     Expanded(
                       child: FilledButton.icon(
@@ -648,8 +670,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
               ],
             ),
             SizedBox(height: 8),
-            for (final m in _rehberMaddeleri)
-              _rehberSorusu(m['s']!, m['c']!),
+            for (final m in _rehberMaddeleri) _rehberSorusu(m['s']!, m['c']!),
           ],
         ),
       ),
@@ -677,7 +698,11 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
             alignment: Alignment.centerLeft,
             child: Text(
               cevap,
-              style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.6),
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 12,
+                height: 1.6,
+              ),
             ),
           ),
         ],
@@ -688,32 +713,37 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
   static const _rehberMaddeleri = [
     {
       's': 'Zekat kimlere farzdır?',
-      'c': 'Müslüman, akıl sahibi, ergen, hür ve borcundan fazla olarak nisap '
+      'c':
+          'Müslüman, akıl sahibi, ergen, hür ve borcundan fazla olarak nisap '
           'miktarı mala sahip olduğunda, üzerinden bir kamerî yıl geçmesiyle '
           'zekat vermekle yükümlü olur.',
     },
     {
       's': 'Nisap nedir?',
-      'c': 'Zekatın farz olması için gereken asgari mal miktarıdır. '
+      'c':
+          'Zekatın farz olması için gereken asgari mal miktarıdır. '
           'Hanefî mezhebine göre yaklaşık 85 gram altının değeridir; '
           'bu uygulamada yaygın kabulle 80 gram altın esas alınmıştır.',
     },
     {
       's': 'Nelerden zekat verilir?',
-      'c': 'Altın ve gümüş, nakit ve banka bakiyesi, ticaret malları, '
+      'c':
+          'Altın ve gümüş, nakit ve banka bakiyesi, ticaret malları, '
           'ticaret amacıyla tutulan hisse senetleri, tahsil edilebilir '
           'alacaklar ve tarım ürünleri zekata tabidir. Otomobil, ev ve '
           'kullanım eşyası ana ihtiyaç sayıldığı için zekata tabi değildir.',
     },
     {
       's': 'Zekat oranları nelerdir?',
-      'c': 'Nakit, ticaret malı, altın ve alacaklarda %2,5; tarım ürünlerinde '
+      'c':
+          'Nakit, ticaret malı, altın ve alacaklarda %2,5; tarım ürünlerinde '
           'sulama masrafı yoksa %10 (öşür), masraf varsa %5; maden ve '
           'rikâzda (define) %20\'dir.',
     },
     {
       's': 'Zekat kimlere verilir, kimlere verilmez?',
-      'c': 'Kur\'an\'da zekatın sekiz sınıfı sayılır: fakirler, miskinler, '
+      'c':
+          'Kur\'an\'da zekatın sekiz sınıfı sayılır: fakirler, miskinler, '
           'zekat toplama memuru, kalpleri İslam\'a ısındırılanlar, mükâtep '
           'köleler, borçlular, Allah yolunda cihad edenler ve yolda kalmışlar. '
           'Anne-baba, büyükanne-büyükbaba ve belli şartlarda evlat için doğrudan '
@@ -722,14 +752,16 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     },
     {
       's': 'Fitre (fıtır sadakası) nedir?',
-      'c': 'Ramazan Bayramı\'na yaklaşıldığında, maddi durumu yerinde olan her '
+      'c':
+          'Ramazan Bayramı\'na yaklaşıldığında, maddi durumu yerinde olan her '
           'Müslümanın kendisi ve bakmakla yükümlü olduğu kişiler için vermesi '
           'gereken sadakadır. Tutarı, güncel olarak belirlenen fitre bedeline '
           'göre kişi başına hesaplanır.',
     },
     {
       's': 'Sadaka nedir?',
-      'c': 'Allah rızası için yapılan her türlü iyilik ve maddi yardımdır. '
+      'c':
+          'Allah rızası için yapılan her türlü iyilik ve maddi yardımdır. '
           'Zekattan farklı olarak sabit miktar ve şartı yoktur; bir gülümseme, '
           'güzel bir söz bile sadakadır. Günümüzde sadaka-i cariye olarak su '
           'kuyusu, cami ve ilim hizmetleri en çok tercih edilen bağışlardandır.',

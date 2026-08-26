@@ -23,8 +23,7 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
   IbadetTuru _seciliTur = IbadetTuru.umre;
   Set<String> _tamamlanan = {};
 
-  IbadetAkisi get _akis =>
-      ibadetAkilari.firstWhere((a) => a.tur == _seciliTur);
+  IbadetAkisi get _akis => ibadetAkilari.firstWhere((a) => a.tur == _seciliTur);
 
   @override
   void initState() {
@@ -54,8 +53,10 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Renkler.kart,
-        title: const Text('Akışı sıfırla?',
-            style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Akışı sıfırla?',
+          style: TextStyle(color: Colors.white),
+        ),
         content: const Text(
           'Tamamlanan tüm adımlar temizlenecek.',
           style: TextStyle(color: Colors.white70),
@@ -63,12 +64,17 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Vazgeç', style: TextStyle(color: Colors.white70)),
+            child: const Text(
+              'Vazgeç',
+              style: TextStyle(color: Colors.white70),
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Sıfırla',
-                style: TextStyle(color: Colors.redAccent)),
+            child: const Text(
+              'Sıfırla',
+              style: TextStyle(color: Colors.redAccent),
+            ),
           ),
         ],
       ),
@@ -91,10 +97,8 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
         initialChildSize: 0.75,
         minChildSize: 0.4,
         maxChildSize: 0.95,
-        builder: (ctx, scrollController) => _AdimDetayKarti(
-          adim: adim,
-          controller: scrollController,
-        ),
+        builder: (ctx, scrollController) =>
+            _AdimDetayKarti(adim: adim, controller: scrollController),
       ),
     );
   }
@@ -121,7 +125,7 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
               padding: const EdgeInsets.all(12),
               scrollDirection: Axis.horizontal,
               itemCount: ibadetAkilari.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              separatorBuilder: (_, _) => const SizedBox(width: 8),
               itemBuilder: (context, index) {
                 final a = ibadetAkilari[index];
                 final secili = a.tur == _seciliTur;
@@ -158,7 +162,9 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                             Text(
                               a.tur.vakit,
                               style: const TextStyle(
-                                  color: Colors.white38, fontSize: 9),
+                                color: Colors.white38,
+                                fontSize: 9,
+                              ),
                             ),
                           ],
                         ),
@@ -177,7 +183,9 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              color: Colors.white54, fontSize: 11),
+                            color: Colors.white54,
+                            fontSize: 11,
+                          ),
                         ),
                       ],
                     ),
@@ -206,9 +214,10 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                 Text(
                   '$tamam/$toplam',
                   style: const TextStyle(
-                      color: Colors.white70,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13),
+                    color: Colors.white70,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
                 ),
                 IconButton(
                   tooltip: 'Sıfırla',
@@ -302,12 +311,17 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
                           adim.kisaAciklama,
-                          style:
-                              const TextStyle(color: Colors.white54, fontSize: 12),
+                          style: const TextStyle(
+                            color: Colors.white54,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
-                      trailing: const Icon(Icons.expand_less,
-                          color: Colors.white24, size: 18),
+                      trailing: const Icon(
+                        Icons.expand_less,
+                        color: Colors.white24,
+                        size: 18,
+                      ),
                     ),
                   ),
                 );
@@ -389,13 +403,18 @@ class _AdimDetayKarti extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('⚠️ ',
-                          style: TextStyle(color: Colors.orangeAccent)),
+                      const Text(
+                        '⚠️ ',
+                        style: TextStyle(color: Colors.orangeAccent),
+                      ),
                       Expanded(
                         child: Text(
                           h,
                           style: const TextStyle(
-                              color: Colors.white70, fontSize: 13, height: 1.4),
+                            color: Colors.white70,
+                            fontSize: 13,
+                            height: 1.4,
+                          ),
                         ),
                       ),
                     ],
@@ -437,7 +456,10 @@ class _AdimDetayKarti extends StatelessWidget {
             child: Text(
               metin,
               style: const TextStyle(
-                  color: Colors.white70, fontSize: 13, height: 1.4),
+                color: Colors.white70,
+                fontSize: 13,
+                height: 1.4,
+              ),
             ),
           ),
         ],
@@ -510,8 +532,11 @@ class _DuaKarti extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.volunteer_activism_outlined,
-                  color: Colors.white70, size: 18),
+              const Icon(
+                Icons.volunteer_activism_outlined,
+                color: Colors.white70,
+                size: 18,
+              ),
               const SizedBox(width: 8),
               const Text(
                 'Okunacak Dua',
@@ -527,8 +552,7 @@ class _DuaKarti extends StatelessWidget {
                   child: Text(
                     dua.kaynak,
                     textAlign: TextAlign.right,
-                    style: const TextStyle(
-                        color: Colors.white54, fontSize: 10),
+                    style: const TextStyle(color: Colors.white54, fontSize: 10),
                   ),
                 ),
             ],

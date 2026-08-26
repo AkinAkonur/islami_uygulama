@@ -35,10 +35,6 @@ dependencies:
 
   intl: any
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
-
   # Kur'an bölümü için
   http: ^1.2.2
   audioplayers: ^6.1.0
@@ -62,22 +58,15 @@ dependencies:
   # Namaz bildirimlerinin günlük tazelenmesi (arka plan görevi)
   workmanager: ^0.10.0
   url_launcher: ^6.3.2
-  url_launcher_android: ^6.3.32
-  url_launcher_ios: ^6.4.1
   share_plus: ^13.3.0
 
   # Hac & Umre Rehberi - Acil Durum Sözlüğü sesli okuma
   flutter_tts: ^4.2.0
   video_player: ^2.14.0
 
-  # Kâbe Canlı Yayın - ağ durumu algılama (hücresel veri uyarısı + otomatik
-  # yeniden bağlanma) ve YouTube IFrame gömmesi (kararlı yayın akışı)
-  connectivity_plus: ^6.1.0
-  webview_flutter: ^4.10.0
   # Kâbe Canlı Yayın - izleme sırasında ekranın kapanmasını engeller
+  connectivity_plus: ^6.1.0
   wakelock_plus: ^1.1.4
-  webview_flutter_android: ^4.14.0
-  webview_flutter_wkwebview: ^3.26.0
 
 dev_dependencies:
   flutter_test:

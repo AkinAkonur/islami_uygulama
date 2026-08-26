@@ -20,10 +20,10 @@ class OzDua {
   Map<String, String> toJson() => {'id': id, 'baslik': baslik, 'metin': metin};
 
   factory OzDua.fromJson(Map<String, dynamic> j) => OzDua(
-        id: (j['id'] as String?) ?? '',
-        baslik: (j['baslik'] as String?) ?? '',
-        metin: (j['metin'] as String?) ?? '',
-      );
+    id: (j['id'] as String?) ?? '',
+    baslik: (j['baslik'] as String?) ?? '',
+    metin: (j['metin'] as String?) ?? '',
+  );
 }
 
 /// Bir dua için kurulan hatırlatıcı: saat/dakika + tekrar edilecek günler.
@@ -55,26 +55,25 @@ class DuaHatirlatma {
     if (gunler.isEmpty) return 'Her gün';
     const adlar = ['', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
     final sirali = List<int>.from(gunler)..sort();
-    return sirali.map((g) => g >= 1 && g <= 7 ? adlar[g] : '').join(', ') +
-        ' · saat $saatYaz';
+    return '${sirali.map((g) => g >= 1 && g <= 7 ? adlar[g] : '').join(', ')} · saat $saatYaz';
   }
 
   Map<String, dynamic> toJson() => {
-        'duaId': duaId,
-        'saat': saat,
-        'dakika': dakika,
-        'gunler': gunler,
-      };
+    'duaId': duaId,
+    'saat': saat,
+    'dakika': dakika,
+    'gunler': gunler,
+  };
 
   factory DuaHatirlatma.fromJson(Map<String, dynamic> j) => DuaHatirlatma(
-        duaId: (j['duaId'] as String?) ?? '',
-        saat: ((j['saat'] as num?) ?? 0).toInt().clamp(0, 23),
-        dakika: ((j['dakika'] as num?) ?? 0).toInt().clamp(0, 59),
-        gunler: ((j['gunler'] as List<dynamic>?) ?? const [])
-            .map((e) => ((e as num?) ?? 0).toInt().clamp(1, 7))
-            .toSet()
-            .toList(),
-      );
+    duaId: (j['duaId'] as String?) ?? '',
+    saat: ((j['saat'] as num?) ?? 0).toInt().clamp(0, 23),
+    dakika: ((j['dakika'] as num?) ?? 0).toInt().clamp(0, 59),
+    gunler: ((j['gunler'] as List<dynamic>?) ?? const [])
+        .map((e) => ((e as num?) ?? 0).toInt().clamp(1, 7))
+        .toSet()
+        .toList(),
+  );
 }
 
 class DuaStore {
@@ -88,8 +87,9 @@ class DuaStore {
 
   static final ValueNotifier<Set<String>> favoriler =
       ValueNotifier<Set<String>>({});
-  static final ValueNotifier<List<OzDua>> ozDualar =
-      ValueNotifier<List<OzDua>>([]);
+  static final ValueNotifier<List<OzDua>> ozDualar = ValueNotifier<List<OzDua>>(
+    [],
+  );
   static final ValueNotifier<Map<String, int>> sayaclar =
       ValueNotifier<Map<String, int>>({});
   static final ValueNotifier<double> fontBoyutu = ValueNotifier<double>(19);
@@ -120,8 +120,9 @@ class DuaStore {
     final sayacJson = p.getString(_sayaclarKey);
     if (sayacJson != null) {
       try {
-        final map = (jsonDecode(sayacJson) as Map<String, dynamic>)
-            .map((k, v) => MapEntry(k, (v as num?)?.toInt() ?? 0));
+        final map = (jsonDecode(sayacJson) as Map<String, dynamic>).map(
+          (k, v) => MapEntry(k, (v as num?)?.toInt() ?? 0),
+        );
         sayaclar.value = map;
       } catch (_) {}
     }
@@ -134,9 +135,7 @@ class DuaStore {
         final map = (jsonDecode(hatirJson) as Map<String, dynamic>).map(
           (k, v) => MapEntry(
             k,
-            DuaHatirlatma.fromJson(
-              (v as Map).cast<String, dynamic>(),
-            ),
+            DuaHatirlatma.fromJson((v as Map).cast<String, dynamic>()),
           ),
         );
         hatirlatmalar.value = map;
@@ -162,15 +161,17 @@ class DuaStore {
     final yeni = List<OzDua>.from(ozDualar.value)
       ..insert(
         0,
-        OzDua(id: 'oz-${DateTime.now().millisecondsSinceEpoch}',
-            baslik: baslik, metin: metin),
+        OzDua(
+          id: 'oz-${DateTime.now().millisecondsSinceEpoch}',
+          baslik: baslik,
+          metin: metin,
+        ),
       );
     await _ozDualariKaydet(yeni);
   }
 
   static Future<void> ozDuaSil(String id) async {
-    final yeni =
-        ozDualar.value.where((d) => d.id != id).toList();
+    final yeni = ozDualar.value.where((d) => d.id != id).toList();
     await _ozDualariKaydet(yeni);
   }
 

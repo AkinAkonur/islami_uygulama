@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../lib/pages/kible_pusula_page.dart';
+import 'package:islami_uygulama/pages/kible_pusula_page.dart';
 
 void main() {
   testWidgets('Kible pusulasi 3D kasa render', (tester) async {

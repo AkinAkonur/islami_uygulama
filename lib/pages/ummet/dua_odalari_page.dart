@@ -77,16 +77,20 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
     final kullanici = await UmmetStore.kullaniciOdaDualari();
     final s = _aramaSorgusu.trim().toLowerCase();
     final kullaniciSonuc = kullanici
-        .where((d) =>
-            (d['baslik'] ?? '').toLowerCase().contains(s) ||
-            (d['turkce'] ?? '').toLowerCase().contains(s) ||
-            (d['okunus'] ?? '').toLowerCase().contains(s))
-        .map((d) => <String, dynamic>{
-              'odaId': d['odaId'],
-              'odaAd': '',
-              'odaIkon': '',
-              ...d,
-            })
+        .where(
+          (d) =>
+              (d['baslik'] ?? '').toLowerCase().contains(s) ||
+              (d['turkce'] ?? '').toLowerCase().contains(s) ||
+              (d['okunus'] ?? '').toLowerCase().contains(s),
+        )
+        .map(
+          (d) => <String, dynamic>{
+            'odaId': d['odaId'],
+            'odaAd': '',
+            'odaIkon': '',
+            ...d,
+          },
+        )
         .toList();
     if (!mounted) return;
     setState(() {
@@ -257,7 +261,11 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
               SizedBox(height: 6),
               Text(
                 'Bir odaya gir, o konudaki duaları oku ve ümmetle birlikte niyet et. Her oda, binlerce kardeşin ortak duasıyla canlıdır.',
-                style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                  height: 1.5,
+                ),
               ),
             ],
           ),
@@ -275,7 +283,10 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
   Widget _odaKarti(BuildContext context, Map<String, String> kategori) {
     final id = kategori['id']!;
     final katilim = _katilimlar[id] ?? 0;
-    final etiketler = (kategori['etiketler'] ?? '').split(',').where((e) => e.isNotEmpty).toList();
+    final etiketler = (kategori['etiketler'] ?? '')
+        .split(',')
+        .where((e) => e.isNotEmpty)
+        .toList();
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,
@@ -307,7 +318,10 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                       const SizedBox(height: 2),
                       Text(
                         kategori['aciklama']!,
-                        style: const TextStyle(color: Colors.white54, fontSize: 12),
+                        style: const TextStyle(
+                          color: Colors.white54,
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -321,14 +335,20 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
               children: [
                 for (final et in etiketler)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Renkler.seciliYuzey,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       et,
-                      style: const TextStyle(color: Colors.white70, fontSize: 11),
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 11,
+                      ),
                     ),
                   ),
               ],
@@ -406,8 +426,10 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                 if (dua['odaIkon'] != null) Text(dua['odaIkon']!),
                 if (dua['kullanicidan'] == 'true') ...[
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 3,
+                    ),
                     margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
                       color: Renkler.vurgu.withValues(alpha: 0.25),
@@ -425,8 +447,11 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                   IconButton(
                     tooltip: 'Duayı sil',
                     visualDensity: VisualDensity.compact,
-                    icon: const Icon(Icons.delete_outline,
-                        color: Colors.white38, size: 20),
+                    icon: const Icon(
+                      Icons.delete_outline,
+                      color: Colors.white38,
+                      size: 20,
+                    ),
                     onPressed: () => _odaDuaSil(dua['id']!),
                   ),
                 ],
@@ -437,20 +462,32 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
               dua['arapca']!,
               textAlign: TextAlign.right,
               textDirection: TextDirection.rtl,
-              style: const TextStyle(color: Colors.white, fontSize: 18, height: 1.8),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                height: 1.8,
+              ),
             ),
             if ((dua['okunus'] ?? '').isNotEmpty) ...[
               const SizedBox(height: 8),
               Text(
                 dua['okunus']!,
                 textAlign: TextAlign.right,
-                style: const TextStyle(color: Colors.white54, fontSize: 13, height: 1.5),
+                style: const TextStyle(
+                  color: Colors.white54,
+                  fontSize: 13,
+                  height: 1.5,
+                ),
               ),
             ],
             const SizedBox(height: 12),
             Text(
               dua['turkce']!,
-              style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 13,
+                height: 1.5,
+              ),
             ),
             const SizedBox(height: 10),
             Text(
@@ -478,7 +515,11 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                     Expanded(
                       child: Text(
                         dua['fazilet']!,
-                        style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                          height: 1.4,
+                        ),
                       ),
                     ),
                   ],
@@ -505,7 +546,8 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
           onTap: () async {
             await Clipboard.setData(
               ClipboardData(
-                text: '${dua['arapca']}\n\n${dua['turkce']}\n\n${dua['kaynak']}',
+                text:
+                    '${dua['arapca']}\n\n${dua['turkce']}\n\n${dua['kaynak']}',
               ),
             );
             if (context.mounted) {
@@ -651,7 +693,11 @@ class _FavoriButonuState extends State<_FavoriButonu> {
     setState(() => _favori = yeni);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(yeni ? 'Kişisel Dua Listene eklendi' : 'Kişisel Dua Listenden kaldırıldı'),
+        content: Text(
+          yeni
+              ? 'Kişisel Dua Listene eklendi'
+              : 'Kişisel Dua Listenden kaldırıldı',
+        ),
         backgroundColor: Renkler.bannerUst,
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 1),
@@ -725,7 +771,7 @@ class _AminButonuState extends State<_AminButonu> {
 
   @override
   Widget build(BuildContext context) {
-    final taban = int.tryParse('${_tabanAmin}') ?? 0;
+    final taban = int.tryParse(_tabanAmin) ?? 0;
     final toplam = taban + _ekAmin;
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -735,7 +781,9 @@ class _AminButonuState extends State<_AminButonu> {
             backgroundColor: _aminVerdi ? Renkler.seciliYuzey : Renkler.vurgu,
             foregroundColor: _aminVerdi ? Colors.white70 : Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
           ),
           onPressed: _aminVer,
           child: Text(
@@ -801,7 +849,8 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
 
   void _kaydirmaDinle() {
     if (!_kaydirici.hasClients) return;
-    if (_kaydirici.position.pixels >= _kaydirici.position.maxScrollExtent - 200) {
+    if (_kaydirici.position.pixels >=
+        _kaydirici.position.maxScrollExtent - 200) {
       _dahaYukle();
     }
   }
@@ -809,9 +858,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
   Future<List<Map<String, dynamic>>> _kaynakDualar() async {
     final hepsi = await UmmetStore.odaDualariHepsi(widget.kategori['id']!);
     if (_seciliEtiket == null) return hepsi;
-    return hepsi
-        .where((d) => (d['etiket'] ?? '') == _seciliEtiket)
-        .toList();
+    return hepsi.where((d) => (d['etiket'] ?? '') == _seciliEtiket).toList();
   }
 
   Future<void> _ilkSayfayiYukle() async {
@@ -995,7 +1042,10 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
       appBar: AppBar(
         title: Text(
           '${widget.kategori['ikon']} ${widget.kategori['ad']} Odası',
-          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
@@ -1046,7 +1096,10 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
               height: 52,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 children: [
                   _etiketChip(null, 'Tümü'),
                   for (final et in _etiketler) _etiketChip(et, et),
@@ -1069,12 +1122,18 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                             padding: const EdgeInsets.only(top: 40),
                             child: Column(
                               children: [
-                                Icon(Icons.inbox_outlined,
-                                    color: Colors.white24, size: 44),
+                                Icon(
+                                  Icons.inbox_outlined,
+                                  color: Colors.white24,
+                                  size: 44,
+                                ),
                                 const SizedBox(height: 10),
                                 const Text(
                                   'Bu etikette henüz dua yok.',
-                                  style: TextStyle(color: Colors.white38, fontSize: 13),
+                                  style: TextStyle(
+                                    color: Colors.white38,
+                                    fontSize: 13,
+                                  ),
                                 ),
                               ],
                             ),
@@ -1091,7 +1150,9 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                               child: SizedBox(
                                 width: 20,
                                 height: 20,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               ),
                             ),
                           ),
@@ -1182,20 +1243,28 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                 ),
                 if ((dua['etiket'] ?? '').isNotEmpty)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: Renkler.seciliYuzey,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       dua['etiket']!,
-                      style: const TextStyle(color: Colors.white54, fontSize: 10),
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 10,
+                      ),
                     ),
                   ),
                 if (dua['kullanicidan'] == 'true') ...[
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 3,
+                    ),
                     margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
                       color: Renkler.vurgu.withValues(alpha: 0.25),
@@ -1213,8 +1282,11 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                   IconButton(
                     tooltip: 'Duayı sil',
                     visualDensity: VisualDensity.compact,
-                    icon: const Icon(Icons.delete_outline,
-                        color: Colors.white38, size: 20),
+                    icon: const Icon(
+                      Icons.delete_outline,
+                      color: Colors.white38,
+                      size: 20,
+                    ),
                     onPressed: () => _odaDuaSil(dua['id']!),
                   ),
                 ],
@@ -1225,20 +1297,32 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
               dua['arapca']!,
               textAlign: TextAlign.right,
               textDirection: TextDirection.rtl,
-              style: const TextStyle(color: Colors.white, fontSize: 18, height: 1.8),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                height: 1.8,
+              ),
             ),
             if ((dua['okunus'] ?? '').isNotEmpty) ...[
               const SizedBox(height: 8),
               Text(
                 dua['okunus']!,
                 textAlign: TextAlign.right,
-                style: const TextStyle(color: Colors.white54, fontSize: 13, height: 1.5),
+                style: const TextStyle(
+                  color: Colors.white54,
+                  fontSize: 13,
+                  height: 1.5,
+                ),
               ),
             ],
             const SizedBox(height: 12),
             Text(
               dua['turkce']!,
-              style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 13,
+                height: 1.5,
+              ),
             ),
             const SizedBox(height: 10),
             Text(
@@ -1266,7 +1350,11 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                     Expanded(
                       child: Text(
                         dua['fazilet']!,
-                        style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                          height: 1.4,
+                        ),
                       ),
                     ),
                   ],
@@ -1293,7 +1381,8 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
           onTap: () async {
             await Clipboard.setData(
               ClipboardData(
-                text: '${dua['arapca']}\n\n${dua['turkce']}\n\n${dua['kaynak']}',
+                text:
+                    '${dua['arapca']}\n\n${dua['turkce']}\n\n${dua['kaynak']}',
               ),
             );
             if (context.mounted) {
@@ -1313,7 +1402,8 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
           onTap: () async {
             await SharePlus.instance.share(
               ShareParams(
-                text: '🤲 ${dua['baslik']}\n\n'
+                text:
+                    '🤲 ${dua['baslik']}\n\n'
                     '${dua['arapca']}\n\n'
                     '${dua['turkce']}\n\n'
                     '— Dua Odaları · ${widget.kategori['ad']}\n#islamiUygulama',
@@ -1393,116 +1483,133 @@ class _DuaListemPageState extends State<_DuaListemPage> {
       body: _yukleniyor
           ? const Center(child: CircularProgressIndicator())
           : _dualari.isEmpty
-              ? const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.favorite_border, color: Colors.white24, size: 48),
-                      SizedBox(height: 12),
-                      Text(
-                        'Henüz dua eklemediniz.\nDuaların yanındaki kalbe dokunarak ekleyin.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white38, fontSize: 13),
-                      ),
-                    ],
+          ? const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.favorite_border, color: Colors.white24, size: 48),
+                  SizedBox(height: 12),
+                  Text(
+                    'Henüz dua eklemediniz.\nDuaların yanındaki kalbe dokunarak ekleyin.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white38, fontSize: 13),
                   ),
-                )
-              : ListView(
-                  padding: const EdgeInsets.all(16),
-                  children: [
-                    Text(
-                      '${_dualari.length} dua listenizde',
-                      style: const TextStyle(color: Colors.white54, fontSize: 12),
+                ],
+              ),
+            )
+          : ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                Text(
+                  '${_dualari.length} dua listenizde',
+                  style: const TextStyle(color: Colors.white54, fontSize: 12),
+                ),
+                const SizedBox(height: 12),
+                for (final d in _dualari) ...[
+                  Card(
+                    color: Renkler.kart,
+                    margin: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(color: Renkler.cerceve),
                     ),
-                    const SizedBox(height: 12),
-                    for (final d in _dualari) ...[
-                      Card(
-                        color: Renkler.kart,
-                        margin: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: BorderSide(color: Renkler.cerceve),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      d['baslik']!,
-                                      style: TextStyle(
-                                        color: Renkler.vurgu,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                      ),
-                                    ),
+                              Expanded(
+                                child: Text(
+                                  d['baslik']!,
+                                  style: TextStyle(
+                                    color: Renkler.vurgu,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
                                   ),
-                                  Text('${d['odaIkon']} ${d['odaAd']}',
-                                      style: const TextStyle(
-                                          color: Colors.white38, fontSize: 11)),
-                                ],
+                                ),
                               ),
-                              const SizedBox(height: 10),
                               Text(
-                                d['arapca']!,
-                                textAlign: TextAlign.right,
-                                textDirection: TextDirection.rtl,
+                                '${d['odaIkon']} ${d['odaAd']}',
                                 style: const TextStyle(
-                                    color: Colors.white, fontSize: 17, height: 1.7),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                d['turkce']!,
-                                style: const TextStyle(
-                                    color: Colors.white70, fontSize: 13, height: 1.5),
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    visualDensity: VisualDensity.compact,
-                                    onPressed: () async {
-                                      await Clipboard.setData(
-                                        ClipboardData(
-                                          text:
-                                              '${d['arapca']}\n\n${d['turkce']}\n\n${d['kaynak']}',
-                                        ),
-                                      );
-                                      if (context.mounted) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Dua panoya kopyalandı'),
-                                            behavior: SnackBarBehavior.floating,
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    icon: const Icon(Icons.copy_outlined,
-                                        color: Colors.white54, size: 20),
-                                  ),
-                                  IconButton(
-                                    visualDensity: VisualDensity.compact,
-                                    onPressed: () async {
-                                      await UmmetStore.duaFavoriDegistir(
-                                          '${d['odaId']}|${d['baslik']}');
-                                      _yukle();
-                                    },
-                                    icon: const Icon(Icons.delete_outline,
-                                        color: Colors.redAccent, size: 20),
-                                  ),
-                                ],
+                                  color: Colors.white38,
+                                  fontSize: 11,
+                                ),
                               ),
                             ],
                           ),
-                        ),
+                          const SizedBox(height: 10),
+                          Text(
+                            d['arapca']!,
+                            textAlign: TextAlign.right,
+                            textDirection: TextDirection.rtl,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              height: 1.7,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            d['turkce']!,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 13,
+                              height: 1.5,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              IconButton(
+                                visualDensity: VisualDensity.compact,
+                                onPressed: () async {
+                                  await Clipboard.setData(
+                                    ClipboardData(
+                                      text:
+                                          '${d['arapca']}\n\n${d['turkce']}\n\n${d['kaynak']}',
+                                    ),
+                                  );
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Dua panoya kopyalandı'),
+                                        behavior: SnackBarBehavior.floating,
+                                      ),
+                                    );
+                                  }
+                                },
+                                icon: const Icon(
+                                  Icons.copy_outlined,
+                                  color: Colors.white54,
+                                  size: 20,
+                                ),
+                              ),
+                              IconButton(
+                                visualDensity: VisualDensity.compact,
+                                onPressed: () async {
+                                  await UmmetStore.duaFavoriDegistir(
+                                    '${d['odaId']}|${d['baslik']}',
+                                  );
+                                  _yukle();
+                                },
+                                icon: const Icon(
+                                  Icons.delete_outline,
+                                  color: Colors.redAccent,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 12),
-                    ],
-                  ],
-                ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ],
+            ),
     );
   }
 }

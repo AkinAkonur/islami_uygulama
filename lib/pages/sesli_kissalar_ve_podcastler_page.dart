@@ -278,7 +278,7 @@ class _SesliKissalarVePodcastlerPageState
     final toplamSn = ms ~/ 1000;
     final dk = toplamSn ~/ 60;
     final sn = toplamSn % 60;
-    return '${dk}:${sn.toString().padLeft(2, '0')}';
+    return '$dk:${sn.toString().padLeft(2, '0')}';
   }
 
   String _pozisyonMetni() {
@@ -402,9 +402,9 @@ class _SesliKissalarVePodcastlerPageState
           _ttsHata = _ttsBasladi
               ? null
               : 'Cihazınızda Türkçe seslendirme paketi yok veya '
-                  'seslendirme motoru çalışmıyor. Cihaz Ayarları > '
-                  'Sistem > Diller ve giriş > Metin okuma > Türkçe ses '
-                  'verisini yükleyin, sonra tekrar deneyin.';
+                    'seslendirme motoru çalışmıyor. Cihaz Ayarları > '
+                    'Sistem > Diller ve giriş > Metin okuma > Türkçe ses '
+                    'verisini yükleyin, sonra tekrar deneyin.';
         });
       }
     } on TimeoutException {
@@ -1545,7 +1545,7 @@ class _SesliKissalarVePodcastlerPageState
                     Icons.speed,
                     color: Colors.white70,
                     size: 22,
-                    semanticLabel: '${hiz}×',
+                    semanticLabel: '$hiz×',
                   ),
                 ),
                 onPressed: _hizMenusu,

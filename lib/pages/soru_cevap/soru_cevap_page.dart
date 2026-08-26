@@ -69,11 +69,7 @@ class _SoruCevapPageState extends State<SoruCevapPage>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [
-          _BilgiBankasi(),
-          _BilgiTestleri(),
-          _GununSorusu(),
-        ],
+        children: const [_BilgiBankasi(), _BilgiTestleri(), _GununSorusu()],
       ),
     );
   }
@@ -118,10 +114,11 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: 'Soru, kavram veya ayet arayın...',
-                  hintStyle:
-                      const TextStyle(color: Colors.white38, fontSize: 13),
-                  prefixIcon:
-                      const Icon(Icons.search, color: Colors.white54),
+                  hintStyle: const TextStyle(
+                    color: Colors.white38,
+                    fontSize: 13,
+                  ),
+                  prefixIcon: const Icon(Icons.search, color: Colors.white54),
                   suffixIcon: aramaAktif
                       ? IconButton(
                           icon: const Icon(Icons.clear, color: Colors.white38),
@@ -200,9 +197,7 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
           decoration: BoxDecoration(
             color: secili ? Renkler.seciliYuzey : Renkler.kart,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: secili ? Renkler.vurgu : Renkler.cerceve,
-            ),
+            border: Border.all(color: secili ? Renkler.vurgu : Renkler.cerceve),
           ),
           child: Center(
             child: Text(
@@ -270,9 +265,7 @@ class _FaqKartiState extends State<_FaqKarti> {
       decoration: BoxDecoration(
         color: Renkler.kart,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: _acik ? Renkler.vurgu : Renkler.cerceve,
-        ),
+        border: Border.all(color: _acik ? Renkler.vurgu : Renkler.cerceve),
       ),
       child: Column(
         children: [
@@ -350,8 +343,11 @@ class _FaqKartiState extends State<_FaqKarti> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.menu_book_outlined,
-                                    color: Renkler.vurgu, size: 14),
+                                Icon(
+                                  Icons.menu_book_outlined,
+                                  color: Renkler.vurgu,
+                                  size: 14,
+                                ),
                                 const SizedBox(width: 6),
                                 Flexible(
                                   child: Text(
@@ -446,7 +442,11 @@ class _FaqKartiState extends State<_FaqKarti> {
               'Bu içerik; Diyanet İşleri Başkanlığı ilmihal ve fetvaları, '
               'Kur\'an meali ile Sahih-i Buhari ve Sahih-i Müslim gibi hadis '
               'kaynakları esas alınarak hazırlanmıştır.',
-              style: const TextStyle(color: Colors.white38, fontSize: 11, height: 1.5),
+              style: const TextStyle(
+                color: Colors.white38,
+                fontSize: 11,
+                height: 1.5,
+              ),
             ),
           ],
         ),
@@ -467,7 +467,8 @@ class _BilgiTestleri extends StatelessWidget {
       valueListenable: SoruCevapStore.toplamDogru,
       builder: (context, dogru, _) => ValueListenableBuilder<int>(
         valueListenable: SoruCevapStore.toplamYanit,
-        builder: (context, yanit, _) => _TestIcerigi(dogru: dogru, yanit: yanit),
+        builder: (context, yanit, _) =>
+            _TestIcerigi(dogru: dogru, yanit: yanit),
       ),
     );
   }
@@ -497,7 +498,11 @@ class _TestIcerigiState extends State<_TestIcerigi> {
         const SizedBox(height: 14),
         Text(
           'Seviye seçin ve soruları çözün. Doğru cevapladıkça rozet kazanırsınız.',
-          style: const TextStyle(color: Colors.white54, fontSize: 12.5, height: 1.5),
+          style: const TextStyle(
+            color: Colors.white54,
+            fontSize: 12.5,
+            height: 1.5,
+          ),
         ),
         const SizedBox(height: 10),
         SizedBox(
@@ -519,8 +524,11 @@ class _TestIcerigiState extends State<_TestIcerigi> {
           _TestSoruKarti(
             soru: soru,
             acik: _acikKartlar.contains(soru.id),
-            onToggle: (acik) =>
-                setState(() => acik ? _acikKartlar.add(soru.id) : _acikKartlar.remove(soru.id)),
+            onToggle: (acik) => setState(
+              () => acik
+                  ? _acikKartlar.add(soru.id)
+                  : _acikKartlar.remove(soru.id),
+            ),
           ),
       ],
     );
@@ -542,9 +550,7 @@ class _TestIcerigiState extends State<_TestIcerigi> {
           decoration: BoxDecoration(
             color: secili ? Renkler.seciliYuzey : Renkler.kart,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: secili ? Renkler.vurgu : Renkler.cerceve,
-            ),
+            border: Border.all(color: secili ? Renkler.vurgu : Renkler.cerceve),
           ),
           child: Center(
             child: Text(
@@ -562,10 +568,10 @@ class _TestIcerigiState extends State<_TestIcerigi> {
   }
 
   String _seviyeEtiket(SoruSeviyesi seviye) => switch (seviye) {
-        SoruSeviyesi.kolay => 'Başlangıç seviyesi',
-        SoruSeviyesi.orta => 'Orta seviye',
-        SoruSeviyesi.zor => 'İleri seviye',
-      };
+    SoruSeviyesi.kolay => 'Başlangıç seviyesi',
+    SoruSeviyesi.orta => 'Orta seviye',
+    SoruSeviyesi.zor => 'İleri seviye',
+  };
 
   Widget _rozetKartlari(int dogru) {
     final kazananlar = SoruCevapStore.kazanilanRozetler;
@@ -615,7 +621,9 @@ class _TestIcerigiState extends State<_TestIcerigi> {
                 for (final r in kazananlar)
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 6),
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: Renkler.seciliYuzey.withValues(alpha: 0.6),
                       borderRadius: BorderRadius.circular(20),
@@ -645,7 +653,7 @@ class _TestIcerigiState extends State<_TestIcerigi> {
             ),
             const SizedBox(height: 6),
             Text(
-              'Sonraki rozet: ${kalan} doğru kaldı',
+              'Sonraki rozet: $kalan doğru kaldı',
               style: const TextStyle(color: Colors.white38, fontSize: 10.5),
             ),
           ],
@@ -715,7 +723,9 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: Renkler.zemin,
                         borderRadius: BorderRadius.circular(12),
@@ -738,14 +748,20 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                             ? null
                             : () {
                                 setState(() => _secim = i);
-                                SoruCevapStore.cevapKaydet(s, i == s.dogruIndex);
+                                SoruCevapStore.cevapKaydet(
+                                  s,
+                                  i == s.dogruIndex,
+                                );
                               },
                         child: Container(
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
                           decoration: BoxDecoration(
-                            color: cevaplandi && i == _secim && i != s.dogruIndex
+                            color:
+                                cevaplandi && i == _secim && i != s.dogruIndex
                                 ? const Color(0xFF7B3B3B)
                                 : Renkler.zemin,
                             borderRadius: BorderRadius.circular(12),
@@ -753,8 +769,8 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                               color: cevaplandi && i == s.dogruIndex
                                   ? const Color(0xFF66BB6A)
                                   : cevaplandi && i == _secim
-                                      ? const Color(0xFFE57373)
-                                      : Renkler.cerceve,
+                                  ? const Color(0xFFE57373)
+                                  : Renkler.cerceve,
                             ),
                           ),
                           child: Row(
@@ -763,8 +779,8 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                                 cevaplandi && i == s.dogruIndex
                                     ? Icons.check_circle
                                     : cevaplandi && i == _secim
-                                        ? Icons.cancel
-                                        : Icons.radio_button_unchecked,
+                                    ? Icons.cancel
+                                    : Icons.radio_button_unchecked,
                                 size: 18,
                                 color: cevaplandi && i == s.dogruIndex
                                     ? const Color(0xFF66BB6A)
@@ -806,9 +822,7 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          widget.acik
-                              ? Icons.expand_less
-                              : Icons.expand_more,
+                          widget.acik ? Icons.expand_less : Icons.expand_more,
                           color: Renkler.vurgu,
                           size: 16,
                         ),
@@ -856,8 +870,11 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                         const SizedBox(height: 10),
                         Row(
                           children: [
-                            Icon(Icons.menu_book_outlined,
-                                color: Renkler.vurgu, size: 14),
+                            Icon(
+                              Icons.menu_book_outlined,
+                              color: Renkler.vurgu,
+                              size: 14,
+                            ),
                             const SizedBox(width: 6),
                             Expanded(
                               child: Text(
@@ -934,7 +951,11 @@ class _GununSorusuState extends State<_GununSorusu> {
                 child: Text(
                   'Her gün tek bir soru. Önce düşünün, sonra cevabı ve '
                   'ilgili ayeti açın. Günde bir kez doğru cevap puanınızı artırır.',
-                  style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                    height: 1.5,
+                  ),
                 ),
               ),
             ],
@@ -997,8 +1018,10 @@ class _GununSorusuState extends State<_GununSorusu> {
           Row(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.25),
                   borderRadius: BorderRadius.circular(20),
@@ -1014,7 +1037,10 @@ class _GununSorusuState extends State<_GununSorusu> {
               ),
               const Spacer(),
               if (cevaplandi)
-                const Text('✓', style: TextStyle(color: Colors.greenAccent, fontSize: 16)),
+                const Text(
+                  '✓',
+                  style: TextStyle(color: Colors.greenAccent, fontSize: 16),
+                ),
             ],
           ),
           const SizedBox(height: 20),
@@ -1186,26 +1212,30 @@ class _GununSorusuState extends State<_GununSorusu> {
                               : () async {
                                   setState(() => _secim = i);
                                   await SoruCevapStore.cevapKaydet(
-                                      s, i == s.dogruIndex);
+                                    s,
+                                    i == s.dogruIndex,
+                                  );
                                   if (i == s.dogruIndex) {
                                     await SoruCevapStore.gunlukIsaretle();
                                   }
                                 },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
                             decoration: BoxDecoration(
                               color: _secim == i
                                   ? (i == s.dogruIndex
-                                      ? const Color(0xFF2E5B3E)
-                                      : const Color(0xFF7B3B3B))
+                                        ? const Color(0xFF2E5B3E)
+                                        : const Color(0xFF7B3B3B))
                                   : Renkler.zemin,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
                                 color: _secim == i
                                     ? (i == s.dogruIndex
-                                        ? const Color(0xFF66BB6A)
-                                        : const Color(0xFFE57373))
+                                          ? const Color(0xFF66BB6A)
+                                          : const Color(0xFFE57373))
                                     : Renkler.cerceve,
                               ),
                             ),
@@ -1256,7 +1286,8 @@ class _GununSorusuState extends State<_GununSorusu> {
             onPressed: () {
               Clipboard.setData(
                 ClipboardData(
-                  text: '📅 Günün Sorusu\n\n${_soru.soru}\n\n${_soru.cevap}\n\nKaynak: ${_soru.kaynak}',
+                  text:
+                      '📅 Günün Sorusu\n\n${_soru.soru}\n\n${_soru.cevap}\n\nKaynak: ${_soru.kaynak}',
                 ),
               );
               ScaffoldMessenger.of(context).showSnackBar(

@@ -36,7 +36,7 @@ class GercekBildirimler {
     }
   }
 
-    /// Namaz bildirimleri detayı; titreşim ayara göre açılıp kapatılabilir.
+  /// Namaz bildirimleri detayı; titreşim ayara göre açılıp kapatılabilir.
   /// Android'de `ozel_ses` ayarındaki ezan (res/raw/ezan_kisa.mp3) çalınır;
   /// ayar boşsa sistemin varsayılan bildirim sesi kullanılır.
   ///
@@ -49,7 +49,8 @@ class GercekBildirimler {
       android: AndroidNotificationDetails(
         'namaz_vakitleri_ezan',
         'Namaz Vakitleri',
-        channelDescription: 'Namaz vakti girdiğinde ezan sesiyle ve günlük '
+        channelDescription:
+            'Namaz vakti girdiğinde ezan sesiyle ve günlük '
             'ibadet hatırlatmalarında bildirim gönderir.',
         importance: Importance.high,
         priority: Priority.high,
@@ -67,9 +68,7 @@ class GercekBildirimler {
   static String? _namazSesKaynagi() {
     final ayar = NamazBildirimAyarlari.ozelSes.trim();
     if (ayar.isEmpty) return null;
-    return ayar.endsWith('.mp3')
-        ? ayar.substring(0, ayar.length - 4)
-        : ayar;
+    return ayar.endsWith('.mp3') ? ayar.substring(0, ayar.length - 4) : ayar;
   }
 
   static const NotificationDetails _gunlukDetay = NotificationDetails(
@@ -88,7 +87,8 @@ class GercekBildirimler {
     android: AndroidNotificationDetails(
       'dua_hatirlatmalar',
       'Dua Hatırlatıcıları',
-      channelDescription: 'Kullanıcının seçtiği dua için kurduğu hatırlatıcılar.',
+      channelDescription:
+          'Kullanıcının seçtiği dua için kurduğu hatırlatıcılar.',
       importance: Importance.high,
       priority: Priority.high,
       category: AndroidNotificationCategory.reminder,
@@ -101,7 +101,8 @@ class GercekBildirimler {
     android: AndroidNotificationDetails(
       'gunun_ilhami',
       'Günün İlhamı',
-      channelDescription: 'Kullanıcının belirlediği saatte günün hikmetli sözü.',
+      channelDescription:
+          'Kullanıcının belirlediği saatte günün hikmetli sözü.',
       importance: Importance.high,
       priority: Priority.high,
       category: AndroidNotificationCategory.reminder,
@@ -140,9 +141,10 @@ class GercekBildirimler {
 
       // Android 13+ bildirim izni
       if (defaultTargetPlatform == TargetPlatform.android) {
-        final androidPlugin =
-            _plugin.resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin>();
+        final androidPlugin = _plugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >();
         await androidPlugin?.requestNotificationsPermission();
         await androidPlugin?.requestExactAlarmsPermission();
       }
@@ -199,10 +201,12 @@ class GercekBildirimler {
           final vaktinde = dakikaOnce == 0;
           await _plugin.zonedSchedule(
             id: id++,
-            title: vaktinde ? '${v.ad} vakti girdi' : '${v.ad} vaktine $dakikaOnce dk kaldı',
+            title: vaktinde
+                ? '${v.ad} vakti girdi'
+                : '${v.ad} vaktine $dakikaOnce dk kaldı',
             body: vaktinde
                 ? 'Namaz vakti — ${v.saatYaz}'
-                : 'Namaz vakti ${v.saatYaz} — ${v.ad} için hazır ol ${dakikaOnce} dakika içinde',
+                : 'Namaz vakti ${v.saatYaz} — ${v.ad} için hazır ol $dakikaOnce dakika içinde',
             scheduledDate: gunlukHedef(hedef.hour, hedef.minute),
             notificationDetails: detay,
             androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
@@ -270,9 +274,7 @@ class GercekBildirimler {
         title: 'Namaz Vakti Hatırlatıcıları',
         body: 'Bildirimler çalışıyor. Bu bir test bildirimi. 👍',
         scheduledDate: now.add(const Duration(seconds: 5)),
-        notificationDetails: _namazDetay(
-          NamazBildirimAyarlari.titresim.value,
-        ),
+        notificationDetails: _namazDetay(NamazBildirimAyarlari.titresim.value),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       );
       return true;

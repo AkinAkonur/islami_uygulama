@@ -26,7 +26,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
   bool _izliyor = false;
   String? _hata;
   Timer? _timer;
-  int _guncellemeSaniye = 15;
+  final int _guncellemeSaniye = 15;
 
   @override
   void dispose() {
@@ -93,11 +93,11 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
     final k = _konum;
     if (k == null) return null;
     return Geolocator.distanceBetween(
-      k.latitude,
-      k.longitude,
-      m.enlem,
-      m.boylam,
-    ) /
+          k.latitude,
+          k.longitude,
+          m.enlem,
+          m.boylam,
+        ) /
         1000;
   }
 
@@ -129,8 +129,8 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
     final uyariSeviyesi = enYakin == null
         ? 0
         : (enYakin.$2 <= mikatYakinlik2
-            ? 2
-            : (enYakin.$2 <= mikatYakinlik1 ? 1 : 0));
+              ? 2
+              : (enYakin.$2 <= mikatYakinlik1 ? 1 : 0));
 
     return Scaffold(
       backgroundColor: Renkler.zemin,
@@ -159,7 +159,11 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                     'Uçak veya kara yoluyla Mekke\'ye yaklaşırken mikat sınırına '
                     '50 km ve 10 km kala burada uyarı alırsınız. İhram için '
                     'önceden hazırlanmayı unutmayın.',
-                    style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                      height: 1.4,
+                    ),
                   ),
                 ),
               ],
@@ -201,7 +205,9 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                                 width: 18,
                                 height: 18,
                                 child: CircularProgressIndicator(
-                                    strokeWidth: 2, color: Colors.white),
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
                               )
                             : const Icon(Icons.play_arrow),
                         label: const Text('İzlemeyi Başlat'),
@@ -227,7 +233,8 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                 color: Colors.redAccent.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                    color: Colors.redAccent.withValues(alpha: 0.4)),
+                  color: Colors.redAccent.withValues(alpha: 0.4),
+                ),
               ),
               child: Row(
                 children: [
@@ -237,7 +244,9 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                     child: Text(
                       _hata!,
                       style: const TextStyle(
-                          color: Colors.redAccent, fontSize: 12),
+                        color: Colors.redAccent,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ],
@@ -281,7 +290,8 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
               color: Renkler.kart,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                  color: Colors.amberAccent.withValues(alpha: 0.3)),
+                color: Colors.amberAccent.withValues(alpha: 0.3),
+              ),
             ),
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,7 +313,11 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                 SizedBox(height: 10),
                 Text(
                   mikatUcakUyari,
-                  style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                    height: 1.5,
+                  ),
                 ),
               ],
             ),
@@ -340,8 +354,11 @@ class _UyariKarti extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(ciddi ? Icons.notification_important : Icons.warning_amber,
-                  color: renk, size: 28),
+              Icon(
+                ciddi ? Icons.notification_important : Icons.warning_amber,
+                color: renk,
+                size: 28,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -362,7 +379,11 @@ class _UyariKarti extends StatelessWidget {
             'En yakın mikat: ${mikat.ad}\n'
             '${mikat.aciklama}\n\n'
             '${ciddi ? "Lütfen ihrama girmiş ve niyet etmiş olduğunuzdan emin olun!" : "İhram hazırlığınızı yapın: gusül, ihram elbisesi, iki rekât namaz ve telbiye ile niyet."}',
-            style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 13,
+              height: 1.5,
+            ),
           ),
         ],
       ),
@@ -393,7 +414,11 @@ class _NormalKart extends StatelessWidget {
             child: Text(
               'En yakın mikat: ${mikat.ad}\n'
               'Mesafe: $mesafe · Henüz uyarı sınırında değilsiniz.',
-              style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.4),
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 13,
+                height: 1.4,
+              ),
             ),
           ),
         ],
@@ -420,7 +445,11 @@ class _BeklemeKarti extends StatelessWidget {
             child: Text(
               'Konumunuz henüz alınmadı. İzlemeyi başlatın veya konum butonuna '
               'dokunun.',
-              style: TextStyle(color: Colors.white54, fontSize: 13, height: 1.4),
+              style: TextStyle(
+                color: Colors.white54,
+                fontSize: 13,
+                height: 1.4,
+              ),
             ),
           ),
         ],
@@ -451,7 +480,9 @@ class _MikatSatir extends StatelessWidget {
         color: vurgula ? Renkler.seciliYuzey : Renkler.kart,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: vurgula ? Renkler.vurgu.withValues(alpha: 0.5) : Renkler.cerceve,
+          color: vurgula
+              ? Renkler.vurgu.withValues(alpha: 0.5)
+              : Renkler.cerceve,
         ),
       ),
       child: Row(
