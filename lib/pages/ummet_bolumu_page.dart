@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../services/ummet_verileri.dart';
 import 'ummet/dua_duvari_page.dart';
@@ -48,18 +49,19 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          "Ümmet",
+          l.t('sb.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: "Canlı Yayınlar & Etkinlikler",
+            tooltip: l.t('sb.liveTooltip'),
             icon: UcdIkon(ikon: Icons.videocam_rounded, renk: Renkler.vurgu),
             onPressed: () => Navigator.push(
               context,
@@ -99,7 +101,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Ümmet",
+                              l.t('sb.bannerTitle'),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
@@ -108,7 +110,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "Dua • Dayanışma • Yardım • Ortak İbadet",
+                              l.t('sb.bannerSub'),
                               style: TextStyle(
                                 color: Renkler.acikVurgu,
                                 fontSize: 12,
@@ -127,7 +129,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    '"Mümin, mümin için (tuğlaları birbirini tutan) bir bina gibidir; birbirlerine destek olurlar."',
+                    l.t('sb.hadithMeal'),
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 12,
@@ -154,7 +156,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                 Expanded(
                   child: _miniSayac(
                     Icons.favorite_outline_rounded,
-                    'Bugün dua',
+                    l.t('sb.duaToday'),
                     binlikSayi(_bugunDua),
                     Colors.pinkAccent,
                     () => Navigator.push(
@@ -167,7 +169,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                 Expanded(
                   child: _miniSayac(
                     Icons.menu_book_rounded,
-                    'Tamamlanan hatim',
+                    l.t('sb.hatimDone'),
                     binlikSayi(_hatimTamamlanan),
                     Colors.orangeAccent,
                     () => Navigator.push(
@@ -183,14 +185,14 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
 
             // ---------- 1. KÜRESEL DUA AĞI ----------
             _baslik(
-              "🤲 Küresel Dua Ağı",
-              "Dua duvarı, zincirler, hatim ve Yâsîn halkaları",
+              l.t('sb.s1Title'),
+              l.t('sb.s1Sub'),
             ),
             _modulKart(
               context,
               Icons.campaign_rounded,
-              "Canlı Dua Duvarı",
-              "Dünyanın dört bir yanından dua istekleri • Amin ile destekle",
+              l.t('sb.mDuaWall'),
+              l.t('sb.mDuaWallSub'),
               Colors.pinkAccent,
               () => Navigator.push(
                 context,
@@ -200,8 +202,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.link_rounded,
-              "Dua Zincirleri",
-              '"Gazze için 100.000 Fetih" • 1, 5 veya 10 üstlen',
+              l.t('sb.mZincir'),
+              l.t('sb.mZincirSub'),
               Colors.amber,
               () => Navigator.push(
                 context,
@@ -211,8 +213,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.chat_bubble_outline_rounded,
-              "Dua Odaları",
-              "Şifa • Borç/Rızık • Sınav • Aile Huzuru • Hidayet",
+              l.t('sb.mOdalar'),
+              l.t('sb.mOdalarSub'),
               Colors.teal,
               () => Navigator.push(
                 context,
@@ -222,8 +224,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.auto_stories_rounded,
-              "Seçme Sureler & Dualar",
-              "Yâsîn, Mülk, Fâtiha, Cevşen ve daha fazlası • sesli dinleme",
+              l.t('sb.mSureler'),
+              l.t('sb.mSurelerSub'),
               Colors.amber,
               () => Navigator.push(
                 context,
@@ -233,8 +235,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.groups_2_rounded,
-              "Hatim & Yâsîn Halkaları",
-              "30 cüz, 30 kardeş • ortak hatim ve Yâsîn-i Şerif organizasyonları",
+              l.t('sb.mHatim'),
+              l.t('sb.mHatimSub'),
               Colors.orange,
               () => Navigator.push(
                 context,
@@ -245,14 +247,14 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
 
             // ---------- 2. YARDIMLAŞMA & İYİLİK ----------
             _baslik(
-              "💚 Yardımlaşma & İyilik",
-              "Zekât, sadaka ve küresel yardım köprüleri",
+              l.t('sb.s2Title'),
+              l.t('sb.s2Sub'),
             ),
             _modulKart(
               context,
               Icons.volunteer_activism_rounded,
-              "Küresel Yardım Kampanyaları",
-              "Su kuyusu, gıda, yetim sponsorluğu, kurban ve afet bağışları",
+              l.t('sb.mKampanya'),
+              l.t('sb.mKampanyaSub'),
               Colors.deepOrange,
               () => Navigator.push(
                 context,
@@ -262,8 +264,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.calculate_rounded,
-              "Zekât & Sadaka Hesaplayıcı",
-              "Nisap kontrolü, %2,5 zekât hesabı ve bağış köprüsü",
+              l.t('sb.mZekat'),
+              l.t('sb.mZekatSub'),
               Colors.green,
               () => Navigator.push(
                 context,
@@ -273,8 +275,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.task_alt_rounded,
-              "Günlük İyilik Görevleri",
-              '"Bugün bir yetimi sevindir" • ümmet tamamlanma oranı',
+              l.t('sb.mIyilik'),
+              l.t('sb.mIyilikSub'),
               Colors.lightGreen,
               () => Navigator.push(
                 context,
@@ -286,14 +288,14 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
 
             // ---------- 4. CANLI YAYINLAR & ETKİNLİKLER ----------
             _baslik(
-              "📡 Canlı Yayın & Etkinlikler",
-              "Mekke, Medine ve dini gün takvimi",
+              l.t('sb.s4Title'),
+              l.t('sb.s4Sub'),
             ),
             _modulKart(
               context,
               Icons.videocam_rounded,
-              "Canlı Yayın & Etkinlikler",
-              "Mescid-i Haram ve Mescid-i Nebevî 7/24 • kandil programları",
+              l.t('sb.mCanli'),
+              l.t('sb.mCanliSub'),
               Colors.redAccent,
               () => Navigator.push(
                 context,
@@ -303,8 +305,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.public_rounded,
-              "Canlı Ümmet Haritası",
-              "Şu an namaz kılan, zikir çeken milyonlarca kardeşin",
+              l.t('sb.mHarita'),
+              l.t('sb.mHaritaSub'),
               Colors.green,
               () => Navigator.push(
                 context,
@@ -315,14 +317,14 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
 
             // ---------- 5. İSLAMİ AKIŞ & MANEVİ HALKALAR ----------
             _baslik(
-              "💬 İslami Akış & Manevi Halkalar",
-              "Günün mesajı ve birlikte gelişim grupları",
+              l.t('sb.s5Title'),
+              l.t('sb.s5Sub'),
             ),
             _modulKart(
               context,
               Icons.wb_sunny_rounded,
-              "Günün Mesajı",
-              "Her gün yeni bir ayet, hadis ve hikmetli söz",
+              l.t('sb.mMesaj'),
+              l.t('sb.mMesajSub'),
               Colors.purpleAccent,
               () => Navigator.push(
                 context,
@@ -332,8 +334,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.groups_rounded,
-              "Manevi Gelişim Halkaları",
-              '"Günde 1 Sayfa", "40 Hadis", "Sabah-Akşam zikirleri"',
+              l.t('sb.mHalka'),
+              l.t('sb.mHalkaSub'),
               Colors.cyan,
               () => Navigator.push(
                 context,
@@ -343,8 +345,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.auto_awesome_rounded,
-              "Milyonluk Zikir Kampanyaları",
-              "Ortak salavat, kelime-i tevhid ve istiğfar sayaçları",
+              l.t('sb.mZikir'),
+              l.t('sb.mZikirSub'),
               Colors.pink,
               () => Navigator.push(
                 context,
@@ -354,8 +356,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.auto_stories_rounded,
-              "İlham Veren Hikayeler",
-              "İyilik örnekleri ve yeni Müslümanların hikayeleri",
+              l.t('sb.mHikaye'),
+              l.t('sb.mHikayeSub'),
               Colors.lightBlue,
               () => Navigator.push(
                 context,
@@ -366,14 +368,14 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
 
             // ---------- 6. ÜMMET BİLİNCİ & TARİH/COĞRAFYA ----------
             _baslik(
-              "🌍 Ümmet Bilinci & Coğrafya",
-              "Nüfus dağılımı, gelenekler ve mazlum coğrafyalar",
+              l.t('sb.s6Title'),
+              l.t('sb.s6Sub'),
             ),
             _modulKart(
               context,
               Icons.map_rounded,
-              "Dünya Ümmeti",
-              "Müslüman nüfus dağılımı ve kardeş toplulukların gelenekleri",
+              l.t('sb.mDunya'),
+              l.t('sb.mDunyaSub'),
               Colors.indigoAccent,
               () => Navigator.push(
                 context,
@@ -383,8 +385,8 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
             _modulKart(
               context,
               Icons.flag_rounded,
-              "Mazlum Coğrafyalar & Bülten",
-              "Filistin, Doğu Türkistan, Yemen, Arakan... manevi destek kartları",
+              l.t('sb.mMazlum'),
+              l.t('sb.mMazlumSub'),
               Colors.deepOrange,
               () => Navigator.push(
                 context,

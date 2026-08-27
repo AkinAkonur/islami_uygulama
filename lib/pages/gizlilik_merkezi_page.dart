@@ -13,6 +13,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'gizlilik_politikasi_page.dart';
 import '../services/gizlilik_merkezi.dart';
 import '../services/medya_indirme_servisi.dart';
@@ -145,10 +146,11 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Gizlilik Merkezi'),
+        title: Text(l.t('gm.title')),
         backgroundColor: Renkler.seciliYuzey,
         centerTitle: true,
       ),
@@ -157,25 +159,25 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
         children: [
           _baslikKarti(),
           const SizedBox(height: 20),
-          _bolumBasligi('İzinleriniz', Icons.shield_rounded, Colors.tealAccent),
+          _bolumBasligi(l.t('gm.permissions'), Icons.shield_rounded, Colors.tealAccent),
           const SizedBox(height: 2),
           for (final izin in _merkez.izinKartlari) ...[
-            _izinKarti(izin),
+            _izinKarti(izin, l),
             const SizedBox(height: 10),
           ],
           const SizedBox(height: 12),
-          _bolumBasligi('Haklarınız (KVKK · md.11)', Icons.verified_user_rounded, Colors.amberAccent),
+          _bolumBasligi(l.t('gm.rights'), Icons.verified_user_rounded, Colors.amberAccent),
           const SizedBox(height: 2),
           for (final hak in _merkez.kullaniciHaklari) ...[
-            _hakKarti(hak),
+            _hakKarti(hak, l),
             const SizedBox(height: 10),
           ],
           const SizedBox(height: 12),
-          _bolumBasligi('Yasal Bilgilendirme', Icons.gavel_rounded, Colors.orangeAccent),
+          _bolumBasligi(l.t('gm.legal'), Icons.gavel_rounded, Colors.orangeAccent),
           const SizedBox(height: 2),
-          _yasalKart(),
+          _yasalKart(l),
           const SizedBox(height: 12),
-          _teknikGuvenceKarti(),
+          _teknikGuvenceKarti(l),
           const SizedBox(height: 24),
         ],
       ),
@@ -251,7 +253,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
     );
   }
 
-  Widget _izinKarti(GizlilikIzinKarti izin) {
+  Widget _izinKarti(GizlilikIzinKarti izin, AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -289,7 +291,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
                   ),
                 ),
               ),
-              _izinDenetim(izin),
+              _izinDenetim(izin, l),
             ],
           ),
           const SizedBox(height: 10),
@@ -305,8 +307,8 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
             const SizedBox(height: 6),
             Text(
               _konumAktif
-                  ? 'Durum: İzin verildi — cihazdan değiştirilebilir.'
-                  : 'Durum: İzin yok — namaz vakitleri manuel şehirle hesaplanabilir.',
+                  ? l.t('gm.locationGranted')
+                  : l.t('gm.locationDenied'),
               style: TextStyle(
                 color: _konumAktif ? Colors.greenAccent : Colors.orangeAccent,
                 fontSize: 12,
@@ -319,8 +321,8 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
               valueListenable: MedyaIndirmeServisi.instance.indirilenler,
               builder: (context, indirilenler, _) => Text(
                 indirilenler.isEmpty
-                    ? 'Durum: Şu an indirilmiş içerik yok.'
-                    : 'Durum: ${indirilenler.length} ses dosyası cihazınızda saklanıyor.',
+                    ? l.t('gm.noDownloads')
+                    : l.t('gm.downloadsCount').replaceFirst('{n}', '${indirilenler.length}'),
                 style: const TextStyle(
                   color: Colors.white54,
                   fontSize: 12,
@@ -335,7 +337,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
   }
 
   /// İzin kartının sağındaki denetim: konum → cihaz ayarları, analitik → anahtar.
-  Widget _izinDenetim(GizlilikIzinKarti izin) {
+  Widget _izinDenetim(GizlilikIzinKarti izin, AppLocalizations l) {
     if (izin.id == 'izin_analitik') {
       return ValueListenableBuilder<bool>(
         valueListenable: GizlilikMerkeziServisi.analitikKapali,
@@ -355,7 +357,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
           await _konumDurumunuOku();
         },
         style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
-        child: const Text('Yönet'),
+        child: Text(l.t('gm.manage')),
       );
     }
     // Depolama: salt okunur etiket.
@@ -365,14 +367,14 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
         color: Renkler.seciliYuzey.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: const Text(
-        'Yerel',
-        style: TextStyle(color: Colors.tealAccent, fontSize: 11.5),
+      child: Text(
+        l.t('gm.local'),
+        style: const TextStyle(color: Colors.tealAccent, fontSize: 11.5),
       ),
     );
   }
 
-  Widget _hakKarti(GizlilikKullaniciHakki hak) {
+  Widget _hakKarti(GizlilikKullaniciHakki hak, AppLocalizations l) {
     final tehlikeli = hak.tehlikeliMi;
     final renk = tehlikeli ? Colors.redAccent : Colors.tealAccent;
     final yukleniyor = tehlikeli ? _silmeYukleniyor : _indirmeYukleniyor;

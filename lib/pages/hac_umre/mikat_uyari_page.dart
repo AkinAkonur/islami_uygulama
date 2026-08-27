@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../../widgets/kart_sekilleri.dart';
 import 'hac_umre_verileri.dart';
@@ -41,20 +42,21 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
       _hata = null;
     });
     try {
+      final l = AppLocalizations.of(context);
       if (!await Geolocator.isLocationServiceEnabled()) {
         await Geolocator.openLocationSettings();
-        throw Exception('Konum servisi kapalı.');
+        throw Exception(l.t('mu.locService'));
       }
       LocationPermission izin = await Geolocator.checkPermission();
       if (izin == LocationPermission.denied) {
         izin = await Geolocator.requestPermission();
       }
       if (izin == LocationPermission.denied) {
-        throw Exception('Konum izni verilmedi.');
+        throw Exception(l.t('mu.permissionDenied'));
       }
       if (izin == LocationPermission.deniedForever) {
         await Geolocator.openAppSettings();
-        throw Exception('Konum izni kalıcı olarak reddedilmiş.');
+        throw Exception(l.t('mu.permissionForever'));
       }
       Position? konum;
       try {
@@ -126,6 +128,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final enYakin = _enYakin();
     final uyariSeviyesi = enYakin == null
         ? 0
@@ -136,7 +139,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Mikat Uyarı Motoru'),
+        title: Text(l.t('mu.title')),
         backgroundColor: Renkler.seciliYuzey,
       ),
       body: ListView(
@@ -150,17 +153,15 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: Renkler.cerceve),
             ),
-            child: const Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                UcdIkon(ikon: Icons.gps_fixed_rounded, renk: Colors.purpleAccent, boyut: 20),
-                SizedBox(width: 10),
+                const UcdIkon(ikon: Icons.gps_fixed_rounded, renk: Colors.purpleAccent, boyut: 20),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Uçak veya kara yoluyla Mekke\'ye yaklaşırken mikat sınırına '
-                    '50 km ve 10 km kala burada uyarı alırsınız. İhram için '
-                    'önceden hazırlanmayı unutmayın.',
-                    style: TextStyle(
+                    l.t('mu.desc'),
+                    style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 12,
                       height: 1.4,
@@ -173,11 +174,11 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
           const SizedBox(height: 16),
           // Uyarı seviyesi
           if (enYakin != null && uyariSeviyesi > 0)
-            _UyariKarti(seviye: uyariSeviyesi, mikat: enYakin.$1)
+            _UyariKarti(seviye: uyariSeviyesi, mikat: enYakin.$1, l: l)
           else if (enYakin != null)
-            _NormalKart(mesafe: _mesafeMetin(enYakin.$2), mikat: enYakin.$1)
+            _NormalKart(mesafe: _mesafeMetin(enYakin.$2), mikat: enYakin.$1, l: l)
           else
-            _BeklemeKarti(),
+            _BeklemeKarti(l: l),
           const SizedBox(height: 16),
           // Kontroller
           Row(
@@ -192,7 +193,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                         ),
                         onPressed: _izlemeyiDurdur,
                         icon: const UcdIkon(ikon: Icons.stop_circle_rounded, renk: Colors.redAccent),
-                        label: const Text('İzlemeyi Durdur'),
+                        label: Text(l.t('mu.stopTracking')),
                       )
                     : ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
@@ -211,12 +212,12 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                                 ),
                               )
                             : const UcdIkon(ikon: Icons.play_arrow_rounded, renk: Colors.white),
-                        label: const Text('İzlemeyi Başlat'),
+                        label: Text(l.t('mu.startTracking')),
                       ),
               ),
               const SizedBox(width: 12),
               IconButton(
-                tooltip: 'Konumu yenile',
+                tooltip: l.t('mu.refresh'),
                 onPressed: _yukleniyor ? null : _konumAl,
                 style: IconButton.styleFrom(
                   backgroundColor: Renkler.kart,
@@ -258,9 +259,9 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
           // Mikat listesi
           Row(
             children: [
-              const Text(
-                'MİKAT SINIRLARI',
-                style: TextStyle(
+              Text(
+                l.t('mu.boundaries'),
+                style: const TextStyle(
                   color: Colors.white54,
                   fontSize: 12,
                   letterSpacing: 1,
@@ -270,7 +271,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
               const Spacer(),
               if (_izliyor)
                 Text(
-                  'Her $_guncellemeSaniye sn güncellenir',
+                  l.t('mu.updatedEvery').replaceFirst('{s}', '$_guncellemeSaniye'),
                   style: const TextStyle(color: Colors.white24, fontSize: 11),
                 ),
             ],
@@ -294,16 +295,16 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                 color: Colors.amberAccent.withValues(alpha: 0.3),
               ),
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    UcdIkon(ikon: Icons.flight_takeoff_rounded, renk: Colors.amberAccent),
-                    SizedBox(width: 8),
+                    const UcdIkon(ikon: Icons.flight_takeoff_rounded, renk: Colors.amberAccent),
+                    const SizedBox(width: 8),
                     Text(
-                      'Uçakla Geliyorsanız',
-                      style: TextStyle(
+                      l.t('mu.planeTitle'),
+                      style: const TextStyle(
                         color: Colors.amberAccent,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -311,10 +312,10 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   mikatUcakUyari,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
                     height: 1.5,
@@ -336,8 +337,9 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
 class _UyariKarti extends StatelessWidget {
   final int seviye;
   final MikatNoktasi mikat;
+  final AppLocalizations l;
 
-  const _UyariKarti({required this.seviye, required this.mikat});
+  const _UyariKarti({required this.seviye, required this.mikat, required this.l});
 
   @override
   Widget build(BuildContext context) {
@@ -363,9 +365,7 @@ class _UyariKarti extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  ciddi
-                      ? 'Mikat sınırına çok yakınsınız!'
-                      : 'Mikat sınırına yaklaşıyorsunuz',
+                  ciddi ? l.t('mu.veryClose') : l.t('mu.approaching'),
                   style: TextStyle(
                     color: renk,
                     fontSize: 16,
@@ -377,9 +377,9 @@ class _UyariKarti extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'En yakın mikat: ${mikat.ad}\n'
-            '${mikat.aciklama}\n\n'
-            '${ciddi ? "Lütfen ihrama girmiş ve niyet etmiş olduğunuzdan emin olun!" : "İhram hazırlığınızı yapın: gusül, ihram elbisesi, iki rekât namaz ve telbiye ile niyet."}',
+            l.t('mu.nearest').replaceFirst('{n}', mikat.ad) +
+                '\n${mikat.aciklama}\n\n' +
+                (ciddi ? l.t('mu.seriousHint') : l.t('mu.prepareHint')),
             style: const TextStyle(
               color: Colors.white70,
               fontSize: 13,
@@ -395,8 +395,9 @@ class _UyariKarti extends StatelessWidget {
 class _NormalKart extends StatelessWidget {
   final String mesafe;
   final MikatNoktasi mikat;
+  final AppLocalizations l;
 
-  const _NormalKart({required this.mesafe, required this.mikat});
+  const _NormalKart({required this.mesafe, required this.mikat, required this.l});
 
   @override
   Widget build(BuildContext context) {
@@ -413,8 +414,9 @@ class _NormalKart extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'En yakın mikat: ${mikat.ad}\n'
-              'Mesafe: $mesafe · Henüz uyarı sınırında değilsiniz.',
+              l.t('mu.normalText')
+                  .replaceFirst('{n}', mikat.ad)
+                  .replaceFirst('{d}', mesafe),
               style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 13,
@@ -429,6 +431,10 @@ class _NormalKart extends StatelessWidget {
 }
 
 class _BeklemeKarti extends StatelessWidget {
+  final AppLocalizations l;
+
+  const _BeklemeKarti({required this.l});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -438,15 +444,14 @@ class _BeklemeKarti extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Renkler.cerceve),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          UcdIkon(ikon: Icons.gps_off_rounded, renk: Colors.white38),
-          SizedBox(width: 12),
+          const UcdIkon(ikon: Icons.gps_off_rounded, renk: Colors.white38),
+          const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'Konumunuz henüz alınmadı. İzlemeyi başlatın veya konum butonuna '
-              'dokunun.',
-              style: TextStyle(
+              l.t('mu.waiting'),
+              style: const TextStyle(
                 color: Colors.white54,
                 fontSize: 13,
                 height: 1.4,
