@@ -47,10 +47,9 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
 
   // ---------------------- KULLANICI HAKLARI ----------------------
 
-  Future<void> _verileriIndir() async {
+  Future<void> _verileriIndir(AppLocalizations l) async {
     if (_indirmeYukleniyor) return;
     setState(() => _indirmeYukleniyor = true);
-    // Küçük bir gecikme ile kullanıcıya "hazırlanıyor" geri bildirimi verilir.
     await Future<void>.delayed(const Duration(milliseconds: 400));
     final yol = await GizlilikMerkeziServisi.verileriDisaAktar();
     if (!mounted) return;
@@ -59,15 +58,13 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
       SnackBar(
         backgroundColor: Renkler.seciliYuzey,
         content: Text(
-          yol == null
-              ? 'Veri dökümü oluşturulamadı. Lütfen tekrar deneyin.'
-              : 'Verileriniz hazırlandı ve paylaşım sayfası açıldı.',
+          yol == null ? l.t('gm.exportFailed') : l.t('gm.exportSuccess'),
         ),
       ),
     );
   }
 
-  Future<void> _hesabiVeVerileriSil() async {
+  Future<void> _hesabiVeVerileriSil(AppLocalizations l) async {
     if (_silmeYukleniyor) return;
     final hak = _merkez.kullaniciHaklari.where((h) => h.aksiyonId == 'hesap_sil').firstOrNull;
     final onay = await showDialog<bool>(
@@ -77,13 +74,12 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         icon: const UcdIkon(ikon: Icons.warning_amber_rounded, renk: Colors.redAccent),
         title: Text(
-          'Kalıcı Silme Onayı',
+          l.t('gm.deleteConfirmTitle'),
           textAlign: TextAlign.center,
           style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         content: Text(
-          hak?.uyari ??
-              'Bu işlem geri alınamaz. Tüm verileriniz anında silinir.',
+          hak?.uyari ?? l.t('gm.deleteWarning'),
           textAlign: TextAlign.center,
           style: const TextStyle(color: Colors.white70, height: 1.5),
         ),
@@ -92,7 +88,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
             style: TextButton.styleFrom(foregroundColor: Colors.white70),
-            child: const Text('Vazgeç'),
+            child: Text(l.t('gm.cancel')),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -100,7 +96,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
               backgroundColor: Colors.redAccent,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Evet, Kalıcı Sil'),
+            child: Text(l.t('gm.confirmDelete')),
           ),
         ],
       ),
@@ -114,15 +110,13 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.redAccent.withValues(alpha: 0.85),
-        content: const Text(
-          'Tüm verileriniz kalıcı olarak silindi. En iyi deneyim için uygulamayı yeniden başlatın.',
-        ),
+        content: Text(l.t('gm.deleted')),
         duration: const Duration(seconds: 5),
       ),
     );
   }
 
-  Future<void> _tamMetniAc() async {
+  Future<void> _tamMetniAc(AppLocalizations l) async {
     final url = _merkez.yasalMetinler.tamMetinUrl;
     if (url.isEmpty) return;
     try {
@@ -130,13 +124,13 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
       final acildi = await launchUrl(uri, mode: LaunchMode.externalApplication);
       if (!acildi && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Gizlilik politikası sayfası açılamadı.')),
+          SnackBar(content: Text(l.t('gm.policyError'))),
         );
       }
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Gizlilik politikası sayfası açılamadı.')),
+          SnackBar(content: Text(l.t('gm.policyError'))),
         );
       }
     }
@@ -387,7 +381,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
         borderRadius: BorderRadius.circular(16),
         onTap: yukleniyor
             ? null
-            : () => tehlikeli ? _hesabiVeVerileriSil() : _verileriIndir(),
+            : () => tehlikeli ? _hesabiVeVerileriSil(l) : _verileriIndir(l),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -427,7 +421,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
     );
   }
 
-  Widget _yasalKart() {
+  Widget _yasalKart(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -459,14 +453,14 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
                   );
                 },
                 icon: UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 17),
-                label: const Text('Uygulamada tam metni oku'),
+                label: Text(l.t('gm.readFullApp')),
                 style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
               ),
               const Spacer(),
               TextButton.icon(
-                onPressed: _tamMetniAc,
+                onPressed: () => _tamMetniAc(l),
                 icon: const UcdIkon(ikon: Icons.open_in_new_rounded, renk: Colors.white70, boyut: 17),
-                label: const Text('İnternette aç'),
+                label: Text(l.t('gm.openWeb')),
                 style: TextButton.styleFrom(foregroundColor: Colors.white70),
               ),
             ],
@@ -476,11 +470,11 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
     );
   }
 
-  Widget _teknikGuvenceKarti() {
+  Widget _teknikGuvenceKarti(AppLocalizations l) {
     const satirlar = [
-      (Icons.lock_outline_rounded, 'HTTPS / SSL', 'Tüm ağ istekleri (canlı yayın, podcast listeleri) uçtan uca şifreli taşınır.'),
-      (Icons.phone_android_rounded, 'Minimal Veri', 'Uygulama yalnızca çalışması için gereken izinleri ister; rehbere, kameraya veya gereksiz verilere erişmez.'),
-      (Icons.cloud_off_rounded, 'Sunucusuz Mimarî', 'Favoriler, dinleme geçmişi ve notlarınız yalnızca cihazınızda saklanır; hiçbir sunucuya aktarılmaz.'),
+      (Icons.lock_outline_rounded, 'gm.tech1Title', 'gm.tech1Desc'),
+      (Icons.phone_android_rounded, 'gm.tech2Title', 'gm.tech2Desc'),
+      (Icons.cloud_off_rounded, 'gm.tech3Title', 'gm.tech3Desc'),
     ];
     return Container(
       padding: const EdgeInsets.all(16),
@@ -492,16 +486,16 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Teknik Güvence Altyapısı',
-            style: TextStyle(
+          Text(
+            l.t('gm.techTitle'),
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
           ),
           const SizedBox(height: 12),
-          for (final (ikon, baslik, detay) in satirlar)
+          for (final (ikon, baslikKey, detayKey) in satirlar)
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Row(
@@ -509,13 +503,12 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
                 children: [
                   UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 18),
                   const SizedBox(width: 10),
-
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          baslik,
+                          l.t(baslikKey),
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 13,
@@ -523,7 +516,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
                           ),
                         ),
                         Text(
-                          detay,
+                          l.t(detayKey),
                           style: const TextStyle(
                             color: Colors.white54,
                             fontSize: 11.5,
