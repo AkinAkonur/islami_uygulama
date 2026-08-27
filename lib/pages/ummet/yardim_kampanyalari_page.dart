@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 import 'yardim_kampanya_detay_page.dart';
@@ -38,7 +39,7 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Küresel Yardım Kampanyaları',
+          AppLocalizations.of(context).t('jk.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -62,6 +63,7 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
   }
 
   Widget _bilgiBanneri() {
+    final l = AppLocalizations.of(context);
     return Container(
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -81,7 +83,7 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
               SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Zekât, sadaka ve hayrını ulaştır',
+                  l.t('jk.bannerTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -93,7 +95,7 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
           ),
           SizedBox(height: 8),
           Text(
-            'Güvenilir kurumların su kuyusu, gıda, yetim sponsorluğu, kurban ve afet kampanyalarına köprü. Niyetinizi kaydedin, bağışınızı kendi seçtiğiniz kuruma ulaştırın.',
+            l.t('jk.bannerIntro'),
             style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
           ),
         ],
@@ -102,6 +104,7 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
   }
 
   Widget _kampanyaKarti(YardimKampanyasi k) {
+    final l = AppLocalizations.of(context);
     final pay = _paylar[k.id] ?? 0;
     final toplam = k.katilan + pay;
 
@@ -185,7 +188,7 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
                   Icon(Icons.groups, color: Renkler.vurgu, size: 16),
                   SizedBox(width: 6),
                   Text(
-                    '${binlikSayi(toplam)} kardeş bu hayra ortak oldu',
+                    l.t('jk.joinedCount').replaceFirst('{count}', binlikSayi(toplam)),
                     style: TextStyle(color: Colors.white54, fontSize: 12),
                   ),
                   Spacer(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/kuran_api.dart';
 import '../../services/kuran_verileri.dart';
@@ -17,6 +18,7 @@ class _TematikAyetlerPageState extends State<TematikAyetlerPage> {
   bool _yukleniyor = false;
 
   Future<void> _paketiAc(int index) async {
+    final l = AppLocalizations.of(context);
     final paket = tematikPaketler[index];
     setState(() {
       _seciliPaket = index;
@@ -49,7 +51,7 @@ class _TematikAyetlerPageState extends State<TematikAyetlerPage> {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
-            SnackBar(content: Text("Âyetler alınamadı. İnternet bağlantınızı kontrol edin.")),
+            SnackBar(content: Text(l.t('ta.networkError'))),
           );
       }
     }
@@ -57,12 +59,13 @@ class _TematikAyetlerPageState extends State<TematikAyetlerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          "Tematik Âyetler",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          l.t('ta.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
@@ -70,7 +73,7 @@ class _TematikAyetlerPageState extends State<TematikAyetlerPage> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               height: 46,
               child: ListView(
@@ -78,11 +81,11 @@ class _TematikAyetlerPageState extends State<TematikAyetlerPage> {
                 children: [
                   for (var i = 0; i < tematikPaketler.length; i++)
                     Padding(
-                      padding: EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.only(right: 8),
                       child: ChoiceChip(
                         label: Text(
                           '${tematikPaketler[i].ikon} ${tematikPaketler[i].baslik}',
-                          style: TextStyle(fontSize: 11),
+                          style: const TextStyle(fontSize: 11),
                         ),
                         selected: _seciliPaket == i,
                         selectedColor: Renkler.vurgu,
@@ -98,20 +101,20 @@ class _TematikAyetlerPageState extends State<TematikAyetlerPage> {
               ),
             ),
           ),
-          Expanded(child: _icerik()),
+          Expanded(child: _icerik(l)),
         ],
       ),
     );
   }
 
-  Widget _icerik() {
+  Widget _icerik(AppLocalizations l) {
     if (_seciliPaket == null) {
       return Center(
         child: Padding(
-          padding: EdgeInsets.all(32),
+          padding: const EdgeInsets.all(32),
           child: Text(
-            "Bir konu seçin; hazır âyet paketleri açılır.",
-            style: TextStyle(color: Colors.white54, fontSize: 13),
+            l.t('ta.selectHint'),
+            style: const TextStyle(color: Colors.white54, fontSize: 13),
             textAlign: TextAlign.center,
           ),
         ),
@@ -123,22 +126,22 @@ class _TematikAyetlerPageState extends State<TematikAyetlerPage> {
 
     if (_ayetler == null || _ayetler!.isEmpty) {
       return Center(
-        child: Text("Âyetler yüklenemedi.", style: TextStyle(color: Colors.white54)),
+        child: Text(l.t('ta.loadError'), style: const TextStyle(color: Colors.white54)),
       );
     }
 
     return ListView.builder(
-      padding: EdgeInsets.fromLTRB(16, 4, 16, 24),
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
       itemCount: _ayetler!.length,
       itemBuilder: (context, index) {
         final ayet = _ayetler![index];
         return Container(
-          margin: EdgeInsets.only(bottom: 12),
-          padding: EdgeInsets.all(16),
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Renkler.kart,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Color(0xFF262626)),
+            border: Border.all(color: const Color(0xFF262626)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,29 +150,29 @@ class _TematikAyetlerPageState extends State<TematikAyetlerPage> {
                 ayet.arapca,
                 textAlign: TextAlign.right,
                 textDirection: TextDirection.rtl,
-                style: TextStyle(color: Colors.white, fontSize: 20, height: 1.7),
+                style: const TextStyle(color: Colors.white, fontSize: 20, height: 1.7),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 ayet.meal,
-                style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+                style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Text(
-                    '${sureAdiTurkce(ayet.sureNo)} • ${ayet.ayetNo}. âyet',
+                    '${sureAdiTurkce(ayet.sureNo)} • ${l.t('ta.verse').replaceFirst('{no}', '${ayet.ayetNo}')}',
                     style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   GestureDetector(
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => SureDetayPage(sureNo: ayet.sureNo)),
                     ),
                     child: Text(
-                      "Sureyi Aç",
-                      style: TextStyle(color: Colors.white38, fontSize: 11, decoration: TextDecoration.underline),
+                      l.t('ta.openSurah'),
+                      style: const TextStyle(color: Colors.white38, fontSize: 11, decoration: TextDecoration.underline),
                     ),
                   ),
                 ],

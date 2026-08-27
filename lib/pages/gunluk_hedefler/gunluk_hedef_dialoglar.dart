@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../soru_cevap/soru_cevap_model.dart';
 import 'gunluk_hedef_store.dart';
@@ -12,6 +13,7 @@ class KissaDialogi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return AlertDialog(
       backgroundColor: Renkler.kart,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -46,7 +48,7 @@ class KissaDialogi extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          child: const Text('Sonra'),
+          child: Text(l.t('gd.later')),
         ),
         FilledButton.icon(
           onPressed: () => Navigator.pop(context, true),
@@ -55,7 +57,7 @@ class KissaDialogi extends StatelessWidget {
             foregroundColor: Colors.black,
           ),
           icon: const Icon(Icons.check, size: 18),
-          label: const Text('Okudum, Tamamla'),
+          label: Text(l.t('gd.readDone')),
         ),
       ],
     );
@@ -77,13 +79,14 @@ class _SoruDialogiState extends State<SoruDialogi> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final secenekler = widget.soru.secenekler ?? const <String>[];
     return AlertDialog(
       backgroundColor: Renkler.kart,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: const Text(
-        '❓ Günün Sorusu',
-        style: TextStyle(color: Colors.white, fontSize: 17),
+      title: Text(
+        l.t('gd.questionTitle'),
+        style: const TextStyle(color: Colors.white, fontSize: 17),
       ),
       content: SingleChildScrollView(
         child: Column(
@@ -107,7 +110,7 @@ class _SoruDialogiState extends State<SoruDialogi> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  '✅ Doğru! ${widget.soru.cevap}',
+                  '${l.t('gd.correct')} ${widget.soru.cevap}',
                   style: const TextStyle(
                     color: Colors.greenAccent,
                     fontSize: 13,
@@ -157,11 +160,11 @@ class _SoruDialogiState extends State<SoruDialogi> {
                   ),
                 ),
             if (!_dogru && _secili != null)
-              const Padding(
-                padding: EdgeInsets.only(top: 4),
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
                 child: Text(
-                  'Yanlış oldu. Doğru cevabı bulana kadar deneyebilirsin.',
-                  style: TextStyle(color: Colors.redAccent, fontSize: 11),
+                  l.t('gd.wrongHint'),
+                  style: const TextStyle(color: Colors.redAccent, fontSize: 11),
                 ),
               ),
           ],
@@ -170,7 +173,7 @@ class _SoruDialogiState extends State<SoruDialogi> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          child: const Text('Kapat'),
+          child: Text(l.t('gd.close')),
         ),
         FilledButton.icon(
           onPressed: _dogru ? () => Navigator.pop(context, true) : null,
@@ -179,7 +182,7 @@ class _SoruDialogiState extends State<SoruDialogi> {
             foregroundColor: Colors.black,
           ),
           icon: const Icon(Icons.check, size: 18),
-          label: const Text('Tamamla'),
+          label: Text(l.t('gd.complete')),
         ),
       ],
     );
@@ -212,6 +215,7 @@ class _ZikirSayaciState extends State<ZikirSayaci> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Dialog(
       backgroundColor: Renkler.kart,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
@@ -220,18 +224,18 @@ class _ZikirSayaciState extends State<ZikirSayaci> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              '📿 Günün Zikri',
-              style: TextStyle(
+            Text(
+              l.t('gd.dhikrTitle'),
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              '33 kez "Sübhanallah"',
-              style: TextStyle(color: Colors.white54, fontSize: 13),
+            Text(
+              l.t('gd.dhikrSub'),
+              style: const TextStyle(color: Colors.white54, fontSize: 13),
             ),
             const SizedBox(height: 24),
             Text(
@@ -253,7 +257,7 @@ class _ZikirSayaciState extends State<ZikirSayaci> {
                   padding: const EdgeInsets.symmetric(vertical: 18),
                 ),
                 child: Text(
-                  _tamam ? 'Tamamlandı ✓' : 'Zikret (+1)',
+                  _tamam ? l.t('gd.done') : l.t('gd.dhikrTap'),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -264,7 +268,7 @@ class _ZikirSayaciState extends State<ZikirSayaci> {
             const SizedBox(height: 10),
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Kapat'),
+              child: Text(l.t('gd.close')),
             ),
           ],
         ),

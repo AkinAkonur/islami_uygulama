@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import 'gunluk_hedef_store.dart';
 
@@ -45,11 +46,12 @@ class _KutlamaEkraniState extends State<KutlamaEkrani>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final baslik = widget.sonuc.gunTamamlandi
-        ? '🎉 Bugünün hedefini tamamladın!'
-        : '🏅 Yeni Rozet Kazandın!';
+        ? l.t('gk.titleDone')
+        : l.t('gk.titleBadge');
     final altMetin = widget.sonuc.gunTamamlandi
-        ? 'Serin ${widget.seri} güne yükseldi. Yarın da devam et!'
+        ? l.t('gk.streak').replaceFirst('{count}', '${widget.seri}')
         : '${widget.sonuc.yeniRozetler.first.ikon} '
             '${widget.sonuc.yeniRozetler.first.ad}: '
             '${widget.sonuc.yeniRozetler.first.aciklama}';

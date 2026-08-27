@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 import '../../widgets/kart_sekilleri.dart';
@@ -89,8 +90,11 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
       SnackBar(
         content: Text(
           _zekatTutari <= 0
-              ? 'Zekat tutarınız hesaplanınca paylaşabilirsiniz.'
-              : '${_zekatTutari.toStringAsFixed(0)} TL zekatınızı seçtiğiniz güvenilir kurum üzerinden ulaştırabilirsiniz. 💚',
+              ? AppLocalizations.of(context).t('zh.donateSnackZero')
+              : AppLocalizations.of(context)
+                  .t('zh.donateSnack')
+                  .replaceFirst(
+                      '{amount}', _zekatTutari.toStringAsFixed(0)),
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
@@ -115,11 +119,12 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Zekat & Sadaka Hesaplayıcı',
+          l.t('zh.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -130,19 +135,19 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _bilgiBanneri(),
+            _bilgiBanneri(l),
             SizedBox(height: 16),
-            _ayarKarti(),
+            _ayarKarti(l),
             SizedBox(height: 16),
-            _altinKarti(),
+            _altinKarti(l),
             SizedBox(height: 16),
-            _varliklarKarti(),
+            _varliklarKarti(l),
             SizedBox(height: 16),
-            _fitreKarti(),
+            _fitreKarti(l),
             SizedBox(height: 16),
-            _sonucKarti(),
+            _sonucKarti(l),
             SizedBox(height: 16),
-            _rehberKarti(),
+            _rehberKarti(l),
             SizedBox(height: 20),
           ],
         ),
@@ -150,7 +155,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     );
   }
 
-  Widget _bilgiBanneri() {
+  Widget _bilgiBanneri(AppLocalizations l) {
     return Container(
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -170,7 +175,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
               SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Zekatını hesapla, ihtiyaç sahibine ulaştır',
+                  l.t('zh.bannerTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -182,10 +187,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
           ),
           SizedBox(height: 8),
           Text(
-            'Nisap 80 gram altın veya değeridir; üzerinden bir kamerî yıl geçen '
-            'varlığın %2,5\'u verilir. Aşağıdan altın fiyatını güncelleyebilir, '
-            'borçlarınızı düşürebilir ve fitre hesabınızı yapabilirsiniz. '
-            'Detaylı bilgi için sayfanın altındaki rehberi açın.',
+            l.t('zh.bannerIntro'),
             style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
           ),
         ],
@@ -193,7 +195,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     );
   }
 
-  Widget _ayarKarti() {
+  Widget _ayarKarti(AppLocalizations l) {
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,
@@ -211,7 +213,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 UcdIkon(ikon: Icons.tune_rounded, renk: Renkler.vurgu, boyut: 20),
                 SizedBox(width: 8),
                 Text(
-                  'Nisap Ayarı',
+                  l.t('zh.nisapTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -222,8 +224,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
             ),
             SizedBox(height: 6),
             Text(
-              'Gram altın fiyatını günün değerine göre girin. Nisap sınırı ve '
-              'altın zekâtı bu tutara göre hesaplanır (varsayılan: 2.400 TL).',
+              l.t('zh.nisapIntro'),
               style: TextStyle(
                 color: Colors.white54,
                 fontSize: 12,
@@ -238,7 +239,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
               ],
               style: TextStyle(color: Colors.white),
-              decoration: _dekor('Gram altın fiyatı (TL)', Icons.paid_rounded),
+              decoration: _dekor(l.t('zh.nisapHint'), Icons.paid_rounded),
               onChanged: (_) => setState(() {}),
             ),
           ],
@@ -247,7 +248,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     );
   }
 
-  Widget _altinKarti() {
+  Widget _altinKarti(AppLocalizations l) {
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,
@@ -265,7 +266,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 UcdIkon(ikon: Icons.monetization_on_rounded, renk: Renkler.vurgu, boyut: 20),
                 SizedBox(width: 8),
                 Text(
-                  'Altın Miktarı',
+                  l.t('zh.goldTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -282,13 +283,15 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
               ],
               style: TextStyle(color: Colors.white),
-              decoration: _dekor('Kaç gram altının var?', Icons.stars_rounded),
+              decoration: _dekor(l.t('zh.goldHint'), Icons.stars_rounded),
               onChanged: (_) => setState(() {}),
             ),
             SizedBox(height: 8),
             Text(
-              'Altın zekâtı: ${binlikSayi(_altinZekati.round())} TL '
-              '(${binlikSayi(_altinFiyat().round())} TL/gr × ${binlikSayi(_altinDegeri.round())} TL değer × %2,5)',
+              l.t('zh.goldCalc')
+                  .replaceFirst('{amount}', binlikSayi(_altinZekati.round()))
+                  .replaceFirst('{price}', binlikSayi(_altinFiyat().round()))
+                  .replaceFirst('{value}', binlikSayi(_altinDegeri.round())),
               style: TextStyle(color: Colors.white38, fontSize: 11),
             ),
           ],
@@ -297,7 +300,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     );
   }
 
-  Widget _varliklarKarti() {
+  Widget _varliklarKarti(AppLocalizations l) {
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,
@@ -320,7 +323,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Zekata Tabi Varlıklar (TL)',
+                    l.t('zh.assetsTitle'),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -331,14 +334,14 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 TextButton(
                   onPressed: _sifirla,
                   child: Text(
-                    'Sıfırla',
+                    l.t('zh.reset'),
                     style: TextStyle(color: Renkler.vurgu),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 6),
-            for (final k in _kalemler) _kalemSatiri(k),
+            for (final k in _kalemler) _kalemSatiri(k, l),
             SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
@@ -351,7 +354,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 onPressed: _hesapla,
                 icon: UcdIkon(ikon: Icons.calculate_rounded, renk: Renkler.zemin),
                 label: Text(
-                  'Zekatımı Hesapla',
+                  l.t('zh.calcBtn'),
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -362,7 +365,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     );
   }
 
-  Widget _kalemSatiri(ZekatKalemi kalem) {
+  Widget _kalemSatiri(ZekatKalemi kalem, AppLocalizations l) {
     return Padding(
       padding: EdgeInsets.only(bottom: 8),
       child: Column(
@@ -394,8 +397,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
           Padding(
             padding: EdgeInsets.only(left: 14, top: 4),
             child: Text(
-              '${kalem.dusulur ? "Matrahtan düşülür" : "Oran: %${(kalem.oran * 100).toStringAsFixed(0).replaceAll(".0", "")}"}'
-              ' • ${kalem.aciklama}',
+              '${kalem.dusulur ? l.t('zh.deducted') : l.t('zh.rate').replaceFirst('{rate}', (kalem.oran * 100).toStringAsFixed(0).replaceAll(".0", ""))} • ${kalem.aciklama}',
               style: TextStyle(
                 color: Colors.white38,
                 fontSize: 10,
@@ -408,7 +410,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     );
   }
 
-  Widget _fitreKarti() {
+  Widget _fitreKarti(AppLocalizations l) {
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,
@@ -426,7 +428,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 UcdIkon(ikon: Icons.people_alt_rounded, renk: Renkler.vurgu, boyut: 20),
                 SizedBox(width: 8),
                 Text(
-                  'Fitre (Fıtır Sadakası)',
+                  l.t('zh.fitreTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -437,8 +439,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
             ),
             SizedBox(height: 6),
             Text(
-              'Ramazan Bayramı\'ndan önce, kişi başı belirlenen güncel fitre '
-              'bedeli üzerinden hesaplanır.',
+              l.t('zh.fitreIntro'),
               style: TextStyle(
                 color: Colors.white54,
                 fontSize: 12,
@@ -456,7 +457,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     ],
                     style: TextStyle(color: Colors.white, fontSize: 13),
-                    decoration: _dekor('Kişi sayısı', Icons.person_outline_rounded),
+                    decoration: _dekor(l.t('zh.personCount'), Icons.person_outline_rounded),
                     onChanged: (_) => setState(() {}),
                   ),
                 ),
@@ -470,7 +471,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                     ],
                     style: TextStyle(color: Colors.white, fontSize: 13),
                     decoration: _dekor(
-                      'Kişi başı (TL)',
+                      l.t('zh.perPerson'),
                       Icons.payments_rounded,
                     ),
                     onChanged: (_) => setState(() {}),
@@ -480,7 +481,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
             ),
             SizedBox(height: 8),
             Text(
-              'Toplam fitre: ${binlikSayi(_fitreTutari.round())} TL',
+              l.t('zh.totalFitre').replaceFirst('{amount}', binlikSayi(_fitreTutari.round())),
               style: TextStyle(
                 color: Renkler.vurgu,
                 fontSize: 13,
@@ -493,7 +494,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     );
   }
 
-  Widget _sonucKarti() {
+  Widget _sonucKarti(AppLocalizations l) {
     return Card(
       color: _nisabaUlasti ? Renkler.seciliYuzey : Renkler.kart,
       margin: EdgeInsets.zero,
@@ -518,7 +519,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 ),
                 SizedBox(width: 8),
                 Text(
-                  'Sonuç',
+                  l.t('zh.result'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -528,15 +529,15 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
               ],
             ),
             SizedBox(height: 12),
-            _sonucSatiri('Varlıklar toplamı', _varlikToplami),
+            _sonucSatiri(l.t('zh.assetsTotal'), _varlikToplami),
             if (_borcToplami > 0)
-              _sonucSatiri('Düşülen borçlar (-)', _borcToplami),
-            _sonucSatiri('Matrah (net varlık)', _matrah),
-            _sonucSatiri('Nisap sınırı', _nisapDegeri),
+              _sonucSatiri(l.t('zh.deductedDebts'), _borcToplami),
+            _sonucSatiri(l.t('zh.netAssets'), _matrah),
+            _sonucSatiri(l.t('zh.nisapLimit'), _nisapDegeri),
             Divider(color: Colors.white24, height: 20),
             if (_nisabaUlasti) ...[
               Text(
-                'Zekatınız:',
+                l.t('zh.yourZakat'),
                 style: TextStyle(color: Colors.white54, fontSize: 12),
               ),
               Text(
@@ -556,7 +557,12 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    'Kalemler farklı oranlarla hesaplandı: ${_varliklar.where((k) => k.tutar > 0).map((k) => '${k.ad} %${(k.oran * 100).toStringAsFixed(0)}').join(', ')}.',
+                    l.t('zh.mixedRates').replaceFirst(
+                        '{items}',
+                        _varliklar
+                            .where((k) => k.tutar > 0)
+                            .map((k) => '${k.ad} %${(k.oran * 100).toStringAsFixed(0)}')
+                            .join(', ')),
                     style: TextStyle(
                       color: Colors.white54,
                       fontSize: 11,
@@ -567,9 +573,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
               ],
             ] else
               Text(
-                'Varlıklarınız (borçlar düşüldükten sonra) nisap sınırının '
-                'altında. Şu an zekat yükümlülüğünüz bulunmuyor; gönüllü '
-                'sadaka vermeye devam edebilirsiniz.',
+                l.t('zh.belowNisap'),
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: 12,
@@ -590,7 +594,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                         onPressed: _bagisaGonder,
                         icon: UcdIkon(ikon: Icons.volunteer_activism_rounded, renk: Renkler.zemin, boyut: 18),
                         label: Text(
-                          'Zekatımı Ulaştır',
+                          l.t('zh.deliverZakat'),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -607,7 +611,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                         onPressed: _bagisaGonder,
                         icon: UcdIkon(ikon: Icons.volunteer_activism_rounded, renk: Renkler.zemin, boyut: 18),
                         label: Text(
-                          'Fitremi Ulaştır',
+                          l.t('zh.deliverFitre'),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -642,7 +646,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
     );
   }
 
-  Widget _rehberKarti() {
+  Widget _rehberKarti(AppLocalizations l) {
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,
@@ -661,7 +665,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 20),
                 SizedBox(width: 8),
                 Text(
-                  'Zekat & Sadaka Rehberi',
+                  l.t('zh.guideTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -671,7 +675,8 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
               ],
             ),
             SizedBox(height: 8),
-            for (final m in _rehberMaddeleri) _rehberSorusu(m['s']!, m['c']!),
+            for (var i = 1; i <= 7; i++)
+              _rehberSorusu(l.t('zh.g${i}q'), l.t('zh.g${i}a')),
           ],
         ),
       ),
@@ -710,62 +715,4 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
       ),
     );
   }
-
-  static const _rehberMaddeleri = [
-    {
-      's': 'Zekat kimlere farzdır?',
-      'c':
-          'Müslüman, akıl sahibi, ergen, hür ve borcundan fazla olarak nisap '
-          'miktarı mala sahip olduğunda, üzerinden bir kamerî yıl geçmesiyle '
-          'zekat vermekle yükümlü olur.',
-    },
-    {
-      's': 'Nisap nedir?',
-      'c':
-          'Zekatın farz olması için gereken asgari mal miktarıdır. '
-          'Hanefî mezhebine göre yaklaşık 85 gram altının değeridir; '
-          'bu uygulamada yaygın kabulle 80 gram altın esas alınmıştır.',
-    },
-    {
-      's': 'Nelerden zekat verilir?',
-      'c':
-          'Altın ve gümüş, nakit ve banka bakiyesi, ticaret malları, '
-          'ticaret amacıyla tutulan hisse senetleri, tahsil edilebilir '
-          'alacaklar ve tarım ürünleri zekata tabidir. Otomobil, ev ve '
-          'kullanım eşyası ana ihtiyaç sayıldığı için zekata tabi değildir.',
-    },
-    {
-      's': 'Zekat oranları nelerdir?',
-      'c':
-          'Nakit, ticaret malı, altın ve alacaklarda %2,5; tarım ürünlerinde '
-          'sulama masrafı yoksa %10 (öşür), masraf varsa %5; maden ve '
-          'rikâzda (define) %20\'dir.',
-    },
-    {
-      's': 'Zekat kimlere verilir, kimlere verilmez?',
-      'c':
-          'Kur\'an\'da zekatın sekiz sınıfı sayılır: fakirler, miskinler, '
-          'zekat toplama memuru, kalpleri İslam\'a ısındırılanlar, mükâtep '
-          'köleler, borçlular, Allah yolunda cihad edenler ve yolda kalmışlar. '
-          'Anne-baba, büyükanne-büyükbaba ve belli şartlarda evlat için doğrudan '
-          'zekat verilmez; kendi nafakasıyla yükümlü olduğu kişilere de '
-          'zekat ulaştırılamaz.',
-    },
-    {
-      's': 'Fitre (fıtır sadakası) nedir?',
-      'c':
-          'Ramazan Bayramı\'na yaklaşıldığında, maddi durumu yerinde olan her '
-          'Müslümanın kendisi ve bakmakla yükümlü olduğu kişiler için vermesi '
-          'gereken sadakadır. Tutarı, güncel olarak belirlenen fitre bedeline '
-          'göre kişi başına hesaplanır.',
-    },
-    {
-      's': 'Sadaka nedir?',
-      'c':
-          'Allah rızası için yapılan her türlü iyilik ve maddi yardımdır. '
-          'Zekattan farklı olarak sabit miktar ve şartı yoktur; bir gülümseme, '
-          'güzel bir söz bile sadakadır. Günümüzde sadaka-i cariye olarak su '
-          'kuyusu, cami ve ilim hizmetleri en çok tercih edilen bağışlardandır.',
-    },
-  ];
 }

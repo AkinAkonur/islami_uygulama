@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'hac_umre_store.dart';
 import 'hac_umre_verileri.dart';
 import 'ibadet_akis_verileri.dart';
@@ -117,6 +118,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     if (!_yuklendi) {
       return const Scaffold(
         backgroundColor: _siyah,
@@ -129,7 +131,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
     return Scaffold(
       backgroundColor: _siyah,
       appBar: AppBar(
-        title: Text('${tur.ad} Sayacı'),
+        title: Text(l.t('syc.title').replaceFirst('{ad}', tur.ad)),
         backgroundColor: _siyah,
         foregroundColor: Colors.white,
       ),
@@ -145,7 +147,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                 child: Row(
                   children: [
                     Text(
-                      tur == SayacTuru.tavaf ? 'KÂBE TAVAFI' : 'SAFA - MERVE',
+                      tur == SayacTuru.tavaf ? l.t('syc.tavafLabel') : l.t('syc.sayLabel'),
                       style: const TextStyle(
                         color: Colors.white54,
                         fontSize: 12,
@@ -155,7 +157,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                     ),
                     const Spacer(),
                     Text(
-                      'Toplam: $_toplam',
+                      l.t('syc.total').replaceFirst('{n}', '$_toplam'),
                       style: const TextStyle(
                         color: Colors.white38,
                         fontSize: 12,
@@ -188,18 +190,20 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                         ),
                         Text(
                           tamamlandi
-                              ? '${tur.hedef}/${tur.hedef} · Tebrikler! 🕋'
-                              : '$_sira / ${tur.hedef}',
+                              ? l.t('syc.done')
+                              : l.t('syc.fraction')
+                                  .replaceFirst('{a}', '$_sira')
+                                  .replaceFirst('{b}', '${tur.hedef}'),
                           style: const TextStyle(
                             color: Colors.white54,
                             fontSize: 16,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          '— EKRANIN HERHANGİ BİR YERİNE DOKUNARAK ARTIR —',
+                        Text(
+                          l.t('syc.tapHint'),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white24,
                             fontSize: 11,
                             letterSpacing: 1,
@@ -216,7 +220,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                 child: AnimatedOpacity(
                   opacity: 1,
                   duration: const Duration(milliseconds: 300),
-                  child: _SiyahDuaKarti(dua: dua, sira: _sira, tur: tur),
+                  child: _SiyahDuaKarti(dua: dua, sira: _sira, tur: tur, l: l),
                 ),
               ),
               const SizedBox(height: 16),
@@ -234,7 +238,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                         ),
                         onPressed: _sira == 0 ? null : _onceki,
                         icon: const Icon(Icons.arrow_back, size: 18),
-                        label: const Text('Önceki Şavt'),
+                        label: Text(l.t('syc.prev')),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -247,7 +251,7 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                         ),
                         onPressed: _sira == 0 ? null : _sifirla,
                         icon: const Icon(Icons.refresh, size: 18),
-                        label: const Text('Sıfırla'),
+                        label: Text(l.t('syc.reset')),
                       ),
                     ),
                   ],
@@ -259,10 +263,10 @@ class _SayacSayfasiState extends State<SayacSayfasi> {
                 height: _kutlama ? 44 : 0,
                 color: _kutlama ? const Color(0xFF14301E) : _siyah,
                 child: _kutlama
-                    ? const Center(
+                    ? Center(
                         child: Text(
-                          'Mâşâallah, ibadetin kabul olsun 🤲',
-                          style: TextStyle(
+                          l.t('syc.accept'),
+                          style: const TextStyle(
                             color: Color(0xFF7EE0A8),
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -286,11 +290,13 @@ class _SiyahDuaKarti extends StatelessWidget {
   final DuaMetni dua;
   final int sira;
   final SayacTuru tur;
+  final AppLocalizations l;
 
   const _SiyahDuaKarti({
     required this.dua,
     required this.sira,
     required this.tur,
+    required this.l,
   });
 
   @override
@@ -318,8 +324,8 @@ class _SiyahDuaKarti extends StatelessWidget {
               Expanded(
                 child: Text(
                   tur == SayacTuru.tavaf
-                      ? '${sira.clamp(1, 7)}. Şavt Duası'
-                      : 'Sa\'y Duası',
+                      ? l.t('syc.savtDua').replaceFirst('{n}', '${sira.clamp(1, 7)}')
+                      : l.t('syc.sayDua'),
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 13,

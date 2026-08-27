@@ -69,7 +69,7 @@ class _CuzlerPageState extends State<CuzlerPage> {
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: 'Hatim Duası',
+            tooltip: l.t('cz.hatimDua'),
             onPressed: _hatimDuasiAc,
             icon: UcdIkon(
               ikon: Icons.auto_stories_rounded,
@@ -96,6 +96,7 @@ class _CuzlerPageState extends State<CuzlerPage> {
   }
 
   Widget _ilerlemeKarti(int okunan) {
+    final l = AppLocalizations.of(context);
     final oran = okunan / 30;
     return Container(
       padding: const EdgeInsets.all(16),
@@ -114,9 +115,9 @@ class _CuzlerPageState extends State<CuzlerPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Hatim İlerlemesi',
-                style: TextStyle(
+              Text(
+                l.t('cz.progress'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -141,10 +142,10 @@ class _CuzlerPageState extends State<CuzlerPage> {
           const SizedBox(height: 12),
           Text(
             okunan == 0
-                ? 'Bir cüzü okuduğunda okundu olarak işaretleyebilirsin.'
+                ? l.t('cz.zeroTip')
                 : okunan == 30
-                ? 'Tebrikler! Tüm cüzleri okudun.'
-                : '${30 - okunan} cüz kaldı. Kolay gelsin.',
+                ? l.t('cz.allDone')
+                : l.t('cz.remaining').replaceFirst('{count}', '${30 - okunan}'),
             style: const TextStyle(color: Colors.white70, fontSize: 12),
           ),
           const SizedBox(height: 12),
@@ -161,7 +162,7 @@ class _CuzlerPageState extends State<CuzlerPage> {
                 renk: Colors.white,
                 boyut: 18,
               ),
-              label: const Text('Hatim Duası'),
+              label: Text(l.t('cz.hatimDua')),
             ),
           ),
         ],
@@ -170,6 +171,7 @@ class _CuzlerPageState extends State<CuzlerPage> {
   }
 
   Widget _cuzKarti(int cuzNo) {
+    final l = AppLocalizations.of(context);
     final okundu = _okundu[cuzNo - 1];
     final amme = cuzNo == 30;
     return Card(
@@ -206,7 +208,7 @@ class _CuzlerPageState extends State<CuzlerPage> {
           ),
         ),
         title: Text(
-          '$cuzNo. Cüz',
+          l.t('cz.cuz').replaceFirst('{cuz}', '$cuzNo'),
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -214,16 +216,16 @@ class _CuzlerPageState extends State<CuzlerPage> {
           ),
         ),
         subtitle: Text(
-          (cuzBaslangic[cuzNo] ?? '') + (amme ? ' (Amme)' : ''),
+          (cuzBaslangic[cuzNo] ?? '') + (amme ? l.t('cz.amme') : ''),
           style: const TextStyle(color: Colors.white54, fontSize: 12),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (okundu)
-              const Tooltip(
-                message: 'Okundu',
-                child: UcdIkon(
+              Tooltip(
+                message: l.t('cz.read'),
+                child: const UcdIkon(
                   ikon: Icons.check_circle_rounded,
                   renk: Colors.greenAccent,
                 ),

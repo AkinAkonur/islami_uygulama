@@ -1,35 +1,14 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 
 class WidgetRehberiPage extends StatelessWidget {
   const WidgetRehberiPage({super.key});
 
-  static const List<Map<String, String>> _adimlar = [
-    {
-      'no': '1',
-      'baslik': 'Ana ekranı basılı tut',
-      'aciklama': 'Telefonunda ana ekranın boş bir alanına basılı tut.',
-    },
-    {
-      'no': '2',
-      'baslik': 'Widget\'lar\'a dokun',
-      'aciklama': 'Açılan menüden "Widget\'lar" seçeneğini seç.',
-    },
-    {
-      'no': '3',
-      'baslik': 'Huzur & Manevi Yolculuk\'u bul',
-      'aciklama': 'Uygulama listesinden "Huzur & Manevi Yolculuk" widget\'ını bul.',
-    },
-    {
-      'no': '4',
-      'baslik': 'Ana ekrana ekle',
-      'aciklama': 'Widget\'ı sürükleyip ana ekrana bırak. Boyutunu istediğin gibi ayarla.',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -42,16 +21,16 @@ class WidgetRehberiPage extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              _baslikSatiri(context),
+              _baslikSatiri(context, l),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    _onizlemeKarti(),
+                    _onizlemeKarti(l),
                     const SizedBox(height: 16),
-                    _adimKarti(),
+                    _adimKarti(l),
                     const SizedBox(height: 16),
-                    _durumKarti(),
+                    _durumKarti(l),
                   ],
                 ),
               ),
@@ -62,7 +41,7 @@ class WidgetRehberiPage extends StatelessWidget {
     );
   }
 
-  Widget _baslikSatiri(BuildContext context) {
+  Widget _baslikSatiri(BuildContext context, AppLocalizations l) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -72,9 +51,9 @@ class WidgetRehberiPage extends StatelessWidget {
             icon: const UcdIkon(ikon: Icons.arrow_back_ios_new_rounded, renk: Colors.white),
           ),
           const SizedBox(width: 8),
-          const Text(
-            'Widget Rehberi',
-            style: TextStyle(
+          Text(
+            l.t('wh.title'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -87,7 +66,7 @@ class WidgetRehberiPage extends StatelessWidget {
     );
   }
 
-  Widget _onizlemeKarti() {
+  Widget _onizlemeKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -99,13 +78,13 @@ class WidgetRehberiPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              UcdIkon(ikon: Icons.schedule_rounded, renk: Colors.white, boyut: 18),
-              SizedBox(width: 8),
+              const UcdIkon(ikon: Icons.schedule_rounded, renk: Colors.white, boyut: 18),
+              const SizedBox(width: 8),
               Text(
-                'Widget Önizleme',
-                style: TextStyle(
+                l.t('wh.preview'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -126,9 +105,9 @@ class WidgetRehberiPage extends StatelessWidget {
                   children: [
                     const Text('🕌', style: TextStyle(fontSize: 22)),
                     const SizedBox(width: 10),
-                    const Text(
-                      'Sıradaki Vakit',
-                      style: TextStyle(color: Colors.white, fontSize: 13),
+                    Text(
+                      l.t('wh.nextVakit'),
+                      style: const TextStyle(color: Colors.white, fontSize: 13),
                     ),
                     const Spacer(),
                     Container(
@@ -138,9 +117,9 @@ class WidgetRehberiPage extends StatelessWidget {
                         color: Colors.white24,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Text(
-                        'Öğle 13:05',
-                        style: TextStyle(
+                      child: Text(
+                        l.t('wh.dhuhr'),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
@@ -164,9 +143,9 @@ class WidgetRehberiPage extends StatelessWidget {
                     const Spacer(),
                     const Text('🌙', style: TextStyle(fontSize: 16)),
                     const SizedBox(width: 6),
-                    const Text(
-                      'İmsak 04:12',
-                      style: TextStyle(color: Colors.white70, fontSize: 11),
+                    Text(
+                      l.t('wh.imsak'),
+                      style: const TextStyle(color: Colors.white70, fontSize: 11),
                     ),
                   ],
                 ),
@@ -175,7 +154,7 @@ class WidgetRehberiPage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Vakit kartı, kalan süre ve bugünün vakitleri tek bakışta.',
+            l.t('wh.previewDesc'),
             style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.8), fontSize: 12),
           ),
@@ -184,7 +163,13 @@ class WidgetRehberiPage extends StatelessWidget {
     );
   }
 
-  Widget _adimKarti() {
+  Widget _adimKarti(AppLocalizations l) {
+    final adimlar = [
+      {'no': '1', 'baslik': l.t('wh.step1'), 'aciklama': l.t('wh.step1Desc')},
+      {'no': '2', 'baslik': l.t('wh.step2'), 'aciklama': l.t('wh.step2Desc')},
+      {'no': '3', 'baslik': l.t('wh.step3'), 'aciklama': l.t('wh.step3Desc')},
+      {'no': '4', 'baslik': l.t('wh.step4'), 'aciklama': l.t('wh.step4Desc')},
+    ];
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -199,7 +184,7 @@ class WidgetRehberiPage extends StatelessWidget {
               UcdIkon(ikon: Icons.touch_app_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
-                'Kurulum Adımları',
+                l.t('wh.steps'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -209,7 +194,7 @@ class WidgetRehberiPage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          ..._adimlar.map(
+          ...adimlar.map(
             (a) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
@@ -262,7 +247,7 @@ class WidgetRehberiPage extends StatelessWidget {
     );
   }
 
-  Widget _durumKarti() {
+  Widget _durumKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -276,7 +261,7 @@ class WidgetRehberiPage extends StatelessWidget {
           SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Widget desteği şu anda önizleme aşamasında. Yakında uygulama güncellemesiyle birlikte ana ekranına ekleyebileceksin.',
+              l.t('wh.status'),
               style: TextStyle(color: Colors.white54, fontSize: 12, height: 1.5),
             ),
           ),

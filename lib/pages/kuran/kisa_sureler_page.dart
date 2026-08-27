@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/kuran_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 import 'sure_detay_page.dart';
 
 class KisaSurelerPage extends StatelessWidget {
@@ -9,6 +11,7 @@ class KisaSurelerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return DefaultTabController(
       length: 2,
       initialIndex: tab,
@@ -16,8 +19,8 @@ class KisaSurelerPage extends StatelessWidget {
         backgroundColor: Renkler.zemin,
         appBar: AppBar(
           title: Text(
-            "Namazda Okunan Sureler",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
+            l.t('ks.title'),
+            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
           ),
           backgroundColor: Renkler.yuzey,
           elevation: 0,
@@ -26,27 +29,27 @@ class KisaSurelerPage extends StatelessWidget {
             labelColor: Renkler.vurgu,
             unselectedLabelColor: Colors.white60,
             tabs: [
-              Tab(text: "Amme Cüzü / Kısa"),
-              Tab(text: "Özel Gün Sureleri"),
+              Tab(text: l.t('ks.tabShort')),
+              Tab(text: l.t('ks.tabSpecial')),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            _kisaSurelerListesi(context),
-            _ozelGunListesi(context),
+            _kisaSurelerListesi(context, l),
+            _ozelGunListesi(context, l),
           ],
         ),
       ),
     );
   }
 
-  Widget _kisaSurelerListesi(BuildContext context) {
+  Widget _kisaSurelerListesi(BuildContext context, AppLocalizations l) {
     return ListView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       children: [
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Renkler.seciliYuzey,
             borderRadius: BorderRadius.circular(16),
@@ -56,30 +59,30 @@ class KisaSurelerPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Namazda Okunanlar",
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                l.t('ks.readTitle'),
+                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Text(
-                "Fâtiha ve zamm-ı sureler. Namazda Fâtiha'dan sonra okunan kısa surelerin ezberine ve anlamına buradan ulaşın.",
-                style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
+                l.t('ks.readDesc'),
+                style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
               ),
             ],
           ),
         ),
-        SizedBox(height: 16),
-        for (final k in kisaSureler) _sureKarti(context, k),
-        SizedBox(height: 24),
+        const SizedBox(height: 16),
+        for (final k in kisaSureler) _sureKarti(context, k, l),
+        const SizedBox(height: 24),
       ],
     );
   }
 
-  Widget _ozelGunListesi(BuildContext context) {
+  Widget _ozelGunListesi(BuildContext context, AppLocalizations l) {
     return ListView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       children: [
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Renkler.seciliYuzey,
             borderRadius: BorderRadius.circular(16),
@@ -89,32 +92,32 @@ class KisaSurelerPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Özel Zamanların Sureleri",
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                l.t('ks.specialTitle'),
+                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Text(
-                "Cuma, kandil geceleri, Arefe, bayram ve gece okunması tavsiye edilen sureler. Kehf cumada, Mülk her gece, İhlâs arefede öne çıkar.",
-                style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
+                l.t('ks.specialDesc'),
+                style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
               ),
             ],
           ),
         ),
-        SizedBox(height: 16),
-        for (final k in ozelGunSureleri) _sureKarti(context, k),
-        SizedBox(height: 24),
+        const SizedBox(height: 16),
+        for (final k in ozelGunSureleri) _sureKarti(context, k, l),
+        const SizedBox(height: 24),
       ],
     );
   }
 
-  Widget _sureKarti(BuildContext context, Map<String, Object> k) {
+  Widget _sureKarti(BuildContext context, Map<String, Object> k, AppLocalizations l) {
     final no = k['no'] as int;
     final ad = k['ad'] as String;
     final not = k['not'] as String;
 
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
         color: Renkler.kart,
         borderRadius: BorderRadius.circular(14),
@@ -136,26 +139,26 @@ class KisaSurelerPage extends StatelessWidget {
               style: TextStyle(color: Renkler.vurgu, fontWeight: FontWeight.bold, fontSize: 12),
             ),
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   '${sureAdiTurkce(no)} ($ad)',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
                 ),
-                SizedBox(height: 3),
+                const SizedBox(height: 3),
                 Text(
                   not,
-                  style: TextStyle(color: Colors.white54, fontSize: 11),
+                  style: const TextStyle(color: Colors.white54, fontSize: 11),
                 ),
               ],
             ),
           ),
           IconButton(
-            tooltip: "Sureyi Aç",
-            icon: Icon(Icons.play_circle_outline, color: Renkler.vurgu, size: 26),
+            tooltip: l.t('ks.openSurah'),
+            icon: UcdIkon(ikon: Icons.play_circle_outline_rounded, renk: Renkler.vurgu, boyut: 26),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => SureDetayPage(sureNo: no)),

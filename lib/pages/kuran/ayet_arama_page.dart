@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/kuran_api.dart';
 import '../../services/kuran_verileri.dart';
@@ -49,7 +50,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
     final sureNo = int.tryParse(parcalar[0].trim());
     final ayetNo = int.tryParse(parcalar[1].trim());
     if (sureNo == null || ayetNo == null || sureNo < 1 || sureNo > 114) {
-      _gosterMesaj("Geçerli bir 'sure:âyet' girin. Örnek: 2:255");
+      _gosterMesaj(AppLocalizations.of(context).t('aa.invalidRef'));
       return;
     }
     try {
@@ -58,7 +59,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
         _ayetDetayGoster(ayetler[0]);
       }
     } catch (_) {
-      _gosterMesaj("Âyet bulunamadı. Numaraları kontrol edin.");
+      _gosterMesaj(AppLocalizations.of(context).t('aa.verseNotFound'));
     }
   }
 
@@ -78,6 +79,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (ctx) {
+        final l = AppLocalizations.of(ctx);
         return Padding(
           padding: EdgeInsets.only(
             left: 20,
@@ -103,7 +105,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
               Row(
                 children: [
                   Text(
-                    '${ayet.sureNo}. ${sureAdiTurkce(ayet.sureNo)} • ${ayet.ayetNo}. âyet',
+                    '${ayet.sureNo}. ${sureAdiTurkce(ayet.sureNo)} • ${ayet.ayetNo}. ${l.t('aa.verseWord')}',
                     style: TextStyle(
                       color: Renkler.vurgu,
                       fontWeight: FontWeight.bold,
@@ -112,7 +114,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
                   ),
                   Spacer(),
                   IconButton(
-                    tooltip: "Sureyi Aç",
+                    tooltip: l.t('aa.openSure'),
                     icon: Icon(Icons.open_in_new, color: Colors.white54, size: 18),
                     onPressed: () {
                       Navigator.pop(ctx);
@@ -171,11 +173,16 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final oneriler = [
+      l.t('aa.sug1'), l.t('aa.sug2'), l.t('aa.sug3'),
+      l.t('aa.sug4'), l.t('aa.sug5'), l.t('aa.sug6'), l.t('aa.sug7'),
+    ];
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          "Ayet Arama",
+          l.t('aa.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -193,7 +200,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
                   textInputAction: TextInputAction.search,
                   onSubmitted: _ara,
                   decoration: InputDecoration(
-                    hintText: "Kelime veya 'sure:âyet' (örn: 2:255)",
+                    hintText: l.t('aa.searchHint'),
                     hintStyle: TextStyle(color: Colors.white38),
                     prefixIcon: Icon(Icons.search, color: Colors.white54),
                     suffixIcon: IconButton(
@@ -221,15 +228,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      for (final oneri in [
-                        "sabır",
-                        "rahmet",
-                        "anne",
-                        "rızık",
-                        "tövbe",
-                        "huzur",
-                        "şükür",
-                      ])
+                      for (final oneri in oneriler)
                         Padding(
                           padding: EdgeInsets.only(right: 8),
                           child: ActionChip(
@@ -251,20 +250,20 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
               ],
             ),
           ),
-          Expanded(child: _icerik()),
+          Expanded(child: _icerik(l)),
         ],
       ),
     );
   }
 
-  Widget _icerik() {
+  Widget _icerik(AppLocalizations l) {
     if (_araniyor) {
       return Center(child: CircularProgressIndicator(color: Renkler.vurgu));
     }
     if (_hata != null) {
       return Center(
         child: Text(
-          "Arama yapılamadı. İnternet bağlantınızı kontrol edin.",
+          l.t('aa.searchError'),
           style: TextStyle(color: Colors.white70),
         ),
       );
@@ -277,7 +276,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
             Icon(Icons.manage_search, color: Colors.white24, size: 56),
             SizedBox(height: 12),
             Text(
-              "Meâlde kelime arayın veya sure:âyet numarası girin.",
+              l.t('aa.searchEmpty'),
               style: TextStyle(color: Colors.white54, fontSize: 13),
               textAlign: TextAlign.center,
             ),
@@ -287,7 +286,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
     }
     if (_sonuclar!.isEmpty) {
       return Center(
-        child: Text("Sonuç bulunamadı.", style: TextStyle(color: Colors.white54)),
+        child: Text(l.t('aa.noResults'), style: TextStyle(color: Colors.white54)),
       );
     }
 
@@ -324,7 +323,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
             subtitle: Padding(
               padding: EdgeInsets.only(top: 6),
               child: Text(
-                '$sureNo. ${sureAdiTurkce(sureNo)} • $ayetNo. âyet',
+                '$sureNo. ${sureAdiTurkce(sureNo)} • $ayetNo. ${l.t('aa.verseWord')}',
                 style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
               ),
             ),

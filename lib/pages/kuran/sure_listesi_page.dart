@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/kuran_api.dart';
 import 'sure_detay_page.dart';
@@ -47,11 +48,12 @@ class _SureListesiPageState extends State<SureListesiPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          "Sure Listesi",
+          l.t('sl.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -65,7 +67,7 @@ class _SureListesiPageState extends State<SureListesiPage> {
               onChanged: (v) => setState(() => _arama = v),
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                hintText: "Sure adı veya numara ara...",
+                hintText: l.t('sl.searchHint'),
                 hintStyle: TextStyle(color: Colors.white38),
                 prefixIcon: Icon(Icons.search, color: Colors.white54),
                 filled: true,
@@ -77,13 +79,13 @@ class _SureListesiPageState extends State<SureListesiPage> {
               ),
             ),
           ),
-          Expanded(child: _icerik()),
+          Expanded(child: _icerik(l)),
         ],
       ),
     );
   }
 
-  Widget _icerik() {
+  Widget _icerik(AppLocalizations l) {
     if (_yukleniyor) {
       return Center(
         child: CircularProgressIndicator(color: Renkler.vurgu),
@@ -97,7 +99,7 @@ class _SureListesiPageState extends State<SureListesiPage> {
             Icon(Icons.wifi_off, color: Colors.white38, size: 48),
             SizedBox(height: 12),
             Text(
-              "Sure listesi alınamadı. İnternet bağlantınızı kontrol edin.",
+              l.t('sl.loadError'),
               style: TextStyle(color: Colors.white70),
               textAlign: TextAlign.center,
             ),
@@ -105,7 +107,7 @@ class _SureListesiPageState extends State<SureListesiPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Renkler.vurgu),
               onPressed: _yukle,
-              child: Text("Tekrar Dene"),
+              child: Text(l.t('sl.retry')),
             ),
           ],
         ),
@@ -124,7 +126,7 @@ class _SureListesiPageState extends State<SureListesiPage> {
     if (filtreli.isEmpty) {
       return Center(
         child: Text(
-          "Sonuç bulunamadı.",
+          l.t('sl.noResult'),
           style: TextStyle(color: Colors.white54),
         ),
       );
@@ -182,7 +184,7 @@ class _SureListesiPageState extends State<SureListesiPage> {
             subtitle: Padding(
               padding: EdgeInsets.only(top: 4),
               child: Text(
-                '${s.anlami} • ${s.ayetSayisi} âyet • ${s.inisYeri}',
+                '${s.anlami} • ${l.t('sl.verseCount').replaceFirst('{count}', '${s.ayetSayisi}')} • ${s.inisYeri}',
                 style: TextStyle(color: Colors.white54, fontSize: 11),
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 import '../../widgets/kart_sekilleri.dart';
@@ -34,15 +35,15 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
       ? _istekler
       : _istekler.where((i) => i.kategori == _seciliKategori).toList();
 
-  Future<void> _duaEt(DuaIstek istek) async {
+  Future<void> _duaEt(DuaIstek istek, AppLocalizations l) async {
     await UmmetStore.duaEt(istek.id);
     if (!mounted) return;
     setState(() {});
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          '${istek.rumuz} için dua ettin. 🤲 Birlikte güçlüyüz.',
-          style: TextStyle(color: Colors.white),
+          l.t('dw.prayedSnackbar').replaceAll('{name}', istek.rumuz),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
         behavior: SnackBarBehavior.floating,
@@ -51,7 +52,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
     Navigator.of(context).popUntil((r) => r.isFirst);
   }
 
-  Future<void> _istekEkle() async {
+  Future<void> _istekEkle(AppLocalizations l) async {
     final formKey = GlobalKey<FormState>();
     final rumuzCtrl = TextEditingController();
     final metinCtrl = TextEditingController();
@@ -64,8 +65,8 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
           backgroundColor: Renkler.kart,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
-            'Dua İsteği Paylaş',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            l.t('dw.share'),
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           content: SingleChildScrollView(
             child: Form(
@@ -75,18 +76,18 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                 children: [
                   TextField(
                     controller: rumuzCtrl,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                     decoration: _dekor(
-                      'Rumuz (boş bırakırsan anonim)',
+                      l.t('dw.nickname'),
                       Icons.badge_rounded,
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   DropdownButtonFormField<String>(
                     initialValue: kategori,
                     dropdownColor: Renkler.seciliYuzey,
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                    decoration: _dekor('Kategori', Icons.category_rounded),
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    decoration: _dekor(l.t('dw.category'), Icons.category_rounded),
                     items: duaKategorileri
                         .map((k) => DropdownMenuItem(
                               value: k['ad'],
@@ -99,15 +100,15 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                       }
                     },
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   TextFormField(
                     controller: metinCtrl,
                     maxLines: 3,
                     maxLength: 200,
-                    style: TextStyle(color: Colors.white),
-                    decoration: _dekor('Dua isteğin', Icons.favorite_outline_rounded),
+                    style: const TextStyle(color: Colors.white),
+                    decoration: _dekor(l.t('dw.prayerText'), Icons.favorite_outline_rounded),
                     validator: (v) =>
-                        (v == null || v.trim().isEmpty) ? 'Dua isteğinizi yazın' : null,
+                        (v == null || v.trim().isEmpty) ? l.t('dw.prayerHint') : null,
                   ),
                 ],
               ),
@@ -116,7 +117,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: Text('Vazgeç', style: TextStyle(color: Colors.white54)),
+              child: Text(l.t('dw.cancel'), style: const TextStyle(color: Colors.white54)),
             ),
             FilledButton(
               style: FilledButton.styleFrom(
@@ -128,7 +129,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                   Navigator.pop(context, true);
                 }
               },
-              child: Text('Paylaş', style: TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(l.t('dw.shareButton'), style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
           ],
         ),
@@ -139,7 +140,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
       final rumuz = rumuzCtrl.text.trim();
       final yeni = DuaIstek(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
-        rumuz: rumuz.isEmpty ? 'Anonim Kardeş' : rumuz,
+        rumuz: rumuz.isEmpty ? l.t('dw.anonymous') : rumuz,
         metin: metinCtrl.text.trim(),
         kategori: kategori,
         anonim: rumuz.isEmpty,
@@ -149,7 +150,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Duvarına eklendi; ümmet senin için dua edecek. 🤲'),
+          content: Text(l.t('dw.addedSnackbar')),
           backgroundColor: Renkler.bannerUst,
           behavior: SnackBarBehavior.floating,
         ),
@@ -161,7 +162,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
   InputDecoration _dekor(String hint, IconData ikon) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: TextStyle(color: Colors.white38, fontSize: 13),
+      hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
       prefixIcon: UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 20),
       filled: true,
       fillColor: Renkler.yuzey,
@@ -174,13 +175,14 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final filtreli = _filtreli;
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Canlı Dua Duvarı',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          l.t('dw.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
@@ -188,10 +190,10 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Renkler.vurgu,
         foregroundColor: Renkler.zemin,
-        onPressed: _istekEkle,
-        icon: UcdIkon(ikon: Icons.add_rounded, renk: Colors.white, boyut: 24),
-        label: Text('Dua İsteği',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        onPressed: () => _istekEkle(l),
+        icon: const UcdIkon(ikon: Icons.add_rounded, renk: Colors.white, boyut: 24),
+        label: Text(l.t('dw.request'),
+            style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: _yukleniyor
           ? Center(
@@ -201,8 +203,8 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
               children: [
                 Container(
                   width: double.infinity,
-                  margin: EdgeInsets.fromLTRB(16, 12, 16, 4),
-                  padding: EdgeInsets.all(14),
+                  margin: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                  padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [Renkler.bannerUst, Renkler.bannerAlt],
@@ -215,11 +217,11 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                     children: [
                       UcdIkon(ikon: Icons.volunteer_activism_rounded,
                           renk: Renkler.vurgu, boyut: 22),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          '"Dua eden kardeşinin arkasından hayırla dua eden kimseye melekler: âmin, senin de hakkında aynısı olsun, derler."',
-                          style: TextStyle(
+                          l.t('dw.hadis'),
+                          style: const TextStyle(
                             color: Colors.white70,
                             fontSize: 12,
                             fontStyle: FontStyle.italic,
@@ -230,16 +232,16 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                   height: 44,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     children: [
-                      for (final k in ['Tümü', ...duaKategorileri.map((k) => k['ad']!)])
+                      for (final k in [l.t('dw.all'), ...duaKategorileri.map((k) => k['ad']!)])
                         Padding(
-                          padding: EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.only(right: 8),
                           child: ChoiceChip(
                             label: Text(k),
                             selected: _seciliKategori == k,
@@ -259,21 +261,21 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Expanded(
                   child: filtreli.isEmpty
                       ? Center(
                           child: Text(
-                            'Bu kategoride dua isteği yok.\nİlk isteği sen paylaş! 🤲',
+                            l.t('dw.empty'),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white54, fontSize: 13),
+                            style: const TextStyle(color: Colors.white54, fontSize: 13),
                           ),
                         )
                       : ListView.builder(
-                          padding: EdgeInsets.fromLTRB(16, 4, 16, 90),
+                          padding: const EdgeInsets.fromLTRB(16, 4, 16, 90),
                           itemCount: filtreli.length,
                           itemBuilder: (context, i) =>
-                              _duaKarti(context, filtreli[i]),
+                              _duaKarti(context, filtreli[i], l),
                         ),
                 ),
               ],
@@ -281,16 +283,16 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
     );
   }
 
-  Widget _duaKarti(BuildContext context, DuaIstek istek) {
+  Widget _duaKarti(BuildContext context, DuaIstek istek, AppLocalizations l) {
     return Card(
       color: Renkler.kart,
-      margin: EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(color: Renkler.cerceve),
       ),
       child: Padding(
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -308,11 +310,11 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     istek.rumuz,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
@@ -321,7 +323,7 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                 ),
                 Container(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Renkler.bannerUst,
                     borderRadius: BorderRadius.circular(12),
@@ -337,33 +339,33 @@ class _DuaDuvariPageState extends State<DuaDuvariPage> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               istek.metin,
-              style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+              style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               children: [
-                UcdIkon(ikon: Icons.favorite_rounded, renk: Color(0xFFEF5350), boyut: 16),
-                SizedBox(width: 6),
+                const UcdIkon(ikon: Icons.favorite_rounded, renk: Color(0xFFEF5350), boyut: 16),
+                const SizedBox(width: 6),
                 Text(
-                  '${binlikSayi(istek.duaSayisi)} kardeş dua etti',
-                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                  l.t('dw.prayedCount').replaceAll('{count}', '${binlikSayi(istek.duaSayisi)}'),
+                  style: const TextStyle(color: Colors.white54, fontSize: 12),
                 ),
-                Spacer(),
+                const Spacer(),
                 FilledButton.icon(
                   style: FilledButton.styleFrom(
                     backgroundColor: Renkler.vurgu,
                     foregroundColor: Renkler.zemin,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: 14, vertical: 8),
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         fontSize: 12, fontWeight: FontWeight.bold),
                   ),
-                  onPressed: () => _duaEt(istek),
+                  onPressed: () => _duaEt(istek, l),
                   icon: UcdIkon(ikon: Icons.volunteer_activism_rounded, renk: Renkler.zemin, boyut: 16),
-                  label: Text('Senin İçin Dua Ettim'),
+                  label: Text(l.t('dw.prayButton')),
                 ),
               ],
             ),

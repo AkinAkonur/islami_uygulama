@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 class ZikirKampanyalariPage extends StatefulWidget {
   const ZikirKampanyalariPage({super.key});
@@ -32,6 +34,7 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
   }
 
   Future<void> _katil(ZikirKampanyasi kampanya, int adet) async {
+    final l = AppLocalizations.of(context);
     await UmmetStore.zikirKatil(kampanya.id, adet);
     if (!mounted) return;
     setState(() {
@@ -40,8 +43,10 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          '$adet ${kampanya.birim} eklendi. Milyonlara ortak oldun! 📿',
-          style: TextStyle(color: Colors.white),
+          l.t('zk.joined')
+              .replaceFirst('{count}', '$adet')
+              .replaceFirst('{unit}', kampanya.birim),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
         behavior: SnackBarBehavior.floating,
@@ -52,12 +57,13 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Milyonluk Zikir Kampanyaları',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          l.t('zk.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
@@ -67,10 +73,10 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
               child: CircularProgressIndicator(color: Renkler.vurgu),
             )
           : ListView(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               children: [
                 Container(
-                  padding: EdgeInsets.all(14),
+                  padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [Renkler.bannerUst, Renkler.bannerAlt],
@@ -84,12 +90,12 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.auto_awesome,
-                              color: Renkler.vurgu, size: 20),
-                          SizedBox(width: 8),
+                          UcdIkon(ikon: Icons.auto_awesome_rounded,
+                              renk: Renkler.vurgu, boyut: 20),
+                          const SizedBox(width: 8),
                           Text(
-                            'Milyonluk Ortak Zikir',
-                            style: TextStyle(
+                            l.t('zk.jointTitle'),
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -97,10 +103,10 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
-                        'Tüm ümmetin katıldığı ortak salavat, tevhid ve istiğfar sayaçları. Her zikrin, binlerce kardeşin zikriyle birleşir. Birlikten bereket doğar.',
-                        style: TextStyle(
+                        l.t('zk.intro'),
+                        style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 12,
                           height: 1.5,
@@ -109,18 +115,18 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 for (final kampanya in zikirKampanyalariSeed) ...[
-                  _kampanyaKarti(kampanya),
-                  SizedBox(height: 12),
+                  _kampanyaKarti(kampanya, l),
+                  const SizedBox(height: 12),
                 ],
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
     );
   }
 
-  Widget _kampanyaKarti(ZikirKampanyasi kampanya) {
+  Widget _kampanyaKarti(ZikirKampanyasi kampanya, AppLocalizations l) {
     final pay = _paylar[kampanya.id] ?? 0;
     final mevcut = kampanya.taban + pay;
     final oran = (mevcut / kampanya.hedef).clamp(0.0, 1.0);
@@ -133,7 +139,7 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
         side: BorderSide(color: Renkler.cerceve),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -142,7 +148,7 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
                 Expanded(
                   child: Text(
                     kampanya.ad,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -151,7 +157,7 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
                 ),
                 Container(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Renkler.bannerUst,
                     borderRadius: BorderRadius.circular(12),
@@ -167,10 +173,10 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Renkler.yuzey,
                 borderRadius: BorderRadius.circular(12),
@@ -179,10 +185,10 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
                 kampanya.arapca,
                 textAlign: TextAlign.center,
                 textDirection: TextDirection.rtl,
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                style: const TextStyle(color: Colors.white, fontSize: 18),
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
@@ -193,36 +199,36 @@ class _ZikirKampanyalariPageState extends State<ZikirKampanyalariPage> {
                     Renkler.vurgu),
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               children: [
                 if (pay > 0) ...[
-                  Icon(Icons.check_circle,
-                      color: Renkler.vurgu, size: 16),
-                  SizedBox(width: 6),
+                  UcdIkon(ikon: Icons.check_circle_rounded,
+                      renk: Renkler.vurgu, boyut: 16),
+                  const SizedBox(width: 6),
                   Text(
-                    'Benim katkım: ${binlikSayi(pay)}',
+                    l.t('zk.myShare').replaceFirst('{count}', binlikSayi(pay)),
                     style: TextStyle(
                       color: Renkler.vurgu,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ] else
-                  Spacer(),
+                  const Spacer(),
                 for (final adet in [1, 33, 100]) ...[
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Renkler.vurgu,
                       side: BorderSide(color: Renkler.cerceve2),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      minimumSize: Size(0, 36),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      minimumSize: const Size(0, 36),
                     ),
                     onPressed: () => _katil(kampanya, adet),
                     child: Text('+$adet'),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                 ],
               ],
             ),

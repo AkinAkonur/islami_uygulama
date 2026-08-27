@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 
@@ -11,21 +12,20 @@ class YorgunPage extends StatefulWidget {
 
 class _YorgunPageState extends State<YorgunPage> {
   bool _isBreathingActive = false;
-  String _breathStep = "Başlamak için Egzersizi Başlat'a dokunun";
 
   void _startBreathing() {
     setState(() {
       _isBreathingActive = true;
-      _breathStep = "Nefes Al (4 Saniye)";
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: Text("😴 Yorgunluk & Ferahlık Odası"),
+        title: Text(l.t('yg.title')),
         backgroundColor: Color(0xFF1E242B),
         elevation: 0,
       ),
@@ -55,7 +55,7 @@ class _YorgunPageState extends State<YorgunPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Dinlenme & Rahatlama",
+                          l.t('yg.bannerTitle'),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -64,7 +64,7 @@ class _YorgunPageState extends State<YorgunPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "Bedenin ve ruhun dinlenmeye ihtiyaç duyduğunda Rabb'ine sığın.",
+                          l.t('yg.bannerIntro'),
                           style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                       ],
@@ -76,7 +76,7 @@ class _YorgunPageState extends State<YorgunPage> {
             SizedBox(height: 20),
 
             // Nefes Egzersizi Kartı
-            _buildCardTitle("4-7-8 Nefes & Sakinleşme Egzersizi"),
+            _buildCardTitle(l.t('yg.exerciseTitle')),
             Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -89,7 +89,7 @@ class _YorgunPageState extends State<YorgunPage> {
                   UcdIkon(ikon: Icons.air_rounded, renk: Colors.blueAccent, boyut: 44),
                   SizedBox(height: 12),
                   Text(
-                    _breathStep,
+                    _isBreathingActive ? l.t('yg.breathing') : l.t('yg.breathStart'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -99,7 +99,7 @@ class _YorgunPageState extends State<YorgunPage> {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "4 sn Nefes Al • 7 sn Tut • 8 sn Yavaşça Ver",
+                    l.t('yg.breathGuide'),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white70, fontSize: 12),
                   ),
@@ -111,7 +111,7 @@ class _YorgunPageState extends State<YorgunPage> {
                     ),
                     onPressed: _startBreathing,
                     icon: UcdIkon(ikon: Icons.play_arrow_rounded, renk: Colors.white),
-                    label: Text(_isBreathingActive ? "Devam Ediyor..." : "Egzersizi Başlat"),
+                    label: Text(_isBreathingActive ? l.t('yg.runningBtn') : l.t('yg.startBtn')),
                   ),
                 ],
               ),
@@ -119,7 +119,7 @@ class _YorgunPageState extends State<YorgunPage> {
             SizedBox(height: 20),
 
             // Rahatlatıcı Ayet (İnşirah)
-            _buildCardTitle("Ferahlık Veren Ayet (İnşirah)"),
+            _buildCardTitle(l.t('yg.verseTitle')),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(16),
@@ -151,7 +151,7 @@ class _YorgunPageState extends State<YorgunPage> {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "İnşirah Suresi, 5-6. Ayetler",
+                    l.t('yg.verseSource'),
                     style: TextStyle(
                       color: Colors.blueAccent,
                       fontSize: 12,
@@ -164,18 +164,18 @@ class _YorgunPageState extends State<YorgunPage> {
             SizedBox(height: 20),
 
             // Uyku Öncesi Dualar Köşesi
-            _buildCardTitle("Uyku & Dinlenme Duaları"),
+            _buildCardTitle(l.t('yg.duaTitle')),
             _buildDuaTile(
-              "Ayet-el Kürsi",
-              "Yatmadan önce okunacak en büyük koruma kalkanı.",
+              l.t('yg.dua1Title'),
+              l.t('yg.dua1Sub'),
             ),
             _buildDuaTile(
-              "Felak & Nas Sureleri",
-              "Avuç içine üflenerek tüm bedene meshedilen şifa sureleri.",
+              l.t('yg.dua2Title'),
+              l.t('yg.dua2Sub'),
             ),
             _buildDuaTile(
-              "Yatış Duası",
-              "«Bismike Allahümme emûtü ve ahyâ» (Allah'ım senin adınla ölür ve dirilirim.)",
+              l.t('yg.dua3Title'),
+              l.t('yg.dua3Sub'),
             ),
             SizedBox(height: 30),
           ],

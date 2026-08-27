@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../../widgets/kart_sekilleri.dart';
 import 'acil_durum_sozlugu_page.dart';
@@ -20,10 +21,11 @@ class HacUmreRehberPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Hac & Umre Rehberi'),
+        title: Text(l.t('hu.title')),
         backgroundColor: Renkler.seciliYuzey,
         elevation: 0,
       ),
@@ -34,66 +36,65 @@ class HacUmreRehberPage extends StatelessWidget {
           children: [
             _HeaderBanner(),
             const SizedBox(height: 20),
-            _bolumBasligi('🕋 İbadet Rehberi'),
+            _bolumBasligi(l.t('hu.ibadetSection')),
             _modulKarti(
               context,
               icon: Icons.checklist_rtl_rounded,
               renk: Colors.tealAccent,
-              baslik: 'İbadet Modu (Adım Adım)',
-              altBaslik:
-                  'Umre, Hac-ı İfrâd, Kırân ve Temettu için kontrol listesi',
+              baslik: l.t('hu.ibadetTitle'),
+              altBaslik: l.t('hu.ibadetSub'),
               sayfa: const IbadetModuPage(),
             ),
             _modulKarti(
               context,
               icon: Icons.rotate_90_degrees_cw_rounded,
               renk: Colors.amberAccent,
-              baslik: 'Tavaf Sayacı',
-              altBaslik: 'Ekrana dokunarak 7 şavt takibi + şavt duaları',
+              baslik: l.t('hu.tavafTitle'),
+              altBaslik: l.t('hu.tavafSub'),
               sayfa: SayacSayfasi(tur: SayacTuru.tavaf),
             ),
             _modulKarti(
               context,
               icon: Icons.swap_horiz_rounded,
               renk: Colors.lightGreenAccent,
-              baslik: 'Sa\'y Sayacı',
-              altBaslik: 'Safa-Merve arası 7 gidiş-geliş sayacı',
+              baslik: l.t('hu.sayTitle'),
+              altBaslik: l.t('hu.saySub'),
               sayfa: SayacSayfasi(tur: SayacTuru.say),
             ),
             _modulKarti(
               context,
               icon: Icons.account_tree_rounded,
               renk: Colors.orangeAccent,
-              baslik: 'Dem & Fidye Karar Ağacı',
-              altBaslik: 'İhram ihlalinde mezhebe göre ceza rehberi',
+              baslik: l.t('hu.demTitle'),
+              altBaslik: l.t('hu.demSub'),
               sayfa: const FikihKararAgaciPage(),
             ),
             const SizedBox(height: 20),
-            _bolumBasligi('🗺️ Ziyaret Rehberi'),
+            _bolumBasligi(l.t('hu.ziyaretSection')),
             _modulKarti(
               context,
               icon: Icons.explore_rounded,
               renk: Colors.blueAccent,
-              baslik: 'Mekke & Medine Ziyaret Rehberi',
-              altBaslik: 'Hira, Sevr, Ravza, Uhud ve daha fazlası',
+              baslik: l.t('hu.ziyaretTitle'),
+              altBaslik: l.t('hu.ziyaretSub'),
               sayfa: const ZiyaretRehberiPage(),
             ),
             const SizedBox(height: 20),
-            _bolumBasligi('📡 Saha Araçları'),
+            _bolumBasligi(l.t('hu.sahaSection')),
             _modulKarti(
               context,
               icon: Icons.gps_fixed_rounded,
               renk: Colors.purpleAccent,
-              baslik: 'Mikat Uyarı Motoru',
-              altBaslik: 'GPS ile mikat sınırına yaklaşma bildirimi',
+              baslik: l.t('hu.mikatTitle'),
+              altBaslik: l.t('hu.mikatSub'),
               sayfa: const MikatUyariPage(),
             ),
             _modulKarti(
               context,
               icon: Icons.record_voice_over_rounded,
               renk: Colors.pinkAccent,
-              baslik: 'Acil Durum Sözlüğü',
-              altBaslik: '30 temel Arapça cümle, sesli okuma ile',
+              baslik: l.t('hu.acilTitle'),
+              altBaslik: l.t('hu.acilSub'),
               sayfa: const AcilDurumSozluguPage(),
             ),
             const SizedBox(height: 30),
@@ -166,6 +167,7 @@ class HacUmreRehberPage extends StatelessWidget {
 class _HeaderBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -177,27 +179,26 @@ class _HeaderBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.3)),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          UcdIkon(ikon: Icons.mosque_rounded, renk: Colors.white, boyut: 36),
-          SizedBox(width: 16),
+          const UcdIkon(ikon: Icons.mosque_rounded, renk: Colors.white, boyut: 36),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Kutsal Topraklarda Başucu Rehberi',
-                  style: TextStyle(
+                  l.t('hu.bannerTitle'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'İbadet akışı, sayaçlar, ziyaret mekânları ve saha araçları '
-                  'tek yerden. Hepsi çevrimdışı çalışır.',
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                  l.t('hu.bannerIntro'),
+                  style: const TextStyle(color: Colors.white70, fontSize: 12),
                 ),
               ],
             ),

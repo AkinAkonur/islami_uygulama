@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_tts/flutter_tts.dart'
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 import '../../widgets/kart_sekilleri.dart';
@@ -120,18 +121,19 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Dua Odaları',
+          l.t('do.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: 'Kişisel Dua Listem',
+            tooltip: l.t('do.myList'),
             onPressed: _duaListemeGit,
             icon: UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.white),
           ),
@@ -155,12 +157,13 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
   }
 
   Widget _aramaCubugu() {
+    final l = AppLocalizations.of(context);
     return TextField(
       controller: _aramaCtrl,
       style: const TextStyle(color: Colors.white),
       textInputAction: TextInputAction.search,
       decoration: InputDecoration(
-        hintText: 'Dua ara… (örn. "sınav", "borç", "şifa")',
+        hintText: l.t('do.searchHint'),
         hintStyle: TextStyle(color: Colors.white38),
         prefixIcon: UcdIkon(ikon: Icons.search_rounded, renk: Colors.white54),
         suffixIcon: _aramaSorgusu.isEmpty
@@ -195,15 +198,18 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
   }
 
   Widget _aramaSonucListesi() {
+    final l = AppLocalizations.of(context);
     final sonuc = _aramaSonuclari;
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
         Text(
           sonuc.isEmpty
-              ? 'Sonuç bulunamadı'
-              : '${sonuc.length} dua bulundu · "$_aramaSorgusu"',
-          style: TextStyle(color: Colors.white54, fontSize: 12),
+              ? l.t('do.noResults')
+              : l.t('do.found')
+                  .replaceFirst('{count}', '${sonuc.length}')
+                  .replaceFirst('{query}', _aramaSorgusu),
+          style: const TextStyle(color: Colors.white54, fontSize: 12),
         ),
         const SizedBox(height: 12),
         if (sonuc.isEmpty)
@@ -219,6 +225,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
   }
 
   Widget _bosDurum() {
+    final l = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 40),
       child: Column(
@@ -226,8 +233,8 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                 UcdIkon(ikon: Icons.search_off, renk: Colors.white24, boyut: 48),
           const SizedBox(height: 12),
           Text(
-            'Farklı bir kelime deneyin ya da bir odaya girin.',
-            style: TextStyle(color: Colors.white38, fontSize: 13),
+            l.t('do.tryAnother'),
+            style: const TextStyle(color: Colors.white38, fontSize: 13),
           ),
         ],
       ),
@@ -235,6 +242,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
   }
 
   Widget _odaListesi() {
+    final l = AppLocalizations.of(context);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -248,21 +256,21 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
             ),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Kategorize Dua Odaları',
-                style: TextStyle(
+                l.t('do.catTitle'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Text(
-                'Bir odaya gir, o konudaki duaları oku ve ümmetle birlikte niyet et. Her oda, binlerce kardeşin ortak duasıyla canlıdır.',
-                style: TextStyle(
+                l.t('do.catIntro'),
+                style: const TextStyle(
                   color: Colors.white70,
                   fontSize: 12,
                   height: 1.5,
@@ -282,6 +290,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
   }
 
   Widget _odaKarti(BuildContext context, Map<String, String> kategori) {
+    final l = AppLocalizations.of(context);
     final id = kategori['id']!;
     final katilim = _katilimlar[id] ?? 0;
     final etiketler = (kategori['etiketler'] ?? '')
@@ -360,7 +369,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                 UcdIkon(ikon: Icons.groups_rounded, renk: Renkler.vurgu, boyut: 16),
                 const SizedBox(width: 6),
                 Text(
-                  '${binlikSayi(katilim)} kardeş odada',
+                  l.t('do.brothersInRoom').replaceFirst('{count}', binlikSayi(katilim)),
                   style: const TextStyle(color: Colors.white54, fontSize: 12),
                 ),
                 const Spacer(),
@@ -379,7 +388,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                       ),
                     );
                   },
-                  child: const Text('Odaya Katıl'),
+                  child: Text(l.t('do.joinRoom')),
                 ),
               ],
             ),
@@ -389,17 +398,9 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
     );
   }
 
-  // Paylaşım metnini kart üzerinden oluşturur.
-  String _duaPaylasimMetni(Map<String, dynamic> dua) {
-    final oda = dua['odaAd'] ?? dua['odaId'];
-    return '🤲 ${dua['baslik']}\n\n'
-        '${dua['arapca']}\n\n'
-        '${dua['turkce']}\n\n'
-        '— Dua Odaları · $oda\n#islamiUygulama';
-  }
-
   // Oda/arama listesinde kullanılan ortak dua kartı.
   Widget _duaKarti(Map<String, dynamic> dua) {
+    final l = AppLocalizations.of(context);
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,
@@ -436,9 +437,9 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                       color: Renkler.vurgu.withValues(alpha: 0.25),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(
-                      'Senin duan',
-                      style: TextStyle(
+                    child: Text(
+                      l.t('do.yourDua'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 9,
                         fontWeight: FontWeight.w600,
@@ -446,7 +447,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Duayı sil',
+                    tooltip: l.t('do.deleteDua'),
                     visualDensity: VisualDensity.compact,
                     icon: const Icon(
                       Icons.delete_outline,
@@ -536,13 +537,14 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
   }
 
   Widget _duaAksiyonSatiri(Map<String, dynamic> dua) {
+    final l = AppLocalizations.of(context);
     final odaId = dua['odaId']!;
     final baslik = dua['baslik']!;
     final anahtar = '$odaId|$baslik';
     return Row(
       children: [
         _ikonAksiyon(
-          tooltip: 'Kopyala',
+          tooltip: l.t('do.copy'),
           ikon: Icons.copy_outlined,
           onTap: () async {
             await Clipboard.setData(
@@ -554,7 +556,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: const Text('Dua panoya kopyalandı'),
+                  content: Text(l.t('do.copiedSnackbar')),
                   backgroundColor: Renkler.bannerUst,
                   behavior: SnackBarBehavior.floating,
                 ),
@@ -563,11 +565,17 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
           },
         ),
         _ikonAksiyon(
-          tooltip: 'Paylaş',
+          tooltip: l.t('do.share'),
           ikon: Icons.share_rounded,
           onTap: () async {
             await SharePlus.instance.share(
-              ShareParams(text: _duaPaylasimMetni(dua)),
+              ShareParams(
+                text: l.t('do.shareSuite')
+                    .replaceFirst('{title}', dua['baslik']!)
+                    .replaceFirst('{arabic}', dua['arapca']!)
+                    .replaceFirst('{turkish}', dua['turkce']!)
+                    .replaceFirst('{source}', l.t('do.shareHeader')),
+              ),
             );
           },
         ),
@@ -634,8 +642,8 @@ class _DinletButonuState extends State<_DinletButonu> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Cihazınızda Arapça ses bulunamadı.'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context).t('do.audioNotFound')),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -645,8 +653,9 @@ class _DinletButonuState extends State<_DinletButonu> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return IconButton(
-      tooltip: _caliyor ? 'Durdur' : 'Dinle',
+      tooltip: _caliyor ? l.t('do.stop') : l.t('do.listen'),
       visualDensity: VisualDensity.compact,
       onPressed: _dinle,
       icon: UcdIkon(
@@ -692,12 +701,13 @@ class _FavoriButonuState extends State<_FavoriButonu> {
     final yeni = await UmmetStore.duaFavoriDegistir(widget.anahtar);
     if (!mounted) return;
     setState(() => _favori = yeni);
+    final l = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           yeni
-              ? 'Kişisel Dua Listene eklendi'
-              : 'Kişisel Dua Listenden kaldırıldı',
+              ? l.t('do.addedToList')
+              : l.t('do.removedFromList'),
         ),
         backgroundColor: Renkler.bannerUst,
         behavior: SnackBarBehavior.floating,
@@ -708,8 +718,9 @@ class _FavoriButonuState extends State<_FavoriButonu> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return IconButton(
-      tooltip: _favori ? 'Listemden çıkar' : 'Kişisel Dua Listeme ekle',
+      tooltip: _favori ? l.t('do.removeFromList') : l.t('do.addToList'),
       visualDensity: VisualDensity.compact,
       onPressed: _degistir,
       icon: UcdIkon(
@@ -760,9 +771,10 @@ class _AminButonuState extends State<_AminButonu> {
       _ekAmin = sayi;
       _aminVerdi = true;
     });
+    final l = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Âmin dediniz 🤲 Ümmetle birlikte katıldınız.'),
+        content: Text(l.t('do.aminMessage')),
         backgroundColor: Renkler.bannerUst,
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 1),
@@ -772,8 +784,10 @@ class _AminButonuState extends State<_AminButonu> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final taban = int.tryParse(_tabanAmin) ?? 0;
     final toplam = taban + _ekAmin;
+    final aminText = _aminVerdi ? '${l.t('do.aminShort')} ✓' : l.t('do.aminShort');
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -788,13 +802,13 @@ class _AminButonuState extends State<_AminButonu> {
           ),
           onPressed: _aminVer,
           child: Text(
-            _aminVerdi ? 'Âmin ✓' : 'Âmin',
+            aminText,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
         const SizedBox(height: 2),
         Text(
-          '${binlikSayi(toplam)} kişi',
+          l.t('do.people').replaceFirst('{count}', binlikSayi(toplam)),
           style: const TextStyle(color: Colors.white38, fontSize: 10),
         ),
       ],
@@ -895,11 +909,12 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
   }
 
   Future<void> _odaDuaEt() async {
+    final l = AppLocalizations.of(context);
     setState(() => _okunma++);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Bu odada dua ettin: ${widget.kategori['ad']} 🤲',
+          l.t('do.roomPrayed').replaceFirst('{name}', widget.kategori['ad']!),
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
@@ -914,6 +929,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
   }
 
   Future<void> _duaEkleDialog() async {
+    final l = AppLocalizations.of(context);
     final baslik = TextEditingController();
     final arapca = TextEditingController();
     final turkce = TextEditingController();
@@ -927,9 +943,9 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
           children: [
             UcdIkon(ikon: Icons.link_rounded, renk: Colors.white),
             const SizedBox(width: 8),
-            const Text(
-              'Dua Ekle',
-              style: TextStyle(
+            Text(
+              l.t('do.addDua'),
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -943,11 +959,11 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
               TextField(
                 controller: baslik,
                 style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  labelText: 'Duanın adı',
-                  labelStyle: TextStyle(color: Colors.white70),
-                  hintText: 'Örn. Sabah Duası',
-                  hintStyle: TextStyle(color: Colors.white38),
+                decoration: InputDecoration(
+                  labelText: l.t('do.nameLabel'),
+                  labelStyle: const TextStyle(color: Colors.white70),
+                  hintText: l.t('do.nameHint'),
+                  hintStyle: const TextStyle(color: Colors.white38),
                 ),
               ),
               const SizedBox(height: 8),
@@ -955,11 +971,11 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                 controller: arapca,
                 maxLines: 4,
                 style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  labelText: 'Arapça metin',
-                  labelStyle: TextStyle(color: Colors.white70),
-                  hintText: 'Dua metnini Arapça yazın',
-                  hintStyle: TextStyle(color: Colors.white38),
+                decoration: InputDecoration(
+                  labelText: l.t('do.arabicLabel'),
+                  labelStyle: const TextStyle(color: Colors.white70),
+                  hintText: l.t('do.arabicHint'),
+                  hintStyle: const TextStyle(color: Colors.white38),
                 ),
               ),
               const SizedBox(height: 8),
@@ -967,20 +983,20 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                 controller: turkce,
                 maxLines: 3,
                 style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  labelText: 'Türkçe anlamı',
-                  labelStyle: TextStyle(color: Colors.white70),
-                  hintText: 'Okunuşu ve anlamı',
-                  hintStyle: TextStyle(color: Colors.white38),
+                decoration: InputDecoration(
+                  labelText: l.t('do.meaningLabel'),
+                  labelStyle: const TextStyle(color: Colors.white70),
+                  hintText: l.t('do.meaningHint'),
+                  hintStyle: const TextStyle(color: Colors.white38),
                 ),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: kaynak,
                 style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  labelText: 'Kaynak (isteğe bağlı)',
-                  labelStyle: TextStyle(color: Colors.white70),
+                decoration: InputDecoration(
+                  labelText: l.t('do.sourceLabel'),
+                  labelStyle: const TextStyle(color: Colors.white70),
                 ),
               ),
             ],
@@ -989,9 +1005,9 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text(
-              'Vazgeç',
-              style: TextStyle(color: Colors.white54),
+            child: Text(
+              l.t('do.cancel'),
+              style: const TextStyle(color: Colors.white54),
             ),
           ),
           FilledButton.icon(
@@ -1005,10 +1021,10 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
               final t = turkce.text.trim();
               if (b.isEmpty || (a.isEmpty && t.isEmpty)) {
                 ScaffoldMessenger.of(ctx).showSnackBar(
-                  const SnackBar(
+                  SnackBar(
                     content: Text(
-                      'Duanın adı ile Arapça veya Türkçe metnini girin.',
-                      style: TextStyle(color: Colors.white),
+                      l.t('do.enterRequirement'),
+                      style: const TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Colors.redAccent,
                     behavior: SnackBarBehavior.floating,
@@ -1029,7 +1045,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
               setState(() => _seciliEtiket = null);
             },
             icon: UcdIkon(ikon: Icons.check_circle_rounded, renk: Renkler.zemin, boyut: 18),
-            label: const Text('Kaydet'),
+            label: Text(l.t('do.save')),
           ),
         ],
       ),
@@ -1038,11 +1054,13 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          '${widget.kategori['ikon']} ${widget.kategori['ad']} Odası',
+          l.t('do.roomSuffix')
+              .replaceFirst('{name}', '${widget.kategori['ikon']} ${widget.kategori['ad']}'),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -1052,7 +1070,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: 'Kişisel Dua Listem',
+            tooltip: l.t('do.myList'),
             onPressed: _duaListemeGit,
             icon: UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.white),
           ),
@@ -1102,7 +1120,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                   vertical: 10,
                 ),
                 children: [
-                  _etiketChip(null, 'Tümü'),
+                  _etiketChip(null, l.t('do.all')),
                   for (final et in _etiketler) _etiketChip(et, et),
                 ],
               ),
@@ -1129,9 +1147,9 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                                   size: 44,
                                 ),
                                 const SizedBox(height: 10),
-                                const Text(
-                                  'Bu etikette henüz dua yok.',
-                                  style: TextStyle(
+                                Text(
+                                  l.t('do.noDuaInTag'),
+                                  style: const TextStyle(
                                     color: Colors.white38,
                                     fontSize: 13,
                                   ),
@@ -1168,8 +1186,8 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                           icon: UcdIkon(ikon: Icons.favorite_border_rounded, renk: Renkler.zemin),
                           label: Text(
                             _okunma == 0
-                                ? 'Bu Odada Dua Ettim'
-                                : 'Tekrar Dua Ettim ($_okunma)',
+                                ? l.t('do.prayedHere')
+                                : l.t('do.prayedAgain').replaceFirst('{count}', '$_okunma'),
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -1185,9 +1203,9 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
         backgroundColor: Renkler.vurgu,
         foregroundColor: Renkler.zemin,
         icon: UcdIkon(ikon: Icons.add_rounded, renk: Renkler.zemin),
-        label: const Text(
-          'Dua Ekle',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        label: Text(
+          l.t('do.addDua'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -1218,6 +1236,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
   }
 
   Widget _duaKarti(Map<String, dynamic> dua) {
+    final l = AppLocalizations.of(context);
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,
@@ -1271,9 +1290,9 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                       color: Renkler.vurgu.withValues(alpha: 0.25),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(
-                      'Senin duan',
-                      style: TextStyle(
+                    child: Text(
+                      l.t('do.yourDua'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 9,
                         fontWeight: FontWeight.w600,
@@ -1281,7 +1300,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Duayı sil',
+                    tooltip: l.t('do.deleteDua'),
                     visualDensity: VisualDensity.compact,
                     icon: const Icon(
                       Icons.delete_outline,
@@ -1371,13 +1390,14 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
   }
 
   Widget _duaAksiyonSatiri(Map<String, dynamic> dua) {
+    final l = AppLocalizations.of(context);
     final odaId = dua['odaId']!;
     final baslik = dua['baslik']!;
     final anahtar = '$odaId|$baslik';
     return Row(
       children: [
         _ikonAksiyon(
-          tooltip: 'Kopyala',
+          tooltip: l.t('do.copy'),
           ikon: Icons.copy_outlined,
           onTap: () async {
             await Clipboard.setData(
@@ -1389,7 +1409,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: const Text('Dua panoya kopyalandı'),
+                  content: Text(l.t('do.copiedSnackbar')),
                   backgroundColor: Renkler.bannerUst,
                   behavior: SnackBarBehavior.floating,
                 ),
@@ -1398,16 +1418,16 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
           },
         ),
         _ikonAksiyon(
-          tooltip: 'Paylaş',
+          tooltip: l.t('do.share'),
           ikon: Icons.share_rounded,
           onTap: () async {
             await SharePlus.instance.share(
               ShareParams(
-                text:
-                    '🤲 ${dua['baslik']}\n\n'
-                    '${dua['arapca']}\n\n'
-                    '${dua['turkce']}\n\n'
-                    '— Dua Odaları · ${widget.kategori['ad']}\n#islamiUygulama',
+                text: l.t('do.shareSuite')
+                    .replaceFirst('{title}', dua['baslik']!)
+                    .replaceFirst('{arabic}', dua['arapca']!)
+                    .replaceFirst('{turkish}', dua['turkce']!)
+                    .replaceFirst('{source}', l.t('do.shareHeader')),
               ),
             );
           },
@@ -1471,12 +1491,13 @@ class _DuaListemPageState extends State<_DuaListemPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text(
-          'Kişisel Dua Listem',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        title: Text(
+          l.t('do.myList'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
@@ -1484,16 +1505,16 @@ class _DuaListemPageState extends State<_DuaListemPage> {
       body: _yukleniyor
           ? const Center(child: CircularProgressIndicator())
           : _dualari.isEmpty
-          ? const Center(
+          ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.white24, boyut: 48),
-                  SizedBox(height: 12),
+                  const UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.white24, boyut: 48),
+                  const SizedBox(height: 12),
                   Text(
-                    'Henüz dua eklemediniz.\nDuaların yanındaki kalbe dokunarak ekleyin.',
+                    l.t('do.listEmpty'),
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white38, fontSize: 13),
+                    style: const TextStyle(color: Colors.white38, fontSize: 13),
                   ),
                 ],
               ),
@@ -1502,7 +1523,7 @@ class _DuaListemPageState extends State<_DuaListemPage> {
               padding: const EdgeInsets.all(16),
               children: [
                 Text(
-                  '${_dualari.length} dua listenizde',
+                  l.t('do.countInList').replaceFirst('{count}', '${_dualari.length}'),
                   style: const TextStyle(color: Colors.white54, fontSize: 12),
                 ),
                 const SizedBox(height: 12),
@@ -1574,8 +1595,8 @@ class _DuaListemPageState extends State<_DuaListemPage> {
                                   );
                                   if (context.mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Dua panoya kopyalandı'),
+                                      SnackBar(
+                                        content: Text(AppLocalizations.of(context).t('do.copiedSnackbar')),
                                         behavior: SnackBarBehavior.floating,
                                       ),
                                     );

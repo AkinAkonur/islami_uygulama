@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 
@@ -14,10 +15,11 @@ class _KaygiliPageState extends State<KaygiliPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: Text("😟 Kaygı & Tevekkül Odası"),
+        title: Text(l.t('kg.title')),
         backgroundColor: Color(0xFF2B1E1E),
         elevation: 0,
       ),
@@ -47,7 +49,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Tevekkül & Sükûnet",
+                          l.t('kg.bannerTitle'),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -56,7 +58,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "Endişelerini ve geleceğe dair kaygılarını Yaratıcısına teslim et.",
+                          l.t('kg.bannerIntro'),
                           style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                       ],
@@ -68,7 +70,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
             SizedBox(height: 20),
 
             // Tevekkül Ayeti
-            _buildCardTitle("Tevekkül Ayeti (Talak Suresi)"),
+            _buildCardTitle(l.t('kg.verseTitle')),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(16),
@@ -100,7 +102,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "Talak Suresi, 3. Ayet",
+                    l.t('kg.verseSource'),
                     style: TextStyle(
                       color: Colors.redAccent,
                       fontSize: 12,
@@ -113,7 +115,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
             SizedBox(height: 20),
 
             // Acil Tevekkül Zikri
-            _buildCardTitle("Tevekkül Zikri (Hasbunallah)"),
+            _buildCardTitle(l.t('kg.zikrTitle')),
             Container(
               padding: EdgeInsets.all(24),
               decoration: BoxDecoration(
@@ -149,7 +151,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
                     onPressed: () => setState(() => _hasbunallahCount++),
                     icon: UcdIkon(ikon: Icons.touch_app, renk: Colors.white),
                     label: Text(
-                      "Zikir Çek: $_hasbunallahCount",
+                      l.t('kg.zikrCount').replaceFirst('{count}', '$_hasbunallahCount'),
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -159,21 +161,21 @@ class _KaygiliPageState extends State<KaygiliPage> {
             SizedBox(height: 20),
 
             // Sakinleşme Adımları
-            _buildCardTitle("Kaygıyı Azaltmak İçin 3 Manevi Adım"),
+            _buildCardTitle(l.t('kg.stepsTitle')),
             _buildStepTile(
               "1",
-              "Tazelen ve Abdest Al",
-              "Serin su ile abdest almak öfkeyi, kaygıyı ve sinirleri yatıştırır.",
+              l.t('kg.step1Title'),
+              l.t('kg.step1Sub'),
             ),
             _buildStepTile(
               "2",
-              "2 Rakat Tevekkül Namazı Kıl",
-              "Tüm ağırlıklarını ve endişelerini seccadede Allah'a bırak.",
+              l.t('kg.step2Title'),
+              l.t('kg.step2Sub'),
             ),
             _buildStepTile(
               "3",
-              "Euzu-Besmele ve İstiğfar Çek",
-              "«Estağfirullah el-azim» diyerek kalbi ve zihni vesveseden arındır.",
+              l.t('kg.step3Title'),
+              l.t('kg.step3Sub'),
             ),
             SizedBox(height: 30),
           ],

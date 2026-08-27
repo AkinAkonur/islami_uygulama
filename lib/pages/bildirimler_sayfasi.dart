@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../widgets/kart_sekilleri.dart';
 import '../services/bildirim_merkezi.dart';
 import '../services/gercek_bildirimler.dart';
@@ -82,10 +83,11 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
       setState(() {
         _liste = guncelListe;
       });
+      final l = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Tüm bildirimler okundu olarak işaretlendi.'),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(l.t('bn.allRead')),
+          duration: const Duration(seconds: 2),
         ),
       );
     }
@@ -107,7 +109,9 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            _sessiz ? 'Sessiz mod aktif edildi.' : 'Sessiz mod kapatıldı.',
+            _sessiz
+                ? AppLocalizations.of(context).t('bn.silentOn')
+                : AppLocalizations.of(context).t('bn.silentOff'),
           ),
           duration: const Duration(seconds: 2),
         ),
@@ -180,6 +184,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -192,18 +197,18 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
         child: SafeArea(
           child: Column(
             children: [
-              _baslikSatiri(context),
+              _baslikSatiri(context, l),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    _sessizKarti(),
+                    _sessizKarti(l),
                     const SizedBox(height: 16),
-                    _ayarlarKarti(),
+                    _ayarlarKarti(l),
                     const SizedBox(height: 16),
-                    _vakitleriKarti(),
+                    _vakitleriKarti(l),
                     const SizedBox(height: 16),
-                    _listeKarti(),
+                    _listeKarti(l),
                   ],
                 ),
               ),
@@ -214,7 +219,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     );
   }
 
-  Widget _baslikSatiri(BuildContext context) {
+  Widget _baslikSatiri(BuildContext context, AppLocalizations l) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -222,12 +227,12 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           IconButton(
             onPressed: () => Navigator.pop(context),
             icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
-            tooltip: 'Geri',
+            tooltip: l.t('bn.back'),
           ),
           const SizedBox(width: 8),
-          const Text(
-            'Bildirimler',
-            style: TextStyle(
+          Text(
+            l.t('bn.title'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -236,7 +241,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           const Spacer(),
           IconButton(
             onPressed: _hepsiniOkundu,
-            tooltip: 'Tümünü okundu yap',
+            tooltip: l.t('bn.markAllRead'),
             icon: const UcdIkon(ikon: Icons.done_all_rounded, renk: Colors.white70),
           ),
         ],
@@ -244,7 +249,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     );
   }
 
-  Widget _sessizKarti() {
+  Widget _sessizKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -274,7 +279,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _sessiz ? 'Sessiz mod AÇIK' : 'Sessiz vakit',
+                    _sessiz ? l.t('bn.silentOpen') : l.t('bn.silentTitle'),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -283,9 +288,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    _sessiz
-                        ? 'Düğün, toplantı, yolculuk… bildirimler bekletiliyor.'
-                        : 'Gece 21:00 - 06:00 arası otomatik sessizdir. Tek dokunuşla sessize al.',
+                    _sessiz ? l.t('bn.silentOnDesc') : l.t('bn.silentDesc'),
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.8),
                       fontSize: 12,
@@ -306,7 +309,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     );
   }
 
-  Widget _ayarlarKarti() {
+  Widget _ayarlarKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -320,9 +323,9 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
             children: [
               UcdIkon(ikon: Icons.tune_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
-              const Text(
-                'Bildirim Türleri',
-                style: TextStyle(
+              Text(
+                l.t('bn.types'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -333,29 +336,29 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           const SizedBox(height: 8),
           _ayarSatiri(
             ikon: '🕌',
-            baslik: 'Namaz Bildirimleri',
-            aciklama: 'Vakit, kamet, kaza hatırlatmaları',
+            baslik: l.t('bn.namaz'),
+            aciklama: l.t('bn.namazDesc'),
             deger: _ayarlar[BildirimTipi.namaz] ?? true,
             onChanged: (v) => _ayarDegistir(BildirimTipi.namaz, v),
           ),
           _ayarSatiri(
             ikon: '🌅',
-            baslik: 'Günlük Maneviyat',
-            aciklama: 'Günün ayeti, iyilik görevi, hatim hedefi',
+            baslik: l.t('bn.daily'),
+            aciklama: l.t('bn.dailyDesc'),
             deger: _ayarlar[BildirimTipi.gunluk] ?? true,
             onChanged: (v) => _ayarDegistir(BildirimTipi.gunluk, v),
           ),
           _ayarSatiri(
             ikon: '🌙',
-            baslik: 'Özel Günler',
-            aciklama: 'Cuma, kandil, iftar, Kadir Gecesi',
+            baslik: l.t('bn.special'),
+            aciklama: l.t('bn.specialDesc'),
             deger: _ayarlar[BildirimTipi.ozelGun] ?? true,
             onChanged: (v) => _ayarDegistir(BildirimTipi.ozelGun, v),
           ),
           _ayarSatiri(
             ikon: '🌍',
-            baslik: 'Ümmet Bağlantıları',
-            aciklama: 'Dua zinciri, kardeşlik mesajları',
+            baslik: l.t('bn.ummet'),
+            aciklama: l.t('bn.ummetDesc'),
             deger: _ayarlar[BildirimTipi.ummet] ?? true,
             onChanged: (v) => _ayarDegistir(BildirimTipi.ummet, v),
           ),
@@ -368,17 +371,17 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                 boyut: 20,
               ),
               const SizedBox(width: 8),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Kaza namaz sayım',
-                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  l.t('bn.qaza'),
+                  style: const TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
               IconButton(
                 onPressed: _kaza > 0 ? () => _kazaDegistir(-1) : null,
                 icon: const UcdIkon(ikon: Icons.remove_circle_outline_rounded, renk: Colors.white70, boyut: 22),
                 color: Renkler.vurgu,
-                tooltip: 'Eksilt',
+                tooltip: l.t('bn.decrease'),
               ),
               Text(
                 '$_kaza',
@@ -392,7 +395,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                 onPressed: () => _kazaDegistir(1),
                 icon: const UcdIkon(ikon: Icons.add_circle_outline_rounded, renk: Colors.white70, boyut: 22),
                 color: Renkler.vurgu,
-                tooltip: 'Artır',
+                tooltip: l.t('bn.increase'),
               ),
             ],
           ),
@@ -450,7 +453,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
   }
 
   /// Bugünün gerçek namaz vakitlerini, sıradaki vakit vurgusuyla gösterir.
-  Widget _vakitleriKarti() {
+  Widget _vakitleriKarti(AppLocalizations l) {
     final now = DateTime.now();
     final simdiDk = now.hour * 60 + now.minute;
     VakitBilgisi? siradaki;
@@ -460,7 +463,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
         break;
       }
     }
-    final konum = _sehir ?? 'Konumuna göre';
+    final konum = _sehir ?? l.t('bn.byLocation');
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -476,9 +479,9 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
             children: [
               UcdIkon(ikon: Icons.schedule_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
-              const Text(
-                'Bugünün Namaz Vakitleri',
-                style: TextStyle(
+              Text(
+                l.t('bn.prayerTimes'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -542,7 +545,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          'Sıradaki',
+                          l.t('bn.next'),
                           style: TextStyle(
                             color: Renkler.vurgu,
                             fontSize: 10,
@@ -561,7 +564,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     );
   }
 
-  Widget _listeKarti() {
+  Widget _listeKarti(AppLocalizations l) {
     if (_liste.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(20),
@@ -569,18 +572,18 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
           color: Renkler.kart.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: const Column(
+        child: Column(
           children: [
-            UcdIkon(ikon: Icons.notifications_outlined, renk: Colors.white38, boyut: 40),
-            SizedBox(height: 10),
+            const UcdIkon(ikon: Icons.notifications_outlined, renk: Colors.white38, boyut: 40),
+            const SizedBox(height: 10),
             Text(
-              'Henüz bildirim yok',
-              style: TextStyle(color: Colors.white54, fontSize: 14),
+              l.t('bn.noNotif'),
+              style: const TextStyle(color: Colors.white54, fontSize: 14),
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
-              'Sessiz yardımcı seni yalnız bırakmaz.',
-              style: TextStyle(color: Colors.white38, fontSize: 12),
+              l.t('bn.noNotifDesc'),
+              style: const TextStyle(color: Colors.white38, fontSize: 12),
             ),
           ],
         ),
@@ -593,19 +596,19 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
         '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
 
     final gruplar = <String, List<Bildirim>>{
-      'Bugün': [],
-      'Dün': [],
-      'Önceki': [],
+      l.t('bn.today'): [],
+      l.t('bn.yesterday'): [],
+      l.t('bn.earlier'): [],
     };
 
     for (final b in _liste) {
       final key = gunKey(b.zaman);
       if (key == gunKey(bugun)) {
-        gruplar['Bugün']!.add(b);
+        gruplar[l.t('bn.today')]!.add(b);
       } else if (key == gunKey(dun)) {
-        gruplar['Dün']!.add(b);
+        gruplar[l.t('bn.yesterday')]!.add(b);
       } else {
-        gruplar['Önceki']!.add(b);
+        gruplar[l.t('bn.earlier')]!.add(b);
       }
     }
 
@@ -619,21 +622,21 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Sessiz Yardımcı',
-          style: TextStyle(
+        Text(
+          l.t('bn.helper'),
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 4),
-        const Text(
-          'Günde en fazla 5 bildirim — önce namaz, sonra günün geri kalanı.',
-          style: TextStyle(color: Colors.white54, fontSize: 12),
+        Text(
+          l.t('bn.helperDesc'),
+          style: const TextStyle(color: Colors.white54, fontSize: 12),
         ),
         const SizedBox(height: 12),
-        for (final grup in ['Bugün', 'Dün', 'Önceki'])
+        for (final grup in [l.t('bn.today'), l.t('bn.yesterday'), l.t('bn.earlier')])
           if (gruplar[grup]!.isNotEmpty) ...[
             Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),

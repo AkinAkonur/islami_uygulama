@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/kuran_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 import 'sure_detay_page.dart';
 
 class CuzListesiPage extends StatelessWidget {
@@ -8,18 +10,19 @@ class CuzListesiPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          "Cüz Listesi (30)",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          l.t('cl.cuzListTitle'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         itemCount: 30,
         itemBuilder: (context, index) {
           final cuz = index + 1;
@@ -27,7 +30,7 @@ class CuzListesiPage extends StatelessWidget {
           final amme = cuz == 30;
           return Card(
             color: amme ? Renkler.seciliYuzey : Renkler.kart,
-            margin: EdgeInsets.only(bottom: 8),
+            margin: const EdgeInsets.only(bottom: 8),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
               side: BorderSide(
@@ -62,14 +65,14 @@ class CuzListesiPage extends StatelessWidget {
                 ),
               ),
               title: Text(
-                '$cuz. Cüz',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+                l.t('cz.cuz').replaceFirst('{cuz}', '$cuz'),
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
               ),
               subtitle: Text(
-                baslangic + (amme ? ' (Amme)' : ''),
-                style: TextStyle(color: Colors.white54, fontSize: 12),
+                baslangic + (amme ? l.t('cz.amme') : ''),
+                style: const TextStyle(color: Colors.white54, fontSize: 12),
               ),
-              trailing: Icon(Icons.play_circle_outline, color: Renkler.vurgu),
+              trailing: UcdIkon(ikon: Icons.play_circle_outline_rounded, renk: Renkler.vurgu),
             ),
           );
         },

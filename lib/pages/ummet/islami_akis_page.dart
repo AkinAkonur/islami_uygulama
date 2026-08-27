@@ -1,51 +1,54 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 class IslamiAkisPage extends StatelessWidget {
   const IslamiAkisPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'İslami Akış • Günün Mesajı',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          l.t('ia.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
       ),
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
-          _bugunKarti(),
-          SizedBox(height: 20),
+          _bugunKarti(l),
+          const SizedBox(height: 20),
           Text(
-            'Keşfet',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+            l.t('ia.discover'),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           for (final m in gununMesajlari) ...[
             _mesajKarti(m),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  Widget _bugunKarti() {
+  Widget _bugunKarti(AppLocalizations l) {
     final i = UmmetStore.gununMesajIndexi();
     final mesaj = gununMesajlari[i % gununMesajlari.length];
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Renkler.bannerUst, Renkler.bannerAlt],
@@ -60,10 +63,10 @@ class IslamiAkisPage extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.wb_sunny, color: Renkler.vurgu, size: 20),
-              SizedBox(width: 8),
+              UcdIkon(ikon: Icons.wb_sunny_rounded, renk: Renkler.vurgu, boyut: 20),
+              const SizedBox(width: 8),
               Text(
-                "GÜNÜN MESAJI",
+                l.t('ia.todayMessage'),
                 style: TextStyle(
                   color: Renkler.acikVurgu,
                   fontSize: 11,
@@ -73,22 +76,22 @@ class IslamiAkisPage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 14),
+          const SizedBox(height: 14),
           Text(
             '"${mesaj['metin']}"',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 17,
               fontWeight: FontWeight.w600,
               height: 1.5,
             ),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: Renkler.vurgu.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(10),
@@ -104,7 +107,7 @@ class IslamiAkisPage extends StatelessWidget {
               ),
               Text(
                 '${mesaj['kaynak']}',
-                style: TextStyle(color: Colors.white54, fontSize: 11),
+                style: const TextStyle(color: Colors.white54, fontSize: 11),
               ),
             ],
           ),
@@ -115,10 +118,10 @@ class IslamiAkisPage extends StatelessWidget {
 
   Widget _mesajKarti(Map<String, String> m) {
     final renk = m['tip'] == 'Ayet'
-        ? Color(0xFF4FC3C9)
+        ? const Color(0xFF4FC3C9)
         : m['tip'] == 'Hadis'
-            ? Color(0xFFF2C14E)
-            : Color(0xFFEC4899);
+            ? const Color(0xFFF2C14E)
+            : const Color(0xFFEC4899);
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,
@@ -127,14 +130,14 @@ class IslamiAkisPage extends StatelessWidget {
         side: BorderSide(color: Renkler.cerceve),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Icon(Icons.format_quote, color: renk, size: 20),
-                SizedBox(width: 8),
+                UcdIkon(ikon: Icons.format_quote_rounded, renk: renk, boyut: 20),
+                const SizedBox(width: 8),
                 Text(
                   '${m['tip']}',
                   style: TextStyle(
@@ -145,19 +148,19 @@ class IslamiAkisPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               '"${m['metin']}"',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
                 height: 1.5,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               '— ${m['kaynak']}',
-              style: TextStyle(color: Colors.white38, fontSize: 11),
+              style: const TextStyle(color: Colors.white38, fontSize: 11),
             ),
           ],
         ),

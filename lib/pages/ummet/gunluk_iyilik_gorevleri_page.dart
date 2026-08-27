@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 
@@ -52,7 +53,9 @@ class _GunlukIyilikGorevleriPageState extends State<GunlukIyilikGorevleriPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Tamamladın: ${gorev['ad']} ✨ Sevap hanene yazıldı.',
+            AppLocalizations.of(context)
+                .t('gi.completed')
+                .replaceFirst('{task}', gorev['ad'] ?? ''),
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Renkler.bannerUst,
@@ -64,10 +67,12 @@ class _GunlukIyilikGorevleriPageState extends State<GunlukIyilikGorevleriPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final bugun = DateTime.now();
     final ayAdi = [
-      'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-      'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+      l.t('gi.m1'), l.t('gi.m2'), l.t('gi.m3'), l.t('gi.m4'),
+      l.t('gi.m5'), l.t('gi.m6'), l.t('gi.m7'), l.t('gi.m8'),
+      l.t('gi.m9'), l.t('gi.m10'), l.t('gi.m11'), l.t('gi.m12'),
     ][bugun.month - 1];
     final tarih = '$ayAdi ${bugun.day}, ${bugun.year}';
 
@@ -75,7 +80,7 @@ class _GunlukIyilikGorevleriPageState extends State<GunlukIyilikGorevleriPage> {
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Günlük İyilik Görevleri',
+          l.t('gi.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -121,7 +126,8 @@ class _GunlukIyilikGorevleriPageState extends State<GunlukIyilikGorevleriPage> {
                         children: [
                           Expanded(
                             child: Text(
-                              'Ümmet genelinde bugün tamamlanma: %${_ummetOrani.toStringAsFixed(1)}',
+                              l.t('gi.ummetRate').replaceFirst(
+                                  '{rate}', _ummetOrani.toStringAsFixed(1)),
                               style: TextStyle(
                                 color: Colors.white70,
                                 fontSize: 12,
@@ -152,7 +158,7 @@ class _GunlukIyilikGorevleriPageState extends State<GunlukIyilikGorevleriPage> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'Mikro sorumluluklar, büyük ümmet tabloları oluşturur. Bugün birini sevindir; yarın binler sevinsin.',
+                        l.t('gi.bannerIntro'),
                         style: TextStyle(
                           color: Colors.white54,
                           fontSize: 11,

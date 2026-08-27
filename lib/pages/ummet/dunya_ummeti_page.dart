@@ -1,63 +1,66 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 class DunyaUmmetiPage extends StatelessWidget {
   const DunyaUmmetiPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Dünya Ümmeti',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          l.t('du.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
       ),
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
-          _bilgiBanneri(),
-          SizedBox(height: 16),
+          _bilgiBanneri(l),
+          const SizedBox(height: 16),
           Text(
-            'Müslüman Nüfus Dağılımı',
-            style: TextStyle(
+            l.t('du.population'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           for (final u in dunyaMuslumanNufusu) ...[
             _nufusKarti(u),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
           ],
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
-            'Kardeş Topluluklardan Gelenekler',
-            style: TextStyle(
+            l.t('du.traditions'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           for (final t in kardesTopluluklar) ...[
             _toplulukKarti(t),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  Widget _bilgiBanneri() {
+  Widget _bilgiBanneri(AppLocalizations l) {
     return Container(
-      padding: EdgeInsets.all(14),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Renkler.bannerUst, Renkler.bannerAlt],
@@ -71,12 +74,12 @@ class DunyaUmmetiPage extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.public, color: Renkler.vurgu, size: 22),
-              SizedBox(width: 10),
+              UcdIkon(ikon: Icons.public_rounded, renk: Renkler.vurgu, boyut: 22),
+              const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Tek bir beden, tek bir ümmet',
-                  style: TextStyle(
+                  l.t('du.oneBody'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -85,10 +88,10 @@ class DunyaUmmetiPage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
-            'Farklı dillerde, farklı coğrafyalarda aynı kıbleye dönen milyarlarca kardeş. Nüfus dağılımı ve kültürel geleneklerle ümmet bilincini güçlendir.',
-            style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
+            l.t('du.intro'),
+            style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
           ),
         ],
       ),
@@ -98,7 +101,7 @@ class DunyaUmmetiPage extends StatelessWidget {
   Widget _nufusKarti(Map<String, String> u) {
     if (u['bayrak'] == '🌍') {
       return Container(
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Renkler.seciliYuzey,
           borderRadius: BorderRadius.circular(14),
@@ -108,8 +111,8 @@ class DunyaUmmetiPage extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Text('🌍', style: TextStyle(fontSize: 22)),
-            SizedBox(width: 12),
+            const Text('🌍', style: TextStyle(fontSize: 22)),
+            const SizedBox(width: 12),
             Expanded(
               child: Text(
                 u['ulke']!,
@@ -126,7 +129,7 @@ class DunyaUmmetiPage extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Renkler.kart,
         borderRadius: BorderRadius.circular(14),
@@ -134,12 +137,12 @@ class DunyaUmmetiPage extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(u['bayrak']!, style: TextStyle(fontSize: 20)),
-          SizedBox(width: 12),
+          Text(u['bayrak']!, style: const TextStyle(fontSize: 20)),
+          const SizedBox(width: 12),
           Expanded(
             child: Text(
               u['ulke']!,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
                 fontSize: 13,
@@ -148,11 +151,11 @@ class DunyaUmmetiPage extends StatelessWidget {
           ),
           Text(
             u['nufus']!,
-            style: TextStyle(color: Colors.white, fontSize: 12),
+            style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(
               color: Renkler.bannerUst,
               borderRadius: BorderRadius.circular(10),
@@ -180,28 +183,28 @@ class DunyaUmmetiPage extends StatelessWidget {
         side: BorderSide(color: Renkler.cerceve),
       ),
       child: Padding(
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(t['bayrak']!, style: TextStyle(fontSize: 26)),
-            SizedBox(width: 12),
+            Text(t['bayrak']!, style: const TextStyle(fontSize: 26)),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     t['ad']!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     t['detay']!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 12,
                       height: 1.5,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 
@@ -30,10 +31,11 @@ class _UmutluPageState extends State<UmutluPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: Text("🤲 Umut & Rahmet Odası"),
+        title: Text(l.t('um.title')),
         backgroundColor: Color(0xFF261E2B),
         elevation: 0,
       ),
@@ -63,7 +65,7 @@ class _UmutluPageState extends State<UmutluPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Rahmet & Niyet Köşesi",
+                          l.t('um.bannerTitle'),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -72,7 +74,7 @@ class _UmutluPageState extends State<UmutluPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "Allah'ın rahmetinden asla ümit kesilmez. Geleceğe güzel niyetler ek.",
+                          l.t('um.bannerIntro'),
                           style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                       ],
@@ -84,7 +86,7 @@ class _UmutluPageState extends State<UmutluPage> {
             SizedBox(height: 20),
 
             // Umut Ayetleri
-            _buildCardTitle("Umut Veren Vaat (Zümer Suresi)"),
+            _buildCardTitle(l.t('um.verseTitle')),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(16),
@@ -116,7 +118,7 @@ class _UmutluPageState extends State<UmutluPage> {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "Zümer Suresi, 53. Ayet",
+                    l.t('um.verseSource'),
                     style: TextStyle(
                       color: Colors.purpleAccent,
                       fontSize: 12,
@@ -129,14 +131,14 @@ class _UmutluPageState extends State<UmutluPage> {
             SizedBox(height: 20),
 
             // Niyet & Dua Listesi Ekleme
-            _buildCardTitle("Yeni Niyet veya Hedef Ekle"),
+            _buildCardTitle(l.t('um.addTitle')),
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _customGoalController,
                     decoration: InputDecoration(
-                      hintText: "Örn: Yarın teheccüt kılmak, sadaka vermek...",
+                      hintText: l.t('um.addHint'),
                       filled: true,
                       fillColor: Renkler.kart,
                       border: OutlineInputBorder(
@@ -160,7 +162,7 @@ class _UmutluPageState extends State<UmutluPage> {
             SizedBox(height: 16),
 
             // Niyetler Listesi
-            _buildCardTitle("Dualarım ve Manevi Niyetlerim"),
+            _buildCardTitle(l.t('um.goalsTitle')),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),

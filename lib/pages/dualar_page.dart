@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
 import '../services/renkler.dart';
@@ -67,24 +68,25 @@ class _DualarPageState extends State<DualarPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         backgroundColor: Renkler.zemin,
         appBar: AppBar(
           backgroundColor: Renkler.zemin,
-          title: const Text(
-            'Manevi Dualar Hazinesi',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          title: Text(
+            l.t('dl.title'),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           bottom: TabBar(
             indicatorColor: Renkler.vurgu,
             labelColor: Renkler.vurgu,
             unselectedLabelColor: Colors.white54,
-            tabs: const [
-              Tab(text: 'Kategoriler'),
-              Tab(text: 'Favoriler'),
-              Tab(text: 'Kendi Dualarım'),
+            tabs: [
+              Tab(text: l.t('dl.tabCategories')),
+              Tab(text: l.t('dl.tabFavorites')),
+              Tab(text: l.t('dl.tabMyDua')),
             ],
           ),
         ),
@@ -96,10 +98,10 @@ class _DualarPageState extends State<DualarPage> {
             ),
             Expanded(
               child: _hata
-                  ? const Center(
+                  ? Center(
                       child: Text(
-                        'Dua verileri yüklenemedi.',
-                        style: TextStyle(color: Colors.white54),
+                        l.t('dl.error'),
+                        style: const TextStyle(color: Colors.white54),
                       ),
                     )
                   : _kategoriler == null
@@ -144,6 +146,7 @@ class _AramaCubugu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: TextField(
@@ -151,7 +154,7 @@ class _AramaCubugu extends StatelessWidget {
         onChanged: onChanged,
         style: const TextStyle(color: Colors.white, fontSize: 14),
         decoration: InputDecoration(
-          hintText: 'Ara: borç, uyku, sınav, korunma…',
+          hintText: l.t('dl.searchHint'),
           hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
           prefixIcon: const UcdIkon(
             ikon: Icons.search_rounded,
@@ -199,6 +202,8 @@ class _AramaSonuclari extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final kategoriAdi = l.t('dl.searchLabel');
     return FutureBuilder<List<DuaKaydi>>(
       future: DualarVerileri.instance.ara(sorgu),
       builder: (context, snp) {
@@ -207,10 +212,10 @@ class _AramaSonuclari extends StatelessWidget {
         }
         final sonuclar = snp.data!;
         if (sonuclar.isEmpty) {
-          return const Center(
+          return Center(
             child: Text(
-              'Sonuç bulunamadı. Farklı bir kelime deneyin.',
-              style: TextStyle(color: Colors.white54, fontSize: 13),
+              l.t('dl.searchEmpty'),
+              style: const TextStyle(color: Colors.white54, fontSize: 13),
             ),
           );
         }
@@ -221,8 +226,8 @@ class _AramaSonuclari extends StatelessWidget {
             final dua = sonuclar[i];
             return _DuaKarti(
               dua: dua,
-              kategoriAdi: 'Arama',
-              onTap: () => onAc(context, dua, 'Arama'),
+              kategoriAdi: kategoriAdi,
+              onTap: () => onAc(context, dua, kategoriAdi),
             );
           },
         );
@@ -245,6 +250,7 @@ class _KategorilerListesi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
       itemCount: kategoriler.length,
@@ -289,7 +295,9 @@ class _KategorilerListesi extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${k.duaSayisi} dua · ${k.gruplar.length} bölüm',
+                        l.t('dl.countParts')
+                            .replaceFirst('{count}', '${k.duaSayisi}')
+                            .replaceFirst('{groups}', '${k.gruplar.length}'),
                         style: TextStyle(color: Colors.white38, fontSize: 12),
                       ),
                     ],
@@ -403,6 +411,7 @@ class _DuaKarti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return ValueListenableBuilder<Set<String>>(
       valueListenable: DuaStore.favoriler,
       builder: (context, fav, _) {
@@ -474,7 +483,7 @@ class _DuaKarti extends StatelessWidget {
                           if (dua.sesUrl != null)
                             Padding(
                               padding: const EdgeInsets.only(right: 8),
-                              child: _Etiket('🔊 Sesli'),
+                              child: _Etiket('🔊 ${l.t('dl.audioLabel')}'),
                             ),
                           if (dua.etiketler.isNotEmpty)
                             _Etiket('#${dua.etiketler.first}'),
@@ -530,6 +539,8 @@ class _FavorilerListesi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final kategoriAdi = l.t('dl.favLabel');
     return FutureBuilder<List<DuaKaydi>>(
       future: DualarVerileri.instance.tumDualar(),
       builder: (context, snp) {
@@ -542,10 +553,9 @@ class _FavorilerListesi extends StatelessWidget {
           builder: (context, fav, _) {
             final favoriler = tum.where((d) => fav.contains(d.id)).toList();
             if (favoriler.isEmpty) {
-              return const _BosMesaj(
+              return _BosMesaj(
                 ikon: Icons.favorite_border_rounded,
-                metin:
-                    'Henüz favori duanız yok.\nBeğendiğiniz duaları yıldızla işaretleyin.',
+                metin: l.t('dl.emptyFavorites'),
               );
             }
             return ListView.builder(
@@ -555,8 +565,8 @@ class _FavorilerListesi extends StatelessWidget {
                 final dua = favoriler[i];
                 return _DuaKarti(
                   dua: dua,
-                  kategoriAdi: 'Favoriler',
-                  onTap: () => onAc(context, dua, 'Favoriler'),
+                  kategoriAdi: kategoriAdi,
+                  onTap: () => onAc(context, dua, kategoriAdi),
                 );
               },
             );
@@ -576,6 +586,7 @@ class _OzDualarListesi extends StatelessWidget {
   const _OzDualarListesi({required this.onAc});
 
   Future<void> _yeniDua(BuildContext context) async {
+    final l = AppLocalizations.of(context);
     final baslik = TextEditingController();
     final metin = TextEditingController();
     final form = GlobalKey<FormState>();
@@ -583,9 +594,9 @@ class _OzDualarListesi extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Renkler.kart,
-        title: const Text(
-          'Kendi Duamı Ekle',
-          style: TextStyle(color: Colors.white, fontSize: 16),
+        title: Text(
+          l.t('dl.myDuaTitle'),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
         content: Form(
           key: form,
@@ -595,18 +606,18 @@ class _OzDualarListesi extends StatelessWidget {
               TextFormField(
                 controller: baslik,
                 style: const TextStyle(color: Colors.white, fontSize: 14),
-                decoration: _giris('Dua başlığı (örn: Evladım için)'),
+                decoration: _giris(l.t('dl.titleHint')),
                 validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Başlık girin' : null,
+                    (v == null || v.trim().isEmpty) ? l.t('dl.enterTitle') : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: metin,
                 maxLines: 4,
                 style: const TextStyle(color: Colors.white, fontSize: 14),
-                decoration: _giris('Duayı veya notunuzu yazın'),
+                decoration: _giris(l.t('dl.duaHint')),
                 validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Dua metni girin' : null,
+                    (v == null || v.trim().isEmpty) ? l.t('dl.enterDua') : null,
               ),
             ],
           ),
@@ -614,9 +625,9 @@ class _OzDualarListesi extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text(
-              'Vazgeç',
-              style: TextStyle(color: Colors.white54),
+            child: Text(
+              l.t('dl.cancel'),
+              style: const TextStyle(color: Colors.white54),
             ),
           ),
           ElevatedButton(
@@ -629,7 +640,7 @@ class _OzDualarListesi extends StatelessWidget {
                 Navigator.pop(context, true);
               }
             },
-            child: const Text('Kaydet'),
+            child: Text(l.t('dl.save')),
           ),
         ],
       ),
@@ -657,6 +668,7 @@ class _OzDualarListesi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return ValueListenableBuilder<List<OzDua>>(
       valueListenable: DuaStore.ozDualar,
       builder: (context, liste, _) {
@@ -680,16 +692,15 @@ class _OzDualarListesi extends StatelessWidget {
                     renk: Renkler.vurgu,
                     boyut: 18,
                   ),
-                  label: const Text('Yeni dua / not ekle'),
+                  label: Text(l.t('dl.addNew')),
                 ),
               ),
             ),
             Expanded(
               child: liste.isEmpty
-                  ? const _BosMesaj(
+                  ? _BosMesaj(
                       ikon: Icons.edit_note_rounded,
-                      metin:
-                          'Kendi özel dualarınızı ve notlarınızı\nburaya yazıp saklayabilirsiniz.',
+                      metin: l.t('dl.emptyOwn'),
                     )
                   : ListView.builder(
                       padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
@@ -734,7 +745,7 @@ class _OzDualarListesi extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                tooltip: 'Sil',
+                                tooltip: l.t('dl.delete'),
                                 icon: const UcdIkon(
                                   ikon: Icons.delete_outline_rounded,
                                   renk: Colors.white30,

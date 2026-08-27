@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../widgets/kart_sekilleri.dart';
 import 'soru_cevap_model.dart';
@@ -46,14 +47,15 @@ class _SoruCevapPageState extends State<SoruCevapPage>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         backgroundColor: Renkler.yuzey,
         elevation: 0,
-        title: const Text(
-          'Soru-Cevap (Fetva)',
-          style: TextStyle(color: Colors.white, fontSize: 18),
+        title: Text(
+          l.t('sc.title'),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
         bottom: TabBar(
           controller: _tabController,
@@ -61,10 +63,10 @@ class _SoruCevapPageState extends State<SoruCevapPage>
           indicatorColor: Renkler.vurgu,
           labelColor: Renkler.vurgu,
           unselectedLabelColor: Colors.white54,
-          tabs: const [
-            Tab(text: '📚 Bilgi Bankası'),
-            Tab(text: '🎯 Bilgi Testleri'),
-            Tab(text: '📅 Günün Sorusu'),
+          tabs: [
+            Tab(text: l.t('sc.tabBank')),
+            Tab(text: l.t('sc.tabQuiz')),
+            Tab(text: l.t('sc.tabDaily')),
           ],
         ),
       ),
@@ -92,6 +94,7 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final aramaAktif = _arama.trim().isNotEmpty;
 
     List<SoruCevapSorusu> liste;
@@ -114,7 +117,7 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
                 onChanged: (val) => setState(() => _arama = val),
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: 'Soru, kavram veya ayet arayın...',
+                  hintText: l.t('sc.searchHint'),
                   hintStyle: const TextStyle(
                     color: Colors.white38,
                     fontSize: 13,
@@ -150,7 +153,7 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      _kategoriChip(null, '✨ Tümü'),
+                      _kategoriChip(null, l.t('sc.all')),
                       for (final k in SoruCevapVerileri.kategoriler)
                         _kategoriChip(k.ad, '${k.emoji} ${k.ad}'),
                     ],
@@ -165,24 +168,21 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
             padding: const EdgeInsets.all(16),
             children: [
               if (!aramaAktif)
-                _infoBanner(
-                  'Günlük hayata ve Kur\'an kıssalarına dair merak edilenler. '
-                  'Bir soruya dokunun; cevabı ve kaynağı aynı yerde açılır.',
-                ),
+                _infoBanner(l.t('sc.infoBanner')),
               if (aramaAktif)
                 Text(
-                  '${liste.length} sonuç bulundu',
+                  l.t('sc.resultsFound').replaceFirst('{count}', '${liste.length}'),
                   style: const TextStyle(color: Colors.white54, fontSize: 12),
                 ),
               const SizedBox(height: 10),
               if (liste.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.only(top: 40),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
                   child: Center(
                     child: Text(
-                      'Aradığınıza uygun soru bulunamadı.\nFarklı bir sözcük deneyin.',
+                      l.t('sc.noResult'),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white54),
+                      style: const TextStyle(color: Colors.white54),
                     ),
                   ),
                 )
@@ -401,21 +401,22 @@ class _FaqKartiState extends State<_FaqKarti> {
   }
 
   void _kaynakGoster(BuildContext context, SoruCevapSorusu s) {
+    final l = AppLocalizations.of(context);
     showModalBottomSheet(
       context: context,
       backgroundColor: Renkler.yuzey,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => Padding(
+      builder: (sheetContext) => Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '📚 Kaynak',
-              style: TextStyle(
+            Text(
+              l.t('sc.source'),
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
@@ -452,9 +453,7 @@ class _FaqKartiState extends State<_FaqKarti> {
             ],
             const SizedBox(height: 12),
             Text(
-              'Bu içerik; Diyanet İşleri Başkanlığı ilmihal ve fetvaları, '
-              'Kur\'an meali ile Sahih-i Buhari ve Sahih-i Müslim gibi hadis '
-              'kaynakları esas alınarak hazırlanmıştır.',
+              l.t('sc.sourceNote'),
               style: const TextStyle(
                 color: Colors.white38,
                 fontSize: 11,
@@ -503,14 +502,15 @@ class _TestIcerigiState extends State<_TestIcerigi> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final sorular = SoruCevapVerileri.seviyeyeGore(_seviye);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _rozetKartlari(widget.dogru),
+        _rozetKartlari(widget.dogru, l),
         const SizedBox(height: 14),
         Text(
-          'Seviye seçin ve soruları çözün. Doğru cevapladıkça rozet kazanırsınız.',
+          l.t('sc.quizIntro'),
           style: const TextStyle(
             color: Colors.white54,
             fontSize: 12.5,
@@ -523,13 +523,15 @@ class _TestIcerigiState extends State<_TestIcerigi> {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              for (final seviye in SoruSeviyesi.values) _seviyeChip(seviye),
+              for (final seviye in SoruSeviyesi.values) _seviyeChip(seviye, l),
             ],
           ),
         ),
         const SizedBox(height: 14),
         Text(
-          '${sorular.length} soru · ${_seviyeEtiket(_seviye)}',
+          l.t('sc.questionsCount')
+              .replaceFirst('{count}', '${sorular.length}')
+              .replaceFirst('{level}', _seviyeEtiket(_seviye, l)),
           style: const TextStyle(color: Colors.white38, fontSize: 11),
         ),
         const SizedBox(height: 8),
@@ -547,12 +549,12 @@ class _TestIcerigiState extends State<_TestIcerigi> {
     );
   }
 
-  Widget _seviyeChip(SoruSeviyesi seviye) {
+  Widget _seviyeChip(SoruSeviyesi seviye, AppLocalizations l) {
     final secili = _seviye == seviye;
     final etiket = switch (seviye) {
-      SoruSeviyesi.kolay => '🌱 Başlangıç',
-      SoruSeviyesi.orta => '⭐ Orta',
-      SoruSeviyesi.zor => '🔥 İleri',
+      SoruSeviyesi.kolay => l.t('sc.levelBeginner'),
+      SoruSeviyesi.orta => l.t('sc.levelIntermediate'),
+      SoruSeviyesi.zor => l.t('sc.levelAdvanced'),
     };
     return Padding(
       padding: const EdgeInsets.only(right: 8),
@@ -580,13 +582,13 @@ class _TestIcerigiState extends State<_TestIcerigi> {
     );
   }
 
-  String _seviyeEtiket(SoruSeviyesi seviye) => switch (seviye) {
-    SoruSeviyesi.kolay => 'Başlangıç seviyesi',
-    SoruSeviyesi.orta => 'Orta seviye',
-    SoruSeviyesi.zor => 'İleri seviye',
+  String _seviyeEtiket(SoruSeviyesi seviye, AppLocalizations l) => switch (seviye) {
+    SoruSeviyesi.kolay => l.t('sc.levelBeginnerName'),
+    SoruSeviyesi.orta => l.t('sc.levelIntermediateName'),
+    SoruSeviyesi.zor => l.t('sc.levelAdvancedName'),
   };
 
-  Widget _rozetKartlari(int dogru) {
+  Widget _rozetKartlari(int dogru, AppLocalizations l) {
     final kazananlar = SoruCevapStore.kazanilanRozetler;
     final kalan = SoruCevapStore.sonrakiRozetIcinKalan();
     return Container(
@@ -607,9 +609,9 @@ class _TestIcerigiState extends State<_TestIcerigi> {
                 boyut: 20,
               ),
               const SizedBox(width: 8),
-              const Text(
-                'Rozetlerim',
-                style: TextStyle(
+              Text(
+                l.t('sc.myBadges'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -617,7 +619,9 @@ class _TestIcerigiState extends State<_TestIcerigi> {
               ),
               const Spacer(),
               Text(
-                '$dogru doğru · ${widget.yanit} yanıt',
+                l.t('sc.correctAnswer')
+                    .replaceFirst('{correct}', '$dogru')
+                    .replaceFirst('{total}', '${widget.yanit}'),
                 style: const TextStyle(color: Colors.white54, fontSize: 11),
               ),
             ],
@@ -626,8 +630,9 @@ class _TestIcerigiState extends State<_TestIcerigi> {
           if (kazananlar.isEmpty)
             Text(
               kalan > 0
-                  ? 'Henüz rozet yok. Sonraki rozet için $kalan doğru cevap daha gerekiyor.'
-                  : 'Tüm rozetleri kazandınız!',
+                  ? l.t('sc.noBadges')
+                      .replaceFirst('{remaining}', '$kalan')
+                  : l.t('sc.allBadges'),
               style: const TextStyle(color: Colors.white54, fontSize: 12),
             )
           else
@@ -670,7 +675,7 @@ class _TestIcerigiState extends State<_TestIcerigi> {
             ),
             const SizedBox(height: 6),
             Text(
-              'Sonraki rozet: $kalan doğru kaldı',
+              l.t('sc.nextBadge').replaceFirst('{remaining}', '$kalan'),
               style: const TextStyle(color: Colors.white38, fontSize: 10.5),
             ),
           ],
@@ -701,6 +706,7 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final s = widget.soru;
     final cevaplandi = _secim != null;
     final dogru = cevaplandi && _secim == s.dogruIndex;
@@ -822,8 +828,9 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                   const SizedBox(height: 4),
                   Text(
                     dogru
-                        ? '✅ Doğru!'
-                        : '❌ Yanlış. Doğru cevap: ${s.secenekler![s.dogruIndex!]}',
+                        ? l.t('sc.correct')
+                        : l.t('sc.incorrect')
+                            .replaceFirst('{answer}', s.secenekler![s.dogruIndex!]),
                     style: TextStyle(
                       color: dogru
                           ? const Color(0xFF66BB6A)
@@ -847,7 +854,9 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          widget.acik ? 'Açıklamayı gizle' : 'Açıklamayı gör',
+                          widget.acik
+                              ? l.t('sc.hideExplanation')
+                              : l.t('sc.showExplanation'),
                           style: TextStyle(
                             color: Renkler.vurgu,
                             fontSize: 12,
@@ -951,6 +960,7 @@ class _GununSorusuState extends State<_GununSorusu> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -970,11 +980,10 @@ class _GununSorusuState extends State<_GununSorusu> {
                 boyut: 18,
               ),
               const SizedBox(width: 10),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Her gün tek bir soru. Önce düşünün, sonra cevabı ve '
-                  'ilgili ayeti açın. Günde bir kez doğru cevap puanınızı artırır.',
-                  style: TextStyle(
+                  l.t('sc.cdqIntro'),
+                  style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
                     height: 1.5,
@@ -985,17 +994,17 @@ class _GununSorusuState extends State<_GununSorusu> {
           ),
         ),
         const SizedBox(height: 16),
-        _flashcard(),
+        _flashcard(l),
         const SizedBox(height: 16),
         ValueListenableBuilder<bool>(
           valueListenable: SoruCevapStore.gunlukCevaplandi,
-          builder: (context, cevaplandi, _) => _durumSatiri(cevaplandi),
+          builder: (context, cevaplandi, _) => _durumSatiri(cevaplandi, l),
         ),
       ],
     );
   }
 
-  Widget _flashcard() {
+  Widget _flashcard(AppLocalizations l) {
     final cevaplandi = SoruCevapStore.gunlukCevaplandi.value;
     final quizVar = _soru.quizVar;
 
@@ -1012,12 +1021,14 @@ class _GununSorusuState extends State<_GununSorusu> {
             ),
           );
         },
-        child: _cevir ? _kartArkaYuz() : _kartOnYuz(quizVar, cevaplandi),
+        child: _cevir
+            ? _kartArkaYuz(l)
+            : _kartOnYuz(quizVar, cevaplandi, l),
       ),
     );
   }
 
-  Widget _kartOnYuz(bool quizVar, bool cevaplandi) {
+  Widget _kartOnYuz(bool quizVar, bool cevaplandi, AppLocalizations l) {
     return Container(
       key: const ValueKey('on'),
       padding: const EdgeInsets.all(20),
@@ -1050,7 +1061,7 @@ class _GununSorusuState extends State<_GununSorusu> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  '📅 Günün Sorusu',
+                  l.t('sc.dailyQuestion'),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 11,
@@ -1079,9 +1090,9 @@ class _GununSorusuState extends State<_GununSorusu> {
           ),
           if (quizVar && !cevaplandi) ...[
             const SizedBox(height: 16),
-            const Text(
-              'Cevabınızı düşünün, sonra karta dokunarak açın.',
-              style: TextStyle(color: Colors.white70, fontSize: 12),
+            Text(
+              l.t('sc.thinkThenOpen'),
+              style: const TextStyle(color: Colors.white70, fontSize: 12),
             ),
           ],
           const SizedBox(height: 20),
@@ -1091,16 +1102,16 @@ class _GununSorusuState extends State<_GununSorusu> {
             boyut: 22,
           ),
           const SizedBox(height: 6),
-          const Text(
-            'Cevabı görmek için dokunun',
-            style: TextStyle(color: Colors.white54, fontSize: 11),
+          Text(
+            l.t('sc.tapToSee'),
+            style: const TextStyle(color: Colors.white54, fontSize: 11),
           ),
         ],
       ),
     );
   }
 
-  Widget _kartArkaYuz() {
+  Widget _kartArkaYuz(AppLocalizations l) {
     final s = _soru;
     return Container(
       key: const ValueKey('arka'),
@@ -1112,9 +1123,9 @@ class _GununSorusuState extends State<_GununSorusu> {
       ),
       child: Column(
         children: [
-          const Text(
-            '💡 Cevap',
-            style: TextStyle(
+          Text(
+            l.t('sc.answer'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 12,
               fontWeight: FontWeight.bold,
@@ -1176,16 +1187,16 @@ class _GununSorusuState extends State<_GununSorusu> {
             ],
           ),
           const SizedBox(height: 14),
-          const Text(
-            'Karta dokunun: soruya dönün',
-            style: TextStyle(color: Colors.white38, fontSize: 10.5),
+          Text(
+            l.t('sc.tapToReturn'),
+            style: const TextStyle(color: Colors.white38, fontSize: 10.5),
           ),
         ],
       ),
     );
   }
 
-  Widget _durumSatiri(bool cevaplandi) {
+  Widget _durumSatiri(bool cevaplandi, AppLocalizations l) {
     final s = _soru;
     return Column(
       children: [
@@ -1197,18 +1208,18 @@ class _GununSorusuState extends State<_GununSorusu> {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: const Color(0xFF66BB6A)),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                UcdIkon(
+                const UcdIkon(
                   ikon: Icons.check_circle_rounded,
                   renk: Color(0xFF66BB6A),
                   boyut: 18,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Bugünün sorusunu cevapladınız. Yarın yeni bir soru sizi bekliyor.',
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    l.t('sc.doneToday'),
+                    style: const TextStyle(color: Colors.white70, fontSize: 12),
                   ),
                 ),
               ],
@@ -1225,15 +1236,15 @@ class _GununSorusuState extends State<_GununSorusu> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '📋 Bu soru aynı zamanda Bilgi Testleri\'nde de var.',
-                  style: TextStyle(color: Colors.white54, fontSize: 11),
+                Text(
+                  l.t('sc.inQuizToo'),
+                  style: const TextStyle(color: Colors.white54, fontSize: 11),
                 ),
                 const SizedBox(height: 8),
                 if (s.secenekler != null) ...[
-                  const Text(
-                    'Şıklardan cevaplamak ister misiniz?',
-                    style: TextStyle(color: Colors.white54, fontSize: 11),
+                  Text(
+                    l.t('sc.answerWithOptions'),
+                    style: const TextStyle(color: Colors.white54, fontSize: 11),
                   ),
                   const SizedBox(height: 8),
                   Wrap(
@@ -1289,8 +1300,9 @@ class _GununSorusuState extends State<_GununSorusu> {
                     const SizedBox(height: 10),
                     Text(
                       _secim == s.dogruIndex
-                          ? '✅ Doğru cevapladınız! Açıklamayı görmek için karta dokunun.'
-                          : '❌ Doğru cevap: ${s.secenekler![s.dogruIndex!]}. Açıklama için karta dokunun.',
+                          ? l.t('sc.rightAnswered')
+                          : l.t('sc.wrongAnswered')
+                              .replaceFirst('{answer}', s.secenekler![s.dogruIndex!]),
                       style: TextStyle(
                         color: _secim == s.dogruIndex
                             ? const Color(0xFF66BB6A)
@@ -1301,9 +1313,9 @@ class _GununSorusuState extends State<_GununSorusu> {
                     ),
                   ],
                 ] else
-                  const Text(
-                    'Karta dokunarak cevabı açabilirsiniz.',
-                    style: TextStyle(color: Colors.white54, fontSize: 11),
+                  Text(
+                    l.t('sc.tapToOpenAnswer'),
+                    style: const TextStyle(color: Colors.white54, fontSize: 11),
                   ),
               ],
             ),
@@ -1321,17 +1333,17 @@ class _GununSorusuState extends State<_GununSorusu> {
               renk: Renkler.vurgu,
               boyut: 16,
             ),
-            label: const Text('Bu soruyu paylaş'),
+            label: Text(l.t('sc.shareQuestion')),
             onPressed: () {
               Clipboard.setData(
                 ClipboardData(
                   text:
-                      '📅 Günün Sorusu\n\n${_soru.soru}\n\n${_soru.cevap}\n\nKaynak: ${_soru.kaynak}',
+                      '${l.t('sc.dailyQuestion')}\n\n${_soru.soru}\n\n${_soru.cevap}\n\n${l.t('sc.source')}: ${_soru.kaynak}',
                 ),
               );
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Soru metni kopyalandı'),
+                SnackBar(
+                  content: Text(l.t('sc.copiedSnackbar')),
                   backgroundColor: Colors.green,
                 ),
               );

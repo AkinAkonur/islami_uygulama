@@ -90,7 +90,6 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
     final tumGorev = ManeviStore.gorevler.every((g) => _gorevler.contains(g['id']));
     final tumNamaz = ManeviStore.namazVakitleri.every(_namaz.contains);
     final bugunBitti = tumGorev && tumNamaz;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 
@@ -34,7 +35,9 @@ class _YardimKampanyaDetayPageState extends State<YardimKampanyaDetayPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Destek niyetin kaydedildi. ${widget.kampanya.ad} için Allah razı olsun. 💚',
+          AppLocalizations.of(context)
+              .t('jk.niyetSave')
+              .replaceFirst('{name}', widget.kampanya.ad),
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
@@ -45,6 +48,7 @@ class _YardimKampanyaDetayPageState extends State<YardimKampanyaDetayPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final k = widget.kampanya;
     final toplam = k.katilan + _pay;
 
@@ -115,7 +119,7 @@ class _YardimKampanyaDetayPageState extends State<YardimKampanyaDetayPage> {
                         color: Colors.white, size: 18),
                     const SizedBox(width: 6),
                     Text(
-                      '${binlikSayi(toplam)} kardeş bu hayra ortak oldu',
+                      l.t('jk.joinedCount').replaceFirst('{count}', binlikSayi(toplam)),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -128,9 +132,9 @@ class _YardimKampanyaDetayPageState extends State<YardimKampanyaDetayPage> {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(
-            'Kampanya Hakkında',
-            style: TextStyle(
+          Text(
+            l.t('jk.about'),
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 15,
@@ -194,17 +198,16 @@ class _YardimKampanyaDetayPageState extends State<YardimKampanyaDetayPage> {
             ),
             onPressed: _destekle,
             icon: const Icon(Icons.favorite),
-            label: const Text(
-              'Niyet Ettim',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            label: Text(
+              l.t('jk.intention'),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Bağışınızı güvendiğiniz kurumdan kendiniz yapın; buradaki destek '
-            'niyetinizi ve katılım sayacını kaydeder.',
+          Text(
+            l.t('jk.donationNote'),
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white38, fontSize: 11, height: 1.4),
+            style: const TextStyle(color: Colors.white38, fontSize: 11, height: 1.4),
           ),
           const SizedBox(height: 20),
         ],

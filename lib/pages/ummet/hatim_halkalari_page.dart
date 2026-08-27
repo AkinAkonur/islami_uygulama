@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 
@@ -32,6 +33,7 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
   }
 
   Future<void> _cuzTikla(int cuzNo) async {
+    final l = AppLocalizations.of(context);
     final eklendi = await UmmetStore.hatimCuzTikla(cuzNo);
     if (!mounted) return;
     setState(() {
@@ -46,8 +48,8 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
       SnackBar(
         content: Text(
           eklendi
-              ? '$cuzNo. cüzü üstlendin! 24 saat içinde oku. 📖'
-              : '$cuzNo. cüzden ayrıldın.',
+              ? l.t('hh.tookJuz').replaceFirst('{no}', '$cuzNo')
+              : l.t('hh.leftJuz').replaceFirst('{no}', '$cuzNo'),
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
@@ -58,11 +60,12 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Hatim Halkaları',
+          l.t('hh.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -95,8 +98,9 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
                           SizedBox(width: 10),
                           Expanded(
                             child: Text(
-                              '${_cuzlerim.length} cüz üstlendin • '
-                              '${binlikSayi(_tamamlanan)} hatim tamamlandı',
+                              l.t('hh.summary')
+                                  .replaceFirst('{count}', '${_cuzlerim.length}')
+                                  .replaceFirst('{finished}', binlikSayi(_tamamlanan)),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -108,7 +112,7 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        '30 cüz, 30 kardeşe otomatik dağıtılır. Halka 24 saat içinde tamamlanır: üstlendiğin cüzü o gün oku, sevap hanesine ortak ol.',
+                        l.t('hh.intro'),
                         style: TextStyle(
                           color: Colors.white70,
                           fontSize: 12,
@@ -130,7 +134,7 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
                     childAspectRatio: 0.85,
                   ),
                   itemCount: 30,
-                  itemBuilder: (context, i) => _cuzHucresi(i + 1),
+                  itemBuilder: (context, i) => _cuzHucresi(i + 1, l),
                 ),
                 SizedBox(height: 16),
                 Container(
@@ -146,7 +150,7 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'Yeşil çerçeveli cüzler sana ait. Gri cüzler, halkadaki kardeşlerine tahsis edilmiş; mavi damgalılar tamamlanmış. "Sen" olarak cüzünü okudukça halka güçlenir.',
+                          l.t('hh.legend'),
                           style: TextStyle(
                             color: Colors.white54,
                             fontSize: 11,
@@ -163,7 +167,7 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
     );
   }
 
-  Widget _cuzHucresi(int cuzNo) {
+  Widget _cuzHucresi(int cuzNo, AppLocalizations l) {
     final bende = _cuzlerim.contains(cuzNo);
     final onKatilim = hatimOnKatilim[cuzNo];
     final tamamlandi = onKatilim == null && !bende && cuzNo % 3 == 0;
@@ -196,7 +200,7 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
             ),
             SizedBox(height: 2),
             Text(
-              bende ? 'Sen' : (tamamlandi ? '✓' : (onKatilim != null ? '…' : '+')),
+              bende ? l.t('hh.mine') : (tamamlandi ? '✓' : (onKatilim != null ? '…' : '+')),
               style: TextStyle(
                 color: bende
                     ? Renkler.vurgu

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../../widgets/kart_sekilleri.dart';
 import 'fikih_verileri.dart';
@@ -49,10 +50,11 @@ class _FikihKararAgaciPageState extends State<FikihKararAgaciPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Dem & Fidye Rehberi'),
+        title: Text(l.t('fka.title')),
         backgroundColor: Renkler.seciliYuzey,
       ),
       body: Column(
@@ -73,9 +75,10 @@ class _FikihKararAgaciPageState extends State<FikihKararAgaciPage> {
                     geri: _yol.isEmpty
                         ? null
                         : () => setState(() => _bastanBasla()),
+                    l: l,
                   )
                 else
-                  _SonucKarti(sonuc: _sonuc!, mezhep: _seciliMezhep),
+                  _SonucKarti(sonuc: _sonuc!, mezhep: _seciliMezhep, l: l),
                 const SizedBox(height: 12),
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -111,7 +114,7 @@ class _FikihKararAgaciPageState extends State<FikihKararAgaciPage> {
                     ),
                     onPressed: _bastanBasla,
                     icon: UcdIkon(ikon: Icons.replay_rounded, renk: Renkler.vurgu),
-                    label: const Text('Baştan Başla'),
+                    label: Text(l.t('fka.restartBtn')),
                   ),
                 ],
               ],
@@ -185,11 +188,13 @@ class _SoruKarti extends StatelessWidget {
   final String mezhep;
   final ValueChanged<FikihSecenegi> onSec;
   final VoidCallback? geri;
+  final AppLocalizations l;
 
   const _SoruKarti({
     required this.soru,
     required this.mezhep,
     required this.onSec,
+    required this.l,
     this.geri,
   });
 
@@ -222,9 +227,9 @@ class _SoruKarti extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Karar Ağacı',
-                      style: TextStyle(
+                    Text(
+                      l.t('fka.decisionTree'),
+                      style: const TextStyle(
                         color: Colors.white38,
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
@@ -232,7 +237,7 @@ class _SoruKarti extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Mezhep: $mezhep',
+                      l.t('fka.mezhep').replaceFirst('{m}', mezhep),
                       style: const TextStyle(
                         color: Colors.white54,
                         fontSize: 12,
@@ -243,7 +248,7 @@ class _SoruKarti extends StatelessWidget {
               ),
               if (geri != null)
                 IconButton(
-                  tooltip: 'Baştan başla',
+                  tooltip: l.t('fka.restartBtn'),
                   onPressed: geri,
                   icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white38),
                 ),
@@ -313,8 +318,9 @@ class _SoruKarti extends StatelessWidget {
 class _SonucKarti extends StatelessWidget {
   final FikihSonuc sonuc;
   final String mezhep;
+  final AppLocalizations l;
 
-  const _SonucKarti({required this.sonuc, required this.mezhep});
+  const _SonucKarti({required this.sonuc, required this.mezhep, required this.l});
 
   @override
   Widget build(BuildContext context) {
@@ -370,7 +376,7 @@ class _SonucKarti extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '• $mezhep Mezhebine Göre',
+                  l.t('fka.perMezhep').replaceFirst('{m}', mezhep),
                   style: TextStyle(
                     color: Renkler.acikVurgu,
                     fontSize: 12,
@@ -391,9 +397,9 @@ class _SonucKarti extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          const Text(
-            'Diğer Mezhepler',
-            style: TextStyle(
+          Text(
+            l.t('fka.otherSchools'),
+            style: const TextStyle(
               color: Colors.white54,
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -410,8 +416,9 @@ class _SonucKarti extends StatelessWidget {
                     const Text('▸ ', style: TextStyle(color: Colors.white38)),
                     Expanded(
                       child: Text(
-                        '${m}lı görüşü: '
-                        '${sonuc.mezhepHukumleri[m] ?? sonuc.ozet}',
+                        l.t('fka.schoolView')
+                            .replaceFirst('{m}', m)
+                            .replaceFirst('{h}', sonuc.mezhepHukumleri[m] ?? sonuc.ozet),
                         style: const TextStyle(
                             color: Colors.white54, fontSize: 12, height: 1.4),
                       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import '../l10n/app_localizations.dart';
 import '../services/location_and_mosque_service.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
@@ -36,9 +37,12 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
     setState(() => _camiler = camiler);
   }
 
-  String _mesafeYaz(double metre) {
-    if (metre < 1000) return '${metre.round()} m';
-    return '${(metre / 1000).toStringAsFixed(1)} km';
+  String _mesafeYaz(double metre, AppLocalizations l) {
+    if (metre < 1000) {
+      return l.t('yc.distanceM').replaceFirst('{d}', '${metre.round()}');
+    }
+    return l.t('yc.distanceKm')
+        .replaceFirst('{d}', (metre / 1000).toStringAsFixed(1));
   }
 
   Future<void> _camiSec(Mosque cami) async {
@@ -47,7 +51,9 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (ctx) => SafeArea(
+      builder: (ctx) {
+        final l = AppLocalizations.of(ctx);
+        return SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -75,29 +81,30 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
               if (cami.distanceInMeters != null) ...[
                 const SizedBox(height: 4),
                 Text(
-                  '${_mesafeYaz(cami.distanceInMeters!)} uzaklıkta',
+                  l.t('yc.distanceAway').replaceFirst(
+                      '{d}', _mesafeYaz(cami.distanceInMeters!, l)),
                   style: const TextStyle(color: Colors.white54, fontSize: 12),
                 ),
               ],
               const SizedBox(height: 16),
               _secimButonu(
                 Icons.directions_walk,
-                'Yürüyerek Yol Tarifi',
-                'Google Maps / Apple Maps ile adım adım',
+                l.t('yc.walk'),
+                l.t('yc.walkSub'),
                 () => Navigator.pop(ctx, 'walking'),
               ),
               const SizedBox(height: 10),
               _secimButonu(
                 Icons.directions_car,
-                'Arabayla Yol Tarifi',
-                'Sürüş navigasyonu başlat',
+                l.t('yc.drive'),
+                l.t('yc.driveSub'),
                 () => Navigator.pop(ctx, 'driving'),
               ),
               const SizedBox(height: 10),
               _secimButonu(
                 Icons.map_outlined,
-                'Haritada Gör',
-                'Camiyi haritada konumlandır',
+                l.t('yc.mapView'),
+                l.t('yc.mapViewSub'),
                 () async {
                   Navigator.pop(ctx);
                   final acildi = await LocationAndMosqueService.haritadaGoster(
@@ -105,8 +112,8 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
                   );
                   if (!acildi && mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Harita uygulaması açılamadı.'),
+                      SnackBar(
+                        content: Text(l.t('yc.mapError')),
                       ),
                     );
                   }
@@ -116,7 +123,8 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
             ],
           ),
         ),
-      ),
+        );
+      },
     );
     if (secim != null && (secim == 'walking' || secim == 'driving')) {
       await _yolTarifi(cami, secim);
@@ -142,7 +150,7 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
     );
     if (!acildi && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Yol tarifi açılamadı.')),
+        SnackBar(content: Text(AppLocalizations.of(context).t('yc.routeError'))),
       );
     }
   }
@@ -194,10 +202,11 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Yakındaki Camiler'),
+        title: Text(l.t('yc.title')),
         backgroundColor: Renkler.seciliYuzey,
         actions: [
           IconButton(
@@ -217,20 +226,19 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
                       children: [
                           UcdIkon(ikon: Icons.mosque_rounded, renk: Colors.white38, boyut: 56),
                         const SizedBox(height: 12),
-                        const Text(
-                          'Cami bulunamadı.',
-                          style: TextStyle(
+                        Text(
+                          l.t('yc.noMosque'),
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 6),
-                        const Text(
-                          'Konum izni verdiğinden ve internet bağlantının açık '
-                          'olduğundan emin ol; sonra yenile.',
+                        Text(
+                          l.t('yc.noMosqueHint'),
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white54, fontSize: 12),
+                          style: const TextStyle(color: Colors.white54, fontSize: 12),
                         ),
                         const SizedBox(height: 16),
                         OutlinedButton.icon(
@@ -240,7 +248,7 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
                             side: BorderSide(color: Renkler.vurgu),
                           ),
                           icon: UcdIkon(ikon: Icons.refresh_rounded, renk: Renkler.vurgu, boyut: 18),
-                          label: const Text('Tekrar Dene'),
+                          label: Text(l.t('yc.retry')),
                         ),
                       ],
                     ),
@@ -272,8 +280,9 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
                         ),
                         subtitle: Text(
                           cami.distanceInMeters != null
-                              ? '${_mesafeYaz(cami.distanceInMeters!)} uzaklıkta'
-                              : 'Uzaklık bilinmiyor',
+                              ? l.t('yc.distanceAway').replaceFirst(
+                                  '{d}', _mesafeYaz(cami.distanceInMeters!, l))
+                              : l.t('yc.distanceUnknown'),
                           style: const TextStyle(
                             color: Colors.white70,
                             fontSize: 12,

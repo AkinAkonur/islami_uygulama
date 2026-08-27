@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/manevi_store.dart';
 import '../../services/ummet_verileri.dart';
@@ -42,11 +43,12 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Canlı Yayın & Etkinlikler',
+          l.t('et.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -57,10 +59,10 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
           : ListView(
               padding: EdgeInsets.all(16),
               children: [
-                _bilgiBanneri(),
+                _bilgiBanneri(l),
                 SizedBox(height: 16),
                 Text(
-                  'Canlı Yayınlar',
+                  l.t('et.liveTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -70,25 +72,28 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
                 SizedBox(height: 6),
                 _canliYayinKarti(
                   ikon: Icons.location_city_rounded,
-                  baslik: 'Mescid-i Haram • Kâbe',
-                  alt: '7/24 kesintisiz canlı yayın ve Kâbe görüntüsü',
+                  baslik: l.t('et.haramTitle'),
+                  alt: l.t('et.haramSub'),
                   renk: Color(0xFF4FC3C9),
+                  tip: 'haram',
                 ),
                 _canliYayinKarti(
                   ikon: Icons.mosque_rounded,
-                  baslik: 'Mescid-i Nebevî',
-                  alt: 'Peygamber (s.a.v.) mescidinin canlı manzarası',
+                  baslik: l.t('et.nebeviTitle'),
+                  alt: l.t('et.nebeviSub'),
                   renk: Color(0xFF5FA8E8),
+                  tip: 'nebevi',
                 ),
                 _canliYayinKarti(
                   ikon: Icons.explore_rounded,
-                  baslik: 'Mekke & Medine Sanal Tur',
-                  alt: 'Kâbe, Ravza ve tarihi mekânlarda gezin',
+                  baslik: l.t('et.tourTitle'),
+                  alt: l.t('et.tourSub'),
                   renk: Color(0xFFF2C14E),
+                  tip: 'tur',
                 ),
                 SizedBox(height: 20),
                 Text(
-                  'Dini Günler & Programlar',
+                  l.t('et.diniTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -102,7 +107,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
                 ],
                 SizedBox(height: 20),
                 Text(
-                  'Diyanet Takvimi • Yaklaşan Mübarek Günler',
+                  l.t('et.takvimTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -120,7 +125,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
     );
   }
 
-  Widget _bilgiBanneri() {
+  Widget _bilgiBanneri(AppLocalizations l) {
     return Container(
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -140,7 +145,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
               SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Mekke\'den Medine\'ye, dünyanın dört bir yanına',
+                  l.t('et.bannerTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -152,7 +157,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
           ),
           SizedBox(height: 8),
           Text(
-            'Mübarek mekânların canlı yayınları, cami programları ve Diyanet takvimindeki dini günler tek ekranda.',
+            l.t('et.bannerIntro'),
             style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
           ),
         ],
@@ -165,7 +170,9 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
     required String baslik,
     required String alt,
     required Color renk,
+    required String tip,
   }) {
+    final l = AppLocalizations.of(context);
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.only(bottom: 10),
@@ -208,7 +215,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
                       UcdIkon(ikon: Icons.circle_rounded, renk: Colors.redAccent, boyut: 8),
                   SizedBox(width: 4),
                   Text(
-                    'CANLI',
+                    l.t('et.liveBadge'),
                     style: TextStyle(color: Colors.redAccent, fontSize: 8),
                   ),
                 ],
@@ -222,7 +229,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
         ),
         trailing: UcdIkon(ikon: Icons.play_circle_outline_rounded, renk: renk),
         onTap: () {
-          if (baslik.contains('Mescid-i Nebevî')) {
+          if (tip == 'nebevi') {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -230,7 +237,7 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
                     const KabeCanliPage(medineYayini: true),
               ),
             );
-          } else if (baslik.contains('Mescid-i Haram')) {
+          } else if (tip == 'haram') {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const KabeCanliPage()),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -50,11 +51,12 @@ class _UmmetHaritasiPageState extends State<UmmetHaritasiPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Canlı Ümmet Haritası',
+          l.t('uh.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -138,7 +140,7 @@ class _UmmetHaritasiPageState extends State<UmmetHaritasiPage> {
           SizedBox(height: 8),
           Center(
             child: Text(
-              'Şu an dünyanın dört bir yanında 🌍',
+              l.t('uh.liveHint'),
               style: TextStyle(color: Colors.white70, fontSize: 13),
             ),
           ),
@@ -147,34 +149,34 @@ class _UmmetHaritasiPageState extends State<UmmetHaritasiPage> {
           // ---------- CANLI SAYAÇLAR ----------
           _sayacKart(
             Icons.nightlight_round,
-            'Namaz kılan',
+            l.t('uh.namaz'),
             _namaz,
             Colors.tealAccent,
-            'İmsaktan sonra güneş batana kadar büyüyen kitle',
+            l.t('uh.namazSub'),
           ),
           SizedBox(height: 12),
           _sayacKart(
             Icons.self_improvement,
-            'Zikir çeken',
+            l.t('uh.zikir'),
             _zikir,
             Colors.purpleAccent,
-            'Tesbihler ve salavatlar eksilmiyor',
+            l.t('uh.zikirSub'),
           ),
           SizedBox(height: 12),
           _sayacKart(
             Icons.people_alt_outlined,
-            'Şu an uygulamada aktif',
+            l.t('uh.aktif'),
             _aktif,
             Colors.orangeAccent,
-            'Anlık aktif kullanıcı tahmini',
+            l.t('uh.aktifSub'),
           ),
           SizedBox(height: 12),
           _sayacKart(
             Icons.favorite_outline,
-            'Bugün yapılan dua',
+            l.t('uh.dua'),
             _dua,
             Colors.pinkAccent,
-            'Ümmetin ortak dua sayacı',
+            l.t('uh.duaSub'),
           ),
           SizedBox(height: 20),
 
@@ -190,7 +192,7 @@ class _UmmetHaritasiPageState extends State<UmmetHaritasiPage> {
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Sayaçlar, küresel namaz/tesbih verilerine dayalı yaklaşık canlı tahminlerdir. Amaç: "Yalnız değilsin, milyonlarca kardeşin şu an ibadette." bilincini yaşatmak.',
+                    l.t('uh.info'),
                     style: TextStyle(
                       color: Colors.white54,
                       fontSize: 11,

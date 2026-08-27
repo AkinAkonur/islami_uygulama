@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 
@@ -25,10 +26,11 @@ class _HuzurluPageState extends State<HuzurluPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: Text("😊 Huzur Odası & Tefekkür"),
+        title: Text(l.t('hz.title')),
         backgroundColor: Renkler.seciliYuzey,
         elevation: 0,
       ),
@@ -60,7 +62,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Sakinlik & İçsel Huzur",
+                          l.t('hz.bannerTitle'),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -69,7 +71,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "Zihnini dünyevi telaştan arındır, kalbini zikirle dinlendir.",
+                          l.t('hz.bannerIntro'),
                           style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                       ],
@@ -81,7 +83,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
             SizedBox(height: 20),
 
             // Huzur Ayeti
-            _buildCardTitle("Huzur Veren Ayet"),
+            _buildCardTitle(l.t('hz.verseTitle')),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(16),
@@ -103,7 +105,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
                   ),
                   SizedBox(height: 12),
                   Text(
-                    '"Bilesiniz ki, kalpler ancak Allah’ı anmakla huzur bulur."',
+                    l.t('hz.verseText'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white70,
@@ -113,7 +115,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "Ra'd Suresi, 28. Ayet",
+                    l.t('hz.verseSource'),
                     style: TextStyle(
                       color: Renkler.vurgu,
                       fontSize: 12,
@@ -126,7 +128,7 @@ class _HuzurluPageState extends State<HuzurluPage> {
             SizedBox(height: 20),
 
             // Yâ Selâm Zikir Sayacı
-            _buildCardTitle("Huzur Zikri (Yâ Selâm)"),
+            _buildCardTitle(l.t('hz.dhikrTitle')),
             GestureDetector(
               onTap: () => setState(() => _zikirCount++),
               child: Container(
@@ -149,12 +151,12 @@ class _HuzurluPageState extends State<HuzurluPage> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      "Dokunarak Zikir Çek",
+                      l.t('hz.tapHint'),
                       style: TextStyle(color: Colors.white70, fontSize: 12),
                     ),
                     SizedBox(height: 8),
                     Text(
-                      "«يَا سَلَامُ» (Ey Selamet ve Emniyet Veren)",
+                      l.t('hz.dhikrText'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -169,32 +171,31 @@ class _HuzurluPageState extends State<HuzurluPage> {
             SizedBox(height: 20),
 
             // Sakinleştirici Hadis & Tavsiyeler
-            _buildCardTitle("Manevi Reçete"),
+            _buildCardTitle(l.t('hz.tipsTitle')),
             _buildTipCard(
               Icons.wb_sunny_rounded,
-              "Güne Teşekkürle Başla",
-              "Sabah ve akşam ezanlarından sonra İhlas, Felak ve Nas surelerini 3'er defa okumak kalbe emniyet verir.",
+              l.t('hz.tip1Title'),
+              l.t('hz.tip1Sub'),
             ),
             _buildTipCard(
               Icons.water_drop_outlined,
-              "Abdestin Ferahlığı",
-              "Huzursuzluk hissettiğinde taze bir abdest almak, öfkeyi ve iç sıkıntısını su gibi akıtıp götürür.",
+              l.t('hz.tip2Title'),
+              l.t('hz.tip2Sub'),
             ),
             _buildTipCard(
               Icons.menu_book,
-              "Tefekkür Anı",
-              "Göklerin ve yerin yaratılışındaki incelikleri düşünmek imanı ve huzuru artırır.",
+              l.t('hz.tip3Title'),
+              l.t('hz.tip3Sub'),
             ),
             SizedBox(height: 20),
 
             // Tefekkür Günlüğü
-            _buildCardTitle("Bugünün Tefekkürü ve Notları"),
+            _buildCardTitle(l.t('hz.journalTitle')),
             TextField(
               controller: _journalController,
               maxLines: 3,
               decoration: InputDecoration(
-                hintText:
-                    "Bugün seni en çok huzurlu kılan şey neydi? Buraya yazabilirsin...",
+                hintText: l.t('hz.journalHint'),
                 filled: true,
                 fillColor: Renkler.kart,
                 border: OutlineInputBorder(
@@ -213,13 +214,13 @@ class _HuzurluPageState extends State<HuzurluPage> {
                 ),
                 onPressed: _addJournalEntry,
                 icon: UcdIkon(ikon: Icons.save_rounded, renk: Colors.white70),
-                label: Text("Notu Kaydet"),
+                label: Text(l.t('hz.saveNote')),
               ),
             ),
             if (_journalEntries.isNotEmpty) ...[
               SizedBox(height: 16),
               Text(
-                "Kaydedilen Tefekkürleriniz:",
+                l.t('hz.savedNotes'),
                 style: TextStyle(
                   color: Colors.white70,
                   fontWeight: FontWeight.bold,

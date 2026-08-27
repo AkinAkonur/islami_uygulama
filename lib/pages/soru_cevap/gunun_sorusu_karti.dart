@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import 'soru_cevap_page.dart';
 import 'soru_cevap_verileri.dart';
@@ -13,6 +14,7 @@ class GununSorusuKarti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final soru = SoruCevapVerileri.gununSorusu();
     final kategori = SoruCevapVerileri.kategoriler
         .firstWhere(
@@ -70,7 +72,7 @@ class GununSorusuKarti extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '$kategori Günün Sorusu',
+                        '$kategori ${l.t('sc.questionOfDay')}',
                         style: TextStyle(
                           color: Renkler.vurgu,
                           fontSize: 10,
@@ -98,9 +100,9 @@ class GununSorusuKarti extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    'Cevabı ve ilgili ayeti görmek için dokunun',
-                    style: TextStyle(color: Colors.white54, fontSize: 11),
+                  Text(
+                    l.t('sc.tapToView'),
+                    style: const TextStyle(color: Colors.white54, fontSize: 11),
                   ),
                 ],
               ),

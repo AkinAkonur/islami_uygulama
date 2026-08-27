@@ -16,6 +16,7 @@ import 'ummet/etkinlikler_page.dart';
 import 'ummet/manevi_halkalar_page.dart';
 import 'ummet/islami_akis_page.dart';
 import 'ummet/dunya_ummeti_page.dart';
+import 'ummet/ozel_sureler_page.dart';
 import '../widgets/kart_sekilleri.dart';
 
 class UmmetBolumuPage extends StatefulWidget {
@@ -216,6 +217,17 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => DuaOdalariPage()),
+              ),
+            ),
+            _modulKart(
+              context,
+              Icons.auto_stories_rounded,
+              "Seçme Sureler & Dualar",
+              "Yâsîn, Mülk, Fâtiha, Cevşen ve daha fazlası • sesli dinleme",
+              Colors.amber,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => OzelSurelerPage()),
               ),
             ),
             _modulKart(

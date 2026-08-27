@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/manevi_store.dart';
 import '../../services/renkler.dart';
 import '../dua_kardesligi/dua_kardesligi_page.dart';
@@ -58,7 +59,7 @@ class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
-      barrierLabel: 'Kutlama',
+      barrierLabel: AppLocalizations.of(context).t('gh.celebration'),
       barrierColor: Colors.black54,
       transitionDuration: const Duration(milliseconds: 250),
       pageBuilder: (context, _, _) => KutlamaEkrani(
@@ -110,10 +111,11 @@ class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
   Future<void> _dondurucuAl() async {
     final ok = await GunlukHedefStore.dondurucuAl();
     if (!mounted) return;
+    final l = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          ok ? 'Seri Dondurucu satın alındı! 🧊' : 'Yetersiz XP.',
+          ok ? l.t('gh.freezerBought') : l.t('gh.insufficientXp'),
         ),
         backgroundColor: ok ? Colors.green : Colors.blueGrey,
       ),
@@ -122,10 +124,11 @@ class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Günlük Hedefler & Streak'),
+        title: Text(l.t('gh.title')),
         backgroundColor: Renkler.seciliYuzey,
         elevation: 0,
       ),
@@ -137,7 +140,7 @@ class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
                 slivers: [
                   const SliverToBoxAdapter(child: _StreakHeroKarti()),
                   SliverToBoxAdapter(child: _HaftaSeridi(hafta: _hafta)),
-                  SliverToBoxAdapter(child: _bolumBasligi('📋 Bugünün Hedefleri')),
+                  SliverToBoxAdapter(child: _bolumBasligi(l.t('gh.todayGoals'))),
                   SliverList.builder(
                     itemCount: gunlukGorevler.length,
                     itemBuilder: (context, index) {
@@ -150,15 +153,15 @@ class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
                       );
                     },
                   ),
-                  SliverToBoxAdapter(child: _bolumBasligi('🕌 Namaz · 5 Vakit')),
+                  SliverToBoxAdapter(child: _bolumBasligi(l.t('gh.namazSection'))),
                   SliverToBoxAdapter(
                     child: NamazKarti(namaz: _namaz, onTikla: _namazTikla),
                   ),
-                  SliverToBoxAdapter(child: _bolumBasligi('🏅 Kilometre Taşları')),
+                  SliverToBoxAdapter(child: _bolumBasligi(l.t('gh.milestones'))),
                   const SliverToBoxAdapter(child: RozetlerBolumu()),
-                  SliverToBoxAdapter(child: _bolumBasligi('🛒 Mağaza')),
+                  SliverToBoxAdapter(child: _bolumBasligi(l.t('gh.shop'))),
                   SliverToBoxAdapter(child: MagazaKarti(onAl: _dondurucuAl)),
-                  SliverToBoxAdapter(child: _bolumBasligi('📊 İstatistik')),
+                  SliverToBoxAdapter(child: _bolumBasligi(l.t('gh.stats'))),
                   const SliverToBoxAdapter(child: IstatistikKarti()),
                   const SliverToBoxAdapter(child: SizedBox(height: 40)),
                 ],
@@ -187,6 +190,7 @@ class _StreakHeroKarti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final tamam = GunlukHedefStore.bugunTamamlanan;
     final toplam = gunlukGorevler.length;
     final seri = GunlukHedefStore.seri;
@@ -238,9 +242,9 @@ class _StreakHeroKarti extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const Text(
-                      'gün',
-                      style: TextStyle(color: Colors.white54, fontSize: 10),
+                    Text(
+                      l.t('gh.days'),
+                      style: const TextStyle(color: Colors.white54, fontSize: 10),
                     ),
                   ],
                 ),
@@ -253,7 +257,7 @@ class _StreakHeroKarti extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  seri > 0 ? 'Serin devam ediyor' : 'Serine başla',
+                  seri > 0 ? l.t('gh.streakOn') : l.t('gh.streakStart'),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 17,
@@ -263,9 +267,10 @@ class _StreakHeroKarti extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   korundu
-                      ? 'Seri Dondurucu ile bugün korundu. Hedefini tamamla!'
-                      : 'Bugün $tamam/$toplam görev tamam. Tümü bitince seri '
-                          '1 gün uzar.',
+                      ? l.t('gh.streakProtected')
+                      : l.t('gh.tasksProgress')
+                          .replaceFirst('{done}', '$tamam')
+                          .replaceFirst('{total}', '$toplam'),
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
@@ -274,8 +279,9 @@ class _StreakHeroKarti extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Bugün kazanılan: ${GunlukHedefStore.bugunKazanilanXp} / '
-                  '${GunlukHedefStore.gunlukMaxXp} XP',
+                  l.t('gh.earnedXp')
+                      .replaceFirst('{earned}', '${GunlukHedefStore.bugunKazanilanXp}')
+                      .replaceFirst('{max}', '${GunlukHedefStore.gunlukMaxXp}'),
                   style: TextStyle(
                     color: Renkler.acikVurgu,
                     fontSize: 12,
@@ -296,10 +302,13 @@ class _HaftaSeridi extends StatelessWidget {
 
   final List<bool> hafta;
 
-  static const _gunAdlari = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final gunAdlari = [
+      l.t('gh.day1'), l.t('gh.day2'), l.t('gh.day3'), l.t('gh.day4'),
+      l.t('gh.day5'), l.t('gh.day6'), l.t('gh.day7'),
+    ];
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       padding: const EdgeInsets.symmetric(vertical: 14),
@@ -315,7 +324,7 @@ class _HaftaSeridi extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    i == 6 ? 'Bugün' : _gunAdlari[i],
+                    i == 6 ? l.t('gh.today') : gunAdlari[i],
                     style: TextStyle(
                       color: i == 6 ? Renkler.vurgu : Colors.white54,
                       fontSize: 10,
@@ -355,21 +364,22 @@ class _GorevKarti extends StatelessWidget {
   final int ilerleme;
   final VoidCallback onTap;
 
-  String get _eylemEtiketi {
+  String _eylemEtiketi(AppLocalizations l) {
     switch (gorev.tip) {
       case GunlukHedefTipi.kissa:
-        return 'Oku';
+        return l.t('gh.actRead');
       case GunlukHedefTipi.soru:
-        return 'Çöz';
+        return l.t('gh.actSolve');
       case GunlukHedefTipi.kardeslik:
-        return 'Amin De';
+        return l.t('gh.actAmin');
       case GunlukHedefTipi.zikir:
-        return 'Zikret';
+        return l.t('gh.actZikr');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final tamamMi = ilerleme >= gorev.hedefSayi;
     final oran = (ilerleme / gorev.hedefSayi).clamp(0.0, 1.0);
     return Card(
@@ -439,7 +449,7 @@ class _GorevKarti extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          _eylemEtiketi,
+                          _eylemEtiketi(l),
                           style: const TextStyle(
                             color: Colors.white70,
                             fontSize: 12,

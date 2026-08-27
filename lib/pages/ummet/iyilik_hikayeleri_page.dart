@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 import '../../widgets/kart_sekilleri.dart';
@@ -8,21 +9,22 @@ class IyilikHikayeleriPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'İlham Veren Hikayeler',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          l.t('ih.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
       ),
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
           Container(
-            padding: EdgeInsets.all(14),
+            padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [Renkler.bannerUst, Renkler.bannerAlt],
@@ -34,11 +36,11 @@ class IyilikHikayeleriPage extends StatelessWidget {
             child: Row(
               children: [
                 UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu, boyut: 22),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Ümmet bilincini artıran yaşanmış örnekler ve yeni Müslüman olanların hikayeleri. Her hikaye, bir iyilik tohumudur.',
-                    style: TextStyle(
+                    l.t('ih.intro'),
+                    style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 12,
                       height: 1.5,
@@ -48,18 +50,18 @@ class IyilikHikayeleriPage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           for (final hikaye in iyilikHikayeleri) ...[
-            _hikayeKarti(hikaye),
-            SizedBox(height: 12),
+            _hikayeKarti(hikaye, l),
+            const SizedBox(height: 12),
           ],
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  Widget _hikayeKarti(Map<String, String> hikaye) {
+  Widget _hikayeKarti(Map<String, String> hikaye, AppLocalizations l) {
     final yeniMusluman = hikaye['tema'] == 'Yeni Müslüman';
     return Card(
       color: Renkler.kart,
@@ -73,7 +75,7 @@ class IyilikHikayeleriPage extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -81,7 +83,7 @@ class IyilikHikayeleriPage extends StatelessWidget {
               children: [
                 Container(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: yeniMusluman
                         ? Renkler.bannerUst
@@ -101,34 +103,34 @@ class IyilikHikayeleriPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               hikaye['baslik']!,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               hikaye['hikaye']!,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 13,
                 height: 1.6,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               children: [
-                UcdIkon(ikon: Icons.favorite_rounded, renk: Color(0xFFEF5350), boyut: 14),
-                SizedBox(width: 6),
+                const UcdIkon(ikon: Icons.favorite_rounded, renk: Color(0xFFEF5350), boyut: 14),
+                const SizedBox(width: 6),
                 Text(
-                  'Paylaşılan iyilik',
-                  style: TextStyle(color: Colors.white38, fontSize: 11),
+                  l.t('ih.sharedGood'),
+                  style: const TextStyle(color: Colors.white38, fontSize: 11),
                 ),
-                Spacer(),
+                const Spacer(),
                 UcdIkon(
                   ikon: Icons.auto_awesome_rounded,
                   renk: Renkler.vurgu.withValues(alpha: 0.5),

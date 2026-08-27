@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../l10n/app_localizations.dart';
 import '../l10n/dil_hizmetleri.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
@@ -56,6 +57,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
   DuaKaydi get dua => widget.dua;
 
   Future<void> _hatirlaticiAc(BuildContext context) async {
+    final l = AppLocalizations.of(context);
     final mevcut = DuaStore.hatirlatmaOku(dua.id);
     final varsayilanZaman = mevcut != null
         ? TimeOfDay(hour: mevcut.saat, minute: mevcut.dakika)
@@ -90,10 +92,10 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                     boyut: 22,
                   ),
                   const SizedBox(width: 8),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Dua Hatırlatıcısı Kur',
-                      style: TextStyle(
+                      l.t('dd.setReminder'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -101,7 +103,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Kapat',
+                    tooltip: l.t('dd.close'),
                     icon: UcdIkon(
                       ikon: Icons.close_rounded,
                       renk: Colors.white38,
@@ -157,7 +159,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        'Saat: ${zaman.format(context)}',
+                        l.t('dd.time').replaceFirst('{time}', zaman.format(context)),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -169,9 +171,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Tekrar:',
-                style: TextStyle(
+              Text(
+                l.t('dd.repeat'),
+                style: const TextStyle(
                   color: Colors.white70,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -183,13 +185,13 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                 runSpacing: 8,
                 children: [
                   _GunCho(
-                    etiket: 'Her gün',
+                    etiket: l.t('dd.everyDay'),
                     secili: gunler.isEmpty,
                     onTap: () => setLocal(() => gunler = <int>{}),
                   ),
                   for (var g = 1; g <= 7; g++)
                     _GunCho(
-                      etiket: _gunAdi(g),
+                      etiket: _gunAdi(l, g),
                       secili: gunler.contains(g),
                       onTap: () => setLocal(() {
                         if (!gunler.add(g)) gunler.remove(g);
@@ -210,9 +212,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   renk: Colors.black87,
                   boyut: 18,
                 ),
-                label: const Text(
-                  'Hatırlatıcıyı Kaydet',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                label: Text(
+                  l.t('dd.saveReminder'),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               if (mevcut != null) ...[
@@ -224,7 +226,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.redAccent,
                   ),
-                  child: const Text('Hatırlatıcıyı Kaldır'),
+                  child: Text(l.t('dd.removeReminder')),
                 ),
               ],
             ],
@@ -246,22 +248,22 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Hatırlatıcı kuruldu 🤲')));
+        ).showSnackBar(SnackBar(content: Text(l.t('dd.reminderSet'))));
       }
     } else if (kaydedildi == 'sil') {
       await DuaStore.hatirlatmaSil(dua.id);
       await GercekBildirimler.duaHatirlatmalariPlanla();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Hatırlatıcı kaldırıldı.')),
+          SnackBar(content: Text(l.t('dd.reminderRemoved'))),
         );
       }
     }
   }
 
-  String _gunAdi(int gun) {
-    const adlar = ['', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-    return gun >= 1 && gun <= 7 ? adlar[gun] : '';
+  String _gunAdi(AppLocalizations l, int gun) {
+    final adlar = l.t('dd.dayNames').split(',');
+    return gun >= 1 && gun <= 7 ? adlar[gun - 1] : '';
   }
 
   Future<void> _sesCal() async {
@@ -288,7 +290,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
       if (mounted) {
         setState(() {
           _yukleniyorSes = false;
-          _sesHata = 'Ses yüklenemedi. İnternet bağlantınızı kontrol edin.';
+          _sesHata = AppLocalizations.of(context).t('dd.audioError');
         });
       }
     }
@@ -315,14 +317,22 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
       await SharePlus.instance.share(
         ShareParams(
           files: [XFile(dosya.path, mimeType: 'image/png')],
-          text: '${dua.baslik} 🤲 #islamiUygulama',
+          text: AppLocalizations.of(context)
+              .t('dd.shareText')
+              .replaceFirst('{title}', dua.baslik),
         ),
       );
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Paylaşım hazırlanamadı: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)
+                  .t('dd.shareError')
+                  .replaceFirst('{error}', '$e'),
+            ),
+          ),
+        );
       }
     } finally {
       if (mounted) setState(() => _paylasiliyor = false);
@@ -331,6 +341,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final dua = widget.dua;
     return Scaffold(
       backgroundColor: Renkler.zemin,
@@ -345,7 +356,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
         actions: [
           if (dua.sesUrl != null)
             IconButton(
-              tooltip: 'Sesli dinle',
+              tooltip: l.t('dd.audioListen'),
               icon: _yukleniyorSes
                   ? const SizedBox(
                       width: 20,
@@ -365,7 +376,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
             builder: (context, fav, _) {
               final secili = fav.contains(dua.id);
               return IconButton(
-                tooltip: secili ? 'Favorilerden çıkar' : 'Favorilere ekle',
+                tooltip: secili ? l.t('dd.favRemove') : l.t('dd.favAdd'),
                 icon: UcdIkon(
                   ikon: secili
                       ? Icons.favorite_rounded
@@ -377,7 +388,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
             },
           ),
           IconButton(
-            tooltip: 'Görsel kart paylaş',
+            tooltip: l.t('dd.shareVisual'),
             icon: UcdIkon(ikon: Icons.share_rounded, renk: Colors.white70),
             onPressed: _paylasiliyor ? null : _paylas,
           ),
@@ -386,7 +397,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
             builder: (context, hatirlatmalar, _) {
               final aktif = hatirlatmalar.containsKey(dua.id);
               return IconButton(
-                tooltip: aktif ? 'Hatırlatıcıyı düzenle' : 'Hatırlatıcı kur',
+                tooltip: aktif
+                    ? l.t('dd.editReminder')
+                    : l.t('dd.setReminderTooltip'),
                 icon: UcdIkon(
                   ikon: aktif ? Icons.alarm_on : Icons.alarm_add,
                   renk: aktif ? Colors.orangeAccent : Colors.white70,
@@ -682,6 +695,7 @@ class _ZikirmatikState extends State<_Zikirmatik> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final hedef = widget.dua.tekrar ?? 0;
     final tamamlandi = hedef > 0 && _sayi >= hedef;
     return Container(
@@ -707,8 +721,8 @@ class _ZikirmatikState extends State<_Zikirmatik> {
               Expanded(
                 child: Text(
                   tamamlandi
-                      ? 'Zikirmatik tamamlandı, maşallah! 🎉'
-                      : 'Zikirmatik · hedef: $hedef tekrar',
+                      ? l.t('dd.zikirComplete')
+                      : l.t('dd.zikirTarget').replaceFirst('{count}', '$hedef'),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 13,
@@ -717,7 +731,7 @@ class _ZikirmatikState extends State<_Zikirmatik> {
                 ),
               ),
               IconButton(
-                tooltip: 'Sıfırla',
+                tooltip: l.t('dd.counterReset'),
                 icon: UcdIkon(
                   ikon: Icons.refresh,
                   renk: Colors.white54,
@@ -775,9 +789,9 @@ class _ZikirmatikState extends State<_Zikirmatik> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Dokunarak say · hedefe ulaşınca yeniden başlar',
-            style: TextStyle(color: Colors.white38, fontSize: 11),
+          Text(
+            l.t('dd.tapCount'),
+            style: const TextStyle(color: Colors.white38, fontSize: 11),
           ),
         ],
       ),
@@ -795,6 +809,7 @@ class _FaziletKarti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -815,9 +830,9 @@ class _FaziletKarti extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Fazileti & Hikmeti',
-                  style: TextStyle(
+                Text(
+                  l.t('dd.virtueTitle'),
+                  style: const TextStyle(
                     color: Colors.amberAccent,
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
@@ -852,6 +867,7 @@ class _HatirlatmaBanneri extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return ValueListenableBuilder<Map<String, DuaHatirlatma>>(
       valueListenable: DuaStore.hatirlatmalar,
       builder: (context, kayitlar, _) {
@@ -883,8 +899,15 @@ class _HatirlatmaBanneri extends StatelessWidget {
                   Expanded(
                     child: Text(
                       kayit != null
-                          ? 'Hatırlatıcı aktif: ${kayit.saatYaz} · ${kayit.gunler.isEmpty ? 'Her gün' : kayit.gunlerYaz}'
-                          : 'Bu duayı hatırlamak için hatırlatıcı kur',
+                          ? l.t('dd.reminderActive')
+                              .replaceFirst('{time}', kayit.saatYaz)
+                              .replaceFirst(
+                                '{days}',
+                                kayit.gunler.isEmpty
+                                    ? l.t('dd.everyDay')
+                                    : kayit.gunlerYaz,
+                              )
+                          : l.t('dd.reminderPrompt'),
                       style: TextStyle(
                         color: kayit != null
                             ? Colors.orangeAccent
@@ -917,6 +940,7 @@ class _KaynakKarti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -933,7 +957,7 @@ class _KaynakKarti extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Kaynak: ${dua.kaynak}',
+              l.t('dd.sourceLabel').replaceFirst('{source}', dua.kaynak),
               style: const TextStyle(color: Colors.white54, fontSize: 12),
             ),
           ),

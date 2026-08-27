@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/kart_sekilleri.dart';
 
 class ManeviHalkalarPage extends StatefulWidget {
   const ManeviHalkalarPage({super.key});
@@ -32,6 +34,7 @@ class _ManeviHalkalarPageState extends State<ManeviHalkalarPage> {
   }
 
   Future<void> _katil(ManeviHalka halka) async {
+    final l = AppLocalizations.of(context);
     final simdi = !(_katilimlar[halka.id] ?? false);
     if (simdi) {
       await UmmetStore.halkayaKatil(halka.id);
@@ -44,9 +47,9 @@ class _ManeviHalkalarPageState extends State<ManeviHalkalarPage> {
       SnackBar(
         content: Text(
           simdi
-              ? 'Halkaya katıldın: ${halka.ad} 🤲'
-              : 'Halkadan ayrıldın: ${halka.ad}',
-          style: TextStyle(color: Colors.white),
+              ? l.t('mh.joinedSnack').replaceFirst('{name}', halka.ad)
+              : l.t('mh.leftSnack').replaceFirst('{name}', halka.ad),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
         behavior: SnackBarBehavior.floating,
@@ -56,13 +59,14 @@ class _ManeviHalkalarPageState extends State<ManeviHalkalarPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final katildiklarim = _katilimlar.values.where((b) => b).length;
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Manevi Gelişim Halkaları',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          l.t('mh.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
@@ -70,10 +74,10 @@ class _ManeviHalkalarPageState extends State<ManeviHalkalarPage> {
       body: _yukleniyor
           ? Center(child: CircularProgressIndicator(color: Renkler.vurgu))
           : ListView(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               children: [
                 Container(
-                  padding: EdgeInsets.all(14),
+                  padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [Renkler.bannerUst, Renkler.bannerAlt],
@@ -87,13 +91,13 @@ class _ManeviHalkalarPageState extends State<ManeviHalkalarPage> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.groups_2_outlined,
-                              color: Renkler.vurgu, size: 22),
-                          SizedBox(width: 10),
+                          UcdIkon(ikon: Icons.groups_2_outlined,
+                              renk: Renkler.vurgu, boyut: 22),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: Text(
-                              '$katildiklarim halkaya katıldın',
-                              style: TextStyle(
+                              l.t('mh.joinedCount').replaceFirst('{count}', '$katildiklarim'),
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
@@ -102,10 +106,10 @@ class _ManeviHalkalarPageState extends State<ManeviHalkalarPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
-                        'Küçük ama düzenli ibadet alışkanlıkları, büyük manevi ilerlemelere dönüşür. Bir halkaya katıl, ümmetle birlikte geliş.',
-                        style: TextStyle(
+                        l.t('mh.intro'),
+                        style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 12,
                           height: 1.5,
@@ -114,18 +118,18 @@ class _ManeviHalkalarPageState extends State<ManeviHalkalarPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 for (final h in maneviHalkalar) ...[
-                  _halkaKarti(h),
-                  SizedBox(height: 10),
+                  _halkaKarti(h, l),
+                  const SizedBox(height: 10),
                 ],
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
     );
   }
 
-  Widget _halkaKarti(ManeviHalka h) {
+  Widget _halkaKarti(ManeviHalka h, AppLocalizations l) {
     final katildi = _katilimlar[h.id] ?? false;
 
     return Card(
@@ -139,42 +143,42 @@ class _ManeviHalkalarPageState extends State<ManeviHalkalarPage> {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(h.ikon, style: TextStyle(fontSize: 26)),
-            SizedBox(width: 12),
+            Text(h.ikon, style: const TextStyle(fontSize: 26)),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     h.ad,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     h.aciklama,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 12,
                       height: 1.4,
                     ),
                   ),
-                  SizedBox(height: 6),
+                  const SizedBox(height: 6),
                   Text(
-                    '${binlikSayi(h.uyeTabani)} kardeş birlikte',
-                    style: TextStyle(color: Colors.white38, fontSize: 11),
+                    l.t('mh.together').replaceFirst('{count}', binlikSayi(h.uyeTabani)),
+                    style: const TextStyle(color: Colors.white38, fontSize: 11),
                   ),
                 ],
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Switch(
               value: katildi,
               activeThumbColor: Renkler.vurgu,

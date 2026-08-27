@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../../widgets/kart_sekilleri.dart';
 import 'acil_durum_verileri.dart';
@@ -46,6 +47,7 @@ class _AcilDurumSozluguPageState extends State<AcilDurumSozluguPage> {
   }
 
   Future<void> _dinle(AcilCumle cumle) async {
+    final l = AppLocalizations.of(context);
     if (_caliyorId == cumle.id) {
       await _tts.stop();
       if (mounted) setState(() => _caliyorId = null);
@@ -63,20 +65,23 @@ class _AcilDurumSozluguPageState extends State<AcilDurumSozluguPage> {
         }
       } else {
         if (mounted) {
-          setState(() => _ttsHata = 'Cihazınızda Arapça ses yok. Kurunuz.');
+          setState(() => _ttsHata = l.t('as.noArabicVoice'));
         }
       }
     } catch (e) {
-      if (mounted) setState(() => _ttsHata = 'Ses okunamadı: $e');
+      if (mounted) {
+        setState(() => _ttsHata = l.t('as.speakError').replaceFirst('{err}', '$e'));
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Acil Durum Sözlüğü'),
+        title: Text(l.t('as.title')),
         backgroundColor: Renkler.seciliYuzey,
       ),
       body: Column(
@@ -189,6 +194,7 @@ class _CumleKarti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Card(
       color: caliyor ? Renkler.seciliYuzey : Renkler.kart,
       margin: const EdgeInsets.only(bottom: 10),
@@ -220,7 +226,7 @@ class _CumleKarti extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 IconButton(
-                  tooltip: caliyor ? 'Durdur' : 'Sesli dinle',
+                  tooltip: caliyor ? l.t('as.stop') : l.t('as.listen'),
                   onPressed: onDinle,
                   style: IconButton.styleFrom(
                     backgroundColor: caliyor

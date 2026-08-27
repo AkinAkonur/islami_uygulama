@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 
@@ -29,10 +30,11 @@ class _SukurPageState extends State<SukurPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: Text("🙏 Şükür Odası & Hamd"),
+        title: Text(l.t('su.title')),
         backgroundColor: Color(0xFF2C241E),
         elevation: 0,
       ),
@@ -62,7 +64,7 @@ class _SukurPageState extends State<SukurPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Nimetlerin Farkındalığı",
+                          l.t('su.bannerTitle'),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -71,7 +73,7 @@ class _SukurPageState extends State<SukurPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "Şükür, nimeti veren Rabb'i hatırlamak ve rızayı artırmaktır.",
+                          l.t('su.bannerIntro'),
                           style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                       ],
@@ -83,7 +85,7 @@ class _SukurPageState extends State<SukurPage> {
             SizedBox(height: 20),
 
             // Şükür Ayeti
-            _buildCardTitle("Şükür Vaadi (İbrahim Suresi)"),
+            _buildCardTitle(l.t('su.verseTitle')),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(16),
@@ -105,7 +107,7 @@ class _SukurPageState extends State<SukurPage> {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    '"Andolsun, eğer şükrederseniz elbette size nimetimi artırırım."',
+                    l.t('su.verseText'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white70,
@@ -115,7 +117,7 @@ class _SukurPageState extends State<SukurPage> {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "İbrahim Suresi, 7. Ayet",
+                    l.t('su.verseSource'),
                     style: TextStyle(
                       color: Colors.amber,
                       fontSize: 12,
@@ -128,7 +130,7 @@ class _SukurPageState extends State<SukurPage> {
             SizedBox(height: 20),
 
             // Zikir Sayacı Kartı
-            _buildCardTitle("Elhamdülillah Zikri"),
+            _buildCardTitle(l.t('su.dhikrTitle')),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(24),
@@ -165,7 +167,7 @@ class _SukurPageState extends State<SukurPage> {
                   ),
                   SizedBox(height: 12),
                   Text(
-                    "Dokunarak Şükür Zikrini Artır",
+                    l.t('su.tapHint'),
                     style: TextStyle(color: Colors.white70, fontSize: 12),
                   ),
                 ],
@@ -174,14 +176,14 @@ class _SukurPageState extends State<SukurPage> {
             SizedBox(height: 20),
 
             // Şükür Günlüğü Ekleme Alanı
-            _buildCardTitle("Bugün Nelere Şükrediyorsun?"),
+            _buildCardTitle(l.t('su.journalTitle')),
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _inputController,
                     decoration: InputDecoration(
-                      hintText: "Örn: Sağlığım, sıcak bir çay, güzel bir haber...",
+                      hintText: l.t('su.journalHint'),
                       filled: true,
                       fillColor: Renkler.kart,
                       border: OutlineInputBorder(

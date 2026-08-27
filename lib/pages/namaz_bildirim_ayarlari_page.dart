@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/bildirim_merkezi.dart';
 import '../services/gercek_bildirimler.dart';
 import '../services/namaz_bildirim_ayarlari.dart';
@@ -70,11 +71,14 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
     await NamazBildirimAyarlari.ayarla(vakit, dakika);
     await GercekBildirimler.planla();
     if (!mounted) return;
+    final l = AppLocalizations.of(context);
     final mesaj = dakika < 0
-        ? '${vakit.ad} bildirimleri kapatıldı'
+        ? l.t('nba.disabled').replaceFirst('{v}', vakit.ad)
         : dakika == 0
-            ? '${vakit.ad}: vaktinde bildirilecek'
-            : '${vakit.ad}: $dakika dk önce bildirilecek';
+            ? l.t('nba.onTimeSnack').replaceFirst('{v}', vakit.ad)
+            : l.t('nba.minutesBefore')
+                .replaceFirst('{v}', vakit.ad)
+                .replaceFirst('{n}', '$dakika');
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
@@ -86,18 +90,17 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
   Future<void> _testGonder() async {
     final ok = await GercekBildirimler.testBildirimi();
     if (!mounted) return;
+    final l = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(ok
-          ? 'Test bildirimi 5 saniye içinde gelecek'
-          : 'Bildirimler hazır değil. Uygulama ayarlarından bildirim iznini kontrol et.'),
+      content: Text(ok ? l.t('nba.testOk') : l.t('nba.testFail')),
       duration: const Duration(seconds: 3),
     ));
   }
 
-  String _dakikaEtiketi(int dk) {
-    if (dk < 0) return 'Kapalı';
-    if (dk == 0) return 'Vaktinde';
-    return '$dk dk önce';
+  String _dakikaEtiketi(int dk, AppLocalizations l) {
+    if (dk < 0) return l.t('nba.off');
+    if (dk == 0) return l.t('nba.onTime');
+    return l.t('nba.minutesAgo').replaceFirst('{n}', '$dk');
   }
 
   Future<void> _pilOptimizasyonuIste() async {
@@ -116,8 +119,8 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
       'action=android.settings.APPLICATION_DETAILS_SETTINGS;end',
     );
     if (!acildi && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Ayarlar sayfası açılamadı.'),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppLocalizations.of(context).t('nba.settingsError')),
       ));
     }
   }
@@ -135,6 +138,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -147,19 +151,19 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
         child: SafeArea(
           child: Column(
             children: [
-              _baslikSatiri(context),
+              _baslikSatiri(context, l),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    _genelDurumKarti(),
+                    _genelDurumKarti(l),
                     const SizedBox(height: 16),
-                    _vakitListesi(),
+                    _vakitListesi(l),
                     const SizedBox(height: 16),
-                    _testKarti(),
+                    _testKarti(l),
                     if (defaultTargetPlatform == TargetPlatform.android) ...[
                       const SizedBox(height: 16),
-                      _pilKarti(),
+                      _pilKarti(l),
                     ],
                   ],
                 ),
@@ -171,7 +175,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
     );
   }
 
-  Widget _baslikSatiri(BuildContext context) {
+  Widget _baslikSatiri(BuildContext context, AppLocalizations l) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -181,13 +185,13 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
             icon: const UcdIkon(ikon: Icons.arrow_back_ios_new_rounded, renk: Colors.white),
           ),
           const SizedBox(width: 8),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Namaz Vakti Hatırlatıcıları',
-                  style: TextStyle(
+                  l.t('nba.title'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -196,8 +200,8 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  'Her vakit için ayrı hatırlatma süresi belirleyebilirsin',
-                  style: TextStyle(color: Colors.white54, fontSize: 11),
+                  l.t('nba.subtitle'),
+                  style: const TextStyle(color: Colors.white54, fontSize: 11),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -210,7 +214,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
     );
   }
 
-  Widget _genelDurumKarti() {
+  Widget _genelDurumKarti(AppLocalizations l) {
     return _kart(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,10 +224,10 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
               UcdIkon(ikon: Icons.notifications_active_rounded,
                   renk: Colors.white70, boyut: 20),
               const SizedBox(width: 8),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Tüm namaz bildirimleri',
-                  style: TextStyle(
+                  l.t('nba.allPrayers'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -243,10 +247,10 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
             children: [
               const UcdIkon(ikon: Icons.vibration_rounded, renk: Colors.white70, boyut: 20),
               const SizedBox(width: 8),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Titreşim',
-                  style: TextStyle(
+                  l.t('nba.vibration'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -269,7 +273,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
     );
   }
 
-  Widget _vakitListesi() {
+  Widget _vakitListesi(AppLocalizations l) {
     return ValueListenableBuilder<Map<NamazVakti, int>>(
       valueListenable: NamazBildirimAyarlari.dakikalar,
       builder: (context, dakikalar, _) {
@@ -338,7 +342,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
                             for (final dk in NamazVakti.tumSecenekler(vakit))
                               DropdownMenuItem<int>(
                                 value: dk,
-                                child: Text(_dakikaEtiketi(dk)),
+                                child: Text(_dakikaEtiketi(dk, l)),
                               ),
                           ],
                           onChanged: (dk) => _dakikaSec(vakit, dk),
@@ -372,30 +376,29 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
     }
   }
 
-  Widget _testKarti() {
+  Widget _testKarti(AppLocalizations l) {
     return _kart(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Test Bildirimi',
-            style: TextStyle(
+          Text(
+            l.t('nba.testTitle'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Ayarların doğru çalışıp çalışmadığını görmek için hemen bir '
-            'bildirim gönder.',
-            style: TextStyle(color: Colors.white54, fontSize: 12),
+          Text(
+            l.t('nba.testDesc'),
+            style: const TextStyle(color: Colors.white54, fontSize: 12),
           ),
           const SizedBox(height: 12),
           FilledButton.icon(
             onPressed: _testGonder,
             icon: const UcdIkon(ikon: Icons.notifications_active_rounded, renk: Colors.lightGreenAccent, boyut: 18),
-            label: const Text('Test Bildirimi Gönder'),
+            label: Text(l.t('nba.sendTest')),
             style: FilledButton.styleFrom(
               backgroundColor: Colors.lightGreenAccent.withValues(alpha: 0.2),
               foregroundColor: Colors.lightGreenAccent,
@@ -406,7 +409,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
     );
   }
 
-  Widget _pilKarti() {
+  Widget _pilKarti(AppLocalizations l) {
     return _kart(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,10 +419,10 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
               UcdIkon(ikon: Icons.battery_alert_rounded,
                   renk: Colors.amberAccent, boyut: 20),
               const SizedBox(width: 8),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Pil Optimizasyonu',
-                  style: TextStyle(
+                  l.t('nba.batteryTitle'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -429,12 +432,9 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Bazı telefonlar (özellikle Xiaomi, Samsung, Huawei) arka plan '
-            'işlemlerini kısıtlar ve tam zamanlı bildirimleri geciktirebilir. '
-            'Namaz bildirimlerinin aksamaması için uygulamanın pil '
-            'optimizasyonundan muaf tutulması önerilir.',
-            style: TextStyle(color: Colors.white54, fontSize: 12, height: 1.4),
+          Text(
+            l.t('nba.batteryDesc'),
+            style: const TextStyle(color: Colors.white54, fontSize: 12, height: 1.4),
           ),
           const SizedBox(height: 12),
           Wrap(
@@ -444,7 +444,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
               OutlinedButton.icon(
                 onPressed: _pilOptimizasyonuIste,
                 icon: const UcdIkon(ikon: Icons.battery_charging_full_rounded, renk: Colors.amberAccent, boyut: 16),
-                label: const Text('Pil Optimizasyonunu Kapat'),
+                label: Text(l.t('nba.batteryDisable')),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.amberAccent,
                   side: const BorderSide(color: Colors.white24),
@@ -453,7 +453,7 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
               OutlinedButton.icon(
                 onPressed: _uygulamaAyarlari,
                 icon: UcdIkon(ikon: Icons.settings_rounded, renk: Colors.white70, boyut: 16),
-                label: const Text('Uygulama Ayarlarını Aç'),
+                label: Text(l.t('nba.openSettings')),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white70,
                   side: const BorderSide(color: Colors.white24),

@@ -12,6 +12,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 import 'kabe_canli_page.dart';
@@ -140,17 +141,18 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
       'https://www.google.com/maps/search/?api=1&query='
       '${mekan.enlem},${mekan.boylam}',
     );
+    final hataMsg = AppLocalizations.of(context).t('stm.mapError');
     try {
       final acildi = await launchUrl(uri, mode: LaunchMode.externalApplication);
       if (!acildi && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Harita açılamadı')),
+          SnackBar(content: Text(hataMsg)),
         );
       }
     } catch (_) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Harita açılamadı')),
+          SnackBar(content: Text(hataMsg)),
         );
       }
     }
@@ -162,17 +164,18 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
   /// orada tam çalışır.
   Future<void> _youtubeDaAc(BuildContext context, String videoId) async {
     final uri = Uri.parse('https://www.youtube.com/watch?v=$videoId');
+    final hataMsg = AppLocalizations.of(context).t('stm.ytError');
     try {
       final acildi = await launchUrl(uri, mode: LaunchMode.externalApplication);
       if (!acildi && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('YouTube açılamadı')),
+          SnackBar(content: Text(hataMsg)),
         );
       }
     } catch (_) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('YouTube açılamadı')),
+          SnackBar(content: Text(hataMsg)),
         );
       }
     }
@@ -180,26 +183,28 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Mekke & Medine Sanal Tur'),
+        title: Text(l.t('stm.title')),
         backgroundColor: Renkler.seciliYuzey,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _davetBanneri(),
+          _davetBanneri(l),
           const SizedBox(height: 18),
 
-          _bolumBasligi('🔴 Canlı Yayınlar', '7/24 kesintisiz · otomatik kalite'),
+          _bolumBasligi(l.t('stm.live'), l.t('stm.liveSub')),
           const SizedBox(height: 10),
           _videoKarti(
             ikon: Icons.mosque_outlined,
             renk: Colors.redAccent,
-            baslik: 'Mescid-i Haram - Kâbe Canlı',
-            alt: 'Resmî Suudi yayını · tavaf ve namazlar canlı',
+            baslik: l.t('stm.haramLive'),
+            alt: l.t('stm.haramLiveSub'),
             canli: true,
+            canliEtiket: l.t('stm.liveBadge'),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -210,9 +215,10 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
           _videoKarti(
             ikon: Icons.place_outlined,
             renk: Colors.greenAccent,
-            baslik: 'Mescid-i Nebevî Canlı',
-            alt: 'Medine · Ravza-i Mutahhara ve Yeşil Kubbe',
+            baslik: l.t('stm.nebeviLive'),
+            alt: l.t('stm.nebeviLiveSub'),
             canli: true,
+            canliEtiket: l.t('stm.liveBadge'),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -222,7 +228,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
           ),
           const SizedBox(height: 18),
 
-          _bolumBasligi('🎥 360° Sanal Tur', 'cihazı çevirerek gezin'),
+          _bolumBasligi(l.t('stm.tours'), l.t('stm.toursSub')),
           const SizedBox(height: 10),
           for (final tur in _sanalTurler)
             _videoKarti(
@@ -234,7 +240,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
             ),
           const SizedBox(height: 18),
 
-          _bolumBasligi('📍 Mekânlar', 'Google Haritalar\'da aç ve yol tarifi al'),
+          _bolumBasligi(l.t('stm.places'), l.t('stm.placesSub')),
           const SizedBox(height: 10),
           for (final mekan in _mekanlar)
             _mekanKarti(context, mekan),
@@ -244,7 +250,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
     );
   }
 
-  Widget _davetBanneri() {
+  Widget _davetBanneri(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -255,16 +261,16 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(18),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              UcdIkon(ikon: Icons.travel_explore_rounded, renk: Colors.white, boyut: 26),
-              SizedBox(width: 10),
+              const UcdIkon(ikon: Icons.travel_explore_rounded, renk: Colors.white, boyut: 26),
+              const SizedBox(width: 10),
               Text(
-                'Kutsal mekânları keşfet',
-                style: TextStyle(
+                l.t('stm.bannerTitle'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -272,11 +278,10 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
-            'İster Hac/Umre öncesi keşif, ister hasret gideren sanal bir '
-            'ziyaret: Mekke ve Medine artık bir dokunuşla sizinle.',
-            style: TextStyle(
+            l.t('stm.bannerSub'),
+            style: const TextStyle(
               color: Colors.white70,
               fontSize: 12.5,
               height: 1.5,
@@ -315,6 +320,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
     required String alt,
     required VoidCallback onTap,
     bool canli = false,
+    String canliEtiket = '',
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -364,14 +370,14 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
                             color: Colors.redAccent,
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              UcdIkon(ikon: Icons.circle, renk: Colors.white, boyut: 6),
-                              SizedBox(width: 4),
+                              const UcdIkon(ikon: Icons.circle, renk: Colors.white, boyut: 6),
+                              const SizedBox(width: 4),
                               Text(
-                                'CANLI',
-                                style: TextStyle(
+                                canliEtiket,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 9,
                                   fontWeight: FontWeight.bold,

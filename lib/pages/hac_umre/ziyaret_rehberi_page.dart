@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import 'hac_umre_verileri.dart';
 import 'ziyaret_verileri.dart';
@@ -26,10 +27,11 @@ class _ZiyaretRehberiPageState extends State<ZiyaretRehberiPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Ziyaret Rehberi'),
+        title: Text(l.t('zr.title')),
         backgroundColor: Renkler.seciliYuzey,
       ),
       body: Column(
@@ -63,8 +65,9 @@ class _ZiyaretRehberiPageState extends State<ZiyaretRehberiPage> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
-                      '$_seciliBolum ziyaret mekânları · '
-                      '${_mekanlar.length} yer',
+                      l.t('zr.placesCount')
+                          .replaceFirst('{b}', _seciliBolum)
+                          .replaceFirst('{n}', '${_mekanlar.length}'),
                       style: const TextStyle(color: Colors.white54, fontSize: 12),
                     ),
                   );
@@ -247,6 +250,7 @@ class _MekanDetayPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
@@ -255,7 +259,7 @@ class _MekanDetayPage extends StatelessWidget {
         actions: [
           if (mekan.enlem != null && mekan.boylam != null)
             IconButton(
-              tooltip: 'Haritada aç',
+              tooltip: l.t('zr.openMap'),
               onPressed: _haritadaAc,
               icon: const Icon(Icons.map_outlined),
             ),
@@ -310,7 +314,7 @@ class _MekanDetayPage extends StatelessWidget {
             const SizedBox(height: 16),
             _Bolum(
               ikon: Icons.menu_book_outlined,
-              baslik: 'Bilgiler',
+              baslik: l.t('zr.info'),
               renk: Renkler.vurgu,
               cocuklar: [
                 for (final d in mekan.detaylar)
@@ -322,7 +326,7 @@ class _MekanDetayPage extends StatelessWidget {
             const SizedBox(height: 12),
             _Bolum(
               ikon: Icons.volunteer_activism_outlined,
-              baslik: 'Ziyaret Adabı',
+              baslik: l.t('zr.adab'),
               renk: Colors.tealAccent,
               cocuklar: [
                 for (final a in mekan.ziyaretAdabi)
@@ -340,13 +344,14 @@ class _MekanDetayPage extends StatelessWidget {
               ),
               onPressed: _haritadaAc,
               icon: const Icon(Icons.map_outlined),
-              label: const Text('Google Haritalar\'da Aç'),
+              label: Text(l.t('zr.openGoogleMaps')),
             ),
             const SizedBox(height: 6),
-            const Center(
+            Center(
               child: Text(
-                'Koordinat: ${""}',
-                style: TextStyle(color: Colors.white24, fontSize: 11),
+                l.t('zr.coordinates').replaceFirst(
+                    '{c}', '${mekan.enlem}, ${mekan.boylam}'),
+                style: const TextStyle(color: Colors.white24, fontSize: 11),
               ),
             ),
           ],

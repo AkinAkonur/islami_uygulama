@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/cuz_hatim_store.dart';
 import '../services/cuz_verileri.dart';
 import '../services/kuran_verileri.dart';
@@ -86,7 +87,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
         _caliyor = false;
         _calanIndex = null;
       });
-      _gosterMesaj('Cüzün tamamı dinlendi.');
+      _gosterMesaj(AppLocalizations.of(context).t('co.listenDone'));
     }
   }
 
@@ -103,7 +104,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
         });
       }
     } catch (_) {
-      _gosterMesaj('Ses çalınamadı. İnternet bağlantınızı kontrol edin.');
+      _gosterMesaj(AppLocalizations.of(context).t('co.noSound'));
     }
   }
 
@@ -119,13 +120,14 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
 
   // ---------------- HATİM TAKİBİ ----------------
   Future<void> _okunduDegistir() async {
+    final l = AppLocalizations.of(context);
     final yeni = !_okundu;
     setState(() => _okundu = yeni);
     await CuzHatimStore.isaretle(widget.cuzNo, yeni);
     _gosterMesaj(
       yeni
-          ? '${widget.cuzNo}. cüz okundu olarak işaretlendi.'
-          : '${widget.cuzNo}. cüz okundu işareti kaldırıldı.',
+          ? l.t('co.marked').replaceFirst('{cuz}', '${widget.cuzNo}')
+          : l.t('co.unmarked').replaceFirst('{cuz}', '${widget.cuzNo}'),
     );
   }
 
@@ -143,7 +145,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          '${widget.cuzNo}. Cüz',
+          AppLocalizations.of(context).t('co.title').replaceFirst('{cuz}', '${widget.cuzNo}'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -155,6 +157,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   }
 
   Widget _icerik() {
+    final l = AppLocalizations.of(context);
     if (_yukleniyor) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -165,15 +168,15 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
           children: [
             UcdIkon(ikon: Icons.error_outline_rounded, renk: Colors.white38, boyut: 48),
             const SizedBox(height: 12),
-            const Text(
-              'Cüz metni yüklenemedi.',
-              style: TextStyle(color: Colors.white70),
+            Text(
+              l.t('co.loadError'),
+              style: const TextStyle(color: Colors.white70),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Renkler.vurgu),
               onPressed: _yukle,
-              child: const Text('Tekrar Dene'),
+              child: Text(l.t('co.retry')),
             ),
           ],
         ),
@@ -202,6 +205,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   }
 
   Widget _sureBasligi(CuzAyah ayet) {
+    final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
@@ -225,7 +229,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
             ),
           ),
           Text(
-            'Sûre ${ayet.sureNo}',
+            l.t('co.surah').replaceFirst('{no}', '${ayet.sureNo}'),
             style: TextStyle(color: Renkler.acikVurgu, fontSize: 11),
           ),
         ],
@@ -234,6 +238,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   }
 
   Widget _ayetKarti(int index) {
+    final l = AppLocalizations.of(context);
     final ayet = _ayetler![index];
     final caliyorMu = _calanIndex == index && _caliyor;
 
@@ -255,7 +260,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
             children: [
               IconButton(
                 visualDensity: VisualDensity.compact,
-                tooltip: caliyorMu ? 'Durdur' : 'Dinle',
+                tooltip: caliyorMu ? l.t('co.stop') : l.t('co.play'),
                 onPressed: () => caliyorMu ? _durdur() : _cal(index),
                 icon: UcdIkon(
                   ikon: caliyorMu ? Icons.stop_circle_rounded : Icons.play_circle_rounded,
@@ -295,9 +300,9 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
                     color: Colors.amber.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
-                    "Secde Âyeti",
-                    style: TextStyle(
+                  child: Text(
+                    l.t('co.secdeAyeti'),
+                    style: const TextStyle(
                       color: Colors.amber,
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
@@ -306,7 +311,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
                 ),
               const Spacer(),
               Text(
-                'Sf ${ayet.sayfa}',
+                l.t('co.page').replaceFirst('{page}', '${ayet.sayfa}'),
                 style: const TextStyle(color: Colors.white24, fontSize: 10),
               ),
             ],
@@ -329,6 +334,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   }
 
   Widget _okunduCubugu() {
+    final l = AppLocalizations.of(context);
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -349,7 +355,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
           onPressed: _okunduDegistir,
           icon: UcdIkon(ikon: _okundu ? Icons.check_circle_rounded : Icons.check_circle_outline_rounded, renk: Colors.black, boyut: 20),
           label: Text(
-            _okundu ? 'Bu cüzü okudum (✓)' : 'Bu cüzü okudum',
+            _okundu ? l.t('co.readDone') : l.t('co.read'),
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),

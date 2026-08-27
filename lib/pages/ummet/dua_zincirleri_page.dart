@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 import '../../widgets/kart_sekilleri.dart';
@@ -58,6 +59,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
   }
 
   Future<void> _katil(DuaZinciri zincir, int adet) async {
+    final l = AppLocalizations.of(context);
     await UmmetStore.zincirKatil(zincir.id, adet);
     if (!mounted) return;
     setState(() {
@@ -66,7 +68,9 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          '$adet adet üstlendin: ${zincir.ad} 🤲',
+          l.t('dz.assumed')
+              .replaceFirst('{count}', '$adet')
+              .replaceFirst('{name}', zincir.ad),
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
@@ -77,13 +81,22 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
   }
 
   Future<void> _zincirEkleDialog() async {
+    final l = AppLocalizations.of(context);
     final formKey = GlobalKey<FormState>();
     final adCtrl = TextEditingController();
     final duaCtrl = TextEditingController();
-    var seciliSure = 'Dua metni';
+    var seciliSure = l.t('dz.duaText');
     var seciliHedef = 1000;
 
     final tema = Theme.of(context);
+    final sureSecenekleri = [
+      l.t('dz.duaText'),
+      'Yâsîn',
+      'Fetih Suresi',
+      'Salavat-ı Şerife',
+      'Seyyidü\'l-İstiğfar',
+      'Ayetü\'l-Kürsi',
+    ];
     final eklendi = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => StatefulBuilder(
@@ -91,7 +104,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
           backgroundColor: Renkler.kart,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
-            'Dua Zinciri Oluştur',
+            l.t('dz.dialogTitle'),
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -108,7 +121,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                     controller: adCtrl,
                     style: const TextStyle(color: Colors.white),
                     decoration: _dekor(
-                      'Zincirin adı (örn. "Komşularım için Şükür")',
+                      l.t('dz.nameHint'),
                       Icons.link_rounded,
                     ),
                   ),
@@ -117,14 +130,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                     initialValue: seciliSure,
                     dropdownColor: Renkler.yuzey,
                     style: const TextStyle(color: Colors.white),
-                    items: [
-                      'Dua metni',
-                      'Yâsîn',
-                      'Fetih Suresi',
-                      'Salavat-ı Şerife',
-                      'Seyyidü\'l-İstiğfar',
-                      'Ayetü\'l-Kürsi',
-                    ]
+                    items: sureSecenekleri
                         .map((s) => DropdownMenuItem(value: s, child: Text(s)))
                         .toList(),
                     onChanged: (v) =>
@@ -138,7 +144,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                     maxLines: 3,
                     maxLength: 300,
                     decoration: _dekor(
-                      'Dua metni veya okunacak zikir',
+                      l.t('dz.duaHint'),
                       Icons.format_quote_outlined,
                     ),
                   ),
@@ -150,7 +156,8 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                     items: [100, 1000, 5000, 10000, 100000]
                         .map((h) => DropdownMenuItem(
                             value: h,
-                            child: Text('Hedef: ${binlikSayi(h)}')))
+                            child: Text(l.t('dz.target')
+                                .replaceFirst('{count}', binlikSayi(h)))))
                         .toList(),
                     onChanged: (v) =>
                         setDialogState(() => seciliHedef = v ?? seciliHedef),
@@ -163,7 +170,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Vazgeç', style: TextStyle(color: Colors.white54)),
+              child: Text(l.t('dz.cancel'), style: const TextStyle(color: Colors.white54)),
             ),
             FilledButton(
               style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
@@ -173,7 +180,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                 }
                 Navigator.of(dialogContext).pop(true);
               },
-              child: const Text('Oluştur', style: TextStyle(color: Colors.white)),
+              child: Text(l.t('dz.create'), style: const TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -188,7 +195,9 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
 
     final zincir = await UmmetStore.zincirEkle(
       ad: adCtrl.text.trim(),
-      detay: 'Küresel hedef: ${binlikSayi(seciliHedef)} • $seciliSure',
+      detay: l.t('dz.globalTarget')
+          .replaceFirst('{count}', binlikSayi(seciliHedef))
+          .replaceFirst('{sure}', seciliSure),
       duaMetni: duaCtrl.text.trim(),
       hedef: seciliHedef,
     );
@@ -202,7 +211,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Dua zincirin oluşturuldu: ${zincir.ad} 🤲',
+          l.t('dz.created').replaceFirst('{name}', zincir.ad),
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
@@ -212,6 +221,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
   }
 
   Future<void> _zinciriSil(DuaZinciri zincir) async {
+    final l = AppLocalizations.of(context);
     await UmmetStore.zincirSil(zincir.id);
     if (!mounted) return;
     setState(() {
@@ -220,7 +230,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Zincirin silindi: ${zincir.ad}',
+          l.t('dz.deleted').replaceFirst('{name}', zincir.ad),
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Renkler.bannerUst,
@@ -255,19 +265,20 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final filtreli = _filtreli;
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Dua Zincirleri',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          l.t('dz.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: 'Yeni Dua Zinciri Oluştur',
+            tooltip: l.t('dz.createTooltip'),
             onPressed: _zincirEkleDialog,
             icon: UcdIkon(ikon: Icons.link_rounded, renk: Colors.white),
           ),
@@ -278,7 +289,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
         backgroundColor: Renkler.vurgu,
         foregroundColor: Colors.white,
         icon: UcdIkon(ikon: Icons.add_rounded, renk: Colors.white),
-        label: const Text('Zincir Oluştur'),
+        label: Text(l.t('dz.createFab')),
       ),
       body: _yukleniyor
           ? Center(child: CircularProgressIndicator(color: Renkler.vurgu))
@@ -290,7 +301,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                     controller: _aramaCtrl,
                     style: const TextStyle(color: Colors.white),
                     decoration: _dekor(
-                      'Zincir ara… (örn. "Gazze", "sınav", "evlat")',
+                      l.t('dz.searchHint'),
                       Icons.search_rounded,
                     ),
                   ),
@@ -316,9 +327,9 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                               children: [
                                 UcdIkon(ikon: Icons.link_rounded, renk: Renkler.vurgu, boyut: 20),
                                 const SizedBox(width: 8),
-                                const Text(
-                                  'Zincire Katıl, Sevaba Ortak Ol',
-                                  style: TextStyle(
+                                Text(
+                                  l.t('dz.joinTitle'),
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
@@ -328,7 +339,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Küresel bir hedef için herkes üzerine düşeni yapar: 1, 5 ya da 10 adet. Kendi dua zincirini de oluşturabilirsin.',
+                              l.t('dz.joinIntro'),
                               style: const TextStyle(
                                 color: Colors.white70,
                                 fontSize: 12,
@@ -340,21 +351,23 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        '${_zincirler.length} zincir • ${_filtreli.length} görüntüleniyor',
+                        l.t('dz.countInfo')
+                            .replaceFirst('{total}', '${_zincirler.length}')
+                            .replaceFirst('{shown}', '${_filtreli.length}'),
                         style: const TextStyle(color: Colors.white54, fontSize: 12),
                       ),
                       const SizedBox(height: 12),
                       if (filtreli.isEmpty)
-                        const Padding(
-                          padding: EdgeInsets.only(top: 30),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30),
                           child: Center(
                             child: Column(
                               children: [
-                                UcdIkon(ikon: Icons.search_off, renk: Colors.white24, boyut: 44),
-                                SizedBox(height: 10),
+                                const UcdIkon(ikon: Icons.search_off, renk: Colors.white24, boyut: 44),
+                                const SizedBox(height: 10),
                                 Text(
-                                  'Aramanızla eşleşen zincir yok.',
-                                  style: TextStyle(
+                                  l.t('dz.noResults'),
+                                  style: const TextStyle(
                                       color: Colors.white38, fontSize: 13),
                                 ),
                               ],
@@ -363,7 +376,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                         )
                       else
                         for (final zincir in filtreli) ...[
-                          _zincirKarti(zincir),
+                          _zincirKarti(zincir, l),
                           const SizedBox(height: 12),
                         ],
                       const SizedBox(height: 20),
@@ -375,7 +388,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
     );
   }
 
-  Widget _zincirKarti(DuaZinciri zincir) {
+  Widget _zincirKarti(DuaZinciri zincir, AppLocalizations l) {
     final pay = _paylar[zincir.id] ?? 0;
     final mevcut = zincir.taban + pay;
     final oran = (mevcut / zincir.hedef).clamp(0.0, 1.0);
@@ -415,7 +428,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                   ),
                   child: Text(
                     zincir.kullanicidan
-                        ? 'SENİN ZİNCİRİN'
+                        ? l.t('dz.yourChain')
                         : '${binlikSayi(mevcut)} / ${binlikSayi(zincir.hedef)}',
                     style: TextStyle(
                       color: zincir.kullanicidan
@@ -468,7 +481,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                   UcdIkon(ikon: Icons.check_circle_rounded, renk: Renkler.vurgu, boyut: 16),
                   const SizedBox(width: 6),
                   Text(
-                    'Senin payın: ${binlikSayi(pay)}',
+                    l.t('dz.yourShare').replaceFirst('{count}', binlikSayi(pay)),
                     style: TextStyle(
                       color: Renkler.vurgu,
                       fontSize: 12,
@@ -479,7 +492,7 @@ class _DuaZincirleriPageState extends State<DuaZincirleriPage> {
                 const Spacer(),
                 if (zincir.kullanicidan)
                   IconButton(
-                    tooltip: 'Zincirini Sil',
+                    tooltip: l.t('dz.deleteTooltip'),
                     onPressed: () => _zinciriSil(zincir),
                     icon: UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.redAccent, boyut: 20),
                   ),

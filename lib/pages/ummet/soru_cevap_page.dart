@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 
@@ -10,7 +11,7 @@ class SoruCevapPage extends StatefulWidget {
 }
 
 class _SoruCevapPageState extends State<SoruCevapPage> {
-  String _seciliKategori = 'Tümü';
+  String? _seciliKategori;
   String _arama = '';
   final _aramaCtrl = TextEditingController();
 
@@ -22,8 +23,8 @@ class _SoruCevapPageState extends State<SoruCevapPage> {
 
   List<FetvaKaydi> get _filtreli {
     return fetvaArsivi.where((f) {
-      final kategoriUygun = _seciliKategori == 'Tümü' ||
-          f.kategori == _seciliKategori;
+      final kategoriUygun =
+          _seciliKategori == null || f.kategori == _seciliKategori;
       final metin = '${f.soru} ${f.cevap}'.toLowerCase();
       final aramaUygun =
           _arama.isEmpty || metin.contains(_arama.toLowerCase());
@@ -33,11 +34,12 @@ class _SoruCevapPageState extends State<SoruCevapPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          'Soru-Cevap & Fetva Arşivi',
+          l.t('sq.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
@@ -45,7 +47,7 @@ class _SoruCevapPageState extends State<SoruCevapPage> {
       ),
       body: Column(
         children: [
-          _bilgiBanneri(),
+          _bilgiBanneri(l),
           SizedBox(height: 10),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
@@ -53,7 +55,7 @@ class _SoruCevapPageState extends State<SoruCevapPage> {
               controller: _aramaCtrl,
               style: TextStyle(color: Colors.white, fontSize: 14),
               decoration: InputDecoration(
-                hintText: 'Ara: namaz, oruç, zekat...',
+                hintText: l.t('sq.searchHint'),
                 hintStyle: TextStyle(color: Colors.white38, fontSize: 13),
                 prefixIcon: Icon(Icons.search, color: Renkler.vurgu, size: 20),
                 filled: true,
@@ -73,13 +75,31 @@ class _SoruCevapPageState extends State<SoruCevapPage> {
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 16),
               children: [
-                for (final k in ['Tümü', ...fetvaKategorileri])
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: ChoiceChip(
+                    label: Text(l.t('sq.all')),
+                    selected: _seciliKategori == null,
+                    onSelected: (_) => setState(() => _seciliKategori = null),
+                    selectedColor: Renkler.vurgu,
+                    backgroundColor: Renkler.kart,
+                    labelStyle: TextStyle(
+                      color: _seciliKategori == null
+                          ? Renkler.zemin
+                          : Colors.white70,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                for (final k in fetvaKategorileri)
                   Padding(
                     padding: EdgeInsets.only(right: 8),
                     child: ChoiceChip(
                       label: Text(k),
                       selected: _seciliKategori == k,
-                      onSelected: (_) => setState(() => _seciliKategori = k),
+                      onSelected: (_) =>
+                          setState(() => _seciliKategori = k),
                       selectedColor: Renkler.vurgu,
                       backgroundColor: Renkler.kart,
                       labelStyle: TextStyle(
@@ -99,7 +119,7 @@ class _SoruCevapPageState extends State<SoruCevapPage> {
             child: _filtreli.isEmpty
                 ? Center(
                     child: Text(
-                      'Sonuç bulunamadı.\nFarklı bir arama deneyin.',
+                      l.t('sq.noResult'),
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white54, fontSize: 13),
                     ),
@@ -115,7 +135,7 @@ class _SoruCevapPageState extends State<SoruCevapPage> {
     );
   }
 
-  Widget _bilgiBanneri() {
+  Widget _bilgiBanneri(AppLocalizations l) {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -137,7 +157,7 @@ class _SoruCevapPageState extends State<SoruCevapPage> {
               SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Güvenilir Kaynaklardan Fetva',
+                  l.t('sq.bannerTitle'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -149,7 +169,7 @@ class _SoruCevapPageState extends State<SoruCevapPage> {
           ),
           SizedBox(height: 8),
           Text(
-            'Fıkhi, akidevi ve ahlaki merak ettikleriniz; muteber kaynaklara dayandırılmış yanıtlarla. Sık sorulan sorular kategorilere ayrılmıştır. Kesin fetva için yetkili kurum ve alimlere danışın.',
+            l.t('sq.bannerIntro'),
             style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
           ),
         ],
