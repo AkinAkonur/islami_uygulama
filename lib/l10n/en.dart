@@ -506,11 +506,6 @@ const Map<String, String> enDil = {
   'hk.download': 'Download',
   'hk.removeBook': 'Remove book',
 
-  // ---------------- HATIM DUA ----------------
-  'hd.recitation': 'With Recitation',
-  'hd.arabic': 'Arabic',
-  'hd.fromStart': 'From Start',
-
   // ---------------- STORIES ----------------
   'kp.titleKP': 'Stories & Prophets',
   'kp.tabProphets': '📜 Prophets',
@@ -1547,4 +1542,37 @@ const Map<String, String> enDil = {
   'gm.tech2Desc': 'The app only requests permissions necessary for its operation; it does not access contacts, camera, or unnecessary data.',
   'gm.tech3Title': 'Serverless Architecture',
   'gm.tech3Desc': 'Favorites, listening history and notes are stored only on your device; never transferred to any server.',
+
+  // ---------------- RAMADAN MODE ----------------
+  'rm.title': 'Ramadan Mode',
+  'rm.inRamadan': 'You are in Ramadan',
+  'rm.preparing': 'Preparing for Ramadan',
+  'rm.dailyHatimGoal': 'Daily Khatm Goal',
+  'rm.goToHatim': 'Go to Khatm page',
+  'rm.specialDays': 'Special Days',
+  'rm.specialDaysSub': 'Holy nights and blessed days (Diyanet calendar · auto-updated)',
+  'rm.sahurEnd': 'Sahur ends',
+  'rm.iftar': 'Iftar',
+  'rm.toIftar': 'Time to Iftar',
+  'rm.toSahur': 'Time to Sahur',
+  'rm.toRamadan': 'Time to Ramadan',
+  'rm.bannerTitle': 'Ramadan Mode',
+
+  // ---------------- KHATM DUA ----------------
+  'hd.title': 'Khatm Dua',
+  'hd.play': 'Read Khatm Dua',
+  'hd.stop': 'Stop',
+  'hd.pause': 'Pause',
+  'hd.stopBtn': 'Stop',
+  'hd.restart': 'Restart',
+  'hd.continue': 'Continue',
+  'hd.transliteration': 'Transliteration',
+  'hd.arabic': 'Arabic',
+  'hd.progress': '{c} / {t}',
+  'hd.info': 'When reading starts, the current section is highlighted and the screen auto-scrolls to follow. Tap any section to start listening from there.',
+  'hd.intro': "Whoever completes the Qur'an recites Surah al-Nas, then the first five verses of al-Fatiha and al-Baqarah. Then facing the qibla with hands raised, one makes the khatm dua. Making dua after khatm is sunnah and a time of acceptance. At the end one says 'al-Fatiha' and recites Surah al-Fatiha.",
+  'hd.currentlyReading': 'Currently reading',
+  'hd.meaning': 'MEANING',
+  'hd.listenHere': 'Listen from here',
+  'hd.finish': 'After the dua one says "al-Fatiha" and recites Surah al-Fatiha to complete the khatm dua.',
 };

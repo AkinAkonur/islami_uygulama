@@ -505,11 +505,6 @@ const Map<String, String> trDil = {
   'hk.download': 'İndir',
   'hk.removeBook': 'Kitabı kaldır',
 
-  // ---------------- HATİM DUASI ----------------
-  'hd.recitation': 'Okunuşla',
-  'hd.arabic': 'Arapça',
-  'hd.fromStart': 'Baştan',
-
   // ---------------- KISSALAR ----------------
   'kp.titleKP': 'Kıssalar ve Peygamberler',
   'kp.tabProphets': '📜 Peygamberler',
@@ -1548,4 +1543,37 @@ const Map<String, String> trDil = {
   'gm.tech2Desc': 'Uygulama yalnızca çalışması için gereken izinleri ister; rehbere, kameraya veya gereksiz verilere erişmez.',
   'gm.tech3Title': 'Sunucusuz Mimarî',
   'gm.tech3Desc': 'Favoriler, dinleme geçmişi ve notlarınız yalnızca cihazınızda saklanır; hiçbir sunucuya aktarılmaz.',
+
+  // ---------------- RAMAZAN MODU ----------------
+  'rm.title': 'Ramazan Modu',
+  'rm.inRamadan': 'Ramazan ayındasın',
+  'rm.preparing': 'Ramazan ayına hazırlık',
+  'rm.dailyHatimGoal': 'Günlük Hatim Hedefi',
+  'rm.goToHatim': 'Hatim sayfasına git',
+  'rm.specialDays': 'Özel Günler',
+  'rm.specialDaysSub': 'Kandiller ve mübarek günler (Diyanet takvimi · otomatik güncellenir)',
+  'rm.sahurEnd': 'Sahur sonu',
+  'rm.iftar': 'İftar',
+  'rm.toIftar': 'İftara kalan',
+  'rm.toSahur': 'Sahura kalan',
+  'rm.toRamadan': 'Ramazan\'a kalan',
+  'rm.bannerTitle': 'Ramazan Modu',
+
+  // ---------------- HATIM DUASI ----------------
+  'hd.title': 'Hatim Duası',
+  'hd.play': 'Hatim Duasını Oku',
+  'hd.stop': 'Durdur',
+  'hd.pause': 'Duraklat',
+  'hd.stopBtn': 'Durdur',
+  'hd.restart': 'Baştan',
+  'hd.continue': 'Devam Et',
+  'hd.transliteration': 'Okunuşla',
+  'hd.arabic': 'Arapça',
+  'hd.progress': '{c} / {t}',
+  'hd.info': 'Okuma başladığında okunan bölüm vurgulanır ve ekran otomatik olarak takip eder. Dilediğin bölüme dokunup oradan da dinleyebilirsin.',
+  'hd.intro': "Kur'ân-ı Kerîm'i hatmeden kimse, Nâs sûresini bitirdikten sonra Fâtiha ve Bakara sûresinin ilk beş âyetini okur. Ardından kıbleye dönüp ellerini dua için açarak hatim duası yapar. Hatim sonrası dua etmek sünnettir ve duanın kabul edildiği zamanlardan biridir. Duanın sonunda \"el-Fâtiha\" denir ve Fâtiha sûresi okunur.",
+  'hd.currentlyReading': 'Şu an okunuyor',
+  'hd.meaning': 'ANLAMI',
+  'hd.listenHere': 'Buradan dinle',
+  'hd.finish': 'Duadan sonra "el-Fâtiha" denir ve Fâtiha sûresi okunarak hatim duası tamamlanır.',
 };

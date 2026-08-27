@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/kart_sekilleri.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 
 /// Hatim duası sayfası. Metin (Arapça, okunuş ve Türkçe anlam) Diyanet'in
@@ -17,13 +18,6 @@ class HatimDuasiPage extends StatefulWidget {
 }
 
 class _HatimDuasiPageState extends State<HatimDuasiPage> {
-  static const _giris =
-      "Kur'ân-ı Kerîm'i hatmeden kimse, Nâs sûresini bitirdikten sonra "
-      "Fâtiha ve Bakara sûresinin ilk beş âyetini okur. Ardından kıbleye "
-      "dönüp ellerini dua için açarak hatim duası yapar. Hatim sonrası dua "
-      "etmek sünnettir ve duanın kabul edildiği zamanlardan biridir. Duanın "
-      "sonunda \"el-Fâtiha\" denir ve Fâtiha sûresi okunur.";
-
   static const List<Map<String, String>> _bolumler = [
     {
       'arapca': 'أَلْحَمْدُ لِلَّٰهِ رَبِّ الْعَالَم۪ينَ وَالْعَاقِبَةُ لِلْمُتَّق۪ينَ وَلَا عُدْوَانَ إِلَّا عَلَى الظَّالِم۪ينَ وَالصَّلٰاةُ وَالسَّلٰامُ عَلٰى رَسُولِنَا مُحَمَّدٍ وَأٰلِه۪ وَصَحْبِه۪ٓ أَجْمَع۪ينَ',
@@ -67,11 +61,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
     },
   ];
 
-  static const _bitis =
-      'Duadan sonra "el-Fâtiha" denir ve Fâtiha sûresi okunarak '
-      'hatim duası tamamlanır.';
-
-  final FlutterTts _tts = FlutterTts();
+final FlutterTts _tts = FlutterTts();
   final ScrollController _kaydirici = ScrollController();
   final List<GlobalKey> _bolumAnahtarlari =
       List.generate(_bolumler.length, (_) => GlobalKey());
@@ -247,20 +237,21 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
     );
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text(
-          'Hatim Duası',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        title: Text(
+          l.t('hd.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: _okuyor ? 'Durdur' : 'Hatim Duasını Oku',
+            tooltip: _okuyor ? l.t('hd.stop') : l.t('hd.play'),
             onPressed: _okuyor ? _duraklat : () => _baslat(null),
             icon: UcdIkon(ikon: 
               _okuyor ? Icons.stop_circle_rounded : Icons.play_circle_rounded, renk: Renkler.vurgu, boyut: 26,
@@ -272,21 +263,21 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-            child: _kontrolKarti(),
+            child: _kontrolKarti(l),
           ),
           Expanded(
             child: ListView(
               controller: _kaydirici,
               padding: const EdgeInsets.all(16),
               children: [
-                _girisKarti(),
+                _girisKarti(l),
                 const SizedBox(height: 14),
                 for (var i = 0; i < _bolumler.length; i++) ...[
-                  _bolumKarti(i, _okuyor && _aktifBolum == i),
+                  _bolumKarti(i, _okuyor && _aktifBolum == i, l),
                   if (i < _bolumler.length - 1) const SizedBox(height: 12),
                 ],
                 const SizedBox(height: 14),
-                _bitisKarti(),
+                _bitisKarti(l),
               ],
             ),
           ),
@@ -295,8 +286,8 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
     );
   }
 
-  /// Başlat/durdur kontrolleri ve okuma ilerlemesi kartı.
-  Widget _kontrolKarti() {
+/// Başlat/durdur kontrolleri ve okuma ilerlemesi kartı.
+  Widget _kontrolKarti(AppLocalizations l) {
     final aktif = _aktifBolum;
     final toplam = _bolumler.length;
     return Container(
@@ -319,10 +310,10 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                 _okuyor ? Icons.graphic_eq_rounded : Icons.play_circle_rounded, renk: Colors.white, boyut: 24,
               ),
               const SizedBox(width: 10),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Hatim Duasını Oku',
-                  style: TextStyle(
+                  l.t('hd.play'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -336,13 +327,13 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
             spacing: 8,
             children: [
               ChoiceChip(
-                label: const Text('Okunuşla'),
+                label: Text(l.t('hd.transliteration')),
                 selected: !_arapca,
                 onSelected:
                     _okuyor ? null : (_) => setState(() => _arapca = false),
               ),
               ChoiceChip(
-                label: const Text('Arapça'),
+                label: Text(l.t('hd.arabic')),
                 selected: _arapca,
                 onSelected:
                     _okuyor ? null : (_) => setState(() => _arapca = true),
@@ -363,7 +354,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  '${(aktif ?? 0) + 1} / $toplam',
+                  l.t('hd.progress').replaceFirst('{c}', '${(aktif ?? 0) + 1}').replaceFirst('{t}', '$toplam'),
                   style: const TextStyle(color: Colors.white, fontSize: 12),
                 ),
               ],
@@ -385,7 +376,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                   child: FilledButton.icon(
                     onPressed: _duraklat,
                     icon: const UcdIkon(ikon: Icons.pause_rounded, renk: Colors.white70),
-                    label: const Text('Duraklat'),
+                    label: Text(l.t('hd.pause')),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -397,7 +388,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                     ),
                     onPressed: _durdur,
                     icon: const UcdIkon(ikon: Icons.stop_rounded, renk: Colors.white70),
-                    label: const Text('Durdur'),
+                    label: Text(l.t('hd.stopBtn')),
                   ),
                 ),
               ],
@@ -409,7 +400,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                   child: FilledButton.icon(
                     onPressed: () => _baslat(null),
                     icon: UcdIkon(ikon: aktif == null ? Icons.play_arrow_rounded : Icons.play_circle_rounded, renk: Colors.white70),
-                    label: Text(aktif == null ? 'Hatim Duasını Oku' : 'Devam Et'),
+                    label: Text(aktif == null ? l.t('hd.play') : l.t('hd.continue')),
                   ),
                 ),
                 if (aktif != null) ...[
@@ -422,25 +413,23 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                       ),
                       onPressed: _durdur,
                       icon: const UcdIkon(ikon: Icons.replay_rounded, renk: Colors.white70),
-                      label: const Text('Baştan'),
+                      label: Text(l.t('hd.restart')),
                     ),
                   ),
                 ],
               ],
             ),
           const SizedBox(height: 10),
-          const Text(
-            'Okuma başladığında okunan bölüm vurgulanır ve ekran otomatik '
-            'olarak takip eder. Dilediğin bölüme dokunup oradan da '
-            'dinleyebilirsin.',
-            style: TextStyle(color: Colors.white70, fontSize: 11, height: 1.4),
+          Text(
+            l.t('hd.info'),
+            style: const TextStyle(color: Colors.white70, fontSize: 11, height: 1.4),
           ),
         ],
       ),
     );
   }
 
-  Widget _girisKarti() {
+Widget _girisKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -448,14 +437,14 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
         borderRadius: BorderRadius.circular(14),
         border: Border(left: BorderSide(color: Renkler.vurgu, width: 3)),
       ),
-      child: const Text(
-        _giris,
-        style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+      child: Text(
+        l.t('hd.intro'),
+        style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
       ),
     );
   }
 
-  Widget _bolumKarti(int index, bool aktif) {
+Widget _bolumKarti(int index, bool aktif, AppLocalizations l) {
     final bolum = _bolumler[index];
     return GestureDetector(
       onTap: _okuyor ? null : () => _baslat(index),
@@ -489,7 +478,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                   const UcdIkon(ikon: Icons.graphic_eq_rounded, renk: Colors.greenAccent, boyut: 16),
                   const SizedBox(width: 6),
                   Text(
-                    'Şu an okunuyor',
+                    l.t('hd.currentlyReading'),
                     style: TextStyle(
                       color: Renkler.vurgu,
                       fontSize: 11,
@@ -498,7 +487,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                   ),
                   const Spacer(),
                   Text(
-                    '${index + 1} / ${_bolumler.length}',
+                    l.t('hd.progress').replaceFirst('{c}', '${index + 1}').replaceFirst('{t}', '${_bolumler.length}'),
                     style: TextStyle(color: Renkler.acikVurgu, fontSize: 11),
                   ),
                 ],
@@ -530,7 +519,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
             const Divider(color: Colors.white12),
             const SizedBox(height: 8),
             Text(
-              'ANLAMI',
+              l.t('hd.meaning'),
               style: TextStyle(
                 color: Renkler.vurgu,
                 fontSize: 10,
@@ -553,7 +542,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    'Buradan dinle',
+                    l.t('hd.listenHere'),
                     style: TextStyle(
                       color: Renkler.vurgu.withValues(alpha: 0.85),
                       fontSize: 11,
@@ -573,7 +562,7 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
     );
   }
 
-  Widget _bitisKarti() {
+Widget _bitisKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -585,14 +574,14 @@ class _HatimDuasiPageState extends State<HatimDuasiPage> {
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.35)),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          UcdIkon(ikon: Icons.auto_stories_rounded, renk: Colors.white70, boyut: 22),
-          SizedBox(width: 10),
+          const UcdIkon(ikon: Icons.auto_stories_rounded, renk: Colors.white70, boyut: 22),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
-              _bitis,
-              style: TextStyle(color: Colors.white, fontSize: 13, height: 1.4),
+              l.t('hd.finish'),
+              style: const TextStyle(color: Colors.white, fontSize: 13, height: 1.4),
             ),
           ),
         ],

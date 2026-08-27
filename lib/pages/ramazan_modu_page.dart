@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+
+import '../l10n/app_localizations.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
@@ -112,6 +114,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final (etiket, kalan) = _kalanHesap();
     return Scaffold(
       body: Container(
@@ -125,18 +128,18 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
         child: SafeArea(
           child: Column(
             children: [
-              _baslikSatiri(context),
+              _baslikSatiri(context, l),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    _countdownKarti(etiket, kalan),
+                    _countdownKarti(etiket, kalan, l),
                     const SizedBox(height: 16),
-                    _hatimKarti(),
+                    _hatimKarti(l),
                     const SizedBox(height: 16),
-                    _ozelGunlerKarti(),
+                    _ozelGunlerKarti(l),
                     const SizedBox(height: 16),
-                    _saatKarti(),
+                    _saatKarti(l),
                     const SizedBox(height: 16),
                   ],
                 ),
@@ -148,7 +151,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
     );
   }
 
-  Widget _baslikSatiri(BuildContext context) {
+  Widget _baslikSatiri(BuildContext context, AppLocalizations l) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -158,9 +161,9 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
             icon: const UcdIkon(ikon: Icons.arrow_back_ios_new_rounded, renk: Colors.white),
           ),
           const SizedBox(width: 8),
-          const Text(
-            'Ramazan Modu',
-            style: TextStyle(
+          Text(
+            l.t('rm.title'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -173,7 +176,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
     );
   }
 
-  Widget _countdownKarti(String etiket, Duration kalan) {
+  Widget _countdownKarti(String etiket, Duration kalan, AppLocalizations l) {
     final ramazanIci = ManeviStore.ramazanIci(_now);
     return Container(
       padding: const EdgeInsets.all(20),
@@ -203,7 +206,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
               const Text('🌙', style: TextStyle(fontSize: 28)),
               const SizedBox(width: 10),
               Text(
-                ramazanIci ? 'Ramazan ayındasın' : 'Ramazan ayına hazırlık',
+                ramazanIci ? l.t('rm.inRamadan') : l.t('rm.preparing'),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -232,7 +235,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
     );
   }
 
-  Widget _hatimKarti() {
+  Widget _hatimKarti(AppLocalizations l) {
     return GestureDetector(
       onTap: _hatimSayfasiniAc,
       child: Container(
@@ -247,10 +250,10 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
             Row(
               children: [
                 UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu, boyut: 20),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
-                  'Günlük Hatim Hedefi',
-                  style: TextStyle(
+                  l.t('rm.dailyHatimGoal'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -296,7 +299,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
                   side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
                 ),
                 icon: UcdIkon(ikon: Icons.arrow_forward_rounded, renk: Renkler.vurgu, boyut: 16),
-                label: const Text('Hatim sayfasına git'),
+                label: Text(l.t('rm.goToHatim')),
               ),
             ),
           ],
@@ -305,7 +308,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
     );
   }
 
-  Widget _ozelGunlerKarti() {
+  Widget _ozelGunlerKarti(AppLocalizations l) {
     final bugun =
         '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
     return Container(
@@ -320,10 +323,10 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
           Row(
             children: [
               UcdIkon(ikon: Icons.event_rounded, renk: Renkler.vurgu, boyut: 20),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
-                'Özel Günler',
-                style: TextStyle(
+                l.t('rm.specialDays'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -333,8 +336,8 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Kandiller ve mübarek günler (Diyanet takvimi · otomatik güncellenir)',
-            style: TextStyle(color: Colors.white54, fontSize: 12),
+            l.t('rm.specialDaysSub'),
+            style: const TextStyle(color: Colors.white54, fontSize: 12),
           ),
           const SizedBox(height: 12),
           ...ManeviStore.ozelGunler.map(
@@ -372,7 +375,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
     );
   }
 
-  Widget _saatKarti() {
+  Widget _saatKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -381,9 +384,9 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
       ),
       child: Row(
         children: [
-          Expanded(child: _saatKutusu('🌅 Sahur sonu', _sahurSaati)),
+          Expanded(child: _saatKutusu(l.t('rm.sahurEnd'), _sahurSaati)),
           const SizedBox(width: 12),
-          Expanded(child: _saatKutusu('🌇 İftar', _iftarSaati)),
+          Expanded(child: _saatKutusu(l.t('rm.iftar'), _iftarSaati)),
         ],
       ),
     );
@@ -398,7 +401,7 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
       ),
       child: Column(
         children: [
-          Text(etiket, style: TextStyle(color: Colors.white54, fontSize: 12)),
+          Text(etiket, style: const TextStyle(color: Colors.white54, fontSize: 12)),
           const SizedBox(height: 4),
           Text(
             saat,
@@ -475,6 +478,7 @@ class _RamazanBannerState extends State<RamazanBanner> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final ramazanIci = ManeviStore.ramazanIci(_now);
     String etiket;
     Duration kalan;
@@ -487,10 +491,10 @@ class _RamazanBannerState extends State<RamazanBanner> {
         _iftarDakika,
       );
       if (_now.isBefore(iftar)) {
-        etiket = 'İftara kalan';
+        etiket = l.t('rm.toIftar');
         kalan = iftar.difference(_now);
       } else {
-        etiket = 'Sahura kalan';
+        etiket = l.t('rm.toSahur');
         kalan = DateTime(
           _now.year,
           _now.month,
@@ -500,7 +504,7 @@ class _RamazanBannerState extends State<RamazanBanner> {
         ).add(const Duration(days: 1)).difference(_now);
       }
     } else {
-      etiket = 'Ramazan\'a kalan';
+      etiket = l.t('rm.toRamadan');
       kalan = ManeviStore.sonrakiRamazanBaslangic(_now).difference(_now);
     }
     return GestureDetector(
@@ -535,7 +539,7 @@ class _RamazanBannerState extends State<RamazanBanner> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Ramazan Modu · $etiket',
+                    '${l.t('rm.bannerTitle')} · $etiket',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 13,
