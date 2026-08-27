@@ -1482,6 +1482,8 @@ const Map<String, String> trDil = {
   'sb.mOdalarSub': 'Şifa • Borç/Rızık • Sınav • Aile Huzuru • Hidayet',
   'sb.mSureler': 'Seçme Sureler & Dualar',
   'sb.mSurelerSub': 'Yâsîn, Mülk, Fâtiha, Cevşen ve daha fazlası • sesli dinleme',
+  'sb.mMubarek': 'Mübarek Sureler & Dualar',
+  'sb.mMubarekSub': 'Yâsîn, Mülk, Vâkıa, Haşr, Cevşen ve daha fazlası • arapça, okunuş ve mana',
   'sb.mHatim': 'Hatim & Yâsîn Halkaları',
   'sb.mHatimSub': '30 cüz, 30 kardeş • ortak hatim ve Yâsîn-i Şerif organizasyonları',
   'sb.s2Title': '💚 Yardımlaşma & İyilik',
@@ -1576,4 +1578,7 @@ const Map<String, String> trDil = {
   'hd.meaning': 'ANLAMI',
   'hd.listenHere': 'Buradan dinle',
   'hd.finish': 'Duadan sonra "el-Fâtiha" denir ve Fâtiha sûresi okunarak hatim duası tamamlanır.',
+
+  // ---------------- MÜBAREK SURELER & DUALAR ----------------
+  'ms.title': 'Mübarek Sureler & Dualar',
 };

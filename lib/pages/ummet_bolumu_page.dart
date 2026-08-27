@@ -18,6 +18,7 @@ import 'ummet/manevi_halkalar_page.dart';
 import 'ummet/islami_akis_page.dart';
 import 'ummet/dunya_ummeti_page.dart';
 import 'ummet/ozel_sureler_page.dart';
+import 'ummet/mubarek_sureler_page.dart';
 import '../widgets/kart_sekilleri.dart';
 
 class UmmetBolumuPage extends StatefulWidget {
@@ -230,6 +231,17 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => OzelSurelerPage()),
+              ),
+            ),
+            _modulKart(
+              context,
+              Icons.record_voice_over_rounded,
+              l.t('sb.mMubarek'),
+              l.t('sb.mMubarekSub'),
+              Colors.deepPurpleAccent,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => MubarekSurelerPage()),
               ),
             ),
             _modulKart(

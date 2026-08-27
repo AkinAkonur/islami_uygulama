@@ -1481,6 +1481,8 @@ const Map<String, String> enDil = {
   'sb.mOdalarSub': 'Healing • Debt/Rizq • Exams • Family Peace • Guidance',
   'sb.mSureler': 'Selected Surahs & Du\'as',
   'sb.mSurelerSub': 'Ya-Sin, Mulk, Fatiha, Jawshan and more • listen aloud',
+  'sb.mMubarek': 'Blessed Surahs & Du\'as',
+  'sb.mMubarekSub': 'Ya-Sin, Mulk, Waqiah, Hashr, Jawshan and more • Arabic, transliteration & meaning',
   'sb.mHatim': 'Khatm & Ya-Sin Circles',
   'sb.mHatimSub': '30 juz, 30 brothers • communal khatm and Ya-Sin Sharif organizations',
   'sb.s2Title': '💚 Charity & Goodness',
@@ -1575,4 +1577,7 @@ const Map<String, String> enDil = {
   'hd.meaning': 'MEANING',
   'hd.listenHere': 'Listen from here',
   'hd.finish': 'After the dua one says "al-Fatiha" and recites Surah al-Fatiha to complete the khatm dua.',
+
+  // ---------------- BLESSED SURAHS & DU'AS ----------------
+  'ms.title': 'Blessed Surahs & Du\'as',
 };
