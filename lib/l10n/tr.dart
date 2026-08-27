@@ -1581,4 +1581,11 @@ const Map<String, String> trDil = {
 
   // ---------------- MÜBAREK SURELER & DUALAR ----------------
   'ms.title': 'Mübarek Sureler & Dualar',
+  'ms.kabeImam': 'Kâbe İmamı',
+  'ms.kabeImamReciter': 'Kâbe İmamı',
+  'ms.arabic': 'Arapça',
+  'ms.transliteration': 'Okunuş',
+  'ms.manaSummary': 'Türkçe Mana (Özet)',
+  'ms.mealFull': 'Türkçe Meal (Tam Çeviri)',
+  'ms.audioError': 'Ses okunamadı:',
 };

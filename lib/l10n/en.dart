@@ -1580,4 +1580,11 @@ const Map<String, String> enDil = {
 
   // ---------------- BLESSED SURAHS & DU'AS ----------------
   'ms.title': 'Blessed Surahs & Du\'as',
+  'ms.kabeImam': 'Haram Imam',
+  'ms.kabeImamReciter': 'Imam of the Kaaba',
+  'ms.arabic': 'Arabic',
+  'ms.transliteration': 'Transliteration',
+  'ms.manaSummary': 'Turkish Meaning (Summary)',
+  'ms.mealFull': 'Turkish Translation (Full)',
+  'ms.audioError': 'Unable to play audio:',
 };

@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:just_audio/just_audio.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
@@ -22,22 +21,32 @@ class MubarekSurelerPage extends StatefulWidget {
 }
 
 class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
+  final AudioPlayer _player = AudioPlayer();
   final FlutterTts _tts = FlutterTts();
   final Set<int> _expandedCards = {};
   int? _playingIndex;
   bool _isPlaying = false;
   bool _arapcaOkunus = false;
-  String? _ttsHata;
 
   @override
   void initState() {
     super.initState();
     _ttsKur();
+    _player.playerStateStream.listen((state) {
+      if (!mounted) return;
+      if (state.processingState == ProcessingState.completed && _isPlaying) {
+        setState(() {
+          _isPlaying = false;
+          _playingIndex = null;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     _tts.stop();
+    _player.dispose();
     super.dispose();
   }
 
@@ -59,22 +68,30 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
       setState(() {
         _isPlaying = false;
         _playingIndex = null;
-        _ttsHata = 'Ses okunamadı: $msg';
       });
     });
   }
 
-  Future<void> _toggleTts(int index, MubarekSureVerisi veri) async {
+  Future<void> _toggle(int index, MubarekSureVerisi veri) async {
     if (_playingIndex == index && _isPlaying) {
-      await _tts.stop();
-      setState(() {
-        _isPlaying = false;
-        _playingIndex = null;
-      });
+      await _dur();
       return;
     }
+    await _dur();
+    if (veri.audioUrl.isNotEmpty) {
+      try {
+        await _player.setUrl(veri.audioUrl);
+        await _player.play();
+        setState(() {
+          _playingIndex = index;
+          _isPlaying = true;
+        });
+        return;
+      } catch (e) {
+        // İnternet yoksa ya da ses yüklenemezse TTS'e düş
+      }
+    }
     try {
-      await _tts.stop();
       final metin = _arapcaOkunus ? veri.arapca : veri.okunus;
       await _tts.setLanguage(_arapcaOkunus ? 'ar' : 'tr-TR');
       await _tts.setSpeechRate(0.5);
@@ -82,17 +99,28 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
       setState(() {
         _playingIndex = index;
         _isPlaying = true;
-        _ttsHata = null;
       });
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('$_ttsHata ${e.toString()}'),
+            content: Text(
+                '${AppLocalizations.of(context).t('ms.audioError')} ${e.toString()}'),
             backgroundColor: Colors.red.shade700,
           ),
         );
       }
+    }
+  }
+
+  Future<void> _dur() async {
+    await _tts.stop();
+    await _player.stop();
+    if (_isPlaying) {
+      setState(() {
+        _isPlaying = false;
+        _playingIndex = null;
+      });
     }
   }
 
@@ -122,6 +150,7 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
         leading: IconButton(
           onPressed: () {
             _tts.stop();
+            _player.stop();
             Navigator.pop(context);
           },
           icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
@@ -224,11 +253,41 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
                             fontSize: 12,
                           ),
                         ),
+                        if (veri.audioUrl.isNotEmpty) ...[
+                          const SizedBox(height: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: Renkler.vurgu.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                UcdIkon(
+                                  ikon: Icons.mosque_rounded,
+                                  renk: Renkler.vurgu,
+                                  boyut: 12,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  l.t('ms.kabeImam'),
+                                  style: TextStyle(
+                                    color: Renkler.vurgu,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => _toggleTts(index, veri),
+                    onTap: () => _toggle(index, veri),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       width: 42,
@@ -272,7 +331,7 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
           ),
           AnimatedCrossFade(
             firstChild: const SizedBox.shrink(),
-            secondChild: _genisletilmisIcerik(veri),
+            secondChild: _genisletilmisIcerik(veri, l),
             crossFadeState:
                 isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 300),
@@ -282,7 +341,7 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
     );
   }
 
-  Widget _genisletilmisIcerik(MubarekSureVerisi veri) {
+  Widget _genisletilmisIcerik(MubarekSureVerisi veri, AppLocalizations l) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -303,8 +362,29 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
             ),
           ),
 
+          // Okunacak ses bilgisi
+          if (veri.audioUrl.isNotEmpty) ...[
+            Row(
+              children: [
+                UcdIkon(ikon: Icons.mosque_rounded, renk: Renkler.vurgu, boyut: 16),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    '${l.t('ms.kabeImamReciter')}: ${veri.reciter}',
+                    style: TextStyle(
+                      color: Renkler.vurgu,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+          ],
+
           // Arapça metin
-          _bolumBasligi(Icons.auto_stories_rounded, 'Arapça'),
+          _bolumBasligi(Icons.auto_stories_rounded, l.t('ms.arabic')),
           const SizedBox(height: 8),
           Container(
             width: double.infinity,
@@ -329,54 +409,8 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
 
           const SizedBox(height: 14),
 
-          // Okunuş bölümü + TTS modu
-          Row(
-            children: [
-              _bolumBasligi(Icons.record_voice_over_rounded, 'Okunuş'),
-              const Spacer(),
-              GestureDetector(
-                onTap: () {
-                  final degisti = !_arapcaOkunus;
-                  setState(() {
-                    _arapcaOkunus = degisti;
-                  });
-                  if (_isPlaying && _playingIndex != null) {
-                    _toggleTts(_playingIndex!, mubarekSureler[_playingIndex!]);
-                  }
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Renkler.vurgu.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.4)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      UcdIkon(
-                        ikon: _arapcaOkunus
-                            ? Icons.language_rounded
-                            : Icons.translate_rounded,
-                        renk: Renkler.vurgu,
-                        boyut: 14,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        _arapcaOkunus ? 'Arapça ses' : 'Türkçe ses',
-                        style: TextStyle(
-                          color: Renkler.vurgu,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // Okunuş bölümü
+          _bolumBasligi(Icons.record_voice_over_rounded, l.t('ms.transliteration')),
           const SizedBox(height: 8),
           Container(
             width: double.infinity,
@@ -399,7 +433,7 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
           const SizedBox(height: 14),
 
           // Türkçe mana
-          _bolumBasligi(Icons.translate_rounded, 'Türkçe Mana'),
+          _bolumBasligi(Icons.tips_and_updates_rounded, l.t('ms.manaSummary')),
           const SizedBox(height: 8),
           Container(
             width: double.infinity,
@@ -415,6 +449,29 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
                 color: Colors.white,
                 fontSize: 14,
                 height: 1.7,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 14),
+
+          // Türkçe meal (tam çeviri)
+          _bolumBasligi(Icons.translate_rounded, l.t('ms.mealFull')),
+          const SizedBox(height: 8),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Renkler.cerceve),
+            ),
+            child: SelectableText(
+              veri.meal,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+                height: 1.8,
               ),
             ),
           ),
