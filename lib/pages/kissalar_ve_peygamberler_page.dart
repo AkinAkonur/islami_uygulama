@@ -53,14 +53,15 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         backgroundColor: Renkler.yuzey,
         elevation: 0,
-        title: const Text(
-          'Kıssalar ve Peygamberler',
-          style: TextStyle(color: Colors.white, fontSize: 18),
+        title: Text(
+          l.t('kp.titleKP'),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
         bottom: TabBar(
           controller: _tabController,
@@ -68,12 +69,12 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
           indicatorColor: Renkler.vurgu,
           labelColor: Renkler.vurgu,
           unselectedLabelColor: Colors.white54,
-          tabs: const [
-            Tab(text: '📜 Peygamberler'),
-            Tab(text: '📖 Kur\'an Kıssaları'),
-            Tab(text: '🕋 Siyer-i Nebi'),
-            Tab(text: '🤲 Peygamber Duaları'),
-            Tab(text: '🎯 Tematik'),
+          tabs: [
+            Tab(text: l.t('kp.tabProphets')),
+            Tab(text: l.t('kp.tabQuran')),
+            Tab(text: l.t('kp.tabSeerah')),
+            Tab(text: l.t('kp.tabDua')),
+            Tab(text: l.t('kp.tabThematic')),
           ],
         ),
       ),
@@ -100,6 +101,7 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
   // ----------------------------- ARAMA -----------------------------
 
   Widget _aramaKutusu() {
+    final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(12),
       color: Renkler.yuzey,
@@ -108,7 +110,7 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
         style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           hintText:
-              'Peygamber, kıssa, kavim, ayet, dua veya tema arayın...',
+              l.t('kp.searchHint'),
           hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
           prefixIcon: const UcdIkon(ikon: Icons.search_rounded, renk: Colors.white54, boyut: 20),
           suffixIcon: _aramaAktif

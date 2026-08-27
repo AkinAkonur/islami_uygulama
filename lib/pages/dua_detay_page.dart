@@ -7,7 +7,6 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../l10n/app_localizations.dart';
 import '../l10n/dil_hizmetleri.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
@@ -85,7 +84,11 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
             children: [
               Row(
                 children: [
-                  UcdIkon(ikon: Icons.alarm_rounded, renk: Colors.orangeAccent, boyut: 22),
+                  UcdIkon(
+                    ikon: Icons.alarm_rounded,
+                    renk: Colors.orangeAccent,
+                    boyut: 22,
+                  ),
                   const SizedBox(width: 8),
                   const Expanded(
                     child: Text(
@@ -99,7 +102,10 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   ),
                   IconButton(
                     tooltip: 'Kapat',
-                    icon: UcdIkon(ikon: Icons.close_rounded, renk: Colors.white38),
+                    icon: UcdIkon(
+                      ikon: Icons.close_rounded,
+                      renk: Colors.white38,
+                    ),
                     onPressed: () => Navigator.pop(ctx, false),
                   ),
                 ],
@@ -144,7 +150,11 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      UcdIkon(ikon: Icons.access_time_rounded, renk: Colors.white70, boyut: 20),
+                      UcdIkon(
+                        ikon: Icons.access_time_rounded,
+                        renk: Colors.white70,
+                        boyut: 20,
+                      ),
                       const SizedBox(width: 10),
                       Text(
                         'Saat: ${zaman.format(context)}',
@@ -194,11 +204,12 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   foregroundColor: Colors.black87,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
-                onPressed: () => Navigator.pop(
-                  ctx,
-                  true,
+                onPressed: () => Navigator.pop(ctx, true),
+                icon: UcdIkon(
+                  ikon: Icons.notifications_active_outlined,
+                  renk: Colors.black87,
+                  boyut: 18,
                 ),
-                icon: UcdIkon(ikon: Icons.notifications_active_outlined, renk: Colors.black87, boyut: 18),
                 label: const Text(
                   'Hatırlatıcıyı Kaydet',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -210,7 +221,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   onPressed: () {
                     Navigator.pop(ctx, 'sil');
                   },
-                  style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.redAccent,
+                  ),
                   child: const Text('Hatırlatıcıyı Kaldır'),
                 ),
               ],
@@ -231,9 +244,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
       );
       await GercekBildirimler.duaHatirlatmalariPlanla();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Hatırlatıcı kuruldu 🤲')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Hatırlatıcı kuruldu 🤲')));
       }
     } else if (kaydedildi == 'sil') {
       await DuaStore.hatirlatmaSil(dua.id);
@@ -287,8 +300,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
     try {
       final boyut = _kartAnahtari.currentContext?.size;
       if (boyut == null) throw Exception('Kart hazırlanamadı');
-      final boundary = _kartAnahtari.currentContext!.findRenderObject()
-          as RenderRepaintBoundary;
+      final boundary =
+          _kartAnahtari.currentContext!.findRenderObject()
+              as RenderRepaintBoundary;
       final resim = await boundary.toImage(pixelRatio: 3);
       final byteData = await resim.toByteData(format: ui.ImageByteFormat.png);
       resim.dispose();
@@ -306,9 +320,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
       );
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Paylaşım hazırlanamadı: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Paylaşım hazırlanamadı: $e')));
       }
     } finally {
       if (mounted) setState(() => _paylasiliyor = false);
@@ -339,7 +353,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : UcdIkon(
-                      ikon: _caliyor ? Icons.stop_circle_outlined : Icons.play_circle_outline,
+                      ikon: _caliyor
+                          ? Icons.stop_circle_outlined
+                          : Icons.play_circle_outline,
                       renk: Renkler.vurgu,
                     ),
               onPressed: _yukleniyorSes ? null : _sesCal,
@@ -351,7 +367,9 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
               return IconButton(
                 tooltip: secili ? 'Favorilerden çıkar' : 'Favorilere ekle',
                 icon: UcdIkon(
-                  ikon: secili ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                  ikon: secili
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_border_rounded,
                   renk: secili ? Colors.redAccent : Colors.white70,
                 ),
                 onPressed: () => DuaStore.favoriDegistir(dua.id),
@@ -395,7 +413,10 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(
                       _sesHata!,
-                      style: TextStyle(color: Colors.orangeAccent, fontSize: 12),
+                      style: TextStyle(
+                        color: Colors.orangeAccent,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 if (dua.tekrar != null && dua.tekrar! > 0)
@@ -407,7 +428,10 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   _FaziletKarti(dua: dua),
                 ],
                 const SizedBox(height: 10),
-                _HatirlatmaBanneri(dua: dua, onAc: () => _hatirlaticiAc(context)),
+                _HatirlatmaBanneri(
+                  dua: dua,
+                  onAc: () => _hatirlaticiAc(context),
+                ),
               ],
             ),
           ),
@@ -478,7 +502,11 @@ class _FontBoyutuCubugu extends StatelessWidget {
             ),
             child: Row(
               children: [
-                UcdIkon(ikon: Icons.format_size, renk: Colors.white54, boyut: 18),
+                UcdIkon(
+                  ikon: Icons.format_size,
+                  renk: Colors.white54,
+                  boyut: 18,
+                ),
                 const SizedBox(width: 6),
                 Expanded(
                   child: Slider(
@@ -548,7 +576,11 @@ class _DuaKarti extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  UcdIkon(ikon: Icons.mosque_rounded, renk: Renkler.acikVurgu, boyut: 18),
+                  UcdIkon(
+                    ikon: Icons.mosque_rounded,
+                    renk: Renkler.acikVurgu,
+                    boyut: 18,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -686,7 +718,11 @@ class _ZikirmatikState extends State<_Zikirmatik> {
               ),
               IconButton(
                 tooltip: 'Sıfırla',
-                icon: UcdIkon(ikon: Icons.refresh, renk: Colors.white54, boyut: 18),
+                icon: UcdIkon(
+                  ikon: Icons.refresh,
+                  renk: Colors.white54,
+                  boyut: 18,
+                ),
                 onPressed: _sifirla,
               ),
             ],
@@ -728,7 +764,10 @@ class _ZikirmatikState extends State<_Zikirmatik> {
                     const SizedBox(height: 6),
                     Text(
                       '$hedef',
-                      style: const TextStyle(color: Colors.white38, fontSize: 11),
+                      style: const TextStyle(
+                        color: Colors.white38,
+                        fontSize: 11,
+                      ),
                     ),
                   ],
                 ],
@@ -761,9 +800,7 @@ class _FaziletKarti extends StatelessWidget {
       decoration: BoxDecoration(
         color: Renkler.seciliYuzey.withValues(alpha: 0.45),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: Colors.amberAccent.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: Colors.amberAccent.withValues(alpha: 0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -839,9 +876,7 @@ class _HatirlatmaBanneri extends StatelessWidget {
                 children: [
                   UcdIkon(
                     ikon: kayit != null ? Icons.alarm_on : Icons.alarm_add,
-                    renk: kayit != null
-                        ? Colors.orangeAccent
-                        : Colors.white38,
+                    renk: kayit != null ? Colors.orangeAccent : Colors.white38,
                     boyut: 20,
                   ),
                   const SizedBox(width: 10),
@@ -890,7 +925,11 @@ class _KaynakKarti extends StatelessWidget {
       ),
       child: Row(
         children: [
-          UcdIkon(ikon: Icons.menu_book_outlined, renk: Colors.white38, boyut: 16),
+          UcdIkon(
+            ikon: Icons.menu_book_outlined,
+            renk: Colors.white38,
+            boyut: 16,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(

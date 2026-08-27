@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../l10n/app_localizations.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
 import '../services/renkler.dart';
@@ -104,19 +103,21 @@ class _DualarPageState extends State<DualarPage> {
                       ),
                     )
                   : _kategoriler == null
-                      ? Center(child: CircularProgressIndicator(color: Renkler.vurgu))
-                      : _arama.isNotEmpty
-                          ? _AramaSonuclari(sorgu: _arama, onAc: _duaAc)
-                          : TabBarView(
-                              children: [
-                                _KategorilerListesi(
-                                  kategoriler: _kategoriler!,
-                                  onKategori: (k) => _kategoriAc(context, k),
-                                ),
-                                _FavorilerListesi(onAc: _duaAc),
-                                _OzDualarListesi(onAc: _duaAc),
-                              ],
-                            ),
+                  ? Center(
+                      child: CircularProgressIndicator(color: Renkler.vurgu),
+                    )
+                  : _arama.isNotEmpty
+                  ? _AramaSonuclari(sorgu: _arama, onAc: _duaAc)
+                  : TabBarView(
+                      children: [
+                        _KategorilerListesi(
+                          kategoriler: _kategoriler!,
+                          onKategori: (k) => _kategoriAc(context, k),
+                        ),
+                        _FavorilerListesi(onAc: _duaAc),
+                        _OzDualarListesi(onAc: _duaAc),
+                      ],
+                    ),
             ),
           ],
         ),
@@ -127,9 +128,7 @@ class _DualarPageState extends State<DualarPage> {
   void _kategoriAc(BuildContext context, DuaKategori kategori) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (_) => DuaKategoriPage(kategori: kategori),
-      ),
+      MaterialPageRoute(builder: (_) => DuaKategoriPage(kategori: kategori)),
     );
   }
 }
@@ -154,11 +153,19 @@ class _AramaCubugu extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'Ara: borç, uyku, sınav, korunma…',
           hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
-          prefixIcon: const UcdIkon(ikon: Icons.search_rounded, renk: Colors.white38, boyut: 20),
+          prefixIcon: const UcdIkon(
+            ikon: Icons.search_rounded,
+            renk: Colors.white38,
+            boyut: 20,
+          ),
           suffixIcon: controller.text.isEmpty
               ? null
               : IconButton(
-                  icon: const UcdIkon(ikon: Icons.close_rounded, renk: Colors.white38, boyut: 18),
+                  icon: const UcdIkon(
+                    ikon: Icons.close_rounded,
+                    renk: Colors.white38,
+                    boyut: 18,
+                  ),
                   onPressed: () {
                     controller.clear();
                     onChanged('');
@@ -366,10 +373,8 @@ class DuaKategoriPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => DuaDetayPage(
-                          dua: dua,
-                          kategoriAdi: kategori.ad,
-                        ),
+                        builder: (_) =>
+                            DuaDetayPage(dua: dua, kategoriAdi: kategori.ad),
                       ),
                     );
                   },
@@ -411,7 +416,9 @@ class _DuaKarti extends StatelessWidget {
               color: Renkler.kart,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: favori ? Colors.redAccent.withValues(alpha: 0.4) : Renkler.cerceve,
+                color: favori
+                    ? Colors.redAccent.withValues(alpha: 0.4)
+                    : Renkler.cerceve,
               ),
             ),
             child: Row(
@@ -480,7 +487,9 @@ class _DuaKarti extends StatelessWidget {
                 GestureDetector(
                   onTap: () => DuaStore.favoriDegistir(dua.id),
                   child: UcdIkon(
-                    ikon: favori ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                    ikon: favori
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
                     renk: favori ? Colors.redAccent : Colors.white30,
                     boyut: 20,
                   ),
@@ -506,10 +515,7 @@ class _Etiket extends StatelessWidget {
         color: Renkler.seciliYuzey,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text(
-        metin,
-        style: TextStyle(color: Renkler.vurgu, fontSize: 10),
-      ),
+      child: Text(metin, style: TextStyle(color: Renkler.vurgu, fontSize: 10)),
     );
   }
 }
@@ -534,8 +540,7 @@ class _FavorilerListesi extends StatelessWidget {
         return ValueListenableBuilder<Set<String>>(
           valueListenable: DuaStore.favoriler,
           builder: (context, fav, _) {
-            final favoriler =
-                tum.where((d) => fav.contains(d.id)).toList();
+            final favoriler = tum.where((d) => fav.contains(d.id)).toList();
             if (favoriler.isEmpty) {
               return const _BosMesaj(
                 ikon: Icons.favorite_border_rounded,
@@ -591,9 +596,8 @@ class _OzDualarListesi extends StatelessWidget {
                 controller: baslik,
                 style: const TextStyle(color: Colors.white, fontSize: 14),
                 decoration: _giris('Dua başlığı (örn: Evladım için)'),
-                validator: (v) => (v == null || v.trim().isEmpty)
-                    ? 'Başlık girin'
-                    : null,
+                validator: (v) =>
+                    (v == null || v.trim().isEmpty) ? 'Başlık girin' : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
@@ -601,9 +605,8 @@ class _OzDualarListesi extends StatelessWidget {
                 maxLines: 4,
                 style: const TextStyle(color: Colors.white, fontSize: 14),
                 decoration: _giris('Duayı veya notunuzu yazın'),
-                validator: (v) => (v == null || v.trim().isEmpty)
-                    ? 'Dua metni girin'
-                    : null,
+                validator: (v) =>
+                    (v == null || v.trim().isEmpty) ? 'Dua metni girin' : null,
               ),
             ],
           ),
@@ -611,7 +614,10 @@ class _OzDualarListesi extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç', style: TextStyle(color: Colors.white54)),
+            child: const Text(
+              'Vazgeç',
+              style: TextStyle(color: Colors.white54),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -634,21 +640,20 @@ class _OzDualarListesi extends StatelessWidget {
   }
 
   InputDecoration _giris(String hint) => InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
-        filled: true,
-        fillColor: Renkler.yuzey,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Renkler.cerceve),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Renkler.vurgu),
-        ),
-      );
+    hintText: hint,
+    hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
+    filled: true,
+    fillColor: Renkler.yuzey,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Renkler.cerceve),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Renkler.vurgu),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -670,7 +675,11 @@ class _OzDualarListesi extends StatelessWidget {
                     ),
                   ),
                   onPressed: () => _yeniDua(context),
-                  icon: UcdIkon(ikon: Icons.add, renk: Renkler.vurgu, boyut: 18),
+                  icon: UcdIkon(
+                    ikon: Icons.add,
+                    renk: Renkler.vurgu,
+                    boyut: 18,
+                  ),
                   label: const Text('Yeni dua / not ekle'),
                 ),
               ),
@@ -763,7 +772,11 @@ class _BosMesaj extends StatelessWidget {
           Text(
             metin,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white38, fontSize: 13, height: 1.5),
+            style: const TextStyle(
+              color: Colors.white38,
+              fontSize: 13,
+              height: 1.5,
+            ),
           ),
         ],
       ),

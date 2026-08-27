@@ -280,7 +280,11 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           CircleAvatar(
             radius: 18,
             backgroundColor: Color(0x334D421D),
-            child: const UcdIkon(ikon: Icons.lightbulb_rounded, renk: _altin, boyut: 18),
+            child: UcdIkon(
+              ikon: Icons.lightbulb_rounded,
+              renk: _altin,
+              boyut: 18,
+            ),
           ),
           SizedBox(width: 12),
           Expanded(
@@ -416,7 +420,11 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           const SizedBox(height: 5),
           Row(
             children: [
-              const UcdIkon(ikon: Icons.menu_book_rounded, renk: _mint, boyut: 20),
+              const UcdIkon(
+                ikon: Icons.menu_book_rounded,
+                renk: _mint,
+                boyut: 20,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -444,7 +452,11 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               ),
               onPressed: _okumayaDevamEt,
               iconAlignment: IconAlignment.end,
-              icon: const UcdIkon(ikon: Icons.arrow_forward, renk: Color(0xFF003829), boyut: 18),
+              icon: const UcdIkon(
+                ikon: Icons.arrow_forward,
+                renk: Color(0xFF003829),
+                boyut: 18,
+              ),
               label: const Text(
                 'Okumaya Devam Et',
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -753,7 +765,11 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           const CircleAvatar(
             radius: 16,
             backgroundColor: Color(0x196EDAB4),
-            child: const UcdIkon(ikon: Icons.menu_book_rounded, renk: _mint, boyut: 16),
+            child: UcdIkon(
+              ikon: Icons.menu_book_rounded,
+              renk: _mint,
+              boyut: 16,
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(

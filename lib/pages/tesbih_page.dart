@@ -74,6 +74,7 @@ class _TesbihPageState extends State<TesbihPage>
   }
 
   Future<void> _zikirEkleDialog() async {
+    final l = AppLocalizations.of(context);
     final controller = TextEditingController();
     final eklenen = await showDialog<String>(
       context: context,
@@ -92,9 +93,9 @@ class _TesbihPageState extends State<TesbihPage>
           onSubmitted: (deger) => Navigator.pop(ctx, deger.trim()),
           decoration: InputDecoration(
             counterText: '',
-            hintText: 'Zikir metni… (örn. Ya Rahman (33))',
+            hintText: l.t('ts.zikirHint'),
             hintStyle: const TextStyle(color: Colors.white38),
-            labelText: 'Zikir adı',
+            labelText: l.t('ts.zikirName'),
             labelStyle: const TextStyle(color: Colors.white54),
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.white24),
@@ -107,7 +108,7 @@ class _TesbihPageState extends State<TesbihPage>
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Vazgeç'),
+            child: Text(l.t('c.cancel')),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, controller.text.trim()),
@@ -143,13 +144,14 @@ class _TesbihPageState extends State<TesbihPage>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final hedef = _hedefSayi;
     final oran = hedef == 0 ? 0.0 : (_count / hedef).clamp(0.0, 1.0);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: Text("Dijital Akıllı Tesbih (Zikirmatik)"),
-        backgroundColor: Color(0xFF2B1E26),
+        title: Text(l.t('ts.title')),
+        backgroundColor: const Color(0xFF2B1E26),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -179,6 +181,7 @@ class _TesbihPageState extends State<TesbihPage>
   }
 
   Widget _zikirSecimKarti() {
+    final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
@@ -222,7 +225,7 @@ class _TesbihPageState extends State<TesbihPage>
           ),
           IconButton(
             onPressed: _reset,
-            tooltip: 'Sayacı sıfırla',
+            tooltip: l.t('ts.counterReset'),
             icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white54),
           ),
           IconButton(
@@ -233,7 +236,7 @@ class _TesbihPageState extends State<TesbihPage>
           if (_ozelZikirler.contains(_selectedZikir))
             IconButton(
               onPressed: () => _zikirSil(_selectedZikir),
-              tooltip: 'Zikri kaldır',
+              tooltip: l.t('ts.counterRemove'),
               icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white54),
             ),
         ],

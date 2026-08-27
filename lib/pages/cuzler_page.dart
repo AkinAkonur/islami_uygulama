@@ -71,11 +71,16 @@ class _CuzlerPageState extends State<CuzlerPage> {
           IconButton(
             tooltip: 'Hatim Duası',
             onPressed: _hatimDuasiAc,
-            icon: UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu),
+            icon: UcdIkon(
+              ikon: Icons.auto_stories_rounded,
+              renk: Renkler.vurgu,
+            ),
           ),
         ],
       ),
-      body: _yuklendi ? _icerik(okunan) : const Center(child: CircularProgressIndicator()),
+      body: _yuklendi
+          ? _icerik(okunan)
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -138,8 +143,8 @@ class _CuzlerPageState extends State<CuzlerPage> {
             okunan == 0
                 ? 'Bir cüzü okuduğunda okundu olarak işaretleyebilirsin.'
                 : okunan == 30
-                    ? 'Tebrikler! Tüm cüzleri okudun.'
-                    : '${30 - okunan} cüz kaldı. Kolay gelsin.',
+                ? 'Tebrikler! Tüm cüzleri okudun.'
+                : '${30 - okunan} cüz kaldı. Kolay gelsin.',
             style: const TextStyle(color: Colors.white70, fontSize: 12),
           ),
           const SizedBox(height: 12),
@@ -151,7 +156,11 @@ class _CuzlerPageState extends State<CuzlerPage> {
                 side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
               ),
               onPressed: _hatimDuasiAc,
-              icon: const UcdIkon(ikon: Icons.auto_stories_rounded, renk: Colors.white, boyut: 18),
+              icon: const UcdIkon(
+                ikon: Icons.auto_stories_rounded,
+                renk: Colors.white,
+                boyut: 18,
+              ),
               label: const Text('Hatim Duası'),
             ),
           ),
@@ -172,8 +181,8 @@ class _CuzlerPageState extends State<CuzlerPage> {
           color: okundu
               ? Renkler.vurgu
               : amme
-                  ? Renkler.vurgu.withValues(alpha: 0.4)
-                  : Renkler.cerceve,
+              ? Renkler.vurgu.withValues(alpha: 0.4)
+              : Renkler.cerceve,
         ),
       ),
       child: ListTile(
@@ -214,7 +223,10 @@ class _CuzlerPageState extends State<CuzlerPage> {
             if (okundu)
               const Tooltip(
                 message: 'Okundu',
-                child: const UcdIkon(ikon: Icons.check_circle_rounded, renk: Colors.greenAccent),
+                child: UcdIkon(
+                  ikon: Icons.check_circle_rounded,
+                  renk: Colors.greenAccent,
+                ),
               )
             else
               const UcdIkon(ikon: Icons.circle_outlined, renk: Colors.white24),

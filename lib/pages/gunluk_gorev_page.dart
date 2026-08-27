@@ -243,6 +243,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
   }
 
   Widget _gorevKarti() {
+    final l = AppLocalizations.of(context);
     final tamam = ManeviStore.gorevler.where((g) => _gorevler.contains(g['id'])).length;
     return Container(
       padding: const EdgeInsets.all(16),
@@ -258,7 +259,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
               UcdIkon(ikon: Icons.checklist_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
               Text(
-                'Bugünün İyilikleri',
+                l.t('gg.goodDeeds'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -278,7 +279,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Her biri tamamlanınca serin güçlenir.',
+            l.t('gg.goodDeedsDesc'),
             style: TextStyle(color: Colors.white54, fontSize: 12),
           ),
           const SizedBox(height: 8),
@@ -316,7 +317,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
                   decoration: InputDecoration(
                     counterText: '',
                     isDense: true,
-                    hintText: 'Kendi iyiliğini ekle…',
+                    hintText: l.t('gg.goodDeedsHint'),
                     hintStyle: const TextStyle(color: Colors.white38),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white24),
@@ -330,7 +331,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
               const SizedBox(width: 8),
               IconButton(
                 onPressed: _iyilikEkle,
-                tooltip: 'İyilik ekle',
+                tooltip: l.t('gg.addGoodDeed'),
                 icon: UcdIkon(ikon: Icons.add_circle_rounded, renk: Renkler.vurgu, boyut: 28),
               ),
             ],
@@ -347,6 +348,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
     required ValueChanged<bool> onChanged,
     required VoidCallback onDelete,
   }) {
+    final l = AppLocalizations.of(context);
     return InkWell(
       onTap: () => onChanged(!deger),
       child: Padding(
@@ -381,7 +383,7 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
             const SizedBox(width: 4),
             IconButton(
               onPressed: onDelete,
-              tooltip: 'İyiliği kaldır',
+              tooltip: l.t('gg.removeGoodDeed'),
               icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white38),
               visualDensity: VisualDensity.compact,
             ),

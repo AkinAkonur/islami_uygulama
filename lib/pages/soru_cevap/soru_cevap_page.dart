@@ -119,10 +119,18 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
                     color: Colors.white38,
                     fontSize: 13,
                   ),
-                  prefixIcon: const UcdIkon(ikon: Icons.search_rounded, renk: Colors.white54, boyut: 20),
+                  prefixIcon: const UcdIkon(
+                    ikon: Icons.search_rounded,
+                    renk: Colors.white54,
+                    boyut: 20,
+                  ),
                   suffixIcon: aramaAktif
                       ? IconButton(
-                          icon: const UcdIkon(ikon: Icons.clear_rounded, renk: Colors.white38, boyut: 20),
+                          icon: const UcdIkon(
+                            ikon: Icons.clear_rounded,
+                            renk: Colors.white38,
+                            boyut: 20,
+                          ),
                           onPressed: () => setState(() => _arama = ''),
                         )
                       : null,
@@ -227,7 +235,11 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UcdIkon(ikon: Icons.info_outline_rounded, renk: Renkler.vurgu, boyut: 18),
+          UcdIkon(
+            ikon: Icons.info_outline_rounded,
+            renk: Renkler.vurgu,
+            boyut: 18,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -589,7 +601,11 @@ class _TestIcerigiState extends State<_TestIcerigi> {
         children: [
           Row(
             children: [
-              UcdIkon(ikon: Icons.emoji_events_rounded, renk: Renkler.vurgu, boyut: 20),
+              UcdIkon(
+                ikon: Icons.emoji_events_rounded,
+                renk: Renkler.vurgu,
+                boyut: 20,
+              ),
               const SizedBox(width: 8),
               const Text(
                 'Rozetlerim',
@@ -823,7 +839,9 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         UcdIkon(
-                          ikon: widget.acik ? Icons.expand_less_rounded : Icons.expand_more_rounded,
+                          ikon: widget.acik
+                              ? Icons.expand_less_rounded
+                              : Icons.expand_more_rounded,
                           renk: Renkler.vurgu,
                           boyut: 16,
                         ),
@@ -946,7 +964,11 @@ class _GununSorusuState extends State<_GununSorusu> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              UcdIkon(ikon: Icons.event_available_rounded, renk: Renkler.vurgu, boyut: 18),
+              UcdIkon(
+                ikon: Icons.event_available_rounded,
+                renk: Renkler.vurgu,
+                boyut: 18,
+              ),
               const SizedBox(width: 10),
               const Expanded(
                 child: Text(
@@ -1063,7 +1085,11 @@ class _GununSorusuState extends State<_GununSorusu> {
             ),
           ],
           const SizedBox(height: 20),
-          UcdIkon(ikon: Icons.touch_app_rounded, renk: Colors.white70, boyut: 22),
+          UcdIkon(
+            ikon: Icons.touch_app_rounded,
+            renk: Colors.white70,
+            boyut: 22,
+          ),
           const SizedBox(height: 6),
           const Text(
             'Cevabı görmek için dokunun',
@@ -1131,7 +1157,11 @@ class _GununSorusuState extends State<_GununSorusu> {
           const SizedBox(height: 14),
           Row(
             children: [
-              UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 14),
+              UcdIkon(
+                ikon: Icons.menu_book_rounded,
+                renk: Renkler.vurgu,
+                boyut: 14,
+              ),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
@@ -1169,7 +1199,11 @@ class _GununSorusuState extends State<_GununSorusu> {
             ),
             child: const Row(
               children: [
-                UcdIkon(ikon: Icons.check_circle_rounded, renk: const Color(0xFF66BB6A), boyut: 18),
+                UcdIkon(
+                  ikon: Icons.check_circle_rounded,
+                  renk: Color(0xFF66BB6A),
+                  boyut: 18,
+                ),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -1282,7 +1316,11 @@ class _GununSorusuState extends State<_GununSorusu> {
               foregroundColor: Renkler.vurgu,
               side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
             ),
-            icon: UcdIkon(ikon: Icons.share_rounded, renk: Renkler.vurgu, boyut: 16),
+            icon: UcdIkon(
+              ikon: Icons.share_rounded,
+              renk: Renkler.vurgu,
+              boyut: 16,
+            ),
             label: const Text('Bu soruyu paylaş'),
             onPressed: () {
               Clipboard.setData(

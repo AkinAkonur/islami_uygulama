@@ -88,6 +88,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -153,8 +154,8 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
                       const Divider(color: Colors.white12, height: 1),
                       const SizedBox(height: 16),
                       Text(
-                        'Senin Eklediklerin',
-                        style: TextStyle(
+                        l.t('hc.yourTargets'),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -182,6 +183,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
   }
 
   Widget _baslikSatiri(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -191,9 +193,9 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
             icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
           ),
           const SizedBox(width: 8),
-          const Text(
-            'Manevi Hedef Çarkı',
-            style: TextStyle(
+          Text(
+            l.t('hc.title'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -207,6 +209,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
   }
 
   Widget _ozetKarti() {
+    final l = AppLocalizations.of(context);
     final toplamHedef = ManeviStore.hedefLimitleri.length + _ozelHedefler.length;
     final tamam = ManeviStore.hedefLimitleri.entries
         .where((e) => (_hedefler[e.key] ?? 0) >= e.value)
@@ -231,8 +234,8 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
           Expanded(
             child: Text(
               tumTamam >= toplamHedef
-                  ? 'Bugünün tüm hedeflerini tamamladın, maşallah!'
-                  : 'Bugün $tumTamam/$toplamHedef hedefe ulaştın. Devam et!',
+                  ? l.t('hc.allComplete')
+                  : l.t('hc.progress').replaceAll('{done}', tumTamam.toString()).replaceAll('{total}', toplamHedef.toString()),
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
@@ -246,6 +249,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
   }
 
   Widget _ozelHedefKarti((String, String, int) h) {
+    final l = AppLocalizations.of(context);
     final tur = h.$1;
     final baslik = h.$2;
     final limit = h.$3;
@@ -318,7 +322,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
           ),
           IconButton(
             onPressed: () => _hedefSil(tur),
-            tooltip: 'Hedefi kaldır',
+            tooltip: l.t('hc.removeTarget'),
             icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white38),
           ),
         ],
@@ -327,6 +331,7 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
   }
 
   Widget _eklemeKarti() {
+    final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -336,9 +341,9 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Yeni Hedef Ekle',
-            style: TextStyle(
+          Text(
+            l.t('hc.addNew'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 15,
               fontWeight: FontWeight.bold,
@@ -354,9 +359,9 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
             decoration: InputDecoration(
               counterText: '',
               isDense: true,
-              labelText: 'Hedef adı',
+              labelText: l.t('hc.targetName'),
               labelStyle: const TextStyle(color: Colors.white54),
-              hintText: 'örn. İlmihal, Hatim, Oruç',
+              hintText: l.t('hc.targetNameHint'),
               hintStyle: const TextStyle(color: Colors.white38),
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white24),
@@ -380,9 +385,9 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
                   decoration: InputDecoration(
                     counterText: '',
                     isDense: true,
-                    labelText: 'Hedef miktarı',
+                    labelText: l.t('hc.targetAmount'),
                     labelStyle: const TextStyle(color: Colors.white54),
-                    hintText: 'örn. 10',
+                    hintText: l.t('hc.targetAmountHint'),
                     hintStyle: const TextStyle(color: Colors.white38),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white24),
@@ -404,14 +409,14 @@ class _HedefCarkiPageState extends State<HedefCarkiPage> {
                   ),
                 ),
                 icon: const UcdIkon(ikon: Icons.add_rounded, renk: Colors.white, boyut: 18),
-                label: const Text('Ekle'),
+                label: Text(l.t('hc.add')),
               ),
             ],
           ),
           const SizedBox(height: 4),
           Text(
-            'Eklediğin hedefler çarkına eklenir; çöp kutusuyla kaldırabilirsin.',
-            style: TextStyle(color: Colors.white38, fontSize: 11),
+            l.t('hc.addNote'),
+            style: const TextStyle(color: Colors.white38, fontSize: 11),
           ),
         ],
       ),
