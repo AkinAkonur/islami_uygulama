@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/kart_sekilleri.dart';
+import '../../l10n/app_localizations.dart';
 
 import 'sure_detay_page.dart';
 
@@ -126,6 +127,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
   }
 
   Future<void> _hedefSec() async {
+    final l = AppLocalizations.of(context);
     final secilen = await showModalBottomSheet<int>(
       context: context,
       backgroundColor: _kart,
@@ -139,8 +141,8 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Günlük sayfa hedefin',
+              Text(
+                l.t('hkb.dailyGoalSheetTitle'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -154,7 +156,9 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                 children: [
                   for (final hedef in [1, 2, 4, 5, 10, 20])
                     ChoiceChip(
-                      label: Text('$hedef sayfa'),
+                      label: Text(
+                        l.t('hkb.pageCount').replaceFirst('{n}', '$hedef'),
+                      ),
                       selected: hedef == _gunlukHedef,
                       selectedColor: _mint,
                       backgroundColor: const Color(0xFF2A2A29),
@@ -186,17 +190,18 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
   }
 
   Future<void> _hatimTamamlandi() async {
+    final l = AppLocalizations.of(context);
     await showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
         backgroundColor: _kart,
-        title: const Text(
-          'Hatim tamamlandı',
+        title: Text(
+          l.t('hkb.hatimComplete'),
           style: TextStyle(color: Colors.white),
         ),
-        content: const Text(
-          'Rabbim kabul etsin. Yeni bir hatme başlamak ister misin?',
+        content: Text(
+          l.t('hkb.hatimCompleteMsg'),
           style: TextStyle(color: Colors.white70),
         ),
         actions: [
@@ -213,7 +218,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               _kaydet();
               Navigator.pop(ctx);
             },
-            child: const Text('Yeni hatme başla'),
+            child: Text(l.t('hkb.startNewHatim')),
           ),
         ],
       ),
@@ -229,19 +234,20 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
       );
     }
 
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: _zemin,
       appBar: AppBar(
         backgroundColor: _zemin,
         elevation: 0,
-        title: const Text(
-          'Hatimlerim',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          l.t('hkb.title'),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            tooltip: 'Günlük hedef',
+            tooltip: l.t('hkb.dailyGoalTooltip'),
             onPressed: _hedefSec,
             icon: const UcdIkon(ikon: Icons.tune_rounded, renk: Colors.white),
           ),
@@ -250,23 +256,23 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [
-          _ilhamKarti(),
+          _ilhamKarti(l),
           const SizedBox(height: 18),
-          _ilerlemeKarti(),
+          _ilerlemeKarti(l),
           const SizedBox(height: 18),
-          _sonKonumKarti(),
+          _sonKonumKarti(l),
           const SizedBox(height: 18),
-          _gunlukSayacKarti(),
+          _gunlukSayacKarti(l),
           const SizedBox(height: 18),
-          _cuzKarti(),
+          _cuzKarti(l),
           const SizedBox(height: 18),
-          _aliskanlikKarti(),
+          _aliskanlikKarti(l),
         ],
       ),
     );
   }
 
-  Widget _ilhamKarti() {
+  Widget _ilhamKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -274,10 +280,10 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
         borderRadius: BorderRadius.circular(16),
         border: Border(left: BorderSide(color: _altin, width: 3)),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 18,
             backgroundColor: Color(0x334D421D),
             child: UcdIkon(
@@ -286,32 +292,32 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               boyut: 18,
             ),
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'GÜNÜN İLHAMI',
+                  l.t('hkb.todayInspiration'),
                   style: TextStyle(
                     color: _altin,
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  '“Kur\'an okuyan mümin, portakal gibidir; kokusu da güzeldir, tadı da güzeldir.”',
+                  l.t('hkb.hadithQuote'),
                   style: TextStyle(
                     color: Colors.white,
                     height: 1.35,
                     fontSize: 13,
                   ),
                 ),
-                SizedBox(height: 3),
+                const SizedBox(height: 3),
                 Text(
-                  'Hadis-i Şerif (Buhari)',
-                  style: TextStyle(color: Colors.white54, fontSize: 11),
+                  l.t('hkb.hadithSource'),
+                  style: const TextStyle(color: Colors.white54, fontSize: 11),
                 ),
               ],
             ),
@@ -321,7 +327,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
     );
   }
 
-  Widget _ilerlemeKarti() {
+  Widget _ilerlemeKarti(AppLocalizations l) {
     final yuzde = (_ilerleme * 100).round();
     final kalanSayfa = _toplamSayfa - _sayfa;
     final kalanGun = (kalanSayfa / _gunlukHedef).ceil();
@@ -353,9 +359,9 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const Text(
-                        'Tamamlandı',
-                        style: TextStyle(color: Colors.white60, fontSize: 11),
+                      Text(
+                        l.t('hkb.completed'),
+                        style: const TextStyle(color: Colors.white60, fontSize: 11),
                       ),
                     ],
                   ),
@@ -371,14 +377,14 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: _altin.withValues(alpha: 0.3)),
             ),
-            child: const Text(
-              'Kişisel Hatim',
-              style: TextStyle(color: _altin, fontSize: 11),
+            child: Text(
+              l.t('hkb.personalHatim'),
+              style: const TextStyle(color: _altin, fontSize: 11),
             ),
           ),
           const SizedBox(height: 10),
           Text(
-            '$kalanGun günlük okuma kaldı',
+            l.t('hkb.daysRemaining').replaceFirst('{n}', '$kalanGun'),
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -387,7 +393,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           ),
           const SizedBox(height: 6),
           Text(
-            'Günde $_gunlukHedef sayfa okuyarak hedefini tamamlayabilirsin.',
+            l.t('hkb.dailyPlan').replaceFirst('{n}', '$_gunlukHedef'),
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white60,
@@ -398,7 +404,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           if (_hatimSayisi > 0) ...[
             const SizedBox(height: 8),
             Text(
-              '$_hatimSayisi hatim tamamlandı',
+              l.t('hkb.hatimsCompleted').replaceFirst('{n}', '$_hatimSayisi'),
               style: const TextStyle(color: _mint, fontSize: 12),
             ),
           ],
@@ -407,15 +413,15 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
     );
   }
 
-  Widget _sonKonumKarti() {
+  Widget _sonKonumKarti(AppLocalizations l) {
     return _kartKabuk(
       borderColor: _mint.withValues(alpha: 0.25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Son Okunan Konum',
-            style: TextStyle(color: Colors.white54, fontSize: 11),
+          Text(
+            l.t('hkb.lastPosition'),
+            style: const TextStyle(color: Colors.white54, fontSize: 11),
           ),
           const SizedBox(height: 5),
           Row(
@@ -428,7 +434,9 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'Cüz $_aktifCuz, Sayfa $_sayfa',
+                  l.t('hkb.juzPage')
+                      .replaceFirst('{c}', '$_aktifCuz')
+                      .replaceFirst('{p}', '$_sayfa'),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 17,
@@ -457,9 +465,9 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                 renk: Color(0xFF003829),
                 boyut: 18,
               ),
-              label: const Text(
-                'Okumaya Devam Et',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              label: Text(
+                l.t('hkb.continueReading'),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -468,7 +476,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
     );
   }
 
-  Widget _gunlukSayacKarti() {
+  Widget _gunlukSayacKarti(AppLocalizations l) {
     final hedefOrani = (_bugunOkunan / _gunlukHedef).clamp(0.0, 1.0);
     return _kartKabuk(
       child: Column(
@@ -476,10 +484,10 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Bugün Kaç Sayfa Okudun?',
-                  style: TextStyle(
+                  l.t('hkb.todayQuestion'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -513,9 +521,9 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const Text(
-                      'Sayfa',
-                      style: TextStyle(color: Colors.white60, fontSize: 11),
+                    Text(
+                      l.t('hkb.page'),
+                      style: const TextStyle(color: Colors.white60, fontSize: 11),
                     ),
                   ],
                 ),
@@ -538,11 +546,11 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Cüz $_aktifCuz',
+                l.t('hkb.juzCount').replaceFirst('{n}', '$_aktifCuz'),
                 style: const TextStyle(color: Colors.white54, fontSize: 11),
               ),
               Text(
-                'Günlük Hedef: $_gunlukHedef Sayfa',
+                l.t('hkb.dailyGoalLabel').replaceFirst('{n}', '$_gunlukHedef'),
                 style: const TextStyle(color: Colors.white70, fontSize: 11),
               ),
             ],
@@ -555,7 +563,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                   child: TextButton(
                     onPressed: () => _sayfaDegistir(adet),
                     child: Text(
-                      '+$adet sayfa',
+                      l.t('hkb.pageIncrement').replaceFirst('{n}', '$adet'),
                       style: const TextStyle(color: _mint, fontSize: 12),
                     ),
                   ),
@@ -567,25 +575,25 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
     );
   }
 
-  Widget _cuzKarti() {
+  Widget _cuzKarti(AppLocalizations l) {
     return _kartKabuk(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Cüz İlerlemesi',
-                style: TextStyle(
+                l.t('hkb.juzProgress'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                '30 Cüz',
-                style: TextStyle(color: Colors.white54, fontSize: 11),
+                l.t('hkb.thirtyJuz'),
+                style: const TextStyle(color: Colors.white54, fontSize: 11),
               ),
             ],
           ),
@@ -640,17 +648,20 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
             },
           ),
           const SizedBox(height: 16),
-          const Wrap(
+          Wrap(
             spacing: 14,
             runSpacing: 8,
             children: [
-              _DurumAciklama(renk: _mint, metin: 'Tamamlandı'),
+              _DurumAciklama(renk: _mint, metin: l.t('hkb.completed')),
               _DurumAciklama(
                 renk: _mint,
-                metin: 'Devam Ediyor',
+                metin: l.t('hkb.inProgress'),
                 sadeceCerceve: true,
               ),
-              _DurumAciklama(renk: Color(0xFF353534), metin: 'Başlamadı'),
+              _DurumAciklama(
+                renk: Color(0xFF353534),
+                metin: l.t('hkb.notStarted'),
+              ),
             ],
           ),
         ],
@@ -658,17 +669,17 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
     );
   }
 
-  Widget _aliskanlikKarti() {
+  Widget _aliskanlikKarti(AppLocalizations l) {
     return _kartKabuk(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Okuma Alışkanlığın',
-                  style: TextStyle(
+                  l.t('hkb.readingHabit'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -686,7 +697,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                   border: Border.all(color: _altin.withValues(alpha: 0.3)),
                 ),
                 child: Text(
-                  '$_seri Günlük Seri',
+                  l.t('hkb.dailyStreak').replaceFirst('{n}', '$_seri'),
                   style: const TextStyle(
                     color: _altin,
                     fontSize: 11,
@@ -717,9 +728,9 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           const SizedBox(height: 22),
           const Divider(color: Colors.white12),
           const SizedBox(height: 12),
-          const Text(
-            'Son Okumalar',
-            style: TextStyle(
+          Text(
+            l.t('hkb.recentReadings'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -727,18 +738,19 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           ),
           const SizedBox(height: 10),
           if (_sonOkumalar.isEmpty)
-            const Text(
-              'Henüz okuma kaydı yok.',
-              style: TextStyle(color: Colors.white54, fontSize: 12),
+            Text(
+              l.t('hkb.noReadingYet'),
+              style: const TextStyle(color: Colors.white54, fontSize: 12),
             )
           else
-            for (final okuma in _sonOkumalar.take(5)) _okumaSatiri(okuma),
+            for (final okuma in _sonOkumalar.take(5))
+              _okumaSatiri(okuma, l),
         ],
       ),
     );
   }
 
-  Widget _okumaSatiri(Map<String, dynamic> okuma) {
+  Widget _okumaSatiri(Map<String, dynamic> okuma, AppLocalizations l) {
     final baslangic = okuma['baslangic'] as int? ?? 1;
     final bitis = okuma['bitis'] as int? ?? baslangic;
     final adet = okuma['adet'] as int? ?? 1;
@@ -777,7 +789,10 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Cüz $cuz, Sayfa $baslangic-$bitis',
+                  l.t('hkb.readingRow')
+                      .replaceFirst('{c}', '$cuz')
+                      .replaceFirst('{s}', '$baslangic')
+                      .replaceFirst('{e}', '$bitis'),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -785,7 +800,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                   ),
                 ),
                 Text(
-                  '$adet sayfa okundu',
+                  l.t('hkb.pagesRead').replaceFirst('{n}', '$adet'),
                   style: const TextStyle(color: Colors.white54, fontSize: 10),
                 ),
               ],

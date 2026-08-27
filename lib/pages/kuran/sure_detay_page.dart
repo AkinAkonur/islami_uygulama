@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/kuran_api.dart';
 import '../../services/kuran_verileri.dart';
 import '../../services/manevi_store.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/kart_sekilleri.dart';
 import 'sure_listesi_page.dart';
 
@@ -132,6 +133,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
   Future<void> _cal(int index) async {
     final ayet = _ayetler![index];
     final url = KuranApi.ayetSesUrl(_kariId, ayet.globalNo);
+    final l = AppLocalizations.of(context);
     try {
       await _player.stop();
       await _player.play(UrlSource(url));
@@ -151,7 +153,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
         _calanAyeteKaydir(index);
       }
     } catch (_) {
-      _gosterMesaj("Ses çalınamadı. İnternet bağlantınızı kontrol edin.");
+      _gosterMesaj(l.t('sd.playError'));
     }
   }
 
@@ -210,6 +212,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
   // ---------------- UI ----------------
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final sureNo = widget.sureNo;
     final cuzNo = widget.cuzNo;
 
@@ -217,7 +220,9 @@ class _SureDetayPageState extends State<SureDetayPage> {
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          sureNo != null ? '$sureNo. ${sureAdiTurkce(sureNo)}' : '$cuzNo. Cüz',
+          sureNo != null
+              ? '$sureNo. ${sureAdiTurkce(sureNo)}'
+              : l.t('sd.juzTitle').replaceFirst('{n}', '$cuzNo'),
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -226,15 +231,15 @@ class _SureDetayPageState extends State<SureDetayPage> {
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
-        actions: [_mealMenu(), SizedBox(width: 4)],
+        actions: [_mealMenu(l), SizedBox(width: 4)],
       ),
-      body: _icerik(sureNo, cuzNo),
+      body: _icerik(sureNo, cuzNo, l),
     );
   }
 
-  Widget _mealMenu() {
+  Widget _mealMenu(AppLocalizations l) {
     return PopupMenuButton<int>(
-      tooltip: "Meâl Seçimi",
+      tooltip: l.t('sd.translation'),
       icon: UcdIkon(ikon: Icons.translate_rounded, renk: Renkler.vurgu),
       color: Renkler.seciliYuzey,
       onSelected: (val) => setState(() => _mealIndex = val),
@@ -269,7 +274,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
     );
   }
 
-  Widget _icerik(int? sureNo, int? cuzNo) {
+  Widget _icerik(int? sureNo, int? cuzNo, AppLocalizations l) {
     if (_yukleniyor) {
       return Center(child: CircularProgressIndicator(color: Renkler.vurgu));
     }
@@ -281,7 +286,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
             UcdIkon(ikon: Icons.wifi_off_rounded, renk: Colors.white38, boyut: 48),
             SizedBox(height: 12),
             Text(
-              "Âyetler alınamadı. İnternet bağlantınızı kontrol edin.",
+              l.t('sd.loadError'),
               style: TextStyle(color: Colors.white70),
               textAlign: TextAlign.center,
             ),
@@ -289,7 +294,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Renkler.vurgu),
               onPressed: _yukle,
-              child: Text("Tekrar Dene"),
+              child: Text(l.t('sd.retry')),
             ),
           ],
         ),
@@ -300,27 +305,29 @@ class _SureDetayPageState extends State<SureDetayPage> {
     return Column(
       children: [
         // Başlık bilgisi + oynatma çubuğu
-        _baslikKart(sureNo, cuzNo),
-        _oynatmaCubugu(sureNo != null),
-        _sureBittiKontrolleri(),
+        _baslikKart(sureNo, cuzNo, l),
+        _oynatmaCubugu(sureNo != null, l),
+        _sureBittiKontrolleri(l),
         // Âyet listesi
         Expanded(
           child: ListView.builder(
             controller: _scrollController,
             padding: EdgeInsets.fromLTRB(16, 8, 16, 24),
             itemCount: ayetler.length,
-            itemBuilder: (context, index) => _ayetKarti(index),
+            itemBuilder: (context, index) => _ayetKarti(index, l),
           ),
         ),
       ],
     );
   }
 
-  Widget _baslikKart(int? sureNo, int? cuzNo) {
-    final ad = sureNo != null ? sureAdiTurkce(sureNo) : '$cuzNo. Cüz';
+  Widget _baslikKart(int? sureNo, int? cuzNo, AppLocalizations l) {
+    final ad = sureNo != null
+        ? sureAdiTurkce(sureNo)
+        : l.t('sd.juzTitle').replaceFirst('{n}', '$cuzNo');
     final anlam = sureNo != null
         ? sureAnlami(sureNo)
-        : (cuzNo == 30 ? 'Amme Cüzü' : '');
+        : (cuzNo == 30 ? l.t('sd.ammeJuz') : '');
     final ozet = sureNo != null
         ? sureOzetiMetni(sureNo)
         : cuzBaslangic[cuzNo] ?? '';
@@ -355,7 +362,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
               ),
               if (sureNo != null)
                 Text(
-                  '${_ayetler!.length} âyet',
+                  l.t('sd.ayetCount').replaceFirst('{n}', '${_ayetler!.length}'),
                   style: TextStyle(color: Renkler.acikVurgu, fontSize: 12),
                 ),
             ],
@@ -383,7 +390,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
     );
   }
 
-  Widget _oynatmaCubugu(bool sureModu) {
+  Widget _oynatmaCubugu(bool sureModu, AppLocalizations l) {
     return Container(
       margin: EdgeInsets.fromLTRB(16, 0, 16, 8),
       padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -396,7 +403,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
         children: [
           if (sureModu) ...[
             IconButton(
-              tooltip: "Surenin başından dinle",
+              tooltip: l.t('sd.listenFromStart'),
               onPressed: _caliyor ? _durdur : _sureyiCal,
               icon: UcdIkon(
                 ikon: _caliyor && _calanAyetIndex == 0
@@ -414,8 +421,8 @@ class _SureDetayPageState extends State<SureDetayPage> {
               children: [
                 Text(
                   _caliyor
-                      ? 'Çalıyor: ${_calanAyetIndex != null ? _calanAyetIndex! + 1 : ''}. âyet'
-                      : 'Dinlemek için âyete dokunun',
+                      ? l.t('sd.playing').replaceFirst('{n}', '${_calanAyetIndex != null ? _calanAyetIndex! + 1 : ''}')
+                      : l.t('sd.tapToListen'),
                   style: TextStyle(
                     color: _caliyor ? Renkler.vurgu : Colors.white54,
                     fontSize: 12,
@@ -424,16 +431,16 @@ class _SureDetayPageState extends State<SureDetayPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  'Kârî: ${kariler.where((k) => k.id == _kariId).firstOrNull?.ad ?? ''}',
+                  '${l.t('sd.reciter')}${kariler.where((k) => k.id == _kariId).firstOrNull?.ad ?? ''}',
                   style: TextStyle(color: Colors.white38, fontSize: 10),
                 ),
               ],
             ),
           ),
-          _tekrarMenu(),
+          _tekrarMenu(l),
           if (_caliyor)
             IconButton(
-              tooltip: "Durdur",
+              tooltip: l.t('sd.stop'),
               onPressed: _durdur,
               icon: UcdIkon(ikon: Icons.stop_rounded, renk: Colors.white54),
             ),
@@ -442,7 +449,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
     );
   }
 
-  Widget _sureBittiKontrolleri() {
+  Widget _sureBittiKontrolleri(AppLocalizations l) {
     if (!_sureTamamlandi) return const SizedBox.shrink();
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
@@ -456,7 +463,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Sure tamamlandı',
+            l.t('sd.sureCompleted'),
             style: TextStyle(
               color: Renkler.vurgu,
               fontWeight: FontWeight.bold,
@@ -470,7 +477,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
                 child: OutlinedButton.icon(
                   onPressed: _sureyiCal,
                   icon: const UcdIkon(ikon: Icons.replay_rounded, renk: Colors.white),
-                  label: const Text('Baştan Dinle'),
+                  label: Text(l.t('sd.listenStart')),
                 ),
               ),
               const SizedBox(width: 8),
@@ -485,7 +492,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
                     MaterialPageRoute(builder: (_) => const SureListesiPage()),
                   ),
                   icon: const UcdIkon(ikon: Icons.menu_book_rounded, renk: Colors.white),
-                  label: const Text('Sure Seç'),
+                  label: Text(l.t('sd.selectSure')),
                 ),
               ),
             ],
@@ -495,16 +502,16 @@ class _SureDetayPageState extends State<SureDetayPage> {
     );
   }
 
-  Widget _tekrarMenu() {
+  Widget _tekrarMenu(AppLocalizations l) {
     final etiketler = {
-      0: "Tekrar: Kapalı",
+      0: l.t('sd.repeatOff'),
       1: "1x",
       2: "2x",
       3: "3x",
-      -1: "Sürekli",
+      -1: l.t('sd.repeatContinuous'),
     };
     return PopupMenuButton<int>(
-      tooltip: "Tekrar Modu",
+      tooltip: l.t('sd.repeatMode'),
       color: Renkler.seciliYuzey,
       onSelected: (val) => setState(() => _tekrarSayisi = val),
       itemBuilder: (_) => [
@@ -524,7 +531,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
                 ),
                 SizedBox(width: 8),
                 Text(
-                  e.key == 0 ? e.value : 'Tekrar: ${e.value}',
+                  e.key == 0 ? e.value : l.t('sd.repeatValue').replaceFirst('{v}', e.value),
                   style: TextStyle(
                     color: _tekrarSayisi == e.key
                         ? Renkler.vurgu
@@ -558,7 +565,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
     );
   }
 
-  Widget _ayetKarti(int index) {
+  Widget _ayetKarti(int index, AppLocalizations l) {
     final ayet = _ayetler![index];
     final caliyorMu = _calanAyetIndex == index && _caliyor;
 
@@ -608,7 +615,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    "Secde Âyeti",
+                    l.t('sd.secdeAyeti'),
                     style: TextStyle(
                       color: Colors.amber,
                       fontSize: 9,
@@ -622,7 +629,9 @@ class _SureDetayPageState extends State<SureDetayPage> {
                 SizedBox(width: 6),
               ],
               Text(
-                'Cüz ${ayet.cuz} • Sf ${ayet.sayfa}',
+                l.t('sd.juzPage')
+                    .replaceFirst('{j}', '${ayet.cuz}')
+                    .replaceFirst('{p}', '${ayet.sayfa}'),
                 style: TextStyle(color: Colors.white24, fontSize: 9),
               ),
             ],

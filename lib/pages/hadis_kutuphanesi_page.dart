@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../l10n/app_localizations.dart';
 import '../l10n/dil_hizmetleri.dart';
 import '../services/hadis_kutuphanesi_service.dart';
 import '../services/renkler.dart';
@@ -41,7 +42,8 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
     setState(() => _yukle());
   }
 
-  Future<void> _yukle() async {
+Future<void> _yukle() async {
+    final l = AppLocalizations.of(context);
     final dil = DilHizmetleri.aktifDil.value.languageCode;
     setState(() {
       _dilKod = dil;
@@ -53,8 +55,7 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
       agYok: () {
         if (!mounted) return;
         setState(() {
-          _listeHata =
-              'Kitap listesi alınamadı. İnternet bağlantınızı kontrol edin; indirilen kitaplar çevrimdışı çalışmaya devam eder.';
+          _listeHata = l.t('hkd.networkErrorList');
         });
       },
     );
@@ -107,23 +108,24 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
     return _dilKod;
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text(
-          'Hadis Kütüphanesi',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          l.t('hkd.title'),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Renkler.seciliYuzey,
         elevation: 0,
       ),
-      body: _icerik(),
+      body: _icerik(l),
     );
   }
 
-  Widget _icerik() {
+  Widget _icerik(AppLocalizations l) {
     if (_yukleniyor) {
       return Center(child: CircularProgressIndicator(color: Renkler.vurgu));
     }
@@ -136,9 +138,9 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
             children: [
               const UcdIkon(ikon: Icons.menu_book_rounded, renk: Colors.white38, boyut: 48),
               const SizedBox(height: 12),
-              const Text(
-                'Bu dil için hadis kitabı bulunamadı. Ayarlar bölümünden desteklenen bir dil seçebilirsiniz.',
-                style: TextStyle(color: Colors.white70, height: 1.4),
+              Text(
+                l.t('hkd.emptyMessage'),
+                style: const TextStyle(color: Colors.white70, height: 1.4),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -149,7 +151,7 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
                 ),
                 onPressed: () => setState(() => _yukle()),
                 icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white70),
-                label: const Text('Tekrar Dene'),
+                label: Text(l.t('hkd.retry')),
               ),
             ],
           ),
@@ -159,7 +161,7 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _aciklamaKarti(),
+        _aciklamaKarti(l),
         if (_listeHata != null) ...[
           const SizedBox(height: 8),
           Container(
@@ -175,18 +177,18 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
             ),
           ),
         ],
-        const SizedBox(height: 14),
+const SizedBox(height: 14),
         for (final kitap in _kitaplar) _kitapKarti(kitap),
         const SizedBox(height: 8),
-        const Text(
-          'Kaynak: compressed_hadith_sqlite (MIT) • Kitaplar ilk açılışta indirilir, sonra çevrimdışı çalışır.',
-          style: TextStyle(color: Colors.white38, fontSize: 10),
+        Text(
+          l.t('hkd.sourceNote'),
+          style: const TextStyle(color: Colors.white38, fontSize: 10),
         ),
       ],
     );
   }
 
-  Widget _aciklamaKarti() {
+  Widget _aciklamaKarti(AppLocalizations l) {
     final indirilen = _hazirKitaplar.length;
     return Container(
       padding: const EdgeInsets.all(14),
@@ -199,9 +201,12 @@ class _HadisKutuphanesiPageState extends State<HadisKutuphanesiPage> {
         children: [
           UcdIkon(ikon: Icons.translate_rounded, renk: Renkler.vurgu, boyut: 26),
           const SizedBox(width: 12),
-          Expanded(
+Expanded(
             child: Text(
-              'Dil: ${_dilAdi()} • ${_kitaplar.length} kitap • $indirilen kitap cihazda hazır.',
+              l.t('hkd.status')
+                  .replaceFirst('{dil}', _dilAdi())
+                  .replaceFirst('{toplam}', '${_kitaplar.length}')
+                  .replaceFirst('{hazir}', '$indirilen'),
               style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 12,

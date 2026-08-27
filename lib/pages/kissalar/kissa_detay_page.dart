@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../kissalar/kissa_store.dart';
 import '../kissalar/kissalar_verileri.dart';
@@ -41,6 +42,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
@@ -56,7 +58,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
             builder: (context, favoriler, _) {
               final dolu = favoriler.contains(kissa.id);
               return IconButton(
-                tooltip: dolu ? 'Favorilerden çıkar' : 'Favorilere ekle',
+                tooltip: dolu ? l.t('ksr.removeFavorite') : l.t('ksr.addFavorite'),
                 icon: Icon(
                   dolu ? Icons.favorite : Icons.favorite_border,
                   color: dolu ? Colors.redAccent : Colors.white70,
@@ -66,7 +68,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
             },
           ),
           IconButton(
-            tooltip: 'Notlar',
+            tooltip: l.t('ksr.notes'),
             icon: const Icon(Icons.sticky_note_2_outlined, color: Colors.white70),
             onPressed: _notlarDialoguGoster,
           ),
@@ -78,62 +80,62 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
           _baslikKarti(),
           if (kissa.kimlikKarti.isNotEmpty) ...[
             const SizedBox(height: 14),
-            _kimlikKarti(),
+            _kimlikKarti(l),
           ],
           if (kissa.sesUrl != null) ...[
             const SizedBox(height: 14),
-            _sesliAnlatimKarti(),
+            _sesliAnlatimKarti(l),
           ],
           const SizedBox(height: 22),
           if (kissa.metin.isNotEmpty) ...[
-            _bolumBasligi('📖 Hayatı ve Anlatımı'),
+            _bolumBasligi(l.t('ksr.lifeAndNarrative')),
             const SizedBox(height: 6),
             for (final paragraf in kissa.metin) _paragraf(paragraf),
           ],
           if (kissa.ayetler.isNotEmpty) ...[
             const SizedBox(height: 22),
-            _bolumBasligi('📜 İlgili Kur\'an Ayetleri'),
+            _bolumBasligi(l.t('ksr.relatedVerses')),
             const SizedBox(height: 8),
             for (final ayet in kissa.ayetler) _ayetKarti(ayet),
           ],
           if (kissa.hadisler.isNotEmpty) ...[
             const SizedBox(height: 22),
-            _bolumBasligi('🤲 Hadis-i Şerifler'),
+            _bolumBasligi(l.t('ksr.hadiths')),
             const SizedBox(height: 8),
             for (final hadis in kissa.hadisler) _hadisKarti(hadis),
           ],
           if (kissa.kronoloji.isNotEmpty) ...[
             const SizedBox(height: 22),
-            _bolumBasligi('🗓️ Kronoloji'),
+            _bolumBasligi(l.t('ksr.chronology')),
             const SizedBox(height: 8),
             _kronolojiListesi(),
           ],
           if (kissa.cografya.isNotEmpty) ...[
             const SizedBox(height: 22),
-            _bolumBasligi('🗺️ Mekanlar ve Coğrafya'),
+            _bolumBasligi(l.t('ksr.placesAndGeography')),
             const SizedBox(height: 8),
             for (final nokta in kissa.cografya) _cografyaKarti(nokta),
           ],
           if (kissa.hikmetler.isNotEmpty) ...[
             const SizedBox(height: 22),
-            _bolumBasligi('💡 Hikmet ve Dersler'),
+            _bolumBasligi(l.t('ksr.wisdomAndLessons')),
             const SizedBox(height: 8),
             for (final hikmet in kissa.hikmetler) _hikmetKarti(hikmet),
           ],
           if (kissa.akademikNotlar.isNotEmpty) ...[
             const SizedBox(height: 22),
-            _bolumBasligi('🎓 Akademik / Detay Notlar'),
+            _bolumBasligi(l.t('ksr.academicNotes')),
             const SizedBox(height: 8),
             _akademikNotlar(),
           ],
           if (kissa.quiz.isNotEmpty) ...[
             const SizedBox(height: 22),
-            _bolumBasligi('❓ Ne Kadar Öğrendin?'),
+            _bolumBasligi(l.t('ksr.howMuchDidYouLearn')),
             const SizedBox(height: 8),
-            for (var i = 0; i < kissa.quiz.length; i++) _quizKarti(i),
+            for (var i = 0; i < kissa.quiz.length; i++) _quizKarti(i, l),
           ],
           const SizedBox(height: 26),
-          _kaynakcaKarti(),
+          _kaynakcaKarti(l),
           const SizedBox(height: 30),
         ],
       ),
@@ -225,7 +227,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
     );
   }
 
-  Widget _kimlikKarti() {
+  Widget _kimlikKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -236,9 +238,9 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '🪪 Kimlik Kartı',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          Text(
+            l.t('ksr.identityCard'),
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           for (final alan in kissa.kimlikKarti)
@@ -274,7 +276,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
     );
   }
 
-  Widget _sesliAnlatimKarti() {
+  Widget _sesliAnlatimKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -286,10 +288,10 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
         children: [
           Icon(Icons.headphones, color: Renkler.vurgu, size: 28),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Text(
-              'Sesli anlatım mevcut. İnternetsiz dinleyebilirsiniz: dokunarak oynatın.',
-              style: TextStyle(color: Colors.white70, fontSize: 12),
+              l.t('ksr.audioAvailable'),
+              style: const TextStyle(color: Colors.white70, fontSize: 12),
             ),
           ),
           Icon(Icons.play_circle_fill, color: Renkler.vurgu, size: 34),
@@ -568,7 +570,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
     );
   }
 
-  Widget _quizKarti(int index) {
+  Widget _quizKarti(int index, AppLocalizations l) {
     final soru = kissa.quiz[index];
     final cevaplandi = _secimler.containsKey(index);
     final secilen = _secimler[index];
@@ -652,8 +654,9 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
               padding: const EdgeInsets.only(top: 4),
               child: Text(
                 secilen == dogru
-                    ? '✅ Doğru!'
-                    : '❌ Yanlış. Doğru cevap: ${soru.secenekler[dogru]}',
+                    ? l.t('ksr.correct')
+                    : l.t('ksr.incorrect')
+                        .replaceFirst('{d}', soru.secenekler[dogru]),
                 style: TextStyle(
                   color:
                       secilen == dogru ? const Color(0xFF66BB6A) : const Color(0xFFE57373),
@@ -667,7 +670,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
     );
   }
 
-  Widget _kaynakcaKarti() {
+  Widget _kaynakcaKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -678,14 +681,13 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '📚 Kaynakça',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          Text(
+            l.t('ksr.bibliography'),
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(
-            'Bu içerik; aşağıdaki kaynak eserlerden derlenmiş olup genel okuyucu ve '
-            'araştırmacı için güvenilir bir zemin oluşturmayı hedefler:',
+            l.t('ksr.bibliographyIntro'),
             style: const TextStyle(color: Colors.white54, fontSize: 11.5, height: 1.5),
           ),
           const SizedBox(height: 8),
@@ -717,6 +719,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
   // --------------------------- NOTLAR DİYALOĞU ---------------------------
 
   Future<void> _notlarDialoguGoster() async {
+    final l = AppLocalizations.of(context);
     final controller = TextEditingController();
     var seciliRenk = 0;
 
@@ -741,9 +744,9 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '📝 Kişisel Notlarım',
-                    style: TextStyle(
+                  Text(
+                    l.t('ksr.myNotes'),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -755,11 +758,11 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
                     builder: (context, notlar, _) {
                       final liste = notlar[kissa.id] ?? const <KissaNotu>[];
                       if (liste.isEmpty) {
-                        return const Padding(
-                          padding: EdgeInsets.only(bottom: 10),
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            'Henüz not eklenmemiş.',
-                            style: TextStyle(color: Colors.white54, fontSize: 12),
+                            l.t('ksr.noNotesYet'),
+                            style: const TextStyle(color: Colors.white54, fontSize: 12),
                           ),
                         );
                       }
@@ -835,7 +838,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
                     controller: controller,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
-                      hintText: 'Bu kıssaya dair notunuz...',
+                      hintText: l.t('ksr.noteHint'),
                       hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
                       filled: true,
                       fillColor: Renkler.kart,
@@ -863,7 +866,7 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
                         KissaStore.notEkle(kissa.id, metin, seciliRenk);
                         controller.clear();
                       },
-                      child: const Text('Notu Ekle'),
+                      child: Text(l.t('ksr.addNote')),
                     ),
                   ),
                 ],

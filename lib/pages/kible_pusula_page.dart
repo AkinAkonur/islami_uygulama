@@ -6,6 +6,7 @@ import 'package:flutter_compass/flutter_compass.dart';
 
 import '../services/renkler.dart';
 import '../services/vakit_servisi.dart';
+import '../l10n/app_localizations.dart';
 
 class KiblePusulaPage extends StatefulWidget {
   const KiblePusulaPage({super.key});
@@ -90,6 +91,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final heading = _cihazYonu;
     final kible = _kibleAcisi;
     final fark = heading != null && kible != null
@@ -100,7 +102,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
     return Scaffold(
       backgroundColor: const Color(0xFF0C1610),
       appBar: AppBar(
-        title: const Text('Kıble Pusulası'),
+        title: Text(l.t('kbl.title')),
         backgroundColor: const Color(0xFF112016),
         foregroundColor: Colors.white,
         elevation: 0,
@@ -119,20 +121,20 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
               : ListView(
                   padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
                   children: [
-                    _durumKarti(fark, hizali),
+                    _durumKarti(fark, hizali, l),
                     const SizedBox(height: 26),
                     Center(child: _Pusula3D(kibleFarki: fark, hizali: hizali)),
                     const SizedBox(height: 26),
-                    _kabeKarti(hizali),
+                    _kabeKarti(hizali, l),
                     const SizedBox(height: 18),
-                    _bilgiCipleri(),
+                    _bilgiCipleri(l),
                     const SizedBox(height: 18),
-                    _yonlendirme(fark, hizali),
+                    _yonlendirme(fark, hizali, l),
                     const SizedBox(height: 16),
                     OutlinedButton.icon(
                       onPressed: () => _konumuYukle(yenile: true),
                       icon: const Icon(Icons.my_location_outlined),
-                      label: const Text('Konumu Yenile'),
+                      label: Text(l.t('kbl.refreshLocation')),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: Renkler.vurgu,
                         side: BorderSide(
@@ -146,7 +148,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Daha doğru sonuç için telefonu düz ve yatay tutun; metal yüzeylerden ve mıknatıslı kılıflardan uzaklaşın.',
+                      l.t('kbl.tip'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: .58),
@@ -161,7 +163,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
     );
   }
 
-  Widget _durumKarti(double? fark, bool hizali) {
+  Widget _durumKarti(double? fark, bool hizali, AppLocalizations l) {
     final konumHazir = _kibleAcisi != null;
     final sensorHazir = _cihazYonu != null;
     final anaRenk = hizali
@@ -212,7 +214,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  hizali ? 'Kıbleye yöneldiniz' : 'Kâbe yönünü hizalayın',
+                  hizali ? l.t('kbl.aligned') : l.t('kbl.alignKaaba'),
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -222,12 +224,15 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
                 const SizedBox(height: 4),
                 Text(
                   !konumHazir
-                      ? 'Kıble açısını hesaplamak için konumunuzu yenileyin.'
+                      ? l.t('kbl.statusNoPos')
                       : _pusulaKullanilamiyor
-                      ? 'Bu cihazda kullanılabilir pusula sensörü bulunamadı.'
+                      ? l.t('kbl.statusNoSensor')
                       : !sensorHazir
-                      ? 'Pusula sensörü bekleniyor. Telefonu hafifçe hareket ettirin.'
-                      : 'Kıble: ${_kibleAcisi!.toStringAsFixed(1)}° • Kâbe: ${_uzaklikKm!.toStringAsFixed(0)} km',
+                      ? l.t('kbl.statusWaiting')
+                      : l.t('kbl.statusReady')
+                          .replaceFirst(
+                              '{a}', _kibleAcisi!.toStringAsFixed(1))
+                          .replaceFirst('{d}', _uzaklikKm!.toStringAsFixed(0)),
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: .68),
                     fontSize: 12,
@@ -241,7 +246,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
     );
   }
 
-  Widget _kabeKarti(bool hizali) {
+  Widget _kabeKarti(bool hizali, AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
       decoration: BoxDecoration(
@@ -322,9 +327,9 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
                       color: const Color(0xFF54D780).withValues(alpha: .5),
                     ),
                   ),
-                  child: const Text(
-                    'Hizalı ✓',
-                    style: TextStyle(
+                  child: Text(
+                    l.t('kbl.alignedBadge'),
+                    style: const TextStyle(
                       color: Color(0xFF70E495),
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -348,30 +353,30 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
     );
   }
 
-  Widget _bilgiCipleri() {
-    final hazir = _kibleAcisi != null;
-    return Row(
-      children: [
-        Expanded(
-          child: _cipler(
-            ikon: Icons.explore_outlined,
-            deger: hazir ? '${_kibleAcisi!.toStringAsFixed(1)}°' : '—',
-            etiket: 'Kıble Açısı',
-          ),
+Widget _bilgiCipleri(AppLocalizations l) {
+  final hazir = _kibleAcisi != null;
+  return Row(
+    children: [
+      Expanded(
+        child: _cipler(
+          ikon: Icons.explore_outlined,
+          deger: hazir ? '${_kibleAcisi!.toStringAsFixed(1)}°' : '—',
+          etiket: l.t('kbl.qiblaAngle'),
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _cipler(
-            ikon: Icons.location_city_outlined,
-            deger: _uzaklikKm != null
-                ? '${_uzaklikKm!.toStringAsFixed(0)} km'
-                : '—',
-            etiket: 'Kâbe Mesafesi',
-          ),
+      ),
+      const SizedBox(width: 10),
+      Expanded(
+        child: _cipler(
+          ikon: Icons.location_city_outlined,
+          deger: _uzaklikKm != null
+              ? '${_uzaklikKm!.toStringAsFixed(0)} km'
+              : '—',
+          etiket: l.t('kbl.kaabaDistance'),
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
   Widget _cipler({
     required IconData ikon,
@@ -410,23 +415,22 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
     );
   }
 
-  Widget _yonlendirme(double? fark, bool hizali) {
-    String metin;
-    if (_kibleAcisi == null) {
-      metin = 'Önce “Konumu Yenile” düğmesine dokunun.';
-    } else if (_pusulaKullanilamiyor) {
-      metin =
-          'Bu cihazda pusula sensörü olmadığı için canlı kıble yönü gösterilemiyor.';
-    } else if (_cihazYonu == null) {
-      metin = 'Pusula verisi alınırken telefonu düz tutun.';
-    } else if (hizali) {
-      metin = 'Hazır. Telefonun üst kısmı Kâbe yönünü gösteriyor.';
-    } else {
-      final derece = fark!.abs().round();
-      metin = fark > 0
-          ? 'Telefonu sağa doğru $derece° çevirin.'
-          : 'Telefonu sola doğru $derece° çevirin.';
-    }
+Widget _yonlendirme(double? fark, bool hizali, AppLocalizations l) {
+  String metin;
+  if (_kibleAcisi == null) {
+    metin = l.t('kbl.guideNoPos');
+  } else if (_pusulaKullanilamiyor) {
+    metin = l.t('kbl.guideNoSensor');
+  } else if (_cihazYonu == null) {
+    metin = l.t('kbl.guideHoldFlat');
+  } else if (hizali) {
+    metin = l.t('kbl.guideReady');
+  } else {
+    final derece = fark!.abs().round();
+    metin = fark > 0
+        ? l.t('kbl.guideTurnRight').replaceFirst('{d}', '$derece')
+        : l.t('kbl.guideTurnLeft').replaceFirst('{d}', '$derece');
+  }
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

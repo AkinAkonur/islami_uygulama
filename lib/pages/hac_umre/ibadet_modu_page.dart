@@ -7,6 +7,8 @@ import 'hac_umre_store.dart';
 import 'hac_umre_verileri.dart';
 import 'ibadet_akis_verileri.dart';
 
+import '../../l10n/app_localizations.dart';
+
 // ===========================================================================
 // İBADET MODU - ADIM ADIM REHBER
 // Kullanıcı ibadet türünü seçer, adımları işaretler, her adımda detay kartı
@@ -50,31 +52,32 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
   }
 
   Future<void> _sifirla() async {
+    final l = AppLocalizations.of(context);
     final onay = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Renkler.kart,
-        title: const Text(
-          'Akışı sıfırla?',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          l.t('im.resetTitle'),
+          style: const TextStyle(color: Colors.white),
         ),
-        content: const Text(
-          'Tamamlanan tüm adımlar temizlenecek.',
-          style: TextStyle(color: Colors.white70),
+        content: Text(
+          l.t('im.resetContent'),
+          style: const TextStyle(color: Colors.white70),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text(
-              'Vazgeç',
-              style: TextStyle(color: Colors.white70),
+            child: Text(
+              l.t('im.cancel'),
+              style: const TextStyle(color: Colors.white70),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text(
-              'Sıfırla',
-              style: TextStyle(color: Colors.redAccent),
+            child: Text(
+              l.t('im.reset'),
+              style: const TextStyle(color: Colors.redAccent),
             ),
           ),
         ],
@@ -106,6 +109,7 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final akis = _akis;
     final toplam = akis.adimlar.length;
     final tamam = _tamamlanan.length;
@@ -114,7 +118,7 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('İbadet Modu'),
+        title: Text(l.t('im.title')),
         backgroundColor: Renkler.seciliYuzey,
       ),
       body: Column(
@@ -221,7 +225,7 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                   ),
                 ),
                 IconButton(
-                  tooltip: 'Sıfırla',
+                  tooltip: l.t('im.reset'),
                   onPressed: tamam == 0 ? null : _sifirla,
                   icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white54),
                 ),
@@ -346,6 +350,7 @@ class _AdimDetayKarti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return ListView(
       controller: controller,
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
@@ -381,7 +386,7 @@ class _AdimDetayKarti extends StatelessWidget {
         _bolumKart(
             ikon: Icons.task_alt_rounded,
           renk: Colors.lightGreenAccent,
-          baslik: 'Ne Yapılmalı?',
+          baslik: l.t('im.whatToDo'),
           cocuklar: [
             for (final m in adim.neYapilir)
               _madde(sira: adim.neYapilir.indexOf(m) + 1, metin: m),
@@ -396,7 +401,7 @@ class _AdimDetayKarti extends StatelessWidget {
           _bolumKart(
             ikon: Icons.warning_amber_rounded,
             renk: Colors.orangeAccent,
-            baslik: 'Sık Yapılan Hatalar',
+            baslik: l.t('im.commonMistakes'),
             cocuklar: [
               for (final h in adim.sikHatalar)
                 Padding(
@@ -516,6 +521,7 @@ class _DuaKarti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
@@ -539,9 +545,9 @@ class _DuaKarti extends StatelessWidget {
                 boyut: 18,
               ),
               const SizedBox(width: 8),
-              const Text(
-                'Okunacak Dua',
-                style: TextStyle(
+              Text(
+                l.t('im.duaToRead'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,

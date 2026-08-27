@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import 'dua_kardesligi_store.dart';
 
@@ -25,6 +26,7 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
   }
 
   Future<void> _istekOlustur() async {
+    final l = AppLocalizations.of(context);
     final sonuc = await showModalBottomSheet<_YeniIstekSonuc>(
       context: context,
       isScrollControlled: true,
@@ -44,8 +46,8 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
     );
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Dua isteğiniz yayınlandı. Rabbim kabul etsin.'),
+      SnackBar(
+        content: Text(l.t('dk.published')),
         backgroundColor: Colors.green,
       ),
     );
@@ -53,10 +55,11 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
-        title: const Text('Dua Kardeşliği'),
+        title: Text(l.t('dk.title')),
         backgroundColor: Renkler.seciliYuzey,
         elevation: 0,
       ),
@@ -65,7 +68,7 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
         backgroundColor: Renkler.vurgu,
         foregroundColor: Colors.black,
         icon: const Icon(Icons.add),
-        label: const Text('Dua İste'),
+        label: Text(l.t('dk.request')),
       ),
       body: !_hazir
           ? const Center(
@@ -80,7 +83,7 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
                     SliverToBoxAdapter(child: _HeaderBanner()),
                     SliverToBoxAdapter(child: _IstatistikKarti()),
                     SliverToBoxAdapter(child: _RozetlerBolumu()),
-                    SliverToBoxAdapter(child: _bolumBasligi('🕊️ Akış')),
+                    SliverToBoxAdapter(child: _bolumBasligi(l.t('dk.feed'))),
                     if (akis.isEmpty)
                       const SliverToBoxAdapter(child: _BosAkis())
                     else
@@ -104,29 +107,29 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
   }
 
   Future<void> _sikayetEt(DuaIstegi istek) async {
+    final l = AppLocalizations.of(context);
     if (istek.benSikayetEttim) return;
     final onay = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Renkler.kart,
-        title: const Text(
-          'İçeriği şikâyet et',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          l.t('dk.reportTitle'),
+          style: const TextStyle(color: Colors.white),
         ),
-        content: const Text(
-          'Bu dua isteğini uygunsuz bulduğunuz için şikâyet ediyorsunuz. '
-          '3 farklı kullanıcı şikâyet ederse kart otomatik kaldırılır.',
-          style: TextStyle(color: Colors.white70),
+        content: Text(
+          l.t('dk.reportBody'),
+          style: const TextStyle(color: Colors.white70),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç'),
+            child: Text(l.t('dk.cancel')),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
-            child: const Text('Şikâyet Et'),
+            child: Text(l.t('dk.report')),
           ),
         ],
       ),
@@ -139,8 +142,8 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
       SnackBar(
         content: Text(
           kaldirildi
-              ? 'İçerik şikâyetler nedeniyle kaldırıldı.'
-              : 'Şikâyetiniz alındı. Teşekkürler.',
+              ? l.t('dk.removed')
+              : l.t('dk.reported'),
         ),
         backgroundColor: kaldirildi ? Colors.redAccent : Colors.blueGrey,
       ),
@@ -165,6 +168,7 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
 class _HeaderBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       padding: const EdgeInsets.all(16),
@@ -177,27 +181,26 @@ class _HeaderBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.3)),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(Icons.groups_outlined, color: Colors.white, size: 36),
-          SizedBox(width: 16),
+          const Icon(Icons.groups_outlined, color: Colors.white, size: 36),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Anonim Dua Ağı',
-                  style: TextStyle(
+                  l.t('dk.networkName'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'Kardeşlerin için dua iste, onların dualarına Amin de. '
-                  'Tamamen gizli ve çevrimdışı çalışır.',
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                  l.t('dk.networkDesc'),
+                  style: const TextStyle(color: Colors.white70, fontSize: 12),
                 ),
               ],
             ),
@@ -211,6 +214,7 @@ class _HeaderBanner extends StatelessWidget {
 class _IstatistikKarti extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final aktif = DuaKardesligiStore.aktifIstekSayisi();
     final amin = DuaKardesligiStore.toplamAmin();
     final rozet = DuaKardesligiStore.kazanilanRozetler().length;
@@ -218,9 +222,9 @@ class _IstatistikKarti extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Row(
         children: [
-          _istatistik(aktif, 'Aktif Dua', Icons.hourglass_bottom),
-          _istatistik(amin, 'Verilen Amin', Icons.favorite_outline),
-          _istatistik(rozet, 'Rozet', Icons.emoji_events_outlined),
+          _istatistik(aktif, l.t('dk.statActive'), Icons.hourglass_bottom),
+          _istatistik(amin, l.t('dk.statAmin'), Icons.favorite_outline),
+          _istatistik(rozet, l.t('dk.statBadge'), Icons.emoji_events_outlined),
         ],
       ),
     );
@@ -262,6 +266,7 @@ class _IstatistikKarti extends StatelessWidget {
 class _RozetlerBolumu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final kazanilan = DuaKardesligiStore.kazanilanRozetler();
     final kazanilanIdler = {for (final r in kazanilan) r.id};
     return Column(
@@ -269,9 +274,9 @@ class _RozetlerBolumu extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-          child: const Text(
-            '🏅 Rozetlerim',
-            style: TextStyle(
+          child: Text(
+            l.t('dk.myBadges'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -353,6 +358,7 @@ class _DuaKarti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final kategoriRenk = _kategoriRengi(istek.kategori);
     return Card(
       color: Renkler.kart,
@@ -385,7 +391,7 @@ class _DuaKarti extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  _zamanMetni(istek.olusturma),
+                  _zamanMetni(istek.olusturma, l),
                   style: const TextStyle(color: Colors.white38, fontSize: 11),
                 ),
               ],
@@ -432,7 +438,7 @@ class _DuaKarti extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
-                      'Benim',
+                      l.t('dk.mine'),
                       style: TextStyle(
                         color: Renkler.vurgu,
                         fontSize: 10,
@@ -448,12 +454,12 @@ class _DuaKarti extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                _sureKarti(),
+                _sureKarti(l),
                 const Spacer(),
                 _aminButonu(),
                 const SizedBox(width: 8),
                 IconButton(
-                  tooltip: 'Şikâyet et',
+                  tooltip: l.t('dk.reportBtn'),
                   onPressed: istek.benSikayetEttim ? null : onSikayet,
                   icon: Icon(
                     Icons.flag_outlined,
@@ -471,16 +477,16 @@ class _DuaKarti extends StatelessWidget {
     );
   }
 
-  Widget _sureKarti() {
+  Widget _sureKarti(AppLocalizations l) {
     final kalan = istek.olusturma
         .add(Duration(hours: istek.sureSaat))
         .difference(DateTime.now());
     final saat = kalan.inHours.clamp(0, 999);
     final sureEtiketi = istek.sureSaat == 24
-        ? '24 saat'
+        ? l.t('dk.dur24h')
         : istek.sureSaat == 72
-        ? '3 gün'
-        : '1 hafta';
+        ? l.t('dk.dur3d')
+        : l.t('dk.dur1w');
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
@@ -488,7 +494,7 @@ class _DuaKarti extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
-        '⏳ $saat sa  ·  $sureEtiketi',
+        l.t('dk.timeLeft').replaceFirst('{h}', '$saat').replaceFirst('{d}', sureEtiketi),
         style: const TextStyle(color: Colors.white54, fontSize: 11),
       ),
     );
@@ -535,16 +541,17 @@ class _BosAkis extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(40),
+    final l = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.all(40),
       child: Column(
         children: [
-          Text('🌙', style: TextStyle(fontSize: 40)),
-          SizedBox(height: 12),
+          const Text('🌙', style: TextStyle(fontSize: 40)),
+          const SizedBox(height: 12),
           Text(
-            'Şu an aktif dua isteği yok.\n"+" butonuyla kardeşlerin için bir dua paylaş.',
+            l.t('dk.emptyFeed'),
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white54, fontSize: 13, height: 1.5),
+            style: const TextStyle(color: Colors.white54, fontSize: 13, height: 1.5),
           ),
         ],
       ),
@@ -610,6 +617,7 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final klavye = MediaQuery.of(context).viewInsets.bottom;
     return Padding(
       padding: EdgeInsets.only(bottom: klavye),
@@ -619,10 +627,10 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Center(
+            Center(
               child: Text(
-                'Yeni Dua İsteği',
-                style: TextStyle(
+                l.t('dk.newRequest'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -630,16 +638,16 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
               ),
             ),
             const SizedBox(height: 6),
-            const Center(
+            Center(
               child: Text(
-                'Gizliliğiniz korunur: istekleriniz bu cihazda saklanır.',
-                style: TextStyle(color: Colors.white54, fontSize: 11),
+                l.t('dk.privacyNote'),
+                style: const TextStyle(color: Colors.white54, fontSize: 11),
               ),
             ),
             const SizedBox(height: 18),
-            const Text(
-              'Kategori',
-              style: TextStyle(
+            Text(
+              l.t('dk.category'),
+              style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -665,9 +673,9 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
               ],
             ),
             const SizedBox(height: 18),
-            const Text(
-              'Dua Metni',
-              style: TextStyle(
+            Text(
+              l.t('dk.duaText'),
+              style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -684,7 +692,7 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
                 if (_hata != null) setState(() => _hata = null);
               },
               decoration: InputDecoration(
-                hintText: 'Kardeşin için dileğini yaz...',
+                hintText: l.t('dk.wishHint'),
                 hintStyle: const TextStyle(color: Colors.white38),
                 counterStyle: const TextStyle(color: Colors.white38),
                 errorText: _hata,
@@ -697,9 +705,9 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
               ),
             ),
             const SizedBox(height: 6),
-            const Text(
-              'Hızlı şablonlar (boşlukları doldur):',
-              style: TextStyle(color: Colors.white54, fontSize: 11),
+            Text(
+              l.t('dk.templates'),
+              style: const TextStyle(color: Colors.white54, fontSize: 11),
             ),
             const SizedBox(height: 8),
             Wrap(
@@ -732,9 +740,9 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Anonimlik',
-                        style: TextStyle(
+                      Text(
+                        l.t('dk.anonymous'),
+                        style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -743,8 +751,8 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
                       const SizedBox(height: 4),
                       Text(
                         _anonim
-                            ? 'İsimsiz paylaşılır'
-                            : 'Profil adınızla paylaşılır',
+                            ? l.t('dk.anonYes')
+                            : l.t('dk.anonNo'),
                         style: const TextStyle(
                           color: Colors.white54,
                           fontSize: 11,
@@ -761,9 +769,9 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
               ],
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Yayında kalma süresi',
-              style: TextStyle(
+            Text(
+              l.t('dk.duration'),
+              style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -789,7 +797,7 @@ class _YeniIstekFormuState extends State<_YeniIstekFormu> {
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 icon: const Icon(Icons.send_outlined),
-                label: const Text('Duayı Paylaş'),
+                label: Text(l.t('dk.shareDua')),
               ),
             ),
           ],
@@ -814,10 +822,14 @@ Color _kategoriRengi(String kategori) {
   }
 }
 
-String _zamanMetni(DateTime zaman) {
+String _zamanMetni(DateTime zaman, AppLocalizations l) {
   final fark = DateTime.now().difference(zaman);
-  if (fark.inMinutes < 1) return 'az önce';
-  if (fark.inMinutes < 60) return '${fark.inMinutes} dk önce';
-  if (fark.inHours < 24) return '${fark.inHours} sa önce';
-  return '${fark.inDays} gün önce';
+  if (fark.inMinutes < 1) return l.t('dk.timeNow');
+  if (fark.inMinutes < 60) {
+    return l.t('dk.timeMinAgo').replaceFirst('{m}', '${fark.inMinutes}');
+  }
+  if (fark.inHours < 24) {
+    return l.t('dk.timeHourAgo').replaceFirst('{h}', '${fark.inHours}');
+  }
+  return l.t('dk.timeDayAgo').replaceFirst('{d}', '${fark.inDays}');
 }

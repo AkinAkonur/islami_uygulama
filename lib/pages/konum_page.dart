@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/location_and_mosque_service.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
@@ -61,17 +62,17 @@ class _KonumPageState extends State<KonumPage> {
     });
   }
 
-  String get _konumTxt {
+  String _konumTxt(AppLocalizations l) {
     if (_sehir != null && _ulke != null) return '$_sehir, $_ulke';
     if (_sehir != null) return _sehir!;
     if (_koordinat != null) {
       return 'GPS: ${_koordinat!.$1.toStringAsFixed(3)}, '
           '${_koordinat!.$2.toStringAsFixed(3)}';
     }
-    return 'Konum seçilmedi';
+    return l.t('ko.noLocation');
   }
 
-  Future<void> _gpsIleBul() async {
+  Future<void> _gpsIleBul(AppLocalizations l) async {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -90,23 +91,18 @@ class _KonumPageState extends State<KonumPage> {
       await _yukle();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'GPS sinyali alınamadı; internete göre yaklaşık konum kullanıldı.',
-          ),
-          duration: Duration(seconds: 4),
+        SnackBar(
+          content: Text(l.t('ko.gpsApprox')),
+          duration: const Duration(seconds: 4),
         ),
       );
       return;
     }
     final mesaj = switch (sonuc) {
-      KonumSonuc.servisKapali =>
-        'Cihazın konum servisi kapalı. Açtıktan sonra tekrar dene.',
-      KonumSonuc.izinReddedildi =>
-        'Konum izni verilmedi. Tekrar denerken izin penceresini onayla ya da Şehir Seç ile devam et.',
-      KonumSonuc.izinKaliciRed =>
-        'Konum izni kalıcı reddedilmiş. Ayarlardan uygulamaya konum izni ver, sonra tekrar dene.',
-      _ => 'Konum alınamadı. GPS sinyali zayıf olabilir; pencere yakınında veya dışarıda tekrar dene.',
+      KonumSonuc.servisKapali => l.t('ko.locationServiceOff'),
+      KonumSonuc.izinReddedildi => l.t('ko.permissionDenied'),
+      KonumSonuc.izinKaliciRed => l.t('ko.permissionPermanent'),
+      _ => l.t('ko.locationFailed'),
     };
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(mesaj), duration: const Duration(seconds: 4)),
@@ -133,6 +129,7 @@ class _KonumPageState extends State<KonumPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -145,20 +142,20 @@ class _KonumPageState extends State<KonumPage> {
         child: SafeArea(
           child: Column(
             children: [
-              _baslikSatiri(context),
+              _baslikSatiri(context, l),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    _konumKarti(context),
+                    _konumKarti(context, l),
                     const SizedBox(height: 16),
-                    _camiKarti(),
+                    _camiKarti(l),
                     const SizedBox(height: 16),
-                    _kibleKarti(context),
+                    _kibleKarti(context, l),
                     const SizedBox(height: 16),
-                    _vakitKarti(),
+                    _vakitKarti(l),
                     const SizedBox(height: 16),
-                    _uyariKarti(),
+                    _uyariKarti(l),
                   ],
                 ),
               ),
@@ -169,7 +166,7 @@ class _KonumPageState extends State<KonumPage> {
     );
   }
 
-  Widget _baslikSatiri(BuildContext context) {
+  Widget _baslikSatiri(BuildContext context, AppLocalizations l) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -179,9 +176,9 @@ class _KonumPageState extends State<KonumPage> {
             icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
           ),
           const SizedBox(width: 8),
-          const Text(
-            'Cami & Konum',
-            style: TextStyle(
+          Text(
+            l.t('ko.title'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -194,7 +191,7 @@ class _KonumPageState extends State<KonumPage> {
     );
   }
 
-  Widget _konumKarti(BuildContext context) {
+  Widget _konumKarti(BuildContext context, AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -206,9 +203,9 @@ class _KonumPageState extends State<KonumPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Bulunduğun Yer',
-            style: TextStyle(
+          Text(
+            l.t('ko.currentLocation'),
+            style: const TextStyle(
               color: Colors.white70,
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -216,7 +213,7 @@ class _KonumPageState extends State<KonumPage> {
           ),
           const SizedBox(height: 4),
           Text(
-            _konumTxt,
+            _konumTxt(l),
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -225,7 +222,7 @@ class _KonumPageState extends State<KonumPage> {
           ),
           const SizedBox(height: 6),
           Text(
-            'Namaz vakitleri bu konuma göre hesaplanır.',
+            l.t('ko.prayerTimesForLocation'),
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.75),
               fontSize: 12,
@@ -236,13 +233,13 @@ class _KonumPageState extends State<KonumPage> {
             children: [
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: _gpsIleBul,
+                  onPressed: () => _gpsIleBul(l),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
                     side: const BorderSide(color: Colors.white54),
                   ),
                   icon: const UcdIkon(ikon: Icons.my_location, renk: Colors.white, boyut: 18),
-                  label: const Text('GPS ile Bul'),
+                  label: Text(l.t('ko.gpsFind')),
                 ),
               ),
               const SizedBox(width: 8),
@@ -254,7 +251,7 @@ class _KonumPageState extends State<KonumPage> {
                     side: const BorderSide(color: Colors.white54),
                   ),
                   icon: const UcdIkon(ikon: Icons.edit_location_alt_outlined, renk: Colors.white, boyut: 18),
-                  label: const Text('Şehir Seç'),
+                  label: Text(l.t('ko.citySelect')),
                 ),
               ),
             ],
@@ -264,7 +261,7 @@ class _KonumPageState extends State<KonumPage> {
     );
   }
 
-  Widget _camiKarti() {
+  Widget _camiKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -278,9 +275,9 @@ class _KonumPageState extends State<KonumPage> {
             children: [
               UcdIkon(ikon: Icons.mosque_rounded, renk: Renkler.vurgu, boyut: 20),
               const SizedBox(width: 8),
-              const Text(
-                'Yakındaki Camiler',
-                style: TextStyle(
+              Text(
+                l.t('ko.nearbyMosques'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -290,7 +287,7 @@ class _KonumPageState extends State<KonumPage> {
               IconButton(
                 icon: const UcdIkon(ikon: Icons.refresh, renk: Colors.white54, boyut: 20),
                 onPressed: _camiYukleniyor ? null : _camiYukle,
-                tooltip: 'Yenile',
+                tooltip: l.t('ko.refresh'),
               ),
             ],
           ),
@@ -303,17 +300,17 @@ class _KonumPageState extends State<KonumPage> {
           else if (_camiler == null)
             _camiBosSatir(
               Icons.location_off_outlined,
-              'Konumunu belirle; yakınındaki camiler burada listelenecek.',
+              l.t('ko.setLocationToSee'),
             )
           else if (_camiler!.isEmpty)
             _camiBosSatir(
               Icons.mosque_rounded,
-              'Yakınlarda cami bulunamadı. Konum iznini ve internet bağlantını kontrol et, sonra yenile.',
+              l.t('ko.noMosquesNearby'),
             )
           else
             Column(
               children: [
-                for (final cami in _camiler!.take(5)) _camiSatiri(cami),
+                for (final cami in _camiler!.take(5)) _camiSatiri(cami, l),
                 const SizedBox(height: 4),
                 Align(
                   alignment: Alignment.centerRight,
@@ -331,7 +328,7 @@ class _KonumPageState extends State<KonumPage> {
                       );
                     },
                     icon: const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white, boyut: 18),
-                    label: const Text('Tümünü Gör'),
+                    label: Text(l.t('ko.viewAll')),
                   ),
                 ),
               ],
@@ -358,9 +355,9 @@ class _KonumPageState extends State<KonumPage> {
     );
   }
 
-  Widget _camiSatiri(Mosque cami) {
+  Widget _camiSatiri(Mosque cami, AppLocalizations l) {
     return InkWell(
-      onTap: () => _camiSec(cami),
+      onTap: () => _camiSec(cami, l),
       borderRadius: BorderRadius.circular(12),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -386,7 +383,7 @@ class _KonumPageState extends State<KonumPage> {
                   Text(
                     cami.distanceInMeters != null
                         ? _mesafeYaz(cami.distanceInMeters!)
-                        : 'Uzaklık bilinmiyor',
+                        : l.t('ko.distanceUnknown'),
                     style: const TextStyle(color: Colors.white54, fontSize: 12),
                   ),
                 ],
@@ -404,7 +401,7 @@ class _KonumPageState extends State<KonumPage> {
     return '${(metre / 1000).toStringAsFixed(1)} km';
   }
 
-  Future<void> _camiSec(Mosque cami) async {
+  Future<void> _camiSec(Mosque cami, AppLocalizations l) async {
     await showModalBottomSheet<String>(
       context: context,
       backgroundColor: Renkler.kart,
@@ -439,19 +436,19 @@ class _KonumPageState extends State<KonumPage> {
               const SizedBox(height: 16),
               _camiEylemButonu(
                 Icons.directions_walk,
-                'Yürüyerek Yol Tarifi',
+                l.t('ko.walkingDirections'),
                 () => Navigator.pop(ctx, 'walking'),
               ),
               const SizedBox(height: 10),
               _camiEylemButonu(
                 Icons.directions_car,
-                'Arabayla Yol Tarifi',
+                l.t('ko.drivingDirections'),
                 () => Navigator.pop(ctx, 'driving'),
               ),
               const SizedBox(height: 10),
               _camiEylemButonu(
                 Icons.map_outlined,
-                'Haritada Gör',
+                l.t('ko.viewOnMap'),
                 () => Navigator.pop(ctx, 'harita'),
               ),
             ],
@@ -464,7 +461,7 @@ class _KonumPageState extends State<KonumPage> {
         final acildi = await LocationAndMosqueService.haritadaGoster(cami);
         if (!acildi && mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Harita uygulaması açılamadı.')),
+            SnackBar(content: Text(l.t('ko.mapNotOpen'))),
           );
         }
         return;
@@ -478,7 +475,7 @@ class _KonumPageState extends State<KonumPage> {
       );
       if (!acildi && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Yol tarifi açılamadı.')),
+          SnackBar(content: Text(l.t('ko.directionsNotOpen'))),
         );
       }
     });
@@ -519,7 +516,7 @@ class _KonumPageState extends State<KonumPage> {
     );
   }
 
-  Widget _kibleKarti(BuildContext context) {
+  Widget _kibleKarti(BuildContext context, AppLocalizations l) {
     final koordinat = _koordinat;
     final aci = koordinat != null
         ? VakitServisi.kibleAcisi(koordinat.$1, koordinat.$2)
@@ -547,9 +544,10 @@ class _KonumPageState extends State<KonumPage> {
                 children: [
                   Text(
                     aci != null
-                        ? 'Kıble yönün: ${aci.round()}° '
-                            '${VakitServisi.yonEtiketi(aci)}'
-                        : 'Kıble yönünü görmek için konumunu belirle',
+                        ? l.t('ko.qiblaDirReady')
+                            .replaceFirst('{a}', '${aci.round()}')
+                            .replaceFirst('{d}', VakitServisi.yonEtiketi(aci))
+                        : l.t('ko.qiblaSetLocation'),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -558,7 +556,7 @@ class _KonumPageState extends State<KonumPage> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Pusulayı aç ve Kâbe\'ye yönel',
+                    l.t('ko.openCompass'),
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.75),
                       fontSize: 12,
@@ -574,7 +572,7 @@ class _KonumPageState extends State<KonumPage> {
     );
   }
 
-  Widget _vakitKarti() {
+  Widget _vakitKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -589,7 +587,7 @@ class _KonumPageState extends State<KonumPage> {
               UcdIkon(ikon: Icons.schedule_outlined, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
-                'Bugünün Namaz Vakitleri',
+                l.t('ko.todayPrayerTimes'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -627,7 +625,7 @@ class _KonumPageState extends State<KonumPage> {
     );
   }
 
-  Widget _uyariKarti() {
+  Widget _uyariKarti(AppLocalizations l) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -641,8 +639,7 @@ class _KonumPageState extends State<KonumPage> {
           SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Vakitler Diyanet/MWL yöntemiyle güncel konumuna göre '
-              'hesaplanır. Konum izni vermezsen şehir seçerek kullanabilirsin.',
+              l.t('ko.prayerCallout'),
               style: TextStyle(color: Colors.white54, fontSize: 12, height: 1.5),
             ),
           ),
@@ -683,12 +680,13 @@ class _IlSecimDialoguState extends State<_IlSecimDialogu> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final filtreli = _filtreliIller;
     return AlertDialog(
       backgroundColor: Renkler.kart,
-      title: const Text(
-        'Şehir Seç',
-        style: TextStyle(color: Colors.white),
+      title: Text(
+        l.t('ko.citySelect'),
+        style: const TextStyle(color: Colors.white),
       ),
       content: SizedBox(
         width: double.maxFinite,
@@ -701,7 +699,7 @@ class _IlSecimDialoguState extends State<_IlSecimDialogu> {
               cursorColor: Renkler.vurgu,
               onChanged: (deger) => setState(() => _arama = deger),
               decoration: InputDecoration(
-                hintText: 'İl ara… (örn. İstanbul)',
+                hintText: l.t('ko.searchCityHint'),
                 hintStyle: const TextStyle(color: Colors.white38),
                 prefixIcon: const UcdIkon(ikon: Icons.search, renk: Colors.white54),
                 enabledBorder: const UnderlineInputBorder(
@@ -715,10 +713,10 @@ class _IlSecimDialoguState extends State<_IlSecimDialogu> {
             const SizedBox(height: 8),
             Expanded(
               child: filtreli.isEmpty
-                  ? const Center(
+                  ? Center(
                       child: Text(
-                        'Eşleşen il bulunamadı',
-                        style: TextStyle(color: Colors.white38),
+                        l.t('ko.noCityMatch'),
+                        style: const TextStyle(color: Colors.white38),
                       ),
                     )
                   : ListView.builder(
@@ -752,7 +750,7 @@ class _IlSecimDialoguState extends State<_IlSecimDialogu> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Vazgeç'),
+          child: Text(l.t('ko.cancel')),
         ),
       ],
     );
