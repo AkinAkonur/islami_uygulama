@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:just_audio/just_audio.dart';
@@ -81,11 +83,18 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
     if (veri.audioUrl.isNotEmpty) {
       try {
         await _player.setUrl(veri.audioUrl);
-        await _player.play();
         setState(() {
           _playingIndex = index;
           _isPlaying = true;
         });
+        unawaited(_player.play().catchError((_) {
+          if (mounted) {
+            setState(() {
+              _isPlaying = false;
+              _playingIndex = null;
+            });
+          }
+        }));
         return;
       } catch (e) {
         // İnternet yoksa ya da ses yüklenemezse TTS'e düş
@@ -95,11 +104,11 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
       final metin = _arapcaOkunus ? veri.arapca : veri.okunus;
       await _tts.setLanguage(_arapcaOkunus ? 'ar' : 'tr-TR');
       await _tts.setSpeechRate(0.5);
-      await _tts.speak(metin.replaceAll('\n', ' '));
       setState(() {
         _playingIndex = index;
         _isPlaying = true;
       });
+      unawaited(_tts.speak(metin.replaceAll('\n', ' ')));
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
