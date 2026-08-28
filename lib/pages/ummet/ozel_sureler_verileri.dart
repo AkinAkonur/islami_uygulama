@@ -138,14 +138,4 @@ const List<OzelSureVerisi> ozelSureler = [
     mealEn: 'Ism-e-Azam Dua. O Allah! I ask You, for all praise belongs to You, there is no deity except You, the Bestower, the Originator of the heavens and the earth.',
     audioUrl: '',
   ),
-
-  OzelSureVerisi(
-    baslik: 'Cevşen-ül Kebîr',
-    baslikEn: 'Al-Jawshan Al-Kabir',
-    isSure: false,
-    arapca: 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ \nاللَّهُمَّ إِنِّي أَسْأَلُكَ بِاسْمِ اللَّهِ الْعَزِيزِ الْجَبَّارِ',
-    mealTr: 'Cevşen-ül Kebîr Duası. Rahman ve Rahim olan Allah\'ın adıyla. Allah\'ım! Senden, bu duanın hakkı ve yüceliğine ve göğe koyduğun ismin hakkı için, Muhammed\'e ve al-i Muhammed\'e salat etmeni istiyorum.',
-    mealEn: 'Al-Jawshan Al-Kabir Dua. In the name of Allah, the Entirely Merciful, the Especially Merciful. O Allah! I ask You by the right of this supplication and by the right of Your name.',
-    audioUrl: '',
-  ),
 ];
