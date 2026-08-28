@@ -156,7 +156,11 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const UcdIkon(ikon: Icons.gps_fixed_rounded, renk: Colors.purpleAccent, boyut: 20),
+                const UcdIkon(
+                  ikon: Icons.gps_fixed_rounded,
+                  renk: Colors.purpleAccent,
+                  boyut: 20,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -176,7 +180,11 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
           if (enYakin != null && uyariSeviyesi > 0)
             _UyariKarti(seviye: uyariSeviyesi, mikat: enYakin.$1, l: l)
           else if (enYakin != null)
-            _NormalKart(mesafe: _mesafeMetin(enYakin.$2), mikat: enYakin.$1, l: l)
+            _NormalKart(
+              mesafe: _mesafeMetin(enYakin.$2),
+              mikat: enYakin.$1,
+              l: l,
+            )
           else
             _BeklemeKarti(l: l),
           const SizedBox(height: 16),
@@ -192,7 +200,10 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
                         onPressed: _izlemeyiDurdur,
-                        icon: const UcdIkon(ikon: Icons.stop_circle_rounded, renk: Colors.redAccent),
+                        icon: const UcdIkon(
+                          ikon: Icons.stop_circle_rounded,
+                          renk: Colors.redAccent,
+                        ),
                         label: Text(l.t('mu.stopTracking')),
                       )
                     : ElevatedButton.icon(
@@ -211,7 +222,10 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                                   color: Colors.white,
                                 ),
                               )
-                            : const UcdIkon(ikon: Icons.play_arrow_rounded, renk: Colors.white),
+                            : const UcdIkon(
+                                ikon: Icons.play_arrow_rounded,
+                                renk: Colors.white,
+                              ),
                         label: Text(l.t('mu.startTracking')),
                       ),
               ),
@@ -223,7 +237,10 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
                   backgroundColor: Renkler.kart,
                   disabledForegroundColor: Colors.white24,
                 ),
-                icon: const UcdIkon(ikon: Icons.my_location_rounded, renk: Colors.white70),
+                icon: const UcdIkon(
+                  ikon: Icons.my_location_rounded,
+                  renk: Colors.white70,
+                ),
               ),
             ],
           ),
@@ -240,7 +257,10 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
               ),
               child: Row(
                 children: [
-                  const UcdIkon(ikon: Icons.error_outline_rounded, renk: Colors.redAccent),
+                  const UcdIkon(
+                    ikon: Icons.error_outline_rounded,
+                    renk: Colors.redAccent,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -271,7 +291,9 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
               const Spacer(),
               if (_izliyor)
                 Text(
-                  l.t('mu.updatedEvery').replaceFirst('{s}', '$_guncellemeSaniye'),
+                  l
+                      .t('mu.updatedEvery')
+                      .replaceFirst('{s}', '$_guncellemeSaniye'),
                   style: const TextStyle(color: Colors.white24, fontSize: 11),
                 ),
             ],
@@ -300,7 +322,10 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
               children: [
                 Row(
                   children: [
-                    const UcdIkon(ikon: Icons.flight_takeoff_rounded, renk: Colors.amberAccent),
+                    const UcdIkon(
+                      ikon: Icons.flight_takeoff_rounded,
+                      renk: Colors.amberAccent,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       l.t('mu.planeTitle'),
@@ -339,7 +364,11 @@ class _UyariKarti extends StatelessWidget {
   final MikatNoktasi mikat;
   final AppLocalizations l;
 
-  const _UyariKarti({required this.seviye, required this.mikat, required this.l});
+  const _UyariKarti({
+    required this.seviye,
+    required this.mikat,
+    required this.l,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -358,7 +387,9 @@ class _UyariKarti extends StatelessWidget {
           Row(
             children: [
               UcdIkon(
-                ikon: ciddi ? Icons.notification_important_rounded : Icons.warning_amber_rounded,
+                ikon: ciddi
+                    ? Icons.notification_important_rounded
+                    : Icons.warning_amber_rounded,
                 renk: renk,
                 boyut: 28,
               ),
@@ -377,9 +408,7 @@ class _UyariKarti extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            l.t('mu.nearest').replaceFirst('{n}', mikat.ad) +
-                '\n${mikat.aciklama}\n\n' +
-                (ciddi ? l.t('mu.seriousHint') : l.t('mu.prepareHint')),
+            '${l.t('mu.nearest').replaceFirst('{n}', mikat.ad)}\n${mikat.aciklama}\n\n${ciddi ? l.t('mu.seriousHint') : l.t('mu.prepareHint')}',
             style: const TextStyle(
               color: Colors.white70,
               fontSize: 13,
@@ -397,7 +426,11 @@ class _NormalKart extends StatelessWidget {
   final MikatNoktasi mikat;
   final AppLocalizations l;
 
-  const _NormalKart({required this.mesafe, required this.mikat, required this.l});
+  const _NormalKart({
+    required this.mesafe,
+    required this.mikat,
+    required this.l,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -410,11 +443,15 @@ class _NormalKart extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const UcdIkon(ikon: Icons.check_circle_outline_rounded, renk: Colors.greenAccent),
+          const UcdIkon(
+            ikon: Icons.check_circle_outline_rounded,
+            renk: Colors.greenAccent,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              l.t('mu.normalText')
+              l
+                  .t('mu.normalText')
                   .replaceFirst('{n}', mikat.ad)
                   .replaceFirst('{d}', mesafe),
               style: const TextStyle(

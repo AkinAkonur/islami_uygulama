@@ -26,7 +26,7 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
   final Set<int> _expandedCards = {};
   int? _playingIndex;
   bool _isPlaying = false;
-  bool _arapcaOkunus = false;
+  final bool _arapcaOkunus = false;
 
   @override
   void initState() {
@@ -105,7 +105,8 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                '${AppLocalizations.of(context).t('ms.audioError')} ${e.toString()}'),
+              '${AppLocalizations.of(context).t('ms.audioError')} ${e.toString()}',
+            ),
             backgroundColor: Colors.red.shade700,
           ),
         );
@@ -145,7 +146,10 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
         title: Text(
           l.t('ms.title'),
           style: const TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         leading: IconButton(
           onPressed: () {
@@ -153,7 +157,10 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
             _player.stop();
             Navigator.pop(context);
           },
-          icon: const UcdIkon(ikon: Icons.arrow_back_ios_new, renk: Colors.white),
+          icon: const UcdIkon(
+            ikon: Icons.arrow_back_ios_new,
+            renk: Colors.white,
+          ),
         ),
       ),
       body: Container(
@@ -193,7 +200,9 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isPlaying ? Renkler.vurgu.withValues(alpha: 0.6) : Renkler.cerceve,
+          color: isPlaying
+              ? Renkler.vurgu.withValues(alpha: 0.6)
+              : Renkler.cerceve,
           width: isPlaying ? 1.5 : 1,
         ),
         boxShadow: isPlaying
@@ -257,7 +266,9 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
                           const SizedBox(height: 4),
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 3),
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
                             decoration: BoxDecoration(
                               color: Renkler.vurgu.withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(10),
@@ -332,8 +343,9 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
           AnimatedCrossFade(
             firstChild: const SizedBox.shrink(),
             secondChild: _genisletilmisIcerik(veri, l),
-            crossFadeState:
-                isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: isExpanded
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 300),
           ),
         ],
@@ -366,7 +378,11 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
           if (veri.audioUrl.isNotEmpty) ...[
             Row(
               children: [
-                UcdIkon(ikon: Icons.mosque_rounded, renk: Renkler.vurgu, boyut: 16),
+                UcdIkon(
+                  ikon: Icons.mosque_rounded,
+                  renk: Renkler.vurgu,
+                  boyut: 16,
+                ),
                 const SizedBox(width: 6),
                 Expanded(
                   child: Text(
@@ -410,7 +426,10 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
           const SizedBox(height: 14),
 
           // Okunuş bölümü
-          _bolumBasligi(Icons.record_voice_over_rounded, l.t('ms.transliteration')),
+          _bolumBasligi(
+            Icons.record_voice_over_rounded,
+            l.t('ms.transliteration'),
+          ),
           const SizedBox(height: 8),
           Container(
             width: double.infinity,
