@@ -523,6 +523,171 @@ const Map<String, String> trDil = {
   // ---------------- KÂBE CANLI ----------------
   'kb.miniPlayer': 'Mini Oynatıcıya Gönder',
   'kb.exitFullscreen': 'Tam ekrandan çık',
+  'kbc.title': 'Kâbe-i Muazzama Canlı Yayın',
+  'kbc.titleMedine': 'Mescid-i Nebevî Canlı Yayın',
+  'kbc.titleCanli': 'Canlı Yayın',
+  'kbc.video': '📺 Video',
+  'kbc.voiceMode': '🎧 Kâbe Ses Modu',
+  'kbc.voiceModeOption': '🎧 Ses Modu (Arkaplanda Çal)',
+  'kbc.voiceModePlaying': 'Ezan, tilavet ve tavaf atmosferi canlı dinleniyor',
+  'kbc.tapPlayPause': 'Dokunarak oynat / duraklat',
+  'kbc.liveSes': 'CANLI SES',
+  'kbc.retry': 'Tekrar Dene',
+  'kbc.fullscreen': 'Tam ekran',
+  'kbc.connActive': 'Bağlantı aktif · kopma durumunda otomatik yeniden deneme',
+  'kbc.connNone': 'İnternet yok - bağlantı gelince yayın otomatik başlar',
+  'kbc.connBanner': 'İnternet bağlantısı yok - otomatik yeniden deneme beklemede',
+  'kbc.sourceLabel': 'Yayın kaynağı: {kaynak}',
+  'kbc.connectFail': 'Yayına bağlanılamadı',
+  'kbc.hlsError':
+      'Canlı yayın kaynaklarına şu anda ulaşılamadı. İnternet '
+      'bağlantınızı kontrol edip Tekrar Dene butonunu kullanınız.',
+  'kbc.audioError':
+      'Ses akışı açılamadı. Bu cihazda HLS ses akışı desteklenmiyor '
+      'olabilir; videoya geçmeyi deneyin.',
+  'kbc.notStartedData': 'Yayın veri tasarrufu için başlatılmadı.',
+  'kbc.noInternet': 'İnternet bağlantısı yok',
+  'kbc.sessionErrorTitle': 'Ses akışı başlatılamadı',
+  'kbc.sessionErrorAlt':
+      'Ses akışına ulaşılamadı. Bağlantıyı kontrol edip tekrar deneyin '
+      'ya da video moduna geçin.',
+  'kbc.unsupportedTitle': 'Canlı yayın bu cihazda desteklenmiyor',
+  'kbc.unsupportedSub':
+      'Kâbe canlı yayınını Android, iOS, web, Windows ve macOS '
+      'cihazlarda izleyebilirsiniz.',
+  'kbc.miniPlayerRestored':
+      'Yayın mini pencereden geri alındı ({kaynak})',
+  'kbc.miniPlayerNotReady':
+      'Yayın başlayınca mini pencere kullanılabilir',
+  'kbc.buffering': 'Canlı yayın bağlanıyor...',
+  'kbc.dataDialogTitle': 'Hücresel veri uyarısı',
+  'kbc.dataDialogBody':
+      'Şu an hücresel veri (mobil internet) kullanıyorsunuz. '
+      'Canlı yayın yüksek veri tüketebilir.\n\n'
+      '🎧 Ses Modu veri kullanımını yaklaşık %80 azaltır.',
+  'kbc.cardMedineTitle': 'Mescid-i Nebevî 7/24 Canlı',
+  'kbc.cardHaramTitle': 'Mescid-i Haram 7/24 Canlı',
+  'kbc.cardMedineBody':
+      'Ravza-i Mutahhara ve Yeşil Kubbe çevresindeki canlı kamera '
+      'akışı. Sünnet kanalı, Mescid-i Nebevî\'den beş vakit namazı '
+      'yayınlar.',
+  'kbc.cardHaramBody':
+      'Tavaf alanı ve Hacerü\'l-Esved çevresindeki canlı kamera '
+      'akışı. Namaz vakitlerinde haram imamlarının kıldırdığı '
+      'namazlar yayınlanır.',
+  'kbc.cardBackupTitle': 'Otomatik Yedek Kaynak',
+  'kbc.cardBackupBody':
+      'YouTube resmî yayını birincil kaynaktır; kesilirse HLS yedeği '
+      'otomatik devreye girer. Ağ kopmasında bağlantı gelince yayın '
+      'kendiliğinden yeniden başlar.',
+  'kbc.cardDataTitle': 'Veri Tasarrufu',
+  'kbc.cardDataBody':
+      'Hücresel veride uyarı gösterilir. 🎧 Ses Modu, mobil veri ve '
+      'pil kullanımını yaklaşık %80 azaltır; YouTube ise kaliteyi '
+      'internet hızına göre otomatik ayarlar (360p-1080p).',
+  'kbc.cardPipTitle': 'Mini Oynatıcı (PiP)',
+  'kbc.cardPipBody':
+      'Mini Oynatıcı butonu ile yayını köşedeki küçük pencerede '
+      'sürdürün: Kıssalar, Soru-Cevap gibi diğer sayfalarda '
+      'gezinirken yayın kesintisiz devam eder.',
+
+  // ---------------- PAYLAŞIM KARTLARI ----------------
+  'pks.title': 'Paylaşım Kartları Stüdyosu',
+  'pks.randomCard': 'Rastgele kart',
+  'pks.shareText':
+      'Bu içerik "{uygulama}" uygulaması ile hazırlandı. #ManeviYolculuk',
+  'pks.shareError': 'Paylaşım hazırlanamadı: {hata}',
+  'pks.createdWith': '{uygulama} ile oluşturuldu',
+  'pks.myMessage': 'Kendi mesajım',
+  'pks.typeAyet': 'Ayet',
+  'pks.typeHadis': 'Hadis',
+  'pks.typeDua': 'Dua',
+  'pks.chooseTheme': 'Tema Seçin',
+  'pks.chooseContent': 'İçerik Seçin',
+  'pks.showArabic': 'Arapça metni göster',
+  'pks.showArabicSub': 'Kartın alt bölümünde orijinal metin',
+  'pks.writeOwn': 'Kendi İçeriğini Yaz',
+  'pks.writeOwnSub': 'Kısa bir ayet, hadis, dua ya da kendi mesajını yaz',
+  'pks.noContent': 'Bu kategoride içerik bulunamadı.',
+  'pks.autoArabic': 'Arapçasını otomatik yaz',
+  'pks.translating': 'Çevriliyor…',
+  'pks.translateHint': 'Türkçe metni Arapçaya çevir',
+  'pks.messageHint': 'Mesajını, ayet meali ya da duanı yaz…',
+  'pks.sourceHint': 'Kaynak / imza (opsiyonel, örn: "Senin için")',
+  'pks.arabicHint': 'Arapça metin (opsiyonel)',
+  'pks.preparing': 'Kart hazırlanıyor…',
+  'pks.shareCta': 'WhatsApp & Instagram\'da Paylaş',
+
+  // ---------------- SESLİ KISSALAR VE PODCASTLER ----------------
+  'sks.title': 'Sesli Kıssalar ve Podcastler',
+  'sks.tabStories': '📖 Sesli Kıssalar',
+  'sks.tabPodcasts': '🎙️ Podcastler & Radyo',
+  'sks.recCount': 'sesli anlatım',
+  'sks.noResults': 'Aradığın kıssa bulunamadı. Filtreleri temizlemeyi dene.',
+  'sks.infoNote':
+      'Karta dokununca kıssa sesli anlatılır (TTS, internet gerektirmez). '
+      'Hız ve uyku zamanlayıcısı alt çubuktan ayarlanır.',
+  'sks.continueListening': 'Kaldığın Yerden Devam Et',
+  'sks.continuePodcast': 'Podcast\'e Devam Et',
+  'sks.podcast': 'Podcast',
+  'sks.storyOfTheDay': '🕰️ Günün Kıssası',
+  'sks.searchHint': '🔍 Ara: başlık, konu (Sabır, Dua), seslendiren...',
+  'sks.all': 'Tümü',
+  'sks.allModes': 'Tüm Modlar',
+  'sks.filterSearch': 'arama',
+  'sks.filterAll': 'tümü',
+  'sks.modHuzur': 'Huzur',
+  'sks.modMotivasyon': 'Motivasyon',
+  'sks.modUyku': 'Uykudan Önce',
+  'sks.modCocuk': 'Çocuk İçin',
+  'sks.modOgrenme': 'Öğrenme',
+  'sks.sureMikro': '<5 dk',
+  'sks.sureKisa': '5-15 dk',
+  'sks.sureOrta': '15-30 dk',
+  'sks.sureUzun': '30+ dk',
+  'sks.nowPlaying': 'Şu an sesli anlatılıyor...',
+  'sks.offline': 'Çevrimdışı',
+  'sks.stop': 'Durdur',
+  'sks.listen': 'Dinle',
+  'sks.read': 'Oku',
+  'sks.download': 'İndir',
+  'sks.downloading': 'İndiriliyor...',
+  'sks.downloaded': 'İndirildi',
+  'sks.downloadDeleted': 'İndirme silindi.',
+  'sks.downloadedOk': 'Çevrimdışı için indirildi.',
+  'sks.downloadFailed': 'İndirilemedi.',
+  'sks.podcastInfo':
+      'Kesintisiz Kuran tilaveti, sohbet ve ilahi akışı. Karta dokununca '
+      'çalar; alt çubuktan hız ve uyku zamanlayıcısı kullanılabilir.',
+  'sks.streaming': 'Canlı akış devam ediyor...',
+  'sks.pausedResume': 'Duraklatıldı · dokunarak devam et',
+  'sks.speed': 'Oynatma hızı',
+  'sks.sleepTimer': 'Uyku zamanlayıcısı',
+  'sks.stopClose': 'Durdur ve kapat',
+  'sks.speedTitle': '⚡ Oynatma Hızı',
+  'sks.speedSet': 'Oynatma hızı: {hiz}',
+  'sks.sleepOff': 'Kapalı',
+  'sks.sleepMinutes': '{dk} dakika',
+  'sks.sleepEndOfSection': 'Bölüm sonunda dur',
+  'sks.sleepTitle': '🌙 Uyku Zamanlayıcısı',
+  'sks.sleepSub':
+      'Seçilen süre sonunda sesli anlatım otomatik durur.',
+  'sks.sleepOffMsg': 'Uyku zamanlayıcısı kapatıldı.',
+  'sks.sleepEndMsg': 'Bölüm bitince otomatik durur.',
+  'sks.sleepSetMsg': 'Uyku zamanlayıcısı: {dk} dakika.',
+  'sks.sleepDoneMsg': '🌙 Uyku zamanlayıcısı: anlatım durduruldu.',
+  'sks.ttsError': 'Seslendirme hatası:',
+  'sks.sourceUnreachable':
+      'Bu ses kaynağına ulaşılamadı. Bağlantınızı kontrol edin.',
+  'sks.sourceUnreachableRetry':
+      'Bu ses kaynağına ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin.',
+  'sks.ttsPackageMissing':
+      'Cihazınızda Türkçe seslendirme paketi yok veya seslendirme motoru '
+      'çalışmıyor. Cihaz Ayarları > Sistem > Diller ve giriş > Metin okuma > '
+      'Türkçe ses verisini yükleyin, sonra tekrar deneyin.',
+  'sks.ttsNotStarted':
+      'Cihazınızda Türkçe seslendirme başlatılamadı. Ses paketini kurunuz.',
+  'sks.ttsFeedback': 'Sesli anlatım başlatılamadı.',
 
   // ---------------- HADİS KÜTÜPHANESİ ----------------
   'hk.download': 'İndir',

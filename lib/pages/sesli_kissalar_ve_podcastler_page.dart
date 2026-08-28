@@ -27,6 +27,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/medya_indirme_servisi.dart';
 import '../services/renkler.dart';
@@ -186,7 +187,8 @@ class _SesliKissalarVePodcastlerPageState
       if (mounted) {
         setState(() {
           _ttsCalyor = false;
-          _ttsHata = 'Seslendirme hatası: $message';
+          _ttsHata =
+              '${AppLocalizations.of(context).t('sks.ttsError')} $message';
         });
       }
     });
@@ -234,8 +236,7 @@ class _SesliKissalarVePodcastlerPageState
           setState(() {
             _sesCalyor = false;
             _sesYukleniyor = false;
-            _sesHata =
-                'Bu ses kaynağına ulaşılamadı. Bağlantınızı kontrol edin.';
+            _sesHata = AppLocalizations.of(context).t('sks.sourceUnreachable');
           });
         }
       },
@@ -247,7 +248,7 @@ class _SesliKissalarVePodcastlerPageState
           _sesCalyor = false;
           _sesYukleniyor = false;
           _sesHata =
-              'Bu ses kaynağına ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin.';
+              AppLocalizations.of(context).t('sks.sourceUnreachableRetry');
         });
       },
     );
@@ -402,24 +403,20 @@ class _SesliKissalarVePodcastlerPageState
           _ttsCalyor = _ttsBasladi;
           _ttsHata = _ttsBasladi
               ? null
-              : 'Cihazınızda Türkçe seslendirme paketi yok veya '
-                    'seslendirme motoru çalışmıyor. Cihaz Ayarları > '
-                    'Sistem > Diller ve giriş > Metin okuma > Türkçe ses '
-                    'verisini yükleyin, sonra tekrar deneyin.';
+              : AppLocalizations.of(context).t('sks.ttsPackageMissing');
         });
       }
     } on TimeoutException {
       if (!mounted) return;
       setState(() {
         _ttsCalyor = false;
-        _ttsHata =
-            'Cihazınızda Türkçe seslendirme başlatılamadı. Ses paketini kurunuz.';
+        _ttsHata = AppLocalizations.of(context).t('sks.ttsNotStarted');
       });
     } catch (_) {
       if (mounted) {
         setState(() {
           _ttsCalyor = false;
-          _ttsHata = 'Sesli anlatım başlatılamadı.';
+          _ttsHata = AppLocalizations.of(context).t('sks.ttsFeedback');
         });
       }
     }
@@ -469,7 +466,7 @@ class _SesliKissalarVePodcastlerPageState
       setState(() {
         _sesYukleniyor = false;
         _sesHata =
-            'Bu ses kaynağına ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin.';
+            AppLocalizations.of(context).t('sks.sourceUnreachableRetry');
       });
     }
   }
@@ -529,6 +526,7 @@ class _SesliKissalarVePodcastlerPageState
 
   /// Oynatma hızı seçici.
   Future<void> _hizMenusu() async {
+    final l = AppLocalizations.of(context);
     final secili = await showModalBottomSheet<double>(
       context: context,
       backgroundColor: Renkler.yuzey,
@@ -545,9 +543,9 @@ class _SesliKissalarVePodcastlerPageState
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '⚡ Oynatma Hızı',
-                    style: TextStyle(
+                  Text(
+                    l.t('sks.speedTitle'),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -594,13 +592,14 @@ class _SesliKissalarVePodcastlerPageState
     if (_calanUrl != null) {
       await _sesPlayer.setPlaybackRate(secili);
     }
-    _bilgiGoster(
-      'Oynatma hızı: ${secili == secili.toInt() ? secili.toInt() : secili}×',
-    );
+    final hizGoster =
+        '${secili == secili.toInt() ? secili.toInt() : secili}×';
+    _bilgiGoster(l.t('sks.speedSet').replaceFirst('{hiz}', hizGoster));
   }
 
   /// Uyku zamanlayıcı menüsü.
   Future<void> _uykuMenusu() async {
+    final l = AppLocalizations.of(context);
     final secim = await showModalBottomSheet<int>(
       context: context,
       backgroundColor: Renkler.yuzey,
@@ -611,13 +610,25 @@ class _SesliKissalarVePodcastlerPageState
         return ValueListenableBuilder<int?>(
           valueListenable: SesliOynatmaStore.uykuDk,
           builder: (context, seciliDk, _) {
-            const secenekler = <(int, String)>[
-              (0, 'Kapalı'),
-              (15, '15 dakika'),
-              (30, '30 dakika'),
-              (45, '45 dakika'),
-              (60, '60 dakika'),
-              (-1, 'Bölüm sonunda dur'),
+            final secenekler = <(int, String)>[
+              (0, l.t('sks.sleepOff')),
+              (
+                15,
+                l.t('sks.sleepMinutes').replaceFirst('{dk}', '15')
+              ),
+              (
+                30,
+                l.t('sks.sleepMinutes').replaceFirst('{dk}', '30')
+              ),
+              (
+                45,
+                l.t('sks.sleepMinutes').replaceFirst('{dk}', '45')
+              ),
+              (
+                60,
+                l.t('sks.sleepMinutes').replaceFirst('{dk}', '60')
+              ),
+              (-1, l.t('sks.sleepEndOfSection')),
             ];
             return Padding(
               padding: const EdgeInsets.all(16),
@@ -625,18 +636,18 @@ class _SesliKissalarVePodcastlerPageState
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '🌙 Uyku Zamanlayıcısı',
-                    style: TextStyle(
+                  Text(
+                    l.t('sks.sleepTitle'),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    'Seçilen süre sonunda sesli anlatım otomatik durur.',
-                    style: TextStyle(color: Colors.white54, fontSize: 12),
+                  Text(
+                    l.t('sks.sleepSub'),
+                    style: const TextStyle(color: Colors.white54, fontSize: 12),
                   ),
                   const SizedBox(height: 12),
                   for (final (deger, etiket) in secenekler)
@@ -678,20 +689,23 @@ class _SesliKissalarVePodcastlerPageState
     if (secim == null) return;
     if (secim == 0) {
       SesliOynatmaStore.uykuZamanlayici(null);
-      _bilgiGoster('Uyku zamanlayıcısı kapatıldı.');
+      _bilgiGoster(l.t('sks.sleepOffMsg'));
     } else if (secim == -1) {
       // Doğal tamamlanma (TTS completion / onPlayerComplete) zaten durdurur.
       SesliOynatmaStore.uykuZamanlayici(null);
-      _bilgiGoster('Bölüm bitince otomatik durur.');
+      _bilgiGoster(l.t('sks.sleepEndMsg'));
     } else {
       SesliOynatmaStore.uykuZamanlayici(secim, durdugunda: _uykuBitti);
-      _bilgiGoster('Uyku zamanlayıcısı: $secim dakika.');
+      _bilgiGoster(
+        l.t('sks.sleepSetMsg').replaceFirst('{dk}', '$secim'),
+      );
     }
   }
 
   void _uykuBitti() {
+    final l = AppLocalizations.of(context);
     _tumuDurdur();
-    _bilgiGoster('🌙 Uyku zamanlayıcısı: anlatım durduruldu.');
+    _bilgiGoster(l.t('sks.sleepDoneMsg'));
   }
 
   // =========================================================================
@@ -700,19 +714,20 @@ class _SesliKissalarVePodcastlerPageState
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         backgroundColor: Renkler.seciliYuzey,
-        title: const Text('Sesli Kıssalar ve Podcastler'),
+        title: Text(l.t('sks.title')),
         bottom: TabBar(
           controller: _tablar,
           indicatorColor: Renkler.vurgu,
           labelColor: Renkler.vurgu,
           unselectedLabelColor: Colors.white54,
-          tabs: const [
-            Tab(text: '📖 Sesli Kıssalar'),
-            Tab(text: '🎙️ Podcastler & Radyo'),
+          tabs: [
+            Tab(text: l.t('sks.tabStories')),
+            Tab(text: l.t('sks.tabPodcasts')),
           ],
         ),
       ),
@@ -729,6 +744,7 @@ class _SesliKissalarVePodcastlerPageState
   // =========================================================================
 
   Widget _sesliKissalarBolumu() {
+    final l = AppLocalizations.of(context);
     final kisalar = _filtrelenmisKisalar();
     return Column(
       children: [
@@ -747,17 +763,17 @@ class _SesliKissalarVePodcastlerPageState
             padding: const EdgeInsets.all(16),
             children: [
               Text(
-                '${kisalar.length} sesli anlatım · ${_filtreOzeti()}',
+                '${kisalar.length} ${l.t('sks.recCount')} · ${_filtreOzeti()}',
                 style: const TextStyle(color: Colors.white38, fontSize: 11),
               ),
               const SizedBox(height: 8),
               if (kisalar.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40),
                   child: Center(
                     child: Text(
-                      'Aradığın kıssa bulunamadı. Filtreleri temizlemeyi dene.',
-                      style: TextStyle(color: Colors.white54, fontSize: 13),
+                      l.t('sks.noResults'),
+                      style: const TextStyle(color: Colors.white54, fontSize: 13),
                     ),
                   ),
                 ),
@@ -769,18 +785,40 @@ class _SesliKissalarVePodcastlerPageState
     );
   }
 
+  String _modAdi(String modId) {
+    final l = AppLocalizations.of(context);
+    return switch (modId) {
+      'huzur' => l.t('sks.modHuzur'),
+      'motivasyon' => l.t('sks.modMotivasyon'),
+      'uyku' => l.t('sks.modUyku'),
+      'cocuk' => l.t('sks.modCocuk'),
+      'ogrenme' => l.t('sks.modOgrenme'),
+      _ => modId,
+    };
+  }
+
+  String _sureEtiketi(String sureId) {
+    final l = AppLocalizations.of(context);
+    return switch (sureId) {
+      'mikro' => l.t('sks.sureMikro'),
+      'kisa' => l.t('sks.sureKisa'),
+      'orta' => l.t('sks.sureOrta'),
+      'uzun' => l.t('sks.sureUzun'),
+      _ => sureId,
+    };
+  }
+
   String _filtreOzeti() {
+    final l = AppLocalizations.of(context);
     final parcalar = <String>[];
     if (_sureFiltresi != null) {
-      parcalar.add(
-        _sureFiltreleri.firstWhere((s) => s.id == _sureFiltresi).etiket,
-      );
+      parcalar.add(_sureEtiketi(_sureFiltresi!));
     }
     if (_modSecimi != null) {
-      parcalar.add(_modlar.firstWhere((m) => m.id == _modSecimi).ad);
+      parcalar.add(_modAdi(_modSecimi!));
     }
-    if (_aramaSorgusu.trim().isNotEmpty) parcalar.add('arama');
-    return parcalar.isEmpty ? 'tümü' : parcalar.join(' · ');
+    if (_aramaSorgusu.trim().isNotEmpty) parcalar.add(l.t('sks.filterSearch'));
+    return parcalar.isEmpty ? l.t('sks.filterAll') : parcalar.join(' · ');
   }
 
   /// "Kaldığın Yerden Devam Et", "Günün Kıssası" ve bilgi notu.
@@ -803,7 +841,7 @@ class _SesliKissalarVePodcastlerPageState
                 padding: const EdgeInsets.only(bottom: 8),
                 child: _devamKarti(
                   ikon: Icons.play_circle_fill_rounded,
-                  baslik: 'Kaldığın Yerden Devam Et',
+                  baslik: AppLocalizations.of(context).t('sks.continueListening'),
                   alt: '${kissa.emoji} ${kissa.baslik} · ${kissa.sureEtiketi}',
                   onTap: () => _kissaDinle(kissa),
                 ),
@@ -816,14 +854,16 @@ class _SesliKissalarVePodcastlerPageState
               if (sonUrl == null) return const SizedBox.shrink();
               final kanallar = CanliYayinKonfigurasyonu.guncel.radyoKanallari;
               final kanal = kanallar.where((k) => k.url == sonUrl).firstOrNull;
-              final ad = SesliOynatmaStore.sonKanalAd.value ?? 'Podcast';
+              final ad = SesliOynatmaStore.sonKanalAd.value ??
+                  AppLocalizations.of(context).t('sks.podcast');
               if (kanal == null) return const SizedBox.shrink();
               final pozisyon = SesliOynatmaStore.podcastPozisyonMs.value;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: _devamKarti(
                   ikon: Icons.radio_rounded,
-                  baslik: 'Podcast\'e Devam Et',
+                  baslik:
+                      AppLocalizations.of(context).t('sks.continuePodcast'),
                   alt: pozisyon > 0 ? '$ad · ${_saniyeFormati(pozisyon)}' : ad,
                   onTap: () => _podcastDinle(kanal, devamEt: true),
                 ),
@@ -833,7 +873,8 @@ class _SesliKissalarVePodcastlerPageState
           if (_gununKissasi() case final gununKissasi?)
             _devamKarti(
               ikon: Icons.wb_twilight_rounded,
-              baslik: '🕰️ Günün Kıssası',
+              baslik:
+                  AppLocalizations.of(context).t('sks.storyOfTheDay'),
               alt:
                   '${gununKissasi.emoji} ${gununKissasi.baslik} · ${gununKissasi.sureEtiketi}',
               onTap: () => _kissaDinle(gununKissasi),
@@ -860,11 +901,10 @@ class _SesliKissalarVePodcastlerPageState
             boyut: 20,
           ),
           const SizedBox(width: 8),
-          const Expanded(
+          Expanded(
             child: Text(
-              'Karta dokununca kıssa sesli anlatılır (TTS, internet gerektirmez). '
-              'Hız ve uyku zamanlayıcısı alt çubuktan ayarlanır.',
-              style: TextStyle(
+              AppLocalizations.of(context).t('sks.infoNote'),
+              style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 11.5,
                 height: 1.35,
@@ -954,7 +994,7 @@ class _SesliKissalarVePodcastlerPageState
             controller: _aramaKontrol,
             style: const TextStyle(color: Colors.white, fontSize: 13),
             decoration: InputDecoration(
-              hintText: '🔍 Ara: başlık, konu (Sabır, Dua), seslendiren...',
+              hintText: AppLocalizations.of(context).t('sks.searchHint'),
               hintStyle: const TextStyle(color: Colors.white38, fontSize: 12.5),
               prefixIcon: const UcdIkon(
                 ikon: Icons.search_rounded,
@@ -992,13 +1032,13 @@ class _SesliKissalarVePodcastlerPageState
               scrollDirection: Axis.horizontal,
               children: [
                 _filtreChip(
-                  etiket: '⏱ Tümü',
+                  etiket: '⏱ ${AppLocalizations.of(context).t('sks.all')}',
                   secili: _sureFiltresi == null,
                   onTap: () => setState(() => _sureFiltresi = null),
                 ),
                 for (final s in _sureFiltreleri)
                   _filtreChip(
-                    etiket: s.etiket,
+                    etiket: _sureEtiketi(s.id),
                     secili: _sureFiltresi == s.id,
                     onTap: () => setState(() => _sureFiltresi = s.id),
                   ),
@@ -1006,13 +1046,14 @@ class _SesliKissalarVePodcastlerPageState
                 Container(width: 1, color: Renkler.cerceve),
                 const SizedBox(width: 6),
                 _filtreChip(
-                  etiket: '✨ Tüm Modlar',
+                  etiket:
+                      '✨ ${AppLocalizations.of(context).t('sks.allModes')}',
                   secili: _modSecimi == null,
                   onTap: () => setState(() => _modSecimi = null),
                 ),
                 for (final m in _modlar)
                   _filtreChip(
-                    etiket: m.ad,
+                    etiket: _modAdi(m.id),
                     ikon: UcdIkon(ikon: m.ikon, boyut: 12, renk: Colors.white54),
                     secili: _modSecimi == m.id,
                     onTap: () => setState(() => _modSecimi = m.id),
@@ -1117,7 +1158,10 @@ class _SesliKissalarVePodcastlerPageState
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  aktif ? '🔊 Şu an sesli anlatılıyor...' : kissa.ozet,
+                  aktif
+                      ? '🔊 '
+                            '${AppLocalizations.of(context).t('sks.nowPlaying')}'
+                      : kissa.ozet,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -1151,7 +1195,7 @@ class _SesliKissalarVePodcastlerPageState
                     if (kissa.sesUrl == null)
                       _kucukRozet(
                         ikon: Icons.offline_pin_rounded,
-                        etiket: 'Çevrimdışı',
+                        etiket: AppLocalizations.of(context).t('sks.offline'),
                         renk: Colors.greenAccent,
                       ),
                   ],
@@ -1162,13 +1206,15 @@ class _SesliKissalarVePodcastlerPageState
                   children: [
                     _kucukButon(
                       ikon: aktif ? Icons.stop_rounded : Icons.play_arrow_rounded,
-                      etiket: aktif ? 'Durdur' : 'Dinle',
+                      etiket: aktif
+                          ? AppLocalizations.of(context).t('sks.stop')
+                          : AppLocalizations.of(context).t('sks.listen'),
                       renk: aktif ? Colors.redAccent : Renkler.vurgu,
                       onTap: () => _kissaDinle(kissa),
                     ),
                     _kucukButon(
                       ikon: Icons.menu_book_rounded,
-                      etiket: 'Oku',
+                      etiket: AppLocalizations.of(context).t('sks.read'),
                       renk: Colors.lightBlueAccent,
                       onTap: () => Navigator.push(
                         context,
@@ -1265,6 +1311,7 @@ class _SesliKissalarVePodcastlerPageState
           valueListenable: MedyaIndirmeServisi.instance.calisan,
           builder: (context, calisan, _) {
             final indiriyor = calisan.contains(url);
+            final l = AppLocalizations.of(context);
             return _kucukButon(
               ikon: indirildi
                   ? Icons.offline_pin_rounded
@@ -1272,19 +1319,19 @@ class _SesliKissalarVePodcastlerPageState
                   ? Icons.hourglass_top_rounded
                   : Icons.download_rounded,
               etiket: indirildi
-                  ? 'İndirildi'
+                  ? l.t('sks.downloaded')
                   : indiriyor
-                  ? 'İndiriliyor...'
-                  : 'İndir',
+                  ? l.t('sks.downloading')
+                  : l.t('sks.download'),
               renk: indirildi ? Colors.greenAccent : Colors.orangeAccent,
               onTap: () async {
                 if (indirildi) {
                   await MedyaIndirmeServisi.instance.sil(url);
-                  _bilgiGoster('İndirme silindi.');
+                  _bilgiGoster(l.t('sks.downloadDeleted'));
                 } else if (!indiriyor) {
                   final ok = await MedyaIndirmeServisi.instance.indir(url, ad);
                   _bilgiGoster(
-                    ok ? 'Çevrimdışı için indirildi.' : 'İndirilemedi.',
+                    ok ? l.t('sks.downloadedOk') : l.t('sks.downloadFailed'),
                   );
                 }
               },
@@ -1317,12 +1364,10 @@ class _SesliKissalarVePodcastlerPageState
               children: [
                 UcdIkon(ikon: Icons.radio_rounded, renk: Renkler.vurgu),
                 const SizedBox(width: 10),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Kesintisiz Kuran tilaveti, sohbet ve ilahi akışı. '
-                    'Karta dokununca çalar; alt çubuktan hız ve uyku '
-                    'zamanlayıcısı kullanılabilir.',
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    AppLocalizations.of(context).t('sks.podcastInfo'),
+                    style: const TextStyle(color: Colors.white70, fontSize: 12),
                   ),
                 ),
               ],
@@ -1397,8 +1442,10 @@ class _SesliKissalarVePodcastlerPageState
                 Text(
                   caliyor
                       ? (_sesCalyor
-                            ? '🔴 Canlı akış devam ediyor...'
-                            : 'Duraklatıldı · dokunarak devam et')
+                            ? '🔴 '
+                                  '${AppLocalizations.of(context).t('sks.streaming')}'
+                            : AppLocalizations.of(context)
+                                  .t('sks.pausedResume'))
                       : kanal.aciklama,
                   style: const TextStyle(color: Colors.white54, fontSize: 11.5),
                   maxLines: 2,
@@ -1539,7 +1586,7 @@ class _SesliKissalarVePodcastlerPageState
                 ),
               ),
               IconButton(
-                tooltip: 'Oynatma hızı',
+                tooltip: AppLocalizations.of(context).t('sks.speed'),
                 icon: ValueListenableBuilder<double>(
                   valueListenable: SesliOynatmaStore.hiz,
                   builder: (context, hiz, _) => UcdIkon(
@@ -1551,7 +1598,7 @@ class _SesliKissalarVePodcastlerPageState
                 onPressed: _hizMenusu,
               ),
               IconButton(
-                tooltip: 'Uyku zamanlayıcısı',
+                tooltip: AppLocalizations.of(context).t('sks.sleepTimer'),
                 icon: ValueListenableBuilder<int?>(
                   valueListenable: SesliOynatmaStore.uykuKalanDk,
                   builder: (context, kalan, _) => UcdIkon(
@@ -1563,7 +1610,7 @@ class _SesliKissalarVePodcastlerPageState
                 onPressed: _uykuMenusu,
               ),
               IconButton(
-                tooltip: 'Durdur ve kapat',
+                tooltip: AppLocalizations.of(context).t('sks.stopClose'),
                 icon: const UcdIkon(ikon: Icons.close_rounded, renk: Colors.white54, boyut: 22),
                 onPressed: _tumuDurdur,
               ),

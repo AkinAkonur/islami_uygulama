@@ -31,6 +31,7 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/kabe_mini_oynatici.dart';
 import '../services/renkler.dart';
@@ -99,8 +100,8 @@ class _KabeCanliPageState extends State<KabeCanliPage>
 
   /// Başlık: Kâbe (Mescid-i Haram) veya Mescid-i Nebevî (Medine).
   String get _baslik => widget.medineYayini
-      ? 'Mescid-i Nebevî Canlı Yayın'
-      : 'Kâbe-i Muazzama Canlı Yayın';
+      ? AppLocalizations.of(context).t('kbc.titleMedine')
+      : AppLocalizations.of(context).t('kbc.title');
 
   /// Video modunda denenecek HLS kaynakları. Medine modunda Kâbe'nin
   /// `/live/quran` akışı yerine Resmî Sünnet kanalının `/live/sunnah`
@@ -220,39 +221,40 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Renkler.kart,
-        title: const Row(
+        title: Row(
           children: [
-            UcdIkon(ikon: Icons.wifi_tethering_rounded, renk: Colors.orangeAccent, boyut: 24),
-            SizedBox(width: 10),
+            const UcdIkon(ikon: Icons.wifi_tethering_rounded, renk: Colors.orangeAccent, boyut: 24),
+            const SizedBox(width: 10),
             Expanded(
               child: Text(
-                'Hücresel veri uyarısı',
-                style: TextStyle(color: Colors.white, fontSize: 17),
+                AppLocalizations.of(context).t('kbc.dataDialogTitle'),
+                style: const TextStyle(color: Colors.white, fontSize: 17),
               ),
             ),
           ],
         ),
-        content: const Text(
-          'Şu an hücresel veri (mobil internet) kullanıyorsunuz. '
-          'Canlı yayın yüksek veri tüketebilir.\n\n'
-          '🎧 Ses Modu veri kullanımını yaklaşık %80 azaltır.',
-          style: TextStyle(color: Colors.white70, height: 1.4),
+        content: Text(
+          AppLocalizations.of(context).t('kbc.dataDialogBody'),
+          style: const TextStyle(color: Colors.white70, height: 1.4),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç'),
+            child: Text(AppLocalizations.of(context).t('c.cancel')),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Devam Et'),
+            child: Text(AppLocalizations.of(context).t('mod.devam')),
           ),
         ],
       ),
     );
     if (onay != true) {
-      setState(() => _dayanikliHata = 'Yayın veri tasarrufu için başlatılmadı.');
+      setState(
+        () => _dayanikliHata =
+            AppLocalizations.of(context).t('kbc.notStartedData'),
+      );
       return;
     }
     await onaylaninca();
@@ -302,7 +304,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   Future<void> _moduDegistir(YayinModu yeniModu) async {
     if (yeniModu == _modu) return;
     if (yeniModu == YayinModu.video && !_baglantiVar) {
-      _bilgiGoster('İnternet bağlantısı yok');
+      _bilgiGoster(AppLocalizations.of(context).t('kbc.noInternet'));
       return;
     }
     setState(() {
@@ -348,9 +350,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       setState(() {
         _sesHata = true;
         _sesCalyor = false;
-        _dayanikliHata =
-            'Ses akışı açılamadı. Bu cihazda HLS ses akışı desteklenmiyor '
-            'olabilir; videoya geçmeyi deneyin.';
+        _dayanikliHata = AppLocalizations.of(context).t('kbc.audioError');
       });
     }
   }
@@ -387,9 +387,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     if (index >= kaynaklar.length) {
       setState(() {
         _hlsHata = true;
-        _dayanikliHata =
-            'Canlı yayın kaynaklarına şu anda ulaşılamadı. İnternet '
-            'bağlantınızı kontrol edip Tekrar Dene butonunu kullanınız.';
+        _dayanikliHata = AppLocalizations.of(context).t('kbc.hlsError');
       });
       return;
     }
@@ -533,6 +531,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       } catch (_) {}
       return;
     }
+    final l = AppLocalizations.of(context);
     _videoKontrol = kontrol;
     kontrol.setLooping(true);
     kontrol.addListener(_hlsDurumDinle);
@@ -542,13 +541,16 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     });
     await kontrol.play();
     await _ekraniAcikTut(true);
-    _bilgiGoster('Yayın mini pencereden geri alındı ($kaynakAdi)');
+    _bilgiGoster(l
+        .t('kbc.miniPlayerRestored')
+        .replaceFirst('{kaynak}', kaynakAdi));
   }
 
   Future<void> _miniOynaticiyaGonder() async {
     final c = _videoKontrol;
     if (c == null || !c.value.isInitialized) {
-      _bilgiGoster('Yayın bağlanınca mini pencere kullanılabilir');
+      _bilgiGoster(
+          AppLocalizations.of(context).t('kbc.miniPlayerNotReady'));
       return;
     }
     c.removeListener(_hlsDurumDinle);
@@ -568,7 +570,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     if (_hlsIndex >= 0 && _hlsIndex < kaynaklar.length) {
       return kaynaklar[_hlsIndex].ad;
     }
-    return 'Canlı Yayın';
+    return AppLocalizations.of(context).t('kbc.titleCanli');
   }
 
   // =========================================================================
@@ -683,14 +685,13 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _anaIcerik() {
+    final l = AppLocalizations.of(context);
     if (_desteklenmiyor) {
       return _videoKutu(
         _mesajPaneli(
           ikon: Icons.live_tv_rounded,
-          baslik: 'Canlı yayın bu cihazda desteklenmiyor',
-          alt:
-              'Kâbe canlı yayınını Android, iOS, web, Windows ve macOS '
-              'cihazlarda izleyebilirsiniz.',
+          baslik: l.t('kbc.unsupportedTitle'),
+          alt: l.t('kbc.unsupportedSub'),
         ),
       );
     }
@@ -699,18 +700,19 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _videoOynatici() {
+    final l = AppLocalizations.of(context);
     final video = _videoKontrol;
     if (video == null) {
       if (_dayanikliHata != null) {
         return _mesajPaneli(
           ikon: Icons.cloud_off_rounded,
-          baslik: 'Yayına bağlanılamadı',
+          baslik: l.t('kbc.connectFail'),
           alt: _dayanikliHata!,
           buton: FilledButton.icon(
             style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
             onPressed: _tekrarDene,
             icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white, boyut: 18),
-            label: const Text('Tekrar Dene'),
+            label: Text(l.t('kbc.retry')),
           ),
         );
       }
@@ -752,20 +754,18 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _sesKutu() {
+    final l = AppLocalizations.of(context);
     if (_sesHata) {
       return _videoKutu(
         _mesajPaneli(
           ikon: Icons.headset_off_rounded,
-          baslik: 'Ses akışı başlatılamadı',
-          alt:
-              _dayanikliHata ??
-              'Ses akışına ulaşılamadı. Bağlantıyı kontrol edip tekrar '
-                  'deneyin ya da video moduna geçin.',
+          baslik: l.t('kbc.sessionErrorTitle'),
+          alt: _dayanikliHata ?? l.t('kbc.sessionErrorAlt'),
           buton: FilledButton.icon(
             style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
             onPressed: _tekrarDene,
             icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white, boyut: 18),
-            label: const Text('Tekrar Dene'),
+            label: Text(l.t('kbc.retry')),
           ),
         ),
       );
@@ -805,9 +805,9 @@ class _KabeCanliPageState extends State<KabeCanliPage>
                       ),
                     ),
                     const SizedBox(height: 14),
-                    const Text(
-                      '🎧 Kâbe Ses Modu',
-                      style: TextStyle(
+                    Text(
+                      l.t('kbc.voiceMode'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -816,8 +816,8 @@ class _KabeCanliPageState extends State<KabeCanliPage>
                     const SizedBox(height: 6),
                     Text(
                       _sesCalyor
-                          ? 'Ezan, tilavet ve tavaf atmosferi canlı dinleniyor'
-                          : 'Dokunarak oynat / duraklat',
+                          ? l.t('kbc.voiceModePlaying')
+                          : l.t('kbc.tapPlayPause'),
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 12.5,
@@ -838,14 +838,14 @@ class _KabeCanliPageState extends State<KabeCanliPage>
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      UcdIkon(ikon: Icons.circle, renk: Colors.white, boyut: 8),
-                      SizedBox(width: 6),
+                      const UcdIkon(ikon: Icons.circle, renk: Colors.white, boyut: 8),
+                      const SizedBox(width: 6),
                       Text(
-                        'CANLI SES',
-                        style: TextStyle(
+                        l.t('kbc.liveSes'),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
@@ -881,12 +881,13 @@ class _KabeCanliPageState extends State<KabeCanliPage>
 
   // ---------------- Mod seçici (📺 Tam Ekran İzle / 🎧 Ses Modu) ----------------
   Widget _modSecici() {
+    final l = AppLocalizations.of(context);
     return Row(
       children: [
         Expanded(
           child: _secimButonu(
             ikon: Icons.play_circle_rounded,
-            etiket: '📺 Video',
+            etiket: l.t('kbc.video'),
             secili: _modu == YayinModu.video,
             onTap: () => _moduDegistir(YayinModu.video),
           ),
@@ -895,7 +896,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         Expanded(
           child: _secimButonu(
             ikon: Icons.headphones_rounded,
-            etiket: '🎧 Ses Modu (Arkaplanda Çal)',
+            etiket: l.t('kbc.voiceModeOption'),
             secili: _modu == YayinModu.ses,
             onTap: () => _moduDegistir(YayinModu.ses),
           ),
@@ -948,6 +949,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _kaynakSatiri() {
+    final l = AppLocalizations.of(context);
     final kaynakAdi = _hlsAdi();
     return Row(
       children: [
@@ -955,7 +957,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            'Yayın kaynağı: $kaynakAdi',
+            l.t('kbc.sourceLabel').replaceFirst('{kaynak}', kaynakAdi),
             style: const TextStyle(color: Colors.white70, fontSize: 12.5),
           ),
         ),
@@ -964,6 +966,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _agDurumuSatiri() {
+    final l = AppLocalizations.of(context);
     return Row(
       children: [
         UcdIkon(
@@ -975,8 +978,8 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         Expanded(
           child: Text(
             _baglantiVar
-                ? 'Bağlantı aktif · kopma durumunda otomatik yeniden deneme'
-                : 'İnternet yok - bağlantı gelince yayın otomatik başlar',
+                ? l.t('kbc.connActive')
+                : l.t('kbc.connNone'),
             style: const TextStyle(color: Colors.white70, fontSize: 12),
           ),
         ),
@@ -985,6 +988,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _islemSatiri() {
+    final l = AppLocalizations.of(context);
     return Row(
       children: [
         Expanded(
@@ -995,7 +999,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
             ),
             onPressed: _tekrarDene,
             icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white70, boyut: 18),
-            label: const Text('Tekrar Dene'),
+            label: Text(l.t('c.retry')),
           ),
         ),
         const SizedBox(width: 10),
@@ -1007,12 +1011,12 @@ class _KabeCanliPageState extends State<KabeCanliPage>
             ),
             onPressed: _modu == YayinModu.video ? _miniOynaticiyaGonder : null,
             icon: const UcdIkon(ikon: Icons.picture_in_picture_alt_rounded, renk: Colors.white70, boyut: 18),
-            label: const Text('Mini Oynatıcıya Gönder'),
+            label: Text(l.t('kb.miniPlayer')),
           ),
         ),
         const SizedBox(width: 10),
         IconButton(
-          tooltip: 'Tam ekran',
+          tooltip: l.t('kbc.fullscreen'),
           onPressed: _tamEkraniDegistir,
           icon: UcdIkon(
             ikon: _tamEkran ? Icons.fullscreen_exit_rounded : Icons.fullscreen_rounded,
@@ -1028,7 +1032,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       color: Colors.black54,
       borderRadius: BorderRadius.circular(30),
       child: IconButton(
-        tooltip: 'Tam ekrandan çık',
+        tooltip: AppLocalizations.of(context).t('kb.exitFullscreen'),
         onPressed: _tamEkraniDegistir,
         icon: const UcdIkon(ikon: Icons.fullscreen_exit_rounded, renk: Colors.white),
       ),
@@ -1046,14 +1050,14 @@ class _KabeCanliPageState extends State<KabeCanliPage>
           color: Colors.redAccent.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: const Row(
+        child: Row(
           children: [
-            UcdIkon(ikon: Icons.cloud_off_rounded, renk: Colors.white, boyut: 18),
-            SizedBox(width: 8),
+            const UcdIkon(ikon: Icons.cloud_off_rounded, renk: Colors.white, boyut: 18),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'İnternet bağlantısı yok - otomatik yeniden deneme beklemede',
-                style: TextStyle(color: Colors.white, fontSize: 12),
+                AppLocalizations.of(context).t('kbc.connBanner'),
+                style: const TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),
           ],
@@ -1078,7 +1082,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
       color: Colors.black.withValues(alpha: 0.65),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           SizedBox(
             width: 34,
             height: 34,
@@ -1087,10 +1091,10 @@ class _KabeCanliPageState extends State<KabeCanliPage>
               color: Colors.white,
             ),
           ),
-          SizedBox(height: 14),
+          const SizedBox(height: 14),
           Text(
-            'Canlı yayın bağlanıyor...',
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            AppLocalizations.of(context).t('kbc.buffering'),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
           ),
         ],
       ),
@@ -1196,16 +1200,13 @@ class _KabeCanliPageState extends State<KabeCanliPage>
   }
 
   Widget _bilgiKartlari() {
+    final l = AppLocalizations.of(context);
     final anaBaslik = widget.medineYayini
-        ? 'Mescid-i Nebevî 7/24 Canlı'
-        : 'Mescid-i Haram 7/24 Canlı';
+        ? l.t('kbc.cardMedineTitle')
+        : l.t('kbc.cardHaramTitle');
     final anaDetay = widget.medineYayini
-        ? 'Ravza-i Mutahhara ve Yeşil Kubbe çevresindeki canlı kamera '
-            'akışı. Sünnet kanalı, Mescid-i Nebevî\'den beş vakit namazı '
-            'yayınlar.'
-        : 'Tavaf alanı ve Hacerü\'l-Esved çevresindeki canlı kamera '
-            'akışı. Namaz vakitlerinde haram imamlarının kıldırdığı '
-            'namazlar yayınlanır.';
+        ? l.t('kbc.cardMedineBody')
+        : l.t('kbc.cardHaramBody');
     return Column(
       children: [
         _bilgiKarti(
@@ -1217,29 +1218,20 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         _bilgiKarti(
           ikon: Icons.sync_alt_rounded,
           renk: Colors.tealAccent,
-          baslik: 'Otomatik Yedek Kaynak',
-          alt:
-              'YouTube resmî yayını birincil kaynaktır; kesilirse HLS yedeği '
-              'otomatik devreye girer. Ağ kopmasında bağlantı gelince yayın '
-              'kendiliğinden yeniden başlar.',
+          baslik: l.t('kbc.cardBackupTitle'),
+          alt: l.t('kbc.cardBackupBody'),
         ),
         _bilgiKarti(
           ikon: Icons.phonelink_erase_rounded,
           renk: Colors.orangeAccent,
-          baslik: 'Veri Tasarrufu',
-          alt:
-              'Hücresel veride uyarı gösterilir. 🎧 Ses Modu, mobil veri ve '
-              'pil kullanımını yaklaşık %80 azaltır; YouTube ise kaliteyi '
-              'internet hızına göre otomatik ayarlar (360p-1080p).',
+          baslik: l.t('kbc.cardDataTitle'),
+          alt: l.t('kbc.cardDataBody'),
         ),
         _bilgiKarti(
           ikon: Icons.picture_in_picture_alt_rounded,
           renk: Colors.amberAccent,
-          baslik: 'Mini Oynatıcı (PiP)',
-          alt:
-              'Mini Oynatıcı butonu ile yayını köşedeki küçük pencerede '
-              'sürdürün: Kıssalar, Soru-Cevap gibi diğer sayfalarda '
-              'gezinirken yayın kesintisiz devam eder.',
+          baslik: l.t('kbc.cardPipTitle'),
+          alt: l.t('kbc.cardPipBody'),
         ),
       ],
     );

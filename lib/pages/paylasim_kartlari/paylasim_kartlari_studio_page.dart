@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../widgets/kart_sekilleri.dart';
 import 'paylasim_kartlari_verileri.dart';
@@ -100,7 +101,9 @@ class _PaylasimKartlariStudioPageState
       id: 'ozel_kart',
       tip: _tip,
       baslik: baslik,
-      kaynak: kaynak.isEmpty ? 'Kendi mesajım' : kaynak,
+      kaynak: kaynak.isEmpty
+          ? AppLocalizations.of(context).t('pks.myMessage')
+          : kaynak,
       metin: metin,
       arapca: arapca.isEmpty ? null : arapca,
     );
@@ -193,6 +196,7 @@ class _PaylasimKartlariStudioPageState
   Future<void> _paylas() async {
     final icerik = _icerik;
     if (icerik == null || _paylasiliyor) return;
+    final l = AppLocalizations.of(context);
     setState(() => _paylasiliyor = true);
     try {
       final context = _kartAnahtari.currentContext;
@@ -207,18 +211,25 @@ class _PaylasimKartlariStudioPageState
       final dosya = File('${dizin.path}/paylasim_${icerik.id}.png');
       await dosya.writeAsBytes(byteData.buffer.asUint8List());
 
+      final paylasimMetni =
+          '${icerik.metin}\n${icerik.kaynak}\n\n${l.t('pks.shareText').replaceFirst('{uygulama}', uygulamaAdi)}';
       await SharePlus.instance.share(
         ShareParams(
           files: [XFile(dosya.path, mimeType: 'image/png')],
-          text:
-              '"${icerik.metin}"\n${icerik.kaynak}\n\nBu içerik "$uygulamaAdi" uygulaması ile hazırlandı. #ManeviYolculuk',
+          text: paylasimMetni,
         ),
       );
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text('Paylaşım hazırlanamadı: $e')));
+          ..showSnackBar(
+            SnackBar(
+              content: Text(
+                l.t('pks.shareError').replaceFirst('{hata}', '$e'),
+              ),
+            ),
+          );
       }
     } finally {
       if (mounted) setState(() => _paylasiliyor = false);
@@ -228,18 +239,19 @@ class _PaylasimKartlariStudioPageState
   @override
   Widget build(BuildContext context) {
     final icerik = _icerik;
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         backgroundColor: Renkler.seciliYuzey,
         elevation: 0,
-        title: const Text(
-          'Paylaşım Kartları Stüdyosu',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+        title: Text(
+          l.t('pks.title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
         ),
         actions: [
           IconButton(
-            tooltip: 'Rastgele kart',
+            tooltip: l.t('pks.randomCard'),
             icon: const UcdIkon(ikon: Icons.shuffle_rounded, renk: Colors.white70, boyut: 24),
             onPressed: _rastgele,
           ),
@@ -611,7 +623,9 @@ class _Filigran extends StatelessWidget {
         const SizedBox(width: 6),
         Flexible(
           child: Text(
-            '$uygulamaAdi ile oluşturuldu',
+            AppLocalizations.of(context)
+                .t('pks.createdWith')
+                .replaceFirst('{uygulama}', uygulamaAdi),
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -756,7 +770,7 @@ class _TemaSecici extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Tema Seçin',
+          AppLocalizations.of(context).t('pks.chooseTheme'),
           style: TextStyle(
             color: Colors.white,
             fontSize: 14,
@@ -876,13 +890,13 @@ class _Secenekler extends StatelessWidget {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               dense: true,
-              title: const Text(
-                'Arapça metni göster',
-                style: TextStyle(color: Colors.white, fontSize: 13),
+              title: Text(
+                AppLocalizations.of(context).t('pks.showArabic'),
+                style: const TextStyle(color: Colors.white, fontSize: 13),
               ),
-              subtitle: const Text(
-                'Kartın alt bölümünde orijinal metin',
-                style: TextStyle(color: Colors.white54, fontSize: 11),
+              subtitle: Text(
+                AppLocalizations.of(context).t('pks.showArabicSub'),
+                style: const TextStyle(color: Colors.white54, fontSize: 11),
               ),
               value: arapcaGoster,
               activeThumbColor: Renkler.vurgu,
@@ -932,12 +946,13 @@ class _IcerikSecici extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'İçerik Seçin',
-          style: TextStyle(
+          l.t('pks.chooseContent'),
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -951,7 +966,11 @@ class _IcerikSecici extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8),
                 child: ChoiceChip(
                   label: Text(
-                    t == KartIcerikTipi.dua ? 'Dua' : t.name.toUpperCase(),
+                    switch (t) {
+                      KartIcerikTipi.ayet => l.t('pks.typeAyet'),
+                      KartIcerikTipi.hadis => l.t('pks.typeHadis'),
+                      KartIcerikTipi.dua => l.t('pks.typeDua'),
+                    },
                     style: const TextStyle(fontSize: 12),
                   ),
                   selected: tip == t,
@@ -995,7 +1014,7 @@ class _IcerikSecici extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Kendi İçeriğini Yaz',
+                          l.t('pks.writeOwn'),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 13,
@@ -1004,8 +1023,8 @@ class _IcerikSecici extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'Kısa bir ayet, hadis, dua ya da kendi mesajını yaz',
-                          style: TextStyle(color: Colors.white54, fontSize: 11),
+                          l.t('pks.writeOwnSub'),
+                          style: const TextStyle(color: Colors.white54, fontSize: 11),
                         ),
                       ],
                     ),
@@ -1041,8 +1060,8 @@ class _IcerikSecici extends StatelessWidget {
             height: 84,
             child: Center(
               child: Text(
-                'Bu kategoride içerik bulunamadı.',
-                style: TextStyle(color: Colors.white54, fontSize: 12),
+                l.t('pks.noContent'),
+                style: const TextStyle(color: Colors.white54, fontSize: 12),
               ),
             ),
           )
@@ -1128,6 +1147,7 @@ class _OzelIcerikEditoru extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Material(
       color: Renkler.kart,
       shape: RoundedRectangleBorder(
@@ -1142,12 +1162,12 @@ class _OzelIcerikEditoru extends StatelessWidget {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               dense: true,
-              title: const Text(
-                'Arapçasını otomatik yaz',
-                style: TextStyle(color: Colors.white, fontSize: 13),
+              title: Text(
+                l.t('pks.autoArabic'),
+                style: const TextStyle(color: Colors.white, fontSize: 13),
               ),
               subtitle: Text(
-                ceviriliyor ? 'Çevriliyor…' : 'Türkçe metni Arapçaya çevir',
+                ceviriliyor ? l.t('pks.translating') : l.t('pks.translateHint'),
                 style: const TextStyle(color: Colors.white54, fontSize: 11),
               ),
               value: otomatikArapca,
@@ -1166,7 +1186,7 @@ class _OzelIcerikEditoru extends StatelessWidget {
                 height: 1.4,
               ),
               decoration: InputDecoration(
-                hintText: 'Mesajını, ayet meali ya da duanı yaz…',
+                hintText: l.t('pks.messageHint'),
                 hintStyle: TextStyle(color: Colors.white38, fontSize: 12),
                 filled: true,
                 fillColor: Renkler.zemin,
@@ -1194,7 +1214,7 @@ class _OzelIcerikEditoru extends StatelessWidget {
               onChanged: (_) => onIcerikDegis(),
               style: const TextStyle(color: Colors.white, fontSize: 13),
               decoration: InputDecoration(
-                hintText: 'Kaynak / imza (opsiyonel, örn: "Senin için")',
+                hintText: l.t('pks.sourceHint'),
                 hintStyle: TextStyle(color: Colors.white38, fontSize: 12),
                 filled: true,
                 fillColor: Renkler.zemin,
@@ -1225,7 +1245,7 @@ class _OzelIcerikEditoru extends StatelessWidget {
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.right,
               decoration: InputDecoration(
-                hintText: 'Arapça metin (opsiyonel)',
+                hintText: l.t('pks.arabicHint'),
                 hintStyle: TextStyle(color: Colors.white38, fontSize: 12),
                 filled: true,
                 fillColor: Renkler.zemin,
@@ -1291,7 +1311,9 @@ class _PaylasButonu extends StatelessWidget {
             )
           : UcdIkon(ikon: Icons.share_rounded, renk: Colors.black, boyut: 20),
       label: Text(
-        paylasiliyor ? 'Kart hazırlanıyor…' : 'WhatsApp & Instagram\'da Paylaş',
+        paylasiliyor
+            ? AppLocalizations.of(context).t('pks.preparing')
+            : AppLocalizations.of(context).t('pks.shareCta'),
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Renkler.vurgu,

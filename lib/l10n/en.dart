@@ -525,6 +525,175 @@ const Map<String, String> enDil = {
   // ---------------- KAABA LIVE ----------------
   'kb.miniPlayer': 'Send to Mini Player',
   'kb.exitFullscreen': 'Exit fullscreen',
+  'kbc.title': 'Kaaba Live Broadcast',
+  'kbc.titleMedine': 'Masjid an-Nabawi Live Broadcast',
+  'kbc.titleCanli': 'Live Broadcast',
+  'kbc.video': '📺 Video',
+  'kbc.voiceMode': '🎧 Kaaba Audio Mode',
+  'kbc.voiceModeOption': '🎧 Audio Mode (Play in Background)',
+  'kbc.voiceModePlaying': 'Adhan, recitation and tawaf atmosphere live',
+  'kbc.tapPlayPause': 'Tap to play / pause',
+  'kbc.liveSes': 'LIVE AUDIO',
+  'kbc.retry': 'Retry',
+  'kbc.fullscreen': 'Fullscreen',
+  'kbc.connActive':
+      'Connection active · retries automatically on disconnection',
+  'kbc.connNone': 'No internet - broadcast starts automatically when connected',
+  'kbc.connBanner': 'No internet connection - automatic retry pending',
+  'kbc.sourceLabel': 'Broadcast source: {kaynak}',
+  'kbc.connectFail': 'Could not connect to the broadcast',
+  'kbc.hlsError':
+      'Live broadcast sources are currently unreachable. Check your '
+      'internet connection and use the Retry button.',
+  'kbc.audioError':
+      'Could not start the audio stream. This device may not support '
+      'HLS audio streaming; try switching to video.',
+  'kbc.notStartedData': 'Broadcast not started to save data.',
+  'kbc.noInternet': 'No internet connection',
+  'kbc.sessionErrorTitle': 'Could not start audio stream',
+  'kbc.sessionErrorAlt':
+      'Could not reach the audio stream. Check your connection and try '
+      'again, or switch to video mode.',
+  'kbc.unsupportedTitle': 'Live broadcast not supported on this device',
+  'kbc.unsupportedSub':
+      'You can watch the Kaaba live broadcast on Android, iOS, web, '
+      'Windows and macOS devices.',
+  'kbc.miniPlayerRestored': 'Broadcast restored from mini player ({kaynak})',
+  'kbc.miniPlayerNotReady':
+      'The mini player becomes available once the broadcast starts',
+  'kbc.buffering': 'Connecting to live broadcast...',
+  'kbc.dataDialogTitle': 'Cellular data warning',
+  'kbc.dataDialogBody':
+      'You are currently using cellular data (mobile internet). '
+      'A live broadcast can consume a lot of data.\n\n'
+      '🎧 Audio Mode reduces data usage by about 80%.',
+  'kbc.cardMedineTitle': 'Prophet\'s Mosque 24/7 Live',
+  'kbc.cardHaramTitle': 'The Sacred Mosque 24/7 Live',
+  'kbc.cardMedineBody':
+      'Live camera feed around the Rawdah and the Green Dome. '
+      'The Sunnah channel broadcasts all five daily prayers from '
+      'the Prophet\'s Mosque.',
+  'kbc.cardHaramBody':
+      'Live camera feed around the tawaf area and the Black Stone. '
+      'Prayers led by the Haram imams are broadcast at prayer times.',
+  'kbc.cardBackupTitle': 'Automatic Backup Source',
+  'kbc.cardBackupBody':
+      'The official YouTube broadcast is the primary source; if it '
+      'cuts out, the HLS backup takes over automatically. If the '
+      'network drops, the broadcast resumes on its own once '
+      'connected again.',
+  'kbc.cardDataTitle': 'Data Saving',
+  'kbc.cardDataBody':
+      'A warning is shown on cellular data. 🎧 Audio Mode reduces '
+      'mobile data and battery usage by about 80%; YouTube '
+      'automatically adjusts quality to your internet speed '
+      '(360p-1080p).',
+  'kbc.cardPipTitle': 'Mini Player (PiP)',
+  'kbc.cardPipBody':
+      'Use the Mini Player button to keep the broadcast in a small '
+      'corner window: the stream continues uninterrupted while you '
+      'browse other pages such as Stories and Q&A.',
+
+  // ---------------- SHARING CARDS ----------------
+  'pks.title': 'Sharing Cards Studio',
+  'pks.randomCard': 'Random card',
+  'pks.shareText':
+      'This content was created with the "{uygulama}" app. #ManeviYolculuk',
+  'pks.shareError': 'Could not prepare the share: {hata}',
+  'pks.createdWith': 'Created with {uygulama}',
+  'pks.myMessage': 'My message',
+  'pks.typeAyet': 'Verse',
+  'pks.typeHadis': 'Hadith',
+  'pks.typeDua': 'Dua',
+  'pks.chooseTheme': 'Choose Theme',
+  'pks.chooseContent': 'Choose Content',
+  'pks.showArabic': 'Show Arabic text',
+  'pks.showArabicSub': 'Original text in the bottom section of the card',
+  'pks.writeOwn': 'Write Your Own Content',
+  'pks.writeOwnSub': 'Write a short verse, hadith, dua or your own message',
+  'pks.noContent': 'No content found in this category.',
+  'pks.autoArabic': 'Auto-write the Arabic',
+  'pks.translating': 'Translating…',
+  'pks.translateHint': 'Translate Turkish text into Arabic',
+  'pks.messageHint': 'Write your message, verse meaning or dua…',
+  'pks.sourceHint': 'Source / signature (optional, e.g. "For you")',
+  'pks.arabicHint': 'Arabic text (optional)',
+  'pks.preparing': 'Preparing card…',
+  'pks.shareCta': 'Share on WhatsApp & Instagram',
+
+  // ---------------- AUDIO STORIES & PODCASTS ----------------
+  'sks.title': 'Audio Stories & Podcasts',
+  'sks.tabStories': '📖 Audio Stories',
+  'sks.tabPodcasts': '🎙️ Podcasts & Radio',
+  'sks.recCount': 'audio narrations',
+  'sks.noResults':
+      'Your story was not found. Try clearing the filters.',
+  'sks.infoNote':
+      'Tap a card to have the story narrated aloud (TTS, no internet '
+      'needed). Speed and sleep timer are set from the bottom bar.',
+  'sks.continueListening': 'Continue Where You Left Off',
+  'sks.continuePodcast': 'Continue Podcast',
+  'sks.podcast': 'Podcast',
+  'sks.storyOfTheDay': '🕰️ Story of the Day',
+  'sks.searchHint':
+      '🔍 Search: title, topic (Patience, Dua), narrator...',
+  'sks.all': 'All',
+  'sks.allModes': 'All Modes',
+  'sks.filterSearch': 'search',
+  'sks.filterAll': 'all',
+  'sks.modHuzur': 'Peace',
+  'sks.modMotivasyon': 'Motivation',
+  'sks.modUyku': 'Before Sleep',
+  'sks.modCocuk': 'For Kids',
+  'sks.modOgrenme': 'Learning',
+  'sks.sureMikro': '<5 min',
+  'sks.sureKisa': '5-15 min',
+  'sks.sureOrta': '15-30 min',
+  'sks.sureUzun': '30+ min',
+  'sks.nowPlaying': 'Now being narrated aloud...',
+  'sks.offline': 'Offline',
+  'sks.stop': 'Stop',
+  'sks.listen': 'Listen',
+  'sks.read': 'Read',
+  'sks.download': 'Download',
+  'sks.downloading': 'Downloading...',
+  'sks.downloaded': 'Downloaded',
+  'sks.downloadDeleted': 'Download deleted.',
+  'sks.downloadedOk': 'Downloaded for offline use.',
+  'sks.downloadFailed': 'Could not download.',
+  'sks.podcastInfo':
+      'Continuous Quran recitation, talks and hymn streams. Tap a card to '
+      'play; use the bottom bar for speed and sleep timer.',
+  'sks.streaming': 'Live stream ongoing...',
+  'sks.pausedResume': 'Paused · tap to continue',
+  'sks.speed': 'Playback speed',
+  'sks.sleepTimer': 'Sleep timer',
+  'sks.stopClose': 'Stop and close',
+  'sks.speedTitle': '⚡ Playback Speed',
+  'sks.speedSet': 'Playback speed: {hiz}',
+  'sks.sleepOff': 'Off',
+  'sks.sleepMinutes': '{dk} minutes',
+  'sks.sleepEndOfSection': 'Stop at end of section',
+  'sks.sleepTitle': '🌙 Sleep Timer',
+  'sks.sleepSub':
+      'Audio narration stops automatically when the selected time ends.',
+  'sks.sleepOffMsg': 'Sleep timer turned off.',
+  'sks.sleepEndMsg': 'Stops automatically when the section ends.',
+  'sks.sleepSetMsg': 'Sleep timer: {dk} minutes.',
+  'sks.sleepDoneMsg': '🌙 Sleep timer: narration stopped.',
+  'sks.ttsError': 'Narration error:',
+  'sks.sourceUnreachable':
+      'Could not reach this audio source. Check your connection.',
+  'sks.sourceUnreachableRetry':
+      'Could not reach this audio source. Check your connection and try again.',
+  'sks.ttsPackageMissing':
+      'Your device has no Turkish text-to-speech package or the engine is '
+      'not working. Go to Device Settings > System > Languages & input > '
+      'Text-to-speech > load Turkish voice data, then try again.',
+  'sks.ttsNotStarted':
+      'Turkish narration could not be started on this device. Install the '
+      'voice package.',
+  'sks.ttsFeedback': 'Could not start narration.',
 
   // ---------------- HADITH LIBRARY ----------------
   'hk.download': 'Download',

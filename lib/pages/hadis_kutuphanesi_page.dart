@@ -242,7 +242,11 @@ Expanded(
           ),
         ),
         subtitle: Text(
-          '${kitap.hadisSayisi} hadis • ${kitap.bolumSayisi} bölüm • ${kitap.boyutMetni}',
+          AppLocalizations.of(context)
+              .t('hkd.bookMeta')
+              .replaceFirst('{hadis}', '${kitap.hadisSayisi}')
+              .replaceFirst('{bolum}', '${kitap.bolumSayisi}')
+              .replaceFirst('{boyut}', kitap.boyutMetni),
           style: const TextStyle(color: Colors.white70, fontSize: 12),
         ),
         trailing: Row(
@@ -252,7 +256,7 @@ Expanded(
               const UcdIkon(ikon: Icons.offline_pin_rounded, renk: Colors.greenAccent, boyut: 18)
             else
               IconButton(
-                tooltip: 'İndir',
+                tooltip: AppLocalizations.of(context).t('hkd.download'),
                 onPressed: () => _kitapAc(kitap),
                 icon: const UcdIkon(ikon: Icons.download_rounded, renk: Colors.white54, boyut: 20),
               ),
@@ -280,13 +284,14 @@ class _IndirmeDialogu extends StatefulWidget {
 
 class _IndirmeDialoguState extends State<_IndirmeDialogu> {
   double _oran = 0;
-  String _durum = 'Hazırlanıyor…';
+  String _durum = '';
   String? _hata;
   String? _hataDetay;
 
   @override
   void initState() {
     super.initState();
+    _durum = AppLocalizations.of(context).t('hkd.preparing');
     WidgetsBinding.instance.addPostFrameCallback((_) => _baslat());
   }
 
@@ -295,7 +300,7 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
       _hata = null;
       _hataDetay = null;
       _oran = 0;
-      _durum = 'İndiriliyor…';
+      _durum = AppLocalizations.of(context).t('hkd.downloading');
     });
     try {
       final servis = HadisKutuphanesiService.instance;
@@ -324,9 +329,10 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
           detay.contains('TimeoutException') ||
           detay.contains('ClientException');
       setState(() {
+        final l = AppLocalizations.of(context);
         _hata = agHatasi
-            ? 'İndirme başarısız oldu. İnternet bağlantınızı kontrol edin ve tekrar deneyin.'
-            : 'İndirme başarısız oldu.';
+            ? l.t('hkd.downloadErrorNetwork')
+            : l.t('hkd.downloadError');
         _hataDetay = agHatasi ? null : detay;
       });
     }
@@ -334,6 +340,7 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return AlertDialog(
       backgroundColor: Renkler.kart,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -377,12 +384,12 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
         if (_hata == null)
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç'),
+            child: Text(l.t('hkd.cancel')),
           )
         else ...[
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Kapat'),
+            child: Text(l.t('hkd.close')),
           ),
           FilledButton.icon(
             style: FilledButton.styleFrom(
@@ -391,7 +398,7 @@ class _IndirmeDialoguState extends State<_IndirmeDialogu> {
             ),
             onPressed: _baslat,
             icon: const UcdIkon(ikon: Icons.refresh_rounded, renk: Colors.white70, boyut: 16),
-            label: const Text('Tekrar Dene'),
+            label: Text(l.t('hkd.retry')),
           ),
         ],
       ],
@@ -442,7 +449,9 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
       setState(() => _bolumler = bolumler);
     } catch (e) {
       if (!mounted) return;
-      setState(() => _hata = 'Bölümler alınamadı: $e');
+      setState(() => _hata = AppLocalizations.of(context)
+          .t('hkd.sectionsError')
+          .replaceFirst('{hata}', e.toString()));
     }
   }
 
@@ -475,6 +484,7 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
@@ -490,7 +500,7 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: 'Kitabı kaldır',
+            tooltip: l.t('hkd.removeBook'),
             onPressed: _kaldir,
             icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white54),
           ),
@@ -506,23 +516,24 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
   }
 
   Future<void> _kaldir() async {
+    final l = AppLocalizations.of(context);
     final onay = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Renkler.kart,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(
-          'Kitabı kaldır',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          l.t('hkd.removeBook'),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         content: Text(
-          '${widget.kitap.adYerli} cihazınızdan silinecek. İsterseniz yeniden indirebilirsiniz.',
+          l.t('hkd.removeBookConfirm').replaceFirst('{kitap}', widget.kitap.adYerli),
           style: const TextStyle(color: Colors.white70),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Vazgeç'),
+            child: Text(l.t('hkd.cancel')),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
@@ -530,7 +541,7 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
               foregroundColor: Colors.white,
             ),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Sil'),
+            child: Text(l.t('hkd.delete')),
           ),
         ],
       ),
@@ -542,6 +553,7 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
   }
 
   Widget _aramaCubugu() {
+    final l = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: TextField(
@@ -550,7 +562,7 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
         style: const TextStyle(color: Colors.white),
         cursorColor: Renkler.vurgu,
         decoration: InputDecoration(
-          hintText: 'Bu kitapta ara…',
+          hintText: l.t('hkd.searchHint'),
           hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
           prefixIcon: const UcdIkon(ikon: Icons.search_rounded, renk: Colors.white38, boyut: 20),
           suffixIcon: _arama.text.isNotEmpty
@@ -600,7 +612,9 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
       children: [
         Text(
-          '${bolumler.length} Bölüm',
+          AppLocalizations.of(context)
+              .t('hkd.sectionCount')
+              .replaceFirst('{adet}', '${bolumler.length}'),
           style: const TextStyle(color: Colors.white54, fontSize: 11),
         ),
         const SizedBox(height: 8),
@@ -627,7 +641,9 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
           ),
         ),
         subtitle: Text(
-          '${bolum.hadisSayisi} hadis',
+          AppLocalizations.of(context)
+              .t('hkd.sectionHadithCount')
+              .replaceFirst('{adet}', '${bolum.hadisSayisi}'),
           style: const TextStyle(color: Colors.white54, fontSize: 11),
         ),
         trailing: const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white38),
@@ -649,10 +665,10 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
       return Center(child: CircularProgressIndicator(color: Renkler.vurgu));
     }
     if (_sonuclar.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
-          'Sonuç bulunamadı.',
-          style: TextStyle(color: Colors.white54),
+          AppLocalizations.of(context).t('hkd.searchNoResult'),
+          style: const TextStyle(color: Colors.white54),
         ),
       );
     }
@@ -660,7 +676,9 @@ class _KitapSayfasiState extends State<_KitapSayfasi> {
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
       children: [
         Text(
-          '${_sonuclar.length} sonuç',
+          AppLocalizations.of(context)
+              .t('hkd.searchResultCount')
+              .replaceFirst('{adet}', '${_sonuclar.length}'),
           style: const TextStyle(color: Colors.white54, fontSize: 11),
         ),
         const SizedBox(height: 8),
