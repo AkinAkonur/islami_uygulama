@@ -111,7 +111,7 @@ class _IlhamPageState extends State<IlhamPage> {
         ? TimeOfDay(hour: mevcut.saat, minute: mevcut.dakika)
         : const TimeOfDay(hour: 8, minute: 30);
 
-    final kaydedildi = await showModalBottomSheet<bool>(
+    final kaydedildi = await showModalBottomSheet<Object>(
       context: context,
       backgroundColor: Renkler.kart,
       isScrollControlled: true,
@@ -237,7 +237,7 @@ class _IlhamPageState extends State<IlhamPage> {
         IlhamHatirlatma(saat: zaman.hour, dakika: zaman.minute),
       );
       await GercekBildirimler.ilhamHatirlatmasiPlanla();
-      if (mounted) {
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(AppLocalizations.of(context).t('il.reminderSet'))),
         );
@@ -245,7 +245,7 @@ class _IlhamPageState extends State<IlhamPage> {
     } else if (kaydedildi == 'sil') {
       await IlhamStore.hatirlatmaKaldir();
       await GercekBildirimler.ilhamHatirlatmasiPlanla();
-      if (mounted) {
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(AppLocalizations.of(context).t('il.reminderRemoved'))),
         );

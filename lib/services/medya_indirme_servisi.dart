@@ -167,7 +167,7 @@ class MedyaIndirmeServisi {
     }
   }
 
-  /// Dosya adı üretir: url'nin son parçası (boşsa ses_<zaman>).
+  /// Dosya adı üretir: url'nin son parçası (boşsa ses_[zaman]).
   String _dosyaAdi(String url) {
     final parcali = Uri.parse(url).pathSegments;
     if (parcali.isNotEmpty) {

@@ -49,8 +49,9 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
     if (parcalar.length != 2) return;
     final sureNo = int.tryParse(parcalar[0].trim());
     final ayetNo = int.tryParse(parcalar[1].trim());
+    final l = AppLocalizations.of(context);
     if (sureNo == null || ayetNo == null || sureNo < 1 || sureNo > 114) {
-      _gosterMesaj(AppLocalizations.of(context).t('aa.invalidRef'));
+      _gosterMesaj(l.t('aa.invalidRef'));
       return;
     }
     try {
@@ -59,7 +60,7 @@ class _AyetAramaPageState extends State<AyetAramaPage> {
         _ayetDetayGoster(ayetler[0]);
       }
     } catch (_) {
-      _gosterMesaj(AppLocalizations.of(context).t('aa.verseNotFound'));
+      _gosterMesaj(l.t('aa.verseNotFound'));
     }
   }
 

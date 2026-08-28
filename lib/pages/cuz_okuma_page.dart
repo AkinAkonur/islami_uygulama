@@ -94,6 +94,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   Future<void> _cal(int index) async {
     final ayet = _ayetler![index];
     final url = CuzVerileri.ayetSesUrl(ayet.sureNo, ayet.ayetNo);
+    final l = AppLocalizations.of(context);
     try {
       await _player.stop();
       await _player.play(UrlSource(url));
@@ -104,7 +105,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
         });
       }
     } catch (_) {
-      _gosterMesaj(AppLocalizations.of(context).t('co.noSound'));
+      _gosterMesaj(l.t('co.noSound'));
     }
   }
 

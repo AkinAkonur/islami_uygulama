@@ -553,7 +553,7 @@ class _DuaOdalariPageState extends State<DuaOdalariPage> {
                     '${dua['arapca']}\n\n${dua['turkce']}\n\n${dua['kaynak']}',
               ),
             );
-            if (context.mounted) {
+            if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(l.t('do.copiedSnackbar')),
@@ -1406,7 +1406,7 @@ class _OdaDetayPageState extends State<_OdaDetayPage> {
                     '${dua['arapca']}\n\n${dua['turkce']}\n\n${dua['kaynak']}',
               ),
             );
-            if (context.mounted) {
+            if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(l.t('do.copiedSnackbar')),

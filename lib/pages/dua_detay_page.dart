@@ -65,7 +65,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
     var gunler = mevcut?.gunler.toSet() ?? <int>{};
     TimeOfDay zaman = varsayilanZaman;
 
-    final kaydedildi = await showModalBottomSheet<bool>(
+    final kaydedildi = await showModalBottomSheet<Object>(
       context: context,
       backgroundColor: Renkler.kart,
       isScrollControlled: true,
@@ -245,7 +245,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
         ),
       );
       await GercekBildirimler.duaHatirlatmalariPlanla();
-      if (mounted) {
+      if (context.mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(l.t('dd.reminderSet'))));
@@ -253,7 +253,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
     } else if (kaydedildi == 'sil') {
       await DuaStore.hatirlatmaSil(dua.id);
       await GercekBildirimler.duaHatirlatmalariPlanla();
-      if (mounted) {
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(l.t('dd.reminderRemoved'))),
         );
@@ -298,6 +298,8 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
 
   Future<void> _paylas() async {
     if (_paylasiliyor) return;
+    final l = AppLocalizations.of(context);
+    final paylasimMetni = l.t('dd.shareText').replaceFirst('{title}', dua.baslik);
     setState(() => _paylasiliyor = true);
     try {
       final boyut = _kartAnahtari.currentContext?.size;
@@ -317,9 +319,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
       await SharePlus.instance.share(
         ShareParams(
           files: [XFile(dosya.path, mimeType: 'image/png')],
-          text: AppLocalizations.of(context)
-              .t('dd.shareText')
-              .replaceFirst('{title}', dua.baslik),
+          text: paylasimMetni,
         ),
       );
     } catch (e) {
