@@ -17,7 +17,6 @@ import 'ummet/etkinlikler_page.dart';
 import 'ummet/manevi_halkalar_page.dart';
 import 'ummet/islami_akis_page.dart';
 import 'ummet/dunya_ummeti_page.dart';
-import 'ummet/ozel_sureler_page.dart';
 import 'ummet/mubarek_sureler_page.dart';
 import '../widgets/kart_sekilleri.dart';
 
@@ -220,17 +219,6 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => DuaOdalariPage()),
-              ),
-            ),
-            _modulKart(
-              context,
-              Icons.auto_stories_rounded,
-              l.t('sb.mSureler'),
-              l.t('sb.mSurelerSub'),
-              Colors.amber,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => OzelSurelerPage()),
               ),
             ),
             _modulKart(

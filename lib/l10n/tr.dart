@@ -377,16 +377,6 @@ const Map<String, String> trDil = {
   // ---------------- AYARLAR ----------------
   'set.methodInfo2': 'Namaz vakitleri Güneşin konumuna göre hesaplanır.',
 
-  // ---------------- ÖZEL SURELER & DUALAR ----------------
-  'oz.title': 'Seçme Sureler & Dualar',
-  'oz.subtitle': 'Kur\'an Tilaveti & Dua',
-  'oz.desc': 'Yasin, Mülk, Fâtiha, Vâki\'a ve daha fazlası...',
-  'oz.play': 'Dinle',
-  'oz.pause': 'Duraklat',
-  'oz.arabic': 'Arapça',
-  'oz.translation': 'Türkçe Meal',
-  'oz.nosound': 'Ses dosyası mevcut değil',
-
   // ---------------- ORTAK ----------------
   'c.cancel': 'Vazgeç',
   'c.delete': 'Evet, Kalıcı Sil',
@@ -1724,8 +1714,6 @@ const Map<String, String> trDil = {
   'sb.mZincirSub': '"Gazze için 100.000 Fetih" • 1, 5 veya 10 üstlen',
   'sb.mOdalar': 'Dua Odaları',
   'sb.mOdalarSub': 'Şifa • Borç/Rızık • Sınav • Aile Huzuru • Hidayet',
-  'sb.mSureler': 'Seçme Sureler & Dualar',
-  'sb.mSurelerSub': 'Yâsîn, Mülk, Vâkıa, Fâtiha ve daha fazlası • sesli dinleme',
   'sb.mMubarek': 'Mübarek Sureler & Dualar',
   'sb.mMubarekSub': 'Yâsîn, Mülk, Vâkıa, Haşr ve daha fazlası • arapça, okunuş ve mana',
   'sb.mHatim': 'Hatim & Yâsîn Halkaları',

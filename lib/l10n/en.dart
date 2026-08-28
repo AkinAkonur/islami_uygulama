@@ -378,16 +378,6 @@ const Map<String, String> enDil = {
   // ---------------- SETTINGS ----------------
   'set.methodInfo2': 'Prayer times are calculated based on the Sun\'s position.',
 
-  // ---------------- SELECTED SURES & DUAS ----------------
-  'oz.title': 'Selected Sures & Duas',
-  'oz.subtitle': 'Quran Recitation & Dua',
-  'oz.desc': 'Ya-Sin, Al-Mulk, Al-Fatiha, Al-Waqiah and more...',
-  'oz.play': 'Listen',
-  'oz.pause': 'Pause',
-  'oz.arabic': 'Arabic',
-  'oz.translation': 'Turkish Translation',
-  'oz.nosound': 'Audio not available',
-
   // ---------------- COMMON ----------------
   'c.cancel': 'Cancel',
   'c.delete': 'Yes, Delete Permanently',
@@ -1728,8 +1718,6 @@ const Map<String, String> enDil = {
   'sb.mZincirSub': '"100,000 Fath for Gaza" • Take on 1, 5 or 10',
   'sb.mOdalar': 'Du\'a Rooms',
   'sb.mOdalarSub': 'Healing • Debt/Rizq • Exams • Family Peace • Guidance',
-  'sb.mSureler': 'Selected Surahs & Du\'as',
-  'sb.mSurelerSub': 'Ya-Sin, Mulk, Waqiah, Fatiha and more • listen aloud',
   'sb.mMubarek': 'Blessed Surahs & Du\'as',
   'sb.mMubarekSub': 'Ya-Sin, Mulk, Waqiah, Hashr and more • Arabic, transliteration & meaning',
   'sb.mHatim': 'Khatm & Ya-Sin Circles',
