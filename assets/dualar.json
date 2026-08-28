@@ -1314,41 +1314,13 @@
     },
     {
       "id": "cevsen",
-      "ad": "Büyük ve Meşhur Dualar / Cevşen",
+      "ad": "Büyük ve Meşhur Dualar",
       "emoji": "🛡️",
       "renk": "#F09A6E",
       "gruplar": [
         {
-          "ad": "Cevşen-i Kebir (Bölüm bölüm / Bab bab)",
+          "ad": "İsmi Azam ve Esma-i Hüsna",
           "dualar": [
-            {
-              "id": "cevsen-1-bab",
-              "baslik": "Cevşen-i Kebir 1. Bâb (Giriş)",
-              "arapca": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ — يَا مَنْ هُوَ الْقَائِمُ عَلَى كُلِّ نَفْسٍ بِمَا كَسَبَتْ يَا مَنْ لَا يُضَايِفُ الْعَائِلَ الَّذِي لَا يَجِدُ كَاسِبًا يَا مَنْ لَا يَذْهَبُ الْعَائِلُ الَّذِي لَا يَجِدُ طَالِبًا",
-              "okunus": "Bismillâhirrahmânirrahîm. Yâ men hüve'l-kâimü alâ külli nefsin bimâ kesebet. Yâ men lâ yudâyifü'l-âilellezî lâ yecidü kâsibâ. Yâ men lâ yezhebü'l-âilellezî lâ yecidü tâlibâ.",
-              "meal": "Rahman ve Rahim olan Allah'ın adıyla. Ey herkesin kazandığının karşılığını veren! Ey kazanç bulamayan aileye (rızkı) asla daraltmayan! Ey talep edeni olmayan aileyi (hiç) yitirmeyen! (Cevşen-i Kebir 100 bâbtan oluşur; bu giriş bâbıdır.)",
-              "kaynak": "Cevşen-i Kebir, 1. Bâb",
-              "etiketler": [
-                "cevşen",
-                "esma",
-                "korunma"
-              ],
-              "fazilet": "Büyük ve meşhur korunma (hıfz) dualarındandır. Musibet, sıkıntı ve zorluk zamanlarında okunması tavsiye edilir."
-            },
-            {
-              "id": "cevsen-son-bab",
-              "baslik": "Cevşen Son Bâb Duası",
-              "arapca": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَابْنُ أَمَتِكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي مَا تَقَدَّمَ مِنْ ذَنْبِي وَمَا تَأَخَّرَ فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
-              "okunus": "Allâhümme ente rabbî lâ ilâhe illâ ente halaktenî ve ene abdüke ve'bnu emetik, ve ene alâ ahdike ve va'dike me-steta'tü. Eûzü bike min şerri mâ sana'tü. Ebûü leke bi-ni'metike aleyye ve ebûü leke bi-zenbî. Fağfir lî mâ tekaddeme min zenbî ve mâ teahhara, fe-innehû lâ yağfiru'z-zünûbe illâ ente.",
-              "meal": "Allah'ım! Sen benim Rabbimsin, senden başka ilah yoktur. Beni Sen yarattın; ben Senin kulunum. Yaptıklarımın şerrinden sana sığınırım. Bana verdiğin nimetleri ve günahımı itiraf ediyorum. Geçmiş ve gelecek günahlarımı bağışla; günahları senden başka bağışlayan yoktur. (Cevşen'in her bâbından sonra okunan duadır.)",
-              "kaynak": "Cevşen-i Kebir, Son Bâb",
-              "etiketler": [
-                "cevşen",
-                "tevbe",
-                "istiğfar"
-              ],
-              "fazilet": "Büyük ve meşhur korunma (hıfz) dualarındandır. Musibet, sıkıntı ve zorluk zamanlarında okunması tavsiye edilir."
-            },
             {
               "id": "cevsen-ismi-azam",
               "baslik": "İsmi Azam Duası",

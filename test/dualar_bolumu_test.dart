@@ -172,7 +172,7 @@ void main() {
 
       expect(find.text('Manevi Dualar Hazinesi'), findsOneWidget);
       expect(find.text('Günlük Yaşam Duaları'), findsOneWidget);
-      expect(find.text('Büyük ve Meşhur Dualar / Cevşen'), findsOneWidget);
+      expect(find.text('Büyük ve Meşhur Dualar'), findsOneWidget);
       expect(find.text('Favoriler'), findsOneWidget);
       expect(find.text('Kendi Dualarım'), findsOneWidget);
     });
