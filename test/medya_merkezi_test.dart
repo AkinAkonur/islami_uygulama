@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/daha_fazla_page.dart';
 import 'package:islami_uygulama/pages/kabe_canli_page.dart';
 import 'package:islami_uygulama/pages/mekke_medine_sanal_tur_page.dart';
 import 'package:islami_uygulama/pages/sesli_kissalar_ve_podcastler_page.dart';
 
+Widget uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
+
 void main() {
   testWidgets('Medya Merkezi bolumu Kabe canli yayin hero kartini icerir', (
     tester,
   ) async {
-    await tester.pumpWidget(const MaterialApp(home: DahaFazlaPage()));
+    await tester.pumpWidget(uygulama(const DahaFazlaPage()));
     await tester.pump();
 
     expect(find.text('🎧 İnteraktif Medya Merkezi'), findsOneWidget);
@@ -23,14 +39,14 @@ void main() {
     expect(find.textContaining('📺 Tam Ekran İzle'), findsOneWidget);
     expect(find.text('Sesli Kıssalar ve Podcastler'), findsOneWidget);
     expect(find.text('Mekke & Medine 360° Sanal Tur'), findsOneWidget);
-    expect(find.text('Dini Radyo & İlahi'), findsOneWidget);
+    expect(find.text('Dini Radyo & İlahi Akışı'), findsOneWidget);
   });
 
   testWidgets('Sesli Kıssalar ve Podcastler sayfasi sekmeleriyle yuklenir', (
     tester,
   ) async {
     await tester.pumpWidget(
-      const MaterialApp(home: SesliKissalarVePodcastlerPage()),
+      uygulama(const SesliKissalarVePodcastlerPage()),
     );
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
@@ -54,7 +70,7 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(const MaterialApp(home: MekkeMedineSanalTurPage()));
+    await tester.pumpWidget(uygulama(const MekkeMedineSanalTurPage()));
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
 
@@ -75,7 +91,7 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(const MaterialApp(home: DahaFazlaPage()));
+    await tester.pumpWidget(uygulama(const DahaFazlaPage()));
     await tester.pump();
 
     await tester.tap(find.text('📺 Tam Ekran İzle'));

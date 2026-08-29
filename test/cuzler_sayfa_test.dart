@@ -12,7 +12,7 @@ import 'package:islami_uygulama/pages/hatim_duasi_page.dart';
 import 'package:islami_uygulama/services/cuz_hatim_store.dart';
 import 'package:islami_uygulama/services/cuz_verileri.dart';
 
-Widget _uygulama(Widget child) {
+Widget uygulama(Widget child) {
   return MaterialApp(
     locale: const Locale('tr'),
     localizationsDelegates: const [
@@ -70,7 +70,7 @@ void main() {
 
   group('CuzlerPage', () {
     testWidgets('30 cüzü ve ilerlemeyi gösterir', (tester) async {
-      await tester.pumpWidget(_uygulama(const CuzlerPage()));
+      await tester.pumpWidget(uygulama(const CuzlerPage()));
       await tester.pumpAndSettle();
 
       expect(find.text('Hatim İlerlemesi'), findsOneWidget);
@@ -82,7 +82,7 @@ void main() {
     });
 
     testWidgets('cüze dokununca okuma sayfası açılır', (tester) async {
-      await tester.pumpWidget(_uygulama(const CuzlerPage()));
+      await tester.pumpWidget(uygulama(const CuzlerPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('1. Cüz'));
@@ -96,7 +96,7 @@ void main() {
     });
 
     testWidgets('okunma işareti listeye yansır', (tester) async {
-      await tester.pumpWidget(_uygulama(const CuzlerPage()));
+      await tester.pumpWidget(uygulama(const CuzlerPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('2. Cüz'));
@@ -117,7 +117,7 @@ void main() {
 
   group('HatimDuasiPage', () {
     testWidgets('dua metinlerini içerir', (tester) async {
-      await tester.pumpWidget(_uygulama(const HatimDuasiPage()));
+      await tester.pumpWidget(uygulama(const HatimDuasiPage()));
       await tester.pumpAndSettle();
 
       expect(find.text('Hatim Duası'), findsOneWidget);

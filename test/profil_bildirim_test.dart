@@ -81,7 +81,7 @@ void main() {
     expect(find.text('Bugün'), findsOneWidget);
   });
 
-  testWidgets("Sessiz cipi rozeti gizler", (tester) async {
+  testWidgets("Sessiz mod rozeti gizler", (tester) async {
     await buyukEkran(tester);
     tohumBildirim('İkindi 16:45', 'bugun');
 
@@ -93,11 +93,21 @@ void main() {
 
     expect(find.text('1'), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.volume_off));
+    await tester.tap(find.byIcon(Icons.notifications_none));
     await tester.pumpAndSettle();
 
+    expect(find.text('Sessiz vakit'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.nights_stay_rounded));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Sessiz mod AÇIK'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.arrow_back_ios_new));
+    await tester.pumpAndSettle();
+    await tester.pump();
+
     expect(find.text('1'), findsNothing);
-    expect(find.text('Sessiz'), findsOneWidget);
   });
 
   testWidgets("Dar ekranda ust satir tasmaz", (tester) async {

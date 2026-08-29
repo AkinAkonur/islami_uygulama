@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/ilham_page.dart';
 import 'package:islami_uygulama/services/ilham_store.dart';
 import 'package:islami_uygulama/services/ilham_verileri.dart';
+
+Widget uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
 
 void main() {
   setUp(() {
@@ -64,7 +80,7 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(const MaterialApp(home: IlhamPage()));
+    await tester.pumpWidget(uygulama(const IlhamPage()));
     await tester.pumpAndSettle();
 
     expect(find.text('İlham & Hikmet Köşesi'), findsOneWidget);
@@ -72,10 +88,10 @@ void main() {
     expect(find.text('Arşiv'), findsOneWidget);
     expect(find.text('Favoriler'), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.favorite_border).first);
+    await tester.tap(find.byIcon(Icons.favorite_border_rounded).first);
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.favorite), findsWidgets);
+    expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
 
     await tester.tap(find.text('Favoriler'));
     await tester.pumpAndSettle();

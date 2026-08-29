@@ -27,7 +27,7 @@ void main() {
     expect(find.text('Günlük Görevler'), findsOneWidget);
     expect(find.text('Cami & Konum'), findsOneWidget);
     expect(find.text('Hedef Çarkı'), findsOneWidget);
-    expect(find.text('Hızlı Tesbih'), findsOneWidget);
+    expect(find.text('Hızlı Tesbih'), findsWidgets);
     expect(find.textContaining('Ramazan Modu'), findsWidgets);
     expect(find.text('Keşfet'), findsOneWidget);
     expect(find.text('Widget Rehberi'), findsOneWidget);
@@ -80,7 +80,7 @@ void main() {
     expect(find.text('Manevi Hedef Çarkı'), findsOneWidget);
     expect(find.text('0 / 5 · hedef: 5 sayfa'), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.add_circle_outline).first);
+    await tester.tap(find.byIcon(Icons.add_circle_outline_rounded).first);
     await tester.pumpAndSettle();
     expect(find.text('1 / 5 · hedef: 5 sayfa'), findsOneWidget);
   });
@@ -103,7 +103,7 @@ void main() {
     expect(find.text('İlmihal'), findsOneWidget);
     expect(find.text('0 / 3 · hedef: 3 adet'), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.tap(find.byIcon(Icons.delete_outline_rounded));
     await tester.pumpAndSettle();
 
     expect(find.text('İlmihal'), findsNothing);
@@ -115,13 +115,13 @@ void main() {
     await tester.pumpWidget(const MyApp());
     await tester.pump();
 
-    await tester.tap(find.text('Hızlı Tesbih'));
+    await tester.tap(find.text('Hızlı Tesbih').first);
     await tester.pumpAndSettle();
 
     expect(find.text('Dijital Akıllı Tesbih (Zikirmatik)'), findsOneWidget);
     expect(find.text('Sübhanallah (33)'), findsWidgets);
 
-    await tester.tap(find.byIcon(Icons.add_circle_outline));
+    await tester.tap(find.byIcon(Icons.add_circle_outline_rounded));
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextField).last, 'Ya Rahman (33)');
@@ -130,7 +130,7 @@ void main() {
 
     expect(find.text('Ya Rahman (33)'), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.tap(find.byIcon(Icons.delete_outline_rounded));
     await tester.pumpAndSettle();
 
     expect(find.text('Ya Rahman (33)'), findsNothing);
@@ -175,13 +175,13 @@ void main() {
       find.byType(TextField).last,
       'Bir komşuyu ziyaret et',
     );
-    await tester.tap(find.byIcon(Icons.add_circle));
+    await tester.tap(find.byIcon(Icons.add_circle_rounded));
     await tester.pumpAndSettle();
 
     expect(find.text('Bir komşuyu ziyaret et'), findsOneWidget);
     expect(find.text('1 Ayet Oku'), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.tap(find.byIcon(Icons.delete_outline_rounded));
     await tester.pumpAndSettle();
 
     expect(find.text('Bir komşuyu ziyaret et'), findsNothing);

@@ -2,9 +2,11 @@ import 'package:audioplayers_platform_interface/src/global_audioplayers_platform
 import 'package:audioplayers_platform_interface/src/global_audioplayers_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/sesli_kissalar_ve_podcastler_page.dart';
 import 'package:islami_uygulama/services/sesli_oynatma_store.dart';
 
@@ -38,10 +40,20 @@ void main() {
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(audioGlobalEvents, (call) async => null);
 
-  // flutter_tts: Android gerçek davranışına benzer olarak tüm metodlar 1 döner.
+  // flutter_tts: Android gerçek davranışına benzer olarak tüm metodlar 1
+  // döner; speak() çağrısı gerçek motor gibi speak.onStart olayını da sıkar.
   const ttsChannel = MethodChannel('flutter_tts');
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(ttsChannel, (call) async {
+    if (call.method == 'speak') {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .handlePlatformMessage(
+            'flutter_tts',
+            const StandardMethodCodec()
+                .encodeMethodCall(const MethodCall('speak.onStart', null)),
+            (_) {},
+          );
+    }
     return 1;
   });
 
@@ -80,36 +92,51 @@ void main() {
     addTearDown(tester.view.reset);
   }
 
+  Widget uygulama(Widget child) {
+    return MaterialApp(
+      locale: const Locale('tr'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('tr'), Locale('en')],
+      home: child,
+    );
+  }
+
   testWidgets(
       'Dinle -> TTS calar, mini oynatici acilir, hiz/uyku degisir, uyku bitince kapanir',
       (tester) async {
     await yuksekEkran(tester);
     await tester.pumpWidget(
-      const MaterialApp(home: SesliKissalarVePodcastlerPage()),
+      uygulama(const SesliKissalarVePodcastlerPage()),
     );
     await tester.pumpAndSettle();
 
     // Bir kissa kartinda "Dinle" butonuna dokun.
     await tester.tap(find.text('Dinle').first);
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pump(const Duration(milliseconds: 50));
 
     // Mini oynatici çubuğu belirdi; durdur simgesi aktif.
-    expect(find.byIcon(Icons.speed), findsOneWidget);
-    expect(find.byIcon(Icons.pause), findsOneWidget);
+    expect(find.byIcon(Icons.speed_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.pause_rounded), findsOneWidget);
 
     // Duraklat/oynat geçişi.
-    await tester.tap(find.byIcon(Icons.pause));
-    await tester.pump();
-    expect(find.byIcon(Icons.play_arrow).hitTestable(), findsWidgets);
+    await tester.tap(find.byIcon(Icons.pause_rounded));
+    await tester.pump(const Duration(milliseconds: 50));
+    expect(find.byIcon(Icons.play_arrow_rounded).hitTestable(), findsWidgets);
 
     // Tekrar oynat (mini bardaki oynat simgesi; görünür olanı seç).
-    await tester.tap(find.byIcon(Icons.play_arrow).hitTestable().first);
-    await tester.pump();
-    expect(find.byIcon(Icons.pause), findsOneWidget);
+    await tester.tap(find.byIcon(Icons.play_arrow_rounded).hitTestable().first);
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pump(const Duration(milliseconds: 50));
+    expect(find.byIcon(Icons.pause_rounded), findsOneWidget);
 
     // Oynatma hızı menüsü: 1.5× seç.
-    await tester.tap(find.byIcon(Icons.speed));
+    await tester.tap(find.byIcon(Icons.speed_rounded));
     await tester.pumpAndSettle();
     expect(find.text('⚡ Oynatma Hızı'), findsOneWidget);
     await tester.tap(find.text('1.5×'));
@@ -117,7 +144,7 @@ void main() {
     expect(find.text('1.5× · TTS'), findsOneWidget);
 
     // Uyku zamanlayıcı menüsü: 30 dakika seç.
-    await tester.tap(find.byIcon(Icons.bedtime_outlined));
+    await tester.tap(find.byIcon(Icons.bedtime_rounded));
     await tester.pumpAndSettle();
     expect(find.text('🌙 Uyku Zamanlayıcısı'), findsOneWidget);
     await tester.tap(find.text('30 dakika'));
@@ -128,7 +155,7 @@ void main() {
     // çubuğu kaldırır (30 dakika sonra; fake saat hızlandırılır).
     await tester.pump(const Duration(minutes: 30));
     await tester.pumpAndSettle();
-    expect(find.byIcon(Icons.speed), findsNothing);
+    expect(find.byIcon(Icons.speed_rounded), findsNothing);
 
     // SnackBar zamanlayıcılarının süresini doldur.
     await tester.pump(const Duration(seconds: 4));
@@ -139,7 +166,7 @@ void main() {
       (tester) async {
     await yuksekEkran(tester);
     await tester.pumpWidget(
-      const MaterialApp(home: SesliKissalarVePodcastlerPage()),
+      uygulama(const SesliKissalarVePodcastlerPage()),
     );
     await tester.pumpAndSettle();
 
@@ -150,7 +177,7 @@ void main() {
 
     // Radyo kanalının çember simgesine dokun (kartın tıklanabilir kısmı).
     // Kıssa sekmesi arka planda kaldığı için yalnızca görünür ikonlar seçilir.
-    await tester.tap(find.byIcon(Icons.play_arrow).hitTestable().first);
+    await tester.tap(find.byIcon(Icons.play_arrow_rounded).hitTestable().first);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
@@ -173,13 +200,13 @@ void main() {
     // FramePositionUpdater her karede yeni kare talep ettiği için pumpAndSettle
     // kullanılmaz; sabit pump kullanılır.
     expect(find.textContaining('Canlı akış devam ediyor'), findsOneWidget);
-    expect(find.byIcon(Icons.speed), findsOneWidget);
+    expect(find.byIcon(Icons.speed_rounded), findsOneWidget);
 
     // Kapat → mini bar ve canlı akış kapanır; frame üretici de durur.
-    await tester.tap(find.byIcon(Icons.close));
+    await tester.tap(find.byIcon(Icons.close_rounded));
     await tester.pump();
     await tester.pumpAndSettle();
-    expect(find.byIcon(Icons.speed), findsNothing);
+    expect(find.byIcon(Icons.speed_rounded), findsNothing);
 
     await tester.pump(const Duration(seconds: 4));
     await tester.pumpAndSettle();
@@ -189,7 +216,7 @@ void main() {
       (tester) async {
     await yuksekEkran(tester);
     await tester.pumpWidget(
-      const MaterialApp(home: SesliKissalarVePodcastlerPage()),
+      uygulama(const SesliKissalarVePodcastlerPage()),
     );
     await tester.pumpAndSettle();
 
@@ -204,7 +231,7 @@ void main() {
     );
 
     // Temizle ikonu → liste geri gelir.
-    await tester.tap(find.byIcon(Icons.clear));
+    await tester.tap(find.byIcon(Icons.close_rounded));
     await tester.pump();
     expect(
       find.text('Aradığın kıssa bulunamadı. Filtreleri temizlemeyi dene.'),

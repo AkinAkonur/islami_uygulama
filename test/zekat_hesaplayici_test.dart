@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/ummet/zekat_hesaplayici_page.dart';
 import 'package:islami_uygulama/services/ummet_verileri.dart';
 
@@ -12,6 +14,20 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     kalemler = zekatKalemleri.map((k) => k.kopya()).toList();
   });
+
+  Widget uygulama(Widget child) {
+    return MaterialApp(
+      locale: const Locale('tr'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('tr'), Locale('en')],
+      home: child,
+    );
+  }
 
   group('ZekatKalemi veri modeli', () {
     test('kalemler tutar ve oran tasir', () {
@@ -35,7 +51,7 @@ void main() {
 
   group('ZekatHesaplayiciPage', () {
     testWidgets('bolumler acilir ve hesaplama butonu gorunur', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: ZekatHesaplayiciPage()));
+      await tester.pumpWidget(uygulama(const ZekatHesaplayiciPage()));
       await tester.pumpAndSettle();
 
       expect(find.text('Nisap Ayarı'), findsOneWidget);
@@ -48,7 +64,7 @@ void main() {
 
     testWidgets('altin fiyati girilince nisap ve altin zekati guncellenir',
         (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: ZekatHesaplayiciPage()));
+      await tester.pumpWidget(uygulama(const ZekatHesaplayiciPage()));
       await tester.pumpAndSettle();
 
       // Gram altın fiyatını değiştir
@@ -67,7 +83,7 @@ void main() {
 
     testWidgets('borc girilince matrahtan dusulur ve sonuc guncellenir',
         (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: ZekatHesaplayiciPage()));
+      await tester.pumpWidget(uygulama(const ZekatHesaplayiciPage()));
       await tester.pumpAndSettle();
 
       // Nakit 300.000 TL (nisap ~192.000; 80 * 2400)
@@ -88,7 +104,7 @@ void main() {
     });
 
     testWidgets('fitre hesabi kisi sayisi ile carpilir', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: ZekatHesaplayiciPage()));
+      await tester.pumpWidget(uygulama(const ZekatHesaplayiciPage()));
       await tester.pumpAndSettle();
 
       // Varsayılan: 1 kişi x 200 TL = 200
@@ -101,7 +117,7 @@ void main() {
     });
 
     testWidgets('rehber sorulari acilir', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: ZekatHesaplayiciPage()));
+      await tester.pumpWidget(uygulama(const ZekatHesaplayiciPage()));
       await tester.pumpAndSettle();
 
       await tester.scrollUntilVisible(

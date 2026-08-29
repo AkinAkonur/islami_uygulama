@@ -399,29 +399,37 @@ class _AnaSayfaState extends State<AnaSayfa> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _QuickAction(
-            ikon: Icons.menu_book_outlined,
-            renk: Colors.lightBlueAccent,
-            label: l.t('h.navKuran'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KuranBolumuPage())),
+          Expanded(
+            child: _QuickAction(
+              ikon: Icons.menu_book_outlined,
+              renk: Colors.lightBlueAccent,
+              label: l.t('h.navKuran'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KuranBolumuPage())),
+            ),
           ),
-          _QuickAction(
-            ikon: Icons.explore_outlined,
-            renk: Colors.tealAccent,
-            label: l.t('mod.pusulaAlt'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+          Expanded(
+            child: _QuickAction(
+              ikon: Icons.explore_outlined,
+              renk: Colors.tealAccent,
+              label: l.t('mod.pusulaAlt'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+            ),
           ),
-          _QuickAction(
-            ikon: Icons.radio_button_checked,
-            renk: Colors.pinkAccent,
-            label: l.t('mod.hizli'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
+          Expanded(
+            child: _QuickAction(
+              ikon: Icons.radio_button_checked,
+              renk: Colors.pinkAccent,
+              label: l.t('mod.hizli'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
+            ),
           ),
-          _QuickAction(
-            ikon: Icons.pan_tool_alt_outlined,
-            renk: Colors.orangeAccent,
-            label: l.t('h.duas'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DualarPage())),
+          Expanded(
+            child: _QuickAction(
+              ikon: Icons.pan_tool_alt_outlined,
+              renk: Colors.orangeAccent,
+              label: l.t('h.duas'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DualarPage())),
+            ),
           ),
         ],
       ),
@@ -871,13 +879,17 @@ class _HeroVakitKartiState extends State<_HeroVakitKarti> {
                           ),
                         ),
                         const SizedBox(width: 6),
-                        Text(
-                          l.t('v.yaklasan'),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
+                        Flexible(
+                          child: Text(
+                            l.t('v.yaklasan'),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
                           ),
                         ),
                         const Spacer(),
@@ -981,32 +993,43 @@ class _HeroVakitKartiState extends State<_HeroVakitKarti> {
                       children: List.generate(_liste.length, (i) {
                         final v = _liste[i];
                         final aktif = i == aktifIndex;
-                        return Column(
-                          children: [
-                            Icon(
-                              v.ikon,
-                              size: 16,
-                              color: aktif ? Colors.white : Colors.white38,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              v.ad.substring(0, v.ad.length > 4 ? 4 : v.ad.length),
-                              style: TextStyle(
+                        return Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                v.ikon,
+                                size: 16,
                                 color: aktif ? Colors.white : Colors.white38,
-                                fontSize: 9,
-                                fontWeight: aktif ? FontWeight.bold : FontWeight.w500,
                               ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              v.saat,
-                              style: TextStyle(
-                                color: aktif ? Renkler.vurgu : Colors.white24,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
+                              const SizedBox(height: 4),
+                              Text(
+                                v.ad
+                                    .substring(0, v.ad.length > 4 ? 4 : v.ad.length),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: aktif ? Colors.white : Colors.white38,
+                                  fontSize: 9,
+                                  fontWeight:
+                                      aktif ? FontWeight.bold : FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 2),
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  v.saat,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: aktif ? Renkler.vurgu : Colors.white24,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       }),
                     ),
@@ -1271,12 +1294,16 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
             children: [
               Icon(ikon, size: 14, color: aktif ? Renkler.vurgu : Colors.white38),
               const SizedBox(width: 4),
-              Text(
-                text,
-                style: TextStyle(
-                  color: aktif ? Renkler.vurgu : Colors.white54,
-                  fontSize: 11,
-                  fontWeight: aktif ? FontWeight.bold : FontWeight.w500,
+              Flexible(
+                child: Text(
+                  text,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: aktif ? Renkler.vurgu : Colors.white54,
+                    fontSize: 11,
+                    fontWeight: aktif ? FontWeight.bold : FontWeight.w500,
+                  ),
                 ),
               ),
             ],

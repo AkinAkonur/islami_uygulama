@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/screens/gorsel_kilinis_screen.dart';
+
+Widget uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
 
 void main() {
   testWidgets("Gorsel kilinis ekrani 5 vakit ve abdest sekmesi icerir", (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: GorselKilinisScreen()));
+    await tester.pumpWidget(uygulama(const GorselKilinisScreen()));
     await tester.pumpAndSettle();
 
     expect(find.text("5 Vakit Kılınış"), findsOneWidget);
@@ -35,7 +51,7 @@ void main() {
   });
 
   testWidgets("5 vakit secimi rekat planini degistirir", (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: GorselKilinisScreen()));
+    await tester.pumpWidget(uygulama(const GorselKilinisScreen()));
     await tester.pumpAndSettle();
 
     final anaKaydir = find.byType(ListView).first;

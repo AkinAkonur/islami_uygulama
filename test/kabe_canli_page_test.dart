@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/kabe_canli_page.dart';
+
+Widget uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
 
 void main() {
   testWidgets('KabeCanliPage guvenli sekilde yuklenir ve bilgileri gosterir', (
@@ -11,7 +27,7 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(const MaterialApp(home: KabeCanliPage()));
+    await tester.pumpWidget(uygulama(const KabeCanliPage()));
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
     await tester.pump(const Duration(seconds: 1));
@@ -28,7 +44,7 @@ void main() {
   testWidgets('KabeCanliPage mod secici ve veri uyarisi metinlerini icerir', (
     tester,
   ) async {
-    await tester.pumpWidget(const MaterialApp(home: KabeCanliPage()));
+    await tester.pumpWidget(uygulama(const KabeCanliPage()));
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
 
@@ -40,7 +56,7 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      const MaterialApp(home: KabeCanliPage(baslangicModu: YayinModu.ses)),
+      uygulama(const KabeCanliPage(baslangicModu: YayinModu.ses)),
     );
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
@@ -57,7 +73,7 @@ void main() {
     addTearDown(tester.view.reset);
 
     await tester.pumpWidget(
-      const MaterialApp(home: KabeCanliPage(medineYayini: true)),
+      uygulama(const KabeCanliPage(medineYayini: true)),
     );
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));

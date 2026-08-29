@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/hatim_duasi_page.dart';
+
+Widget uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
 
 void main() {
   const ttsChannel = MethodChannel('flutter_tts');
@@ -26,7 +42,7 @@ void main() {
     final eski = FlutterError.onError;
     FlutterError.onError = (d) => hatalar.add(d.exception);
     try {
-      await tester.pumpWidget(const MaterialApp(home: HatimDuasiPage()));
+      await tester.pumpWidget(uygulama(const HatimDuasiPage()));
       await tester.pump();
 
       expect(find.text('Hatim Duası'), findsOneWidget);
@@ -48,7 +64,7 @@ void main() {
     final eski = FlutterError.onError;
     FlutterError.onError = (d) => hatalar.add(d.exception);
     try {
-      await tester.pumpWidget(const MaterialApp(home: HatimDuasiPage()));
+      await tester.pumpWidget(uygulama(const HatimDuasiPage()));
       await tester.pump();
 
       await tester
@@ -89,7 +105,7 @@ void main() {
     final eski = FlutterError.onError;
     FlutterError.onError = (d) => hatalar.add(d.exception);
     try {
-      await tester.pumpWidget(const MaterialApp(home: HatimDuasiPage()));
+      await tester.pumpWidget(uygulama(const HatimDuasiPage()));
       await tester.pump();
 
       await tester

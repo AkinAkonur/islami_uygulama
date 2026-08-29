@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/main.dart';
 import 'package:islami_uygulama/pages/kuran_bolumu_page.dart';
 import 'package:islami_uygulama/pages/namazlar_bolumu_page.dart';
@@ -18,14 +20,28 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
+  Widget uygulama(Widget child) {
+    return MaterialApp(
+      locale: const Locale('tr'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('tr'), Locale('en')],
+      home: child,
+    );
+  }
+
   testWidgets("Ana sayfa yuklenir ve Kuran bolumu acilir", (tester) async {
     await tester.pumpWidget(const MyApp());
     await tester.pump();
 
     expect(find.text('Bugün nasıl hissediyorsun?'), findsOneWidget);
-    expect(find.text("Kur'an"), findsOneWidget);
+    expect(find.text("Kur'an"), findsWidgets);
 
-    await tester.tap(find.text("Kur'an"));
+    await tester.tap(find.text("Kur'an").first);
     await tester.pumpAndSettle();
 
     expect(find.byType(KuranBolumuPage), findsOneWidget);
@@ -51,7 +67,7 @@ void main() {
   });
 
   testWidgets("Kuran merkez sayfasi bolumler icerir", (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: KuranBolumuPage()));
+    await tester.pumpWidget(uygulama(const KuranBolumuPage()));
     await tester.pumpAndSettle();
 
     expect(find.text('📖 Okuma'), findsOneWidget);
@@ -79,7 +95,7 @@ void main() {
   });
 
   testWidgets("Ummet merkez sayfasi tum modulleri icerir", (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: UmmetBolumuPage()));
+    await tester.pumpWidget(uygulama(const UmmetBolumuPage()));
     await tester.pumpAndSettle();
 
     expect(find.text('💚 Yardımlaşma & İyilik'), findsOneWidget);
@@ -92,29 +108,29 @@ void main() {
   });
 
   testWidgets("Yeni Ummet modulleri acilir ve icerik gosterir", (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: YardimKampanyalariPage()));
+    await tester.pumpWidget(uygulama(const YardimKampanyalariPage()));
     await tester.pumpAndSettle();
     expect(find.text('Su Kuyusu Aç'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Yetim Sponsoru Ol'), 200);
     expect(find.text('Yetim Sponsoru Ol'), findsOneWidget);
 
-    await tester.pumpWidget(const MaterialApp(home: ZekatHesaplayiciPage()));
+    await tester.pumpWidget(uygulama(const ZekatHesaplayiciPage()));
     await tester.pumpAndSettle();
     expect(find.text('Zekatımı Hesapla'), findsOneWidget);
 
-    await tester.pumpWidget(const MaterialApp(home: SoruCevapPage()));
+    await tester.pumpWidget(uygulama(const SoruCevapPage()));
     await tester.pumpAndSettle();
     expect(find.text('Namaz & İbadet'), findsWidgets);
 
-    await tester.pumpWidget(const MaterialApp(home: ManeviHalkalarPage()));
+    await tester.pumpWidget(uygulama(const ManeviHalkalarPage()));
     await tester.pumpAndSettle();
-    expect(find.text('Günde 1 Sayfa Kur\'an'), findsOneWidget);
+    expect(find.text("Günde 1 Sayfa Kur'an"), findsOneWidget);
 
-    await tester.pumpWidget(const MaterialApp(home: IslamiAkisPage()));
+    await tester.pumpWidget(uygulama(const IslamiAkisPage()));
     await tester.pumpAndSettle();
     expect(find.text('GÜNÜN MESAJI'), findsOneWidget);
 
-    await tester.pumpWidget(const MaterialApp(home: DunyaUmmetiPage()));
+    await tester.pumpWidget(uygulama(const DunyaUmmetiPage()));
     await tester.pumpAndSettle();
     expect(find.text('Müslüman Nüfus Dağılımı'), findsOneWidget);
   });

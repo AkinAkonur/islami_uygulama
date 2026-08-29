@@ -8,7 +8,7 @@ import 'package:islami_uygulama/pages/ramazan_modu_page.dart';
 import 'package:islami_uygulama/services/dini_gunler_servisi.dart';
 import 'package:islami_uygulama/services/manevi_store.dart';
 
-Widget _uygulama(Widget child) {
+Widget uygulama(Widget child) {
   return MaterialApp(
     locale: const Locale('tr'),
     localizationsDelegates: const [
@@ -126,7 +126,7 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(_uygulama(const RamazanModuPage()));
+    await tester.pumpWidget(uygulama(const RamazanModuPage()));
     await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.text('Ramazan Modu'), findsOneWidget);

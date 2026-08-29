@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/ummet/dua_zincirleri_page.dart';
 import 'package:islami_uygulama/services/ummet_verileri.dart';
+
+Widget uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
 
 void main() {
   setUp(() {
@@ -50,7 +66,7 @@ void main() {
 
   group('DuaZincirleriPage', () {
     testWidgets('seed zincirleri ve arama cubugu gosterir', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: DuaZincirleriPage()));
+      await tester.pumpWidget(uygulama(const DuaZincirleriPage()));
       await tester.pumpAndSettle();
 
       expect(find.text('Dua Zincirleri'), findsOneWidget);
@@ -60,7 +76,7 @@ void main() {
     });
 
     testWidgets('arama zincirleri filtreler', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: DuaZincirleriPage()));
+      await tester.pumpWidget(uygulama(const DuaZincirleriPage()));
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'Gazze');
@@ -71,7 +87,7 @@ void main() {
     });
 
     testWidgets('zincir olustur kisayolu acilir', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: DuaZincirleriPage()));
+      await tester.pumpWidget(uygulama(const DuaZincirleriPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Zincir Oluştur'));

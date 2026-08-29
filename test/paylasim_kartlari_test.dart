@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/paylasim_kartlari/paylasim_kartlari_studio_page.dart';
+
+Widget uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
 
 void main() {
   Future<void> buyukEkran(WidgetTester tester) async {
@@ -15,7 +31,7 @@ void main() {
   ) async {
     await buyukEkran(tester);
     await tester.pumpWidget(
-      const MaterialApp(home: PaylasimKartlariStudioPage()),
+      uygulama(const PaylasimKartlariStudioPage()),
     );
     await tester.pumpAndSettle();
 
@@ -32,7 +48,7 @@ void main() {
   ) async {
     await buyukEkran(tester);
     await tester.pumpWidget(
-      const MaterialApp(home: PaylasimKartlariStudioPage()),
+      uygulama(const PaylasimKartlariStudioPage()),
     );
     await tester.pumpAndSettle();
 
@@ -48,11 +64,11 @@ void main() {
   testWidgets("Hadis ve dua sekmeleri icerik yukler", (tester) async {
     await buyukEkran(tester);
     await tester.pumpWidget(
-      const MaterialApp(home: PaylasimKartlariStudioPage()),
+      uygulama(const PaylasimKartlariStudioPage()),
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('HADIS'));
+    await tester.tap(find.text('Hadis'));
     await tester.pumpAndSettle();
     expect(find.textContaining('Niyetin Önemi'), findsWidgets);
 
@@ -64,7 +80,7 @@ void main() {
   testWidgets("Kendi yazdigin icerik karta donusecektir", (tester) async {
     await buyukEkran(tester);
     await tester.pumpWidget(
-      const MaterialApp(home: PaylasimKartlariStudioPage()),
+      uygulama(const PaylasimKartlariStudioPage()),
     );
     await tester.pumpAndSettle();
 
@@ -87,7 +103,7 @@ void main() {
   ) async {
     await buyukEkran(tester);
     await tester.pumpWidget(
-      const MaterialApp(home: PaylasimKartlariStudioPage()),
+      uygulama(const PaylasimKartlariStudioPage()),
     );
     await tester.pumpAndSettle();
 

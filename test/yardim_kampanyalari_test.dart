@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/ummet/yardim_kampanya_detay_page.dart';
 import 'package:islami_uygulama/pages/ummet/yardim_kampanyalari_page.dart';
 import 'package:islami_uygulama/services/ummet_verileri.dart';
@@ -10,6 +12,20 @@ void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues({});
   });
+
+  Widget uygulama(Widget child) {
+    return MaterialApp(
+      locale: const Locale('tr'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('tr'), Locale('en')],
+      home: child,
+    );
+  }
 
   group('UmmetStore yardim kampanyalari', () {
     test('seed kampanyalar tutarlidir', () {
@@ -32,7 +48,7 @@ void main() {
 
   group('YardimKampanyalariPage', () {
     testWidgets('kartlari listeler ve detaya gider', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: YardimKampanyalariPage()));
+      await tester.pumpWidget(uygulama(const YardimKampanyalariPage()));
       await tester.pumpAndSettle();
 
       expect(find.text('Su Kuyusu Aç'), findsOneWidget);
@@ -49,9 +65,7 @@ void main() {
   group('YardimKampanyaDetayPage', () {
     testWidgets('detayda niyet etmek sayaci artirir', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: YardimKampanyaDetayPage(kampanya: yardimKampanyalari.first),
-        ),
+        uygulama(YardimKampanyaDetayPage(kampanya: yardimKampanyalari.first)),
       );
       await tester.pumpAndSettle();
 
@@ -76,9 +90,7 @@ void main() {
 
     testWidgets('detay sayfasi tum alanlari gosterir', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: YardimKampanyaDetayPage(kampanya: yardimKampanyalari.first),
-        ),
+        uygulama(YardimKampanyaDetayPage(kampanya: yardimKampanyalari.first)),
       );
       await tester.pumpAndSettle();
 

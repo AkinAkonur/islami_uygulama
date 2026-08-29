@@ -2,11 +2,27 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/namaz_bildirim_ayarlari_page.dart';
 import 'package:islami_uygulama/services/gercek_bildirimler.dart';
 import 'package:islami_uygulama/services/namaz_bildirim_ayarlari.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+Widget uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -162,9 +178,7 @@ void main() {
   group('NamazBildirimAyarlariPage', () {
     testWidgets('sayfa açılır ve tüm vakitleri gösterir', (tester) async {
       await tester.binding.setSurfaceSize(const Size(600, 1700));
-      await tester.pumpWidget(const MaterialApp(
-        home: NamazBildirimAyarlariPage(),
-      ));
+      await tester.pumpWidget(uygulama(const NamazBildirimAyarlariPage()));
       await tester.pumpAndSettle();
 
       expect(find.text('Namaz Vakti Hatırlatıcıları'), findsOneWidget);
@@ -182,9 +196,7 @@ void main() {
     });
 
     testWidgets('vakit seçeneği değiştirilince kaydedilir', (tester) async {
-      await tester.pumpWidget(const MaterialApp(
-        home: NamazBildirimAyarlariPage(),
-      ));
+      await tester.pumpWidget(uygulama(const NamazBildirimAyarlariPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(DropdownButton<int>).first);
@@ -197,9 +209,7 @@ void main() {
     });
 
     testWidgets('titreşim anahtarı açılıp kapatılabilir', (tester) async {
-      await tester.pumpWidget(const MaterialApp(
-        home: NamazBildirimAyarlariPage(),
-      ));
+      await tester.pumpWidget(uygulama(const NamazBildirimAyarlariPage()));
       await tester.pumpAndSettle();
 
       final anahtar = find.byType(Switch).last;
@@ -215,9 +225,7 @@ void main() {
 
     testWidgets('test bildirimi butonu güvenle çalışır', (tester) async {
       await tester.binding.setSurfaceSize(const Size(600, 1700));
-      await tester.pumpWidget(const MaterialApp(
-        home: NamazBildirimAyarlariPage(),
-      ));
+      await tester.pumpWidget(uygulama(const NamazBildirimAyarlariPage()));
       await tester.pumpAndSettle();
 
       await tester.scrollUntilVisible(

@@ -9,7 +9,7 @@ import 'package:islami_uygulama/pages/dualar_page.dart';
 import 'package:islami_uygulama/services/dua_store.dart';
 import 'package:islami_uygulama/services/dualar_verileri.dart';
 
-Widget _uygulama(Widget child) {
+Widget uygulama(Widget child) {
   return MaterialApp(
     locale: const Locale('tr'),
     localizationsDelegates: const [
@@ -167,7 +167,7 @@ void main() {
 
   group('DualarPage', () {
     testWidgets('beş kategori ve sekmeleri gösterir', (tester) async {
-      await tester.pumpWidget(_uygulama(const DualarPage()));
+      await tester.pumpWidget(uygulama(const DualarPage()));
       await tester.pumpAndSettle();
 
       expect(find.text('Manevi Dualar Hazinesi'), findsOneWidget);
@@ -178,7 +178,7 @@ void main() {
     });
 
     testWidgets('kategoriye girince dua listesi görünür', (tester) async {
-      await tester.pumpWidget(_uygulama(const DualarPage()));
+      await tester.pumpWidget(uygulama(const DualarPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text("Kur'an-ı Kerim ve Peygamber Duaları"));
@@ -189,7 +189,7 @@ void main() {
     });
 
     testWidgets('duaya girince detay sayfası açılır', (tester) async {
-      await tester.pumpWidget(_uygulama(const DualarPage()));
+      await tester.pumpWidget(uygulama(const DualarPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text("Kur'an-ı Kerim ve Peygamber Duaları"));
@@ -206,7 +206,7 @@ void main() {
 
     testWidgets('tekrar adedi olan duada zikirmatik gösterilir',
         (tester) async {
-      await tester.pumpWidget(_uygulama(const DualarPage()));
+      await tester.pumpWidget(uygulama(const DualarPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Günlük Yaşam Duaları'));
@@ -226,7 +226,7 @@ void main() {
     });
 
     testWidgets('duaya hatırlatıcı kurulur ve bannerda görünür', (tester) async {
-      await tester.pumpWidget(_uygulama(const DualarPage()));
+      await tester.pumpWidget(uygulama(const DualarPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text("Kur'an-ı Kerim ve Peygamber Duaları"));
