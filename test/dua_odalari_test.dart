@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/ummet/dua_odalari_page.dart';
 import 'package:islami_uygulama/services/ummet_verileri.dart';
+
+Widget _uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
 
 void main() {
   setUp(() {
@@ -141,7 +157,7 @@ void main() {
 
   group('DuaOdalariPage', () {
     testWidgets('kategorileri ve etiketleri gosterir', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: DuaOdalariPage()));
+      await tester.pumpWidget(_uygulama(const DuaOdalariPage()));
       await tester.pumpAndSettle();
 
       expect(find.text('Dua Odaları'), findsOneWidget);
@@ -156,7 +172,7 @@ void main() {
     });
 
     testWidgets('arama cubugu filtreli sonuclari gosterir', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: DuaOdalariPage()));
+      await tester.pumpWidget(_uygulama(const DuaOdalariPage()));
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'borç');
@@ -170,7 +186,7 @@ void main() {
 
     testWidgets('odaya girince detay ve hizli filtre sekmeleri acilir',
         (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: DuaOdalariPage()));
+      await tester.pumpWidget(_uygulama(const DuaOdalariPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Odaya Katıl').first);
@@ -191,7 +207,7 @@ void main() {
     });
 
     testWidgets('amin butonu tiklaninca bilgi mesaji gosterir', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: DuaOdalariPage()));
+      await tester.pumpWidget(_uygulama(const DuaOdalariPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Odaya Katıl').first);
@@ -210,7 +226,7 @@ void main() {
     });
 
     testWidgets('Dua Ekle butonu kullanici duasini listeye ekler', (tester) async {
-      await tester.pumpWidget(const MaterialApp(home: DuaOdalariPage()));
+      await tester.pumpWidget(_uygulama(const DuaOdalariPage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Odaya Katıl').first);

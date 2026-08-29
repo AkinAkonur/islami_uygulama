@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/ramazan_modu_page.dart';
 import 'package:islami_uygulama/services/dini_gunler_servisi.dart';
 import 'package:islami_uygulama/services/manevi_store.dart';
+
+Widget _uygulama(Widget child) {
+  return MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
+    home: child,
+  );
+}
 
 void main() {
   setUp(() {
@@ -110,7 +126,7 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(const MaterialApp(home: RamazanModuPage()));
+    await tester.pumpWidget(_uygulama(const RamazanModuPage()));
     await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.text('Ramazan Modu'), findsOneWidget);

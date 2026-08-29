@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/daha_fazla_page.dart';
 import 'package:islami_uygulama/services/canli_yayin_konfigurasyonu.dart';
 import 'package:islami_uygulama/services/renkler.dart';
@@ -9,6 +11,14 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   Widget sarmal() => MaterialApp(
+    locale: const Locale('tr'),
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [Locale('tr'), Locale('en')],
     theme: ThemeData(
       brightness: Brightness.dark,
       scaffoldBackgroundColor: Renkler.zemin,
