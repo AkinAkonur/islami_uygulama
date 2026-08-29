@@ -45,6 +45,9 @@ void main() {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump();
     // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
     // için bir kare daha beklenir.
     await tester.pump();
@@ -63,6 +66,9 @@ void main() {
     tohumBildirim('İkindi 16:45', 'bugun');
 
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
     // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
     // için bir kare daha beklenir.
@@ -86,6 +92,9 @@ void main() {
     tohumBildirim('İkindi 16:45', 'bugun');
 
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
     // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
     // için bir kare daha beklenir.
@@ -117,6 +126,9 @@ void main() {
 
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump();
     // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
     // için bir kare daha beklenir.
     await tester.pump();
@@ -129,6 +141,9 @@ void main() {
   testWidgets("Isim kaydedildikten sonra ana ekrana donulur", (tester) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
     // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
     // için bir kare daha beklenir.
@@ -151,6 +166,9 @@ testWidgets("Bildirim tur ayarlari acilip kapatilabilir", (tester) async {
     tohumBildirim('İkindi 16:45', 'bugun');
 
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
     // Lokalizasyon katmanı asenkron yüklendiği için rozetin çizilmesi
     // için bir kare daha beklenir.

@@ -21,6 +21,9 @@ void main() {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump();
 
     expect(find.text('Günlük Maneviyat'), findsOneWidget);
     expect(find.text('Devam Et'), findsOneWidget);
@@ -39,6 +42,9 @@ void main() {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump();
 
     await tester.tap(find.text('Devam Et'));
     await tester.pumpAndSettle();
@@ -51,6 +57,9 @@ void main() {
   testWidgets("Gunluk Gorev sayfasi gorev ve seriyi isler", (tester) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
 
     await tester.tap(find.text('Günlük Görevler'));
@@ -73,6 +82,9 @@ void main() {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump();
 
     await tester.tap(find.text('Hedef Çarkı'));
     await tester.pumpAndSettle();
@@ -88,6 +100,9 @@ void main() {
   testWidgets("Hedef carkina kullanici hedef ekler ve kaldirir", (tester) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
 
     await tester.tap(find.text('Hedef Çarkı'));
@@ -113,6 +128,9 @@ void main() {
   testWidgets("Tesbih sayfasi zikir ekler ve kaldirir", (tester) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
 
     await tester.tap(find.text('Hızlı Tesbih').first);
@@ -142,6 +160,9 @@ void main() {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump();
 
     await tester.tap(find.textContaining('Ramazan Modu').first);
     await tester.pumpAndSettle();
@@ -164,6 +185,9 @@ void main() {
   ) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
 
     await tester.tap(find.text('Günlük Görevler'));
@@ -191,6 +215,9 @@ void main() {
   testWidgets("Konum ve Widget Rehberi sayfalari acilir", (tester) async {
     await buyukEkran(tester);
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
 
     await tester.tap(find.text('Cami & Konum'));

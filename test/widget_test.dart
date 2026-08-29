@@ -37,6 +37,9 @@ void main() {
   testWidgets("Ana sayfa yuklenir ve Kuran bolumu acilir", (tester) async {
     await tester.pumpWidget(const MyApp());
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump();
 
     expect(find.text('Bugün nasıl hissediyorsun?'), findsOneWidget);
     expect(find.text("Kur'an"), findsWidgets);
@@ -55,6 +58,9 @@ void main() {
     addTearDown(tester.view.reset);
 
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
 
     await tester.tap(find.text('Namazlar'));
@@ -83,6 +89,9 @@ void main() {
     addTearDown(tester.view.reset);
 
     await tester.pumpWidget(const MyApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pump();
 
     await tester.tap(find.text('Ümmet'));
