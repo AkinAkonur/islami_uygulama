@@ -98,7 +98,6 @@ flutter:
     - assets/cuzler/
     - assets/dualar.json
     - assets/ilham_hikmet.json
-    - assets/branding/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -23,7 +23,6 @@ import 'pages/bagis_page.dart';
 import 'pages/tesbih_page.dart';
 import 'pages/cuzler_page.dart';
 import 'pages/ilham_page.dart';
-import 'pages/acilis_ekrani.dart';
 import 'pages/kible_pusula_page.dart';
 import 'pages/ai_tefsir_page.dart';
 import 'pages/kuran_bolumu_page.dart';
@@ -129,7 +128,7 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Roboto',
             ),
             themeMode: karanlik ? ThemeMode.dark : ThemeMode.light,
-            home: AcilisEkrani(sonraki: const AnaSayfa()),
+            home: AnaSayfa(),
           ),
         ),
       ),
