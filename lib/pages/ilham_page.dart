@@ -165,15 +165,15 @@ class _IlhamPageState extends State<IlhamPage> {
                     initialTime: zaman,
                     builder: (c, child) => Theme(
                       data: ThemeData.dark().copyWith(
-                        colorScheme: const ColorScheme.dark(
-                          primary: Colors.orangeAccent,
-                          surface: Color(0xFF1D2B23),
+                        colorScheme: ColorScheme.dark(
+                          primary: Renkler.vurgu,
+                          surface: Renkler.yuzey,
                         ),
-                        timePickerTheme: const TimePickerThemeData(
-                          backgroundColor: Color(0xFF1D2B23),
+                        timePickerTheme: TimePickerThemeData(
+                          backgroundColor: Renkler.yuzey,
                           hourMinuteTextColor: Colors.white,
                           dayPeriodTextColor: Colors.white,
-                          dialHandColor: Colors.orangeAccent,
+                          dialHandColor: Renkler.vurgu,
                         ),
                       ),
                       child: child!,
@@ -280,7 +280,7 @@ class _IlhamPageState extends State<IlhamPage> {
             'İlham & Hikmet Köşesi',
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
           ),
-          backgroundColor: const Color(0xFF2D1E1E),
+          backgroundColor: Renkler.yuzey,
           actions: [
             IconButton(
               tooltip: l.t('il.refresh'),
@@ -368,7 +368,7 @@ class _GununAkisiTab extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
-                color: const Color(0xFF2D1E1E),
+                color: Renkler.yuzey,
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Row(
@@ -565,15 +565,15 @@ class _ArsivMiniKarti extends StatelessWidget {
   static Color renk(IlhamKategori k) {
     switch (k) {
       case IlhamKategori.ayet:
-        return Colors.greenAccent;
+        return Renkler.vurgu;
       case IlhamKategori.hadis:
-        return Colors.amberAccent;
+        return Renkler.acikVurgu;
       case IlhamKategori.alim:
-        return Colors.pinkAccent;
+        return Renkler.vurgu;
       case IlhamKategori.bilgi:
-        return Colors.lightBlueAccent;
+        return Renkler.acikVurgu;
       case IlhamKategori.dua:
-        return Colors.tealAccent;
+        return Renkler.vurgu;
     }
   }
 }
@@ -662,19 +662,19 @@ IconData _kategoriIkon(IlhamKategori k) {
 List<Color> _arkaPlanRenkleri(String anahtar) {
   switch (anahtar) {
     case 'linear_gradient_emerald':
-      return const [Color(0xFF059669), Color(0xFF065F46)];
+      return [Renkler.seciliYuzey, Renkler.zemin];
     case 'linear_gradient_gold':
-      return const [Color(0xFFD97706), Color(0xFF92400E)];
+      return [Renkler.vurgu, Renkler.zemin];
     case 'linear_gradient_teal':
-      return const [Color(0xFF0D9488), Color(0xFF134E4A)];
+      return [Renkler.kart, Renkler.zemin];
     case 'linear_gradient_rose':
-      return const [Color(0xFFE11D48), Color(0xFF881337)];
+      return [Renkler.seciliYuzey, Renkler.zemin];
     case 'linear_gradient_indigo':
-      return const [Color(0xFF6366F1), Color(0xFF312E81)];
+      return [Renkler.kart, Renkler.zemin];
     case 'linear_gradient_night':
-      return const [Color(0xFF6D28D9), Color(0xFF1E1B4B)];
+      return [Renkler.seciliYuzey, Renkler.zemin];
     default:
-      return const [Color(0xFF6D28D9), Color(0xFF1E1B4B)];
+      return [Renkler.kart, Renkler.zemin];
   }
 }
 

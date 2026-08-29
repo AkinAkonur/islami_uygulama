@@ -16,10 +16,10 @@ class HatimTakibiPage extends StatefulWidget {
 
 class _HatimTakibiPageState extends State<HatimTakibiPage> {
   static const _toplamSayfa = 604;
-  static const _zemin = Color(0xFF111111);
-  static const _kart = Color(0xFF1A1A19);
-  static const _mint = Color(0xFF6EDAB4);
-  static const _altin = Color(0xFFE9C349);
+  static const _zemin = Color(0xFF0B150E);
+  static const _kart = Color(0xFF16271C);
+  static const _mint = Color(0xFFD4AF37);
+  static const _altin = Color(0xFFEED07A);
 
   int _sayfa = 1;
   int _hatimSayisi = 0;
@@ -161,10 +161,10 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                       ),
                       selected: hedef == _gunlukHedef,
                       selectedColor: _mint,
-                      backgroundColor: const Color(0xFF2A2A29),
+                      backgroundColor: const Color(0xFF10201A),
                       labelStyle: TextStyle(
                         color: hedef == _gunlukHedef
-                            ? const Color(0xFF003829)
+                            ? const Color(0xFF0B150E)
                             : Colors.white70,
                         fontWeight: FontWeight.w600,
                       ),
@@ -208,7 +208,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: _mint,
-              foregroundColor: const Color(0xFF003829),
+              foregroundColor: const Color(0xFF0B150E),
             ),
             onPressed: () {
               setState(() {
@@ -285,7 +285,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
         children: [
           const CircleAvatar(
             radius: 18,
-            backgroundColor: Color(0x334D421D),
+            backgroundColor: Color(0x33D4AF37),
             child: UcdIkon(
               ikon: Icons.lightbulb_rounded,
               renk: _altin,
@@ -344,7 +344,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                   value: _ilerleme,
                   strokeWidth: 10,
                   strokeCap: StrokeCap.round,
-                  backgroundColor: const Color(0xFF353534),
+                  backgroundColor: const Color(0xFF1B3022),
                   valueColor: const AlwaysStoppedAnimation(_mint),
                 ),
                 Center(
@@ -373,7 +373,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFF2A2A29),
+              color: const Color(0xFF10201A),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: _altin.withValues(alpha: 0.3)),
             ),
@@ -452,7 +452,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
             child: FilledButton.icon(
               style: FilledButton.styleFrom(
                 backgroundColor: _mint,
-                foregroundColor: const Color(0xFF003829),
+                foregroundColor: const Color(0xFF0B150E),
                 padding: const EdgeInsets.symmetric(vertical: 13),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -462,7 +462,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               iconAlignment: IconAlignment.end,
               icon: const UcdIkon(
                 ikon: Icons.arrow_forward,
-                renk: Color(0xFF003829),
+                renk: Color(0xFF0B150E),
                 boyut: 18,
               ),
               label: Text(
@@ -537,7 +537,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
             child: LinearProgressIndicator(
               value: hedefOrani,
               minHeight: 7,
-              backgroundColor: const Color(0xFF353534),
+              backgroundColor: const Color(0xFF1B3022),
               valueColor: const AlwaysStoppedAnimation(_mint),
             ),
           ),
@@ -620,7 +620,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: tamam ? _mint : const Color(0xFF353534),
+                    color: tamam ? _mint : const Color(0xFF1B3022),
                     border: aktif ? Border.all(color: _mint, width: 2) : null,
                     boxShadow: (tamam || aktif)
                         ? [
@@ -636,7 +636,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                     '$cuz',
                     style: TextStyle(
                       color: tamam
-                          ? const Color(0xFF003829)
+                          ? const Color(0xFF0B150E)
                           : aktif
                           ? _mint
                           : Colors.white38,
@@ -659,7 +659,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                 sadeceCerceve: true,
               ),
               _DurumAciklama(
-                renk: Color(0xFF353534),
+                renk: Color(0xFF1B3022),
                 metin: l.t('hkb.notStarted'),
               ),
             ],
@@ -719,7 +719,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
                 decoration: BoxDecoration(
                   color: dolu
                       ? _mint.withValues(alpha: 0.35 + (i % 4) * 0.18)
-                      : const Color(0xFF353534),
+                      : const Color(0xFF1B3022),
                   borderRadius: BorderRadius.circular(2),
                 ),
               );
@@ -768,7 +768,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(11),
       decoration: BoxDecoration(
-        color: const Color(0xFF161616),
+        color: const Color(0xFF0B150E),
         borderRadius: BorderRadius.circular(11),
         border: Border.all(color: Colors.white10),
       ),
@@ -776,7 +776,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
         children: [
           const CircleAvatar(
             radius: 16,
-            backgroundColor: Color(0x196EDAB4),
+            backgroundColor: Color(0x19D4AF37),
             child: UcdIkon(
               ikon: Icons.menu_book_rounded,
               renk: _mint,
@@ -819,7 +819,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
     return IconButton.filledTonal(
       onPressed: onTap,
       style: IconButton.styleFrom(
-        backgroundColor: const Color(0xFF2A2A29),
+        backgroundColor: const Color(0xFF10201A),
         foregroundColor: Colors.white,
         side: const BorderSide(color: Colors.white12),
       ),

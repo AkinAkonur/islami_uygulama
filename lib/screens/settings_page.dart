@@ -7,6 +7,7 @@ import '../pages/gizlilik_politikasi_page.dart';
 import '../pages/namaz_bildirim_ayarlari_page.dart';
 import '../pages/profil_sayfasi.dart';
 import '../pages/puanla_page.dart';
+import '../pages/oneriler_page.dart';
 import '../services/ayarlar_store.dart';
 import '../services/bildirim_merkezi.dart';
 import '../services/gercek_bildirimler.dart';
@@ -219,15 +220,22 @@ static const List<({String kod, String ad})> _metotlar = [
     );
   }
 
+  void _onerileriGoster() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const OnerilerPage()),
+    );
+  }
+
   Future<void> _vurguSec() async {
     final l = AppLocalizations.of(context);
     const secenekler = [
       (kod: null, renk: null),
       (kod: 'zumrut', renk: Color(0xFF10B981)),
-      (kod: 'mavi', renk: Color(0xFF3B82F6)),
-      (kod: 'altin', renk: Color(0xFFF2C14E)),
-      (kod: 'turkuaz', renk: Color(0xFF14B8A6)),
-      (kod: 'gul', renk: Color(0xFFEC4899)),
+      (kod: 'mavi', renk: Color(0xFF1B5E46)),
+      (kod: 'altin', renk: Color(0xFFD4AF37)),
+      (kod: 'turkuaz', renk: Color(0xFFB98F2E)),
+      (kod: 'gul', renk: Color(0xFFEED07A)),
     ];
     final secilen = await showDialog<String?>(
       context: context,
@@ -488,6 +496,12 @@ static const List<({String kod, String ad})> _metotlar = [
             Icons.star_rounded,
             l.t('set.rate'),
             onTap: _puanlaGoster,
+          ),
+          _ayarSecenegi(
+            Icons.mail_outline_rounded,
+            l.t('set.suggest'),
+            altMetin: l.t('set.suggestAlt'),
+            onTap: _onerileriGoster,
           ),
           const SizedBox(height: 20),
 

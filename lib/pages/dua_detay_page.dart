@@ -714,7 +714,7 @@ class _ZikirmatikState extends State<_Zikirmatik> {
             children: [
               UcdIkon(
                 ikon: Icons.radio_button_checked,
-                renk: tamamlandi ? Colors.greenAccent : Colors.pinkAccent,
+                renk: tamamlandi ? Renkler.vurgu : Renkler.acikVurgu,
                 boyut: 18,
               ),
               const SizedBox(width: 8),

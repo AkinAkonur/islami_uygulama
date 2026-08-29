@@ -20,7 +20,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(l.t('kg.title')),
-        backgroundColor: Color(0xFF2B1E1E),
+        backgroundColor: Renkler.yuzey,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -33,16 +33,16 @@ class _KaygiliPageState extends State<KaygiliPage> {
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF2B1E1E), Renkler.zemin],
+                  colors: [Renkler.yuzey, Renkler.zemin],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.redAccent.withValues(alpha: 0.3)),
+                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  UcdIkon(ikon: Icons.shield_outlined, renk: Colors.redAccent, boyut: 40),
+                  UcdIkon(ikon: Icons.shield_outlined, renk: Renkler.vurgu, boyut: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -77,7 +77,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
               decoration: BoxDecoration(
                 color: Renkler.kart,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.redAccent.withValues(alpha: 0.2)),
+                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.2)),
               ),
               child: Column(
                 children: [
@@ -104,7 +104,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
                   Text(
                     l.t('kg.verseSource'),
                     style: TextStyle(
-                      color: Colors.redAccent,
+                      color: Renkler.vurgu,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -119,10 +119,10 @@ class _KaygiliPageState extends State<KaygiliPage> {
             Container(
               padding: EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Color(0xFF2B1E1E),
+                color: Renkler.yuzey,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: Colors.redAccent.withValues(alpha: 0.5),
+                  color: Renkler.vurgu.withValues(alpha: 0.5),
                 ),
               ),
               child: Column(
@@ -144,7 +144,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
                   SizedBox(height: 20),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
+                      backgroundColor: Renkler.vurgu,
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                     ),
@@ -205,11 +205,11 @@ class _KaygiliPageState extends State<KaygiliPage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Colors.redAccent.withValues(alpha: 0.2),
+          backgroundColor: Renkler.vurgu.withValues(alpha: 0.2),
           child: Text(
             step,
             style: TextStyle(
-              color: Colors.redAccent,
+              color: Renkler.vurgu,
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -182,7 +182,7 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
             color: bende
                 ? Renkler.vurgu
                 : tamamlandi
-                    ? Colors.blueAccent.withValues(alpha: 0.5)
+                    ? Renkler.acikVurgu.withValues(alpha: 0.5)
                     : Renkler.cerceve,
             width: bende ? 2 : 1,
           ),
@@ -205,7 +205,7 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
                 color: bende
                     ? Renkler.vurgu
                     : tamamlandi
-                        ? Colors.blueAccent
+                        ? Renkler.acikVurgu
                         : Colors.white38,
                 fontSize: 11,
                 fontWeight: FontWeight.w600,

@@ -1179,12 +1179,12 @@ class _SesliKissalarVePodcastlerPageState
                     _kucukRozet(
                       ikon: Icons.schedule_rounded,
                       etiket: kissa.sureEtiketi,
-                      renk: Colors.lightBlueAccent,
+                      renk: Renkler.acikVurgu,
                     ),
                     _kucukRozet(
                       ikon: Icons.record_voice_over_rounded,
                       etiket: kissa.seslendirenEtiketi,
-                      renk: Colors.tealAccent,
+                      renk: Renkler.vurgu,
                     ),
                     if (kissa.temalar.isNotEmpty)
                       _kucukRozet(
@@ -1215,7 +1215,7 @@ class _SesliKissalarVePodcastlerPageState
                     _kucukButon(
                       ikon: Icons.menu_book_rounded,
                       etiket: AppLocalizations.of(context).t('sks.read'),
-                      renk: Colors.lightBlueAccent,
+                      renk: Renkler.acikVurgu,
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(

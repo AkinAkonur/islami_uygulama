@@ -255,7 +255,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: _sessiz
-              ? [Colors.blueGrey.shade700, Colors.blueGrey.shade900]
+              ? [Renkler.yuzey, Renkler.zemin]
               : [Renkler.vurgu, Renkler.vurgu.withValues(alpha: 0.55)],
         ),
         borderRadius: BorderRadius.circular(20),
@@ -756,10 +756,10 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
       case BildirimTipi.gunluk:
         return (Colors.amberAccent, Icons.wb_sunny_rounded);
       case BildirimTipi.ozelGun:
-        return (Colors.purpleAccent, Icons.nights_stay_rounded);
+        return (Renkler.acikVurgu, Icons.nights_stay_rounded);
       case BildirimTipi.ummet:
       case BildirimTipi.diger:
-        return (Colors.cyanAccent, Icons.public_rounded);
+        return (Renkler.acikVurgu, Icons.public_rounded);
     }
   }
 }

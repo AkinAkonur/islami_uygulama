@@ -11,13 +11,13 @@ class WuduScreen extends StatelessWidget {
     return DefaultTabController(
       length: 3,
         child: Scaffold(
-          backgroundColor: Color(0xFF0F1410),
+          backgroundColor: Renkler.zemin,
           appBar: AppBar(
             title: Text(
               AppLocalizations.of(context).t('w.abbGuide'),
               style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
             ),
-          backgroundColor: Color(0xFF141F18),
+          backgroundColor: Renkler.kart,
           elevation: 0,
           iconTheme: IconThemeData(color: Renkler.vurgu),
           bottom: TabBar(
@@ -96,9 +96,9 @@ class _WuduTabContent extends StatelessWidget {
               margin: EdgeInsets.only(bottom: 12),
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Color(0xFF161E18),
+                color: Renkler.yuzey,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Color(0xFF223028)),
+                border: Border.all(color: Renkler.cerceve2),
               ),
               child: Text(step, style: TextStyle(color: Colors.white70, fontSize: 14, height: 1.4)),
             )),

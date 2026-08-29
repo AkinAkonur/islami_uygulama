@@ -84,7 +84,7 @@ class DahaFazlaPage extends StatelessWidget {
               l.t('df.esmaTitle'),
               l.t('df.esmaDesc'),
               EsmaulHusnaPage(),
-              Colors.amberAccent,
+              Renkler.vurgu,
             ),
             _buildModuleCard(
               context,
@@ -92,7 +92,7 @@ class DahaFazlaPage extends StatelessWidget {
               l.t('df.camiiTitle'),
               "Konumunuza yakın cami ve mescitleri listeleyin",
               const YakindakiCamilerPage(),
-              Colors.tealAccent,
+              Renkler.acikVurgu,
             ),
             _buildModuleCard(
               context,
@@ -100,7 +100,7 @@ class DahaFazlaPage extends StatelessWidget {
               l.t('df.hijriTitle'),
               "Kandiller, dini bayramlar ve Ramazan sayacı",
               HicriTakvimPage(),
-              Colors.orangeAccent,
+              Renkler.acikVurgu,
             ),
             _buildModuleCard(
               context,
@@ -121,7 +121,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Hatim Takibi",
               "Kur'an okuma ilerlemesi, cüz ve sayfa takibi",
               HatimTakibiPage(),
-              Colors.blueAccent,
+              Renkler.acikVurgu,
             ),
             _buildModuleCard(
               context,
@@ -129,7 +129,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Hadis Kütüphanesi",
               "Kütüb-i Sitte'den seçkin hadisler ve günlük rehber",
               HadisKutuphanesiPage(),
-              Colors.cyanAccent,
+              Renkler.vurgu,
             ),
             _buildModuleCard(
               context,
@@ -137,7 +137,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Kıssalar & Peygamberler",
               "Sîre-i Nebi, peygamberler tarihi ve ibretlik hikayeler",
               KissalarPage(),
-              Colors.purpleAccent,
+              Renkler.vurgu,
             ),
             _buildModuleCard(
               context,
@@ -145,7 +145,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Soru-Cevap (Fetva)",
               "Günlük hayata dair ilmihal ve SSS başlıkları",
               SoruCevapPage(),
-              Colors.pinkAccent,
+              Renkler.vurgu,
             ),
             _buildModuleCard(
               context,
@@ -153,7 +153,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Hac & Umre Rehberi",
               "Adım adım kutsal topraklar yolculuğu ve duaları",
               const HacUmreRehberPage(),
-              Colors.amber,
+              Renkler.vurgu,
             ),
             SizedBox(height: 24),
 
@@ -166,7 +166,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Dua Kardeşliği",
               "Anonim olarak kardeşlerin için dua iste ve dua et",
               const DuaKardesligiPage(),
-              Colors.orange,
+              Renkler.vurgu,
             ),
             _buildModuleCard(
               context,
@@ -174,7 +174,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Günlük Hedefler / Streak",
               "İbadet alışkanlığı ve seri (streak) takibi",
               GunlukHedeflerPage(),
-              Colors.deepOrangeAccent,
+              Renkler.vurgu,
             ),
             _buildModuleCard(
               context,
@@ -182,7 +182,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Paylaşım Kartları",
               "WhatsApp ve Instagram için ayet/hadis görsel kartları",
               PaylasimKartlariStudioPage(),
-              Colors.lightBlueAccent,
+              Renkler.acikVurgu,
             ),
             SizedBox(height: 24),
 
@@ -204,7 +204,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Sesli Kıssalar ve Podcastler",
               "Kıssaları dinle, podcast ve radyo akışları",
               const SesliKissalarVePodcastlerPage(),
-              Colors.purpleAccent,
+              Renkler.vurgu,
             ),
             _buildModuleCard(
               context,
@@ -212,7 +212,7 @@ class DahaFazlaPage extends StatelessWidget {
               "Mekke & Medine 360° Sanal Tur",
               "Canlı yayınlar, 360° turlar ve mekân haritaları",
               const MekkeMedineSanalTurPage(),
-              Colors.amberAccent,
+              Renkler.vurgu,
             ),
             _buildModuleCard(
               context,
@@ -220,7 +220,7 @@ class DahaFazlaPage extends StatelessWidget {
               l.t('df.radioTitle'),
               l.t('df.radioDesc'),
               DiniRadyoPage(),
-              Colors.indigoAccent,
+              Renkler.acikVurgu,
             ),
             _buildModuleCard(
               context,
@@ -1139,7 +1139,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const UcdIkon(ikon: Icons.radio_rounded, renk: Colors.indigoAccent),
+            UcdIkon(ikon: Icons.radio_rounded, renk: Renkler.acikVurgu),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -1278,7 +1278,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
       padding: const EdgeInsets.only(top: 10, bottom: 8),
       child: Row(
         children: [
-          const UcdIkon(ikon: Icons.public_rounded, renk: Colors.tealAccent, boyut: 18),
+          UcdIkon(ikon: Icons.public_rounded, renk: Renkler.acikVurgu, boyut: 18),
           const SizedBox(width: 8),
           const Text(
             'Dünya Radyoları',
@@ -1292,12 +1292,12 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: Colors.tealAccent.withValues(alpha: 0.15),
+              color: Renkler.acikVurgu.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               '$adet',
-              style: const TextStyle(color: Colors.tealAccent, fontSize: 12),
+              style: TextStyle(color: Renkler.acikVurgu, fontSize: 12),
             ),
           ),
           const Spacer(),
@@ -1337,11 +1337,11 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
       label: Text(etiket),
       selected: secili,
       onSelected: (_) => setState(() => _dilFiltresi = dil),
-      selectedColor: Colors.tealAccent.withValues(alpha: 0.25),
+      selectedColor: Renkler.acikVurgu.withValues(alpha: 0.25),
       backgroundColor: Renkler.kart,
-      side: BorderSide(color: secili ? Colors.tealAccent : Renkler.cerceve),
+      side: BorderSide(color: secili ? Renkler.acikVurgu : Renkler.cerceve),
       labelStyle: TextStyle(
-        color: secili ? Colors.tealAccent : Colors.white70,
+        color: secili ? Renkler.acikVurgu : Colors.white70,
         fontSize: 12.5,
         fontWeight: secili ? FontWeight.bold : FontWeight.normal,
       ),
@@ -1386,7 +1386,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                       height: 46,
                       decoration: BoxDecoration(
                         color: caliyor
-                            ? Colors.tealAccent.withValues(alpha: 0.25)
+                            ? Renkler.acikVurgu.withValues(alpha: 0.25)
                             : Renkler.seciliYuzey,
                         shape: BoxShape.circle,
                       ),
@@ -1398,7 +1398,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                             )
                           : UcdIkon(ikon: 
                               caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded, renk: caliyor
-                                  ? Colors.tealAccent
+                                  ? Renkler.acikVurgu
                                   : Renkler.vurgu, boyut: 26,
                             ),
                     ),
@@ -1430,8 +1430,8 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                         ),
                         child: Text(
                           radyoDilEtiketi(istasyon.dil),
-                          style: const TextStyle(
-                            color: Colors.tealAccent,
+                          style: TextStyle(
+                            color: Renkler.acikVurgu,
                             fontSize: 10.5,
                             fontWeight: FontWeight.bold,
                           ),
@@ -1462,7 +1462,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                     onPressed: () =>
                         RadyoOynaticiStore.favoriDegistir(kanal.url),
                     icon: UcdIkon(ikon: 
-                      favori ? Icons.favorite_rounded : Icons.favorite_border_rounded, renk: favori ? Colors.pinkAccent : Colors.white30, boyut: 22,
+                      favori ? Icons.favorite_rounded : Icons.favorite_border_rounded, renk: favori ? Renkler.vurgu : Colors.white30, boyut: 22,
                     ),
                   ),
                 ),
@@ -1549,7 +1549,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                       height: 46,
                       decoration: BoxDecoration(
                         color: caliyor
-                            ? Colors.indigoAccent.withValues(alpha: 0.25)
+                            ? Renkler.acikVurgu.withValues(alpha: 0.25)
                             : Renkler.seciliYuzey,
                         shape: BoxShape.circle,
                       ),
@@ -1559,7 +1559,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                               child: CircularProgressIndicator(strokeWidth: 2.4),
                             )
                           : UcdIkon(ikon: 
-                              caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded, renk: caliyor ? Colors.indigoAccent : Renkler.vurgu, boyut: 26,
+                              caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded, renk: caliyor ? Renkler.acikVurgu : Renkler.vurgu, boyut: 26,
                             ),
                     ),
                   ),
@@ -1585,7 +1585,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                     tooltip: favori ? 'Favorilerden Çıkar' : 'Favorilere Ekle',
                     onPressed: () => RadyoOynaticiStore.favoriDegistir(kanal.url),
                     icon: UcdIkon(ikon: 
-                      favori ? Icons.favorite_rounded : Icons.favorite_border_rounded, renk: favori ? Colors.pinkAccent : Colors.white30, boyut: 22,
+                      favori ? Icons.favorite_rounded : Icons.favorite_border_rounded, renk: favori ? Renkler.vurgu : Colors.white30, boyut: 22,
                     ),
                   ),
                 ),

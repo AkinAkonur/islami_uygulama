@@ -151,14 +151,14 @@ class _TesbihPageState extends State<TesbihPage>
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(l.t('ts.title')),
-        backgroundColor: const Color(0xFF2B1E26),
+        backgroundColor: const Color(0xFF10201A),
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF2B1E26), Color(0xFF1B1016)],
+            colors: [Renkler.yuzey, Renkler.zemin],
           ),
         ),
         child: SafeArea(
@@ -187,10 +187,10 @@ class _TesbihPageState extends State<TesbihPage>
       decoration: BoxDecoration(
         color: Renkler.kart.withValues(alpha: 0.92),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.pinkAccent.withValues(alpha: 0.35)),
+        border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.35)),
         boxShadow: [
           BoxShadow(
-            color: Colors.pinkAccent.withValues(alpha: 0.12),
+            color: Renkler.vurgu.withValues(alpha: 0.12),
             blurRadius: 18,
             offset: const Offset(0, 6),
           ),
@@ -205,7 +205,7 @@ class _TesbihPageState extends State<TesbihPage>
                 isExpanded: true,
                 dropdownColor: Renkler.kart,
                 style: const TextStyle(color: Colors.white, fontSize: 16),
-                icon: const UcdIkon(ikon: Icons.arrow_drop_down_rounded, renk: Colors.pinkAccent),
+                icon: UcdIkon(ikon: Icons.arrow_drop_down_rounded, renk: Renkler.vurgu),
                 items: _zikirListesi.map((String zikir) {
                   return DropdownMenuItem<String>(
                     value: zikir,
@@ -231,7 +231,7 @@ class _TesbihPageState extends State<TesbihPage>
           IconButton(
             onPressed: _zikirEkleDialog,
             tooltip: 'Zikir ekle',
-            icon: UcdIkon(ikon: Icons.add_circle_outline_rounded, renk: Colors.pinkAccent),
+            icon: UcdIkon(ikon: Icons.add_circle_outline_rounded, renk: Renkler.vurgu),
           ),
           if (_ozelZikirler.contains(_selectedZikir))
             IconButton(
@@ -263,8 +263,8 @@ class _TesbihPageState extends State<TesbihPage>
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      Colors.pinkAccent.withValues(alpha: _patlama ? 0.55 : 0.28),
-                      Colors.pinkAccent.withValues(alpha: 0.0),
+                      Renkler.vurgu.withValues(alpha: _patlama ? 0.55 : 0.28),
+                      Renkler.vurgu.withValues(alpha: 0.0),
                     ],
                   ),
                 ),
@@ -282,10 +282,10 @@ class _TesbihPageState extends State<TesbihPage>
                   height: 218,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: const LinearGradient(
+gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xFFD81B60), Color(0xFF6A1B9A)],
+                      colors: [Renkler.vurgu, Renkler.zemin],
                     ),
                     boxShadow: [
                       // Dışa doğru derin gölge (3D kalkıklık)
@@ -295,7 +295,7 @@ class _TesbihPageState extends State<TesbihPage>
                         offset: const Offset(12, 18),
                       ),
                       BoxShadow(
-                        color: Colors.pinkAccent.withValues(alpha: 0.45),
+                        color: Renkler.vurgu.withValues(alpha: 0.45),
                         blurRadius: 26,
                         offset: const Offset(-6, -6),
                       ),
@@ -384,7 +384,7 @@ class _TesbihPageState extends State<TesbihPage>
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
-        color: Color(0xFF3A2430).withValues(alpha: 0.75),
+        color: Renkler.yuzey.withValues(alpha: 0.75),
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
@@ -418,7 +418,7 @@ class _TesbihPageState extends State<TesbihPage>
   }) {
     return Column(
       children: [
-        UcdIkon(ikon: ikon, renk: Colors.pinkAccent, boyut: 20),
+        UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 20),
         const SizedBox(height: 6),
         Text(
           deger,
@@ -457,7 +457,7 @@ class _BoncukHalkasiPainter extends CustomPainter {
       ..color = Colors.white.withValues(alpha: 0.10)
       ..style = PaintingStyle.fill;
     final doluBoncuk = Paint()
-      ..color = const Color(0xFFFF80AB)
+      ..color = const Color(0xFFEED07A)
       ..style = PaintingStyle.fill
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
     final doluParil = Paint()

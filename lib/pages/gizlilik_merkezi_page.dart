@@ -153,7 +153,7 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
         children: [
           _baslikKarti(),
           const SizedBox(height: 20),
-          _bolumBasligi(l.t('gm.permissions'), Icons.shield_rounded, Colors.tealAccent),
+          _bolumBasligi(l.t('gm.permissions'), Icons.shield_rounded, Renkler.vurgu),
           const SizedBox(height: 2),
           for (final izin in _merkez.izinKartlari) ...[
             _izinKarti(izin, l),
@@ -363,19 +363,19 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
       ),
       child: Text(
         l.t('gm.local'),
-        style: const TextStyle(color: Colors.tealAccent, fontSize: 11.5),
+        style: TextStyle(color: Renkler.acikVurgu, fontSize: 11.5),
       ),
     );
   }
 
   Widget _hakKarti(GizlilikKullaniciHakki hak, AppLocalizations l) {
     final tehlikeli = hak.tehlikeliMi;
-    final renk = tehlikeli ? Colors.redAccent : Colors.tealAccent;
+    final renk = tehlikeli ? Colors.redAccent : Renkler.vurgu;
     final yukleniyor = tehlikeli ? _silmeYukleniyor : _indirmeYukleniyor;
     return Material(
       color: tehlikeli
           ? Colors.redAccent.withValues(alpha: 0.12)
-          : Colors.tealAccent.withValues(alpha: 0.1),
+          : Renkler.vurgu.withValues(alpha: 0.1),
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),

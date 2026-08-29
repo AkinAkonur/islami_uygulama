@@ -85,13 +85,13 @@ class _NamazScreenState extends State<NamazScreen> {
     final siradaki = _siradaki(now);
 
     return Scaffold(
-      backgroundColor: Color(0xFF0F1410),
+      backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context).t('h.navNamaz'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
         ),
-        backgroundColor: Color(0xFF141F18),
+        backgroundColor: Renkler.kart,
         elevation: 0,
         iconTheme: IconThemeData(color: Renkler.vurgu),
       ),
@@ -104,7 +104,7 @@ class _NamazScreenState extends State<NamazScreen> {
               padding: EdgeInsets.all(24),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF1B3B2B), Color(0xFF0D2117)],
+                  colors: [Renkler.kart, Renkler.zemin],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -210,9 +210,9 @@ class _NamazScreenState extends State<NamazScreen> {
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: isCurrent ? Color(0xFF1E3326) : Color(0xFF161E18),
+        color: isCurrent ? Renkler.seciliYuzey : Renkler.yuzey,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: isCurrent ? Renkler.vurgu : Color(0xFF223028)),
+        border: Border.all(color: isCurrent ? Renkler.vurgu : Renkler.cerceve2),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

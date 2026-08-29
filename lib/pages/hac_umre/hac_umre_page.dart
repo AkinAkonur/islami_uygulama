@@ -40,7 +40,7 @@ class HacUmreRehberPage extends StatelessWidget {
             _modulKarti(
               context,
               icon: Icons.checklist_rtl_rounded,
-              renk: Colors.tealAccent,
+              renk: Renkler.vurgu,
               baslik: l.t('hu.ibadetTitle'),
               altBaslik: l.t('hu.ibadetSub'),
               sayfa: const IbadetModuPage(),
@@ -48,7 +48,7 @@ class HacUmreRehberPage extends StatelessWidget {
             _modulKarti(
               context,
               icon: Icons.rotate_90_degrees_cw_rounded,
-              renk: Colors.amberAccent,
+              renk: Renkler.acikVurgu,
               baslik: l.t('hu.tavafTitle'),
               altBaslik: l.t('hu.tavafSub'),
               sayfa: SayacSayfasi(tur: SayacTuru.tavaf),
@@ -64,7 +64,7 @@ class HacUmreRehberPage extends StatelessWidget {
             _modulKarti(
               context,
               icon: Icons.account_tree_rounded,
-              renk: Colors.orangeAccent,
+              renk: Renkler.vurgu,
               baslik: l.t('hu.demTitle'),
               altBaslik: l.t('hu.demSub'),
               sayfa: const FikihKararAgaciPage(),
@@ -74,7 +74,7 @@ class HacUmreRehberPage extends StatelessWidget {
             _modulKarti(
               context,
               icon: Icons.explore_rounded,
-              renk: Colors.blueAccent,
+              renk: Renkler.acikVurgu,
               baslik: l.t('hu.ziyaretTitle'),
               altBaslik: l.t('hu.ziyaretSub'),
               sayfa: const ZiyaretRehberiPage(),
@@ -84,7 +84,7 @@ class HacUmreRehberPage extends StatelessWidget {
             _modulKarti(
               context,
               icon: Icons.gps_fixed_rounded,
-              renk: Colors.purpleAccent,
+              renk: Renkler.vurgu,
               baslik: l.t('hu.mikatTitle'),
               altBaslik: l.t('hu.mikatSub'),
               sayfa: const MikatUyariPage(),
@@ -92,7 +92,7 @@ class HacUmreRehberPage extends StatelessWidget {
             _modulKarti(
               context,
               icon: Icons.record_voice_over_rounded,
-              renk: Colors.pinkAccent,
+              renk: Renkler.vurgu,
               baslik: l.t('hu.acilTitle'),
               altBaslik: l.t('hu.acilSub'),
               sayfa: const AcilDurumSozluguPage(),

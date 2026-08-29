@@ -74,14 +74,14 @@ class _EtkinliklerPageState extends State<EtkinliklerPage> {
                   ikon: Icons.location_city_rounded,
                   baslik: l.t('et.haramTitle'),
                   alt: l.t('et.haramSub'),
-                  renk: Color(0xFF4FC3C9),
+                  renk: Color(0xFFD4AF37),
                   tip: 'haram',
                 ),
                 _canliYayinKarti(
                   ikon: Icons.mosque_rounded,
                   baslik: l.t('et.nebeviTitle'),
                   alt: l.t('et.nebeviSub'),
-                  renk: Color(0xFF5FA8E8),
+                  renk: Color(0xFFEED07A),
                   tip: 'nebevi',
                 ),
                 _canliYayinKarti(

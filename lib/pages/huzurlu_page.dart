@@ -209,8 +209,8 @@ class _HuzurluPageState extends State<HuzurluPage> {
               alignment: Alignment.centerRight,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF2E7D32),
-                  foregroundColor: Colors.white,
+                  backgroundColor: Renkler.vurgu,
+                  foregroundColor: Colors.black,
                 ),
                 onPressed: _addJournalEntry,
                 icon: UcdIkon(ikon: Icons.save_rounded, renk: Colors.white70),

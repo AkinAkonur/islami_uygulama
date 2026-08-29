@@ -158,7 +158,7 @@ class _MikatUyariPageState extends State<MikatUyariPage> {
               children: [
                 const UcdIkon(
                   ikon: Icons.gps_fixed_rounded,
-                  renk: Colors.purpleAccent,
+                  renk: Color(0xFFD4AF37),
                   boyut: 20,
                 ),
                 const SizedBox(width: 10),

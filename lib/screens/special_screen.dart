@@ -9,13 +9,13 @@ class SpecialScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: Color(0xFF0F1410),
+      backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context).t('s.specialConditions'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
         ),
-        backgroundColor: Color(0xFF141F18),
+        backgroundColor: Renkler.kart,
         elevation: 0,
         iconTheme: IconThemeData(color: Renkler.vurgu),
       ),
@@ -31,7 +31,7 @@ class SpecialScreen extends StatelessWidget {
               "• Sünnetler: Acele ve yorgunluk durumunda seferîlikte sünnetler terk edilebilir.",
               "• İkamet: 15 günden az kalınacak yerlerde seferîlik hükmü devam eder."
             ],
-            Colors.blueAccent,
+            Renkler.vurgu,
           ),
           _specialCard(
             context,
@@ -42,7 +42,7 @@ class SpecialScreen extends StatelessWidget {
               "• Oturamayan: Sırtüstü uzanarak veya yan yatarak ima ile (baş işaretiyle) kılabilir.",
               "• Abdest alamayan: Teyemmüm eder veya sargı üzerine mesh yapar."
             ],
-            Colors.teal,
+            Renkler.vurgu,
           ),
           _specialCard(
             context,
@@ -53,7 +53,7 @@ class SpecialScreen extends StatelessWidget {
               "• İmama Uyma: İmam sesli okurken (cehrî) cemaat Fâtiha okumaz, dinler; gizli okurken (hafî) içinden okur.",
               "• Kâmet ve Saf Düzeni: Saf düzgünlüğü ve omuz omuza olmak sünnettir."
             ],
-            Colors.orange,
+            Renkler.vurgu,
           ),
         ],
       ),
@@ -65,7 +65,7 @@ class SpecialScreen extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Color(0xFF161E18),
+        color: Renkler.yuzey,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: accentColor.withValues(alpha: 0.4)),
       ),

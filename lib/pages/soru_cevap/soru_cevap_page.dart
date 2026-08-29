@@ -1071,9 +1071,9 @@ class _GununSorusuState extends State<_GununSorusu> {
               ),
               const Spacer(),
               if (cevaplandi)
-                const Text(
+                Text(
                   '✓',
-                  style: TextStyle(color: Colors.greenAccent, fontSize: 16),
+                  style: TextStyle(color: Renkler.vurgu, fontSize: 16),
                 ),
             ],
           ),
@@ -1343,8 +1343,8 @@ class _GununSorusuState extends State<_GununSorusu> {
               );
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
+                  backgroundColor: Renkler.vurgu,
                   content: Text(l.t('sc.copiedSnackbar')),
-                  backgroundColor: Colors.green,
                 ),
               );
             },

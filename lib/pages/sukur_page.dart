@@ -35,7 +35,7 @@ class _SukurPageState extends State<SukurPage> {
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(l.t('su.title')),
-        backgroundColor: Color(0xFF2C241E),
+        backgroundColor: Renkler.yuzey,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -48,16 +48,16 @@ class _SukurPageState extends State<SukurPage> {
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF2C241E), Renkler.zemin],
+                  colors: [Renkler.yuzey, Renkler.zemin],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.amber.withValues(alpha: 0.3)),
+                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  UcdIkon(ikon: Icons.favorite_rounded, renk: Colors.amber, boyut: 40),
+                  UcdIkon(ikon: Icons.favorite_rounded, renk: Renkler.vurgu, boyut: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -92,7 +92,7 @@ class _SukurPageState extends State<SukurPage> {
               decoration: BoxDecoration(
                 color: Renkler.kart,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.amber.withValues(alpha: 0.2)),
+                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.2)),
               ),
               child: Column(
                 children: [
@@ -119,7 +119,7 @@ class _SukurPageState extends State<SukurPage> {
                   Text(
                     l.t('su.verseSource'),
                     style: TextStyle(
-                      color: Colors.amber,
+                      color: Renkler.vurgu,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -135,16 +135,16 @@ class _SukurPageState extends State<SukurPage> {
               width: double.infinity,
               padding: EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Color(0xFF2C241E),
+                color: Renkler.yuzey,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.amber, width: 1),
+                border: Border.all(color: Renkler.vurgu, width: 1),
               ),
               child: Column(
                 children: [
                   Text(
                     "«الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ»",
                     style: TextStyle(
-                      color: Colors.amberAccent,
+                      color: Renkler.acikVurgu,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -154,11 +154,11 @@ class _SukurPageState extends State<SukurPage> {
                     onTap: () => setState(() => _hamdCount++),
                     child: CircleAvatar(
                       radius: 45,
-                      backgroundColor: Colors.amber.withValues(alpha: 0.2),
+                      backgroundColor: Renkler.vurgu.withValues(alpha: 0.2),
                       child: Text(
                         "$_hamdCount",
                         style: TextStyle(
-                          color: Colors.amber,
+                          color: Renkler.vurgu,
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
                         ),
@@ -198,7 +198,7 @@ class _SukurPageState extends State<SukurPage> {
                   onPressed: _addSukur,
                   icon: UcdIkon(
                     ikon: Icons.add_circle,
-                    renk: Colors.amber,
+                    renk: Renkler.vurgu,
                     boyut: 40,
                   ),
                 ),
@@ -217,7 +217,7 @@ class _SukurPageState extends State<SukurPage> {
                   color: Renkler.kart,
                   margin: EdgeInsets.only(bottom: 8),
                   child: CheckboxListTile(
-                    activeColor: Colors.amber,
+                    activeColor: Renkler.vurgu,
                     checkColor: Colors.black,
                     value: item["isDone"],
                     onChanged: (val) {
@@ -234,7 +234,7 @@ class _SukurPageState extends State<SukurPage> {
                             : null,
                       ),
                     ),
-                    secondary: UcdIkon(ikon: Icons.favorite_border_rounded, renk: Colors.amber),
+                    secondary: UcdIkon(ikon: Icons.favorite_border_rounded, renk: Renkler.vurgu),
                   ),
                 );
               },

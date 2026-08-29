@@ -145,7 +145,7 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
               ? l.t('dk.removed')
               : l.t('dk.reported'),
         ),
-        backgroundColor: kaldirildi ? Colors.redAccent : Colors.blueGrey,
+        backgroundColor: kaldirildi ? Colors.redAccent : Renkler.zemin,
       ),
     );
   }
@@ -812,13 +812,13 @@ Color _kategoriRengi(String kategori) {
     case 'Şifa':
       return Colors.greenAccent;
     case 'Sınav / Eğitim':
-      return Colors.blueAccent;
+      return Renkler.acikVurgu;
     case 'Borç / Sıkıntı':
-      return Colors.orangeAccent;
+      return Renkler.vurgu;
     case 'Ailevi Durum':
-      return Colors.pinkAccent;
+      return Renkler.vurgu;
     default:
-      return Colors.tealAccent;
+      return Renkler.acikVurgu;
   }
 }
 

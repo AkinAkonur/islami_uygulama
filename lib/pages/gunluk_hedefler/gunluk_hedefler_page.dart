@@ -117,7 +117,7 @@ class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
         content: Text(
           ok ? l.t('gh.freezerBought') : l.t('gh.insufficientXp'),
         ),
-        backgroundColor: ok ? Colors.green : Colors.blueGrey,
+        backgroundColor: ok ? Colors.green : Renkler.zemin,
       ),
     );
   }

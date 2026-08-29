@@ -177,11 +177,11 @@ class _Parcacik {
 
 const List<Color> _renkler = [
   Color(0xFFF2C14E),
-  Color(0xFF4FC3C9),
-  Color(0xFFF09A6E),
-  Color(0xFF9BB8E8),
+  Color(0xFF54D780),
+  Color(0xFFEED07A),
+  Color(0xFF66BB6A),
   Color(0xFF10B981),
-  Color(0xFFEC4899),
+  Color(0xFFE4C25B),
 ];
 
 class _KonfetiPainter extends CustomPainter {

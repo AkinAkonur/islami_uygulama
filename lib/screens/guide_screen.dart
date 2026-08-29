@@ -47,13 +47,13 @@ class _GuideScreenState extends State<GuideScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: Color(0xFF0F1410),
+      backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
           l.t('gu.title'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
         ),
-        backgroundColor: Color(0xFF141F18),
+        backgroundColor: Renkler.kart,
         elevation: 0,
         iconTheme: IconThemeData(color: Renkler.vurgu),
       ),
@@ -61,7 +61,7 @@ class _GuideScreenState extends State<GuideScreen> {
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            color: Color(0xFF141F18),
+            color: Renkler.kart,
             child: Row(
               children: [
                 Text(l.t('gu.madhab'), style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
@@ -80,8 +80,8 @@ class _GuideScreenState extends State<GuideScreen> {
                           child: ChoiceChip(
                             label: Text(m),
                             selected: isSelected,
-                            selectedColor: Color(0xFF243B2E),
-                            backgroundColor: Color(0xFF1E2620),
+                            selectedColor: Renkler.seciliYuzey,
+                            backgroundColor: Renkler.yuzey,
                             labelStyle: TextStyle(color: isSelected ? Renkler.vurgu : Colors.white60, fontWeight: FontWeight.bold),
                             onSelected: (val) {
                               setState(() => _selectedMadhab = m);
@@ -138,9 +138,9 @@ class _GuideScreenState extends State<GuideScreen> {
                   content: Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Color(0xFF161E18),
+                      color: Renkler.yuzey,
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: Color(0xFF223028)),
+                      border: Border.all(color: Renkler.cerceve2),
                     ),
                     child: Text(s["content"]!, style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.4)),
                   ),

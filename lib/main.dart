@@ -402,7 +402,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           Expanded(
             child: _QuickAction(
               ikon: Icons.menu_book_outlined,
-              renk: Colors.lightBlueAccent,
+              renk: Renkler.vurgu,
               label: l.t('h.navKuran'),
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KuranBolumuPage())),
             ),
@@ -410,7 +410,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           Expanded(
             child: _QuickAction(
               ikon: Icons.explore_outlined,
-              renk: Colors.tealAccent,
+              renk: Renkler.acikVurgu,
               label: l.t('mod.pusulaAlt'),
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
             ),
@@ -418,7 +418,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           Expanded(
             child: _QuickAction(
               ikon: Icons.radio_button_checked,
-              renk: Colors.pinkAccent,
+              renk: Renkler.vurgu,
               label: l.t('mod.hizli'),
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
             ),
@@ -426,7 +426,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           Expanded(
             child: _QuickAction(
               ikon: Icons.pan_tool_alt_outlined,
-              renk: Colors.orangeAccent,
+              renk: Renkler.acikVurgu,
               label: l.t('h.duas'),
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DualarPage())),
             ),
@@ -454,35 +454,35 @@ class _AnaSayfaState extends State<AnaSayfa> {
           ),
           _ModuleCard(
             ikon: Icons.local_fire_department_outlined,
-            renk: Colors.deepOrangeAccent,
+            renk: Renkler.vurgu,
             baslik: l.t('mod.gorev'),
             altMetin: '',
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => GunlukGorevPage())),
           ),
           _ModuleCard(
             ikon: Icons.mosque_outlined,
-            renk: Colors.cyanAccent,
+            renk: Renkler.acikVurgu,
             baslik: l.t('mod.cami'),
             altMetin: l.t('mod.camiAlt'),
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KonumPage())),
           ),
           _ModuleCard(
             ikon: Icons.donut_large_outlined,
-            renk: Colors.amberAccent,
+            renk: Renkler.vurgu,
             baslik: l.t('mod.carki'),
             altMetin: l.t('mod.carkiAlt'),
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => HedefCarkiPage())),
           ),
           _ModuleCard(
             ikon: Icons.radio_button_checked,
-            renk: Colors.pinkAccent,
+            renk: Renkler.vurgu,
             baslik: l.t('mod.hizli'),
             altMetin: '',
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
           ),
           _ModuleCard(
             ikon: Icons.headphones_outlined,
-            renk: Colors.blueAccent,
+            renk: Renkler.acikVurgu,
             baslik: l.t('mod.dinle'),
             altMetin: l.t('mod.dinleAlt'),
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SureListesiPage())),
@@ -503,14 +503,14 @@ class _AnaSayfaState extends State<AnaSayfa> {
         children: [
           _ModuleCard(
             ikon: Icons.widgets_outlined,
-            renk: Colors.purpleAccent,
+            renk: Renkler.vurgu,
             baslik: l.t('mod.widget'),
             altMetin: l.t('mod.widgetAlt'),
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => WidgetRehberiPage())),
           ),
           _ModuleCard(
             ikon: Icons.explore_outlined,
-            renk: Colors.tealAccent,
+            renk: Renkler.acikVurgu,
             baslik: l.t('mod.pusula'),
             altMetin: l.t('mod.pusulaAlt'),
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
@@ -560,7 +560,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           child: Row(
             children: [
               SekilPlaka(
-                sekil: PlakaSekli.mihrap,
+                sekil: PlakaSekli.daire,
                 ikon: Icons.explore_outlined,
                 ikonRenk: Renkler.vurgu,
                 boyut: 38,
@@ -603,7 +603,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
       children: [
         _buildIconMenu(context, Icons.pan_tool_alt_outlined, l.t('h.duas'), Colors.orangeAccent, DualarPage()),
         _buildIconMenu(context, Icons.dark_mode_outlined, l.t('h.donate'), Colors.amber, BagisPage()),
-        _buildIconMenu(context, Icons.filter_frames, l.t('h.cuzler'), Colors.tealAccent, CuzlerPage()),
+        _buildIconMenu(context, Icons.filter_frames, l.t('h.cuzler'), Renkler.vurgu, CuzlerPage()),
         _buildIconMenu(context, Icons.menu_book_outlined, l.t('h.ilham'), Colors.orange, IlhamPage()),
       ],
     );
@@ -681,7 +681,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
     Color iconColor,
     Widget targetPage, {
     KartSekli kartSekli = KartSekli.klasik,
-    PlakaSekli plakaSekli = PlakaSekli.yuvarlakKare,
+    PlakaSekli plakaSekli = PlakaSekli.daire,
   }) {
     final ikonMenu = GestureDetector(
       onTap: () {
@@ -1262,10 +1262,32 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: _aktif == 0
-                  ? _ayetIcerigi(dayOfYear, l)
+                  ? GestureDetector(
+                      key: const ValueKey<int>(0),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const KuranBolumuPage(),
+                          ),
+                        );
+                      },
+                      child: _ayetIcerigi(dayOfYear, l),
+                    )
                   : _aktif == 1
                       ? const GununSorusuKarti()
-                      : _ilhamIcerigi(),
+                      : GestureDetector(
+                          key: const ValueKey<int>(2),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const IlhamPage(),
+                              ),
+                            );
+                          },
+                          child: _ilhamIcerigi(),
+                        ),
             ),
             const SizedBox(height: 14),
           ],
@@ -1335,6 +1357,12 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
             l.t('ref.${ayetIndex + 1}'),
             textAlign: TextAlign.right,
             style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '${l.t('kn.viewAll')} →',
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white54, fontSize: 11),
           ),
         ],
       ),
@@ -1710,7 +1738,7 @@ class _HizliTesbihKartiState extends State<_HizliTesbihKarti> {
               SekilPlaka(
                 sekil: PlakaSekli.daire,
                 ikon: Icons.radio_button_checked,
-                ikonRenk: Colors.pinkAccent,
+                ikonRenk: Renkler.vurgu,
                 boyut: 34,
               ),
               const SizedBox(width: 10),

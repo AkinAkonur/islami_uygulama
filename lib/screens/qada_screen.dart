@@ -40,13 +40,13 @@ class _QadaScreenState extends State<QadaScreen> {
     int totalQada = _qadaCounts.values.fold(0, (sum, val) => sum + val);
 
     return Scaffold(
-      backgroundColor: Color(0xFF0F1410),
+      backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context).t('c.kazaTracker'),
           style: TextStyle(fontWeight: FontWeight.bold, color: Renkler.vurgu),
         ),
-        backgroundColor: Color(0xFF141F18),
+        backgroundColor: Renkler.kart,
         elevation: 0,
         iconTheme: IconThemeData(color: Renkler.vurgu),
       ),
@@ -60,12 +60,12 @@ class _QadaScreenState extends State<QadaScreen> {
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF3B2E1B), Color(0xFF1D170D)],
+                  colors: [Renkler.kart, Renkler.zemin],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.orange.withValues(alpha: 0.4), width: 1.5),
+                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.4), width: 1.5),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,12 +73,12 @@ class _QadaScreenState extends State<QadaScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("TOPLAM BEKLEYEN KAZA", style: TextStyle(color: Colors.orangeAccent, fontSize: 11, fontWeight: FontWeight.bold)),
+                      Text("TOPLAM BEKLEYEN KAZA", style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold)),
                       SizedBox(height: 6),
                       Text(l.t('qd.prayerTimes').replaceAll('{count}', totalQada.toString()), style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  UcdIkon(ikon: Icons.assignment_turned_in_rounded, renk: Colors.orangeAccent, boyut: 40),
+                  UcdIkon(ikon: Icons.assignment_turned_in_rounded, renk: Renkler.vurgu, boyut: 40),
                 ],
               ),
             ),
@@ -94,9 +94,9 @@ class _QadaScreenState extends State<QadaScreen> {
                 margin: EdgeInsets.only(bottom: 12),
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                  color: Color(0xFF161E18),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Color(0xFF223028)),
+color: Renkler.yuzey,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Renkler.cerceve2),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +106,7 @@ class _QadaScreenState extends State<QadaScreen> {
                       children: [
                         IconButton(
                           onPressed: () => _decrement(vakit),
-                          icon: UcdIkon(ikon: Icons.remove_circle_outline_rounded, renk: Colors.orangeAccent),
+                          icon: UcdIkon(ikon: Icons.remove_circle_outline_rounded, renk: Renkler.vurgu),
                         ),
                         Container(
                           width: 50,

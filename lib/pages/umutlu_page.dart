@@ -36,7 +36,7 @@ class _UmutluPageState extends State<UmutluPage> {
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(l.t('um.title')),
-        backgroundColor: Color(0xFF261E2B),
+        backgroundColor: Renkler.yuzey,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -49,16 +49,16 @@ class _UmutluPageState extends State<UmutluPage> {
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF261E2B), Renkler.zemin],
+                  colors: [Renkler.yuzey, Renkler.zemin],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.purpleAccent.withValues(alpha: 0.3)),
+                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  UcdIkon(ikon: Icons.wb_sunny_rounded, renk: Colors.purpleAccent, boyut: 40),
+                  UcdIkon(ikon: Icons.wb_sunny_rounded, renk: Renkler.vurgu, boyut: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -93,7 +93,7 @@ class _UmutluPageState extends State<UmutluPage> {
               decoration: BoxDecoration(
                 color: Renkler.kart,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.purpleAccent.withValues(alpha: 0.2)),
+                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.2)),
               ),
               child: Column(
                 children: [
@@ -120,7 +120,7 @@ class _UmutluPageState extends State<UmutluPage> {
                   Text(
                     l.t('um.verseSource'),
                     style: TextStyle(
-                      color: Colors.purpleAccent,
+                      color: Renkler.vurgu,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -153,7 +153,7 @@ class _UmutluPageState extends State<UmutluPage> {
                   onPressed: _addGoal,
                   icon: UcdIkon(
                     ikon: Icons.add_circle,
-                    renk: Colors.purpleAccent,
+                    renk: Renkler.vurgu,
                     boyut: 40,
                   ),
                 ),
@@ -173,7 +173,7 @@ class _UmutluPageState extends State<UmutluPage> {
                   color: Renkler.kart,
                   margin: EdgeInsets.only(bottom: 8),
                   child: CheckboxListTile(
-                    activeColor: Colors.purpleAccent,
+                    activeColor: Renkler.vurgu,
                     checkColor: Colors.white,
                     value: goal["isDone"],
                     onChanged: (val) {
@@ -190,7 +190,7 @@ class _UmutluPageState extends State<UmutluPage> {
                             : null,
                       ),
                     ),
-                    secondary: UcdIkon(ikon: Icons.star_border_rounded, renk: Colors.purpleAccent),
+                    secondary: UcdIkon(ikon: Icons.star_border_rounded, renk: Renkler.vurgu),
                   ),
                 );
               },

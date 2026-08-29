@@ -189,8 +189,8 @@ class _SureListesiPageState extends State<SureListesiPage> {
               ),
             ),
             trailing: mekkiMi
-                ? Icon(Icons.wb_sunny_outlined, color: Colors.orangeAccent, size: 16)
-                : Icon(Icons.home_outlined, color: Colors.blueAccent, size: 16),
+                ? Icon(Icons.wb_sunny_outlined, color: Renkler.vurgu, size: 16)
+                : Icon(Icons.home_outlined, color: Renkler.acikVurgu, size: 16),
           ),
         );
       },

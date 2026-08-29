@@ -158,7 +158,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                     Icons.favorite_outline_rounded,
                     l.t('sb.duaToday'),
                     binlikSayi(_bugunDua),
-                    Colors.pinkAccent,
+                    Renkler.vurgu,
                     () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => DuaDuvariPage()),
@@ -171,7 +171,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
                     Icons.menu_book_rounded,
                     l.t('sb.hatimDone'),
                     binlikSayi(_hatimTamamlanan),
-                    Colors.orangeAccent,
+                    Renkler.acikVurgu,
                     () => Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -193,7 +193,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.campaign_rounded,
               l.t('sb.mDuaWall'),
               l.t('sb.mDuaWallSub'),
-              Colors.pinkAccent,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => DuaDuvariPage()),
@@ -204,7 +204,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.link_rounded,
               l.t('sb.mZincir'),
               l.t('sb.mZincirSub'),
-              Colors.amber,
+              Renkler.acikVurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => DuaZincirleriPage()),
@@ -215,7 +215,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.chat_bubble_outline_rounded,
               l.t('sb.mOdalar'),
               l.t('sb.mOdalarSub'),
-              Colors.teal,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => DuaOdalariPage()),
@@ -226,7 +226,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.record_voice_over_rounded,
               l.t('sb.mMubarek'),
               l.t('sb.mMubarekSub'),
-              Colors.deepPurpleAccent,
+              Renkler.acikVurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => MubarekSurelerPage()),
@@ -237,7 +237,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.groups_2_rounded,
               l.t('sb.mHatim'),
               l.t('sb.mHatimSub'),
-              Colors.orange,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => HatimHalkalariPage()),
@@ -255,7 +255,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.volunteer_activism_rounded,
               l.t('sb.mKampanya'),
               l.t('sb.mKampanyaSub'),
-              Colors.deepOrange,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => YardimKampanyalariPage()),
@@ -325,7 +325,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.wb_sunny_rounded,
               l.t('sb.mMesaj'),
               l.t('sb.mMesajSub'),
-              Colors.purpleAccent,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => IslamiAkisPage()),
@@ -336,7 +336,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.groups_rounded,
               l.t('sb.mHalka'),
               l.t('sb.mHalkaSub'),
-              Colors.cyan,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => ManeviHalkalarPage()),
@@ -347,7 +347,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.auto_awesome_rounded,
               l.t('sb.mZikir'),
               l.t('sb.mZikirSub'),
-              Colors.pink,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => ZikirKampanyalariPage()),
@@ -358,7 +358,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.auto_stories_rounded,
               l.t('sb.mHikaye'),
               l.t('sb.mHikayeSub'),
-              Colors.lightBlue,
+              Renkler.acikVurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => IyilikHikayeleriPage()),
@@ -376,7 +376,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.map_rounded,
               l.t('sb.mDunya'),
               l.t('sb.mDunyaSub'),
-              Colors.indigoAccent,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => DunyaUmmetiPage()),
@@ -387,7 +387,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
               Icons.flag_rounded,
               l.t('sb.mMazlum'),
               l.t('sb.mMazlumSub'),
-              Colors.deepOrange,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => MazlumCografyalarPage()),

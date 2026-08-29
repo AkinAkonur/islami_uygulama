@@ -1217,7 +1217,7 @@ class _KabeCanliPageState extends State<KabeCanliPage>
         ),
         _bilgiKarti(
           ikon: Icons.sync_alt_rounded,
-          renk: Colors.tealAccent,
+          renk: Renkler.acikVurgu,
           baslik: l.t('kbc.cardBackupTitle'),
           alt: l.t('kbc.cardBackupBody'),
         ),

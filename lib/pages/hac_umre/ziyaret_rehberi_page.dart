@@ -327,7 +327,7 @@ class _MekanDetayPage extends StatelessWidget {
             _Bolum(
               ikon: Icons.volunteer_activism_outlined,
               baslik: l.t('zr.adab'),
-              renk: Colors.tealAccent,
+              renk: Renkler.vurgu,
               cocuklar: [
                 for (final a in mekan.ziyaretAdabi)
                   _madde(ikon: Icons.favorite_outline, metin: a),

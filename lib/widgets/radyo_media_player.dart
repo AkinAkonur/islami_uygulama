@@ -207,7 +207,7 @@ class RadyoMediaPlayer extends StatelessWidget {
                 onPressed: () => RadyoOynaticiStore.favoriDegistir(kanal.url),
                 icon: Icon(
                   favori ? Icons.favorite : Icons.favorite_border,
-                  color: favori ? Colors.pinkAccent : Colors.white54,
+                  color: favori ? Renkler.vurgu : Colors.white54,
                 ),
               ),
             ],

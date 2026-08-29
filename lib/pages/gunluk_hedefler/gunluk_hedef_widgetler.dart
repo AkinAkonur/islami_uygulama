@@ -101,7 +101,7 @@ class MagazaKarti extends StatelessWidget {
             height: 46,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: Colors.lightBlueAccent.withValues(alpha: 0.15),
+              color: Renkler.acikVurgu.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Text('🧊', style: TextStyle(fontSize: 22)),

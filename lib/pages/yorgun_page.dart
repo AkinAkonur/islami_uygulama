@@ -26,7 +26,7 @@ class _YorgunPageState extends State<YorgunPage> {
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(l.t('yg.title')),
-        backgroundColor: Color(0xFF1E242B),
+        backgroundColor: Renkler.yuzey,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -39,16 +39,16 @@ class _YorgunPageState extends State<YorgunPage> {
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF1E242B), Renkler.zemin],
+                  colors: [Renkler.yuzey, Renkler.zemin],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.blueAccent.withValues(alpha: 0.3)),
+                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  UcdIkon(ikon: Icons.bedtime_rounded, renk: Colors.blueAccent, boyut: 40),
+                  UcdIkon(ikon: Icons.bedtime_rounded, renk: Renkler.vurgu, boyut: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -80,13 +80,13 @@ class _YorgunPageState extends State<YorgunPage> {
             Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Color(0xFF1E242B),
+                color: Renkler.yuzey,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.blueAccent),
+                border: Border.all(color: Renkler.vurgu),
               ),
               child: Column(
                 children: [
-                  UcdIkon(ikon: Icons.air_rounded, renk: Colors.blueAccent, boyut: 44),
+                  UcdIkon(ikon: Icons.air_rounded, renk: Renkler.vurgu, boyut: 44),
                   SizedBox(height: 12),
                   Text(
                     _isBreathingActive ? l.t('yg.breathing') : l.t('yg.breathStart'),
@@ -106,7 +106,7 @@ class _YorgunPageState extends State<YorgunPage> {
                   SizedBox(height: 16),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
+                      backgroundColor: Renkler.vurgu,
                       foregroundColor: Colors.white,
                     ),
                     onPressed: _startBreathing,
@@ -126,7 +126,7 @@ class _YorgunPageState extends State<YorgunPage> {
               decoration: BoxDecoration(
                 color: Renkler.kart,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.blueAccent.withValues(alpha: 0.2)),
+                border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.2)),
               ),
               child: Column(
                 children: [
@@ -153,7 +153,7 @@ class _YorgunPageState extends State<YorgunPage> {
                   Text(
                     l.t('yg.verseSource'),
                     style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: Renkler.vurgu,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -204,7 +204,7 @@ class _YorgunPageState extends State<YorgunPage> {
       margin: EdgeInsets.only(bottom: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
-        leading: UcdIkon(ikon: Icons.bedtime, renk: Colors.blueAccent),
+        leading: UcdIkon(ikon: Icons.bedtime, renk: Renkler.vurgu),
         title: Text(
           title,
           style: TextStyle(

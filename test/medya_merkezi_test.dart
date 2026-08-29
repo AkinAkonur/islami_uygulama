@@ -63,7 +63,7 @@ void main() {
     expect(find.textContaining('Sünnet Radyosu'), findsOneWidget);
   });
 
-  testWidgets('Mekke & Medine sanal tur sayfasi canli ve 360 girdileri sunar', (
+  testWidgets('Mekke & Medine sanal tur sayfasi 360 ve mekan girdileri sunar', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(800, 2400);
@@ -75,11 +75,8 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
 
     expect(find.text('Mekke & Medine Sanal Tur'), findsOneWidget);
-    expect(find.text('🔴 Canlı Yayınlar'), findsOneWidget);
     expect(find.text('🎥 360° Sanal Tur'), findsOneWidget);
     expect(find.text('📍 Mekânlar'), findsOneWidget);
-    expect(find.text('Mescid-i Haram - Kâbe Canlı'), findsOneWidget);
-    expect(find.text('Mescid-i Nebevî Canlı'), findsOneWidget);
     expect(find.text('Kâbe 360° Sanal Tur (Mekke)'), findsOneWidget);
     expect(find.text('Mescid-i Haram ve Kâbe'), findsOneWidget);
   });

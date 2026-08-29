@@ -2,9 +2,7 @@
 // MEKKE & MEDİNE 360° SANAL TUR / GÖRSELLER
 // ---------------------------------------------------------------------------
 // İnteraktif Medya Merkezi modülü: dünyanın neresinden olursanız olun kutsal
-// mekânları anlık izleyin.
-//  🔴 Canlı Yayınlar: Mescid-i Haram (Kâbe) ve Mescid-i Nebevî canlı yayını
-//     HLS (ExoPlayer) ile, WebView/YouTube IFrame'e bağımlı olmadan (KabeCanliPage).
+// mekânları keşfedin.
 //  🎥 360° Sanal Tur: 360 derece video turlar (YouTube uygulamasında açılır).
 //  📍 Mekânlar: Google Haritalar üzerinden konum & yol tarifi.
 // ===========================================================================
@@ -15,7 +13,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
-import 'kabe_canli_page.dart';
 
 class SanalTurNoktasi {
   final String baslik;
@@ -69,14 +66,14 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
     ),
   ];
 
-  static const _mekanlar = [
+  static final _mekanlar = [
     MekanKaydi(
       ad: 'Mescid-i Haram ve Kâbe',
       aciklama: 'Tavaf alanı ve Kâbe-i Muazzama · Mekke',
       enlem: 21.4225,
       boylam: 39.8262,
       ikon: Icons.mosque_outlined,
-      renk: Colors.tealAccent,
+      renk: Renkler.vurgu,
     ),
     MekanKaydi(
       ad: 'Mescid-i Nebevî',
@@ -100,7 +97,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
       enlem: 21.4133,
       boylam: 39.8933,
       ikon: Icons.holiday_village_outlined,
-      renk: Colors.deepOrangeAccent,
+      renk: Renkler.vurgu,
     ),
     MekanKaydi(
       ad: 'Müzdelife',
@@ -108,7 +105,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
       enlem: 21.3867,
       boylam: 39.8902,
       ikon: Icons.nights_stay_outlined,
-      renk: Colors.indigoAccent,
+      renk: Renkler.acikVurgu,
     ),
     MekanKaydi(
       ad: 'Hira Mağarası',
@@ -116,7 +113,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
       enlem: 21.4575,
       boylam: 39.8589,
       ikon: Icons.landscape_outlined,
-      renk: Colors.purpleAccent,
+      renk: Renkler.vurgu,
     ),
     MekanKaydi(
       ad: 'Sevr Mağarası',
@@ -124,7 +121,7 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
       enlem: 21.3786,
       boylam: 39.8531,
       ikon: Icons.hiking_outlined,
-      renk: Colors.blueAccent,
+      renk: Renkler.acikVurgu,
     ),
     MekanKaydi(
       ad: 'Cennetü\'l-Bakî',
@@ -194,38 +191,6 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           _davetBanneri(l),
-          const SizedBox(height: 18),
-
-          _bolumBasligi(l.t('stm.live'), l.t('stm.liveSub')),
-          const SizedBox(height: 10),
-          _videoKarti(
-            ikon: Icons.mosque_outlined,
-            renk: Colors.redAccent,
-            baslik: l.t('stm.haramLive'),
-            alt: l.t('stm.haramLiveSub'),
-            canli: true,
-            canliEtiket: l.t('stm.liveBadge'),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const KabeCanliPage(),
-              ),
-            ),
-          ),
-          _videoKarti(
-            ikon: Icons.place_outlined,
-            renk: Colors.greenAccent,
-            baslik: l.t('stm.nebeviLive'),
-            alt: l.t('stm.nebeviLiveSub'),
-            canli: true,
-            canliEtiket: l.t('stm.liveBadge'),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const KabeCanliPage(medineYayini: true),
-              ),
-            ),
-          ),
           const SizedBox(height: 18),
 
           _bolumBasligi(l.t('stm.tours'), l.t('stm.toursSub')),

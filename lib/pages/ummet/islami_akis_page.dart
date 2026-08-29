@@ -118,10 +118,10 @@ class IslamiAkisPage extends StatelessWidget {
 
   Widget _mesajKarti(Map<String, String> m) {
     final renk = m['tip'] == 'Ayet'
-        ? const Color(0xFF4FC3C9)
+        ? Renkler.vurgu
         : m['tip'] == 'Hadis'
-            ? const Color(0xFFF2C14E)
-            : const Color(0xFFEC4899);
+            ? Renkler.vurgu
+            : Renkler.acikVurgu;
     return Card(
       color: Renkler.kart,
       margin: EdgeInsets.zero,

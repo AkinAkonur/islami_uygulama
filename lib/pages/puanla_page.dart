@@ -248,7 +248,7 @@ class _PuanlaSayfasiState extends State<PuanlaSayfasi> {
         child: Icon(
           dolmus ? Icons.star_rounded : Icons.star_outline_rounded,
           size: 40,
-          color: dolmus ? const Color(0xFFF2C14E) : Renkler.cerceve,
+          color: dolmus ? Renkler.vurgu : Renkler.cerceve,
         ),
       ),
     );

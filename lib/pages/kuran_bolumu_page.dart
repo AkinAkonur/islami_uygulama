@@ -208,7 +208,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
               Icons.filter_alt_outlined,
               l.t('qn.cuzList'),
               l.t('qn.cuzListDesc'),
-              Colors.teal,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => CuzListesiPage()),
@@ -305,7 +305,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
               Icons.folder_special_outlined,
               l.t('qn.thematic'),
               l.t('qn.thematicDesc'),
-              Colors.pinkAccent,
+              Renkler.acikVurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => TematikAyetlerPage()),
@@ -320,7 +320,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
               Icons.self_improvement,
               l.t('qn.shortSures'),
               l.t('qn.shortSuresDesc'),
-              Colors.purpleAccent,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => KisaSurelerPage()),
@@ -331,7 +331,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
               Icons.star_outline,
               l.t('qn.specialDays'),
               l.t('qn.specialDaysDesc'),
-              Colors.amber,
+              Renkler.acikVurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => KisaSurelerPage(tab: 1)),
@@ -342,7 +342,7 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
               Icons.auto_stories_outlined,
               l.t('qn.mannersTitle'),
               l.t('qn.mannersDesc'),
-              Colors.cyan,
+              Renkler.vurgu,
               () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => KuranAdabiPage()),
