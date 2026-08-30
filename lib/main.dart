@@ -83,6 +83,19 @@ Future<void> main() async {
   // Namaz bildirimleri: arka plan görevini kaydet (yalnızca Android).
   // Uygulama kapalıyken de günde bir kez bildirimler yeniden planlanır.
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    // Arka plan gorevi kaydi Flutter ilk karesini BLOCKLAMASIN diye
+    // runApp sonrasinda arka planda yapilir (birkaç saniyelik gecikme olabilir).
+    unawaited(_arkaPlanInit());
+  }
+  runApp(const MyApp());
+}
+
+/// Akşamcılık/yavaş platform çağrılarını uygulama arayüzünden ayırır:
+/// doğal başlangıç ekranı (splash) Flutter ilk karesine kadar görünür;
+/// bu kare ne kadar erken gelirse açılış o kadar hızlı hissettirir.
+Future<void> _arkaPlanInit() async {
+  if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return;
+  try {
     await Workmanager().initialize(bildirimleriTazele);
     await Workmanager().registerPeriodicTask(
       'namaz-bildirim-tazeleme',
@@ -90,8 +103,10 @@ Future<void> main() async {
       frequency: const Duration(hours: 24),
       initialDelay: const Duration(minutes: 10),
     );
+  } catch (_) {
+    // Arka plan gorevi kaydedilemezse bildirim tazelemesi atlanir;
+    // uygulama acilisini engellememesi esasdir.
   }
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

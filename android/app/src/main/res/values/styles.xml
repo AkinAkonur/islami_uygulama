@@ -2,14 +2,15 @@
 <resources>
     <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is off -->
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">@drawable/launch_background</item>
-        <!-- Android 12+ sistem acilis ekranini ana sayfa renginde ikonsuz yapar -->
-        <item name="android:windowSplashScreenBackground">@color/launch_background_color</item>
+        <!-- Dogal bashlangic ekrani tamamen sekffaf: beyaz/yesil/logo yok.
+             Flutter ilk karesini cizince uygulama dogrudan gorunur. -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- Android 12+ sistem acilis ekrani da sekffaf -->
+        <item name="android:windowSplashScreenBackground">@android:color/transparent</item>
         <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
-        <item name="android:windowSplashScreenIconBackgroundColor">@android:color/transparent</item>
     </style>
     <!-- Theme applied to the Android Window as soon as the process has started. -->
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">@color/launch_background_color</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 </resources>
