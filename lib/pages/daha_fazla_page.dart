@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../l10n/app_localizations.dart';
+import '../services/canli_yayin_konfigurasyonu.dart';
+import '../services/dini_gunler_servisi.dart';
+import '../services/radyo_oynatici_store.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
-import '../services/canli_yayin_konfigurasyonu.dart';
-import '../services/radyo_oynatici_store.dart';
 import '../widgets/radyo_media_player.dart';
 import '../widgets/radyo_mini_oynatici.dart';
 import 'hadis_kutuphanesi_page.dart';
@@ -19,6 +21,8 @@ import 'kabe_canli_page.dart';
 import 'sesli_kissalar_ve_podcastler_page.dart';
 import 'mekke_medine_sanal_tur_page.dart';
 import 'gizlilik_merkezi_page.dart';
+import 'kuran/hatim_takibi_page.dart';
+import 'profil_sayfasi.dart';
 
 class DahaFazlaPage extends StatelessWidget {
   const DahaFazlaPage({super.key});
@@ -453,7 +457,7 @@ class DahaFazlaPage extends StatelessWidget {
 }
 
 // ===========================================================================
-// SUB-PAGES FOR EACH MODULE (Interactive & Functional placeholders)
+// SUB-PAGES FOR EACH MODULE (Interactive & Functional content)
 // ===========================================================================
 
 class EsmaulHusnaPage extends StatelessWidget {
@@ -609,19 +613,182 @@ Es-Sabûr|الصَّبُور|Çok sabırlı|Günahkârlara ceza vermekte acele e
   }
 }
 
-class HicriTakvimPage extends StatelessWidget {
+class HicriTakvimPage extends StatefulWidget {
   const HicriTakvimPage({super.key});
+  @override
+  State<HicriTakvimPage> createState() => _HicriTakvimPageState();
+}
+
+class _HicriTakvimPageState extends State<HicriTakvimPage> {
+  Timer? _sureci;
+
+  static const _aylar = [
+    'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _sureci = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _sureci?.cancel();
+    super.dispose();
+  }
+
+  String _gunYaz(DateTime d) => '${d.day} ${_aylar[d.month - 1]} ${d.year}';
+
+  int _kalanGun(DateTime hedef) {
+    final n = DateTime.now();
+    final bugun = DateTime(n.year, n.month, n.day);
+    final t = DateTime(hedef.year, hedef.month, hedef.day);
+    return t.difference(bugun).inDays;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return _buildStandardSubPage(l.t('df.hijriFull'), [
-      _item(
-        "Bugün: 18 Safer 1448",
-        "Mübarek üç aylara ve kandillere kalan süreler.",
+    final now = DateTime.now();
+    final ramazan = DiniGunlerServisi.sonrakiRamazanBaslangic(now);
+    final ozel = DiniGunlerServisi.ozelGunler
+        .where((o) {
+          final tarih = o['tarih'];
+          return tarih != null && _kalanGun(DateTime.tryParse(tarih) ?? now) >= 0;
+        })
+        .take(8)
+        .toList();
+    return Scaffold(
+      backgroundColor: Renkler.zemin,
+      appBar: AppBar(
+        title: Text(
+          l.t('df.hijriFull'),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Renkler.seciliYuzey,
+        elevation: 0,
       ),
-      _item("Berat Kandili", "Yaklaşan mübarek gece"),
-      _item("Ramazan Başlangıcı", "11 Ayın Sultanı'na kalan süre sayaçları"),
-    ]);
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Renkler.kart, Renkler.zemin],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.4), width: 1.5),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Bugün · ${_gunYaz(now)}',
+                  style: const TextStyle(color: Colors.white70, fontSize: 13),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Hicri ${ProfilStore.hicriYil()}',
+                  style: TextStyle(color: Renkler.vurgu, fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  'Diyanet takvimine göre · tabular hicri yedek',
+                  style: TextStyle(color: Colors.white38, fontSize: 11),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Renkler.kart,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Renkler.cerceve),
+            ),
+            child: Row(
+              children: [
+                UcdIkon(ikon: Icons.emoji_events_rounded, renk: Renkler.vurgu, boyut: 30),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Ramazan Başlangıcına Kalan',
+                        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${_gunYaz(ramazan)} · ${_kalanGun(ramazan)} gün',
+                        style: const TextStyle(color: Colors.white54, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            'Mübarek Günler',
+            style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          for (final g in ozel)
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: Renkler.yuzey,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: Renkler.cerceve2),
+              ),
+              child: Row(
+                children: [
+                  Text(g['ikon'] ?? '🌙', style: const TextStyle(fontSize: 18)),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          g['ad'] ?? '',
+                          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          _gunYaz(DateTime.tryParse(g['tarih'] ?? '') ?? now),
+                          style: const TextStyle(color: Colors.white54, fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Renkler.vurgu.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      '${_kalanGun(DateTime.tryParse(g['tarih'] ?? '') ?? now)} gün',
+                      style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }
 
@@ -900,106 +1067,7 @@ class _ZekatHesaplamaPageState extends State<ZekatHesaplamaPage> {
   );
 }
 
-class HatimTakibiPage extends StatefulWidget {
-  const HatimTakibiPage({super.key});
 
-  @override
-  State<HatimTakibiPage> createState() => _HatimTakibiPageState();
-}
-
-class _HatimTakibiPageState extends State<HatimTakibiPage> {
-  static const _silinenAnahtar = 'hatim_takibi_silinenler';
-  final List<(String, String)> _icerikler = [
-    ("1. Cüz - Bakara Suresi", "%100 Tamamlandı"),
-    ("2. Cüz - Bakara Suresi", "%45 İlerleme"),
-    ("3. Cüz - Al-i İmran", "Henüz Başlanmadı"),
-  ];
-  final Set<String> _silinenler = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _silinenleriYukle();
-  }
-
-  Future<void> _silinenleriYukle() async {
-    final p = await SharedPreferences.getInstance();
-    final kayitli = p.getStringList(_silinenAnahtar) ?? const [];
-    if (!mounted) return;
-    setState(() => _silinenler.addAll(kayitli));
-  }
-
-  Future<void> _sil(String baslik) async {
-    setState(() => _silinenler.add(baslik));
-    final p = await SharedPreferences.getInstance();
-    await p.setStringList(_silinenAnahtar, _silinenler.toList());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final gorunen = _icerikler
-        .where((i) => !_silinenler.contains(i.$1))
-        .toList();
-    return Scaffold(
-      backgroundColor: Renkler.zemin,
-      appBar: AppBar(
-        title: const Text(
-          'Hatim Takibi',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Renkler.seciliYuzey,
-        elevation: 0,
-      ),
-      body: gorunen.isEmpty
-          ? const Center(
-              child: Padding(
-                padding: EdgeInsets.all(24),
-                child: Text(
-                  'Liste boş. Tüm cüz ve sureler silindi.',
-                  style: TextStyle(color: Colors.white70),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            )
-          : ListView(
-              padding: const EdgeInsets.all(16),
-              children: [for (final (baslik, durum) in gorunen) _satir(baslik, durum)],
-            ),
-    );
-  }
-
-  Widget _satir(String baslik, String durum) {
-    return Card(
-      color: Renkler.kart,
-      margin: const EdgeInsets.only(bottom: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: ListTile(
-        contentPadding: const EdgeInsets.only(left: 16, right: 4),
-        leading: CircleAvatar(
-          backgroundColor: Renkler.vurgu.withValues(alpha: 0.15),
-          child: UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 20),
-        ),
-        title: Text(
-          baslik,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-        ),
-        subtitle: Text(
-          durum,
-          style: const TextStyle(color: Colors.white70, fontSize: 12),
-        ),
-        trailing: IconButton(
-          tooltip: 'Sil',
-          onPressed: () => _sil(baslik),
-          icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white38),
-        ),
-      ),
-    );
-  }
-}
 
 class KissalarPage extends StatelessWidget {
   const KissalarPage({super.key});
@@ -1596,29 +1664,4 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
       ),
     );
   }
-}
-
-Widget _buildStandardSubPage(String title, List<Widget> children) {
-  return Scaffold(
-    backgroundColor: Renkler.zemin,
-    appBar: AppBar(title: Text(title), backgroundColor: Renkler.seciliYuzey),
-    body: ListView(padding: EdgeInsets.all(16), children: children),
-  );
-}
-
-Widget _item(String title, String subtitle) {
-  return Card(
-    color: Renkler.kart,
-    margin: EdgeInsets.only(bottom: 10),
-    child: ListTile(
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(
-        subtitle,
-        style: TextStyle(color: Colors.white70, fontSize: 12),
-      ),
-    ),
-  );
 }

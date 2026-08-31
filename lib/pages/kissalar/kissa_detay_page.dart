@@ -9,6 +9,7 @@ import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../kissalar/kissa_store.dart';
 import '../kissalar/kissalar_verileri.dart';
+import '../sesli_kissalar_ve_podcastler_page.dart';
 
 /// Katalog ve kaynakça bilgisi (içeriğin güvenilirlik kaynakları).
 const List<String> _kaynakca = [
@@ -277,25 +278,33 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
   }
 
   Widget _sesliAnlatimKarti(AppLocalizations l) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Renkler.seciliYuzey,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Renkler.vurgu),
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const SesliKissalarVePodcastlerPage(),
+        ),
       ),
-      child: Row(
-        children: [
-          Icon(Icons.headphones, color: Renkler.vurgu, size: 28),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              l.t('ksr.audioAvailable'),
-              style: const TextStyle(color: Colors.white70, fontSize: 12),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Renkler.seciliYuzey,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Renkler.vurgu),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.headphones, color: Renkler.vurgu, size: 28),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                l.t('ksr.audioAvailable'),
+                style: const TextStyle(color: Colors.white70, fontSize: 12),
+              ),
             ),
-          ),
-          Icon(Icons.play_circle_fill, color: Renkler.vurgu, size: 34),
-        ],
+            Icon(Icons.play_circle_fill, color: Renkler.vurgu, size: 34),
+          ],
+        ),
       ),
     );
   }

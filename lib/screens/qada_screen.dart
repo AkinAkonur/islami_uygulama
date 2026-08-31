@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
@@ -11,7 +14,8 @@ class QadaScreen extends StatefulWidget {
 }
 
 class _QadaScreenState extends State<QadaScreen> {
-  final Map<String, int> _qadaCounts = {
+  static const _kayitAnahtari = 'kaza_sayaclari';
+  static const _varsayilan = {
     "Sabah": 145,
     "Öğle": 92,
     "İkindi": 60,
@@ -19,6 +23,38 @@ class _QadaScreenState extends State<QadaScreen> {
     "Yatsı": 110,
     "Vitir": 55,
   };
+  final Map<String, int> _qadaCounts = Map.of(_varsayilan);
+
+  @override
+  void initState() {
+    super.initState();
+    _yukle();
+  }
+
+  Future<void> _yukle() async {
+    final p = await SharedPreferences.getInstance();
+    final kayit = p.getString(_kayitAnahtari);
+    if (kayit == null || !mounted) return;
+    setState(() {
+      final gelen = jsonDecode(kayit);
+      if (gelen is Map) {
+        _qadaCounts.clear();
+        for (final e in gelen.entries) {
+          if (e.key is String && e.value is num) {
+            _qadaCounts[e.key as String] = (e.value as num).toInt();
+          }
+        }
+      }
+      for (final v in _varsayilan.keys) {
+        _qadaCounts.putIfAbsent(v, () => _varsayilan[v]!);
+      }
+    });
+  }
+
+  Future<void> _kaydet() async {
+    final p = await SharedPreferences.getInstance();
+    await p.setString(_kayitAnahtari, jsonEncode(_qadaCounts));
+  }
 
   void _decrement(String key) {
     setState(() {
@@ -26,12 +62,14 @@ class _QadaScreenState extends State<QadaScreen> {
         _qadaCounts[key] = _qadaCounts[key]! - 1;
       }
     });
+    _kaydet();
   }
 
   void _increment(String key) {
     setState(() {
       _qadaCounts[key] = (_qadaCounts[key] ?? 0) + 1;
     });
+    _kaydet();
   }
 
   @override
