@@ -4,7 +4,6 @@ import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
 import '../../widgets/kart_sekilleri.dart';
-import '../bagis_page.dart';
 
 class ZekatHesaplayiciPage extends StatefulWidget {
   const ZekatHesaplayiciPage({super.key});
@@ -101,10 +100,6 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
         backgroundColor: Renkler.bannerUst,
         behavior: SnackBarBehavior.floating,
       ),
-    );
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const BagisPage()),
     );
   }
 

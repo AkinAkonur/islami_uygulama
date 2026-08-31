@@ -8,7 +8,6 @@ const Map<String, String> trDil = {
   'h.more': 'Daha Fazla',
   'h.duas': 'Dualar',
   'h.cuzler': 'Cüz''ler',
-  'h.donate': 'Bağış',
   'h.ilham': 'İlham',
   'h.qiblaTitle': 'Kıble',
   'h.qiblaDir': 'Kıble Yönü',
@@ -1197,21 +1196,6 @@ const Map<String, String> trDil = {
   'df.radioRefresh': 'Kanalları Güncelle',
   'df.radioNotFound': 'Kanal bulunamadı. Güncelle butonu ile yeniden deneyin.',
   'df.radioDesc': '7/24 kesintisiz Kur\'an tilaveti, ilahi ve dini sohbet akışı...',
-
-  // ---------------- BAĞIŞ ----------------
-  'bg.title': 'Sadaka & İyilik Projeleri',
-  'bg.collected': 'Toplanan',
-  'bg.target': 'Hedef',
-  'bg.redirectSnackbar': 'Bağış sayfasına yönlendiriliyorsunuz... Allah kabul etsin.',
-  'bg.donateButton': 'Bağış Yap / Sadaka Ver',
-  'bg.water': 'Su Kuyusu Projeleri',
-  'bg.waterDesc': 'Kurak bölgelerde temiz su kuyusu açılışı.',
-  'bg.orphan': 'Yetim Sponsorluğu',
-  'bg.orphanDesc': 'Bir yetimin aylık eğitim ve gıda ihtiyacı.',
-  'bg.quran': 'Kur\'an-ı Kerim Dağıtımı',
-  'bg.quranDesc': 'İhtiyaç sahiplerine Kur\'an ve meal hediyesi.',
-  'bg.food': 'İyilik Sofrası (Gıda Paketi)',
-  'bg.foodDesc': 'Muhtaç aileler için sıcak yemek ve gıda kolisi.',
 
   // ---------------- DUA DUVari ----------------
   'dw.title': 'Canlı Dua Duvarı',

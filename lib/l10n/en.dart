@@ -8,7 +8,6 @@ const Map<String, String> enDil = {
   'h.more': 'More',
   'h.duas': 'Duas',
   'h.cuzler': 'Juz',
-  'h.donate': 'Donate',
   'h.ilham': 'Inspiration',
   'h.qiblaTitle': 'Qibla',
   'h.qiblaDir': 'Qibla Direction',
@@ -1203,19 +1202,6 @@ const Map<String, String> enDil = {
   'df.radioDesc': '24/7 Quran recitation, nasheed and Islamic lectures...',
 
   // ---------------- DONATE ----------------
-  'bg.title': 'Charity & Good Deed Projects',
-  'bg.collected': 'Collected',
-  'bg.target': 'Target',
-  'bg.redirectSnackbar': 'Redirecting to donation page... May Allah accept.',
-  'bg.donateButton': 'Donate / Give Sadaqah',
-  'bg.water': 'Water Well Projects',
-  'bg.waterDesc': 'Clean water well opening in arid regions.',
-  'bg.orphan': 'Orphan Sponsorship',
-  'bg.orphanDesc': 'Monthly education and food needs of an orphan.',
-  'bg.quran': 'Quran Distribution',
-  'bg.quranDesc': 'Quran and translation gift for those in need.',
-  'bg.food': 'Goodness Table (Food Package)',
-  'bg.foodDesc': 'Hot meals and food parcels for families in need.',
 
   // ---------------- PRAYER WALL ----------------
   'dw.title': 'Live Prayer Wall',

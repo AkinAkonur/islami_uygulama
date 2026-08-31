@@ -19,7 +19,7 @@ import 'pages/umutlu_page.dart';
 import 'pages/kaygili_page.dart';
 import 'pages/daha_fazla_page.dart';
 import 'pages/dualar_page.dart';
-import 'pages/bagis_page.dart';
+
 import 'pages/tesbih_page.dart';
 import 'pages/cuzler_page.dart';
 import 'pages/ilham_page.dart';
@@ -622,7 +622,6 @@ class _AnaSayfaState extends State<AnaSayfa> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         _buildIconMenu(context, Icons.pan_tool_alt_outlined, l.t('h.duas'), Colors.orangeAccent, DualarPage()),
-        _buildIconMenu(context, Icons.dark_mode_outlined, l.t('h.donate'), Colors.amber, BagisPage()),
         _buildIconMenu(context, Icons.filter_frames, l.t('h.cuzler'), Renkler.vurgu, CuzlerPage()),
         _buildIconMenu(context, Icons.menu_book_outlined, l.t('h.ilham'), Colors.orange, IlhamPage()),
       ],
