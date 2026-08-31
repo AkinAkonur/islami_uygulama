@@ -5,24 +5,13 @@ import 'package:flutter/scheduler.dart';
 
 import 'kart_sekilleri.dart';
 
-/// Örnek/sınır bilgisi: çalışma anında bağlayıcının (binding) test tipinde olup
-/// olmadığına bakar. Test ortamında sonsuz idle animasyonu devreye girmez,
-/// böylece `pumpAndSettle` zaman aşımına uğramaz.
-bool get _testOrtami {
-  try {
-    return WidgetsBinding.instance.runtimeType.toString().contains('Test');
-  } catch (_) {
-    return false;
-  }
-}
-
 /// Ana sayfadaki kartlara belirgin bir 3D görünüm katan sarmalayıcı:
 ///
 /// - Dokunuş/imleç yönüne göre X/Y ekseninde perspektifli eğilme (tilt),
 /// - Basılıyken "içeri itilme" hissi (hafif ölçeklenme),
-/// - Dokunulmadığında dingin bir "yüzme" salınımı + yavaş geçen ışık bandı
-///   (sayfa durağanken bile kartlar derinlikle nefes alır),
 /// - Eğilmeyle birlikte kayan parlak süpürme (specular) ve alt kenar gölgesi.
+///
+/// Durduğunda kartlar sabittir (dalgalanma/nefes animasyonu çalışmaz).
 ///
 /// İçerik şablonu asla değişmez: `child` aynen korunur, yalnızca derinlik
 /// katmanları eklenir. Dokunma olayları `Listener` ile gözlemlenir (tüketilmez),
@@ -50,7 +39,7 @@ class UcdKart extends StatefulWidget {
   final KartSekli sekil;
 
   /// Dokunulmadığında çok hafif, sürekli salınım animasyonu açık mı?
-  /// (Normal uygulamada açık; `flutter test` ortamında otomatik kapanır.)
+  /// Talep gereği kapalidir: kartlar sabittir.
   final bool idleSalinim;
 
   @override
@@ -71,7 +60,7 @@ class _UcdKartState extends State<UcdKart> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _idle = widget.idleSalinim && !_testOrtami;
+    _idle = false; // Dalgalanma (nefes alma + isik bandi) kapali: sabit kartlar.
     _ticker = createTicker(_tik)..start();
   }
 
@@ -139,11 +128,6 @@ class _UcdKartState extends State<UcdKart> with TickerProviderStateMixin {
     final yuzey = widget.radius;
     final agorgi = egrY / widget.maxTilt; // -1..1 dikey eğim
     final yatar = egrX / widget.maxTilt; // -1..1 yatay eğim
-    final ms = _t.inMilliseconds;
-    // Yavaş geçen parlak ışık bandı (specular süpürme).
-    final donem = 3800.0;
-    final band = (boyut.width * 0.55).clamp(70.0, 220.0);
-    final konum = ((ms % donem) / donem) * (boyut.width + 2 * band) - band;
     return ClipPath(
       clipper: KartSiluet(widget.sekil, yuzey),
       child: Stack(
@@ -182,26 +166,6 @@ class _UcdKartState extends State<UcdKart> with TickerProviderStateMixin {
                     colors: [
                       Colors.white.withValues(alpha: 0.0),
                       Colors.white.withValues(alpha: 0.18 - 0.08 * agorgi),
-                      Colors.white.withValues(alpha: 0.0),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          // Hareket eden parlak süpürme bandı.
-          Positioned(
-            left: konum,
-            top: 0,
-            bottom: 0,
-            width: band,
-            child: IgnorePointer(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.white.withValues(alpha: 0.0),
-                      Colors.white.withValues(alpha: 0.10),
                       Colors.white.withValues(alpha: 0.0),
                     ],
                   ),

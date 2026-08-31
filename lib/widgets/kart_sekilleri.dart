@@ -46,6 +46,9 @@ enum PlakaSekli {
 
 /// Kart silüetini çizen clipper. [KartSekli] + [radius] kombinasyonunu
 /// [UcdKart]'ın içine katman gibi uygular.
+///
+/// Talep gereği tüm silüet çeşitleri tek bir görünüme indirildi: kartlar
+/// her zaman düzgün yuvarlak köşeli çizilir.
 class KartSiluet extends CustomClipper<Path> {
   const KartSiluet(this.sekil, this.radius);
 
@@ -55,70 +58,9 @@ class KartSiluet extends CustomClipper<Path> {
   @override
   Path getClip(Size s) {
     final r = radius > 0 ? radius : 20.0;
-    switch (sekil) {
-      case KartSekli.klasik:
-        return Path()..addRRect(
-          RRect.fromRectAndRadius(Offset.zero & s, Radius.circular(r)),
-        );
-      case KartSekli.yuvar:
-        return _squircle(s, r);
-      case KartSekli.kose:
-        return _chamfer(s, r);
-      case KartSekli.sivri:
-        return _kemerAlt(s, r);
-    }
-  }
-
-  /// Süper elips benzeri yumuşak köşeler; içerik güvenli (yalnızca köşeler).
-  Path _squircle(Size s, double r) {
-    final w = s.width, h = s.height;
-    final k = (r / math.min(w, h)).clamp(0.0, 0.5 - 0.001);
-    final xs = w * k, xe = w - w * k;
-    final ys = h * k, ye = h - h * k;
-    return Path()
-      ..moveTo(xs, 0)
-      ..lineTo(xe, 0)
-      ..quadraticBezierTo(w, 0, w, ys)
-      ..lineTo(w, ye)
-      ..quadraticBezierTo(w, h, xe, h)
-      ..lineTo(xs, h)
-      ..quadraticBezierTo(0, h, 0, ye)
-      ..lineTo(0, ys)
-      ..quadraticBezierTo(0, 0, xs, 0)
-      ..close();
-  }
-
-  /// Köşeleri 45° kesilmiş sekizgen; içerik güvenli (köşelerden eksiltir).
-  Path _chamfer(Size s, double r) {
-    final w = s.width, h = s.height;
-    final c = r.clamp(2.0, math.min(w, h) / 3);
-    return Path()
-      ..moveTo(c, 0)
-      ..lineTo(w - c, 0)
-      ..lineTo(w, c)
-      ..lineTo(w, h - c)
-      ..lineTo(w - c, h)
-      ..lineTo(c, h)
-      ..lineTo(0, h - c)
-      ..lineTo(0, c)
-      ..close();
-  }
-
-  /// Alt kenarın ortası hafif yukarı kavis alan "kemer" silüeti. İçerik
-  /// güvenli: yalnızca alt-orta boşluğu inceltir.
-  Path _kemerAlt(Size s, double r) {
-    final w = s.width, h = s.height;
-    final rk = r.clamp(2.0, math.min(w, h) / 3);
-    return Path()
-      ..moveTo(rk, 0)
-      ..lineTo(w - rk, 0)
-      ..quadraticBezierTo(w, 0, w, rk)
-      ..lineTo(w, h - rk)
-      ..quadraticBezierTo(w, h, w - rk, h)
-      ..quadraticBezierTo(w * 0.5, h - rk * 1.6, rk, h)
-      ..quadraticBezierTo(0, h, 0, h - rk)
-      ..quadraticBezierTo(0, 0, rk, 0)
-      ..close();
+    return Path()..addRRect(
+      RRect.fromRectAndRadius(Offset.zero & s, Radius.circular(r)),
+    );
   }
 
   @override
@@ -217,7 +159,8 @@ class SekilPlaka extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final kes = PlakaKesici(sekil, radius: boyut * 0.3);
+    // Talep gereği tüm rozet sekilleri daireye indirildi.
+    final kes = PlakaKesici(PlakaSekli.daire, radius: boyut * 0.5);
     final ust = zemin ?? ikonRenk.withValues(alpha: 0.34);
     final dip = derinlik ?? ikonRenk.withValues(alpha: 0.72);
     final ib =
