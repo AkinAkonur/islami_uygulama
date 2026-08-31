@@ -96,6 +96,12 @@ Future<void> main() async {
 Future<void> _arkaPlanInit() async {
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return;
   try {
+    // Gerçek (OS) bildirimleri ön planda hazırla: Android 13+ izin penceresi
+    // burada (aktivite varken) sorulur; böylece ayarlardaki tüm planla(),
+    // dua/ilham zamanlama ve "Test Bildirimi" çağrıları `_zamanlayiciHazir`
+    // true olduğu için gerçekten çalışır.
+    await GercekBildirimler.kurulum();
+    await GercekBildirimler.planla();
     await Workmanager().initialize(bildirimleriTazele);
     await Workmanager().registerPeriodicTask(
       'namaz-bildirim-tazeleme',
@@ -104,7 +110,7 @@ Future<void> _arkaPlanInit() async {
       initialDelay: const Duration(minutes: 10),
     );
   } catch (_) {
-    // Arka plan gorevi kaydedilemezse bildirim tazelemesi atlanir;
+    // Arka plan gorevi kurulamazsa bildirim tazelemesi atlanir;
     // uygulama acilisini engellememesi esasdir.
   }
 }
