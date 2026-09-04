@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Uygulama zemin rengi (koyu yeşil): beyaz açılış ekranı yerine
+         tema rengiyle aynı renk kullanılır. -->
+    <color name="splash_zemin">#0B150E</color>
+</resources>
