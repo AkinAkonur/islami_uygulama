@@ -521,7 +521,7 @@ Muhammadur Rasoolul laah; wallazeena ma'ahooo ashiddaaa'u 'alal kuffaaari ruhama
 (29) Muhammed Allah'ın elçisidir. Onun beraberinde bulunanlar, inkarcılara karşı sert, birbirlerine merhametlidirler. Onları rükua varırken, secde ederken, Allah'tan lütuf ve hoşnudluk dilerken görürsün. Onlar, yüzlerindeki secde izi ile tanınırlar. İşte bu, onların Tevrat'ta anlatılan vasıflarıdır. İncil'de de şöyle vasıflandırılmışlardı: Filizini çıkarmış, onu kuvvetlendirmiş, kalınlaşmış, gövdesi üzerine dikilmiş, ekincilerin hoşuna giden ekin gibidirler. Allah böylece bunları çoğaltıp kuvvetlendirmekle inkarcıları öfkelendirir. Allah, inanıp yararlı işler işleyenlere, bağışlama ve büyük ecir vadetmiştir.''',
   ),
   MubarekSureVerisi(
-    baslik: 'Vâkı\'a Suresi',
+    baslik: "Vâkı'a Suresi",
     baslikEn: 'Surah Al-Waqiah',
     audioUrl: 'https://server12.mp3quran.net/maher/056.mp3',
     reciter: 'Kâbe İmamı Mâhir el-Muaykılî',
@@ -1136,4 +1136,447 @@ Wa qulil hamdu lillaahi sa yureekum Aayaatihee fata'ri foonahaa; wa maa Rabbuka 
 (92) De ki: "Ben, yalnız her şeyin sahibi olan ve bu kutlu kılınmış şehrin Rabbine kulluk etmekle emrolundum. Müslümanlardan olmakla ve Kuran okumakla emrolundum." Kim doğru yolu bulmuşsa, yalnız kendisi için bulmuş olur, kim sapıtmışsa kendine etmiş olur. De ki: "Ben sadece, uyaranlardan biriyim."
 (93) De ki: "Hamd Allah'a mahsustur. O, ayetlerini size gösterecek, siz de onları bileceksiniz." Rabbin yaptıklarınızdan habersiz değildir.''',
   ),
+
+
+// =============================================================================
+// SHORT SURAHS (Ordered by surah number, full text)
+// =============================================================================
+
+MubarekSureVerisi(
+  baslik: 'Abese Suresi (80)',
+  baslikEn: 'Abasa (80)',
+  arapca: '''عَبَسَ وَتَوَلَّىٰ ۝ أَن جَاءَهُ الْأَعْمَىٰ ۝ وَمَا يُدْرِيكَ لَعَلَّهُ يَزَّكَّىٰ ۝ أَوْ يَذَّكَّرُ فَتَنفَعَهُ الذِّكْرَىٰ ۝ أَمَّا مَنِ اسْتَغْنَىٰ ۝ فَأَنتَ لَهُ تَصَدَّىٰ ۝ وَمَا عَلَيْكَ أَلَّا يَزَّكَّىٰ ۝ وَأَمَّا مَن جَاءَكَ يَسْعَىٰ ۝ وَهُوَ يَخْشَىٰ ۝ فَأَنتَ عَنْهُ تَلَهَّىٰ ۝ كَلَّا إِنَّهَا تَذْكِرَةٌ ۝ فَمَن شَاءَ ذَكَرَهُ ۝ فِي صُحُفٍ مُّكَرَّمَةٍ ۝ مَّرْفُوعَةٍ مُّطَهَّرَةٍ ۝ بِأَيْدِي سَفَرَةٍ ۝ كِرَامٍ بَرَرَةٍ''',
+  okunus: '''Abase ve tevellâ. En ceâhul-a'mâ. Ve mâ yudrîke le'allehu yezzekkâ. Ev yezzekkeru fetenfeahez-zikrâ. Emmâ men istagnâ. Fe ente lehu tesaddâ. Ve mâ aleyke ellâ yezzekkâ. Ve emmâ men ceâke yes'â. Ve huve yahşâ. Fe ente anhu telehhâ. Kellyâ innahâ tezkirah. Fe men şâe zekkerah. Fî suffin mukerremah. Merfu'atin mutahharah. Bi eydiy seferah. Kirâmın berarah.''',
+  mana: '''Hz. Peygamber (s.a.v.) mescidde kör sahâbî Abdullah bin Ümmi Mektûm geldiğinde yüzünü buruşturmuş ve ilgilenmemiştir. Allah onu uyarmış ve her insanın değerli olduğunu hatırlatmıştır. Bu sure, kâfir olsun müşrik olsun her insanın Rushd'a erme potansiyeli taşıdığını öğretir.''',
+  meal: '''1. Yüzünü buruşturdu ve yönünü çevirdi.
+2. Çünkü kör adam geldi.
+3. Sence, belki o temizlenecekti (iman edecekti).
+4. Ya da öğüt dinlerdi, öğüt ona fayda verirdi.
+5. Ama kendini zengin sayan kişiye gelince,
+6. Sen ona ilgi gösteriyorsun.
+7. Oysa temizlenmemesi senin sorumluluğunda değil.
+8. Ama sana koşarak gelen,
+9. Korkarak gelen kişiye gelince,
+10. Sen onu göz ardı ediyorsun.
+11. Hayır! O bir öğüttür.
+12. Dileyen bunu hatırlasın.
+13. Sayfalarda, yüceltilmiş,
+14. Yükseltilmiş, arınmış olarak yazılıdır.
+15. Peygamberlerin ellerinde,
+16. Kahraman ve itaatkâr kâtiplerin elindedir.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/080.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Zilzâl Suresi (99)',
+  baslikEn: 'Az-Zilzal (99)',
+  arapca: '''إِذَا زُلْزِلَتِ الْأَرْضُ زِلْزَالَهَا ۝ وَأَخْرَجَتِ الْأَرْضُ أَثْقَالَهَا ۝ وَقَالَ الْإِنسَانُ مَا لَهَا ۝ يَوْمَئِذٍ تُحَدِّثُ أَخْبَارَهَا ۝ بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا ۝ يَوْمَئِذٍ يَصْدَرُ النَّاسُ أَشْتَاتًا لِّيُرَوْا أَعْمَالَهُمْ ۝ فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُ ۝ وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ شَرًّا يَرَهُ''',
+  okunus: '''İzâ zulziletil-arzu zilzâlehâ. Ve aharacatil-arzu eskâlehâ. Ve kâlel-insânu mâ lehâ. Yev-me'izin tuhaddithu ehberâhâ. Bi enne rabbeke evhâ lehâ. Yev-me'izin yasdaran-nâsu eş-tâten li-yurev a'mâlehâ. Fe men ya'mel miskâ-lâze zerretin hayran yarahâ. Ve men ya'mel miskâ-lâze zerretin şarran yarahâ.''',
+  mana: '''Kıyamet günü yer büyük bir sarsıntıya uğrayacak ve içindekilini dışarı atacaktır. Atom ağırlığında bile olsa yapılan her iyilik ve kötülük o gün ortaya konacaktır. Bu, Allah'ın adaletinin kusursuzluğunun en büyük delillerinden biridir.''',
+  meal: '''1. Yer sarsıldığı zaman,
+2. Yer ağırlıklarını dışarı attığı zaman,
+3. İnsan "Bu ne haldir?" dediği zaman,
+4. İşte o gün yer, haberlerini anlatacaktır.
+5. Çünkü Rabbin ona vahyetti.
+6. İşte o gün insanlar amellerini görmek için gruplar halinde ayrılacaklar.
+7. Kim zerre ağırlığında bir iyilik yaparsa onu görecektir.
+8. Kim de zerre ağırlığında bir kötülük yaparsa onu görecektir.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/099.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Adiyât Suresi (100)',
+  baslikEn: 'Al-Adiyat (100)',
+  arapca: '''وَالْعَادِيَاتِ ضَبْحًا ۝ فَالْمُورِيَاتِ قَدْحًا ۝ فَالْمُغِيرَاتِ صُبْحًا ۝ فَأَثَرْنَ بِهِ نَقْعًا ۝ فَوَسَطْنَ بِهِ جَمْعًا ۝ إِنَّ الْإِنسَانَ لِرَبِّهِ لَكَنُودٌ ۝ وَإِنَّهُ عَلَىٰ ذَٰلِكَ لَشَهِيدٌ ۝ وَإِنَّهُ لِحُبِّ الْخَيْرِ لَشَدِيدٌ ۝ أَفَلَا يَعْلَمُ إِذَا بُعْثِرَ فِي الْقُبُورِ ۝ وَحُصِّلَ مَا فِي الصُّدُورِ ۝ إِنَّ رَبَّهُم بِهِمْ يَوْمَئِذٍ لَّخَبِيرٌ''',
+  okunus: '''Vel-âdiyâti dabhâ. Fel-mûriyâti kadhâ. Fel-muğîrâti subhâ. Fe eserne bihi nak'â. Fe veseṭne bihi cam'â. Innal-insâne li rabbihi le kenûd. Ve innehu a-lâ zâlike le şehîd. Ve innehu li hubbil-hayri le şedîd. Efelâ ya'lemu izâ bu'athire fil-kubûr. Ve hustil-lâ mâ fîs-sudûr. Inne rabbehim bihim yev-me'izin le habîr.''',
+  mana: '''Sabahın erken saatlerinde koşturarak düşman üzerine saldıran atlar yemin edilerek anlatılmaktadır. İnsan nankörlüğü ve dünya malına olan aşırı tutkusu vurgulanmaktadır. Mezarlardaki sorgulama ve gizli niyetlerin açıklanacağı gün hatırlatılmaktadır.''',
+  meal: '''1. Andolsun ki şahinler gibi koşan atlarına,
+2. Ateş saçarak koşanlarına,
+3. Sabah vakti akın edenlerine,
+4. Orada toz bulutu kaldıranlara,
+5. Derken o tozu içinde dalgalananlarına,
+6. Şüphesiz insan Rabbine karşı çok nankördür.
+7. Ve şüphesiz o buna (dünya malına) çok şahittir.
+8. Ve şüphesiz o dünya malına olan aşırı sevgisi çok kuvvetlidir.
+9. Peki bilmez mi ki, mezarlar sorgulandığı zaman,
+10. Göğüslerdekinin açığa çıkarıldığı zaman,
+11.Şüphesiz onların Rabbi o gün onlardan haberdardır.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/100.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Tekâsûr Suresi (102)',
+  baslikEn: 'At-Takathur (102)',
+  arapca: '''أَلْهَاكُمُ التَّكَاثُرُ ۝ حَتَّىٰ زُرْتُمُ الْمَقَابِرَ ۝ كَلَّا سَوْفَ تَعْلَمُونَ ۝ ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ ۝ كَلَّا لَوْ تَعْلَمُونَ عِلْمَ الْيَقِينِ ۝ لَتَرَوُنَّ الْجَحِيمَ ۝ ثُمَّ لَتَرَوُنَّهَا عَيْنَ الْيَقِينِ ۝ ثُمَّ لَتُسْأَلُنَّ يَوْمَئِذٍ عَنِ النَّعِيمِ''',
+  okunus: '''Elhâkumut-tekâsûr. Hattâ zurtumul-makâbir. Kellyâ sevfe ta'lemûn. Summe kellyâ sevfe ta'lemûn. Kellyâ lev ta'lemûne ilmel-yakîn. Leteravun-necîm. Summe leteravunehâ aynel-yakîn. Summe le-tus'elunne yev-me'izin an-ni'mîn.''',
+  mana: '''Dünya malı biriktirme yarışı insanları oyalamıştır. Mezarları ziyaret edecekleri gerçeğini unutturmuştur. Cehennem'i göreceksiniz, sonra nimetlerinizden sorulacaksınız.''',
+  meal: '''1. Mal çokluğu yarışı sizi oyaladı,
+2. Tâ ki mezarları ziyaret edesiniz.
+3. Hayır! Yakında bileceksiniz.
+4. Sonra hayır! Yakında bileceksiniz.
+5. Hayır! Keşke kesin bilgiyle bilseydiniz.
+6. Şüphesiz cehennemi göreceksiniz.
+7. Sonra şüphesiz onu gözlerinizle göreceksiniz.
+8. Sonra o gün nimetlerinizden şüphesiz sorulacaksınız.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/102.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Asr Suresi (103)',
+  baslikEn: 'Al-Asr (103)',
+  arapca: '''وَالْعَصْرِ ۝ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ ۝ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ''',
+  okunus: '''Vel-asr. Innal-insâne lefî husr. İllâl-lazine âmenû ve amilus-sâlihâti ve tevâsav bil-haqqi ve tevâsav bis-sabr.''',
+  mana: '''Zamana yemin edilerek başlanan bu sure, zamanın insanoğlunun en büyük kaybı olduğunu belirtir. Sadece iman edip salih amel işleyen, birbirlerine hak ve sabır tavsiye edenler bu kayıptan kurtulur. Dört temel ilke: iman, amel, hak, sabır.''',
+  meal: '''1. Andolsun zamana,
+2. Şüphesiz insan bir ziyanda,
+3. Ancak iman edip salih amel işleyen, birbirlerine hak ve sabır tavsiye edenler (o kayıptan kurtulurlar).''',
+  audioUrl: 'https://server12.mp3quran.net/maher/103.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Kureyş Suresi (106)',
+  baslikEn: 'Quraysh (106)',
+  arapca: '''لِإِيلَافِ قُرَيْشٍ ۝ إِيلَافِهِمْ رِحْلَةَ الشِّتَاءِ وَالصَّيْفِ ۝ فَلْيَعْبُدُوا رَبَّ هَٰذَا الْبَيْتِ ۝ الَّذِي أَطْعَمَهُم مِّن جُوعٍ وَآمَنَهُم مِّنْ خَوْفٍ''',
+  okunus: '''Li-ilâfi Kurayş. İlâfihim rihletiş-şitâi ves-sayf. Felya'budû rabbe hâzel-beyt. El-letzî e'tamehum mincu'ın ve âmenehum min hovf.''',
+  mana: '''Kureyş kabilesinin kış ve yaz seyahatlerine alıştırılması anlatılmakta ve buna karşılık Kâbe'nin Rabbine kulluk yapmaları emredilmektedir. Açlıktan doyurulmaları ve korkudan güvenceye alınmaları nimetlerine karşı şükretmeleri istenmektedir.''',
+  meal: '''1. Kureyş'in ahidleşmesine (alışkanlıklarına) karşılık,
+2. Kış ve yaz seyahatlerine alışmalarına karşılık,
+3. O halde bu Kâbe'nin Rabbine kulluk etsinler,
+4. ki onları açlıktan doyurdu ve korkudan güvenceye aldı.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/106.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Maûn Suresi (107)',
+  baslikEn: 'Al-Maun (107)',
+  arapca: '''أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ ۝ فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ ۝ وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ ۝ فَوَيْلٌ لِّلْمُصَلِّينَ ۝ الَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ ۝ الَّذِينَ هُمْ يُرَاءُونَ ۝ وَيَمْنَعُونَ الْمَاعُونَ''',
+  okunus: '''Era'eytellezî yukazzibud-dîn. Fe zâlikellezî ya'dull-yetîm. Ve lâ ya-huddu a-lâ ta'âmil-miskîn. Fe veylun lil-musallîn. El-lezîne hum an salâtihim sâhûn. El-lezîne hum yurâûn. Ve yamna'ûnel-mâ'ûn.''',
+  mana: '''Dini yalanlayan, yetimi kovan, yoksulu doyurmaya teşvik etmeyen kişilerin durumu anlatılmaktadır. Namazlarını gafletle kılan, riyakârlık yapan ve küçük iyiliklerden kaçanlara vay olsun denilmektedir.''',
+  meal: '''1. Dini yalan gördüğünü gördün mü?
+2. İşte o, yetimi iter;
+3. Yoksulu doyurmaya teşvik etmez.
+4. Vay olsun namaz kılanlara ki,
+5. Namazlarından gafil olurlar.
+6. Gösteriş yaparlar.
+7. Hayır, en küçük iyilik bile istemezler.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/107.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Kevser Suresi (108)',
+  baslikEn: 'Al-Kawthar (108)',
+  arapca: '''إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ ۝ فَصَلِّ لِرَبِّكَ وَانْحَرْ ۝ إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ''',
+  okunus: '''İnnâ a'teynâkel-kevser. Fe salli li-rabbike vanhar. Inne shâni-eke hüvel-abter.''',
+  mana: '''Hz. Muhammed (s.a.v.)'e Cennette bir nehir olan Kevser (bol hayır) nimetini verdiği bildirilmektedir. Buna karşılık namaz kılması ve kurban kesmesi emredilmektedir. Düşmanının ise soyunun kesileceği belirtilmektedir.''',
+  meal: '''1. Şüphesiz biz sana Kevser'i (bol hayırı) verdik.
+2. O halde Rabbine namaz kıl ve kurban kes.
+3. Şüphesiz senilinkyen (düşmanın) ise soyu kopuktur.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/108.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Kâfirûn Suresi (109)',
+  baslikEn: 'Al-Kafirun (109)',
+  arapca: '''قُلْ يَا أَيُّهَا الْكَافِرُونَ ۝ لَا أَعْبُدُ مَا تَعْبُدُونَ ۝ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ۝ وَلَا أَنَا عَابِدٌ مَّا عَبَدتُّمْ ۝ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ۝ لَكُمْ دِينُكُمْ وَلِيَ دِينِ''',
+  okunus: '''Kul yâ ey-yu-hal-kâfirûn. Lâ a'budu mâ ta'budûn. Ve lâ entum âbidûne mâ a'bud. Ve lâ ene âbidun mâ abedtum. Ve lâ entum âbidûne mâ a'bud. Le-kum dînukum ve liye dîn.''',
+  mana: '''Hz. Muhammed (s.a.v.)'in putperestlere verdiği kesin ve net cevap. Dinlerin asla karıştırılamayacağı, herkesin kendi dinine sahip çıkması gerektiği bildirilmektedir. İhlâs ve tevhid inancının en güçlü beyanlarından biridir.''',
+  meal: '''1. De ki: Ey inkâr edenler!
+2. Ben sizin taptığınıza tapmam.
+3. Siz de benim taptığıma tapmıyorsunuz.
+4. Ben de sizin taptığınıza tapmam.
+5. Siz de benim taptığıma tapmıyorsunuz.
+6. Sizin dininiz size, benim dinim bana.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/109.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Nasr Suresi (110)',
+  baslikEn: 'An-Nasr (110)',
+  arapca: '''إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ ۝ وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا ۝ فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ ۚ إِنَّهُ كَانَ تَوَّابًا''',
+  okunus: '''İzâ câe nasrullâhi velvet-h. Ve raeyten-nâse yad-hulûne fî dînil-lâhi evfâjâ. Fesebbih bihamdi rabbike vestagfirh. Innehu kâne tevvâbâ.''',
+  mana: '''Mekke'nin fethi ve insanların İslam'a topluca girmesi üzerine inen bu surede, Allah'a hamd ve istiğfar emredilmektedir. Hz. Muhammed (s.a.v.)'in peygamberlik görevinin tamamlandığı ve tevazu ile Allah'a yönelmesi gerektiği bildirilmektedir.''',
+  meal: '''1. Allah'ın yardımı ve fetih geldiğinde,
+2. İnsanların Allah'ın dinine topluca girdiklerini gördüğünde,
+3. Rabbini hamd ile tesbih et ve O'ndan bağışlanma dile. Şüphesiz O çok tövbe eden.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/110.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Tebbet Suresi (111)',
+  baslikEn: 'Al-Lahab (111)',
+  arapca: '''تَبَّتْ يَدَا أَبِي لَهَبٍ وَتَبَّ ۝ مَا أَغْنَىٰ عَنْهُ مَالُهُ وَمَا كَسَبَ ۝ سَيَصْلَىٰ نَارًا ذَاتَ لَهَبٍ ۝ وَامْرَأَتُهُ حَمَّالَةَ الْحَطَبِ ۝ فِي جِيدِهَا حَبْلٌ مِّن مَّسَدٍ''',
+  okunus: '''Tepped yedâ Ebî Lehebin ve tebb. Mâ ağnâ anhû mâluhû ve mâ kesab. Seyaslâ nâran zâte leheb. Ve mraetuhû hammâletel-hatıb. Fî cîdihâ hablun min mesed.''',
+  mana: '''Hz. Muhammed (s.a.v.)'in en büyük düşmanlarından Ebû Leheb ve karısının lanetlenmesi anlatılmaktadır. Malları ve kazançları onu kurtaramayacak ve cehennem ateşinde yanacaktır. Karısı odun taşıyıcı olarak hurma lifinden bir ip ile cezalandırılacaktır.''',
+  meal: '''1. Ebû Leheb'in elleri kurusun ve kendisi de kurusun!
+2. Malı ve kazandığı ona fayda vermedi.
+3. Alevli bir ateşe girecektir.
+4. Odun taşıyıcı karısıyla birlikte.
+5. Boynunda hurma lifinden bir ip vardır.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/111.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'İhlâs Suresi (112)',
+  baslikEn: 'Al-Ikhlas (112)',
+  arapca: '''قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ''',
+  okunus: '''Kul hüvellâhu ehad. Allâhus-samed. Lem yelid ve lem yûled. Ve lem yekun lehû kufüven ehad.''',
+  mana: '''Tevhid inancının en saf ve en kapsamlı beyanıdır. Allah'ın birliği, ebedîliği, kendisine hiçbir şeyin muhtaç olmaması, doğurmaması ve doğrulmaması, hiçbir varlığın O'nun dengi olmaması anlatılmaktadır. Bir münafık okusa bile Muslim olacağı bildirilmiştir.''',
+  meal: '''1. De ki: O Allah birdir.
+2. Allah Samed'dir (her şey O'na muhtaç, O hiçbir şeye muhtaç değildir).
+3. Doğurmamıştır ve doğmamıştır.
+4. Hiçbir şey O'nun dengi değildir.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/112.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Felâk Suresi (113)',
+  baslikEn: 'Al-Falaq (113)',
+  arapca: '''قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ''',
+  okunus: '''Kul e'ûzu bi rabbil-falak. Min şerri mâ halak. Ve min şerri gâsikın izâ vekab. Ve min şerin-neffâsâti fil-ukad. Ve min şerri hâsidin izâ hased.''',
+  mana: '''Sabahın aydınlığı yaratıcısına sığınma duasıdır. Yaratılan her türlü şerden, karanlık gecenin kötülüğünden, düğümlere üfleyen büyücülerden ve_HASAD edenlerden korunma istenmektedir. Mu'avezeteyn dualarından biridir.''',
+  meal: '''1. De ki: Sabahın Rabbine sığınırım.
+2. Yarattığı her türlü şerden.
+3. Karanlığı çöktüğünde (gecenin) şerrinden.
+4. Düğümlere üfleyenlerin şerrinden.
+5. Haset ettiği zaman hasetçinin şerrinden.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/113.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Nâs Suresi (114)',
+  baslikEn: 'An-Nas (114)',
+  arapca: '''قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ''',
+  okunus: '''Kul e'ûzu bi rabbinnâs. Melikinnâs. Ilâhinnâs. Min şerri-lvesvâsil-hannâs. El-letzî yuvesvisu fî sudûrinnâs. Minel-cinnati vennâs.''',
+  mana: '''İnsanların Rabbine, Meliki'ne ve İlahı'na sığınma duasıdır. Sins sinsinen içeri giren vesvesecilerden (cin ve insan şeytanlarından) korunma istenmektedir. Mu'avezeteyn dualarının sonuncusudur.''',
+  meal: '''1. De ki: İnsanların Rabbine sığınırım.
+2. İnsanların Meliki'ne.
+3. İnsanların İlahı'na.
+4. Sins sinsinen vesvesecinin şerrinden,
+5. Ki o insanların göğüslerine vesvese verir.
+6. Cinlerden ve insanlardan.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/114.mp3',
+),
+
+// =============================================================================
+// KEY VERSES & DUAS
+// =============================================================================
+
+MubarekSureVerisi(
+  baslik: 'Ayetel Kûrsî - Bakara 255',
+  baslikEn: 'Ayat al-Kursi (2:255)',
+  arapca: '''اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ''',
+  okunus: '''Allâhu lâ ilâhe illâ hüvel-hayyul-kayyûm. Lâ te'ḣudhuhû sinetun ve lâ nawm. Lehû mâ fis-semâvâti ve mâ fil-ard. Men zellezî yeşfe'u indehû illâ bi-idhnih. Ya'lemu mâ beyne eydîhim ve mâ halfehum. Ve lâ yuĥîtone bi shey'in min 'ilmihî illâ bi mâ şâ'. Ve si'a kuriyyuhus-semâvâti vel-ard. Ve lâ ye'ûduhu ĥifzuhumâ. Ve hüvel-'aliyyul-'ażîm.''',
+  mana: '''Kur'an-ı Kerîm'in en faziletli ayeti olarak bilinir. Allah'ın birliğini, ebedîliğini ve kâinat üzerindeki mutlak hâkimiyetini en kapsamlı şekilde anlatır. Her okunuşta cehennemden uzaklaştırır ve korunmaya vesile olur.''',
+  meal: '''1. Allah, O'ndan başka ilah yoktur. Diridir, kaimdir.
+2. O'nu ne bir uyuklama tutabilir, ne de bir uyku.
+3. Göklerde ve yerde ne varsa O'nundur.
+4. İzni olmadan O'nun huzurunda şefaat edecek kimdir?
+5. O, insanların önden geçenini de, arkadan gelenini de bilir.
+6. Onlar O'nun ilminden ancak O'nun dilediği kadarını kavrayabilirler.
+7. O'nun kürsüsü gökleri ve yeri içine alır.
+8. Onların korunması O'na ağır gelmez.
+9. O, yüceler yücesidir, büyüklükler büyüklüğüdür.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/002.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Bakara Son İki Ayet (285-286)',
+  baslikEn: 'Last Two Verses of Baqara (2:285-286)',
+  arapca: '''آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ ۚ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ ۝ لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۖ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ''',
+  okunus: '''Âmener-resûlü bimâ unzile ileyhi mir-rabbihî vel-mu'minûn. Kullün âmen billâhi ve melâiketihî ve kutubihî ve rusulih. Lâ nufarriku beyne ehedim-mir-rusulih. Ve kâlû semi'nâ ve ata'nâ. Gufrâneke rabbânâ ve ileykel-masîr. Lâ yukellifullâhu nefsen illâ vus'ahâ. Lehâ mâ kesebet ve aleyhâ met-kesabet. Rabbenâ lâ tu'âhiznâ in nasînâ ev ahta'nâ. Rabbenâ ve lâ tehmil 'aleyne ısran kema hameltehû 'alel-lazîne min kablinâ. Rabbenâ ve lâ tuhammilnâ mâ lâ tâka'ete lenâ bih. Va'fu 'annâ va'ğfir lenâ varhamnâ. Ente mevlânâ fansurnâ 'alel-kavmil-kâfirîn.''',
+  mana: '''Kur'an-ı Kerîm'in en son iki ayeti olarak bilinir. Hadis-i şerifte bu duaları okuyan kimsenin Cehennem'den korunacağı müjdelenmiştir. Allah'ın adaleti, merhameti ve kullarının acziyeti bu ayetlerde en güzel şekilde ifade edilmiştir.''',
+  meal: '''285: Peygamber, Rabbinden kendisine indirene iman etti, müminler de. Her biri Allah'a, meleklerine, kitaplarına ve peygamberlerine iman etti. Peygamberlerinin hiçbirini birbirinden ayırt etmeyiz. "Dinledik ve itaat ettik" dediler. Bağışlamanı dileriz Rabbimiz, dönüş de sanadır.
+286: Allah bir kişiye ancak gücünün yettiğini yükler. Herkesin kazandığı kendi lehinedir, kazandığı kendi aleyhinedir. Rabbimiz! Unutur ya da yanılırsak bizi sorumlu tutma! Rabbimiz! Bize, öncekilere yüklediğin gibi ağır bir yük yükleme! Rabbimiz! Gücümüzün yetmediğini bize yükleme! Bizi affet, bizi bağışla, bize merhamet et! Sen bizim mevlamızsın, kâfirlere karşı bize yardım et!''',
+  audioUrl: 'https://server12.mp3quran.net/maher/002.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Rabbana Atina - Bakara 201',
+  baslikEn: 'Rabbana Atina (2:201)',
+  arapca: '''وَمِنْهُم مَّن يَقُولُ رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ''',
+  okunus: '''Ve minhum men yekûlu rabbenâ âtinâ fid-dunyâ haseneten ve fil-âhireti haseneten ve kınâ 'azâben-nâr.''',
+  mana: '''Kur'an'da geçen en kapsamlı dualardan biridir. Dünya ve ahiret saadetini bir arada istemenin en güzel örneğidir. Peygamber Efendimiz (s.v.) de bu dua için "Kulum Rabbinden dünyada da hayır, ahirette de hayır istiyor ve Cehennem azabından korunma diliyor" buyurmuştur.''',
+  meal: '''Onlardan bir kısmı da şöyle der: "Rabbimiz! Bize dünyada da hayır ver, ahirette de hayır ver ve bizi ateş azabından koru!"''',
+  audioUrl: 'https://server12.mp3quran.net/maher/002.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Rabbana Duası - Âl-i İmrân 8',
+  baslikEn: 'Rabbana Dua - Al-Imran (3:8)',
+  arapca: '''رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً ۚ إِنَّكَ أَنتَ الْوَهَّابُ''',
+  okunus: '''Rabbenâ lâ tuziğkulûbenâ ba'de iz hedeytenâ ve heb lenâ min ledünke rahmeten. Inneke entel-vahhâb.''',
+  mana: '''Hz. Peygamber (s.a.v.) ve Ashâb-ı Kirâm'ın okuduğu dua olarak rivayet edilmiştir. Kalplerin hidayetten sonra sapmasından korunma ve Allah'tan rahmet dileme duasıdır. Vahyin inişi esnasında okunan bu dua, Rabb'in rahmet kapısının açık olduğunu gösterir.''',
+  meal: '''Rabbimiz! Bizi hidayete erdikten sonra kalplerimizi saptırma! Bize katından bir rahmet ver! Şüphesiz sen çok bağışlayansın.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/003.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Meryem KISS - Meleklerin Secdesi (19:58)',
+  baslikEn: 'Maryam - Prostration of the Angels (19:58)',
+  arapca: '''أُولَٰئِكَ الَّذِينَ أَنْعَمَ اللَّهُ عَلَيْهِم مِّنَ النَّبِيِّينَ مِن ذُرِّيَّةِ آدَمَ وَمِمَّنْ حَمَلْنَا مَعَ نُوحٍ وَمِن ذُرِّيَّةِ إِبْرَاهِيمَ وَإِسْرَائِيلَ وَمِمَّنْ هَدَيْنَا وَاجْتَبَيْنَا ۚ إِذَا تُتْلَىٰ عَلَيْهِمْ آيَاتُ الرَّحْمَٰنِ خَرُّوا سُجَّدًا وَبُكِيًّا''',
+  okunus: '''Ulâikellezîne en'amallâhu aleyhim minen-nebiyyîne min zurriyyeti Âdem ve mimmen hamelnâ ma'a Nûhin ve min zurriyyeti İbrâhîme ve ISRÂÎle ve mimmen heydeynâ vachteyynâ. Izâ tutilâ aleyhim âyâtur-rahmâni har-rû succeden ve bukiyyâ.''',
+  mana: '''Hz. Adem'den itibaren gelen peygamberlerin ve salihlerin vasıfları anlatılmaktadır. Kur'an ayetleri okunduğunda secdeye kapanarak ağlamaları, Allah kelamının büyüklüğünü ve etkisini göstermektedir. Bu secde, dinlediklerinin kalplerinde yaşadığının ispatıdır.''',
+  meal: '''İşte Allah'ın lütfuna erdirdiği peygamberler, Hz. Adem'in soyundan, bizim Nûh ile birlikte yüklediğimiz kimselerin soyundan, İbrahim ve İsrail (Yakub) soyundan, hidayete erdirdiğimiz ve seçtiğimiz kimselerin soyundandır. Onlara Rahman'ın ayetleri okunduğunda secdeye kapanarak ağlarlardı.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/019.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Rabbana Duası - İbrahim 40-41',
+  baslikEn: 'Rabbana Dua - Ibrahim (14:40-41)',
+  arapca: '''رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ ۝ رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ''',
+  okunus: '''Rabbi-c'alnî mukîmes-salâti ve min zurriyyetî. Rabbenâ ve tekabbel duâ'. Rabbenâ-ğfir lî ve li-vâlidayye ve lil-mu'minîne yevme yekûmul-hisâb.''',
+  mana: '''Hz. İbrahim (a.s.)'ın kendisi ve zürriyeti için ettiği duadır. Namazın hayatın merkezinde olmasını isteme ve dua kabulü duasıdır. Hz. İbrahim'in sabah-akşam okuması için Hz. İsmail ile birlikte dua ettiği bilinmektedir.''',
+  meal: '''40: Rabbim! Beni ve soyumu namazı dosyalar kılanlardan eyle! Rabbimiz! Duaımı kabul et!
+41: Rabbimiz! Beni, ana-babamı ve bütün müminleri hesap gününde bağışla!''',
+  audioUrl: 'https://server12.mp3quran.net/maher/014.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Sâd - Hz. Dâvud Kıssası (38:22-25)',
+  baslikEn: 'Sad - Prophet David Story (38:22-25)',
+  arapca: '''إِذْ دَخَلُوا عَلَىٰ دَاوُودَ فَفَزِعَ مِنْهُمْ ۖ قَالُوا لَا تَخَفْ ۖ خَصْمَانِ بَغَىٰ بَعْضُنَا عَلَىٰ بَعْضٍ فَاحْكُم بَيْنَنَا بِالْحَقِّ وَلَا تُشْطِطْ وَاهْدِنَا إِلَىٰ سَوَاءِ الصِّرَاطِ ۝ إِنَّ هَٰذَا أَخِي لَهُ تِسْعٌ وَتِسْعُونَ نَعْجَةً وَلِيَ نَعْجَةٌ وَاحِدَةٌ فَقَالَ أَكْفِلْنِيهَا وَعَزَّنِي فِي الْخِطَابِ ۝ قَالَ لَقَدْ ظَلَمَكَ بِسُؤَالِ نَعْجَتِكَ إِلَىٰ نِعَاجِهِ ۖ وَإِنَّ كَثِيرًا مِّنَ الْخُلَطَاءِ لَيَبْغِي بَعْضُهُمْ عَلَىٰ بَعْضٍ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَقَلِيلٌ مَّا هُمْ ۖ وَظَنَّ دَاوُودُ أَنَّمَا فَتَنَّاهُ فَاسْتَغْفَرَ رَبَّهُ وَخَرَّ رَاكِعًا وَأَنَابَ ۝ فَغَفَرْنَا لَهُ ذَٰلِكَ ۖ وَإِنَّ لَهُ عِندَنَا لَزُلْفَىٰ وَحُسْنَ مَآبٍ''',
+  okunus: '''İz dehalû a-lâ Dâvûde fe fezîa minhûm. Kâlû lâ tehaf. Haṣmânı bagâ ba'ḍunâ a-lâ ba'din fahkum beynenâ bil-haḳḳi ve lâ tushṭit vehdinâ ilâ sevâ'iṣ-ṣirât. Inne hâzâ ahî lehû tis'un ve tis'ûne na'ceten ve liye na'jetun vâḥidetun fe kâle efkilnîyhâ ve azzanî fil-hiṭâb. Kâle lekad zalemake bi su'âli na'cetike ilâ ni'âcih. Ve inne kesîran minel-hulatâi le-yaghî ba'ḍuhum a-lâ ba'din illâl-lazine âmenû ve amilus-sâlihâti ve kalîlun mâ hüm. Ve zanna Dâvûdu ennemâ fetenâhû festagfar-rabbehû ve harra râki'en ve enâb. Fe gafarnâ lehû zâlike ve innehu a'indenâ le zulfeve ve husne me'âb.''',
+  mana: '''Hz. Dâvud (a.s.)'a iki davetçi gelmiş ve o da hemen hüküm vermiştir. Ancak verdiği hüküm yanlıştır ve kendisi de bunu fark etmiştir. Tövbe edip secdeye kapanmıştır. Allah onu affetmiş ve yakın kılınmıştır. Hz. Dâvud'un hatası ve tövbesi, peygamberlerin de insan olmasının ve hata yapabilme potansiyellerinin bir göstergesidir.''',
+  meal: '''22: Hz. Dâvud'un yanına girdiklerinde, onlardan korktu. Dediler ki: Korkma, iki rakip bizden birinin diğerine zulmettiğinden davacıyız. Aramızda hak ile hüküm ver ve bizi yanlışa düşürme ve bizi dosdoğru yola ilet.
+23: Bu benim kardeşimdir, doksan dokuz koyunu var, bir tane de benim koyunum var. "Onu da bana ver" dedi ve hitapta bana karşı bastırdı.
+24: Dedi ki: "Koyununu bana verme konusunda sana zulmetmiştir." Şüphesiz çok ortak birbirlerine zulmederler. Ancak iman edip salih amel işleyenler müstesna. Onlar da çok azdır. Dâvud, Bizim onu imtihan ettiğimizi anladı ve Rabbi'nden bağışlanma diledi. Secdeye kapandı ve tövbe etti.
+25: Biz de onu affettik. Şüphesiz onun katımızda bir yakınlığı ve güzel bir yeri vardır.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/038.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Furkân Suresi - Davet Ayeti (25:77)',
+  baslikEn: 'Al-Furqan - The Call (25:77)',
+  arapca: '''قُلْ مَا يَعْبَأُ بِكُمْ رَبِّي لَوْلَا دُعَاؤُكُمْ ۖ فَقَدْ كَذَّبْتُمْ فَسَوْفَ يَكُونُ لِزَامًا''',
+  okunus: '''Kul mâ ya'be'u bikum rabbî lev-lâ duâ'ukum. Fe kad kezzebtum fe sevfe yekûnu lizâmâ.''',
+  mana: '''Kulların duası olmasa Allah'ın onları umursamayacağı bildirilmektedir. Duanın ne kadar önemli ve gerekli olduğu vurgulanmaktadır. Dua etmeyen ve yalanlayanlara ağır bir uyarı verilmektedir.''',
+  meal: '''De ki: Duanız olmasa Rabbimin size ne diyeceği olurdu? Siz yalanladınız. Artık yalanlamanızın cezasını çekeceksiniz.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/025.mp3',
+),
+
+MubarekSureVerisi(
+  baslik: 'Hâcurât - İnsanlığın Farklılıkları (49:13)',
+  baslikEn: 'Al-Hujurat - Equality of Mankind (49:13)',
+  arapca: '''يَا أَيُّهَا النَّاسُ إِنَّا خَلَقْنَاكُم مِّن ذَكَرٍ وَأُنثَىٰ وَجَعَلْنَاكُمْ شُعُوبًا وَقَبَائِلَ لِتَعَارَفُوا ۚ إِنَّ أَكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ ۚ إِنَّ اللَّهَ عَلِيمٌ خَبِيرٌ''',
+  okunus: '''Yâ ey-yu-hannâsu innâ halaknâkum min ZAKARIN ve unsâ ve ce'alnâkum şu'ûben ve kaba'île li-te'ârafû. Inne ekramekum a-lâllâhi etkâkum. Innallâhe alîyun habîr.''',
+  mana: '''İnsanlığın yaratılış eşitliği ve üstünlüğün sadece takva ile olacağı en güzel şekilde anlatılmaktadır. Irk, dil, renk ve soy farkı gözetmeksizin tüm insanların Hz. Adem'den ve Hz. Havva'dan yaratıldığı hatırlatılmaktadır. İnsan hakları bildirgesinin manevi temeli bu ayettedir.''',
+  meal: '''Ey insanlar! Biz sizi bir erkek ve bir kadından yarattık. Birbirinizi tanıyasınız diye sizi milletlere ve kabilelere ayırdık. Şüphesiz Allah katında en üstününüz, en çok takva sahibi olanınızdır. Şüphesiz Allah bilendir, haberdardır.''',
+  audioUrl: 'https://server12.mp3quran.net/maher/049.mp3',
+),
+
+// =============================================================================
+// PROPHETIC DUAS
+// =============================================================================
+
+MubarekSureVerisi(
+  baslik: 'Sabah-Akşam Zikri',
+  baslikEn: 'Morning-Evening Remembrance',
+  arapca: '''أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ ۖ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ لَا إِلَٰهَ إِلَّا اللَّهُ وَلَا نَعْبُدُ إِلَّا إِيَّاهُ لَهُ النِّعْمَةُ وَلَهُ الْفَضْلُ وَلَهُ الثَّنَاءُ الْحَسَنُ لَا إِلَٰهَ إِلَّا اللَّهُ مُخْلِصِينَ لَهُ الدِّينَ وَلَوْ كَرِهَ الْكَافِرُونَ''',
+  okunus: '''Eşhedu en lâ ilâhe illallâhu veḥdehû lâ şerîke leh. Ve eşhedu enne Muḥammeden 'abduhû ve resûluh. Lâ ḥavle ve lâ ḳuvvete illâ billâh. Lâ ilâhe illallâhü ve lâ na'budu illâ iyyâh. Lehun-ni'metü ve lehul-fadlü ve lehuth-thenâul-ḥasen. Lâ ilâhe illallâhü muḥliṣîne lehud-dîne ve lev kerihel-kâfirûn.''',
+  mana: '''Her sabah ve akşam en az 3 kez okunması tavsiye edilen temel zikirlerden biridir. Kelime-i tevhid, kelame-i şahadet ve tespih duasını kapsar. Hadis-i şerifte bu zikri her sabah ve akşam okuyanın cehenneme girmeyeceği müjdelenmiştir.''',
+  meal: '''Şahitlik ederim ki Allah'tan başka ilah yoktur, O birdir, ortağı yoktur. Şahitlik ederim ki Muhammed O'nun kulu ve elçisidir. Allah'tan başka güç ve kuvvet yoktur. Allah'tan başka ilah yoktur, O'ndan başkasına kulluk etmeyiz. Nimet O'nundur, fazilet O'nundur, övgüye layık güzel isimler O'nundur. Allah'tan başka ilah yoktur, O'na dini yalnız kendisine has kılarak ibadet ederiz, kâfirler hoşlanmasa bile.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: 'Yemek Duası',
+  baslikEn: 'Meal Prayer',
+  arapca: '''(Yemekten Önce) بِسْمِ اللَّهِ وَعَلَىٰ بَرَكَةِ اللَّهِ ۝ (Yemekten Sonra) الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ''',
+  okunus: '''(Önce) Bismillâhi ve alâ bereketillâh. (Sonra) Elhamdülillâhillezî et'amena ve sekânâ ve ce'alenâ muslimîn.''',
+  mana: '''Yemek yerken Allah'ı anmanın ve nimetlere şükretmenin en kolay yoludur. Hadis-i şerifte yemek öncesi ve sonrası okunan dua ile şeytanın yemekten nasibinin olmadığı bildirilmiştir. Günlük hayatta en sık tekrar edilen dualardan biridir.''',
+  meal: '''Yemekten önce: Allah'ın adıyla ve Allah'ın bereketiyle.
+Yemekten sonra: Bizi doyuran ve içiren, bizi Müslüman kılan Allah'a hamdolsun.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: 'Uyku Duası',
+  baslikEn: 'Sleep Prayer',
+  arapca: '''بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا''',
+  okunus: '''Bismike allâhumme emûtu ve aḥyâ.''',
+  mana: '''Uykuyu küçük ölüm olarak değerlendiren ve her an Allah'a muhtaç olduğunu hatırlatan bir dua. Yatağa girerken Allah'ın ismiyle ruhun O'na teslim edilmesi ve sabah kalktığında O'nun ihsanıyla hayata dönülmesi dile getirilmektedir.''',
+  meal: '''Allah'ım! Adınla ölür ve yaşarım.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: 'Uykudan Kalkma Duası',
+  baslikEn: 'Waking Up Prayer',
+  arapca: '''الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ''',
+  okunus: '''Elhamdülillâhillezî aḥyânâ ba'de mâ emâtenâ ve ileyhin-nüşûr.''',
+  mana: '''Uykuyu ölüme, uyanmayı ise dirilmeye benzeten bu dua, her sabah Allah'a şükür vesilesidir. Uykudan uyanmanın küçük bir kıyamet olduğunu ve gerçek diriliğin ahirette olacağı hatırlatılmaktadır.''',
+  meal: '''Bizi öldürdükten sonra dirilten Allah'a hamdolsun, dönüş de O'nadır.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: 'Mescide Girme Duası',
+  baslikEn: 'Entering Mosque Prayer',
+  arapca: '''اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ''',
+  okunus: '''Allâhummeftah lî ebvâbe rahmetik.''',
+  mana: '''Mescide girerken okunan bu dua ile Allah'ın rahmet kapısının açılması istenmektedir. Mescidlerin Allah'ın evleri olduğu ve girerken dua etmenin faziletinin yüksek olduğu bildirilmiştir. Her adımda sevap kazanılan mescidde duaların kabul olma ihtimali yüksektir.''',
+  meal: '''Allah'ım! Bana rahmet kapılarını aç.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: 'Mescitten Çıkma Duası',
+  baslikEn: 'Leaving Mosque Prayer',
+  arapca: '''اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ''',
+  okunus: '''Allâhumme innî es'eluke min fadlik.''',
+  mana: '''Mescitten çıkarken okunan bu dua ile Allah'ın fazlından ve cömertliğinden istenmektedir. Mescitte geçirilen ibadet zamanının karşılığında Allah'tan güzel bir compensated temennisidir.''',
+  meal: '''Allah'ım! Senden fazlından istiyorum.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: 'Seyahat Duası',
+  baslikEn: 'Travel Prayer',
+  arapca: '''بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ''',
+  okunus: '''Bismillâhi tevekkeltu a-lâllâhi ve lâ ḥavle ve lâ ḳuvvete illâ billâh.''',
+  mana: '''Yola çıkarken okunan bu dua ile seyahat boyunca Allah'a tevekkül edildiği ve korunma istendiği bildirilir. Hadis-i şerifte bu duayı okuyan kimseye dört meleğin refakat ettiği ve şeytanın ona yaklaşamayacağı müjdelenmiştir.''',
+  meal: '''Allah'ın adıyla yola çıkıyorum, Allah'a tevekkül ediyorum. Allah'tan başka güç ve kuvvet yoktur.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: 'İstiğfar Duası',
+  baslikEn: 'Istighfar Prayer',
+  arapca: '''أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ''',
+  okunus: '''Estagfirullâhel-'aẓîmel-letzî lâ ilâhe illâ hüvel-ḥayyul-kayyûm ve etûbu ileyh.''',
+  mana: '''Büyük Allah'tan af dileme duasıdır. Hadis-i şerifte günde 100 kez okuyanın afforded bir köle azat etmiş gibi sevap alacağı, günahlarının deniz dibindeki kum taneleri kadar bile olsa affedileceği müjdelenmiştir. Hz. Nûh (a.s.) da kavmine bu duası ile tavsiye etmiştir.''',
+  meal: '''O'ndan başka ilah olmayan, diri ve kaim olan büyük Allah'tan af diliyorum ve O'na tövbe ediyorum.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: 'Dâvud Aleyhisselam Zikri',
+  baslikEn: 'Tasbih of David',
+  arapca: '''سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ أَسْتَغْفِرُ اللَّهَ''',
+  okunus: '''Subhânallâhi ve biḥamdihi. Subhânallâhil-'aẓîmi ve biḥamdihi. Estagfirullâh.''',
+  mana: '''Hz. Dâvud (a.s.)'ın telbiyesinden learnsız olan bu zikir, en faziletli zikirlerden biridir. Her biri 33'er kez olmak üzere toplam 99 zikir söylenir ve 100'üncü olarak "Lâ ilâhe illallâhu veḥdehû lâ şerîke leh, lehul-mülkü ve leḥu-lḥamdü" denir. Hadis-i şerifte bu zikri dilinden düşürmeyen kişinin cennete gireceği müjdelenmiştir.''',
+  meal: '''Allah'ı tesbih ederim ve O'na hamdederim. Büyük Allah'ı tesbih ederim ve O'na hamdederim. Allah'tan af dilerim.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: "Dârâhimi's-seb' - 70 Sübhanallah",
+  baslikEn: 'Subhanallah 70 Times',
+  arapca: '''سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ''',
+  okunus: '''Subhânallâhi ve biḥamdihi. Subhânallâhil-'aẓîm.''',
+  mana: '''Hz. Peygamber (s.a.v.)'in "İki kelime vardır ki, dilde hafif, mizanda ağır, Rahman'a çok sevgilidir: Subhanallahi ve bihamdihi, Subhanallahil azim" buyurduğu dualardan biridir. Her gün 70 kez okunması tavsiye edilir. Hafif olması kolayca yapılmasını, ağır olması ise büyük mükafatını gösterir.''',
+  meal: '''Allah'ı tesbih ederim ve O'na hamdederim. Büyük Allah'ı tesbih ederim.''',
+  audioUrl: '',
+),
+
+MubarekSureVerisi(
+  baslik: 'Cuma Salavatı Şerife',
+  baslikEn: 'Friday Salawat (Blessings upon the Prophet)',
+  arapca: '''اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ ۝ اللَّهُمَّ بَارِكْ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ''',
+  okunus: '''Allâhumme salli 'alâ Muḥammedin ve 'alâ âli Muḥammedin kemâ sallayte 'alâ Ibrâhîme ve 'alâ âli Ibrâhîme inneke ḥamîdün mecîd. Allâhumme bârik 'alâ Muḥammedin ve 'alâ âli Muḥammedin kemâ bârakte 'alâ Ibrâhîme ve 'alâ âli Ibrâhîme inneke ḥamîdün mecîd.''',
+  mana: '''Hz. İbrahim (a.s.)'a ve ailesine okunan salavat ile mukayese edilen en kapsamlı salavat-ı şerifedir. Farz namazlardan sonra, Cuma günü ve Mevlid-i Nebî'de okunması tavsiye edilir. Hadis-i şerifte salavat getiren kişiye 10 salavat indirildiği bildirilmiştir.''',
+  meal: '''Allah'ım! Muhammed'e ve Muhammed'in ailesine salat ettiğin gibi İbrahim'e ve İbrahim'in ailesine de salat et. Şüphesiz sen övülmeye layıksın, yücesin. Allah'ım! Muhammed'e ve Muhammed'in ailesine bereket verdiğin gibi İbrahim'e ve İbrahim'in ailesine de bereket ver. Şüphesiz sen övülmeye layıksın, yücesin.''',
+  audioUrl: '',
+),
+
 ];
