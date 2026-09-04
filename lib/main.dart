@@ -80,28 +80,29 @@ Future<void> main() async {
   // Dini günler (Ramazan, kandiller) Diyanet resmî takvimine dayanır ve
   // uzak yapılandırmayla otomatik tazelenir; ulaşılamazsa gömülü tablo kullanılır.
   DiniGunlerServisi.baslat();
-  // Namaz bildirimleri: arka plan görevini kaydet (yalnızca Android).
-  // Uygulama kapalıyken de günde bir kez bildirimler yeniden planlanır.
+  // Namaz bildirimleri (yalnızca Android).
+  // Gerçek OS bildirimleri İLK AÇILIŞTA garanti çalışsın diye kurulum ve
+  // zamanlamayı `runApp` öncesinde (splash görünürken) yaparız. Bu,
+  // Android 13+ izin penceresinin kullanıcıya kesin sorulmasını ve
+  // `_zamanlayiciHazir` bayrağının her ön plan açılışında true olmasını sağlar.
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-    // Arka plan gorevi kaydi Flutter ilk karesini BLOCKLAMASIN diye
-    // runApp sonrasinda arka planda yapilir (birkaç saniyelik gecikme olabilir).
-    unawaited(_arkaPlanInit());
+    await _bildirimOnInit();
+    await _arkaPlanInit();
   }
   runApp(const MyApp());
 }
 
-/// Akşamcılık/yavaş platform çağrılarını uygulama arayüzünden ayırır:
-/// doğal başlangıç ekranı (splash) Flutter ilk karesine kadar görünür;
-/// bu kare ne kadar erken gelirse açılış o kadar hızlı hissettirir.
+/// Ön plandaki OS bildirimlerini hazırlar ve zamanlar (runApp öncesi).
+Future<void> _bildirimOnInit() async {
+  await GercekBildirimler.kurulum();
+  await GercekBildirimler.planla();
+}
+
+/// Arka plan görevi (Workmanager): uygulama kapalıyken de bildirimleri güncel
+/// tutar. Kaydı ilk kareyi beklemez; async sürer, sonucu beklemeden işlemi bırakır.
 Future<void> _arkaPlanInit() async {
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return;
   try {
-    // Gerçek (OS) bildirimleri ön planda hazırla: Android 13+ izin penceresi
-    // burada (aktivite varken) sorulur; böylece ayarlardaki tüm planla(),
-    // dua/ilham zamanlama ve "Test Bildirimi" çağrıları `_zamanlayiciHazir`
-    // true olduğu için gerçekten çalışır.
-    await GercekBildirimler.kurulum();
-    await GercekBildirimler.planla();
     await Workmanager().initialize(bildirimleriTazele);
     await Workmanager().registerPeriodicTask(
       'namaz-bildirim-tazeleme',
@@ -110,7 +111,7 @@ Future<void> _arkaPlanInit() async {
       initialDelay: const Duration(minutes: 10),
     );
   } catch (_) {
-    // Arka plan gorevi kurulamazsa bildirim tazelemesi atlanir;
+    // Arka plan gorevi kaydedilemezse bildirim tazelemesi atlanir;
     // uygulama acilisini engellememesi esasdir.
   }
 }
