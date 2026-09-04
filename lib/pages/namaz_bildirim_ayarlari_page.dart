@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 import '../l10n/app_localizations.dart';
 import '../services/bildirim_merkezi.dart';
@@ -110,35 +110,18 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
   }
 
   Future<void> _pilOptimizasyonuIste() async {
-    const appId = 'com.example.islami_uygulama';
-    final acildi = await _intentAc(
-      'intent:package:$appId#Intent;'
-      'action=android.settings.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS;end',
-    );
+    const channel = MethodChannel('com.example.islami_uygulama/test');
+    final acildi = await channel.invokeMethod<bool>('openBatterySettings') ?? false;
     if (!acildi) await _uygulamaAyarlari();
   }
 
   Future<void> _uygulamaAyarlari() async {
-    const appId = 'com.example.islami_uygulama';
-    final acildi = await _intentAc(
-      'intent:package:$appId#Intent;'
-      'action=android.settings.APPLICATION_DETAILS_SETTINGS;end',
-    );
+    const channel = MethodChannel('com.example.islami_uygulama/test');
+    final acildi = await channel.invokeMethod<bool>('openAppSettings') ?? false;
     if (!acildi && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(AppLocalizations.of(context).t('nba.settingsError')),
       ));
-    }
-  }
-
-  Future<bool> _intentAc(String url) async {
-    try {
-      return await launchUrl(
-        Uri.parse(url),
-        mode: LaunchMode.externalApplication,
-      );
-    } catch (_) {
-      return false;
     }
   }
 
