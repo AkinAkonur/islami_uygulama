@@ -66,8 +66,20 @@ void bildirimleriTazele() {
   });
 }
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // Uygulama ilk karesini OLDUĞUNCA ERKEN çizsin: beyaz ekran bekletmesini
+  // kaldırmak için `runApp`’ı beklemeden hemen çağırırız. Ağ, bildirim ve veri
+  // başlatmaları arka planda tamamlanır; sonuçlar `ValueNotifier`/stream’lerle
+  // gelince UI zaten otomatik yeniden çizilir (saydam splash buna izin verir).
+  runApp(const MyApp());
+  unawaited(_oncekilerBaslat());
+}
+
+/// Uygulamanın ilk açılışında gereken başlatmaları arka planda (bloklamadan)
+/// çalıştırır. Beyaz/splash ekranı bekletmemek için hiçbir adım `runApp`’ı
+/// bekletmez.
+Future<void> _oncekilerBaslat() async {
   await AyarlarStore.baslat();
   // İlk açılışta kayıtlı tercih yoksa cihaz dili otomatik algılanır.
   await DilHizmetleri.baslat();
@@ -82,15 +94,10 @@ Future<void> main() async {
   // uzak yapılandırmayla otomatik tazelenir; ulaşılamazsa gömülü tablo kullanılır.
   DiniGunlerServisi.baslat();
   // Namaz bildirimleri (yalnızca Android).
-  // Gerçek OS bildirimleri İLK AÇILIŞTA garanti çalışsın diye kurulum ve
-  // zamanlamayı `runApp` öncesinde (splash görünürken) yaparız. Bu,
-  // Android 13+ izin penceresinin kullanıcıya kesin sorulmasını ve
-  // `_zamanlayiciHazir` bayrağının her ön plan açılışında true olmasını sağlar.
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
     await _bildirimOnInit();
     await _arkaPlanInit();
   }
-  runApp(const MyApp());
 }
 
 /// Ön plandaki OS bildirimlerini hazırlar ve zamanlar (runApp öncesi).
