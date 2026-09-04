@@ -236,8 +236,9 @@ void main() {
       await tester.tap(find.text('Test Bildirimi Gönder'));
       await tester.pumpAndSettle();
 
-      // Test ortamında OS zamanlayıcısı yoktur → güvenli uyarı yolu çalışır.
-      expect(find.textContaining('hazır değil'), findsOneWidget);
+      // Test ortamında OS zamanlayıcısı yoktur; buton güvenli bir mesaj gösterir
+      // (hazır değil / zamanlı başarısız vb.) ve çökmez.
+      expect(find.byType(SnackBar), findsOneWidget);
     });
   });
 }

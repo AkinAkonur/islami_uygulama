@@ -274,7 +274,9 @@ class GercekBildirimler {
   /// Ayarlar sayfasındaki "Test Bildirimi Gönder" düğmesi için 5 saniye sonra
   /// tek seferlik bir bildirim zamanlar (id: 9001).
   static Future<bool> testBildirimi() async {
-    if (!_destekleniyor() || !_zamanlayiciHazir) return false;
+    if (!_destekleniyor()) return false;
+    if (!_zamanlayiciHazir && !kDebugMode) await kurulum();
+    if (!_zamanlayiciHazir) return false;
     try {
       final now = tz.TZDateTime.now(tz.local);
       await _plugin.zonedSchedule(
@@ -292,10 +294,36 @@ class GercekBildirimler {
     }
   }
 
+  /// Android/iOS/macOS'te sistem bildirimlerinin gerçekten açık olup olmadığını
+  /// döndürür. Plugin henüz başlatılmadıysa veya çağrı desteklenmiyorsa null döner.
+  static Future<bool?> bildirimIzniVarMi() async {
+    // Debug ve test ortamında gerçek platform kanalına erişim yoktur ve takılı
+    // kalabilir; yalnızca release çalıştırmada gerçek izin sorgusu yapılır.
+    if (kDebugMode) return null;
+    if (!_destekleniyor()) return null;
+    try {
+      return await _plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()
+          ?.areNotificationsEnabled();
+    } catch (e) {
+      debugPrint('[Bildirim] izin kontrolü hatası: $e');
+      return null;
+    }
+  }
+
   /// Anlık test bildirisi — zamanlayıcıya bağımlı olmadan hemen gösterir.
-  /// Adb veya uygulama içi test için kullanılır (id: 9002).
+  ///
+  /// Zamanlayıcı henüz hazır değilse bile [kurulum]'u tazeleyip denemeye devam
+  /// eder; böylece kullanıcı bir kez izin verdikten sonra test hemen çalışır.
   static Future<bool> anlikTest() async {
-    if (!_destekleniyor() || !_zamanlayiciHazir) return false;
+    if (!_destekleniyor()) return false;
+    if (!_zamanlayiciHazir && !kDebugMode) await kurulum();
+    if (!_zamanlayiciHazir) {
+      debugPrint('[Bildirim] anlikTest: zamanlayıcı hazır değil');
+      return false;
+    }
     try {
       await _plugin.show(
         id: 9002,

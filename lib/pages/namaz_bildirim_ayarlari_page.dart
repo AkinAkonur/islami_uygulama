@@ -92,11 +92,19 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
     final zamanli = await GercekBildirimler.testBildirimi();
     if (!mounted) return;
     final l = AppLocalizations.of(context);
-    final mesaj = anlik
-        ? (zamanli
-            ? l.t('nba.testOk')
-            : 'Anlık bildirim gönderildi, zamanlı başarısız')
-        : l.t('nba.testFail');
+    String mesaj;
+    if (anlik) {
+      mesaj = zamanli
+          ? l.t('nba.testOk')
+          : 'Anlık bildirim gönderildi, zamanlı başarısız';
+    } else {
+      final izin = await GercekBildirimler.bildirimIzniVarMi();
+      if (!mounted) return;
+      final l2 = AppLocalizations.of(context);
+      mesaj = (izin == false)
+          ? '${l2.t('nba.testFail')} Bildirim izni verilmemiş; "Uygulama Ayarlarını Aç" ile izin verin.'
+          : l2.t('nba.testFail');
+    }
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(mesaj),
       duration: const Duration(seconds: 3),
