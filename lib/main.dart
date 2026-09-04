@@ -94,8 +94,12 @@ Future<void> main() async {
 
 /// Ön plandaki OS bildirimlerini hazırlar ve zamanlar (runApp öncesi).
 Future<void> _bildirimOnInit() async {
-  await GercekBildirimler.kurulum();
-  await GercekBildirimler.planla();
+  try {
+    await GercekBildirimler.kurulum();
+    await GercekBildirimler.planla();
+  } catch (e) {
+    debugPrint('[Bildirim] _bildirimOnInit hatası: $e');
+  }
 }
 
 /// Arka plan görevi (Workmanager): uygulama kapalıyken de bildirimleri güncel

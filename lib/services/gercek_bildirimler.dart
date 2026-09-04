@@ -111,11 +111,12 @@ class GercekBildirimler {
     macOS: DarwinNotificationDetails(),
   );
 
-  /// Eklentiyi hazırlar ve gerekli izinleri ister. Güvenli (hata yutmaz değil,
-  /// tüm hataları yakalar) — test ve desteklenmeyen platformlarda sessizce döner.
+  /// Eklentiyi hazırlar ve gerekli izinleri ister.
+  ///
+  /// Başarısız kurulumda `_hazir` false kalır; böylece sonraki çağrılar
+  /// tekrar deneme şansı bulur. Hatalar [debugPrint] ile loglanır.
   static Future<void> kurulum() async {
     if (!_destekleniyor() || _hazir) return;
-    _hazir = true;
     try {
       tz.initializeTimeZones();
       try {
@@ -148,9 +149,11 @@ class GercekBildirimler {
         await androidPlugin?.requestNotificationsPermission();
         await androidPlugin?.requestExactAlarmsPermission();
       }
+      _hazir = true;
       _zamanlayiciHazir = true;
-    } catch (_) {
-      // Desteklenmeyen ortam (test vb.) — sessizce devam et.
+    } catch (e) {
+      debugPrint('[Bildirim] kurulum hatası: $e');
+      // _hazir false kalır → sonraki çağrı tekrar deneyecek.
     }
   }
 
@@ -162,6 +165,7 @@ class GercekBildirimler {
       await _plugin.cancelAll();
       return;
     }
+    var sayac = 0;
     try {
       await _plugin.cancelAll();
 
@@ -212,6 +216,7 @@ class GercekBildirimler {
             androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
             matchDateTimeComponents: DateTimeComponents.time,
           );
+          sayac++;
         }
       }
 
@@ -226,6 +231,7 @@ class GercekBildirimler {
           androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
           matchDateTimeComponents: DateTimeComponents.time,
         );
+        sayac++;
       }
 
       // 3) CUMA hatırlatması
@@ -243,6 +249,7 @@ class GercekBildirimler {
           androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
           matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
         );
+        sayac++;
       }
 
       // 4) Kullanıcının kurduğu DUA hatırlatıcıları (id: 4001+)
@@ -250,8 +257,9 @@ class GercekBildirimler {
 
       // 5) GÜNÜN İLHAMI hatırlatıcısı (id: 5001)
       await ilhamHatirlatmasiPlanla();
-    } catch (_) {
-      // Zamanlama başarısız olursa uygulama akışını bozma.
+      debugPrint('[Bildirim] planla tamamlandı — $sayac bildirim zamanlandı');
+    } catch (e) {
+      debugPrint('[Bildirim] planla hatası: $e');
     }
   }
 
