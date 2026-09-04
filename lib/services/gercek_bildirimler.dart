@@ -286,7 +286,26 @@ class GercekBildirimler {
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       );
       return true;
-    } catch (_) {
+    } catch (e) {
+      debugPrint('[Bildirim] testBildirimi hatası: $e');
+      return false;
+    }
+  }
+
+  /// Anlık test bildirisi — zamanlayıcıya bağımlı olmadan hemen gösterir.
+  /// Adb veya uygulama içi test için kullanılır (id: 9002).
+  static Future<bool> anlikTest() async {
+    if (!_destekleniyor() || !_zamanlayiciHazir) return false;
+    try {
+      await _plugin.show(
+        id: 9002,
+        title: 'Namaz Vakti Test',
+        body: 'Bildirimler çalışıyor!',
+        notificationDetails: _namazDetay(NamazBildirimAyarlari.titresim.value),
+      );
+      return true;
+    } catch (e) {
+      debugPrint('[Bildirim] anlikTest hatası: $e');
       return false;
     }
   }

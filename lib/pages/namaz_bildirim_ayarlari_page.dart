@@ -88,11 +88,17 @@ class _NamazBildirimAyarlariPageState extends State<NamazBildirimAyarlariPage> {
   }
 
   Future<void> _testGonder() async {
-    final ok = await GercekBildirimler.testBildirimi();
+    final anlik = await GercekBildirimler.anlikTest();
+    final zamanli = await GercekBildirimler.testBildirimi();
     if (!mounted) return;
     final l = AppLocalizations.of(context);
+    final mesaj = anlik
+        ? (zamanli
+            ? l.t('nba.testOk')
+            : 'Anlık bildirim gönderildi, zamanlı başarısız')
+        : l.t('nba.testFail');
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(ok ? l.t('nba.testOk') : l.t('nba.testFail')),
+      content: Text(mesaj),
       duration: const Duration(seconds: 3),
     ));
   }

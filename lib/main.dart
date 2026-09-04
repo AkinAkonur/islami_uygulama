@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:workmanager/workmanager.dart';
 import 'l10n/app_localizations.dart';
@@ -175,11 +176,18 @@ class AnaSayfa extends StatefulWidget {
 class _AnaSayfaState extends State<AnaSayfa> {
   Uint8List? _profilResim;
   String _profilIsim = '';
+  static final _testChannel = MethodChannel('com.example.islami_uygulama/test');
 
   @override
   void initState() {
     super.initState();
     _profiliYukle();
+    _testChannel.setMethodCallHandler((call) async {
+      if (call.method == 'testNotification') {
+        debugPrint('[Test] MethodChannel tetiklendi');
+        await GercekBildirimler.anlikTest();
+      }
+    });
   }
 
   Future<void> _profiliYukle() async {
