@@ -12,7 +12,9 @@ import 'package:path_provider/path_provider.dart';
 class MedyaKapak {
   MedyaKapak._();
 
-  static const String _assetYol = 'assets/gorseller/medya_kapak.jpg';
+  /// Paketteki altın çerçeveli kapak görseli (çekmece/kilit ekranı kartında
+  /// 3D zümrüt-altın görünümü veren artwork).
+  static const String _assetYol = 'assets/gorseller/medya_kapak_bildirim.jpg';
 
   static Uri? _uri;
 
@@ -25,7 +27,7 @@ class MedyaKapak {
     try {
       final veri = await rootBundle.load(_assetYol);
       final dizin = await getApplicationSupportDirectory();
-      final dosya = File('${dizin.path}/medya_kapak.jpg');
+      final dosya = File('${dizin.path}/medya_kapak_bildirim.jpg');
       if (!await dosya.exists()) {
         await dosya.writeAsBytes(veri.buffer.asUint8List(), flush: true);
       }

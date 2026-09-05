@@ -24,19 +24,20 @@ class MuzikHandler extends BaseAudioHandler with SeekHandler {
   /// just_audio olaylarını media session'a aktarır (kilit ekranı durumu).
   void _durumYayinla(PlaybackEvent _) {
     if (playbackState.isClosed) return;
+    // Kullanıcı isteği: bildirimde yalnızca oynat/duraklat ve durdur.
+    // İleri/geri sarma (rewind/fastForward) ve önceki/sonraki (skip) butonları
+    // gösterilmez.
     final kontroller = <MediaControl>[
-      MediaControl.skipToPrevious,
       if (_oynatici.playing) MediaControl.pause else MediaControl.play,
-      MediaControl.skipToNext,
       MediaControl.stop,
     ];
     playbackState.add(PlaybackState(
       controls: kontroller,
+      // Genişletilmiş kartta imam kaydırma çubuğu kalır (sarma butonu değil).
       systemActions: const {
         MediaAction.seek,
       },
-      // Kilit ekranı/çekmecedeki kısa kart: önceki - oynat/duraklat - sonraki.
-      androidCompactActionIndices: const [0, 1, 2],
+      androidCompactActionIndices: const [0, 1],
       processingState: _cevir(_oynatici.processingState),
       playing: _oynatici.playing,
       updatePosition: _oynatici.position,

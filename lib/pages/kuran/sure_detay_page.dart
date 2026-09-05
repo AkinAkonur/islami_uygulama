@@ -11,6 +11,7 @@ import '../../services/muzik_handler.dart';
 import '../../services/radyo_oynatici_store.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/kart_sekilleri.dart';
+import '../../widgets/altin_tactile.dart';
 import 'sure_listesi_page.dart';
 
 class SureDetayPage extends StatefulWidget {
@@ -378,17 +379,14 @@ class _SureDetayPageState extends State<SureDetayPage> {
         ? sureOzetiMetni(sureNo)
         : cuzBaslangic[cuzNo] ?? '';
 
-    return Container(
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Renkler.bannerUst, Renkler.bannerAlt],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.3)),
+    return ZumrutCamKutu(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
+      koseYaricapi: 18,
+      zeminler: LinearGradient(
+        colors: [Renkler.bannerUst, Renkler.bannerAlt],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -437,29 +435,25 @@ class _SureDetayPageState extends State<SureDetayPage> {
   }
 
   Widget _oynatmaCubugu(bool sureModu, AppLocalizations l) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(16, 0, 16, 8),
-      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: Renkler.kart,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Renkler.cerceve2),
-      ),
+    return ZumrutCamKutu(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      koseYaricapi: 16,
+      kenarKalini: 1,
+      isik: _caliyor,
       child: Row(
         children: [
           if (sureModu) ...[
-            IconButton(
-              tooltip: l.t('sd.listenFromStart'),
+            AltinButon(
+              boyut: 40,
+              ikonBoyut: 20,
+              isik: _caliyor,
+              ikon: _caliyor && _calanAyetIndex == 0
+                  ? Icons.stop_rounded
+                  : Icons.play_arrow_rounded,
               onPressed: _caliyor ? _durdur : _sureyiCal,
-              icon: UcdIkon(
-                ikon: _caliyor && _calanAyetIndex == 0
-                    ? Icons.stop_circle
-                    : Icons.play_circle,
-                renk: Renkler.vurgu,
-                boyut: 34,
-              ),
             ),
-            SizedBox(width: 6),
+            const SizedBox(width: 8),
           ],
           Expanded(
             child: Column(
@@ -470,7 +464,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
                       ? l.t('sd.playing').replaceFirst('{n}', '${_calanAyetIndex != null ? _calanAyetIndex! + 1 : ''}')
                       : l.t('sd.tapToListen'),
                   style: TextStyle(
-                    color: _caliyor ? Renkler.vurgu : Colors.white54,
+                    color: _caliyor ? AltinTasarim.altinParlakRenk : Colors.white54,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
@@ -484,12 +478,17 @@ class _SureDetayPageState extends State<SureDetayPage> {
             ),
           ),
           _tekrarMenu(l),
-          if (_caliyor)
-            IconButton(
-              tooltip: l.t('sd.stop'),
+          if (_caliyor) ...[
+            const SizedBox(width: 2),
+            AltinButon(
+              boyut: 32,
+              ikonBoyut: 15,
+              isik: false,
+              ikonRenk: Colors.white70,
+              ikon: Icons.stop_rounded,
               onPressed: _durdur,
-              icon: UcdIkon(ikon: Icons.stop_rounded, renk: Colors.white54),
             ),
+          ],
         ],
       ),
     );
@@ -497,21 +496,17 @@ class _SureDetayPageState extends State<SureDetayPage> {
 
   Widget _sureBittiKontrolleri(AppLocalizations l) {
     if (!_sureTamamlandi) return const SizedBox.shrink();
-    return Container(
+    return ZumrutCamKutu(
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Renkler.seciliYuzey,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.45)),
-      ),
+      koseYaricapi: 14,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             l.t('sd.sureCompleted'),
             style: TextStyle(
-              color: Renkler.vurgu,
+              color: AltinTasarim.altinParlakRenk,
               fontWeight: FontWeight.bold,
               fontSize: 13,
             ),
@@ -521,8 +516,18 @@ class _SureDetayPageState extends State<SureDetayPage> {
             children: [
               Expanded(
                 child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(
+                      color: AltinTasarim.altin.withValues(alpha: 0.7),
+                      width: 1.2,
+                    ),
+                    foregroundColor: AltinTasarim.altinParlakRenk,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                  ),
                   onPressed: _sureyiCal,
-                  icon: const UcdIkon(ikon: Icons.replay_rounded, renk: Colors.white),
+                  icon: UcdIkon(
+                      ikon: Icons.replay_rounded,
+                      renk: AltinTasarim.altinParlakRenk),
                   label: Text(l.t('sd.listenStart')),
                 ),
               ),
@@ -530,15 +535,21 @@ class _SureDetayPageState extends State<SureDetayPage> {
               Expanded(
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Renkler.vurgu,
+                    backgroundColor: AltinTasarim.altin,
                     foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    shadowColor: AltinTasarim.altin.withValues(alpha: 0.5),
                   ),
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const SureListesiPage()),
                   ),
-                  icon: const UcdIkon(ikon: Icons.menu_book_rounded, renk: Colors.white),
-                  label: Text(l.t('sd.selectSure')),
+                  icon: const UcdIkon(
+                      ikon: Icons.menu_book_rounded, renk: Colors.black),
+                  label: Text(
+                    l.t('sd.selectSure'),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
@@ -593,13 +604,21 @@ class _SureDetayPageState extends State<SureDetayPage> {
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: [
-            UcdIkon(ikon: Icons.repeat, renk: Colors.white54, boyut: 18),
+            UcdIkon(
+              ikon: Icons.repeat,
+              renk: _tekrarSayisi != 0
+                  ? AltinTasarim.altinParlakRenk
+                  : Colors.white54,
+              boyut: 18,
+            ),
             if (_tekrarSayisi != 0) ...[
               SizedBox(width: 4),
               Text(
                 etiketler[_tekrarSayisi]!,
                 style: TextStyle(
-                  color: Renkler.vurgu,
+                  color: _tekrarSayisi != 0
+                      ? AltinTasarim.altinParlakRenk
+                      : Renkler.vurgu,
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
@@ -623,9 +642,18 @@ class _SureDetayPageState extends State<SureDetayPage> {
         color: caliyorMu ? Renkler.seciliYuzey : Renkler.kart,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: caliyorMu ? Renkler.vurgu : Color(0xFF262626),
+          color: caliyorMu ? AltinTasarim.altin : Color(0xFF262626),
           width: caliyorMu ? 1.4 : 1,
         ),
+        boxShadow: caliyorMu
+            ? [
+                BoxShadow(
+                  color: AltinTasarim.altin.withValues(alpha: 0.25),
+                  blurRadius: 12,
+                  spreadRadius: 0,
+                ),
+              ]
+            : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

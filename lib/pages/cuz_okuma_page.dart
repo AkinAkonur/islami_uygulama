@@ -12,6 +12,7 @@ import '../services/muzik_handler.dart';
 import '../services/radyo_oynatici_store.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
+import '../widgets/altin_tactile.dart';
 
 /// Bir cüzün okuma sayfası.
 /// Metin uygulamayla birlikte gelen varlıklardan (assets/cuzler) çevrimdışı
@@ -219,7 +220,6 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _sureBasligi(ayet),
-            const SizedBox(height: 10),
             _ayetKarti(index),
           ],
         );
@@ -229,16 +229,14 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
 
   Widget _sureBasligi(CuzAyah ayet) {
     final l = AppLocalizations.of(context);
-    return Container(
+    return ZumrutCamKutu(
+      margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Renkler.bannerUst, Renkler.bannerAlt],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.35)),
+      koseYaricapi: 12,
+      zeminler: LinearGradient(
+        colors: [Renkler.bannerUst, Renkler.bannerAlt],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -272,24 +270,33 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
         color: caliyorMu ? Renkler.seciliYuzey : Renkler.kart,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: caliyorMu ? Renkler.vurgu : Renkler.cerceve2,
+          color: caliyorMu
+              ? AltinTasarim.altin
+              : Renkler.cerceve2,
           width: caliyorMu ? 1.4 : 1,
         ),
+        boxShadow: caliyorMu
+            ? [
+                BoxShadow(
+                  color: AltinTasarim.altin.withValues(alpha: 0.25),
+                  blurRadius: 12,
+                ),
+              ]
+            : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              IconButton(
-                visualDensity: VisualDensity.compact,
-                tooltip: caliyorMu ? l.t('co.stop') : l.t('co.play'),
+              AltinButon(
+                boyut: 34,
+                ikonBoyut: 17,
+                isik: caliyorMu,
+                ikon: caliyorMu
+                    ? Icons.stop_rounded
+                    : Icons.play_arrow_rounded,
                 onPressed: () => caliyorMu ? _durdur() : _cal(index),
-                icon: UcdIkon(
-                  ikon: caliyorMu ? Icons.stop_circle_rounded : Icons.play_circle_rounded,
-                  renk: Renkler.vurgu,
-                  boyut: 26,
-                ),
               ),
               const SizedBox(width: 6),
               Container(
