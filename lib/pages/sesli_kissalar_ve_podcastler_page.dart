@@ -23,13 +23,16 @@
 
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:just_audio/just_audio.dart';
 
 import '../l10n/app_localizations.dart';
 import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/medya_indirme_servisi.dart';
+import '../services/muzik_handler.dart';
+import '../services/radyo_oynatici_store.dart';
 import '../services/renkler.dart';
 import '../services/sesli_oynatma_store.dart';
 import 'kissalar/ibret_verileri.dart';
@@ -135,7 +138,10 @@ class _SesliKissalarVePodcastlerPageState
   bool _ttsBasladi = false;
 
   // ---- URL ses (kıssa sesUrl + podcast/radyo) ----
-  final AudioPlayer _sesPlayer = AudioPlayer();
+  // Uygulama genelindeki tek just_audio oynatıcısı; sayfa kapansa bile ses
+  // arka planda devam eder ve `audio_service` kilit ekranından kontrol sağlar.
+  AudioPlayer get _oynatici => RadyoOynaticiStore.player;
+  final List<StreamSubscription<dynamic>> _sesAbonelikleri = [];
   String? _calanUrl;
   String? _calanBaslik;
   bool _sesCalyor = false;
@@ -195,71 +201,56 @@ class _SesliKissalarVePodcastlerPageState
   }
 
   void _sesPlayerKur() {
-    _sesPlayer.onPlayerStateChanged.listen((durum) {
+    _sesAbonelikleri.add(_oynatici.playerStateStream.listen((state) {
       if (!mounted) return;
       setState(() {
-        _sesCalyor = durum == PlayerState.playing;
-        if (durum != PlayerState.disposed) _sesYukleniyor = false;
+        _sesCalyor = state.playing;
+        _sesYukleniyor =
+            state.processingState == ProcessingState.loading;
       });
-    }, onError: (_) {});
-    _sesPlayer.onPositionChanged.listen((pozisyon) {
+    }));
+    _sesAbonelikleri.add(_oynatici.positionStream.listen((pozisyon) {
       if (!mounted) return;
       _pozisyonMs = pozisyon.inMilliseconds;
       if (_calanUrl != null) {
         SesliOynatmaStore.pozisyonGuncelle(pozisyon.inMilliseconds);
       }
       setState(() {});
-    });
-    _sesPlayer.onDurationChanged.listen((toplam) {
+    }));
+    _sesAbonelikleri.add(_oynatici.durationStream.listen((toplam) {
       if (!mounted) return;
-      _toplamMs = toplam.inMilliseconds;
+      _toplamMs = toplam?.inMilliseconds ?? 0;
       setState(() {});
-    });
-    _sesPlayer.onPlayerComplete.listen((_) {
+    }));
+    _sesAbonelikleri.add(_oynatici.processingStateStream.listen((durum) {
+      if (!mounted) return;
+      if (durum == ProcessingState.completed) {
+        setState(() {
+          _sesCalyor = false;
+          _calanUrl = null;
+          _calanBaslik = null;
+        });
+        SesliOynatmaStore.pozisyonGuncelle(0);
+      }
+    }, onError: (Object hata) {
       if (!mounted) return;
       setState(() {
         _sesCalyor = false;
-        _calanUrl = null;
-        _calanBaslik = null;
+        _sesYukleniyor = false;
+        _sesHata =
+            AppLocalizations.of(context).t('sks.sourceUnreachableRetry');
       });
-      SesliOynatmaStore.pozisyonGuncelle(0);
-    });
-    _sesPlayer.onLog.listen(
-      (mesaj) {
-        final alt = mesaj.toLowerCase();
-        if (alt.contains('error') || alt.contains('fail')) {
-          // Yalnızca oynatma gerçekten başlamadan önce gelen hata logları
-          // gerçek bir başarısızlığı gösterir; akış fiilen çalıyorsa gürültü
-          // kabul edilir (yanlış-pozitif önleme).
-          if (_sesCalyor) return;
-          if (!mounted) return;
-          setState(() {
-            _sesCalyor = false;
-            _sesYukleniyor = false;
-            _sesHata = AppLocalizations.of(context).t('sks.sourceUnreachable');
-          });
-        }
-      },
-      onError: (Object hata) {
-        // Android'de gerçek oynatma hataları onLog mesajlarına değil, olay
-        // akışının hatasına düşer; aksi takdirde sessizce yutulurdu.
-        if (!mounted) return;
-        setState(() {
-          _sesCalyor = false;
-          _sesYukleniyor = false;
-          _sesHata =
-              AppLocalizations.of(context).t('sks.sourceUnreachableRetry');
-        });
-      },
-    );
+    }));
   }
 
   @override
   void dispose() {
+    for (final abone in _sesAbonelikleri) {
+      abone.cancel();
+    }
     _tablar.dispose();
     _aramaKontrol.dispose();
     _tts.stop();
-    _sesPlayer.dispose();
     super.dispose();
   }
 
@@ -369,7 +360,7 @@ class _SesliKissalarVePodcastlerPageState
     }
     try {
       await _tts.stop();
-      if (_calanUrl != null) await _sesPlayer.stop();
+      if (_calanUrl != null) await _oynatici.stop();
       SesliOynatmaStore.kissaKaydet(kissa.id, kissa.baslik);
       if (kissa.sesUrl != null && kissa.sesUrl!.isNotEmpty) {
         await _urlSesiBaslat(
@@ -435,23 +426,26 @@ class _SesliKissalarVePodcastlerPageState
       _sesHata = null;
     });
     try {
-      await _sesPlayer.stop();
-      await _sesPlayer.setReleaseMode(ReleaseMode.release);
-      await _sesPlayer.setPlaybackRate(SesliOynatmaStore.hiz.value);
+      try {
+        await _oynatici.stop();
+      } catch (_) {}
+      await _oynatici.setSpeed(SesliOynatmaStore.hiz.value);
 
       final yerelYol = MedyaIndirmeServisi.instance.yerelYolu(url);
       final kaynak = yerelYol != null
-          ? DeviceFileSource(yerelYol)
-          : UrlSource(url);
+          ? AudioSource.uri(Uri.file(yerelYol))
+          : AudioSource.uri(Uri.parse(url));
 
-      // Not: Bu audioplayers sürümünde PlayerMode.lowLatency, ExoPlayer değil
-      // SoundPool önceler. SoundPool HTTP canlı akışları / m3u8 çalamaz ve
-      // başarısız olduğunda sessizce kalır. MediaPlayer modu (varsayılan) hem
-      // MP3/HTTP akışlarını hem de Android'in kendi çözücüsüyle HLS m3u8'i
-      // oynatabilir; bu yüzden mode belirtilmez (MEDIA_PLAYER kullanılır).
-      await _sesPlayer.play(kaynak);
+      await _oynatici.setAudioSource(kaynak);
+      MuzikHandler.aktif?.medyaHaber(MediaItem(
+        id: url,
+        title: baslik,
+        artist: 'Sesli Medya',
+      ));
+      RadyoOynaticiStore.calanKanal.value = null;
+      await _oynatici.play();
       if (pozisyonMs > 0) {
-        await _sesPlayer.seek(Duration(milliseconds: pozisyonMs));
+        await _oynatici.seek(Duration(milliseconds: pozisyonMs));
       }
       if (mounted) {
         setState(() {
@@ -474,12 +468,12 @@ class _SesliKissalarVePodcastlerPageState
   Future<void> _podcastDinle(RadyoKanali kanal, {bool devamEt = false}) async {
     final ayniKanal = _calanUrl == kanal.url;
     if (ayniKanal && _sesCalyor) {
-      await _sesPlayer.pause();
+      await _oynatici.pause();
       if (mounted) setState(() => _sesCalyor = false);
       return;
     }
     if (ayniKanal && !_sesCalyor) {
-      await _sesPlayer.resume();
+      await _oynatici.play();
       if (mounted) setState(() => _sesCalyor = true);
       return;
     }
@@ -509,7 +503,7 @@ class _SesliKissalarVePodcastlerPageState
   /// TTS ve URL oynatıcısını tamamen durdurur (mini bar kapanır).
   Future<void> _tumuDurdur() async {
     await _tts.stop();
-    await _sesPlayer.stop();
+    await _oynatici.stop();
     SesliOynatmaStore.uykuSayaciniDurdur();
     if (mounted) {
       setState(() {
@@ -590,7 +584,7 @@ class _SesliKissalarVePodcastlerPageState
     SesliOynatmaStore.hizAyarla(secili);
     await _tts.setSpeechRate(_ttsHiz());
     if (_calanUrl != null) {
-      await _sesPlayer.setPlaybackRate(secili);
+      await _oynatici.setSpeed(secili);
     }
     final hizGoster =
         '${secili == secili.toInt() ? secili.toInt() : secili}×';
@@ -1500,10 +1494,10 @@ class _SesliKissalarVePodcastlerPageState
                 onTap: () {
                   if (sesAktif) {
                     if (_sesCalyor) {
-                      _sesPlayer.pause();
+                      _oynatici.pause();
                       setState(() => _sesCalyor = false);
                     } else {
-                      _sesPlayer.resume();
+                      _oynatici.play();
                       setState(() => _sesCalyor = true);
                     }
                   } else {

@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../services/muzik_handler.dart';
+import '../../services/radyo_oynatici_store.dart';
 import '../../services/renkler.dart';
 import '../../widgets/kart_sekilleri.dart';
 import 'mubarek_sureler_verileri.dart';
@@ -23,7 +26,7 @@ class MubarekSurelerPage extends StatefulWidget {
 }
 
 class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
-  final AudioPlayer _player = AudioPlayer();
+  AudioPlayer get _player => RadyoOynaticiStore.player;
   final FlutterTts _tts = FlutterTts();
   final Set<int> _expandedCards = {};
   int? _playingIndex;
@@ -48,7 +51,6 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
   @override
   void dispose() {
     _tts.stop();
-    _player.dispose();
     super.dispose();
   }
 
@@ -82,7 +84,13 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
     await _dur();
     if (veri.audioUrl.isNotEmpty) {
       try {
-        await _player.setUrl(veri.audioUrl);
+        await _player.setAudioSource(AudioSource.uri(Uri.parse(veri.audioUrl)));
+        MuzikHandler.aktif?.medyaHaber(MediaItem(
+          id: veri.audioUrl,
+          title: veri.baslik,
+          artist: 'Mübarek Sure',
+        ));
+        RadyoOynaticiStore.calanKanal.value = null;
         setState(() {
           _playingIndex = index;
           _isPlaying = true;

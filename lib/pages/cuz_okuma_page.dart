@@ -1,12 +1,15 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 import '../l10n/app_localizations.dart';
 import '../services/cuz_hatim_store.dart';
 import '../services/cuz_verileri.dart';
 import '../services/kuran_verileri.dart';
+import '../services/muzik_handler.dart';
+import '../services/radyo_oynatici_store.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 
@@ -28,7 +31,10 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   bool _yukleniyor = true;
   bool _okundu = false;
 
-  final AudioPlayer _player = AudioPlayer();
+  /// Ses motu uygulama genelindeki tek just_audio oynatıcısıdır; böylece sayfa
+  /// kapanınca bile Kur'an sesi arka planda çalmaya devam eder ve `audio_service`
+  /// ile kilit ekranından kontrol edilebilir.
+  AudioPlayer get _oynatici => RadyoOynaticiStore.player;
   StreamSubscription? _completionSub;
   bool _caliyor = false;
   int? _calanIndex;
@@ -37,7 +43,9 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   void initState() {
     super.initState();
     _yukle();
-    _completionSub = _player.onPlayerComplete.listen((_) => _ayetBitti());
+    _completionSub = _oynatici.processingStateStream.listen((durum) {
+      if (durum == ProcessingState.completed) _ayetBitti();
+    });
   }
 
   Future<void> _yukle() async {
@@ -67,7 +75,6 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   @override
   void dispose() {
     _completionSub?.cancel();
-    _player.dispose();
     super.dispose();
   }
 
@@ -96,27 +103,29 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
     final url = CuzVerileri.ayetSesUrl(ayet.sureNo, ayet.ayetNo);
     final l = AppLocalizations.of(context);
     try {
-      await _player.stop();
-      await _player.play(UrlSource(url));
-      if (mounted) {
-        setState(() {
-          _caliyor = true;
-          _calanIndex = index;
-        });
-      }
+      await _oynatici.setAudioSource(AudioSource.uri(Uri.parse(url)));
+      MuzikHandler.aktif?.medyaHaber(MediaItem(
+        id: url,
+        title: 'Cüz ${widget.cuzNo} - Ayet ${index + 1}',
+        artist: 'Kur\'an-ı Kerim',
+      ));
+      RadyoOynaticiStore.calanKanal.value = null;
+      await _oynatici.play();
+      setState(() {
+        _caliyor = true;
+        _calanIndex = index;
+      });
     } catch (_) {
       _gosterMesaj(l.t('co.noSound'));
     }
   }
 
   Future<void> _durdur() async {
-    await _player.stop();
-    if (mounted) {
-      setState(() {
-        _caliyor = false;
-        _calanIndex = null;
-      });
-    }
+    await _oynatici.stop();
+    setState(() {
+      _caliyor = false;
+      _calanIndex = null;
+    });
   }
 
   // ---------------- HATİM TAKİBİ ----------------

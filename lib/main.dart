@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:audio_service/audio_service.dart';
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +43,7 @@ import 'services/manevi_store.dart';
 import 'services/canli_yayin_konfigurasyonu.dart';
 import 'services/dini_gunler_servisi.dart';
 import 'services/radyo_oynatici_store.dart';
+import 'services/muzik_handler.dart';
 import 'widgets/radyo_mini_oynatici.dart';
 import 'widgets/kart_sekilleri.dart';
 import 'widgets/ucd_kart.dart';
@@ -87,6 +90,9 @@ Future<void> _oncekilerBaslat() async {
   // Canlı yayın kaynakları uzak konfigürasyondan dinamik olarak alınır
   // (Firebase Remote Config alternatifi; kaynak değişirse Store güncellemesi gerekmez).
   await CanliYayinKonfigurasyonu.baslat();
+  // audio_service: kilit ekranı medya kontrolü + arka planda kalma garantisi.
+  // İlk kareyi bekletmemek için ayrıca başlatılır; radyo/medya çalarken hazırdır.
+  unawaited(_medyaServisBaslat());
   // Radyo oynatıcıyı uygulama genelinde başlat: başka sayfalara geçilse bile
   // Dini Radyo & İlahi akışı kesintisiz devam eder, alt çubukta mini oynatıcı görünür.
   await RadyoOynaticiStore.baslat();
@@ -97,6 +103,29 @@ Future<void> _oncekilerBaslat() async {
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
     await _bildirimOnInit();
     await _arkaPlanInit();
+  }
+}
+
+/// Arka plan medya servisini (audio_service) hazırlar: kilit ekranı kontrolü,
+/// medya bildirimi ve arka planda kalma. İlk kareyi beklemez.
+Future<void> _medyaServisBaslat() async {
+  try {
+    // Ses oturumunu "müzik" olarak aktif et: bildirim/kilit ekranı ile
+    // çakışmaları, telefon aramalarında otomatik duraklamayı yönetir.
+    final oturum = await AudioSession.instance;
+    await oturum.configure(AudioSessionConfiguration.music());
+    final handler = await AudioService.init(
+      builder: () => MuzikHandler(RadyoOynaticiStore.player),
+      config: AudioServiceConfig(
+        androidNotificationChannelId: 'com.example.islami_uygulama.audio',
+        androidNotificationChannelName: 'Medya oynatıcı',
+        androidNotificationOngoing: true,
+        androidStopForegroundOnPause: false,
+      ),
+    );
+    MuzikHandler.aktif = handler;
+  } catch (e) {
+    debugPrint('[Medya] audio_service başlatma hatası: $e');
   }
 }
 

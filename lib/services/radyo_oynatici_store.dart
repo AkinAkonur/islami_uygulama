@@ -13,11 +13,13 @@
 
 import 'dart:async';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'canli_yayin_konfigurasyonu.dart';
+import 'muzik_handler.dart';
 
 /// Yayın sunucuları (özellikle Zeno FM) tarayıcı olmayan varsayılan
 /// User-Agent'lı istekleri reddedebilir; bu yüzden istemciler gerçek bir
@@ -129,6 +131,12 @@ class RadyoOynaticiStore {
       // Canlı akış: parça sonu bilgisi gerekmediği için preload kapatılır.
       await player.setUrl(kanal.url, preload: false);
       calanKanal.value = kanal;
+      MuzikHandler.aktif?.medyaHaber(MediaItem(
+        id: kanal.url,
+        title: kanal.ad,
+        artist: kanal.aciklama,
+        album: kanal.kategori.name,
+      ));
       await player.play();
       calyor.value = true;
       yukleniyor.value = false;

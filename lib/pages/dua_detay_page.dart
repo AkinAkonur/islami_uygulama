@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -12,6 +13,8 @@ import '../l10n/dil_hizmetleri.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
 import '../services/gercek_bildirimler.dart';
+import '../services/muzik_handler.dart';
+import '../services/radyo_oynatici_store.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 
@@ -33,7 +36,7 @@ class DuaDetayPage extends StatefulWidget {
 }
 
 class _DuaDetayPageState extends State<DuaDetayPage> {
-  final AudioPlayer _player = AudioPlayer();
+  AudioPlayer get _oynatici => RadyoOynaticiStore.player;
   bool _caliyor = false;
   bool _yukleniyorSes = false;
   String? _sesHata;
@@ -43,14 +46,15 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
   @override
   void initState() {
     super.initState();
-    _player.onPlayerComplete.listen((_) {
-      if (mounted) setState(() => _caliyor = false);
+    _oynatici.processingStateStream.listen((durum) {
+      if (durum == ProcessingState.completed && mounted) {
+        setState(() => _caliyor = false);
+      }
     });
   }
 
   @override
   void dispose() {
-    _player.dispose();
     super.dispose();
   }
 
@@ -270,7 +274,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
     final url = dua.sesUrl;
     if (url == null) return;
     if (_caliyor) {
-      await _player.stop();
+      await _oynatici.stop();
       if (mounted) setState(() => _caliyor = false);
       return;
     }
@@ -279,7 +283,14 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
       _sesHata = null;
     });
     try {
-      await _player.play(UrlSource(url));
+      await _oynatici.setAudioSource(AudioSource.uri(Uri.parse(url)));
+      MuzikHandler.aktif?.medyaHaber(MediaItem(
+        id: url,
+        title: dua.baslik,
+        artist: 'Dua',
+      ));
+      RadyoOynaticiStore.calanKanal.value = null;
+      await _oynatici.play();
       if (mounted) {
         setState(() {
           _caliyor = true;

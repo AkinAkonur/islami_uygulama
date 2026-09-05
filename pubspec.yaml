@@ -67,6 +67,8 @@ dependencies:
   # Kâbe Canlı Yayın - izleme sırasında ekranın kapanmasını engeller
   connectivity_plus: ^6.1.0
   wakelock_plus: ^1.1.4
+  audio_service: ^0.18.19
+  audio_session: ^0.1.25
 
 dev_dependencies:
   flutter_test:

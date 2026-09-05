@@ -1,11 +1,14 @@
 import 'dart:async';
 import '../../services/renkler.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/kuran_api.dart';
 import '../../services/kuran_verileri.dart';
 import '../../services/manevi_store.dart';
+import '../../services/muzik_handler.dart';
+import '../../services/radyo_oynatici_store.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/kart_sekilleri.dart';
 import 'sure_listesi_page.dart';
@@ -33,7 +36,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
   int _mealIndex = 0;
   String _kariId = 'ar.abdurrahmaansudais';
 
-  final AudioPlayer _player = AudioPlayer();
+  AudioPlayer get _oynatici => RadyoOynaticiStore.player;
   final ScrollController _scrollController = ScrollController();
   final Map<int, GlobalKey> _ayetAnahtarlari = {};
   StreamSubscription? _completionSub;
@@ -48,7 +51,9 @@ class _SureDetayPageState extends State<SureDetayPage> {
     super.initState();
     _yukle();
     _ayarlariOku();
-    _completionSub = _player.onPlayerComplete.listen((_) => _ayetBitti());
+    _completionSub = _oynatici.processingStateStream.listen((durum) {
+      if (durum == ProcessingState.completed) _ayetBitti();
+    });
   }
 
   Future<void> _ayarlariOku() async {
@@ -96,7 +101,6 @@ class _SureDetayPageState extends State<SureDetayPage> {
   void dispose() {
     _completionSub?.cancel();
     _scrollController.dispose();
-    _player.dispose();
     super.dispose();
   }
 
@@ -135,8 +139,14 @@ class _SureDetayPageState extends State<SureDetayPage> {
     final url = KuranApi.ayetSesUrl(_kariId, ayet.globalNo);
     final l = AppLocalizations.of(context);
     try {
-      await _player.stop();
-      await _player.play(UrlSource(url));
+      await _oynatici.setAudioSource(AudioSource.uri(Uri.parse(url)));
+      MuzikHandler.aktif?.medyaHaber(MediaItem(
+        id: url,
+        title: '${sureAdiTurkce(ayet.sureNo)} - Ayet ${ayet.ayetNo}',
+        artist: _kariId.replaceFirst('ar.', ''),
+      ));
+      RadyoOynaticiStore.calanKanal.value = null;
+      await _oynatici.play();
       unawaited(
         ManeviStore.sonOkunanAyetKaydet(
           sureNo: ayet.sureNo,
@@ -168,7 +178,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
   }
 
   Future<void> _durdur() async {
-    await _player.stop();
+    await _oynatici.stop();
     if (mounted) {
       setState(() {
         _caliyor = false;

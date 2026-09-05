@@ -6,7 +6,7 @@
         <item name="android:windowBackground">@color/splash_zemin</item>
         <!-- Android 12+ sistem acilis ekrani da ayni renk -->
         <item name="android:windowSplashScreenBackground">@color/splash_zemin</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
     </style>
     <!-- Theme applied to the Android Window as soon as the process has started. -->
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
