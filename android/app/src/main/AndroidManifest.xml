@@ -68,9 +68,9 @@
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
-        <!-- audio_service: arka plan medya oynatma servisi -->
+        <!-- audio_service: arka plan medya oynatma servisi (kilit ekranı kontrollü) -->
         <service
-            android:name="com.ryanheise.audioservice.MediaBrowserService"
+            android:name="com.ryanheise.audioservice.AudioService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback">
             <intent-filter>

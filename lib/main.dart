@@ -119,7 +119,9 @@ Future<void> _medyaServisBaslat() async {
       config: AudioServiceConfig(
         androidNotificationChannelId: 'com.example.islami_uygulama.audio',
         androidNotificationChannelName: 'Medya oynatıcı',
-        androidNotificationOngoing: true,
+        // Duraklatınca bildirim kalsın (kilit ekranından devam edebilmek için);
+        // `ongoing` ile birlikte kullanılamaz (audio_service assert'ü).
+        androidNotificationOngoing: false,
         androidStopForegroundOnPause: false,
       ),
     );
