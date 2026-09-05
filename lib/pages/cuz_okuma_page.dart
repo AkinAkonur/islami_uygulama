@@ -35,9 +35,15 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   /// kapanınca bile Kur'an sesi arka planda çalmaya devam eder ve `audio_service`
   /// ile kilit ekranından kontrol edilebilir.
   AudioPlayer get _oynatici => RadyoOynaticiStore.player;
-  StreamSubscription? _completionSub;
+  StreamSubscription<ProcessingState>? _completionSub;
+  StreamSubscription<int?>? _indexSub;
   bool _caliyor = false;
   int? _calanIndex;
+
+  /// Cüzün tüm ayetlerini tek `ConcatenatingAudioSource` içinde tutar:
+  /// ayet geçişleri ExoPlayer tarafından ön yüklemeyle kesintisiz yapılır,
+  /// oynatıcı durup yeniden başlamaz.
+  ConcatenatingAudioSource? _concat;
 
   @override
   void initState() {
@@ -45,6 +51,10 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
     _yukle();
     _completionSub = _oynatici.processingStateStream.listen((durum) {
       if (durum == ProcessingState.completed) _ayetBitti();
+    });
+    _indexSub = _oynatici.currentIndexStream.listen((idx) {
+      if (idx == null) return;
+      _indexDegisti(idx);
     });
   }
 
@@ -75,46 +85,49 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
   @override
   void dispose() {
     _completionSub?.cancel();
+    _indexSub?.cancel();
     super.dispose();
   }
 
   // ---------------- SES ----------------
   Future<void> _ayetBitti() async {
     if (!mounted || _ayetler == null) return;
-    final idx = _calanIndex;
-    if (idx == null) {
-      setState(() => _caliyor = false);
-      return;
-    }
-    final sonraki = idx + 1;
-    if (sonraki < _ayetler!.length) {
-      await _cal(sonraki);
-    } else {
-      setState(() {
-        _caliyor = false;
-        _calanIndex = null;
-      });
-      _gosterMesaj(AppLocalizations.of(context).t('co.listenDone'));
-    }
+    setState(() {
+      _caliyor = false;
+      _calanIndex = null;
+    });
+    _gosterMesaj(AppLocalizations.of(context).t('co.listenDone'));
+  }
+
+  void _indexDegisti(int idx) {
+    if (!mounted || _ayetler == null) return;
+    setState(() {
+      _caliyor = true;
+      _calanIndex = idx;
+    });
+    MuzikHandler.aktif?.medyaHaber(MediaItem(
+      id: CuzVerileri.ayetSesUrl(_ayetler![idx].sureNo, _ayetler![idx].ayetNo),
+      title: 'Cüz ${widget.cuzNo} - Ayet ${idx + 1}',
+      artist: 'Kur\'an-ı Kerim',
+    ));
   }
 
   Future<void> _cal(int index) async {
-    final ayet = _ayetler![index];
-    final url = CuzVerileri.ayetSesUrl(ayet.sureNo, ayet.ayetNo);
     final l = AppLocalizations.of(context);
     try {
-      await _oynatici.setAudioSource(AudioSource.uri(Uri.parse(url)));
-      MuzikHandler.aktif?.medyaHaber(MediaItem(
-        id: url,
-        title: 'Cüz ${widget.cuzNo} - Ayet ${index + 1}',
-        artist: 'Kur\'an-ı Kerim',
-      ));
+      if (_concat == null || _oynatici.processingState == ProcessingState.idle) {
+        _concat ??= ConcatenatingAudioSource(
+          children: [
+            for (final a in _ayetler!)
+              AudioSource.uri(Uri.parse(CuzVerileri.ayetSesUrl(a.sureNo, a.ayetNo))),
+          ],
+        );
+        await _oynatici.setAudioSource(_concat!);
+      }
+      await _oynatici.seek(Duration.zero, index: index);
       RadyoOynaticiStore.calanKanal.value = null;
       await _oynatici.play();
-      setState(() {
-        _caliyor = true;
-        _calanIndex = index;
-      });
+      _indexDegisti(index);
     } catch (_) {
       _gosterMesaj(l.t('co.noSound'));
     }

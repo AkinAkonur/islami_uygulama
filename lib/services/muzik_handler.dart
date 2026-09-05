@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
+import 'medya_kapak.dart';
 import 'radyo_oynatici_store.dart';
 
 /// Uygulamadaki tüm ses oynatmanın kalbi: `audio_service` medya oturumu ve
@@ -26,15 +27,16 @@ class MuzikHandler extends BaseAudioHandler with SeekHandler {
     final kontroller = <MediaControl>[
       MediaControl.skipToPrevious,
       if (_oynatici.playing) MediaControl.pause else MediaControl.play,
-      MediaControl.stop,
       MediaControl.skipToNext,
+      MediaControl.stop,
     ];
     playbackState.add(PlaybackState(
       controls: kontroller,
       systemActions: const {
         MediaAction.seek,
       },
-      androidCompactActionIndices: const [0, 1, 3],
+      // Kilit ekranı/çekmecedeki kısa kart: önceki - oynat/duraklat - sonraki.
+      androidCompactActionIndices: const [0, 1, 2],
       processingState: _cevir(_oynatici.processingState),
       playing: _oynatici.playing,
       updatePosition: _oynatici.position,
@@ -58,8 +60,12 @@ class MuzikHandler extends BaseAudioHandler with SeekHandler {
     }
   }
 
-  /// Yeni "çalınan medya" bilgisini yayınlar (başlık, alt yazı, ikon).
+  /// Yeni "çalınan medya" bilgisini yayınlar (başlık, alt yazı, kapak).
+  /// Kapak belirtilmemişse ortak [MedyaKapak] görseli otomatik enjekte edilir.
   void medyaHaber(MediaItem item) {
+    if (item.artUri == null && MedyaKapak.uri != null) {
+      item = item.copyWith(artUri: MedyaKapak.uri);
+    }
     mediaItem.add(item);
   }
 

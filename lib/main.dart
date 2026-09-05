@@ -44,6 +44,7 @@ import 'services/canli_yayin_konfigurasyonu.dart';
 import 'services/dini_gunler_servisi.dart';
 import 'services/radyo_oynatici_store.dart';
 import 'services/muzik_handler.dart';
+import 'services/medya_kapak.dart';
 import 'widgets/radyo_mini_oynatici.dart';
 import 'widgets/kart_sekilleri.dart';
 import 'widgets/ucd_kart.dart';
@@ -90,6 +91,9 @@ Future<void> _oncekilerBaslat() async {
   // Canlı yayın kaynakları uzak konfigürasyondan dinamik olarak alınır
   // (Firebase Remote Config alternatifi; kaynak değişirse Store güncellemesi gerekmez).
   await CanliYayinKonfigurasyonu.baslat();
+  // Medya bildirimine kapak görseli sağlanır: asset, uygulama dizinine
+  // kopyalanır (audio_service asset desteklemez; dosya yolu ister).
+  await MedyaKapak.hazirla();
   // audio_service: kilit ekranı medya kontrolü + arka planda kalma garantisi.
   // İlk kareyi bekletmemek için ayrıca başlatılır; radyo/medya çalarken hazırdır.
   unawaited(_medyaServisBaslat());
@@ -123,6 +127,11 @@ Future<void> _medyaServisBaslat() async {
         // `ongoing` ile birlikte kullanılamaz (audio_service assert'ü).
         androidNotificationOngoing: false,
         androidStopForegroundOnPause: false,
+        // Bildirim kartının vurgu (accent) rengi: tasarımdaki altın tonu.
+        notificationColor: const Color(0xFFEAB308),
+        // İleri/geri sar aralığı: kilit ekranı ve çekmece butonlarında kullanılır.
+        fastForwardInterval: const Duration(seconds: 15),
+        rewindInterval: const Duration(seconds: 15),
       ),
     );
     MuzikHandler.aktif = handler;

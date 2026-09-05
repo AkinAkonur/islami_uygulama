@@ -39,12 +39,18 @@ class _SureDetayPageState extends State<SureDetayPage> {
   AudioPlayer get _oynatici => RadyoOynaticiStore.player;
   final ScrollController _scrollController = ScrollController();
   final Map<int, GlobalKey> _ayetAnahtarlari = {};
-  StreamSubscription? _completionSub;
+  StreamSubscription<ProcessingState>? _completionSub;
+  StreamSubscription<int?>? _indexSub;
   bool _caliyor = false;
   bool _sureTamamlandi = false;
   int? _calanAyetIndex;
   int _tekrarSayisi = 0; // 0 = yok, 1-3 = adet, -1 = sürekli
   int _tekrarKalan = 0;
+
+  /// Tüm âyetlerin tek seferde yüklendiği kesintisiz kaynak: ayet geçişlerinde
+  /// oynatıcı durup yeniden başlamaz, ExoPlayer sıradaki ayeti önceden hazırlar.
+  ConcatenatingAudioSource? _concat;
+  int? _oncekiConcatanIndex;
 
   @override
   void initState() {
@@ -52,7 +58,14 @@ class _SureDetayPageState extends State<SureDetayPage> {
     _yukle();
     _ayarlariOku();
     _completionSub = _oynatici.processingStateStream.listen((durum) {
-      if (durum == ProcessingState.completed) _ayetBitti();
+      if (durum == ProcessingState.completed) _listeBitti();
+    });
+    _indexSub = _oynatici.currentIndexStream.listen((idx) {
+      if (idx == null) {
+        _oncekiConcatanIndex = null;
+        return;
+      }
+      _indexDegisti(idx);
     });
   }
 
@@ -100,51 +113,28 @@ class _SureDetayPageState extends State<SureDetayPage> {
   @override
   void dispose() {
     _completionSub?.cancel();
+    _indexSub?.cancel();
     _scrollController.dispose();
     super.dispose();
   }
 
   // ---------------- SES ----------------
-  Future<void> _ayetBitti() async {
-    if (!mounted || _ayetler == null) return;
-    final idx = _calanAyetIndex;
-    if (idx == null) {
-      setState(() => _caliyor = false);
-      return;
-    }
-    if (_tekrarSayisi != 0 && _tekrarKalan > 0) {
-      // Aynı âyeti tekrar çal
-      setState(() => _tekrarKalan--);
-      await _cal(idx);
-      return;
-    }
-    final sonraki = idx + 1;
-    if (sonraki < _ayetler!.length) {
-      setState(() {
-        _calanAyetIndex = sonraki;
-        _tekrarKalan = _tekrarSayisi > 0 ? _tekrarSayisi - 1 : 0;
-      });
-      await _cal(sonraki);
-    } else {
-      setState(() {
-        _caliyor = false;
-        _calanAyetIndex = null;
-        _sureTamamlandi = true;
-      });
-    }
-  }
-
   Future<void> _cal(int index) async {
     final ayet = _ayetler![index];
-    final url = KuranApi.ayetSesUrl(_kariId, ayet.globalNo);
     final l = AppLocalizations.of(context);
     try {
-      await _oynatici.setAudioSource(AudioSource.uri(Uri.parse(url)));
-      MuzikHandler.aktif?.medyaHaber(MediaItem(
-        id: url,
-        title: '${sureAdiTurkce(ayet.sureNo)} - Ayet ${ayet.ayetNo}',
-        artist: _kariId.replaceFirst('ar.', ''),
-      ));
+      if (_concat == null || _oynatici.processingState == ProcessingState.idle) {
+        // Tüm ayetler tek bir kesintisiz kaynakta: ayet geçişlerinde oynatıcı
+        // durup yeniden başlamaz, sıradaki ayet önceden hazırlanır.
+        _concat ??= ConcatenatingAudioSource(
+          children: [
+            for (final a in _ayetler!)
+              AudioSource.uri(Uri.parse(KuranApi.ayetSesUrl(_kariId, a.globalNo))),
+          ],
+        );
+        await _oynatici.setAudioSource(_concat!);
+      }
+      await _oynatici.seek(Duration.zero, index: index);
       RadyoOynaticiStore.calanKanal.value = null;
       await _oynatici.play();
       unawaited(
@@ -162,9 +152,55 @@ class _SureDetayPageState extends State<SureDetayPage> {
         });
         _calanAyeteKaydir(index);
       }
+      _medyaHaber(index);
     } catch (_) {
       _gosterMesaj(l.t('sd.playError'));
     }
+  }
+
+  void _medyaHaber(int index) {
+    if (index >= _ayetler!.length) return;
+    final ayet = _ayetler![index];
+    final url = KuranApi.ayetSesUrl(_kariId, ayet.globalNo);
+    MuzikHandler.aktif?.medyaHaber(MediaItem(
+      id: url,
+      title: '${sureAdiTurkce(ayet.sureNo)} - Ayet ${ayet.ayetNo}',
+      artist: _kariId.replaceFirst('ar.', ''),
+    ));
+  }
+
+  void _indexDegisti(int idx) {
+    if (!mounted || _ayetler == null) return;
+    // Bir önceki ayete otomatik geçildiğinde tekrar modu uygulanır.
+    final onceki = _oncekiConcatanIndex;
+    _oncekiConcatanIndex = idx;
+    final ileriGecis = onceki != null && idx > onceki;
+    if (ileriGecis && _tekrarSayisi == -1) {
+      // Sürekli tekrar: aynı ayeti sonsuza dek çal.
+      unawaited(_oynatici.seek(Duration.zero, index: idx - 1));
+      return;
+    }
+    if (ileriGecis && _tekrarSayisi > 0 && _tekrarKalan > 0) {
+      _tekrarKalan--;
+      unawaited(_oynatici.seek(Duration.zero, index: idx - 1));
+      return;
+    }
+    setState(() {
+      _caliyor = true;
+      _calanAyetIndex = idx;
+      _sureTamamlandi = false;
+    });
+    _calanAyeteKaydir(idx);
+    _medyaHaber(idx);
+  }
+
+  void _listeBitti() {
+    if (!mounted) return;
+    setState(() {
+      _caliyor = false;
+      _calanAyetIndex = null;
+      _sureTamamlandi = true;
+    });
   }
 
   Future<void> _sureyiCal() async {
