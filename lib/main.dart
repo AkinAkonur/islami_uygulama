@@ -39,7 +39,6 @@ import 'pages/hedef_carki_page.dart';
 import 'pages/widget_rehberi_page.dart';
 import 'pages/bildirimler_sayfasi.dart';
 import 'pages/profil_sayfasi.dart';
-import 'services/manevi_store.dart';
 import 'services/canli_yayin_konfigurasyonu.dart';
 import 'services/dini_gunler_servisi.dart';
 import 'services/radyo_oynatici_store.dart';
@@ -47,12 +46,24 @@ import 'services/muzik_handler.dart';
 import 'services/medya_kapak.dart';
 import 'widgets/radyo_mini_oynatici.dart';
 import 'widgets/kart_sekilleri.dart';
+import 'widgets/tactile_kart.dart';
 import 'screens/namaz_screen.dart';
 import 'screens/gorsel_kilinis_screen.dart';
 import 'pages/kuran/sure_listesi_page.dart';
 import 'pages/soru_cevap/gunun_sorusu_karti.dart';
 import 'pages/dua_kardesligi/dua_kardesligi_store.dart';
 import 'screens/settings_page.dart';
+
+// ── 3D Zümrüt & Altın Varak paleti (ana sayfa) ──
+const _zemin = Color(0xFF021711);
+const _goldPrimary = Color(0xFFFFD54F);
+const _goldAccent = Color(0xFFFFC107);
+const _zumrut = Color(0xFF10B981);
+const _zumrutAcik = Color(0xFF34D399);
+const _zumrutKoyu = Color(0xFF047857);
+const _metinBirincil = Colors.white;
+const _metinIkincil = Color(0xFF94A3B8);
+const _metinAltin = Color(0xFFFDE68A);
 
 // Workmanager arka plan görevi: uygulama kapalıyken bile namaz vakitleri
 // bildirimlerinin güncel kalması için günde bir kez zamanlamayı tazeler.
@@ -192,7 +203,16 @@ class MyApp extends StatelessWidget {
             ],
             builder: (context, child) {
               Tema.sistemCubuklari(karanlik: karanlik);
-              return child!;
+              return Stack(
+                children: [
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: Tema.zeminDekorasyonu(karanlik: karanlik),
+                    ),
+                  ),
+                  child!,
+                ],
+              );
             },
             theme: Tema.kur(karanlik: false),
             darkTheme: Tema.kur(karanlik: true),
@@ -264,29 +284,31 @@ class _AnaSayfaState extends State<AnaSayfa> {
     final l = AppLocalizations.of(context);
     final isim = _profilIsim.trim().isEmpty ? 'kardeş' : _profilIsim.trim();
     return Scaffold(
+      backgroundColor: _zemin,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ═══ 1. ÜST BANT: HOŞGELDİN + BİLDİRİM + AYARLAR ═══
               _buildTopBar(context, l, isim),
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
 
               // ═══ 2. HERO VAKİT KARTI ═══
               _HeroVakitKarti(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
 
-              // ═══ 3. HIZLI EYLEM ÇUBUĞU ═══
+              // ═══ 3. HIZLI ERİŞİM (4'lü) ═══
               _buildQuickActions(context, l),
-              const SizedBox(height: 28),
+              const SizedBox(height: 24),
 
               // ═══ 4. DUYGU MODLARI ═══
-              _buildSectionHeader(l.t('h.how')),
+              _buildSectionHeader(l.t('h.how'), fontSize: 14),
               const SizedBox(height: 12),
               SizedBox(
-                height: 42,
+                height: 44,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
@@ -298,23 +320,28 @@ class _AnaSayfaState extends State<AnaSayfa> {
                   ],
                 ),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 24),
 
-              // ═══ 5. GÜNLÜK MANEVİYAT ═══
+              // ═══ 5. GÜNLÜK MANEVİYAT (ızgara 2 sütun) ═══
               _buildSectionHeader(l.t('h.daily')),
               const SizedBox(height: 12),
-              _buildHorizontalModules(context, l),
-              const SizedBox(height: 28),
+              _buildManeviyatGrid(context, l),
+              const SizedBox(height: 24),
 
               // ═══ 6. RAMAZAN BANNER ═══
-              RamazanBanner(),
-              const SizedBox(height: 28),
+              TactileKart(
+                kose: BorderRadius.circular(18),
+                dolgu: const EdgeInsets.all(8),
+                genislik: double.infinity,
+                child: RamazanBanner(),
+              ),
+              const SizedBox(height: 24),
 
               // ═══ 7. KEŞFET & MODÜLLER ═══
               _buildSectionHeader(l.t('h.discover')),
               const SizedBox(height: 12),
               _buildHorizontalDiscover(context, l),
-              const SizedBox(height: 28),
+              const SizedBox(height: 24),
 
               // ═══ 8. GÜNÜN İÇERİĞİ (Tek kart, iç geçişli) ═══
               _GununIcerigiKarti(l: l),
@@ -332,7 +359,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
 
               // ═══ 11. DAHA FAZLA ═══
               _buildDahaFazlaButton(context, l),
-              const SizedBox(height: 30),
+              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -346,44 +373,53 @@ class _AnaSayfaState extends State<AnaSayfa> {
               MaterialPageRoute(builder: (_) => const DiniRadyoPage()),
             ),
           ),
-          BottomNavigationBar(
-            backgroundColor: Renkler.navBar,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: Renkler.vurgu,
-            unselectedItemColor: Colors.white54,
-            selectedFontSize: 10,
-            unselectedFontSize: 10,
-            currentIndex: 0,
-            onTap: (index) {
-              if (index == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => NamazlarBolumuPage()),
-                );
-              } else if (index == 2) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => AiTefsirPage()),
-                );
-              } else if (index == 3) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => KuranBolumuPage()),
-                );
-              } else if (index == 4) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => UmmetBolumuPage()),
-                );
-              }
-            },
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: l.t('h.navHome')),
-              BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: l.t('h.navNamaz')),
-              BottomNavigationBarItem(icon: Icon(Icons.auto_awesome), label: l.t('h.navAi')),
-              BottomNavigationBarItem(icon: Icon(Icons.menu_book_outlined), label: l.t('h.navKuran')),
-              BottomNavigationBarItem(icon: Icon(Icons.groups_outlined), label: l.t('h.navUmmet')),
-            ],
+          Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFF01140E),
+              border: const Border(
+                top: BorderSide(color: _zumrut, width: 0.2),
+              ),
+            ),
+            child: BottomNavigationBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: _goldPrimary,
+              unselectedItemColor: _metinIkincil.withValues(alpha: 0.6),
+              selectedFontSize: 10,
+              unselectedFontSize: 10,
+              currentIndex: 0,
+              onTap: (index) {
+                if (index == 1) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => NamazlarBolumuPage()),
+                  );
+                } else if (index == 2) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => AiTefsirPage()),
+                  );
+                } else if (index == 3) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => KuranBolumuPage()),
+                  );
+                } else if (index == 4) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => UmmetBolumuPage()),
+                  );
+                }
+              },
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: l.t('h.navHome')),
+                BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: l.t('h.navNamaz')),
+                BottomNavigationBarItem(icon: Icon(Icons.auto_awesome), label: l.t('h.navAi')),
+                BottomNavigationBarItem(icon: Icon(Icons.menu_book_outlined), label: l.t('h.navKuran')),
+                BottomNavigationBarItem(icon: Icon(Icons.groups_outlined), label: l.t('h.navUmmet')),
+              ],
+            ),
           ),
         ],
       ),
@@ -401,14 +437,36 @@ class _AnaSayfaState extends State<AnaSayfa> {
             onTap: _profilAc,
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 18,
-                  backgroundColor: Renkler.seciliYuzey,
-                  backgroundImage:
-                      _profilResim != null ? MemoryImage(_profilResim!) : null,
-                  child: _profilResim == null
-                      ? const Icon(Icons.person_outline, color: Colors.white70, size: 20)
-                      : null,
+                // 48x48 profil: zümrüt gradyan + altın kenar + ışıma
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF0D3D2E), Color(0xFF031C13)],
+                    ),
+                    border: Border.all(color: _goldAccent, width: 1.5),
+                    boxShadow: [
+                      BoxShadow(
+                        color: _goldAccent.withValues(alpha: 0.35),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: ClipOval(
+                    child: _profilResim != null
+                        ? Image.memory(
+                            _profilResim!,
+                            width: 48,
+                            height: 48,
+                            fit: BoxFit.cover,
+                          )
+                        : const Icon(Icons.person, color: _goldPrimary, size: 26),
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -420,14 +478,35 @@ class _AnaSayfaState extends State<AnaSayfa> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: _metinBirincil,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        l.t('h.hijriYear').replaceAll('{year}', '${ProfilStore.hicriYil()}'),
-                        style: TextStyle(color: Colors.white54, fontSize: 11),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          Container(
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                              color: _zumrutKoyu,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Flexible(
+                            child: Text(
+                              l.t('h.hijriYear').replaceAll('{year}', '${ProfilStore.hicriYil()}'),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: _goldPrimary,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -437,16 +516,32 @@ class _AnaSayfaState extends State<AnaSayfa> {
           ),
         ),
 
-        // Bildirim
+        // Bildirim (42x42 zümrüt daire + gerçek rozet mekanizması)
         _BildirimZili(),
         const SizedBox(width: 8),
-        // Ayarlar
-        IconButton(
-          onPressed: _ayarlarAc,
-          icon: UcdIkon(ikon: Icons.settings_outlined, renk: Colors.white, boyut: 20),
-          style: IconButton.styleFrom(
-            minimumSize: const Size(40, 40),
-            padding: const EdgeInsets.all(6),
+        // Ayarlar (aynı daire stili)
+        GestureDetector(
+          onTap: _ayarlarAc,
+          child: Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: const Color(0xFF072B20),
+              border: Border.all(color: _zumrut.withValues(alpha: 0.3)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.45),
+                  offset: const Offset(0, 4),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            child: const UcdIkon(
+              ikon: Icons.settings_outlined,
+              renk: _goldPrimary,
+              boyut: 20,
+            ),
           ),
         ),
       ],
@@ -454,113 +549,110 @@ class _AnaSayfaState extends State<AnaSayfa> {
   }
 
   // ────────────────────────────────────────────────────────────
-  // HIZLI EYLEM ÇUBUĞU (Glassmorphic Dairesel Butonlar)
+  // HIZLI ERİŞİM (4'lü Dokunsal Kartlar)
   // ────────────────────────────────────────────────────────────
   Widget _buildQuickActions(BuildContext context, AppLocalizations l) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
-              child: _QuickAction(
-                ikon: Icons.menu_book_outlined,
-                renk: Renkler.vurgu,
-                label: l.t('h.navKuran'),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KuranBolumuPage())),
-              ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 6.0),
+            child: _QuickAction(
+              ikon: Icons.menu_book_outlined,
+              label: l.t('h.navKuran'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KuranBolumuPage())),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
-              child: _QuickAction(
-                ikon: Icons.explore_outlined,
-                renk: Renkler.acikVurgu,
-                label: l.t('mod.pusulaAlt'),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
-              ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: _QuickAction(
+              ikon: Icons.explore_outlined,
+              label: l.t('mod.pusulaAlt'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
-              child: _QuickAction(
-                ikon: Icons.radio_button_checked,
-                renk: Renkler.vurgu,
-                label: l.t('mod.hizli'),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
-              ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: _QuickAction(
+              ikon: Icons.radio_button_checked,
+              label: l.t('mod.hizli'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
-              child: _QuickAction(
-                ikon: Icons.pan_tool_alt_outlined,
-                renk: Renkler.acikVurgu,
-                label: l.t('h.duas'),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DualarPage())),
-              ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 6.0),
+            child: _QuickAction(
+              ikon: Icons.pan_tool_alt_outlined,
+              label: l.t('h.duas'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DualarPage())),
             ),
           ),
-        ],
+        ),
+      ],
     );
   }
 
   // ────────────────────────────────────────────────────────────
   // YATAY MODÜL LİSTESİ (Günlük Maneviyat)
   // ────────────────────────────────────────────────────────────
-  Widget _buildHorizontalModules(BuildContext context, AppLocalizations l) {
-    return SizedBox(
-      height: 72,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _ModuleCard(
-            ikon: Icons.play_circle_fill_outlined,
-            renk: Colors.lightGreenAccent,
-            baslik: l.t('mod.devam'),
-            altMetin: '',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DevamEtPage())),
-          ),
-          _ModuleCard(
-            ikon: Icons.local_fire_department_outlined,
-            renk: Renkler.vurgu,
-            baslik: l.t('mod.gorev'),
-            altMetin: '',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => GunlukGorevPage())),
-          ),
-          _ModuleCard(
-            ikon: Icons.mosque_outlined,
-            renk: Renkler.acikVurgu,
-            baslik: l.t('mod.cami'),
-            altMetin: l.t('mod.camiAlt'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KonumPage())),
-          ),
-          _ModuleCard(
-            ikon: Icons.donut_large_outlined,
-            renk: Renkler.vurgu,
-            baslik: l.t('mod.carki'),
-            altMetin: l.t('mod.carkiAlt'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => HedefCarkiPage())),
-          ),
-          _ModuleCard(
-            ikon: Icons.radio_button_checked,
-            renk: Renkler.vurgu,
-            baslik: l.t('mod.hizli'),
-            altMetin: '',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
-          ),
-          _ModuleCard(
-            ikon: Icons.headphones_outlined,
-            renk: Renkler.acikVurgu,
-            baslik: l.t('mod.dinle'),
-            altMetin: l.t('mod.dinleAlt'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SureListesiPage())),
-          ),
-        ],
-      ),
+  Widget _buildManeviyatGrid(BuildContext context, AppLocalizations l) {
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      childAspectRatio: 2.2,
+      children: [
+        _ManeviyatKutusu(
+          ikon: Icons.play_circle_fill_outlined,
+          renk: Colors.lightGreenAccent,
+          baslik: l.t('mod.devam'),
+          altMetin: '',
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DevamEtPage())),
+        ),
+        _ManeviyatKutusu(
+          ikon: Icons.local_fire_department_outlined,
+          renk: _goldAccent,
+          baslik: l.t('mod.gorev'),
+          altMetin: '',
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => GunlukGorevPage())),
+        ),
+        _ManeviyatKutusu(
+          ikon: Icons.mosque_outlined,
+          renk: Renkler.acikVurgu,
+          baslik: l.t('mod.cami'),
+          altMetin: l.t('mod.camiAlt'),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KonumPage())),
+        ),
+        _ManeviyatKutusu(
+          ikon: Icons.donut_large_outlined,
+          renk: _zumrutAcik,
+          baslik: l.t('mod.carki'),
+          altMetin: l.t('mod.carkiAlt'),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => HedefCarkiPage())),
+        ),
+        _ManeviyatKutusu(
+          ikon: Icons.radio_button_checked,
+          renk: _goldAccent,
+          baslik: l.t('mod.hizli'),
+          altMetin: '',
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
+        ),
+        _ManeviyatKutusu(
+          ikon: Icons.headphones_outlined,
+          renk: _zumrutAcik,
+          baslik: l.t('mod.dinle'),
+          altMetin: l.t('mod.dinleAlt'),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SureListesiPage())),
+        ),
+      ],
     );
   }
 
@@ -573,26 +665,35 @@ class _AnaSayfaState extends State<AnaSayfa> {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          _ModuleCard(
-            ikon: Icons.widgets_outlined,
-            renk: Renkler.vurgu,
-            baslik: l.t('mod.widget'),
-            altMetin: l.t('mod.widgetAlt'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => WidgetRehberiPage())),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: _ModuleCard(
+              ikon: Icons.widgets_outlined,
+              renk: Renkler.vurgu,
+              baslik: l.t('mod.widget'),
+              altMetin: l.t('mod.widgetAlt'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => WidgetRehberiPage())),
+            ),
           ),
-          _ModuleCard(
-            ikon: Icons.explore_outlined,
-            renk: Renkler.acikVurgu,
-            baslik: l.t('mod.pusula'),
-            altMetin: l.t('mod.pusulaAlt'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: _ModuleCard(
+              ikon: Icons.explore_outlined,
+              renk: Renkler.acikVurgu,
+              baslik: l.t('mod.pusula'),
+              altMetin: l.t('mod.pusulaAlt'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+            ),
           ),
-          _ModuleCard(
-            ikon: Icons.self_improvement_outlined,
-            renk: Colors.greenAccent,
-            baslik: l.t('mod.gorsel'),
-            altMetin: l.t('mod.gorselAlt'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => GorselKilinisScreen())),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: _ModuleCard(
+              ikon: Icons.self_improvement_outlined,
+              renk: Colors.greenAccent,
+              baslik: l.t('mod.gorsel'),
+              altMetin: l.t('mod.gorselAlt'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => GorselKilinisScreen())),
+            ),
           ),
         ],
       ),
@@ -602,12 +703,12 @@ class _AnaSayfaState extends State<AnaSayfa> {
   // ────────────────────────────────────────────────────────────
   // BÖLÜM BAŞLIĞI
   // ────────────────────────────────────────────────────────────
-  Widget _buildSectionHeader(String title) {
+  Widget _buildSectionHeader(String title, {double fontSize = 15}) {
     return Text(
       title,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 15,
+      style: TextStyle(
+        color: _metinAltin,
+        fontSize: fontSize,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -617,13 +718,16 @@ class _AnaSayfaState extends State<AnaSayfa> {
   // KIBLE KARTI
   // ────────────────────────────────────────────────────────────
   Widget _buildKibleCard(BuildContext context, AppLocalizations l) {
-    return InkWell(
+    return TactileKart(
+      genislik: double.infinity,
+      kose: BorderRadius.circular(16),
+      dolgu: const EdgeInsets.all(14),
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
       child: Row(
         children: [
-          UcdIkon(
+          const UcdIkon(
             ikon: Icons.explore_outlined,
-            renk: Renkler.vurgu,
+            renk: _goldAccent,
             boyut: 34,
           ),
           const SizedBox(width: 12),
@@ -633,12 +737,20 @@ class _AnaSayfaState extends State<AnaSayfa> {
               children: [
                 Text(
                   l.t('h.qiblaDir'),
-                  style: TextStyle(color: Renkler.vurgu, fontSize: 10, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    color: _goldAccent,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   l.t('h.kaaba'),
-                  style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    color: _metinBirincil,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -660,9 +772,9 @@ class _AnaSayfaState extends State<AnaSayfa> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _buildIconMenu(context, Icons.pan_tool_alt_outlined, l.t('h.duas'), Colors.orangeAccent, DualarPage()),
-        _buildIconMenu(context, Icons.filter_frames, l.t('h.cuzler'), Renkler.vurgu, CuzlerPage()),
-        _buildIconMenu(context, Icons.menu_book_outlined, l.t('h.ilham'), Colors.orange, IlhamPage()),
+        _buildIconMenu(context, Icons.pan_tool_alt_outlined, l.t('h.duas'), _goldPrimary, DualarPage()),
+        _buildIconMenu(context, Icons.filter_frames, l.t('h.cuzler'), _zumrutAcik, CuzlerPage()),
+        _buildIconMenu(context, Icons.menu_book_outlined, l.t('h.ilham'), _goldPrimary, IlhamPage()),
       ],
     );
   }
@@ -671,12 +783,22 @@ class _AnaSayfaState extends State<AnaSayfa> {
   // DAHA FAZLA BUTONU
   // ────────────────────────────────────────────────────────────
   Widget _buildDahaFazlaButton(BuildContext context, AppLocalizations l) {
-    return InkWell(
+    return TactileKart(
+      altinCerceve: true,
+      kose: BorderRadius.circular(20),
+      dolgu: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DahaFazlaPage())),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(l.t('h.more'), style: const TextStyle(color: Colors.white70, fontSize: 13)),
+          Text(
+            l.t('h.more'),
+            style: const TextStyle(
+              color: _goldAccent,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 4),
           const Icon(Icons.chevron_right, color: Colors.white54, size: 16),
         ],
@@ -691,23 +813,31 @@ class _AnaSayfaState extends State<AnaSayfa> {
     Widget targetPage,
   ) {
     return Padding(
-      padding: const EdgeInsets.only(right: 16),
+      padding: const EdgeInsets.only(right: 10),
       child: GestureDetector(
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => targetPage)),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(emoji, style: const TextStyle(fontSize: 15)),
-            const SizedBox(width: 6),
-            Text(
-              text,
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: const Color(0xFF041F16),
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(color: _zumrut.withValues(alpha: 0.2)),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(emoji, style: const TextStyle(fontSize: 14)),
+              const SizedBox(width: 6),
+              Text(
+                text,
+                style: const TextStyle(
+                  color: _metinBirincil,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -735,7 +865,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           children: [
             UcdIkon(ikon: icon, renk: iconColor, boyut: 56),
             const SizedBox(height: 8),
-            Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+            Text(label, style: const TextStyle(color: _metinIkincil, fontSize: 12)),
           ],
         ),
       ),
@@ -818,228 +948,225 @@ class _HeroVakitKartiState extends State<_HeroVakitKarti> {
 
   @override
   Widget build(BuildContext context) {
-    final (kalan, vakitAdi, vakitSaat, vakitIkon, aktifIndex) = _vakitHesapla(
+    final (kalan, vakitAdi, vakitSaat, _, aktifIndex) = _vakitHesapla(
       DateTime.now(),
     );
     final l = AppLocalizations.of(context);
 
-    return InkWell(
+    return TactileKart(
+      altinCerceve: true,
+      genislik: double.infinity,
+      dolgu: const EdgeInsets.all(20),
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const NamazScreen()),
       ),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Dekoratif kubbe silüeti
-          Positioned(
-            top: -40,
-            right: -20,
-            width: 140,
-            height: 110,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.04),
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(70),
+          // Üst satır: yaklaşan vakit çipi + metot etiketi
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: _goldAccent.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: _goldAccent.withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
+                        color: _goldAccent,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        l.t('v.yaklasan'),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: _goldAccent,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
+              const Spacer(),
+              Flexible(
+                child: Text(
+                  _metotEtiketi,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: _metinIkincil, fontSize: 12),
+                ),
+              ),
+            ],
           ),
-            // Büyük su-ikoni
-            Positioned(
-              right: -12,
-              top: -10,
-              child: Icon(vakitIkon, size: 100, color: Colors.white.withValues(alpha: 0.06)),
-            ),
-            // Işık yayılımı
-            Positioned(
-              top: -60,
-              left: -30,
-              width: 200,
-              height: 200,
-              child: DecoratedBox(
+          const SizedBox(height: 18),
+
+          // Orta satır: vakit adı + geri sayım + 3D Altın Güneş
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      vakitAdi,
+                      style: const TextStyle(
+                        color: _metinBirincil,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: _sureYaz(kalan),
+                            style: const TextStyle(
+                              color: _goldPrimary,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                              fontFeatures: [FontFeature.tabularFigures()],
+                            ),
+                          ),
+                          const TextSpan(
+                            text: ' ',
+                            style: TextStyle(color: _metinIkincil),
+                          ),
+                          TextSpan(
+                            text: l.t('v.kaldi'),
+                            style: const TextStyle(
+                              color: _metinIkincil,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Vakit Saati: $vakitSaat',
+                      style: const TextStyle(color: _zumrutAcik, fontSize: 13),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              // 3D Altın Güneş: ışıma + beyaz merkez
+              Container(
+                width: 64,
+                height: 64,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    colors: [
-                      Colors.white.withValues(alpha: 0.10),
-                      Colors.white.withValues(alpha: 0.0),
-                    ],
+                  gradient: const RadialGradient(
+                    colors: [Color(0xFFFFEE58), Color(0xFFF57F17)],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: _goldAccent.withValues(alpha: 0.45),
+                      blurRadius: 18,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                alignment: Alignment.center,
+                child: Container(
+                  width: 9,
+                  height: 9,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _metinBirincil,
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Üst satır: Konum + Metot
-                  Row(
-                    children: [
-                      Container(
-                        width: 7,
-                        height: 7,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Alt satır: 6 vakit kutusu (aktif / pasif)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(_liste.length, (i) {
+              final v = _liste[i];
+              final aktif = i == aktifIndex;
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(
+                      color: aktif
+                          ? _goldAccent.withValues(alpha: 0.18)
+                          : const Color(0xFF042017),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: aktif
+                            ? _goldAccent
+                            : _zumrut.withValues(alpha: 0.15),
+                        width: aktif ? 1.5 : 1,
                       ),
-                      const SizedBox(width: 6),
-                      Flexible(
-                        child: Text(
-                          l.t('v.yaklasan'),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          v.ikon,
+                          size: 16,
+                          color: aktif ? _goldPrimary : _metinIkincil,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          v.ad
+                              .substring(0, v.ad.length > 4 ? 4 : v.ad.length),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
+                          style: TextStyle(
+                            color: aktif ? _goldPrimary : _metinIkincil,
+                            fontSize: 9,
+                            fontWeight:
+                                aktif ? FontWeight.bold : FontWeight.w500,
                           ),
                         ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.18),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.calculate_outlined, color: Colors.white70, size: 11),
-                            const SizedBox(width: 4),
-                            Flexible(
-                              child: Text(
-                                _metotEtiketi,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(color: Colors.white70, fontSize: 9, fontWeight: FontWeight.w600),
-                              ),
+                        const SizedBox(height: 2),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            v.saat,
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: aktif ? _goldPrimary : _metinIkincil,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 20),
-
-                  // Geri Sayım + Vakit Adı
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              vakitAdi,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              textBaseline: TextBaseline.alphabetic,
-                              children: [
-                                Flexible(
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      _sureYaz(kalan),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 36,
-                                        fontWeight: FontWeight.w800,
-                                        letterSpacing: 1.2,
-                                        fontFeatures: [const FontFeature.tabularFigures()],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  l.t('v.kaldi'),
-                                  style: const TextStyle(color: Colors.white70, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              vakitSaat,
-                              style: const TextStyle(color: Colors.white54, fontSize: 13, fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      UcdIkon(
-                        ikon: vakitIkon,
-                        renk: Colors.white,
-                        boyut: 64,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Alt vakit bantları (6 vakit)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(_liste.length, (i) {
-                      final v = _liste[i];
-                      final aktif = i == aktifIndex;
-                      return Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              v.ikon,
-                              size: 16,
-                              color: aktif ? Colors.white : Colors.white38,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              v.ad
-                                  .substring(0, v.ad.length > 4 ? 4 : v.ad.length),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: aktif ? Colors.white : Colors.white38,
-                                fontSize: 9,
-                                fontWeight:
-                                    aktif ? FontWeight.bold : FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                v.saat,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  color: aktif ? Renkler.vurgu : Colors.white24,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                ),
+              );
+            }),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -1049,29 +1176,41 @@ class _HeroVakitKartiState extends State<_HeroVakitKarti> {
 // ===========================================================================
 class _QuickAction extends StatelessWidget {
   final IconData ikon;
-  final Color renk;
   final String label;
   final VoidCallback onTap;
 
   const _QuickAction({
     required this.ikon,
-    required this.renk,
     required this.label,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return TactileKart(
       onTap: onTap,
+      kose: BorderRadius.circular(14),
+      dolgu: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          UcdIkon(ikon: ikon, renk: renk, boyut: 26),
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: _goldAccent.withValues(alpha: 0.12),
+            ),
+            child: Icon(ikon, color: _goldPrimary, size: 26),
+          ),
           const SizedBox(height: 6),
           Text(
             label,
-            style: const TextStyle(color: Colors.white70, fontSize: 10),
+            style: const TextStyle(
+              color: _metinBirincil,
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -1101,16 +1240,25 @@ class _ModuleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 16),
-      child: InkWell(
+    return Center(
+      child: TactileKart(
         onTap: onTap,
+        kose: BorderRadius.circular(16),
+        dolgu: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: SizedBox(
-          width: 160,
+          width: 150,
           child: Row(
             children: [
-              UcdIkon(ikon: ikon, renk: renk, boyut: 26),
-              const SizedBox(width: 12),
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: renk.withValues(alpha: 0.12),
+                ),
+                child: Icon(ikon, color: renk, size: 18),
+              ),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1119,7 +1267,7 @@ class _ModuleCard extends StatelessWidget {
                     Text(
                       baslik,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: _metinBirincil,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
@@ -1130,7 +1278,10 @@ class _ModuleCard extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         altMetin,
-                        style: const TextStyle(color: Colors.white38, fontSize: 10),
+                        style: const TextStyle(
+                          color: _metinIkincil,
+                          fontSize: 10,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -1141,6 +1292,75 @@ class _ModuleCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+// ===========================================================================
+// GÜNLÜK MANEVİYAT KUTUSU (ızgara hücresi)
+// ===========================================================================
+class _ManeviyatKutusu extends StatelessWidget {
+  final IconData ikon;
+  final Color renk;
+  final String baslik;
+  final String altMetin;
+  final VoidCallback onTap;
+
+  const _ManeviyatKutusu({
+    required this.ikon,
+    required this.renk,
+    required this.baslik,
+    required this.altMetin,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TactileKart(
+      onTap: onTap,
+      kose: BorderRadius.circular(16),
+      dolgu: const EdgeInsets.all(10),
+      child: Row(
+        children: [
+          Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: renk.withValues(alpha: 0.12),
+            ),
+            child: Icon(ikon, color: renk, size: 18),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  baslik,
+                  style: const TextStyle(
+                    color: _metinBirincil,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (altMetin.isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    altMetin,
+                    style: const TextStyle(color: _metinIkincil, fontSize: 10),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -1260,7 +1480,7 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(ikon, size: 14, color: aktif ? Renkler.vurgu : Colors.white38),
+              Icon(ikon, size: 14, color: aktif ? _goldPrimary : _metinIkincil),
               const SizedBox(width: 4),
               Flexible(
                 child: Text(
@@ -1268,8 +1488,8 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: aktif ? Renkler.vurgu : Colors.white54,
-                    fontSize: 11,
+                    color: aktif ? _goldPrimary : _metinIkincil,
+                    fontSize: aktif ? 12 : 11,
                     fontWeight: aktif ? FontWeight.bold : FontWeight.w500,
                   ),
                 ),
@@ -1291,24 +1511,38 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
           Text(
             v["arabic"]!,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold, height: 1.4),
+            style: const TextStyle(
+              color: _metinAltin,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              height: 1.4,
+            ),
           ),
           const SizedBox(height: 12),
           Text(
             '"${l.t('ay.${ayetIndex + 1}')}"',
-            style: const TextStyle(color: Colors.white70, fontSize: 13, fontStyle: FontStyle.italic, height: 1.4),
+            style: const TextStyle(
+              color: _metinBirincil,
+              fontSize: 13,
+              fontStyle: FontStyle.italic,
+              height: 1.4,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             l.t('ref.${ayetIndex + 1}'),
             textAlign: TextAlign.right,
-            style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: _metinAltin,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             '${l.t('kn.viewAll')} →',
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white54, fontSize: 11),
+            style: const TextStyle(color: _metinAltin, fontSize: 11),
           ),
         ],
       ),
@@ -1321,17 +1555,26 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          UcdIkon(ikon: Icons.auto_awesome, renk: Renkler.vurgu, boyut: 28),
+          const UcdIkon(ikon: Icons.auto_awesome, renk: _goldAccent, boyut: 28),
           const SizedBox(height: 10),
           Text(
             l.t('h.ilhamDesc'),
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white70, fontSize: 13, fontStyle: FontStyle.italic, height: 1.5),
+            style: const TextStyle(
+              color: _metinBirincil,
+              fontSize: 13,
+              fontStyle: FontStyle.italic,
+              height: 1.5,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             l.t('h.ilhamExplore'),
-            style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: _metinAltin,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -1375,8 +1618,8 @@ class _KibleOzetiState extends State<_KibleOzeti> {
   Widget build(BuildContext context) {
     return Text(
       _metin,
-      style: TextStyle(
-        color: Renkler.vurgu,
+      style: const TextStyle(
+        color: _metinIkincil,
         fontSize: 12,
         fontWeight: FontWeight.bold,
       ),
@@ -1464,26 +1707,47 @@ class _BildirimZiliState extends State<_BildirimZili> {
           MaterialPageRoute(builder: (_) => const BildirimlerSayfasi()),
         ).then((_) => _yukle());
       },
-      child: Padding(
-        padding: const EdgeInsets.all(6),
+      child: Container(
+        width: 42,
+        height: 42,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: const Color(0xFF072B20),
+          border: Border.all(color: _zumrut.withValues(alpha: 0.3)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.45),
+              offset: const Offset(0, 4),
+              blurRadius: 8,
+            ),
+          ],
+        ),
         child: Stack(
           clipBehavior: Clip.none,
+          alignment: Alignment.center,
           children: [
-            UcdIkon(
+            const UcdIkon(
               ikon: Icons.notifications_none,
-              renk: Colors.white,
+              renk: _metinBirincil,
               boyut: 22,
             ),
             if (_sayi > 0)
               Positioned(
-                top: -4,
-                right: -4,
+                top: 2,
+                right: 2,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF021711),
+                    borderRadius: BorderRadius.circular(9),
+                    border: Border.all(
+                      color: _goldAccent.withValues(alpha: 0.5),
+                    ),
+                  ),
                   child: Text(
                     '$_sayi',
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: _goldPrimary,
                       fontSize: 8,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1500,31 +1764,3 @@ class _BildirimZiliState extends State<_BildirimZili> {
 // ===========================================================================
 // GÜNLÜK MANEVİYAT MODÜL KARTLARI
 // ===========================================================================
-
-class _DevamOzetMetni extends StatefulWidget {
-  @override
-  State<_DevamOzetMetni> createState() => _DevamOzetMetniState();
-}
-
-class _DevamOzetMetniState extends State<_DevamOzetMetni> {
-  @override
-  void initState() {
-    super.initState();
-    ManeviStore.sonKuranKonumu();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<KuranKonumu>(
-      valueListenable: ManeviStore.kuranKonumu,
-      builder: (context, konum, _) {
-        return Text(
-          '${AppLocalizations.of(context).t('h.last')} ${konum.gosterim}',
-          style: TextStyle(color: Colors.white54, fontSize: 11),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        );
-      },
-    );
-  }
-}

@@ -59,8 +59,7 @@ class Tema {
       colorScheme: _renkYelpazi(
         parlaklik: karanlik ? Brightness.dark : Brightness.light,
       ),
-      scaffoldBackgroundColor:
-          karanlik ? Renkler.zemin : const Color(0xFFF3F6F2),
+      scaffoldBackgroundColor: Colors.transparent,
       appBarTheme: AppBarTheme(
         backgroundColor: karanlik ? Renkler.yuzey : const Color(0xFFEAF0E9),
         foregroundColor: Colors.white,
@@ -461,6 +460,39 @@ class Tema {
     );
 
     return base;
+  }
+
+  /// Tüm Scaffold'ların arkasında duran derinlik zemini: üstten aşağı koyulaşan
+  /// degrade (üst aydınlık → alt derin koyu) ile yumuşak bir 3D derinlik hissi
+  /// verir. `scaffoldBackgroundColor` saydam olduğu için bu gradyan tüm sayfa
+  /// içeriklerinin arkasından görünür; başka hiçbir bileşeni bozmaz.
+  static BoxDecoration zeminDekorasyonu({required bool karanlik}) {
+    if (karanlik) {
+      return const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF182C20),
+            Color(0xFF0B150E),
+            Color(0xFF060C07),
+          ],
+          stops: [0.0, 0.55, 1.0],
+        ),
+      );
+    }
+    return const BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFFF9FBF6),
+          Color(0xFFEDF2EB),
+          Color(0xFFE2EAE0),
+        ],
+        stops: [0.0, 0.6, 1.0],
+      ),
+    );
   }
 
   /// Sistem durum çubuğu rengini zümrüt/altın tona uyarlar.

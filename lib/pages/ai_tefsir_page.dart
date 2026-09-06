@@ -5,7 +5,6 @@ import '../l10n/app_localizations.dart';
 import '../l10n/dil_hizmetleri.dart';
 import '../services/gemini_servisi.dart';
 import '../services/renkler.dart';
-import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 /// Dokunma imlecine göre X/Y ekseninde perspektifli olarak eğilen 3D kart.
@@ -441,58 +440,152 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: Renkler.zemin,
+      backgroundColor: const Color(0xFF01140E),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: ShaderMask(
-          shaderCallback: (bounds) => LinearGradient(
-            colors: [Colors.white, Renkler.acikVurgu],
-          ).createShader(bounds),
-          child: const Text(
-            'AI',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        leadingWidth: 68,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Center(
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF0C382A), Color(0xFF021711)],
+                ),
+                border: Border.all(
+                  color: const Color(0xFF10B981).withValues(alpha: 0.3),
+                  width: 1.2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.5),
+                    offset: const Offset(0, 4),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Color(0xFF34D399),
+                  size: 18,
+                ),
+                onPressed: () => Navigator.of(context).maybePop(),
+              ),
+            ),
           ),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: _TiltKart(
-                maxTilt: 0.14,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Renkler.vurgu.withValues(alpha: 0.85),
-                        Renkler.bannerAlt.withValues(alpha: 0.9),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(14),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Text(
+                  l.t('ai.title'),
+                  style: const TextStyle(
+                    color: Color(0xFFFFD54F),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.2,
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const UcdIkon(ikon: Icons.auto_awesome,
-                          renk: Colors.white, boyut: 13),
-                      SizedBox(width: 4),
-                      Text(
-                        "${l.t('ai.hak')}: 5/5",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
+                ),
+                const SizedBox(width: 6),
+                Container(
+                  width: 7,
+                  height: 7,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: const Color(0xFF34D399),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF34D399).withValues(alpha: 0.6),
+                        blurRadius: 6,
                       ),
                     ],
                   ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 2),
+            Text(
+              l.t('ai.subtitle'),
+              style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 11),
+            ),
+          ],
+        ),
+        actions: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF143B2C), Color(0xFF09241A)],
+                  ),
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(
+                    color: const Color(0xFFFFC107).withValues(alpha: 0.5),
+                    width: 1.2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0x33FFD54F),
+                      offset: const Offset(0, 2),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.auto_awesome,
+                      color: Color(0xFFFFD54F),
+                      size: 14,
+                    ),
+                    const SizedBox(width: 6),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          l.t('ai.gunlukHak'),
+                          style: const TextStyle(
+                            color: Color(0xFF94A3B8),
+                            fontSize: 8,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Text(
+                          '5 / 5',
+                          style: TextStyle(
+                            color: Color(0xFFFFD54F),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
         ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: false,
       ),
       body: Stack(
         children: [
@@ -502,18 +595,30 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
           ),
           SingleChildScrollView(
             controller: _kaydirma,
-            padding: EdgeInsets.fromLTRB(16, kToolbarHeight + 20, 16, 16),
+            padding:
+                EdgeInsets.fromLTRB(18, kToolbarHeight + 16, 18, 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _disclaimer(l),
-                SizedBox(height: 16),
+                _fetvaKarti(l),
+                const SizedBox(height: 20),
+                _bolumBaslik(l, l.t('ai.mode'),
+                    actionText: l.t('ai.modeAlt')),
+                const SizedBox(height: 12),
                 _kategoriSecici(l),
-                SizedBox(height: 20),
+                const SizedBox(height: 24),
                 _soruAlan(l),
-                SizedBox(height: 16),
+                const SizedBox(height: 24),
+                _bolumBaslik(l, l.t('ai.ornekBaslik'),
+                    actionText: l.t('ai.dokunSoru'), isLightning: true),
+                const SizedBox(height: 12),
                 _hizliOrnekler(l),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
+                _bolumBaslik(l, l.t('ai.tefekkur'),
+                    actionText: l.t('ai.tefekkurKaynak')),
+                const SizedBox(height: 12),
+                _tefekkurKarti(),
+                const SizedBox(height: 20),
 
                 if (_isLoading)
                   Center(
@@ -544,7 +649,7 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                 if (_hataText != null) _hataKarti(l),
 
                 if (_yanitText != null) _yanitKarti(l),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ),
@@ -555,101 +660,235 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
 
   // ---------------- ANA BÖLÜMLER ----------------
 
-  Widget _disclaimer(AppLocalizations l) {
-    return _TiltKart(
-      child: _CamKart(
-        radius: 16,
-        padding: EdgeInsets.all(12),
-        child: Stack(
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 34,
-                  height: 34,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [Renkler.vurgu, Renkler.bannerAlt],
-                    ),
-                  ),
-                  child: UcdIkon(ikon: Icons.shield_rounded,
-                      renk: Colors.white, boyut: 18),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    l.t('ai.disclaimer'),
-                    style: TextStyle(color: Colors.white70, fontSize: 11),
-                  ),
-                ),
-              ],
-            ),
-            Positioned.fill(child: _ParlakYansima(radius: 16)),
-          ],
+  Widget _bolumBaslik(AppLocalizations l, String title,
+      {String? actionText, bool isLightning = false}) {
+    return Row(
+      children: [
+        Container(
+          width: 3,
+          height: 14,
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFC107),
+            borderRadius: BorderRadius.circular(2),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFFFFC107).withValues(alpha: 0.5),
+                blurRadius: 6,
+              ),
+            ],
+          ),
         ),
+        const SizedBox(width: 8),
+        if (isLightning) ...[
+          const Icon(Icons.bolt, color: Color(0xFFFFC107), size: 14),
+          const SizedBox(width: 2),
+        ],
+        Text(
+          title,
+          style: const TextStyle(
+            color: Color(0xFFFFD54F),
+            fontSize: 11.5,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.8,
+          ),
+        ),
+        const Spacer(),
+        if (actionText != null)
+          Text(
+            actionText,
+            style: const TextStyle(
+              color: Color(0xFF34D399),
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _fetvaKarti(AppLocalizations l) {
+    final metin = l.t('ai.disclaimer');
+    final idx = metin.indexOf('fetva');
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF0A3326), Color(0xFF031F16)],
+        ),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFFFFC107).withValues(alpha: 0.35),
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.4),
+            offset: const Offset(0, 6),
+            blurRadius: 14,
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  gradient: const RadialGradient(
+                    colors: [Color(0xFF332608), Color(0xFF141003)],
+                  ),
+                  border: Border.all(
+                    color: const Color(0xFFFFC107).withValues(alpha: 0.6),
+                    width: 1.2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFFFC107).withValues(alpha: 0.25),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.shield_rounded,
+                  color: Color(0xFFFFD54F),
+                  size: 22,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l.t('ai.noticeTitle'),
+                      style: const TextStyle(
+                        color: Color(0xFFFFD54F),
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    RichText(
+                      text: TextSpan(
+                        style: const TextStyle(
+                          color: Color(0xFFD1FAE5),
+                          fontSize: 11.5,
+                          height: 1.45,
+                        ),
+                        children: [
+                          if (idx >= 0) ...[
+                            TextSpan(text: metin.substring(0, idx)),
+                            TextSpan(
+                              text: metin.substring(idx, idx + 5),
+                              style: const TextStyle(
+                                color: Color(0xFFFFD54F),
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            TextSpan(
+                                text: metin.substring(idx + 5)),
+                          ] else
+                            TextSpan(text: metin),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Positioned.fill(child: _ParlakYansima(radius: 16)),
+        ],
       ),
     );
   }
 
   Widget _kategoriSecici(AppLocalizations l) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l.t('ai.mode').toUpperCase(),
-          style: TextStyle(
-            color: Renkler.acikVurgu,
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.2,
-          ),
-        ),
-        SizedBox(height: 10),
-        SizedBox(
-          height: 48,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: _kategoriler.length,
-            itemBuilder: (context, index) {
-              final kategori = _kategoriler[index];
-              final isSelected = kategori.kod == _seciliKategori;
-              return _TiltKart(
-                maxTilt: 0.18,
-                child: UcdButon(
-                  onTap: () => setState(() => _seciliKategori = kategori.kod),
-                  basili: isSelected,
-                  koseYaricapi: 22,
-                  dolgu:
-                      EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      UcdIkon(
-                        ikon: kategori.ikon,
-                        renk: isSelected ? Colors.white : Renkler.acikVurgu,
-                        boyut: 16,
+    return SizedBox(
+      height: 64,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: _kategoriler.length,
+        itemBuilder: (context, index) {
+          final kategori = _kategoriler[index];
+          final isSelected = kategori.kod == _seciliKategori;
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => setState(() => _seciliKategori = kategori.kod),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              margin: const EdgeInsets.only(right: 8),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                gradient: isSelected
+                    ? const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF164736), Color(0xFF08271C)],
+                      )
+                    : const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF07261C), Color(0xFF021711)],
                       ),
-                      SizedBox(width: 6),
-                      Text(
-                        l.t('ai.c.${kategori.kod}'),
-                        style: TextStyle(
-                          color:
-                              isSelected ? Colors.white : Colors.white70,
-                          fontSize: 13,
-                          fontWeight: isSelected
-                              ? FontWeight.w700
-                              : FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: isSelected
+                      ? const Color(0xFFFFC107)
+                      : const Color(0xFF10B981).withValues(alpha: 0.2),
+                  width: isSelected ? 1.5 : 1.0,
                 ),
-              );
-            },
-          ),
-        ),
-      ],
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: const Color(0x33FFD54F),
+                          offset: const Offset(0, 4),
+                          blurRadius: 10,
+                        ),
+                      ]
+                    : [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.4),
+                          offset: const Offset(0, 4),
+                          blurRadius: 6,
+                        ),
+                      ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    kategori.ikon,
+                    size: 16,
+                    color: isSelected
+                        ? const Color(0xFFFFD54F)
+                        : const Color(0xFF34D399),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    l.t('ai.c.${kategori.kod}'),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: isSelected
+                          ? Colors.white
+                          : const Color(0xFF94A3B8),
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -657,74 +896,152 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l.t('ai.yardimBaslik'),
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 8),
-        _TiltKart(
-          child: _CamKart(
-            radius: 20,
-            padding: EdgeInsets.all(10),
-            child: Stack(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              l.t('ai.yardimBaslik'),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14.5,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Row(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _queryController,
-                        style: TextStyle(color: Colors.white),
-                        cursorColor: Renkler.vurgu,
-                        textInputAction: TextInputAction.send,
-                        onSubmitted: (_) =>
-                            _askAi(_queryController.text),
-                        decoration: InputDecoration(
-                          hintText: l.t('ai.hint'),
-                          hintStyle: TextStyle(color: Colors.white38),
-                          filled: true,
-                          fillColor: Renkler.zemin.withValues(alpha: 0.6),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(14),
-                            borderSide: BorderSide.none,
-                          ),
-                          prefixIcon: UcdIkon(ikon: Icons.auto_awesome,
-                              renk: Renkler.vurgu, boyut: 18),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    _TiltKart(
-                      maxTilt: 0.16,
-                      child: IconButton(
-                        onPressed: _isLoading
-                            ? null
-                            : () => _askAi(_queryController.text),
-                        style: IconButton.styleFrom(
-                          minimumSize: const Size(46, 46),
-                          padding: EdgeInsets.zero,
-                        ),
-                        icon: _isLoading
-                            ? SizedBox(
-                                width: 22,
-                                height: 22,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2.5,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : UcdIkon(ikon: Icons.keyboard_arrow_up_rounded,
-                                 renk: Colors.white, boyut: 22),
-                      ),
-                    ),
-                  ],
+                const Icon(Icons.star, color: Color(0xFFFFC107), size: 12),
+                const SizedBox(width: 4),
+                Text(
+                  l.t('ai.c.${_aktifKategori.kod}'),
+                  style: const TextStyle(
+                    color: Color(0xFFFFD54F),
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                Positioned.fill(child: _ParlakYansima(radius: 20)),
               ],
             ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          decoration: BoxDecoration(
+            color: const Color(0xFF031C14),
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(
+              color: const Color(0xFF10B981).withValues(alpha: 0.3),
+              width: 1.2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.6),
+                offset: const Offset(0, 4),
+                blurRadius: 10,
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF0F4735), Color(0xFF05251B)],
+                      ),
+                      border: Border.all(
+                        color: const Color(0xFF34D399).withValues(alpha: 0.4),
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.auto_awesome,
+                      color: Color(0xFF34D399),
+                      size: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      controller: _queryController,
+                      style: const TextStyle(color: Colors.white, fontSize: 13),
+                      cursorColor: const Color(0xFF34D399),
+                      textInputAction: TextInputAction.send,
+                      onSubmitted: (_) => _askAi(_queryController.text),
+                      decoration: InputDecoration(
+                        hintText: l.t('ai.hint'),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFF5A786E),
+                          fontSize: 12,
+                        ),
+                        border: InputBorder.none,
+                        isDense: true,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: const Color(0xFF082E22),
+                      border: Border.all(
+                        color: const Color(0xFF10B981).withValues(alpha: 0.2),
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.mic_none_rounded,
+                      color: Color(0xFF34D399),
+                      size: 18,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: _isLoading
+                        ? null
+                        : () => _askAi(_queryController.text),
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0xFFFFE082), Color(0xFFFFB300)],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFFC107).withValues(alpha: 0.4),
+                            offset: const Offset(0, 4),
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: _isLoading
+                          ? const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                color: Color(0xFF2E1C00),
+                              ),
+                            )
+                          : const Icon(
+                              Icons.arrow_upward_rounded,
+                              color: Color(0xFF2E1C00),
+                              size: 22,
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+              Positioned.fill(child: _ParlakYansima(radius: 22)),
+            ],
           ),
         ),
       ],
@@ -734,59 +1051,284 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
   Widget _hizliOrnekler(AppLocalizations l) {
     final kategori = _aktifKategori;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l.t('ai.ornekBaslik').toUpperCase(),
-          style: TextStyle(
-            color: Colors.white54,
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.1,
-          ),
-        ),
-        SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (var i = 1; i <= 3; i++)
-              _TiltKart(
-                maxTilt: 0.2,
-                child: ActionChip(
-                  backgroundColor: Renkler.kart.withValues(alpha: 0.85),
-                  side: BorderSide(color: Renkler.cerceve2),
-                  elevation: 0,
-                  avatar: Container(
-                    width: 22,
-                    height: 22,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Renkler.vurgu.withValues(alpha: 0.9),
-                          Renkler.bannerAlt,
-                        ],
+        for (var i = 1; i <= 3; i++)
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              final soru = l.t('ai.cs.${kategori.kod}.$i');
+              _queryController.text = soru;
+              _askAi(soru);
+            },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF093124), Color(0xFF031E15)],
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: const Color(0xFF10B981).withValues(alpha: 0.25),
+                  width: 1.0,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    offset: const Offset(0, 4),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Icon(kategori.ikon,
+                      color: const Color(0xFF34D399), size: 18),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      l.t('ai.cs.${kategori.kod}.$i'),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    child: UcdIkon(ikon: kategori.ikon,
-                        renk: Colors.white, boyut: 13),
                   ),
-                  labelStyle:
-                      TextStyle(color: Colors.white70, fontSize: 12),
-                  label: Text(l.t('ai.cs.${kategori.kod}.$i')),
-                  onPressed: () {
-                    final soru = l.t('ai.cs.${kategori.kod}.$i');
-                    _queryController.text = soru;
-                    _askAi(soru);
-                  },
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Color(0xFF047857),
+                    size: 13,
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _tefekkurKarti() {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF0B3B2B), Color(0xFF041F16)],
+        ),
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color: const Color(0xFFFFC107).withValues(alpha: 0.4),
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.5),
+            offset: const Offset(0, 8),
+            blurRadius: 18,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(0xFFFFC107).withValues(alpha: 0.18),
+                  border: Border.all(
+                    color: const Color(0xFFFFC107).withValues(alpha: 0.5),
+                  ),
+                ),
+                child: const Icon(
+                  Icons.auto_awesome,
+                  color: Color(0xFFFFD54F),
+                  size: 16,
                 ),
               ),
-          ],
-        ),
-      ],
+              const SizedBox(width: 10),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Nur AI • Âlim Modu',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Tefsir Analizi',
+                      style: TextStyle(
+                        color: Color(0xFF34D399),
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                  border: Border.all(
+                    color: const Color(0xFF34D399).withValues(alpha: 0.3),
+                  ),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.check,
+                        color: Color(0xFF34D399), size: 12),
+                    SizedBox(width: 4),
+                    Text(
+                      'Onaylı Tefsir',
+                      style: TextStyle(
+                        color: Color(0xFF34D399),
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          const Text(
+            'لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFFFFD54F),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              height: 1.5,
+              shadows: [
+                Shadow(
+                  color: Color(0x33FFD54F),
+                  blurRadius: 12,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            '"Andolsun, eğer şükrederseniz elbette size nimetimi artırırım."',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFFD1FAE5),
+              fontSize: 12.5,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'İBRAHİM SURESİ, 7. AYET',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFFFFC107),
+              fontSize: 10.5,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.8,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              color: const Color(0xFF031A12),
+              border: Border.all(
+                color: const Color(0xFF10B981).withValues(alpha: 0.2),
+              ),
+            ),
+            child: const Text.rich(
+              TextSpan(
+                style: TextStyle(
+                  color: Color(0xFF94A3B8),
+                  fontSize: 11.5,
+                  height: 1.45,
+                ),
+                children: [
+                  TextSpan(
+                    text: 'Kısa Tefsir Özeti: ',
+                    style: TextStyle(
+                      color: Color(0xFFFFD54F),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextSpan(
+                    text:
+                        "Şükür sadece dille 'elhamdülillah' demek değil; "
+                        'verilen her nimeti (akıl, sağlık, mal) Allah\'ın '
+                        'rızasına uygun sarf etmektir.',
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              final soru = 'İbrahim Suresi 7. ayetin tefsirini yap.';
+              _queryController.text = soru;
+              _askAi(soru);
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF0F4735), Color(0xFF05251B)],
+                ),
+                border: Border.all(
+                  color: const Color(0xFFFFC107).withValues(alpha: 0.4),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    offset: const Offset(0, 4),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Sohbeti Başlat & Tefsiri Derinleştir',
+                    style: TextStyle(
+                      color: Color(0xFFFFD54F),
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 6),
+                  Icon(Icons.arrow_forward,
+                      color: Color(0xFFFFD54F), size: 16),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
