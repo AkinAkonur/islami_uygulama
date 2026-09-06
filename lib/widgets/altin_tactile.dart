@@ -90,28 +90,6 @@ class _AltinButonState extends State<AltinButon> {
                     ],
               stops: _basili ? const [0, 0.5, 1] : const [0, 0.35, 0.62, 1],
             ),
-            boxShadow: [
-              // Altın ışıma (bezelden dışa taşar)
-              BoxShadow(
-                color: AltinTasarim.altin.withValues(
-                  alpha: _basili ? 0.35 : (widget.isik ? 0.55 : 0.28),
-                ),
-                blurRadius: boyut * 0.35,
-                spreadRadius: 1,
-              ),
-              // Derinlik: aşağıda koyu gölge
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.75),
-                offset: Offset(0, boyut * 0.09),
-                blurRadius: boyut * 0.12,
-              ),
-              // Üst ışık konturu
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.35),
-                offset: const Offset(0, -1),
-                blurRadius: 2,
-              ),
-            ],
           ),
           child: Container(
             margin: EdgeInsets.all(cizgiKalini),
@@ -124,33 +102,12 @@ class _AltinButonState extends State<AltinButon> {
                     ? [AltinTasarim.zumrutAcik, AltinTasarim.zumrutDerin]
                     : [AltinTasarim.zumrutOrt, AltinTasarim.zumrutDerin],
               ),
-              boxShadow: [
-                // Oyuk: aşağıda karanlık çukur
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.9),
-                  offset: Offset(0, boyut * 0.06),
-                  blurRadius: boyut * 0.1,
-                ),
-                // Bezelin üstten aydınlatması iç kapa izni verir
-                BoxShadow(
-                  color: AltinTasarim.altin.withValues(alpha: 0.4),
-                  offset: const Offset(0, -1),
-                  blurRadius: 2,
-                ),
-              ],
             ),
             child: Center(
               child: Icon(
                 widget.ikon,
                 color: widget.ikonRenk ?? AltinTasarim.altinParlakRenk,
                 size: widget.ikonBoyut ?? boyut * 0.48,
-                shadows: [
-                  Shadow(
-                    color: AltinTasarim.koyuAltin.withValues(alpha: 0.9),
-                    offset: const Offset(0, 1.2),
-                    blurRadius: 2,
-                  ),
-                ],
               ),
             ),
           ),
@@ -201,18 +158,6 @@ class ZumrutCamKutu extends StatelessWidget {
           color: AltinTasarim.altin.withValues(alpha: isik ? 0.6 : 0.35),
           width: kenarKalini,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AltinTasarim.altin.withValues(alpha: isik ? 0.16 : 0.08),
-            blurRadius: 16,
-            spreadRadius: 0,
-          ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.5),
-            offset: const Offset(0, 4),
-            blurRadius: 8,
-          ),
-        ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(koseYaricapi - kenarKalini),
@@ -274,12 +219,12 @@ class AltinBar extends StatelessWidget {
         thumbColor: AltinTasarim.altinParlakRenk,
         thumbShape: const RoundSliderThumbShape(
           enabledThumbRadius: 7,
-          elevation: 6,
-          pressedElevation: 10,
+          elevation: 0,
+          pressedElevation: 0,
         ),
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 18),
         overlayColor: AltinTasarim.altin.withValues(alpha: 0.22),
-        trackShape: _GradyanTrackShape(),
+        trackShape: GradyanSliderTrackShape(),
         // Altın ışıma: başparmak üzerinde sıcak gölge
         valueIndicatorColor: AltinTasarim.koyuAltin,
       ),
@@ -294,7 +239,9 @@ class AltinBar extends StatelessWidget {
 }
 
 /// Dolu kısmı zümrüt→altın gradyanla çizen kaydırıcı izi.
-class _GradyanTrackShape extends RoundedRectSliderTrackShape {
+/// Uygulama geneli `SliderTheme`da da kullanılır (tüm kaydırıcılar tactile olur).
+class GradyanSliderTrackShape extends RoundedRectSliderTrackShape {
+  const GradyanSliderTrackShape();
   @override
   void paint(
     PaintingContext context,
@@ -326,9 +273,7 @@ class _GradyanTrackShape extends RoundedRectSliderTrackShape {
     );
     context.canvas.drawRRect(
       bosRRect,
-      Paint()
-        ..color = AltinTasarim.zumrutAcik.withValues(alpha: 0.6)
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1),
+      Paint()..color = AltinTasarim.zumrutAcik.withValues(alpha: 0.6),
     );
 
     // Dolu kısım: yeşil → altın gradyan
@@ -350,15 +295,131 @@ class _GradyanTrackShape extends RoundedRectSliderTrackShape {
         end: Alignment.centerRight,
       ).createShader(doluRect);
     context.canvas.drawRRect(doluRRect, boya);
+  }
+}
 
-    // Altın ışıma konturu
-    context.canvas.drawRRect(
-      doluRRect.inflate(0.5),
-      Paint()
-        ..color = AltinTasarim.altin.withValues(alpha: 0.35)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.8
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.2),
+/// Tüm uygulamadaki özel(dokusal) butonları 3D zümrüt/altın görünüme çeviren
+/// genel sarmalayıcı. Altın metalik bezel + zümrüt iç çukur + derin kabartma;
+/// dokununca basar, seçili(çalan/aktif) durumda daha parlak altın çerçeve ve
+/// koyu zümrüt yüz, etkin değilse soluklaşır. `child` serbesttir: metin,
+/// ikon+metin, sadece ikon (yüksek köşe yarıçapıyla yuvarlak da olur).
+class UcdButon extends StatefulWidget {
+  const UcdButon({
+    super.key,
+    required this.child,
+    this.onTap,
+    this.onLongPress,
+    this.basili = false,
+    this.etkin = true,
+    this.koseYaricapi = 16,
+    this.kenarKalini = 1.4,
+    this.dolgu = const EdgeInsets.symmetric(horizontal: 18, vertical: 13),
+    this.genislik,
+    this.yukseklik,
+    this.isik = true,
+    this.zeminler,
+  });
+
+  final Widget child;
+
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+
+  /// Aktif/seçili durum (çalan ayet, açık mod, seçili vakit...).
+  final bool basili;
+
+  /// Etkin değilse basmalar yanıt vermez ve görünüm solur.
+  final bool etkin;
+
+  final double koseYaricapi;
+  final double kenarKalini;
+  final EdgeInsetsGeometry dolgu;
+  final double? genislik;
+  final double? yukseklik;
+
+  /// Dış altın ışıması.
+  final bool isik;
+
+  /// İç yüzey gradyanı; null ise varsayılan zümrüt çukur.
+  final Gradient? zeminler;
+
+  @override
+  State<UcdButon> createState() => _UcdButonState();
+}
+
+class _UcdButonState extends State<UcdButon> {
+  bool _hendir = false;
+
+  bool get _aktif => widget.etkin && widget.onTap != null;
+
+  @override
+  Widget build(BuildContext context) {
+    final pressed = _hendir || widget.basili;
+    final radius = BorderRadius.circular(widget.koseYaricapi);
+    final cizgi = widget.kenarKalini;
+
+    final gorunum = Container(
+      width: widget.genislik,
+      height: widget.yukseklik,
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: !_aktif
+              ? const [Color(0xFF5A5540), Color(0xFF3A3A34), Color(0xFF34302A)]
+              : pressed
+                  ? const [Color(0xFF9A6B00), AltinTasarim.altin, Color(0xFF9A6B00)]
+                  : const [
+                      AltinTasarim.acikAltin,
+                      AltinTasarim.altin,
+                      AltinTasarim.koyuAltin,
+                      AltinTasarim.altin,
+                    ],
+          stops: pressed ? const [0, 0.5, 1] : const [0, 0.35, 0.62, 1],
+        ),
+      ),
+      child: Container(
+        margin: EdgeInsets.all(cizgi),
+        padding: widget.dolgu,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.koseYaricapi - cizgi),
+          gradient: widget.zeminler ??
+              (pressed
+                  ? const RadialGradient(
+                      center: Alignment(-0.3, -0.4),
+                      colors: [AltinTasarim.zumrutAcik, AltinTasarim.zumrutDerin],
+                    )
+                  : const RadialGradient(
+                      center: Alignment(-0.35, -0.45),
+                      colors: [AltinTasarim.zumrutOrt, AltinTasarim.zumrutDerin],
+                    )),
+        ),
+        child: Center(
+          child: Opacity(
+            opacity: _aktif ? 1 : 0.5,
+            child: widget.child,
+          ),
+        ),
+      ),
+    );
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTapDown: !_aktif ? null : (_) => setState(() => _hendir = true),
+      onTapCancel: !_aktif ? null : () => setState(() => _hendir = false),
+      onTapUp: !_aktif ? null : (_) => setState(() => _hendir = false),
+      onTap: widget.onTap,
+      onLongPress: !_aktif ? null : widget.onLongPress,
+      child: Semantics(
+        button: true,
+        enabled: _aktif,
+        selected: widget.basili,
+        child: Transform.translate(
+          offset: pressed ? const Offset(0, 2) : Offset.zero,
+          child: gorunum,
+        ),
+      ),
     );
   }
 }

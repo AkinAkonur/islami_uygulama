@@ -127,6 +127,7 @@ class HacUmreRehberPage extends StatelessWidget {
     required Widget sayfa,
   }) {
     return Card(
+      elevation: 0,
       color: Renkler.kart,
       margin: const EdgeInsets.only(bottom: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

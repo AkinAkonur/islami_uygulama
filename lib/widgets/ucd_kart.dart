@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'kart_sekilleri.dart';
+import 'altin_tactile.dart';
 
 /// Ana sayfadaki kartlara belirgin bir 3D görünüm katan sarmalayıcı:
 ///
@@ -127,32 +128,12 @@ class _UcdKartState extends State<UcdKart> with TickerProviderStateMixin {
   Widget _katmanlar(Widget kart, Size boyut, double egrX, double egrY) {
     final yuzey = widget.radius;
     final agorgi = egrY / widget.maxTilt; // -1..1 dikey eğim
-    final yatar = egrX / widget.maxTilt; // -1..1 yatay eğim
-    return ClipPath(
+    final kartIci = ClipPath(
       clipper: KartSiluet(widget.sekil, yuzey),
       child: Stack(
         fit: StackFit.passthrough,
         children: [
           kart,
-          // Alt kenar gölgesi: eğilmeyle karşı yöne kayar.
-          Positioned.fill(
-            child: IgnorePointer(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment(0, -1),
-                    end: Alignment(0, 1),
-                    colors: [
-                      Colors.black.withValues(alpha: 0.06 + 0.10 * yatar),
-                      Colors.transparent,
-                      Colors.black.withValues(alpha: 0.20 + 0.08 * yatar),
-                    ],
-                    stops: const [0.0, 0.45, 1.0],
-                  ),
-                ),
-              ),
-            ),
-          ),
           // Üst kenar ince ışık çizgisi (hafif kabarık yüzey hissi).
           Positioned(
             top: 0,
@@ -175,6 +156,17 @@ class _UcdKartState extends State<UcdKart> with TickerProviderStateMixin {
           ),
         ],
       ),
+    );
+    // Altın metalik kenar: çevresi premium bir çerçeve gibi parlaktır.
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(yuzey),
+        border: Border.all(
+          color: AltinTasarim.altin.withValues(alpha: 0.45),
+          width: 1,
+        ),
+      ),
+      child: kartIci,
     );
   }
 

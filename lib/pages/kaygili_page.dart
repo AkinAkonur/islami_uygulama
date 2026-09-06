@@ -200,6 +200,7 @@ class _KaygiliPageState extends State<KaygiliPage> {
 
   Widget _buildStepTile(String step, String title, String subtitle) {
     return Card(
+      elevation: 0,
       color: Renkler.kart,
       margin: EdgeInsets.only(bottom: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

@@ -42,6 +42,7 @@ import 'kissalar/kissalar_verileri.dart';
 import 'kissalar/peygamberler_verileri.dart';
 import 'kissalar/siyer_verileri.dart';
 import '../widgets/kart_sekilleri.dart';
+import '../widgets/altin_tactile.dart';
 
 /// Süre filtresi seçenekleri (kullanıcı "Zamanım Var" mekanizması).
 const List<({String id, String etiket, int minDk, int maksDk})>
@@ -916,63 +917,58 @@ class _SesliKissalarVePodcastlerPageState
     required String alt,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return UcdButon(
       onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Renkler.bannerUst.withValues(alpha: 0.55),
-              Renkler.bannerAlt.withValues(alpha: 0.55),
-            ],
+      genislik: double.infinity,
+      koseYaricapi: 14,
+      dolgu: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      zeminler: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Renkler.bannerUst.withValues(alpha: 0.55),
+          Renkler.bannerAlt.withValues(alpha: 0.55),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.1),
+              shape: BoxShape.circle,
+            ),
+            child: UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 24),
           ),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.4)),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
-              child: UcdIkon(ikon: ikon, renk: Renkler.vurgu, boyut: 24),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    baslik,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  baslik,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    alt,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white60, fontSize: 12),
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  alt,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.white60, fontSize: 12),
+                ),
+              ],
             ),
-            const UcdIkon(
-              ikon: Icons.play_circle_fill_rounded,
-              renk: Colors.white54,
-              boyut: 26,
-            ),
-          ],
-        ),
+          ),
+          const UcdIkon(
+            ikon: Icons.play_circle_fill_rounded,
+            renk: Colors.white54,
+            boyut: 26,
+          ),
+        ],
       ),
     );
   }
@@ -1068,33 +1064,24 @@ class _SesliKissalarVePodcastlerPageState
   }) {
     return Padding(
       padding: const EdgeInsets.only(right: 6),
-      child: GestureDetector(
+      child: UcdButon(
         onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: secili ? Renkler.vurgu.withValues(alpha: 0.2) : Renkler.kart,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: secili ? Renkler.vurgu : Renkler.cerceve,
-              width: secili ? 1.4 : 1,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (ikon != null) ...[ikon, const SizedBox(width: 4)],
-              Text(
-                etiket,
-                style: TextStyle(
-                  color: secili ? Renkler.vurgu : Colors.white60,
-                  fontSize: 11.5,
-                  fontWeight: secili ? FontWeight.bold : FontWeight.normal,
-                ),
+        basili: secili,
+        koseYaricapi: 999,
+        dolgu: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (ikon != null) ...[ikon, const SizedBox(width: 4)],
+            Text(
+              etiket,
+              style: TextStyle(
+                color: secili ? Renkler.vurgu : Colors.white60,
+                fontSize: 11.5,
+                fontWeight: secili ? FontWeight.bold : FontWeight.normal,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -1119,22 +1106,16 @@ class _SesliKissalarVePodcastlerPageState
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () => _kissaDinle(kissa),
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: aktif
-                    ? Renkler.vurgu.withValues(alpha: 0.25)
-                    : Renkler.seciliYuzey,
-                shape: BoxShape.circle,
-              ),
-              child: UcdIkon(
-                ikon: aktif ? Icons.stop_circle_rounded : Icons.headphones_rounded,
-                renk: aktif ? Colors.redAccent : Renkler.vurgu,
-                boyut: 24,
-              ),
+          IconButton(
+            onPressed: () => _kissaDinle(kissa),
+            icon: UcdIkon(
+              ikon: aktif ? Icons.stop_circle_rounded : Icons.headphones_rounded,
+              renk: aktif ? const Color(0xFFF0C030) : Renkler.vurgu,
+              boyut: 24,
+            ),
+            style: IconButton.styleFrom(
+              minimumSize: const Size(40, 40),
+              padding: const EdgeInsets.all(6),
             ),
           ),
           const SizedBox(width: 12),
@@ -1267,30 +1248,25 @@ class _SesliKissalarVePodcastlerPageState
     required Color renk,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return UcdButon(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: BoxDecoration(
-          color: renk.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: renk.withValues(alpha: 0.5)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            UcdIkon(ikon: ikon, renk: renk, boyut: 14),
-            const SizedBox(width: 4),
-            Text(
-              etiket,
-              style: TextStyle(
-                color: renk,
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-              ),
+      isik: false,
+      koseYaricapi: 999,
+      dolgu: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          UcdIkon(ikon: ikon, renk: renk, boyut: 14),
+          const SizedBox(width: 4),
+          Text(
+            etiket,
+            style: TextStyle(
+              color: renk,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -1401,22 +1377,16 @@ class _SesliKissalarVePodcastlerPageState
       ),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () => _podcastDinle(kanal),
-            child: Container(
-              width: 46,
-              height: 46,
-              decoration: BoxDecoration(
-                color: caliyor
-                    ? Renkler.vurgu.withValues(alpha: 0.25)
-                    : Renkler.seciliYuzey,
-                shape: BoxShape.circle,
-              ),
-              child: UcdIkon(
-                ikon: caliyor && _sesCalyor ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                renk: caliyor ? Colors.redAccent : Renkler.vurgu,
-                boyut: 26,
-              ),
+          IconButton(
+            onPressed: () => _podcastDinle(kanal),
+            icon: UcdIkon(
+              ikon: caliyor && _sesCalyor ? Icons.pause_rounded : Icons.play_arrow_rounded,
+              renk: caliyor ? const Color(0xFFF0C030) : Renkler.vurgu,
+              boyut: 26,
+            ),
+            style: IconButton.styleFrom(
+              minimumSize: const Size(40, 40),
+              padding: const EdgeInsets.all(6),
             ),
           ),
           const SizedBox(width: 12),
@@ -1476,13 +1446,6 @@ class _SesliKissalarVePodcastlerPageState
       decoration: BoxDecoration(
         color: Renkler.yuzey,
         border: Border(top: BorderSide(color: Renkler.cerceve)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
-            blurRadius: 8,
-            offset: const Offset(0, -2),
-          ),
-        ],
       ),
       child: SafeArea(
         top: false,
@@ -1490,8 +1453,8 @@ class _SesliKissalarVePodcastlerPageState
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Row(
             children: [
-              GestureDetector(
-                onTap: () {
+              IconButton(
+                onPressed: () {
                   if (sesAktif) {
                     if (_sesCalyor) {
                       _oynatici.pause();
@@ -1513,17 +1476,14 @@ class _SesliKissalarVePodcastlerPageState
                     }
                   }
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Renkler.vurgu.withValues(alpha: 0.2),
-                    shape: BoxShape.circle,
-                  ),
-                  child: UcdIkon(
-                    ikon: caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                    renk: Renkler.vurgu,
-                    boyut: 26,
-                  ),
+                icon: UcdIkon(
+                  ikon: caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                  renk: Renkler.vurgu,
+                  boyut: 26,
+                ),
+                style: IconButton.styleFrom(
+                  minimumSize: const Size(40, 40),
+                  padding: const EdgeInsets.all(6),
                 ),
               ),
               const SizedBox(width: 10),

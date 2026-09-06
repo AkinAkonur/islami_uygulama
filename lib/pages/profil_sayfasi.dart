@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 /// Profil verileri (fotoğraf + isim) için kalıcı depo.
@@ -219,8 +220,12 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
       ),
       child: Column(
         children: [
-          GestureDetector(
+          UcdButon(
             onTap: _fotografSec,
+            koseYaricapi: 999,
+            genislik: 96,
+            yukseklik: 96,
+            dolgu: EdgeInsets.zero,
             child: Stack(
               children: [
                 CircleAvatar(

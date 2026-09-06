@@ -7,6 +7,7 @@ import '../services/dini_gunler_servisi.dart';
 import '../services/radyo_oynatici_store.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/radyo_media_player.dart';
 import '../widgets/radyo_mini_oynatici.dart';
 import 'hadis_kutuphanesi_page.dart';
@@ -255,31 +256,22 @@ class DahaFazlaPage extends StatelessWidget {
   /// Kâbe-i Muazzama Canlı Yayını "hero" kartı:
   /// canlı rozeti + açıklama + 🎧 Ses Modu / 📺 Tam Ekran İzle kısayolları.
   Widget _kabeCanliHeroKarti(BuildContext context) {
-    return GestureDetector(
+    return UcdButon(
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const KabeCanliPage()),
       ),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Renkler.bannerUst, Renkler.bannerAlt],
-          ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Renkler.vurgu.withValues(alpha: 0.15),
-              blurRadius: 18,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      genislik: double.infinity,
+      koseYaricapi: 20,
+      dolgu: const EdgeInsets.all(16),
+      zeminler: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Renkler.bannerUst, Renkler.bannerAlt],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             // Canlı rozeti
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -362,7 +354,6 @@ class DahaFazlaPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 
@@ -372,40 +363,40 @@ class DahaFazlaPage extends StatelessWidget {
     required bool dolu,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return UcdButon(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-        decoration: BoxDecoration(
-          color: dolu
+      isik: false,
+      genislik: double.infinity,
+      koseYaricapi: 14,
+      dolgu: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      zeminler: LinearGradient(
+        colors: [
+          dolu
               ? Renkler.vurgu.withValues(alpha: 0.85)
               : Colors.white.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: dolu
-                ? Colors.transparent
-                : Colors.white.withValues(alpha: 0.25),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            UcdIkon(ikon: ikon, renk: dolu ? Colors.black : Colors.white, boyut: 20),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                etiket,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: dolu ? Colors.black : Colors.white,
-                  fontSize: 11.5,
-                  fontWeight: FontWeight.bold,
-                  height: 1.3,
-                ),
+          dolu
+              ? Renkler.vurgu.withValues(alpha: 0.85)
+              : Colors.white.withValues(alpha: 0.1),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          UcdIkon(ikon: ikon, renk: dolu ? Colors.black : Colors.white, boyut: 20),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              etiket,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: dolu ? Colors.black : Colors.white,
+                fontSize: 11.5,
+                fontWeight: FontWeight.bold,
+                height: 1.3,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -1444,32 +1435,27 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                     horizontal: 16,
                     vertical: 8,
                   ),
-                  leading: GestureDetector(
-                    onTap: () => RadyoOynaticiStore.oynat(kanal,
+                  leading: IconButton(
+                    onPressed: () => RadyoOynaticiStore.oynat(kanal,
                         kanallar: _dunyaIstasyonlari
                             .map((s) => s.kanal)
                             .toList()),
-                    child: Container(
-                      width: 46,
-                      height: 46,
-                      decoration: BoxDecoration(
-                        color: caliyor
-                            ? Renkler.acikVurgu.withValues(alpha: 0.25)
-                            : Renkler.seciliYuzey,
-                        shape: BoxShape.circle,
-                      ),
-                      child: yukluyor
-                          ? const Padding(
-                              padding: EdgeInsets.all(13),
-                              child:
-                                  CircularProgressIndicator(strokeWidth: 2.4),
-                            )
-                          : UcdIkon(ikon: 
-                              caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded, renk: caliyor
-                                  ? Renkler.acikVurgu
-                                  : Renkler.vurgu, boyut: 26,
-                            ),
+                    style: IconButton.styleFrom(
+                      minimumSize: const Size(46, 46),
+                      padding: EdgeInsets.zero,
                     ),
+                    icon: yukluyor
+                        ? const Padding(
+                            padding: EdgeInsets.all(13),
+                            child:
+                                CircularProgressIndicator(strokeWidth: 2.4),
+                          )
+                        : UcdIkon( 
+                            ikon: 
+                              caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded, renk: caliyor
+                                  ? const Color(0xFFF0C030)
+                                  : Renkler.vurgu, boyut: 26,
+                          ),
                   ),
                   title: Row(
                     children: [
@@ -1609,27 +1595,22 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                 child: ListTile(
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  leading: GestureDetector(
-                    onTap: () => RadyoOynaticiStore.oynat(kanal,
+                  leading: IconButton(
+                    onPressed: () => RadyoOynaticiStore.oynat(kanal,
                         kanallar: _kanallar),
-                    child: Container(
-                      width: 46,
-                      height: 46,
-                      decoration: BoxDecoration(
-                        color: caliyor
-                            ? Renkler.acikVurgu.withValues(alpha: 0.25)
-                            : Renkler.seciliYuzey,
-                        shape: BoxShape.circle,
-                      ),
-                      child: yukluyor
-                          ? const Padding(
-                              padding: EdgeInsets.all(13),
-                              child: CircularProgressIndicator(strokeWidth: 2.4),
-                            )
-                          : UcdIkon(ikon: 
-                              caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded, renk: caliyor ? Renkler.acikVurgu : Renkler.vurgu, boyut: 26,
-                            ),
+                    style: IconButton.styleFrom(
+                      minimumSize: const Size(46, 46),
+                      padding: EdgeInsets.zero,
                     ),
+                    icon: yukluyor
+                        ? const Padding(
+                            padding: EdgeInsets.all(13),
+                            child: CircularProgressIndicator(strokeWidth: 2.4),
+                          )
+                        : UcdIkon( 
+                            ikon: 
+                              caliyor ? Icons.pause_rounded : Icons.play_arrow_rounded, renk: caliyor ? const Color(0xFFF0C030) : Renkler.vurgu, boyut: 26,
+                          ),
                   ),
                   title: Text(
                     kanal.ad,

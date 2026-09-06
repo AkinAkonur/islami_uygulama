@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/radyo_oynatici_store.dart';
 import '../services/renkler.dart';
+import 'altin_tactile.dart';
 
 /// Tam kontrollü radyo oynatıcı paneli. [kanallar] önceki/sonraki
 /// gezinmede kullanılacak sıralı kanal listesidir.
@@ -359,44 +360,30 @@ class RadyoMediaPlayer extends StatelessWidget {
     required bool yukleniyor,
     required VoidCallback onPressed,
   }) {
-    return GestureDetector(
+    return UcdButon(
       onTap: yukleniyor ? null : onPressed,
-      child: Container(
-        width: 68,
-        height: 68,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Renkler.vurgu,
-              Renkler.vurgu.withValues(alpha: 0.75),
-            ],
-          ),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Renkler.vurgu.withValues(alpha: 0.35),
-              blurRadius: 18,
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        child: yukleniyor
-            ? const Center(
-                child: SizedBox(
-                  width: 28,
-                  height: 28,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                    color: Colors.white,
-                  ),
+      basili: calyor,
+      etkin: !yukleniyor,
+      koseYaricapi: 999,
+      genislik: 68,
+      yukseklik: 68,
+      dolgu: EdgeInsets.zero,
+      child: yukleniyor
+          ? const Center(
+              child: SizedBox(
+                width: 28,
+                height: 28,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                  color: Colors.white,
                 ),
-              )
-            : Icon(
-                calyor ? Icons.pause : Icons.play_arrow,
-                color: Colors.white,
-                size: 40,
               ),
-      ),
+            )
+          : Icon(
+              calyor ? Icons.pause : Icons.play_arrow,
+              color: Colors.white,
+              size: 40,
+            ),
     );
   }
 }

@@ -538,7 +538,6 @@ class _SureDetayPageState extends State<SureDetayPage> {
                     backgroundColor: AltinTasarim.altin,
                     foregroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    shadowColor: AltinTasarim.altin.withValues(alpha: 0.5),
                   ),
                   onPressed: () => Navigator.push(
                     context,
@@ -645,15 +644,7 @@ class _SureDetayPageState extends State<SureDetayPage> {
           color: caliyorMu ? AltinTasarim.altin : Color(0xFF262626),
           width: caliyorMu ? 1.4 : 1,
         ),
-        boxShadow: caliyorMu
-            ? [
-                BoxShadow(
-                  color: AltinTasarim.altin.withValues(alpha: 0.25),
-                  blurRadius: 12,
-                  spreadRadius: 0,
-                ),
-              ]
-            : null,
+        boxShadow: null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

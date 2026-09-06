@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 class HuzurluPage extends StatefulWidget {
@@ -129,43 +130,36 @@ class _HuzurluPageState extends State<HuzurluPage> {
 
             // Yâ Selâm Zikir Sayacı
             _buildCardTitle(l.t('hz.dhikrTitle')),
-            GestureDetector(
+            UcdButon(
               onTap: () => setState(() => _zikirCount++),
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Renkler.seciliYuzey,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Renkler.vurgu),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      "$_zikirCount",
-                      style: TextStyle(
-                        fontSize: 42,
-                        fontWeight: FontWeight.bold,
-                        color: Renkler.vurgu,
-                      ),
+              koseYaricapi: 20,
+              dolgu: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  Text(
+                    "$_zikirCount",
+                    style: TextStyle(
+                      fontSize: 42,
+                      fontWeight: FontWeight.bold,
+                      color: Renkler.vurgu,
                     ),
-                    SizedBox(height: 4),
-                    Text(
-                      l.t('hz.tapHint'),
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    l.t('hz.tapHint'),
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    l.t('hz.dhikrText'),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      l.t('hz.dhikrText'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 20),

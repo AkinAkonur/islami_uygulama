@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/manevi_store.dart';
 import '../../services/renkler.dart';
+import '../../widgets/altin_tactile.dart';
 import 'gunluk_hedef_store.dart';
 import 'gunluk_hedef_verileri.dart';
 
@@ -275,36 +276,36 @@ class NamazKarti extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           for (final v in ManeviStore.namazVakitleri)
-            InkWell(
+            UcdButon(
               onTap: () => onTikla(v),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: Row(
-                  children: [
-                    Icon(
-                      namaz.contains(v)
-                          ? Icons.check_circle
-                          : Icons.radio_button_unchecked,
+              basili: namaz.contains(v),
+              koseYaricapi: 12,
+              dolgu: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+              child: Row(
+                children: [
+                  Icon(
+                    namaz.contains(v)
+                        ? Icons.check_circle
+                        : Icons.radio_button_unchecked,
+                    color: namaz.contains(v)
+                        ? Renkler.vurgu
+                        : Colors.white38,
+                    size: 22,
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    l.t('gw.namazName').replaceFirst('{name}', v),
+                    style: TextStyle(
                       color: namaz.contains(v)
-                          ? Renkler.vurgu
-                          : Colors.white38,
-                      size: 22,
+                          ? Colors.white70
+                          : Colors.white,
+                      fontSize: 14,
+                      decoration: namaz.contains(v)
+                          ? TextDecoration.lineThrough
+                          : null,
                     ),
-                    const SizedBox(width: 12),
-                    Text(
-                      l.t('gw.namazName').replaceFirst('{name}', v),
-                      style: TextStyle(
-                        color: namaz.contains(v)
-                            ? Colors.white70
-                            : Colors.white,
-                        fontSize: 14,
-                        decoration: namaz.contains(v)
-                            ? TextDecoration.lineThrough
-                            : null,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
         ],

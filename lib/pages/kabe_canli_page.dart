@@ -35,6 +35,7 @@ import '../l10n/app_localizations.dart';
 import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/kabe_mini_oynatici.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 /// Yayın izleme modu.
@@ -911,39 +912,28 @@ class _KabeCanliPageState extends State<KabeCanliPage>
     required bool secili,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return UcdButon(
       onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        decoration: BoxDecoration(
-          color: secili
-              ? Renkler.vurgu.withValues(alpha: 0.18)
-              : Renkler.kart,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: secili ? Renkler.vurgu : Renkler.cerceve,
-            width: secili ? 1.4 : 1,
-          ),
-        ),
-        child: Row(
-          children: [
-            UcdIkon(ikon: ikon, renk: secili ? Renkler.vurgu : Colors.white54, boyut: 20),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                etiket,
-                style: TextStyle(
-                  color: secili ? Colors.white : Colors.white70,
-                  fontSize: 12.5,
-                  fontWeight: secili ? FontWeight.bold : FontWeight.normal,
-                ),
+      basili: secili,
+      genislik: double.infinity,
+      dolgu: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      child: Row(
+        children: [
+          UcdIkon(ikon: ikon, renk: secili ? Colors.white : Colors.white54, boyut: 20),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              etiket,
+              style: TextStyle(
+                color: secili ? Colors.white : Colors.white70,
+                fontSize: 12.5,
+                fontWeight: secili ? FontWeight.bold : FontWeight.normal,
               ),
             ),
-            if (secili)
-              const UcdIkon(ikon: Icons.check_circle_rounded, renk: Colors.greenAccent, boyut: 16),
-          ],
-        ),
+          ),
+          if (secili)
+            const UcdIkon(ikon: Icons.check_circle_rounded, renk: Colors.greenAccent, boyut: 16),
+        ],
       ),
     );
   }

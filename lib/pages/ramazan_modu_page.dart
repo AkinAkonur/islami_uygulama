@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 import '../services/vakit_servisi.dart';
 import 'kuran/hatim_takibi_page.dart';
@@ -190,13 +191,6 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.white24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
-            blurRadius: 14,
-            offset: const Offset(0, 6),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,15 +230,10 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
   }
 
   Widget _hatimKarti(AppLocalizations l) {
-    return GestureDetector(
+    return UcdButon(
       onTap: _hatimSayfasiniAc,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Renkler.kart.withValues(alpha: 0.9),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
+      dolgu: const EdgeInsets.all(16),
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -304,7 +293,6 @@ class _RamazanModuPageState extends State<RamazanModuPage> {
             ),
           ],
         ),
-      ),
     );
   }
 
@@ -507,61 +495,47 @@ class _RamazanBannerState extends State<RamazanBanner> {
       etiket = l.t('rm.toRamadan');
       kalan = ManeviStore.sonrakiRamazanBaslangic(_now).difference(_now);
     }
-    return GestureDetector(
+    return UcdButon(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const RamazanModuPage()),
         );
       },
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Renkler.vurgu, Renkler.vurgu.withValues(alpha: 0.55)],
+      genislik: double.infinity,
+      koseYaricapi: 18,
+      dolgu: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
+        children: [
+          const Text('🌙', style: TextStyle(fontSize: 22)),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${l.t('rm.bannerTitle')} · $etiket',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  _kalanYaz(kalan),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    fontFeatures: [FontFeature.tabularFigures()],
+                  ),
+                ),
+              ],
+            ),
           ),
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: Renkler.vurgu.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            const Text('🌙', style: TextStyle(fontSize: 22)),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${l.t('rm.bannerTitle')} · $etiket',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    _kalanYaz(kalan),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      fontFeatures: [FontFeature.tabularFigures()],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const UcdIkon(ikon: Icons.chevron_right_rounded, renk: Colors.white70),
-          ],
-        ),
+          const UcdIkon(ikon: Icons.chevron_right_rounded, renk: Colors.white70),
+        ],
       ),
     );
   }

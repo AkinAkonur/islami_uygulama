@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
+import '../../widgets/altin_tactile.dart';
 import 'dua_kardesligi_store.dart';
 
 class DuaKardesligiPage extends StatefulWidget {
@@ -64,6 +65,7 @@ class _DuaKardesligiPageState extends State<DuaKardesligiPage> {
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton.extended(
+        elevation: 0,
         onPressed: _hazir ? _istekOlustur : null,
         backgroundColor: Renkler.vurgu,
         foregroundColor: Colors.black,
@@ -361,6 +363,7 @@ class _DuaKarti extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final kategoriRenk = _kategoriRengi(istek.kategori);
     return Card(
+      elevation: 0,
       color: Renkler.kart,
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -502,13 +505,14 @@ class _DuaKarti extends StatelessWidget {
 
   Widget _aminButonu() {
     final verdi = istek.benAminVerdim;
-    return InkWell(
+    return UcdButon(
       onTap: onAmin,
-      borderRadius: BorderRadius.circular(20),
+      basili: verdi,
+      koseYaricapi: 999,
+      dolgu: EdgeInsets.zero,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
         decoration: BoxDecoration(
-          color: verdi ? Renkler.vurgu : Renkler.seciliYuzey,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: verdi
@@ -524,7 +528,7 @@ class _DuaKarti extends StatelessWidget {
             Text(
               'Amin · ${istek.aminSayisi}',
               style: TextStyle(
-                color: verdi ? Colors.black : Colors.white,
+                color: verdi ? AltinTasarim.altinParlakRenk : Colors.white,
                 fontSize: 13,
                 fontWeight: FontWeight.bold,
               ),

@@ -146,13 +146,6 @@ class _MiniPencereState extends State<_MiniPencere>
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(14),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.45),
-                    blurRadius: 18,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(14),
@@ -217,19 +210,16 @@ class _MiniPencereState extends State<_MiniPencere>
                       Positioned(
                         top: 2,
                         right: 2,
-                        child: GestureDetector(
-                          onTap: () => KabeMiniOynatici.instance.durdur(),
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: Colors.black54,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              size: 14,
-                            ),
+                        child: IconButton(
+                          onPressed: () => KabeMiniOynatici.instance.durdur(),
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 14,
+                          ),
+                          style: IconButton.styleFrom(
+                            minimumSize: Size(40, 40),
+                            padding: EdgeInsets.all(6),
                           ),
                         ),
                       ),
@@ -245,9 +235,6 @@ class _MiniPencereState extends State<_MiniPencere>
                               color: Colors.white.withValues(alpha: 0.85),
                               fontSize: 8,
                               fontWeight: FontWeight.w600,
-                              shadows: const [
-                                Shadow(color: Colors.black, blurRadius: 4),
-                              ],
                             ),
                           ),
                         ),

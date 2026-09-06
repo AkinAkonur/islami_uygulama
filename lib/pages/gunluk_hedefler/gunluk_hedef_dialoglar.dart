@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
+import '../../widgets/altin_tactile.dart';
 import '../soru_cevap/soru_cevap_model.dart';
 import 'gunluk_hedef_store.dart';
 import 'gunluk_hedef_verileri.dart';
@@ -122,8 +123,15 @@ class _SoruDialogiState extends State<SoruDialogi> {
               for (var i = 0; i < secenekler.length; i++)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(12),
+                  child: UcdButon(
+                    koseYaricapi: 12,
+                    basili: _secili == i,
+                    zeminler: _secili == i
+                        ? (_dogru
+                            ? const LinearGradient(colors: [Color(0xFF1A3B26), Color(0xFF0B150E)])
+                            : const LinearGradient(colors: [Color(0xFF3B1A1A), Color(0xFF0B150E)]))
+                        : null,
+                    dolgu: EdgeInsets.zero,
                     onTap: () {
                       final dogruMu = i == widget.soru.dogruIndex;
                       setState(() {
@@ -137,11 +145,6 @@ class _SoruDialogiState extends State<SoruDialogi> {
                         vertical: 11,
                       ),
                       decoration: BoxDecoration(
-                        color: _secili == i
-                            ? (_dogru
-                                ? Colors.green.withValues(alpha: 0.25)
-                                : Colors.red.withValues(alpha: 0.25))
-                            : Renkler.seciliYuzey,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: _secili == i

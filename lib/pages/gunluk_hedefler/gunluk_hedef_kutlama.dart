@@ -88,12 +88,6 @@ class _KutlamaEkraniState extends State<KutlamaEkrani>
                       color: Renkler.vurgu.withValues(alpha: 0.6),
                       width: 2,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Renkler.vurgu.withValues(alpha: 0.35),
-                        blurRadius: 30,
-                      ),
-                    ],
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

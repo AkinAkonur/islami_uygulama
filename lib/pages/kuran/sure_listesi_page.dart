@@ -139,6 +139,7 @@ class _SureListesiPageState extends State<SureListesiPage> {
         final s = filtreli[index];
         final mekkiMi = s.inisYeri == 'Mekkî';
         return Card(
+          elevation: 0,
           color: Renkler.kart,
           margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           shape: RoundedRectangleBorder(

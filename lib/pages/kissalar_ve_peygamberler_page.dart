@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 import 'kissalar/dualar_verileri.dart';
 import 'kissalar/ibret_verileri.dart';
@@ -282,18 +283,10 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
   }
 
   Widget _duaKarti(PeygamberDuasi dua) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
+    return UcdButon(
       onTap: () => _duaDetayGoster(dua),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.cerceve),
-        ),
-        child: Column(
+      dolgu: const EdgeInsets.all(14),
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -338,7 +331,6 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
             ),
           ],
         ),
-      ),
     );
   }
 
@@ -507,26 +499,17 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
     final secili = _seciliTema == tema;
     return Padding(
       padding: const EdgeInsets.only(right: 8),
-      child: GestureDetector(
+      child: UcdButon(
         onTap: () => setState(() => _seciliTema = tema),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: secili ? Renkler.seciliYuzey : Renkler.kart,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: secili ? Renkler.vurgu : Renkler.cerceve,
-            ),
-          ),
-          child: Center(
-            child: Text(
-              etiket,
-              style: TextStyle(
-                color: secili ? Renkler.vurgu : Colors.white70,
-                fontSize: 12.5,
-                fontWeight: secili ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
+        basili: secili,
+        koseYaricapi: 20,
+        dolgu: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Text(
+          etiket,
+          style: TextStyle(
+            color: secili ? Colors.white : Colors.white70,
+            fontSize: 12.5,
+            fontWeight: secili ? FontWeight.bold : FontWeight.normal,
           ),
         ),
       ),
@@ -591,8 +574,7 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
   /// Ortak kıssa kartı. [zeminDolu] kronolojik satırda kart zeminini
   /// kalınlaştırır (timeline bloğu içinde kontrast için).
   Widget _kissaKarti(KissaKaydi kissa, {bool zeminDolu = false}) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
+    return UcdButon(
       onTap: () {
         Navigator.push(
           context,
@@ -601,15 +583,8 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
           ),
         );
       },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.cerceve),
-        ),
-        child: Row(
+      dolgu: const EdgeInsets.all(14),
+      child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -701,7 +676,6 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

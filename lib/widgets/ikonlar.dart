@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/renkler.dart';
+import 'kart_sekilleri.dart';
 
 /// Proje genelinde tutarlı ikon sabitleri ve renk/boyut standartları.
 /// Tüm sayfalarda aynı ikon, renk ve boyut kullanılır.
@@ -130,18 +131,16 @@ class IkonSablonu {
   static const IconData ogrenme = Icons.school_rounded;
   static const IconData ilham = Icons.auto_awesome;
 
-  // ─── SAYFA GERİ TUŞU (tüm sayfalarda tutarlı) ───
+  // ─── SAYFA GERİ TUŞU (tüm sayfalarda tutarlı; kutusuz, ikon 3D) ───
   static Widget geriButonu(BuildContext context, {VoidCallback? onPressed}) {
-    return GestureDetector(
-      onTap: onPressed ?? () => Navigator.pop(context),
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Renkler.kart.withValues(alpha: 0.6),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Renkler.cerceve),
-        ),
-        child: const Icon(geriOk, color: Colors.white70, size: 18),
+    return IconButton(
+      onPressed: onPressed ?? () => Navigator.pop(context),
+      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+      icon: const UcdIkon(ikon: geriOk, renk: Colors.white70, boyut: 20),
+      style: IconButton.styleFrom(
+        minimumSize: const Size(42, 42),
+        padding: const EdgeInsets.all(6),
+        shape: const CircleBorder(),
       ),
     );
   }

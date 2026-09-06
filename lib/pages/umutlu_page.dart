@@ -170,6 +170,7 @@ class _UmutluPageState extends State<UmutluPage> {
               itemBuilder: (context, index) {
                 final goal = _goals[index];
                 return Card(
+                  elevation: 0,
                   color: Renkler.kart,
                   margin: EdgeInsets.only(bottom: 8),
                   child: CheckboxListTile(

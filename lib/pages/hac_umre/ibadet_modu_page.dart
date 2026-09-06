@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 import '../../services/renkler.dart';
+import '../../../widgets/altin_tactile.dart';
 import '../../../widgets/kart_sekilleri.dart';
 import 'hac_umre_store.dart';
 import 'hac_umre_verileri.dart';
@@ -134,66 +135,53 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
               itemBuilder: (context, index) {
                 final a = ibadetAkilari[index];
                 final secili = a.tur == _seciliTur;
-                return InkWell(
+                return UcdButon(
                   onTap: () => _turSec(a.tur),
-                  borderRadius: BorderRadius.circular(16),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: 150,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: secili ? Renkler.seciliYuzey : Renkler.kart,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: secili
-                            ? Renkler.vurgu.withValues(alpha: 0.6)
-                            : Renkler.cerceve,
-                        width: secili ? 1.5 : 1,
+                  basili: secili,
+                  genislik: 150,
+                  dolgu: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          UcdIkon(
+                            ikon: secili
+                                ? Icons.check_circle_rounded
+                                : Icons.radio_button_unchecked_rounded,
+                            renk: secili ? Renkler.vurgu : Colors.white38,
+                            boyut: 18,
+                          ),
+                          const Spacer(),
+                          Text(
+                            a.tur.vakit,
+                            style: const TextStyle(
+                              color: Colors.white38,
+                              fontSize: 9,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            UcdIkon(
-                              ikon: secili
-                                  ? Icons.check_circle_rounded
-                                  : Icons.radio_button_unchecked_rounded,
-                              renk: secili ? Renkler.vurgu : Colors.white38,
-                              boyut: 18,
-                            ),
-                            const Spacer(),
-                            Text(
-                              a.tur.vakit,
-                              style: const TextStyle(
-                                color: Colors.white38,
-                                fontSize: 9,
-                              ),
-                            ),
-                          ],
+                      const Spacer(),
+                      Text(
+                        a.tur.ad,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
                         ),
-                        const Spacer(),
-                        Text(
-                          a.tur.ad,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        a.baslik,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white54,
+                          fontSize: 11,
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          a.baslik,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.white54,
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -270,13 +258,17 @@ class _IbadetModuPageState extends State<IbadetModuPage> {
                     borderRadius: BorderRadius.circular(14),
                     onTap: () => _adimDetay(adim),
                     child: ListTile(
-                      leading: InkWell(
-                        onTap: () => _adimTikla(adim.id),
-                        child: UcdIkon(
+                      leading: IconButton(
+                        onPressed: () => _adimTikla(adim.id),
+                        style: IconButton.styleFrom(
+                          minimumSize: const Size(40, 40),
+                          padding: const EdgeInsets.all(5),
+                        ),
+                        icon: UcdIkon(
                           ikon: isaretli
                               ? Icons.check_circle_rounded
                               : Icons.radio_button_unchecked_rounded,
-                          renk: isaretli ? Colors.greenAccent : Colors.white38,
+                          renk: isaretli ? const Color(0xFFF0C030) : Colors.white38,
                           boyut: 26,
                         ),
                       ),

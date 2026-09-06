@@ -36,12 +36,7 @@ class RadyoMiniOynatici extends StatelessWidget {
                 color: AltinTasarim.altin.withValues(alpha: 0.45),
               ),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: AltinTasarim.altin.withValues(alpha: 0.12),
-                blurRadius: 14,
-              ),
-            ],
+
           ),
           child: SafeArea(
             top: false,
@@ -137,13 +132,7 @@ class RadyoMiniOynatici extends StatelessWidget {
             AltinTasarim.koyuAltin.withValues(alpha: 0.9),
           ],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: (calyor ? AltinTasarim.altin : Colors.white38)
-                .withValues(alpha: 0.4),
-            blurRadius: 10,
-          ),
-        ],
+
       ),
       child: Container(
         decoration: BoxDecoration(
@@ -159,15 +148,6 @@ class RadyoMiniOynatici extends StatelessWidget {
           Icons.radio,
           color: calyor ? AltinTasarim.altinParlakRenk : Colors.white38,
           size: 18,
-          shadows: calyor
-              ? const [
-                  Shadow(
-                    color: Colors.black54,
-                    offset: Offset(0, 1),
-                    blurRadius: 1.2,
-                  ),
-                ]
-              : null,
         ),
       ),
     );

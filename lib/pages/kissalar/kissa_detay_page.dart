@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
+import '../../widgets/altin_tactile.dart';
 import '../kissalar/kissa_store.dart';
 import '../kissalar/kissalar_verileri.dart';
 import '../sesli_kissalar_ve_podcastler_page.dart';
@@ -278,33 +279,26 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
   }
 
   Widget _sesliAnlatimKarti(AppLocalizations l) {
-    return GestureDetector(
+    return UcdButon(
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => const SesliKissalarVePodcastlerPage(),
         ),
       ),
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Renkler.seciliYuzey,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.vurgu),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.headphones, color: Renkler.vurgu, size: 28),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                l.t('ksr.audioAvailable'),
-                style: const TextStyle(color: Colors.white70, fontSize: 12),
-              ),
+      dolgu: const EdgeInsets.all(14),
+      child: Row(
+        children: [
+          Icon(Icons.headphones, color: Renkler.vurgu, size: 28),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              l.t('ksr.audioAvailable'),
+              style: const TextStyle(color: Colors.white70, fontSize: 12),
             ),
-            Icon(Icons.play_circle_fill, color: Renkler.vurgu, size: 34),
-          ],
-        ),
+          ),
+          Icon(Icons.play_circle_fill, color: Renkler.vurgu, size: 34),
+        ],
       ),
     );
   }
@@ -608,53 +602,44 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
           for (var s = 0; s < soru.secenekler.length; s++)
             Padding(
               padding: const EdgeInsets.only(bottom: 6),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(12),
+              child: UcdButon(
                 onTap: () => _quizCevap(index, s),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: cevaplandi && s == secilen && s != dogru
-                        ? const Color(0xFF7B3B3B)
-                        : Renkler.zemin,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
+                basili: cevaplandi && s == dogru,
+                koseYaricapi: 12,
+                genislik: double.infinity,
+                dolgu: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
+                zeminler: cevaplandi && s == secilen && s != dogru
+                    ? const LinearGradient(
+                        colors: [Color(0xFF7B3B3B), Color(0xFF7B3B3B)],
+                      )
+                    : null,
+                child: Row(
+                  children: [
+                    Icon(
+                      cevaplandi && s == dogru
+                          ? Icons.check_circle
+                          : cevaplandi && s == secilen
+                              ? Icons.cancel
+                              : Icons.radio_button_unchecked,
+                      size: 18,
                       color: cevaplandi && s == dogru
                           ? const Color(0xFF66BB6A)
-                          : cevaplandi && s == secilen
-                              ? const Color(0xFFE57373)
-                              : Renkler.cerceve,
+                          : Colors.white38,
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        cevaplandi && s == dogru
-                            ? Icons.check_circle
-                            : cevaplandi && s == secilen
-                                ? Icons.cancel
-                                : Icons.radio_button_unchecked,
-                        size: 18,
-                        color: cevaplandi && s == dogru
-                            ? const Color(0xFF66BB6A)
-                            : Colors.white38,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          soru.secenekler[s],
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12.5,
-                          ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        soru.secenekler[s],
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12.5,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -822,22 +807,23 @@ class _KissaDetayPageState extends State<KissaDetayPage> {
                   Row(
                     children: [
                       for (var i = 0; i < 5; i++)
-                        GestureDetector(
-                          onTap: () => setSheetState(() => seciliRenk = i),
-                          child: Container(
-                            width: 26,
-                            height: 26,
-                            margin: const EdgeInsets.only(right: 8),
-                            decoration: BoxDecoration(
-                              color: kissaHex(KissaStore.notRenkHexleri[i]),
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: seciliRenk == i
-                                    ? Colors.white
-                                    : Colors.transparent,
-                                width: 2,
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: UcdButon(
+                            onTap: () => setSheetState(() => seciliRenk = i),
+                            basili: seciliRenk == i,
+                            koseYaricapi: 999,
+                            genislik: 26,
+                            yukseklik: 26,
+                            kenarKalini: 0,
+                            dolgu: EdgeInsets.zero,
+                            zeminler: LinearGradient(
+                              colors: [
+                                kissaHex(KissaStore.notRenkHexleri[i]),
+                                kissaHex(KissaStore.notRenkHexleri[i]),
+                              ],
                             ),
+                            child: const SizedBox.shrink(),
                           ),
                         ),
                     ],

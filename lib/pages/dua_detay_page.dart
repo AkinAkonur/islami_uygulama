@@ -17,6 +17,7 @@ import '../services/muzik_handler.dart';
 import '../services/radyo_oynatici_store.dart';
 import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
+import '../widgets/altin_tactile.dart';
 
 // ===========================================================================
 // DUA DETAY SAYFASI
@@ -124,7 +125,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                 style: const TextStyle(color: Colors.white70, fontSize: 13),
               ),
               const SizedBox(height: 16),
-              InkWell(
+              UcdButon(
                 onTap: () async {
                   final secilen = await showTimePicker(
                     context: ctx,
@@ -147,31 +148,27 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
                   );
                   if (secilen != null) setLocal(() => zaman = secilen);
                 },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  decoration: BoxDecoration(
-                    color: Renkler.seciliYuzey,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      UcdIkon(
-                        ikon: Icons.access_time_rounded,
-                        renk: Colors.white70,
-                        boyut: 20,
+                genislik: double.infinity,
+                koseYaricapi: 14,
+                dolgu: const EdgeInsets.symmetric(vertical: 14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    UcdIkon(
+                      ikon: Icons.access_time_rounded,
+                      renk: Colors.white70,
+                      boyut: 20,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      l.t('dd.time').replaceFirst('{time}', zaman.format(context)),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(width: 10),
-                      Text(
-                        l.t('dd.time').replaceFirst('{time}', zaman.format(context)),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 16),
@@ -481,25 +478,17 @@ class _GunCho extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(10),
+    return UcdButon(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: secili ? Colors.orangeAccent : Renkler.seciliYuzey,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: secili ? Colors.orangeAccent : Renkler.cerceve,
-          ),
-        ),
-        child: Text(
-          etiket,
-          style: TextStyle(
-            color: secili ? Colors.black87 : Colors.white70,
-            fontSize: 12,
-            fontWeight: secili ? FontWeight.bold : FontWeight.normal,
-          ),
+      basili: secili,
+      koseYaricapi: 10,
+      dolgu: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Text(
+        etiket,
+        style: TextStyle(
+          color: secili ? Colors.black87 : Colors.white70,
+          fontSize: 12,
+          fontWeight: secili ? FontWeight.bold : FontWeight.normal,
         ),
       ),
     );
@@ -587,13 +576,6 @@ class _DuaKarti extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Renkler.cerceve),
-            boxShadow: [
-              BoxShadow(
-                color: Renkler.vurgu.withValues(alpha: 0.15),
-                blurRadius: 18,
-                offset: const Offset(0, 6),
-              ),
-            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -753,50 +735,45 @@ class _ZikirmatikState extends State<_Zikirmatik> {
             ],
           ),
           const SizedBox(height: 6),
-          GestureDetector(
+          UcdButon(
             onTap: _arttir,
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 18),
-              decoration: BoxDecoration(
-                color: Renkler.seciliYuzey,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    '$_sayi',
-                    style: TextStyle(
-                      color: tamamlandi ? Colors.greenAccent : Renkler.vurgu,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      fontFeatures: const [FontFeature.tabularFigures()],
+            genislik: double.infinity,
+            koseYaricapi: 14,
+            dolgu: const EdgeInsets.symmetric(vertical: 18),
+            child: Column(
+              children: [
+                Text(
+                  '$_sayi',
+                  style: TextStyle(
+                    color: tamamlandi ? Colors.greenAccent : Renkler.vurgu,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+                ),
+                if (hedef > 0) ...[
+                  const SizedBox(height: 4),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: LinearProgressIndicator(
+                      value: (_sayi / hedef).clamp(0.0, 1.0),
+                      minHeight: 5,
+                      backgroundColor: Renkler.cerceve2,
+                      valueColor: AlwaysStoppedAnimation(
+                        tamamlandi ? Colors.greenAccent : Renkler.vurgu,
+                      ),
                     ),
                   ),
-                  if (hedef > 0) ...[
-                    const SizedBox(height: 4),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: LinearProgressIndicator(
-                        value: (_sayi / hedef).clamp(0.0, 1.0),
-                        minHeight: 5,
-                        backgroundColor: Renkler.cerceve2,
-                        valueColor: AlwaysStoppedAnimation(
-                          tamamlandi ? Colors.greenAccent : Renkler.vurgu,
-                        ),
-                      ),
+                  const SizedBox(height: 6),
+                  Text(
+                    '$hedef',
+                    style: const TextStyle(
+                      color: Colors.white38,
+                      fontSize: 11,
                     ),
-                    const SizedBox(height: 6),
-                    Text(
-                      '$hedef',
-                      style: const TextStyle(
-                        color: Colors.white38,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
+                  ),
                 ],
-              ),
+              ],
             ),
           ),
           const SizedBox(height: 8),
@@ -883,56 +860,53 @@ class _HatirlatmaBanneri extends StatelessWidget {
       valueListenable: DuaStore.hatirlatmalar,
       builder: (context, kayitlar, _) {
         final kayit = kayitlar[dua.id];
-        return Material(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(14),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(14),
-            onTap: onAc,
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: kayit != null
-                      ? Colors.orangeAccent.withValues(alpha: 0.5)
-                      : Renkler.cerceve,
-                ),
+        return UcdButon(
+          onTap: onAc,
+          genislik: double.infinity,
+          koseYaricapi: 14,
+          dolgu: const EdgeInsets.all(12),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: kayit != null
+                    ? Colors.orangeAccent.withValues(alpha: 0.5)
+                    : Renkler.cerceve,
               ),
-              child: Row(
-                children: [
-                  UcdIkon(
-                    ikon: kayit != null ? Icons.alarm_on : Icons.alarm_add,
-                    renk: kayit != null ? Colors.orangeAccent : Colors.white38,
-                    boyut: 20,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      kayit != null
-                          ? l.t('dd.reminderActive')
-                              .replaceFirst('{time}', kayit.saatYaz)
-                              .replaceFirst(
-                                '{days}',
-                                kayit.gunler.isEmpty
-                                    ? l.t('dd.everyDay')
-                                    : kayit.gunlerYaz,
-                              )
-                          : l.t('dd.reminderPrompt'),
-                      style: TextStyle(
-                        color: kayit != null
-                            ? Colors.orangeAccent
-                            : Colors.white54,
-                        fontSize: 12.5,
-                        fontWeight: kayit != null
-                            ? FontWeight.w600
-                            : FontWeight.normal,
-                      ),
+            ),
+            child: Row(
+              children: [
+                UcdIkon(
+                  ikon: kayit != null ? Icons.alarm_on : Icons.alarm_add,
+                  renk: kayit != null ? Colors.orangeAccent : Colors.white38,
+                  boyut: 20,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    kayit != null
+                        ? l.t('dd.reminderActive')
+                            .replaceFirst('{time}', kayit.saatYaz)
+                            .replaceFirst(
+                              '{days}',
+                              kayit.gunler.isEmpty
+                                  ? l.t('dd.everyDay')
+                                  : kayit.gunlerYaz,
+                            )
+                        : l.t('dd.reminderPrompt'),
+                    style: TextStyle(
+                      color: kayit != null
+                          ? Colors.orangeAccent
+                          : Colors.white54,
+                      fontSize: 12.5,
+                      fontWeight: kayit != null
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                     ),
                   ),
-                  UcdIkon(ikon: Icons.chevron_right, renk: Colors.white30),
-                ],
-              ),
+                ),
+                UcdIkon(ikon: Icons.chevron_right, renk: Colors.white30),
+              ],
             ),
           ),
         );

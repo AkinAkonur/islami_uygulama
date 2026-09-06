@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../services/ummet_verileri.dart';
+import '../widgets/altin_tactile.dart';
 import 'ummet/dua_duvari_page.dart';
 import 'ummet/dua_zincirleri_page.dart';
 import 'ummet/dua_odalari_page.dart';
@@ -402,39 +403,33 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
 
   Widget _miniSayac(IconData ikon, String etiket, String deger, Color renk,
       VoidCallback onTap) {
-    return GestureDetector(
+    return UcdButon(
       onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.cerceve),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                UcdIkon(ikon: ikon, renk: renk, boyut: 16),
-                SizedBox(width: 6),
-                Text(
-                  etiket,
-                  style: TextStyle(color: Colors.white54, fontSize: 10),
-                ),
-              ],
-            ),
-            SizedBox(height: 6),
-            Text(
-              deger,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
+      koseYaricapi: 16,
+      dolgu: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              UcdIkon(ikon: ikon, renk: renk, boyut: 16),
+              SizedBox(width: 6),
+              Text(
+                etiket,
+                style: TextStyle(color: Colors.white54, fontSize: 10),
               ),
+            ],
+          ),
+          SizedBox(height: 6),
+          Text(
+            deger,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -469,6 +464,7 @@ class _UmmetBolumuPageState extends State<UmmetBolumuPage> {
     VoidCallback onTap,
   ) {
     return Card(
+      elevation: 0,
       color: Renkler.kart,
       margin: EdgeInsets.only(bottom: 10),
       shape: RoundedRectangleBorder(

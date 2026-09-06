@@ -5,6 +5,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/dil_hizmetleri.dart';
 import '../services/gemini_servisi.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 /// Dokunma imlecine göre X/Y ekseninde perspektifli olarak eğilen 3D kart.
@@ -198,18 +199,6 @@ class _CamKart extends StatelessWidget {
           color: Renkler.cerceve2.withValues(alpha: 0.8),
           width: 0.8,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Renkler.vurgu.withValues(alpha: 0.12),
-            blurRadius: 22,
-            offset: const Offset(0, 10),
-          ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 18,
-            offset: const Offset(0, 6),
-          ),
-        ],
       ),
       child: Stack(
         children: [
@@ -482,13 +471,6 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                       ],
                     ),
                     borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Renkler.vurgu.withValues(alpha: 0.4),
-                        blurRadius: 12,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -543,15 +525,8 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                           Container(
                             width: 64,
                             height: 64,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color:
-                                      Renkler.vurgu.withValues(alpha: 0.35),
-                                  blurRadius: 24,
-                                ),
-                              ],
                             ),
                           ),
                           CircularProgressIndicator(color: Renkler.vurgu),
@@ -597,12 +572,6 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                     gradient: LinearGradient(
                       colors: [Renkler.vurgu, Renkler.bannerAlt],
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Renkler.vurgu.withValues(alpha: 0.4),
-                        blurRadius: 10,
-                      ),
-                    ],
                   ),
                   child: UcdIkon(ikon: Icons.shield_rounded,
                       renk: Colors.white, boyut: 18),
@@ -647,74 +616,33 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
               final isSelected = kategori.kod == _seciliKategori;
               return _TiltKart(
                 maxTilt: 0.18,
-                child: GestureDetector(
+                child: UcdButon(
                   onTap: () => setState(() => _seciliKategori = kategori.kod),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 220),
-                    curve: Curves.easeOutBack,
-                    margin: EdgeInsets.only(right: 8),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    decoration: BoxDecoration(
-                      gradient: isSelected
-                          ? LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Renkler.vurgu,
-                                Renkler.bannerAlt.withValues(alpha: 0.95),
-                              ],
-                            )
-                          : null,
-                      color: isSelected
-                          ? null
-                          : Renkler.kart.withValues(alpha: 0.85),
-                      borderRadius: BorderRadius.circular(22),
-                      border: Border.all(
-                        color: isSelected
-                            ? Renkler.acikVurgu.withValues(alpha: 0.8)
-                            : Renkler.cerceve2,
+                  basili: isSelected,
+                  koseYaricapi: 22,
+                  dolgu:
+                      EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      UcdIkon(
+                        ikon: kategori.ikon,
+                        renk: isSelected ? Colors.white : Renkler.acikVurgu,
+                        boyut: 16,
                       ),
-                      boxShadow: isSelected
-                          ? [
-                              BoxShadow(
-                                color:
-                                    Renkler.vurgu.withValues(alpha: 0.45),
-                                blurRadius: 16,
-                                spreadRadius: 1,
-                                offset: const Offset(0, 5),
-                              ),
-                            ]
-                          : [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.25),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        UcdIkon(
-                          ikon: kategori.ikon,
-                          renk: isSelected ? Colors.white : Renkler.acikVurgu,
-                          boyut: 16,
+                      SizedBox(width: 6),
+                      Text(
+                        l.t('ai.c.${kategori.kod}'),
+                        style: TextStyle(
+                          color:
+                              isSelected ? Colors.white : Colors.white70,
+                          fontSize: 13,
+                          fontWeight: isSelected
+                              ? FontWeight.w700
+                              : FontWeight.w500,
                         ),
-                        SizedBox(width: 6),
-                        Text(
-                          l.t('ai.c.${kategori.kod}'),
-                          style: TextStyle(
-                            color:
-                                isSelected ? Colors.white : Colors.white70,
-                            fontSize: 13,
-                            fontWeight: isSelected
-                                ? FontWeight.w700
-                                : FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -771,44 +699,25 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                     SizedBox(width: 8),
                     _TiltKart(
                       maxTilt: 0.16,
-                      child: GestureDetector(
-                        onTap: _isLoading
+                      child: IconButton(
+                        onPressed: _isLoading
                             ? null
                             : () => _askAi(_queryController.text),
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 200),
-                          width: 46,
-                          height: 46,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Renkler.vurgu,
-                                Renkler.bannerAlt,
-                              ],
-                            ),
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Renkler.vurgu.withValues(alpha: 0.5),
-                                blurRadius: 14,
-                                spreadRadius: 1,
-                                offset: const Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                          child: _isLoading
-                              ? Padding(
-                                  padding: EdgeInsets.all(12),
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.5,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : UcdIkon(ikon: Icons.keyboard_arrow_up_rounded,
-                                   renk: Colors.white, boyut: 22),
+                        style: IconButton.styleFrom(
+                          minimumSize: const Size(46, 46),
+                          padding: EdgeInsets.zero,
                         ),
+                        icon: _isLoading
+                            ? SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : UcdIkon(ikon: Icons.keyboard_arrow_up_rounded,
+                                 renk: Colors.white, boyut: 22),
                       ),
                     ),
                   ],
@@ -847,7 +756,7 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                 child: ActionChip(
                   backgroundColor: Renkler.kart.withValues(alpha: 0.85),
                   side: BorderSide(color: Renkler.cerceve2),
-                  elevation: 3,
+                  elevation: 0,
                   avatar: Container(
                     width: 22,
                     height: 22,
@@ -896,12 +805,6 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                 gradient: LinearGradient(
                   colors: [Renkler.vurgu, Renkler.bannerAlt],
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Renkler.vurgu.withValues(alpha: 0.4),
-                    blurRadius: 12,
-                  ),
-                ],
               ),
               child: UcdIkon(ikon: Icons.key_off_rounded, renk: Colors.white, boyut: 20),
             ),
@@ -950,14 +853,7 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
             ],
           ),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.redAccent.withValues(alpha: 0.6)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.redAccent.withValues(alpha: 0.2),
-              blurRadius: 18,
-              offset: const Offset(0, 6),
-            ),
-          ],
+                  border: Border.all(color: Colors.redAccent.withValues(alpha: 0.6)),
         ),
         child: Row(
           children: [
@@ -1011,13 +907,6 @@ class _AiTefsirPageState extends State<AiTefsirPage> {
                           end: Alignment.bottomRight,
                           colors: [Renkler.vurgu, Renkler.bannerAlt],
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Renkler.vurgu.withValues(alpha: 0.5),
-                            blurRadius: 14,
-                            spreadRadius: 1,
-                          ),
-                        ],
                       ),
                       child: UcdIkon(ikon: Icons.auto_awesome,
                           renk: Colors.white, boyut: 20),

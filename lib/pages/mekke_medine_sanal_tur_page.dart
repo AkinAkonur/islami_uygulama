@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 class SanalTurNoktasi {
@@ -287,15 +288,16 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
     bool canli = false,
     String canliEtiket = '',
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.cerceve),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: UcdButon(
+        onTap: onTap,
+        koseYaricapi: 16,
+        dolgu: const EdgeInsets.all(14),
+        zeminler: LinearGradient(
+          colors: [Renkler.kart, Renkler.kart],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         child: Row(
           children: [
@@ -375,15 +377,16 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
   }
 
   Widget _mekanKarti(BuildContext context, MekanKaydi mekan) {
-    return GestureDetector(
-      onTap: () => _haritadaAc(context, mekan),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.cerceve),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: UcdButon(
+        onTap: () => _haritadaAc(context, mekan),
+        koseYaricapi: 16,
+        dolgu: const EdgeInsets.all(12),
+        zeminler: LinearGradient(
+          colors: [Renkler.kart, Renkler.kart],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         child: Row(
           children: [

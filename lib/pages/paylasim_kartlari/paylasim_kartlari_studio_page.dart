@@ -13,6 +13,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../widgets/kart_sekilleri.dart';
+import '../../widgets/altin_tactile.dart';
 import 'paylasim_kartlari_verileri.dart';
 
 class PaylasimKartlariStudioPage extends StatefulWidget {
@@ -337,34 +338,31 @@ class _FormatSecici extends StatelessWidget {
         children: [
           for (final f in KartFormat.values)
             Expanded(
-              child: GestureDetector(
+              child: UcdButon(
                 onTap: () => onDegis(f),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: format == f ? Renkler.vurgu : Colors.transparent,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      UcdIkon(
-                        ikon: f.ikon,
-                        renk: format == f ? Colors.black : Colors.white70,
-                        boyut: 16,
+                basili: format == f,
+                isik: false,
+                genislik: double.infinity,
+                koseYaricapi: 12,
+                dolgu: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    UcdIkon(
+                      ikon: f.ikon,
+                      renk: format == f ? Colors.black : Colors.white70,
+                      boyut: 16,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      f.ad,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: format == f ? Colors.black : Colors.white70,
                       ),
-                      const SizedBox(width: 6),
-                      Text(
-                        f.ad,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: format == f ? Colors.black : Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -477,13 +475,7 @@ class _PaylasimKarti extends StatelessWidget {
           color: tema.ornament.withValues(alpha: 0.35),
           width: 1.2,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 22,
-            offset: const Offset(0, 10),
-          ),
-        ],
+
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(kare ? 22 : 28),
@@ -786,25 +778,18 @@ class _TemaSecici extends StatelessWidget {
             itemBuilder: (context, index) {
               final tema = kartTemalari[index];
               final secili = index == seciliIndex;
-              return GestureDetector(
-                onTap: () => onSec(index),
-                child: Container(
-                  width: 92,
-                  margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: tema.gradient,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: secili
-                          ? Renkler.vurgu
-                          : Colors.white.withValues(alpha: 0.15),
-                      width: secili ? 2 : 1,
-                    ),
+              return Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: UcdButon(
+                  onTap: () => onSec(index),
+                  basili: secili,
+                  genislik: 92,
+                  koseYaricapi: 14,
+                  dolgu: const EdgeInsets.all(8),
+                  zeminler: LinearGradient(
+                    colors: tema.gradient,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -986,57 +971,47 @@ class _IcerikSecici extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        Material(
-          color: ozelMod ? Renkler.seciliYuzey : Renkler.kart,
-          borderRadius: BorderRadius.circular(14),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(14),
-            onTap: () => onOzelGec(!ozelMod),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: ozelMod ? Renkler.vurgu : Renkler.cerceve,
-                  width: ozelMod ? 1.6 : 1,
+        UcdButon(
+          onTap: () => onOzelGec(!ozelMod),
+          basili: ozelMod,
+          genislik: double.infinity,
+          isik: false,
+          koseYaricapi: 14,
+          dolgu: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Row(
+            children: [
+              UcdIkon(
+                ikon: Icons.edit_note_rounded,
+                renk: ozelMod ? Renkler.vurgu : Colors.white70,
+                boyut: 22,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l.t('pks.writeOwn'),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      l.t('pks.writeOwnSub'),
+                      style: const TextStyle(color: Colors.white54, fontSize: 11),
+                    ),
+                  ],
                 ),
               ),
-              child: Row(
-                children: [
-                  UcdIkon(
-                    ikon: Icons.edit_note_rounded,
-                    renk: ozelMod ? Renkler.vurgu : Colors.white70,
-                    boyut: 22,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l.t('pks.writeOwn'),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          l.t('pks.writeOwnSub'),
-                          style: const TextStyle(color: Colors.white54, fontSize: 11),
-                        ),
-                      ],
-                    ),
-                  ),
-                  UcdIkon(
-                    ikon: ozelMod ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
-                    renk: ozelMod ? Renkler.vurgu : Colors.white38,
-                    boyut: 20,
-                  ),
-                ],
+              UcdIkon(
+                ikon: ozelMod ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
+                renk: ozelMod ? Renkler.vurgu : Colors.white38,
+                boyut: 20,
               ),
-            ),
+            ],
           ),
         ),
         const SizedBox(height: 10),
@@ -1074,20 +1049,14 @@ class _IcerikSecici extends StatelessWidget {
               itemBuilder: (context, index) {
                 final icerik = liste[index];
                 final secili = icerik.id == seciliId;
-                return GestureDetector(
-                  onTap: () => onSec(icerik),
-                  child: Container(
-                    width: 200,
-                    margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: secili ? Renkler.seciliYuzey : Renkler.kart,
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                        color: secili ? Renkler.vurgu : Renkler.cerceve,
-                        width: secili ? 1.6 : 1,
-                      ),
-                    ),
+                return Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: UcdButon(
+                    onTap: () => onSec(icerik),
+                    basili: secili,
+                    genislik: 200,
+                    koseYaricapi: 14,
+                    dolgu: const EdgeInsets.all(10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

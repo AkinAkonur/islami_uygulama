@@ -182,13 +182,6 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
         ),
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: anaRenk.withValues(alpha: .45)),
-        boxShadow: [
-          BoxShadow(
-            color: anaRenk.withValues(alpha: hizali ? .30 : .10),
-            blurRadius: 22,
-            offset: const Offset(0, 6),
-          ),
-        ],
       ),
       child: Row(
         children: [
@@ -262,13 +255,6 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
         border: Border.all(
           color: const Color(0xFFDDBB55).withValues(alpha: .35),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: .4),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
       ),
       child: Column(
         children: [
@@ -491,17 +477,8 @@ class _Pusula3DState extends State<_Pusula3D> {
             duration: const Duration(milliseconds: 400),
             width: widget.hizali ? 322 : 250,
             height: widget.hizali ? 322 : 250,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF54D780).withValues(
-                    alpha: widget.hizali ? .45 : 0,
-                  ),
-                  blurRadius: 70,
-                  spreadRadius: 6,
-                ),
-              ],
             ),
           ),
           // Dış bezel (3D derinlik)
@@ -518,18 +495,6 @@ class _Pusula3DState extends State<_Pusula3D> {
                 color: const Color(0xFF82A88F),
                 width: 2.5,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: .65),
-                  blurRadius: 32,
-                  offset: const Offset(10, 16),
-                ),
-                BoxShadow(
-                  color: const Color(0xFF4E7A5C).withValues(alpha: .35),
-                  blurRadius: 20,
-                  offset: const Offset(-8, -8),
-                ),
-              ],
             ),
           ),
           // Kadran halkası
@@ -543,18 +508,6 @@ class _Pusula3DState extends State<_Pusula3D> {
                 color: Colors.black.withValues(alpha: .55),
                 width: 1.5,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: .6),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-                BoxShadow(
-                  color: Colors.white.withValues(alpha: .04),
-                  blurRadius: 2,
-                  offset: const Offset(-1, -1),
-                ),
-              ],
             ),
           ),
           const _Kadran(),
@@ -579,13 +532,6 @@ class _Pusula3DState extends State<_Pusula3D> {
               border: Border.all(
                 color: Colors.black.withValues(alpha: .4),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: .5),
-                  blurRadius: 6,
-                  offset: const Offset(0, 2),
-                ),
-              ],
             ),
           ),
         ],
@@ -730,10 +676,6 @@ class _IbrePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final merkez = size.center(Offset.zero);
 
-    // İbre gövdesi (ok şekli) yukarı bakar
-    final golge = Paint()
-      ..color = Colors.black.withValues(alpha: .5)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 7);
     final okYolu = Path()
       ..moveTo(merkez.dx, merkez.dy - 78)
       ..lineTo(merkez.dx + 19, merkez.dy - 34)
@@ -742,16 +684,6 @@ class _IbrePainter extends CustomPainter {
       ..lineTo(merkez.dx - 13, merkez.dy + 42)
       ..lineTo(merkez.dx - 19, merkez.dy - 34)
       ..close();
-
-    // Parıltı efekti
-    final glow = Paint()
-      ..color = renk.withValues(alpha: .45)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
-    canvas.drawPath(okYolu, glow);
-
-    // Alt gölge (kaydırılmış kopya)
-    final golgeYolu = Path()..addPath(okYolu, const Offset(0, 6));
-    canvas.drawPath(golgeYolu, golge);
 
     // Ana gövde
     final govde = Paint()
@@ -808,19 +740,6 @@ class _Kaaba3DPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final cx = size.width / 2;
     final cy = size.height / 2 + 7;
-
-    // ---- Zemin gölgesi ----
-    canvas.drawOval(
-      Rect.fromCenter(center: Offset(cx, cy + 36), width: 70, height: 16),
-      Paint()..color = Colors.black.withValues(alpha: .45),
-    );
-
-    // ---- Yükselen parıltı ----
-    final glow = Paint()
-      ..color = (highlight ? const Color(0xFF70E495) : const Color(0xFFDDBB55))
-          .withValues(alpha: highlight ? .45 : .30)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 18);
-    canvas.drawCircle(Offset(cx, cy - 4), 48, glow);
 
     // ---- Mermer kaide (platform) ----
     final kaide = RRect.fromRectAndRadius(
@@ -918,7 +837,7 @@ class _Kaaba3DPainter extends CustomPainter {
       );
     }
 
-    // ---- Köşe gölgeleri (yumuşak 3D) ----
+    // ---- Köşe çizgileri ----
     final kenar = Paint()
       ..color = Colors.black.withValues(alpha: .6)
       ..strokeWidth = 1.4;

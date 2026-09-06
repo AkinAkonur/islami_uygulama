@@ -275,14 +275,7 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
               : Renkler.cerceve2,
           width: caliyorMu ? 1.4 : 1,
         ),
-        boxShadow: caliyorMu
-            ? [
-                BoxShadow(
-                  color: AltinTasarim.altin.withValues(alpha: 0.25),
-                  blurRadius: 12,
-                ),
-              ]
-            : null,
+        boxShadow: null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

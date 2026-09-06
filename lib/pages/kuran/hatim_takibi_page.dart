@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/kart_sekilleri.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/altin_tactile.dart';
 
 import 'sure_detay_page.dart';
 
@@ -611,37 +612,25 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
               final cuz = index + 1;
               final tamam = cuz < _aktifCuz;
               final aktif = cuz == _aktifCuz;
-              return InkWell(
-                borderRadius: BorderRadius.circular(99),
+              return UcdButon(
+                koseYaricapi: 999,
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => SureDetayPage(cuzNo: cuz)),
                 ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: tamam ? _mint : const Color(0xFF1B3022),
-                    border: aktif ? Border.all(color: _mint, width: 2) : null,
-                    boxShadow: (tamam || aktif)
-                        ? [
-                            BoxShadow(
-                              color: _mint.withValues(alpha: 0.25),
-                              blurRadius: 8,
-                            ),
-                          ]
-                        : null,
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$cuz',
-                    style: TextStyle(
-                      color: tamam
-                          ? const Color(0xFF0B150E)
-                          : aktif
-                          ? _mint
-                          : Colors.white38,
-                      fontWeight: FontWeight.w600,
-                    ),
+                basili: aktif,
+                genislik: double.infinity,
+                yukseklik: double.infinity,
+                dolgu: EdgeInsets.zero,
+                child: Text(
+                  '$cuz',
+                  style: TextStyle(
+                    color: tamam
+                        ? _mint
+                        : aktif
+                        ? _mint
+                        : Colors.white38,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               );
@@ -834,13 +823,7 @@ class _HatimTakibiPageState extends State<HatimTakibiPage> {
         color: _kart,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: borderColor ?? Colors.white10),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 18,
-            offset: Offset(0, 8),
-          ),
-        ],
+        boxShadow: const [],
       ),
       child: child,
     );

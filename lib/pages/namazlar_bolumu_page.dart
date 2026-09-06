@@ -6,6 +6,7 @@ import '../screens/wudu_screen.dart';
 import '../screens/qada_screen.dart';
 import '../screens/special_screen.dart';
 import '../screens/gorsel_kilinis_screen.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 // ===========================================================================
@@ -346,87 +347,60 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
   }
 
   Widget _moduleCard(IconData icon, String title, String subtitle, Widget page) {
-    return GestureDetector(
+    return UcdButon(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (_) => page));
       },
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [_cardTop, _cardDeep],
+      koseYaricapi: 16,
+      dolgu: const EdgeInsets.all(8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFFEED07A), Color(0xFF9A7B1E)],
+              ),
+
+            ),
+            child: UcdIkon(ikon: icon, renk: const Color(0xFF10201A), boyut: 20),
           ),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: _gold.withValues(alpha: 0.3)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.4),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
-            ),
-            BoxShadow(
-              color: _gold.withValues(alpha: 0.08),
-              blurRadius: 10,
-              offset: const Offset(0, 0),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFFEED07A), Color(0xFF9A7B1E)],
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: _gold.withValues(alpha: 0.45),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: UcdIkon(ikon: icon, renk: const Color(0xFF10201A), boyut: 20),
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Text(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 10,
-                  height: 1.2,
-                ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 10,
+                height: 1.2,
               ),
             ),
-            const SizedBox(height: 2),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Text(
-                subtitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.55),
-                  fontSize: 9,
-                ),
+          ),
+          const SizedBox(height: 2),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              subtitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.55),
+                fontSize: 9,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -543,39 +517,18 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
         ? const LinearGradient(colors: [_gold, Color(0xFFB8912B)])
         : const LinearGradient(colors: [Color(0xFF21382A), Color(0xFF15271C)]);
     final fg = filled ? const Color(0xFF12301F) : _gold;
-    return Material(
-      color: Colors.transparent,
-      child: Ink(
-        decoration: BoxDecoration(
-          gradient: bg,
-          borderRadius: BorderRadius.circular(14),
-          border: filled
-              ? null
-              : Border.all(color: _gold.withValues(alpha: 0.4)),
-          boxShadow: filled
-              ? [
-                  BoxShadow(
-                    color: _gold.withValues(alpha: 0.35),
-                    blurRadius: 16,
-                    offset: const Offset(0, 4),
-                  )
-                ]
-              : null,
-        ),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(14),
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            child: Text(
-              label,
-              style: TextStyle(
-                color: fg,
-                fontWeight: FontWeight.w700,
-                fontSize: 13,
-              ),
-            ),
-          ),
+    return UcdButon(
+      onTap: onTap,
+      basili: filled,
+      koseYaricapi: 14,
+      dolgu: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      zeminler: filled ? bg : null,
+      child: Text(
+        label,
+        style: TextStyle(
+          color: fg,
+          fontWeight: FontWeight.w700,
+          fontSize: 13,
         ),
       ),
     );
@@ -593,13 +546,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: _gold.withValues(alpha: 0.18)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 14,
-            offset: const Offset(0, 6),
-          ),
-        ],
+
       ),
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -695,20 +642,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
           end: Alignment.bottomRight,
           colors: gradientColors,
         ),
-        boxShadow: [
-          // Derinlik (3D) gölgesi
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.45),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-          // Altın ambiyans
-          BoxShadow(
-            color: _gold.withValues(alpha: 0.06),
-            blurRadius: 14,
-            offset: const Offset(0, 0),
-          ),
-        ],
+
       ),
       child: Stack(
         children: [
@@ -746,13 +680,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
           end: Alignment.bottomRight,
           colors: [Color(0xFFD4AF37), Color(0xFF9A7B1E)],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: _gold.withValues(alpha: 0.35),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
+
       ),
       child: UcdIkon(ikon: icon, renk: const Color(0xFF10201A), boyut: size),
     );
@@ -769,13 +697,7 @@ class _NamazlarBolumuPageState extends State<NamazlarBolumuPage> {
           end: Alignment.bottomRight,
           colors: [Color(0xFFD4AF37), Color(0xFF8F7218)],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: _gold.withValues(alpha: 0.4),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+
       ),
       child: UcdIkon(ikon: icon, renk: const Color(0xFF11230F), boyut: size),
     );

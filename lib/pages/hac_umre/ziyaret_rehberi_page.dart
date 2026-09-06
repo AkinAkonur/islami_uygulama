@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
+import '../../widgets/altin_tactile.dart';
 import 'hac_umre_verileri.dart';
 import 'ziyaret_verileri.dart';
 
@@ -104,37 +105,30 @@ class _BolumButonu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return UcdButon(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: secili ? Renkler.seciliYuzey : Renkler.kart,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: secili ? Renkler.vurgu.withValues(alpha: 0.5) : Renkler.cerceve,
+      basili: secili,
+      koseYaricapi: 12,
+      genislik: double.infinity,
+      dolgu: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            ad == 'Mekke' ? Icons.mosque_outlined : Icons.location_city,
+            color: secili ? Colors.white : Colors.white38,
+            size: 18,
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              ad == 'Mekke' ? Icons.mosque_outlined : Icons.location_city,
-              color: secili ? Renkler.vurgu : Colors.white38,
-              size: 18,
+          const SizedBox(width: 8),
+          Text(
+            ad,
+            style: TextStyle(
+              color: secili ? Colors.white : Colors.white54,
+              fontWeight: secili ? FontWeight.bold : FontWeight.normal,
+              fontSize: 14,
             ),
-            const SizedBox(width: 8),
-            Text(
-              ad,
-              style: TextStyle(
-                color: secili ? Colors.white : Colors.white54,
-                fontWeight: secili ? FontWeight.bold : FontWeight.normal,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -149,71 +143,66 @@ class _MekanKarti extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final renk = Renkler.vurgu;
-    return Card(
-      color: Renkler.kart,
-      margin: const EdgeInsets.only(bottom: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: UcdButon(
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Row(
-            children: [
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: renk.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Icon(_ikon(mekan.ikon), color: renk, size: 26),
+        dolgu: const EdgeInsets.all(14),
+        child: Row(
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: renk.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(14),
               ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      mekan.ad,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
+              child: Icon(_ikon(mekan.ikon), color: renk, size: 26),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    mekan.ad,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
                     ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.08),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            mekan.kategori,
-                            style: const TextStyle(
-                                color: Colors.white54, fontSize: 10),
-                          ),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      mekan.kisaAciklama,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: Colors.white54, fontSize: 12),
-                    ),
-                  ],
-                ),
+                        child: Text(
+                          mekan.kategori,
+                          style: const TextStyle(
+                              color: Colors.white54, fontSize: 10),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    mekan.kisaAciklama,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: Colors.white54, fontSize: 12),
+                  ),
+                ],
               ),
-              const Icon(Icons.chevron_right, color: Colors.white24),
-            ],
-          ),
+            ),
+            const Icon(Icons.chevron_right, color: Colors.white24),
+          ],
         ),
       ),
     );

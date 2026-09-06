@@ -157,12 +157,16 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
                         style: TextStyle(color: Renkler.vurgu, fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                       Spacer(),
-                      GestureDetector(
-                        onTap: () => Navigator.push(
+                      IconButton(
+                        onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(builder: (_) => AyetAramaPage()),
                         ),
-                        child: UcdIkon(ikon: Icons.search_rounded, renk: Colors.white38, boyut: 20),
+                        icon: UcdIkon(ikon: Icons.search_rounded, renk: Colors.white38, boyut: 20),
+                        style: IconButton.styleFrom(
+                          minimumSize: Size(40, 40),
+                          padding: EdgeInsets.all(6),
+                        ),
                       ),
                     ],
                   ),

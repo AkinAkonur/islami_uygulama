@@ -3,6 +3,7 @@ import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/kuran_api.dart';
 import '../../services/kuran_verileri.dart';
+import '../../widgets/altin_tactile.dart';
 import 'sure_detay_page.dart';
 
 class TematikAyetlerPage extends StatefulWidget {
@@ -165,14 +166,23 @@ class _TematikAyetlerPageState extends State<TematikAyetlerPage> {
                     style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
-                  GestureDetector(
+                  UcdButon(
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => SureDetayPage(sureNo: ayet.sureNo)),
                     ),
+                    koseYaricapi: 10,
+                    dolgu: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
                     child: Text(
                       l.t('ta.openSurah'),
-                      style: const TextStyle(color: Colors.white38, fontSize: 11, decoration: TextDecoration.underline),
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 11,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ],

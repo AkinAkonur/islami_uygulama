@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
@@ -188,13 +189,7 @@ class _TesbihPageState extends State<TesbihPage>
         color: Renkler.kart.withValues(alpha: 0.92),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Renkler.vurgu.withValues(alpha: 0.35)),
-        boxShadow: [
-          BoxShadow(
-            color: Renkler.vurgu.withValues(alpha: 0.12),
-            blurRadius: 18,
-            offset: const Offset(0, 6),
-          ),
-        ],
+
       ),
       child: Row(
         children: [
@@ -275,39 +270,15 @@ class _TesbihPageState extends State<TesbihPage>
                 painter: _BoncukHalkasiPainter(oran: oran),
               ),
               // 3D tespih topuzu
-              GestureDetector(
+              UcdButon(
                 onTap: _increment,
-                child: Container(
-                  width: 218,
-                  height: 218,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Renkler.vurgu, Renkler.zemin],
-                    ),
-                    boxShadow: [
-                      // Dışa doğru derin gölge (3D kalkıklık)
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.55),
-                        blurRadius: 34,
-                        offset: const Offset(12, 18),
-                      ),
-                      BoxShadow(
-                        color: Renkler.vurgu.withValues(alpha: 0.45),
-                        blurRadius: 26,
-                        offset: const Offset(-6, -6),
-                      ),
-                    ],
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.22),
-                      width: 2,
-                    ),
-                  ),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
+                koseYaricapi: 999,
+                genislik: 218,
+                yukseklik: 218,
+                dolgu: EdgeInsets.zero,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
                       // Üst parlama (glass highlight)
                       Positioned(
                         top: 0,
@@ -348,13 +319,6 @@ gradient: LinearGradient(
                               fontSize: 68,
                               fontWeight: FontWeight.w800,
                               height: 1.0,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black54,
-                                  blurRadius: 10,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -369,7 +333,6 @@ gradient: LinearGradient(
                         ],
                       ),
                     ],
-                  ),
                 ),
               ),
             ],
@@ -458,8 +421,7 @@ class _BoncukHalkasiPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
     final doluBoncuk = Paint()
       ..color = const Color(0xFFEED07A)
-      ..style = PaintingStyle.fill
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
+      ..style = PaintingStyle.fill;
     final doluParil = Paint()
       ..color = Colors.white.withValues(alpha: 0.9)
       ..style = PaintingStyle.fill;

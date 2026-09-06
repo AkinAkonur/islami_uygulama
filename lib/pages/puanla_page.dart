@@ -238,18 +238,19 @@ class _PuanlaSayfasiState extends State<PuanlaSayfasi> {
 
   Widget _yildiz(int deger) {
     final dolmus = _seciliPuan != null && deger <= _seciliPuan!;
-    return GestureDetector(
-      onTap: () => setState(() {
+    return IconButton(
+      onPressed: () => setState(() {
         _seciliPuan = deger;
         _gonderildi = false;
       }),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 6),
-        child: Icon(
-          dolmus ? Icons.star_rounded : Icons.star_outline_rounded,
-          size: 40,
-          color: dolmus ? Renkler.vurgu : Renkler.cerceve,
-        ),
+      icon: Icon(
+        dolmus ? Icons.star_rounded : Icons.star_outline_rounded,
+        size: 40,
+        color: dolmus ? const Color(0xFFF0C030) : Renkler.cerceve,
+      ),
+      style: IconButton.styleFrom(
+        minimumSize: const Size(40, 40),
+        padding: const EdgeInsets.all(6),
       ),
     );
   }

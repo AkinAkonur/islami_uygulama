@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/altin_tactile.dart';
 
 class HatimHalkalariPage extends StatefulWidget {
   const HatimHalkalariPage({super.key});
@@ -172,47 +173,38 @@ class _HatimHalkalariPageState extends State<HatimHalkalariPage> {
     final onKatilim = hatimOnKatilim[cuzNo];
     final tamamlandi = onKatilim == null && !bende && cuzNo % 3 == 0;
 
-    return GestureDetector(
+    return UcdButon(
       onTap: () => _cuzTikla(cuzNo),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: bende
-                ? Renkler.vurgu
-                : tamamlandi
-                    ? Renkler.acikVurgu.withValues(alpha: 0.5)
-                    : Renkler.cerceve,
-            width: bende ? 2 : 1,
+      basili: bende,
+      koseYaricapi: 12,
+      genislik: double.infinity,
+      yukseklik: double.infinity,
+      dolgu: EdgeInsets.zero,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '$cuzNo',
+            style: TextStyle(
+              color: bende ? Renkler.vurgu : Colors.white70,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '$cuzNo',
-              style: TextStyle(
-                color: bende ? Renkler.vurgu : Colors.white70,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+          SizedBox(height: 2),
+          Text(
+            bende ? l.t('hh.mine') : (tamamlandi ? '✓' : (onKatilim != null ? '…' : '+')),
+            style: TextStyle(
+              color: bende
+                  ? Renkler.vurgu
+                  : tamamlandi
+                      ? Renkler.acikVurgu
+                      : Colors.white38,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
             ),
-            SizedBox(height: 2),
-            Text(
-              bende ? l.t('hh.mine') : (tamamlandi ? '✓' : (onKatilim != null ? '…' : '+')),
-              style: TextStyle(
-                color: bende
-                    ? Renkler.vurgu
-                    : tamamlandi
-                        ? Renkler.acikVurgu
-                        : Colors.white38,
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

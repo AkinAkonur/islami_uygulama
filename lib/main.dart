@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
@@ -15,6 +14,7 @@ import 'services/ayarlar_store.dart';
 import 'services/bildirim_merkezi.dart';
 import 'services/vakit_servisi.dart';
 import 'services/gercek_bildirimler.dart';
+import 'tema.dart';
 import 'pages/huzurlu_page.dart';
 import 'pages/sukur_page.dart';
 import 'pages/yorgun_page.dart';
@@ -47,7 +47,6 @@ import 'services/muzik_handler.dart';
 import 'services/medya_kapak.dart';
 import 'widgets/radyo_mini_oynatici.dart';
 import 'widgets/kart_sekilleri.dart';
-import 'widgets/ucd_kart.dart';
 import 'screens/namaz_screen.dart';
 import 'screens/gorsel_kilinis_screen.dart';
 import 'pages/kuran/sure_listesi_page.dart';
@@ -191,16 +190,12 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            theme: ThemeData(
-              brightness: Brightness.light,
-              scaffoldBackgroundColor: const Color(0xFFF3F6F2),
-              fontFamily: 'Roboto',
-            ),
-            darkTheme: ThemeData(
-              brightness: Brightness.dark,
-              scaffoldBackgroundColor: Renkler.zemin,
-              fontFamily: 'Roboto',
-            ),
+            builder: (context, child) {
+              Tema.sistemCubuklari(karanlik: karanlik);
+              return child!;
+            },
+            theme: Tema.kur(karanlik: false),
+            darkTheme: Tema.kur(karanlik: true),
             themeMode: karanlik ? ThemeMode.dark : ThemeMode.light,
             home: AnaSayfa(),
           ),
@@ -312,11 +307,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
               const SizedBox(height: 28),
 
               // ═══ 6. RAMAZAN BANNER ═══
-              UcdKart(
-                radius: 18,
-                sekil: KartSekli.kose,
-                child: RamazanBanner(),
-              ),
+              RamazanBanner(),
               const SizedBox(height: 28),
 
               // ═══ 7. KEŞFET & MODÜLLER ═══
@@ -406,7 +397,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
     return Row(
       children: [
         Expanded(
-          child: GestureDetector(
+          child: InkWell(
             onTap: _profilAc,
             child: Row(
               children: [
@@ -447,24 +438,15 @@ class _AnaSayfaState extends State<AnaSayfa> {
         ),
 
         // Bildirim
-        UcdKart(
-          radius: 22,
-          maxTilt: 0.16,
-          sekil: KartSekli.yuvar,
-          child: _BildirimZili(),
-        ),
+        _BildirimZili(),
         const SizedBox(width: 8),
         // Ayarlar
-        UcdKart(
-          radius: 22,
-          maxTilt: 0.16,
-          sekil: KartSekli.yuvar,
-          child: GestureDetector(
-            onTap: _ayarlarAc,
-            child: _yuvarZemin(
-              boyut: 44,
-              child: UcdIkon(ikon: Icons.settings_outlined, renk: Colors.white, boyut: 20),
-            ),
+        IconButton(
+          onPressed: _ayarlarAc,
+          icon: UcdIkon(ikon: Icons.settings_outlined, renk: Colors.white, boyut: 20),
+          style: IconButton.styleFrom(
+            minimumSize: const Size(40, 40),
+            padding: const EdgeInsets.all(6),
           ),
         ),
       ],
@@ -475,50 +457,54 @@ class _AnaSayfaState extends State<AnaSayfa> {
   // HIZLI EYLEM ÇUBUĞU (Glassmorphic Dairesel Butonlar)
   // ────────────────────────────────────────────────────────────
   Widget _buildQuickActions(BuildContext context, AppLocalizations l) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: Renkler.kart.withValues(alpha: 0.7),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Renkler.cerceve.withValues(alpha: 0.5)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
           Expanded(
-            child: _QuickAction(
-              ikon: Icons.menu_book_outlined,
-              renk: Renkler.vurgu,
-              label: l.t('h.navKuran'),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KuranBolumuPage())),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
+              child: _QuickAction(
+                ikon: Icons.menu_book_outlined,
+                renk: Renkler.vurgu,
+                label: l.t('h.navKuran'),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KuranBolumuPage())),
+              ),
             ),
           ),
           Expanded(
-            child: _QuickAction(
-              ikon: Icons.explore_outlined,
-              renk: Renkler.acikVurgu,
-              label: l.t('mod.pusulaAlt'),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
+              child: _QuickAction(
+                ikon: Icons.explore_outlined,
+                renk: Renkler.acikVurgu,
+                label: l.t('mod.pusulaAlt'),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+              ),
             ),
           ),
           Expanded(
-            child: _QuickAction(
-              ikon: Icons.radio_button_checked,
-              renk: Renkler.vurgu,
-              label: l.t('mod.hizli'),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
+              child: _QuickAction(
+                ikon: Icons.radio_button_checked,
+                renk: Renkler.vurgu,
+                label: l.t('mod.hizli'),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TesbihPage())),
+              ),
             ),
           ),
           Expanded(
-            child: _QuickAction(
-              ikon: Icons.pan_tool_alt_outlined,
-              renk: Renkler.acikVurgu,
-              label: l.t('h.duas'),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DualarPage())),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
+              child: _QuickAction(
+                ikon: Icons.pan_tool_alt_outlined,
+                renk: Renkler.acikVurgu,
+                label: l.t('h.duas'),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DualarPage())),
+              ),
             ),
           ),
         ],
-      ),
     );
   }
 
@@ -631,51 +617,38 @@ class _AnaSayfaState extends State<AnaSayfa> {
   // KIBLE KARTI
   // ────────────────────────────────────────────────────────────
   Widget _buildKibleCard(BuildContext context, AppLocalizations l) {
-    return UcdKart(
-      radius: 16,
-      sekil: KartSekli.yuvar,
-      child: GestureDetector(
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          decoration: BoxDecoration(
-            color: Renkler.yuzey,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Renkler.cerceve2),
+    return InkWell(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KiblePusulaPage())),
+      child: Row(
+        children: [
+          UcdIkon(
+            ikon: Icons.explore_outlined,
+            renk: Renkler.vurgu,
+            boyut: 34,
           ),
-          child: Row(
-            children: [
-              SekilPlaka(
-                sekil: PlakaSekli.daire,
-                ikon: Icons.explore_outlined,
-                ikonRenk: Renkler.vurgu,
-                boyut: 38,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l.t('h.qiblaDir'),
-                      style: TextStyle(color: Renkler.vurgu, fontSize: 10, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      l.t('h.kaaba'),
-                      style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    const _KibleOzeti(),
-                  ],
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l.t('h.qiblaDir'),
+                  style: TextStyle(color: Renkler.vurgu, fontSize: 10, fontWeight: FontWeight.bold),
                 ),
-              ),
-              const Icon(Icons.chevron_right, color: Colors.white38, size: 18),
-            ],
+                const SizedBox(height: 2),
+                Text(
+                  l.t('h.kaaba'),
+                  style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                const _KibleOzeti(),
+              ],
+            ),
           ),
-        ),
+          const Icon(Icons.chevron_right, color: Colors.white38, size: 18),
+        ],
       ),
     );
   }
@@ -698,28 +671,15 @@ class _AnaSayfaState extends State<AnaSayfa> {
   // DAHA FAZLA BUTONU
   // ────────────────────────────────────────────────────────────
   Widget _buildDahaFazlaButton(BuildContext context, AppLocalizations l) {
-    return UcdKart(
-      radius: 20,
-      maxTilt: 0.09,
-      sekil: KartSekli.kose,
-      child: GestureDetector(
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DahaFazlaPage())),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          decoration: BoxDecoration(
-            color: Renkler.kart,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Renkler.cerceve),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(l.t('h.more'), style: const TextStyle(color: Colors.white70, fontSize: 13)),
-              const SizedBox(width: 4),
-              const Icon(Icons.chevron_right, color: Colors.white54, size: 16),
-            ],
-          ),
-        ),
+    return InkWell(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DahaFazlaPage())),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(l.t('h.more'), style: const TextStyle(color: Colors.white70, fontSize: 13)),
+          const SizedBox(width: 4),
+          const Icon(Icons.chevron_right, color: Colors.white54, size: 16),
+        ],
       ),
     );
   }
@@ -730,16 +690,10 @@ class _AnaSayfaState extends State<AnaSayfa> {
     String text,
     Widget targetPage,
   ) {
-    return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => targetPage)),
-      child: Container(
-        margin: const EdgeInsets.only(right: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Renkler.cerceve),
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(right: 16),
+      child: GestureDetector(
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => targetPage)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -764,36 +718,28 @@ class _AnaSayfaState extends State<AnaSayfa> {
     IconData icon,
     String label,
     Color iconColor,
-    Widget targetPage, {
-    KartSekli kartSekli = KartSekli.klasik,
-    PlakaSekli plakaSekli = PlakaSekli.daire,
-  }) {
-    final ikonMenu = GestureDetector(
+    Widget targetPage,
+  ) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => targetPage),
         );
       },
-      child: Column(
-        children: [
-          UcdKart(
-            radius: 20,
-            maxTilt: 0.09,
-            sekil: kartSekli,
-            child: SekilPlaka(
-              sekil: plakaSekli,
-              ikon: icon,
-              ikonRenk: iconColor,
-              boyut: 60,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(label, style: TextStyle(color: Colors.white70, fontSize: 12)),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            UcdIkon(ikon: icon, renk: iconColor, boyut: 56),
+            const SizedBox(height: 8),
+            Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          ],
+        ),
       ),
     );
-    return UcdKart(radius: 20, maxTilt: 0.09, child: ikonMenu);
   }
 }
 
@@ -877,254 +823,223 @@ class _HeroVakitKartiState extends State<_HeroVakitKarti> {
     );
     final l = AppLocalizations.of(context);
 
-    return GestureDetector(
+    return InkWell(
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const NamazScreen()),
       ),
-      child: UcdKart(
-        radius: 24,
-        maxTilt: 0.08,
-        sekil: KartSekli.kose,
-        child: Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Renkler.bannerUst, Renkler.bannerAlt],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+      child: Stack(
+        children: [
+          // Dekoratif kubbe silüeti
+          Positioned(
+            top: -40,
+            right: -20,
+            width: 140,
+            height: 110,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.04),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(70),
+                ),
+              ),
             ),
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Renkler.vurgu.withValues(alpha: 0.20),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-              ),
-            ],
           ),
-          child: Stack(
-            children: [
-              // Dekoratif kubbe silüeti
-              Positioned(
-                top: -40,
-                right: -20,
-                width: 140,
-                height: 110,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.04),
-                    borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(70),
-                    ),
+            // Büyük su-ikoni
+            Positioned(
+              right: -12,
+              top: -10,
+              child: Icon(vakitIkon, size: 100, color: Colors.white.withValues(alpha: 0.06)),
+            ),
+            // Işık yayılımı
+            Positioned(
+              top: -60,
+              left: -30,
+              width: 200,
+              height: 200,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      Colors.white.withValues(alpha: 0.10),
+                      Colors.white.withValues(alpha: 0.0),
+                    ],
                   ),
                 ),
               ),
-              // Büyük su-ikoni
-              Positioned(
-                right: -12,
-                top: -10,
-                child: Icon(vakitIkon, size: 100, color: Colors.white.withValues(alpha: 0.06)),
-              ),
-              // Işık yayılımı
-              Positioned(
-                top: -60,
-                left: -30,
-                width: 200,
-                height: 200,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      colors: [
-                        Colors.white.withValues(alpha: 0.10),
-                        Colors.white.withValues(alpha: 0.0),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Üst satır: Konum + Metot
-                    Row(
-                      children: [
-                        Container(
-                          width: 7,
-                          height: 7,
-                          decoration: BoxDecoration(
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Üst satır: Konum + Metot
+                  Row(
+                    children: [
+                      Container(
+                        width: 7,
+                        height: 7,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Flexible(
+                        child: Text(
+                          l.t('v.yaklasan'),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
                             color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(color: Colors.white.withValues(alpha: 0.8), blurRadius: 6),
-                            ],
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
                           ),
                         ),
-                        const SizedBox(width: 6),
-                        Flexible(
-                          child: Text(
-                            l.t('v.yaklasan'),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
+                      ),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.18),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.calculate_outlined, color: Colors.white70, size: 11),
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                _metotEtiketi,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(color: Colors.white70, fontSize: 9, fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                        const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.18),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.calculate_outlined, color: Colors.white70, size: 11),
-                              const SizedBox(width: 4),
-                              Flexible(
-                                child: Text(
-                                  _metotEtiketi,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(color: Colors.white70, fontSize: 9, fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
 
-                    // Geri Sayım + Vakit Adı
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                vakitAdi,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                  // Geri Sayım + Vakit Adı
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              vakitAdi,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800,
                               ),
-                              const SizedBox(height: 4),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
-                                children: [
-                                  Flexible(
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        _sureYaz(kalan),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 36,
-                                          fontWeight: FontWeight.w800,
-                                          letterSpacing: 1.2,
-                                          fontFeatures: [const FontFeature.tabularFigures()],
-                                          shadows: [
-                                            Shadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 4, offset: const Offset(0, 2)),
-                                            Shadow(color: Colors.white.withValues(alpha: 0.25), blurRadius: 16),
-                                          ],
-                                        ),
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: [
+                                Flexible(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      _sureYaz(kalan),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 1.2,
+                                        fontFeatures: [const FontFeature.tabularFigures()],
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    l.t('v.kaldi'),
-                                    style: const TextStyle(color: Colors.white70, fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                vakitSaat,
-                                style: const TextStyle(color: Colors.white54, fontSize: 13, fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  l.t('v.kaldi'),
+                                  style: const TextStyle(color: Colors.white70, fontSize: 12),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              vakitSaat,
+                              style: const TextStyle(color: Colors.white54, fontSize: 13, fontWeight: FontWeight.w600),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 12),
-                        _VakitHalkasi(
-                          ilerleme: 0,
-                          ikon: vakitIkon,
-                          boyut: 68,
-                          renk: Colors.white,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
+                      ),
+                      const SizedBox(width: 12),
+                      UcdIkon(
+                        ikon: vakitIkon,
+                        renk: Colors.white,
+                        boyut: 64,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
 
-                    // Alt vakit bantları (6 vakit)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(_liste.length, (i) {
-                        final v = _liste[i];
-                        final aktif = i == aktifIndex;
-                        return Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                v.ikon,
-                                size: 16,
+                  // Alt vakit bantları (6 vakit)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(_liste.length, (i) {
+                      final v = _liste[i];
+                      final aktif = i == aktifIndex;
+                      return Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              v.ikon,
+                              size: 16,
+                              color: aktif ? Colors.white : Colors.white38,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              v.ad
+                                  .substring(0, v.ad.length > 4 ? 4 : v.ad.length),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
                                 color: aktif ? Colors.white : Colors.white38,
+                                fontSize: 9,
+                                fontWeight:
+                                    aktif ? FontWeight.bold : FontWeight.w500,
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                v.ad
-                                    .substring(0, v.ad.length > 4 ? 4 : v.ad.length),
+                            ),
+                            const SizedBox(height: 2),
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                v.saat,
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  color: aktif ? Colors.white : Colors.white38,
-                                  fontSize: 9,
-                                  fontWeight:
-                                      aktif ? FontWeight.bold : FontWeight.w500,
+                                  color: aktif ? Renkler.vurgu : Colors.white24,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(height: 2),
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  v.saat,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    color: aktif ? Renkler.vurgu : Colors.white24,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                    ),
-                  ],
-                ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ),
     );
   }
 }
@@ -1147,30 +1062,12 @@ class _QuickAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [
-                  renk.withValues(alpha: 0.30),
-                  renk.withValues(alpha: 0.10),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              border: Border.all(color: renk.withValues(alpha: 0.25)),
-            ),
-            child: Center(
-              child: UcdIkon(ikon: ikon, renk: renk, boyut: 24),
-            ),
-          ),
+          UcdIkon(ikon: ikon, renk: renk, boyut: 26),
           const SizedBox(height: 6),
           Text(
             label,
@@ -1204,54 +1101,45 @@ class _ModuleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 160,
-        margin: const EdgeInsets.only(right: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.cerceve),
-        ),
-        child: Row(
-          children: [
-            SekilPlaka(
-              sekil: PlakaSekli.daire,
-              ikon: ikon,
-              ikonRenk: renk,
-              boyut: 36,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    baslik,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (altMetin.isNotEmpty) ...[
-                    const SizedBox(height: 2),
+    return Padding(
+      padding: const EdgeInsets.only(right: 16),
+      child: InkWell(
+        onTap: onTap,
+        child: SizedBox(
+          width: 160,
+          child: Row(
+            children: [
+              UcdIkon(ikon: ikon, renk: renk, boyut: 26),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
-                      altMetin,
-                      style: const TextStyle(color: Colors.white38, fontSize: 10),
+                      baslik,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    if (altMetin.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        altMetin,
+                        style: const TextStyle(color: Colors.white38, fontSize: 10),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -1316,35 +1204,18 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
     final now = DateTime.now();
     final dayOfYear = now.difference(DateTime(now.year, 1, 1)).inDays;
 
-    return UcdKart(
-      radius: 20,
-      sekil: KartSekli.yuvar,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Renkler.kart,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Renkler.cerceve),
-        ),
-        child: Column(
+    return Column(
+      children: [
+        // Tab çubuğu
+        Row(
           children: [
-            // Tab çubuğu
-            Container(
-              margin: const EdgeInsets.all(12),
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Renkler.zemin,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Row(
-                children: [
-                  _tabButonu(l.t('h.ayet'), 0, Icons.menu_book_outlined),
-                  _tabButonu(l.t('h.soru'), 1, Icons.help_outline),
-                  _tabButonu(l.t('h.ilham'), 2, Icons.auto_awesome),
-                ],
-              ),
-            ),
-            // İçerik
-            AnimatedSwitcher(
+            _tabButonu(l.t('h.ayet'), 0, Icons.menu_book_outlined),
+            _tabButonu(l.t('h.soru'), 1, Icons.help_outline),
+            _tabButonu(l.t('h.ilham'), 2, Icons.auto_awesome),
+          ],
+        ),
+        // İçerik
+        AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: _aktif == 0
                   ? GestureDetector(
@@ -1376,26 +1247,16 @@ class _GununIcerigiKartiState extends State<_GununIcerigiKarti> {
             ),
             const SizedBox(height: 14),
           ],
-        ),
-      ),
     );
   }
 
   Widget _tabButonu(String text, int index, IconData ikon) {
     final aktif = _aktif == index;
     return Expanded(
-      child: GestureDetector(
+      child: InkWell(
         onTap: () => setState(() => _aktif = index),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
+        child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: aktif ? Renkler.vurgu.withValues(alpha: 0.18) : Colors.transparent,
-            borderRadius: BorderRadius.circular(12),
-            border: aktif
-                ? Border.all(color: Renkler.vurgu.withValues(alpha: 0.4))
-                : null,
-          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -1563,42 +1424,6 @@ const List<_VakitBilgisi> _gunVakitleri = [
 // ===========================================================================
 // BİLDİRİM ZİLİ VE SESSİZ VAKİT ÇİPİ
 // ===========================================================================
-/// Yuvarlak yüzeylere belirgin bir 3D görünüm kazandıran zemin: üstten inen
-/// ışık, taban gölgesi ve ince kenar parıltısı ile diğer 3D kartlarla uyumlu.
-Widget _yuvarZemin({required double boyut, required Widget child}) {
-  return Container(
-    width: boyut,
-    height: boyut,
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Renkler.seciliYuzey.withValues(alpha: 0.9),
-          Renkler.cerceve,
-          Renkler.kart,
-        ],
-        stops: const [0.0, 0.55, 1.0],
-      ),
-      border: Border.all(color: Colors.white.withValues(alpha: 0.25), width: 1),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withValues(alpha: 0.45),
-          offset: const Offset(0, 3),
-          blurRadius: 6,
-        ),
-        BoxShadow(
-          color: Colors.white.withValues(alpha: 0.10),
-          offset: const Offset(-1, -1),
-          blurRadius: 3,
-        ),
-      ],
-    ),
-    child: Center(child: child),
-  );
-}
-
 class _BildirimZili extends StatefulWidget {
   @override
   State<_BildirimZili> createState() => _BildirimZiliState();
@@ -1639,44 +1464,38 @@ class _BildirimZiliState extends State<_BildirimZili> {
           MaterialPageRoute(builder: (_) => const BildirimlerSayfasi()),
         ).then((_) => _yukle());
       },
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          _yuvarZemin(
-            boyut: 48,
-            child: UcdIkon(
+      child: Padding(
+        padding: const EdgeInsets.all(6),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            UcdIkon(
               ikon: Icons.notifications_none,
               renk: Colors.white,
               boyut: 22,
             ),
-          ),
-          if (_sayi > 0)
-            Positioned(
-              top: 2,
-              right: 2,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Renkler.zemin, width: 1),
-                ),
-                child: Text(
-                  '$_sayi',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 8,
-                    fontWeight: FontWeight.bold,
+            if (_sayi > 0)
+              Positioned(
+                top: -4,
+                right: -4,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                  child: Text(
+                    '$_sayi',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 8,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-
 
 // ===========================================================================
 // GÜNLÜK MANEVİYAT MODÜL KARTLARI
@@ -1709,99 +1528,3 @@ class _DevamOzetMetniState extends State<_DevamOzetMetni> {
     );
   }
 }
-
-// ===========================================================================
-// VAKİT HALKASI (Dairesel Geri Sayım / İlerleme)
-// ===========================================================================
-/// Vakit kartlarında ilerlemeyi (veya sabit dekoratif halkayı) çizgiyle
-/// gösteren, ortasında vakit ikonu bulunan rozet.
-class _VakitHalkasi extends StatelessWidget {
-  const _VakitHalkasi({
-    required this.ilerleme,
-    required this.ikon,
-    required this.renk,
-    this.boyut = 64,
-  });
-
-  /// Halkanın doluluk oranı (0..1); 0 verilirse sabit (dekoratif) halka.
-  final double ilerleme;
-
-  final IconData ikon;
-
-  /// Yay ve çizgi rengi.
-  final Color renk;
-
-  final double boyut;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: boyut,
-      height: boyut,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          CustomPaint(
-            painter: _HalkaCizici(ilerleme: ilerleme, renk: renk),
-          ),
-          Center(
-            child: Container(
-              width: boyut * 0.62,
-              height: boyut * 0.62,
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.22),
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
-              ),
-              child: UcdIkon(ikon: ikon, renk: renk, boyut: boyut * 0.30),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _HalkaCizici extends CustomPainter {
-  const _HalkaCizici({required this.ilerleme, required this.renk});
-
-  final double ilerleme;
-  final Color renk;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final merkez = size.center(Offset.zero);
-    final yaricap = size.width / 2 - 3;
-    final dikdortgen = Rect.fromCircle(center: merkez, radius: yaricap);
-
-    final iz = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4.5
-      ..color = Colors.white.withValues(alpha: 0.14);
-    canvas.drawCircle(merkez, yaricap, iz);
-
-    if (ilerleme <= 0.0) return;
-
-    final baslangic = -math.pi / 2;
-    final tarama = 2 * math.pi * ilerleme.clamp(0.0, 1.0);
-
-    final parlaklik = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 9
-      ..strokeCap = StrokeCap.round
-      ..color = renk.withValues(alpha: 0.16);
-    canvas.drawArc(dikdortgen, baslangic, tarama, false, parlaklik);
-
-    final yay = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4.5
-      ..strokeCap = StrokeCap.round
-      ..color = renk;
-    canvas.drawArc(dikdortgen, baslangic, tarama, false, yay);
-  }
-
-  @override
-  bool shouldRepaint(covariant _HalkaCizici old) =>
-      old.ilerleme != ilerleme || old.renk != renk;
-}
-

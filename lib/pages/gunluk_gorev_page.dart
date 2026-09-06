@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 import '../services/manevi_store.dart';
 import '../services/renkler.dart';
@@ -348,46 +349,47 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
     required VoidCallback onDelete,
   }) {
     final l = AppLocalizations.of(context);
-    return InkWell(
+    return UcdButon(
       onTap: () => onChanged(!deger),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Renkler.seciliYuzey,
-                borderRadius: BorderRadius.circular(12),
+      basili: deger,
+      koseYaricapi: 12,
+      genislik: double.infinity,
+      dolgu: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Renkler.seciliYuzey,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text('✨', style: TextStyle(fontSize: 18)),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              baslik,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                decoration: deger ? TextDecoration.lineThrough : null,
               ),
-              child: const Text('✨', style: TextStyle(fontSize: 18)),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                baslik,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  decoration: deger ? TextDecoration.lineThrough : null,
-                ),
-              ),
-            ),
-            UcdIkon(ikon: 
-              deger ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, renk: deger ? Renkler.vurgu : Colors.white38, boyut: 24,
-            ),
-            const SizedBox(width: 4),
-            IconButton(
-              onPressed: onDelete,
-              tooltip: l.t('gg.removeGoodDeed'),
-              icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white38),
-              visualDensity: VisualDensity.compact,
-            ),
-          ],
-        ),
+          ),
+          UcdIkon(ikon: 
+            deger ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, renk: deger ? Renkler.vurgu : Colors.white38, boyut: 24,
+          ),
+          const SizedBox(width: 4),
+          IconButton(
+            onPressed: onDelete,
+            tooltip: l.t('gg.removeGoodDeed'),
+            icon: const UcdIkon(ikon: Icons.delete_outline_rounded, renk: Colors.white38),
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
       ),
     );
   }
@@ -398,28 +400,29 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
     required bool deger,
     required ValueChanged<bool> onChanged,
   }) {
-    return InkWell(
+    return UcdButon(
       onTap: () => onChanged(!deger),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: Row(
-          children: [
-            UcdIkon(ikon: 
-              deger ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, renk: deger ? Renkler.vurgu : Colors.white38, boyut: 22,
+      basili: deger,
+      koseYaricapi: 12,
+      genislik: double.infinity,
+      dolgu: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          UcdIkon(ikon: 
+            deger ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, renk: deger ? Renkler.vurgu : Colors.white38, boyut: 22,
+          ),
+          const SizedBox(width: 12),
+          Text(
+            etiket,
+            style: TextStyle(
+              color: deger ? Colors.white70 : Colors.white,
+              fontSize: 14,
+              decoration: deger ? TextDecoration.lineThrough : null,
             ),
-            const SizedBox(width: 12),
-            Text(
-              etiket,
-              style: TextStyle(
-                color: deger ? Colors.white70 : Colors.white,
-                fontSize: 14,
-                decoration: deger ? TextDecoration.lineThrough : null,
-              ),
-            ),
-            const Spacer(),
-            if (deger) UcdIkon(ikon: Icons.done_rounded, renk: Renkler.vurgu, boyut: 16),
-          ],
-        ),
+          ),
+          const Spacer(),
+          if (deger) UcdIkon(ikon: Icons.done_rounded, renk: Renkler.vurgu, boyut: 16),
+        ],
       ),
     );
   }
@@ -431,52 +434,53 @@ class _GunlukGorevPageState extends State<GunlukGorevPage> {
     required bool deger,
     required ValueChanged<bool> onChanged,
   }) {
-    return InkWell(
+    return UcdButon(
       onTap: () => onChanged(!deger),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Renkler.seciliYuzey,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(ikon, style: const TextStyle(fontSize: 18)),
+      basili: deger,
+      koseYaricapi: 12,
+      genislik: double.infinity,
+      dolgu: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Renkler.seciliYuzey,
+              borderRadius: BorderRadius.circular(12),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    baslik,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      decoration: deger ? TextDecoration.lineThrough : null,
-                    ),
+            child: Text(ikon, style: const TextStyle(fontSize: 18)),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  baslik,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    decoration: deger ? TextDecoration.lineThrough : null,
                   ),
-                  Text(
-                    aciklama,
-                    style: TextStyle(
-                      color: Colors.white54,
-                      fontSize: 11,
-                      decoration: deger ? TextDecoration.lineThrough : null,
-                    ),
+                ),
+                Text(
+                  aciklama,
+                  style: TextStyle(
+                    color: Colors.white54,
+                    fontSize: 11,
+                    decoration: deger ? TextDecoration.lineThrough : null,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            UcdIkon(ikon: 
-              deger ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, renk: deger ? Renkler.vurgu : Colors.white38, boyut: 24,
-            ),
-          ],
-        ),
+          ),
+          UcdIkon(ikon: 
+            deger ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, renk: deger ? Renkler.vurgu : Colors.white38, boyut: 24,
+          ),
+        ],
       ),
     );
   }

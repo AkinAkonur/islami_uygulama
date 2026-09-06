@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 enum NamazPosture { kiyam, ruku, secde, oturus }
@@ -797,19 +798,19 @@ class _RekatKartiState extends State<_RekatKarti> {
     required bool secili,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 62,
-        margin: EdgeInsets.only(right: 4),
-        padding: EdgeInsets.symmetric(vertical: 4),
-        decoration: BoxDecoration(
-          color: secili ? Renkler.seciliYuzey : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: secili ? Renkler.vurgu : Colors.transparent,
-            width: 1.5,
-          ),
+    return Padding(
+      padding: const EdgeInsets.only(right: 4),
+      child: UcdButon(
+        onTap: onTap,
+        basili: secili,
+        isik: secili,
+        koseYaricapi: 12,
+        genislik: 62,
+        dolgu: const EdgeInsets.symmetric(vertical: 4),
+        zeminler: LinearGradient(
+          colors: [Renkler.seciliYuzey, Renkler.seciliYuzey],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         child: Column(
           children: [

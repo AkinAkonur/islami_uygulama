@@ -80,13 +80,7 @@ class _UmmetHaritasiPageState extends State<UmmetHaritasiPage> {
                   color: Renkler.vurgu.withValues(alpha: 0.4),
                   width: 1.5,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Renkler.vurgu.withValues(alpha: 0.25),
-                    blurRadius: 40,
-                    spreadRadius: 4,
-                  ),
-                ],
+
               ),
               child: Stack(
                 alignment: Alignment.center,
@@ -258,13 +252,10 @@ class _UmmetHaritasiPageState extends State<UmmetHaritasiPage> {
           Container(
             width: 8,
             height: 8,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: renk,
-              boxShadow: [
-                BoxShadow(color: renk.withValues(alpha: 0.6), blurRadius: 6),
-              ],
-            ),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: renk,
+              ),
           ),
         ],
       ),

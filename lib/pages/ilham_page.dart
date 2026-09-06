@@ -30,6 +30,7 @@ import '../services/gercek_bildirimler.dart';
 import '../services/ilham_store.dart';
 import '../services/ilham_verileri.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 class IlhamPage extends StatefulWidget {
@@ -158,7 +159,7 @@ class _IlhamPageState extends State<IlhamPage> {
                 style: TextStyle(color: Colors.white54, fontSize: 12.5, height: 1.4),
               ),
               const SizedBox(height: 16),
-              InkWell(
+              UcdButon(
                 onTap: () async {
                   final secilen = await showTimePicker(
                     context: ctx,
@@ -181,27 +182,22 @@ class _IlhamPageState extends State<IlhamPage> {
                   );
                   if (secilen != null) setLocal(() => zaman = secilen);
                 },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  decoration: BoxDecoration(
-                    color: Renkler.seciliYuzey,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const UcdIkon(ikon: Icons.access_time_rounded, renk: Colors.white70, boyut: 20),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Saat: ${zaman.format(context)}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                koseYaricapi: 14,
+                dolgu: const EdgeInsets.symmetric(vertical: 14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const UcdIkon(ikon: Icons.access_time_rounded, renk: Colors.white70, boyut: 20),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Saat: ${zaman.format(context)}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
@@ -701,13 +697,6 @@ class _IlhamKarti extends StatelessWidget {
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: renkler.last.withValues(alpha: 0.35),
-                blurRadius: 18,
-                offset: const Offset(0, 6),
-              ),
-            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

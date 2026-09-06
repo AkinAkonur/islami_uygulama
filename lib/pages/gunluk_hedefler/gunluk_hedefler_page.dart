@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/manevi_store.dart';
 import '../../services/renkler.dart';
+import '../../widgets/altin_tactile.dart';
 import '../dua_kardesligi/dua_kardesligi_page.dart';
 import '../soru_cevap/soru_cevap_verileri.dart';
 import 'gunluk_hedef_dialoglar.dart';
@@ -383,12 +384,14 @@ class _GorevKarti extends StatelessWidget {
     final tamamMi = ilerleme >= gorev.hedefSayi;
     final oran = (ilerleme / gorev.hedefSayi).clamp(0.0, 1.0);
     return Card(
+      elevation: 0,
       color: Renkler.kart,
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
+      child: UcdButon(
+        koseYaricapi: 16,
         onTap: tamamMi ? null : onTap,
+        dolgu: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(

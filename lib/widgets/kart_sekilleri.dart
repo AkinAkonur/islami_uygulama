@@ -230,6 +230,7 @@ class UcdIkon extends StatelessWidget {
     required this.renk,
     this.boyut = 24,
     this.derinlik,
+    this.golge = true,
   });
 
   /// Çizilecek ikon.
@@ -244,6 +245,10 @@ class UcdIkon extends StatelessWidget {
   /// Alt ton rengi; verilmezse ana rengin koyulaştırılmış hâli.
   final Color? derinlik;
 
+  /// Glifin altına hafif 3D gölge düşürür (ikonlar kutu içinde değil,
+  /// tek başına kabartmalı görünür).
+  final bool golge;
+
   @override
   Widget build(BuildContext context) {
     final dip = derinlik ?? Color.lerp(renk, Colors.black, 0.35)!;
@@ -255,7 +260,20 @@ class UcdIkon extends StatelessWidget {
         colors: [Color.lerp(renk, Colors.white, 0.50)!, renk, dip],
         stops: const [0.0, 0.38, 1.0],
       ).createShader(bounds),
-      child: Icon(ikon, size: boyut, color: Colors.white),
+      child: Icon(
+        ikon,
+        size: boyut,
+        color: Colors.white,
+        shadows: golge
+            ? [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.30),
+                  offset: const Offset(0, 1.1),
+                  blurRadius: 2,
+                ),
+              ]
+            : null,
+      ),
     );
   }
 }

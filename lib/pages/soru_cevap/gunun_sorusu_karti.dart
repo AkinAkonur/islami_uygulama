@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
+import '../../widgets/altin_tactile.dart';
 import 'soru_cevap_page.dart';
 import 'soru_cevap_verileri.dart';
 
@@ -23,7 +24,7 @@ class GununSorusuKarti extends StatelessWidget {
         )
         .emoji;
 
-    return GestureDetector(
+    return UcdButon(
       onTap: () {
         Navigator.push(
           context,
@@ -32,27 +33,16 @@ class GununSorusuKarti extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Renkler.bannerUst, Renkler.bannerAlt],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Renkler.cerceve),
-          boxShadow: [
-            BoxShadow(
-              color: Renkler.vurgu.withValues(alpha: 0.12),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      koseYaricapi: 16,
+      dolgu: const EdgeInsets.all(16),
+      zeminler: LinearGradient(
+        colors: [Renkler.bannerUst, Renkler.bannerAlt],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             Container(
               width: 42,
               height: 42,
@@ -109,7 +99,6 @@ class GununSorusuKarti extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 class SukurPage extends StatefulWidget {
@@ -150,18 +151,18 @@ class _SukurPageState extends State<SukurPage> {
                     ),
                   ),
                   SizedBox(height: 16),
-                  GestureDetector(
+                  UcdButon(
                     onTap: () => setState(() => _hamdCount++),
-                    child: CircleAvatar(
-                      radius: 45,
-                      backgroundColor: Renkler.vurgu.withValues(alpha: 0.2),
-                      child: Text(
-                        "$_hamdCount",
-                        style: TextStyle(
-                          color: Renkler.vurgu,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    koseYaricapi: 999,
+                    genislik: 90,
+                    yukseklik: 90,
+                    dolgu: EdgeInsets.zero,
+                    child: Text(
+                      "$_hamdCount",
+                      style: TextStyle(
+                        color: Renkler.vurgu,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),

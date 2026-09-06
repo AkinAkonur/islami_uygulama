@@ -222,15 +222,7 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
               : Renkler.cerceve,
           width: isPlaying ? 1.5 : 1,
         ),
-        boxShadow: isPlaying
-            ? [
-                BoxShadow(
-                  color: Renkler.vurgu.withValues(alpha: 0.2),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ]
-            : [],
+        boxShadow: [],
       ),
       child: Column(
         children: [
@@ -314,33 +306,18 @@ class _MubarekSurelerPageState extends State<MubarekSurelerPage> {
                       ],
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => _toggle(index, veri),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: isPlaying
-                            ? Renkler.vurgu
-                            : Renkler.vurgu.withValues(alpha: 0.15),
-                        shape: BoxShape.circle,
-                        boxShadow: isPlaying
-                            ? [
-                                BoxShadow(
-                                  color: Renkler.vurgu.withValues(alpha: 0.4),
-                                  blurRadius: 8,
-                                ),
-                              ]
-                            : [],
-                      ),
-                      child: Icon(
-                        isPlaying
-                            ? Icons.pause_rounded
-                            : Icons.play_arrow_rounded,
-                        color: isPlaying ? Colors.white : Renkler.vurgu,
-                        size: 26,
-                      ),
+                  IconButton(
+                    onPressed: () => _toggle(index, veri),
+                    style: IconButton.styleFrom(
+                      minimumSize: const Size(42, 42),
+                      padding: EdgeInsets.zero,
+                    ),
+                    icon: Icon(
+                      isPlaying
+                          ? Icons.pause_rounded
+                          : Icons.play_arrow_rounded,
+                      color: isPlaying ? const Color(0xFFF0C030) : Renkler.vurgu,
+                      size: 26,
                     ),
                   ),
                   const SizedBox(width: 8),

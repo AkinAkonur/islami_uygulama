@@ -4,6 +4,7 @@ import '../l10n/app_localizations.dart';
 import '../services/dua_store.dart';
 import '../services/dualar_verileri.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 import 'dua_detay_page.dart';
 
@@ -257,16 +258,11 @@ class _KategorilerListesi extends StatelessWidget {
       itemBuilder: (context, i) {
         final k = kategoriler[i];
         final renk = _hexRenk(k.renkHex);
-        return GestureDetector(
-          onTap: () => onKategori(k),
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Renkler.kart,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: Renkler.cerceve),
-            ),
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: UcdButon(
+            onTap: () => onKategori(k),
+            dolgu: const EdgeInsets.all(16),
             child: Row(
               children: [
                 Container(
@@ -416,20 +412,11 @@ class _DuaKarti extends StatelessWidget {
       valueListenable: DuaStore.favoriler,
       builder: (context, fav, _) {
         final favori = fav.contains(dua.id);
-        return GestureDetector(
-          onTap: onTap,
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: Renkler.kart,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: favori
-                    ? Colors.redAccent.withValues(alpha: 0.4)
-                    : Renkler.cerceve,
-              ),
-            ),
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: UcdButon(
+            onTap: onTap,
+            dolgu: const EdgeInsets.all(14),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -493,13 +480,17 @@ class _DuaKarti extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 6),
-                GestureDetector(
-                  onTap: () => DuaStore.favoriDegistir(dua.id),
-                  child: UcdIkon(
+                IconButton(
+                  onPressed: () => DuaStore.favoriDegistir(dua.id),
+                  style: IconButton.styleFrom(
+                    minimumSize: const Size(40, 40),
+                    padding: const EdgeInsets.all(6),
+                  ),
+                  icon: UcdIkon(
                     ikon: favori
                         ? Icons.favorite_rounded
                         : Icons.favorite_border_rounded,
-                    renk: favori ? Colors.redAccent : Colors.white30,
+                    renk: favori ? const Color(0xFFF0C030) : Colors.white30,
                     boyut: 20,
                   ),
                 ),

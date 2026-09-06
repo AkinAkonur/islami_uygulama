@@ -5,6 +5,7 @@ import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 import '../services/turkiye_illeri.dart';
 import '../services/vakit_servisi.dart';
+import '../widgets/altin_tactile.dart';
 import 'kible_pusula_page.dart';
 import 'yakindaki_camiler_page.dart';
 
@@ -521,53 +522,53 @@ class _KonumPageState extends State<KonumPage> {
     final aci = koordinat != null
         ? VakitServisi.kibleAcisi(koordinat.$1, koordinat.$2)
         : null;
-    return GestureDetector(
+    return UcdButon(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const KiblePusulaPage()),
         );
       },
-      child: Container(
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: Renkler.kart.withValues(alpha: 0.9),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          children: [
-            UcdIkon(ikon: Icons.explore_rounded, renk: Renkler.vurgu, boyut: 34),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    aci != null
-                        ? l.t('ko.qiblaDirReady')
-                            .replaceFirst('{a}', '${aci.round()}')
-                            .replaceFirst('{d}', VakitServisi.yonEtiketi(aci))
-                        : l.t('ko.qiblaSetLocation'),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
+      koseYaricapi: 20,
+      dolgu: const EdgeInsets.all(18),
+      zeminler: LinearGradient(
+        colors: [Renkler.kart, Renkler.kart],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      child: Row(
+        children: [
+          UcdIkon(ikon: Icons.explore_rounded, renk: Renkler.vurgu, boyut: 34),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  aci != null
+                      ? l.t('ko.qiblaDirReady')
+                          .replaceFirst('{a}', '${aci.round()}')
+                          .replaceFirst('{d}', VakitServisi.yonEtiketi(aci))
+                      : l.t('ko.qiblaSetLocation'),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    l.t('ko.openCompass'),
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.75),
-                      fontSize: 12,
-                    ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  l.t('ko.openCompass'),
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.75),
+                    fontSize: 12,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white70),
-          ],
-        ),
+          ),
+          const UcdIkon(ikon: Icons.chevron_right, renk: Colors.white70),
+        ],
       ),
     );
   }

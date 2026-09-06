@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
+import '../../widgets/altin_tactile.dart';
 import '../../../widgets/kart_sekilleri.dart';
 import 'fikih_verileri.dart';
 import 'hac_umre_verileri.dart';
@@ -275,34 +276,27 @@ class _SoruKarti extends StatelessWidget {
           for (final s in soru.secenekler)
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: Material(
-                color: Renkler.seciliYuzey,
-                borderRadius: BorderRadius.circular(14),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(14),
-                  onTap: () => onSec(s),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 14),
-                    child: Row(
-                      children: [
-                        UcdIkon(ikon: Icons.radio_button_unchecked_rounded,
-                            renk: Renkler.vurgu, boyut: 18),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            s.etiket,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
-                          ),
+              child: UcdButon(
+                onTap: () => onSec(s),
+                koseYaricapi: 14,
+                dolgu: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                child: Row(
+                  children: [
+                    UcdIkon(ikon: Icons.radio_button_unchecked_rounded,
+                        renk: Renkler.vurgu, boyut: 18),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        s.etiket,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
                         ),
-                        const UcdIkon(ikon: Icons.chevron_right_rounded,
-                            renk: Colors.white38, boyut: 20),
-                      ],
+                      ),
                     ),
-                  ),
+                    const UcdIkon(ikon: Icons.chevron_right_rounded,
+                        renk: Colors.white38, boyut: 20),
+                  ],
                 ),
               ),
             ),

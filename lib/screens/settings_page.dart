@@ -13,6 +13,7 @@ import '../services/bildirim_merkezi.dart';
 import '../services/gercek_bildirimler.dart';
 import '../services/renkler.dart';
 import '../services/vakit_servisi.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
@@ -253,28 +254,25 @@ static const List<({String kod, String ad})> _metotlar = [
               runSpacing: 14,
               children: [
                 for (final s in secenekler)
-                  GestureDetector(
+                  UcdButon(
                     onTap: () => Navigator.pop(ctx, s.kod),
-                    child: Container(
-                      width: 52,
-                      height: 52,
-                      decoration: BoxDecoration(
-                        color: s.renk ?? const Color(0xFF0F291E),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: s.kod == _vurguKod
-                              ? Colors.white
-                              : s.renk ?? const Color(0xFF395244),
-                          width: s.kod == _vurguKod ? 3 : 1,
-                        ),
-                      ),
-                      child: s.kod == _vurguKod
-                          ? const UcdIkon(ikon: Icons.check_rounded, renk: Colors.white, boyut: 24)
-                          : (s.renk == null
-                              ? const Icon(Icons.auto_awesome,
-                                  color: Colors.white54, size: 20)
-                              : null),
+                    basili: s.kod == _vurguKod,
+                    koseYaricapi: 999,
+                    genislik: 52,
+                    yukseklik: 52,
+                    dolgu: EdgeInsets.zero,
+                    zeminler: RadialGradient(
+                      colors: [
+                        s.renk ?? const Color(0xFF0F291E),
+                        s.renk ?? const Color(0xFF0F291E),
+                      ],
                     ),
+                    child: s.kod == _vurguKod
+                        ? const UcdIkon(ikon: Icons.check_rounded, renk: Colors.white, boyut: 24)
+                        : (s.renk == null
+                            ? const Icon(Icons.auto_awesome,
+                                color: Colors.white54, size: 20)
+                            : const SizedBox.shrink()),
                   ),
               ],
             ),

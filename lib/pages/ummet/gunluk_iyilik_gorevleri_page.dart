@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/altin_tactile.dart';
 
 class GunlukIyilikGorevleriPage extends StatefulWidget {
   const GunlukIyilikGorevleriPage({super.key});
@@ -192,9 +193,10 @@ class _GunlukIyilikGorevleriPageState extends State<GunlukIyilikGorevleriPage> {
               : Renkler.cerceve,
         ),
       ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
+      child: UcdButon(
         onTap: () => _tamamla(gorev, !tamam),
+        basili: tamam,
+        dolgu: EdgeInsets.zero,
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Row(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
@@ -446,28 +447,20 @@ Widget _girisKarti(AppLocalizations l) {
 
 Widget _bolumKarti(int index, bool aktif, AppLocalizations l) {
     final bolum = _bolumler[index];
-    return GestureDetector(
+    return UcdButon(
       onTap: _okuyor ? null : () => _baslat(index),
+      basili: aktif,
+      koseYaricapi: 14,
+      dolgu: EdgeInsets.zero,
       child: AnimatedContainer(
         key: _bolumAnahtarlari[index],
         duration: const Duration(milliseconds: 250),
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: aktif ? Renkler.seciliYuzey : Renkler.kart,
-          borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: aktif ? Renkler.vurgu : Renkler.cerceve2,
             width: aktif ? 1.6 : 1,
           ),
-          boxShadow: aktif
-              ? [
-                  BoxShadow(
-                    color: Renkler.vurgu.withValues(alpha: 0.25),
-                    blurRadius: 14,
-                    spreadRadius: 1,
-                  ),
-                ]
-              : null,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

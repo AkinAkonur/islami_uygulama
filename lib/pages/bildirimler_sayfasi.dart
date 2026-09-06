@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/kart_sekilleri.dart';
+import '../widgets/altin_tactile.dart';
 import '../services/bildirim_merkezi.dart';
 import '../services/gercek_bildirimler.dart';
 import '../services/renkler.dart';
@@ -262,19 +263,27 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
       ),
       child: Row(
         children: [
-          InkWell(
-            onTap: () => _sessizDegistir(),
-            borderRadius: BorderRadius.circular(20),
-            child: UcdIkon(
+          IconButton(
+            onPressed: () => _sessizDegistir(),
+            icon: UcdIkon(
               ikon: _sessiz ? Icons.notifications_off_rounded : Icons.nights_stay_rounded,
-              renk: Colors.white,
+              renk: _sessiz ? const Color(0xFFF0C030) : Colors.white,
               boyut: 26,
+            ),
+            style: IconButton.styleFrom(
+              minimumSize: const Size(40, 40),
+              padding: const EdgeInsets.all(6),
             ),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: GestureDetector(
+            child: UcdButon(
               onTap: () => _sessizDegistir(),
+              basili: _sessiz,
+              isik: false,
+              koseYaricapi: 16,
+              genislik: double.infinity,
+              dolgu: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -413,40 +422,40 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
-      child: InkWell(
+      child: UcdButon(
         onTap: () => onChanged(!deger),
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-          child: Row(
-            children: [
-              Text(ikon, style: const TextStyle(fontSize: 18)),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      baslik,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
+        isik: false,
+        koseYaricapi: 12,
+        genislik: double.infinity,
+        dolgu: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+        child: Row(
+          children: [
+            Text(ikon, style: const TextStyle(fontSize: 18)),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    baslik,
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                  Text(
+                    aciklama,
+                    style: const TextStyle(
+                      color: Colors.white54,
+                      fontSize: 11,
                     ),
-                    Text(
-                      aciklama,
-                      style: const TextStyle(
-                        color: Colors.white54,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Switch(
-                value: deger,
-                onChanged: onChanged,
-                activeThumbColor: Renkler.vurgu,
-              ),
-            ],
-          ),
+            ),
+            Switch(
+              value: deger,
+              onChanged: onChanged,
+              activeThumbColor: Renkler.vurgu,
+            ),
+          ],
         ),
       ),
     );
@@ -671,22 +680,15 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
 
   Widget _bildirimKarti(Bildirim b) {
     final (renk, ikon) = _tipGorsel(b.tip);
-    return GestureDetector(
-      onTap: () => _tikla(b),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: b.okundu
-              ? Renkler.kart.withValues(alpha: 0.7)
-              : Renkler.seciliYuzey,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: b.okundu
-                ? Colors.transparent
-                : Renkler.vurgu.withValues(alpha: 0.4),
-          ),
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: UcdButon(
+        onTap: () => _tikla(b),
+        basili: !b.okundu,
+        isik: false,
+        koseYaricapi: 16,
+        genislik: double.infinity,
+        dolgu: const EdgeInsets.all(14),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

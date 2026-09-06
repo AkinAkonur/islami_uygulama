@@ -18,6 +18,7 @@ import 'gizlilik_politikasi_page.dart';
 import '../services/gizlilik_merkezi.dart';
 import '../services/medya_indirme_servisi.dart';
 import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
 
 class GizlilikMerkeziPage extends StatefulWidget {
@@ -372,50 +373,45 @@ class _GizlilikMerkeziPageState extends State<GizlilikMerkeziPage> {
     final tehlikeli = hak.tehlikeliMi;
     final renk = tehlikeli ? Colors.redAccent : Renkler.vurgu;
     final yukleniyor = tehlikeli ? _silmeYukleniyor : _indirmeYukleniyor;
-    return Material(
-      color: tehlikeli
-          ? Colors.redAccent.withValues(alpha: 0.12)
-          : Renkler.vurgu.withValues(alpha: 0.1),
-      borderRadius: BorderRadius.circular(16),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: yukleniyor
-            ? null
-            : () => tehlikeli ? _hesabiVeVerileriSil(l) : _verileriIndir(l),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: renk.withValues(alpha: 0.45)),
-          ),
-          child: Row(
-            children: [
-              UcdIkon(
-                ikon: tehlikeli ? Icons.delete_forever_rounded : Icons.download_rounded,
-                renk: renk,
-                boyut: 26,
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Text(
-                  hak.butonMetni,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
+    return UcdButon(
+      onTap: yukleniyor
+          ? null
+          : () => tehlikeli ? _hesabiVeVerileriSil(l) : _verileriIndir(l),
+      koseYaricapi: 16,
+      dolgu: EdgeInsets.zero,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: renk.withValues(alpha: 0.45)),
+        ),
+        child: Row(
+          children: [
+            UcdIkon(
+              ikon: tehlikeli ? Icons.delete_forever_rounded : Icons.download_rounded,
+              renk: renk,
+              boyut: 26,
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                hak.butonMetni,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
                 ),
               ),
-              if (yukleniyor)
-                const SizedBox(
-                  width: 22,
-                  height: 22,
-                  child: CircularProgressIndicator(strokeWidth: 2.4),
-                )
-              else
-                UcdIkon(ikon: Icons.chevron_right_rounded, renk: renk.withValues(alpha: 0.8)),
-            ],
-          ),
+            ),
+            if (yukleniyor)
+              const SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(strokeWidth: 2.4),
+              )
+            else
+              UcdIkon(ikon: Icons.chevron_right_rounded, renk: renk.withValues(alpha: 0.8)),
+          ],
         ),
       ),
     );

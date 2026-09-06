@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../widgets/kart_sekilleri.dart';
+import '../../widgets/altin_tactile.dart';
 import 'soru_cevap_model.dart';
 import 'soru_cevap_store.dart';
 import 'soru_cevap_verileri.dart';
@@ -199,24 +200,17 @@ class _BilgiBankasiState extends State<_BilgiBankasi> {
     final secili = _seciliKategori == kategori;
     return Padding(
       padding: const EdgeInsets.only(right: 8),
-      child: GestureDetector(
+      child: UcdButon(
         onTap: () => setState(() => _seciliKategori = kategori),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-          decoration: BoxDecoration(
-            color: secili ? Renkler.seciliYuzey : Renkler.kart,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: secili ? Renkler.vurgu : Renkler.cerceve),
-          ),
-          child: Center(
-            child: Text(
-              etiket,
-              style: TextStyle(
-                color: secili ? Renkler.vurgu : Colors.white70,
-                fontSize: 12,
-                fontWeight: secili ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
+        basili: secili,
+        koseYaricapi: 999,
+        dolgu: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+        child: Text(
+          etiket,
+          style: TextStyle(
+            color: secili ? Renkler.vurgu : Colors.white70,
+            fontSize: 12,
+            fontWeight: secili ? FontWeight.bold : FontWeight.normal,
           ),
         ),
       ),
@@ -282,38 +276,36 @@ class _FaqKartiState extends State<_FaqKarti> {
       ),
       child: Column(
         children: [
-          InkWell(
-            borderRadius: BorderRadius.circular(16),
+          UcdButon(
             onTap: () => setState(() => _acik = !_acik),
-            child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _seviyeEtiketi(s),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      s.soru,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        height: 1.4,
-                      ),
+            koseYaricapi: 16,
+            dolgu: const EdgeInsets.all(14),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _seviyeEtiketi(s),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    s.soru,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      height: 1.4,
                     ),
                   ),
-                  const SizedBox(width: 6),
-                  AnimatedRotation(
-                    turns: _acik ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 200),
-                    child: UcdIkon(
-                      ikon: Icons.expand_more_rounded,
-                      renk: _acik ? Renkler.vurgu : Colors.white38,
-                    ),
+                ),
+                const SizedBox(width: 6),
+                AnimatedRotation(
+                  turns: _acik ? 0.5 : 0,
+                  duration: const Duration(milliseconds: 200),
+                  child: UcdIkon(
+                    ikon: Icons.expand_more_rounded,
+                    renk: _acik ? Renkler.vurgu : Colors.white38,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           AnimatedSize(
@@ -342,38 +334,33 @@ class _FaqKartiState extends State<_FaqKarti> {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        GestureDetector(
+                        UcdButon(
                           onTap: () => _kaynakGoster(context, s),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Renkler.seciliYuzey.withValues(alpha: 0.5),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                UcdIkon(
-                                  ikon: Icons.menu_book_rounded,
-                                  renk: Renkler.vurgu,
-                                  boyut: 14,
-                                ),
-                                const SizedBox(width: 6),
-                                Flexible(
-                                  child: Text(
-                                    s.kaynak,
-                                    style: TextStyle(
-                                      color: Renkler.vurgu,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                          koseYaricapi: 999,
+                          dolgu: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              UcdIkon(
+                                ikon: Icons.menu_book_rounded,
+                                renk: Renkler.vurgu,
+                                boyut: 14,
+                              ),
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  s.kaynak,
+                                  style: TextStyle(
+                                    color: Renkler.vurgu,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -558,24 +545,17 @@ class _TestIcerigiState extends State<_TestIcerigi> {
     };
     return Padding(
       padding: const EdgeInsets.only(right: 8),
-      child: GestureDetector(
+      child: UcdButon(
         onTap: () => setState(() => _seviye = seviye),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: secili ? Renkler.seciliYuzey : Renkler.kart,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: secili ? Renkler.vurgu : Renkler.cerceve),
-          ),
-          child: Center(
-            child: Text(
-              etiket,
-              style: TextStyle(
-                color: secili ? Renkler.vurgu : Colors.white70,
-                fontSize: 12.5,
-                fontWeight: secili ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
+        basili: secili,
+        koseYaricapi: 999,
+        dolgu: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Text(
+          etiket,
+          style: TextStyle(
+            color: secili ? Renkler.vurgu : Colors.white70,
+            fontSize: 12.5,
+            fontWeight: secili ? FontWeight.bold : FontWeight.normal,
           ),
         ),
       ),
@@ -765,8 +745,7 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                   for (var i = 0; i < s.secenekler!.length; i++)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
+                      child: UcdButon(
                         onTap: cevaplandi
                             ? null
                             : () {
@@ -776,51 +755,41 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                                   i == s.dogruIndex,
                                 );
                               },
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color:
-                                cevaplandi && i == _secim && i != s.dogruIndex
-                                ? const Color(0xFF7B3B3B)
-                                : Renkler.zemin,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: cevaplandi && i == s.dogruIndex
-                                  ? const Color(0xFF66BB6A)
+                        basili: cevaplandi && i == s.dogruIndex,
+                        zeminler: cevaplandi && i == _secim && i != s.dogruIndex
+                            ? const LinearGradient(
+                                colors: [Color(0xFF7B3B3B), Color(0xFF4A2424)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )
+                            : null,
+                        genislik: double.infinity,
+                        koseYaricapi: 12,
+                        dolgu: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        child: Row(
+                          children: [
+                            UcdIkon(
+                              ikon: cevaplandi && i == s.dogruIndex
+                                  ? Icons.check_circle_rounded
                                   : cevaplandi && i == _secim
-                                  ? const Color(0xFFE57373)
-                                  : Renkler.cerceve,
+                                  ? Icons.cancel_rounded
+                                  : Icons.radio_button_unchecked_rounded,
+                              renk: cevaplandi && i == s.dogruIndex
+                                  ? const Color(0xFF66BB6A)
+                                  : Colors.white38,
+                              boyut: 18,
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              UcdIkon(
-                                ikon: cevaplandi && i == s.dogruIndex
-                                    ? Icons.check_circle_rounded
-                                    : cevaplandi && i == _secim
-                                    ? Icons.cancel_rounded
-                                    : Icons.radio_button_unchecked_rounded,
-                                renk: cevaplandi && i == s.dogruIndex
-                                    ? const Color(0xFF66BB6A)
-                                    : Colors.white38,
-                                boyut: 18,
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Text(
-                                  s.secenekler![i],
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 12.5,
-                                  ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                s.secenekler![i],
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 12.5,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -840,8 +809,11 @@ class _TestSoruKartiState extends State<_TestSoruKarti> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  GestureDetector(
+                  UcdButon(
+                    isik: false,
+                    koseYaricapi: 12,
                     onTap: () => widget.onToggle(!widget.acik),
+                    dolgu: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -1008,8 +980,10 @@ class _GununSorusuState extends State<_GununSorusu> {
     final cevaplandi = SoruCevapStore.gunlukCevaplandi.value;
     final quizVar = _soru.quizVar;
 
-    return GestureDetector(
+    return UcdButon(
       onTap: () => setState(() => _cevir = !_cevir),
+      koseYaricapi: 24,
+      isik: false,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         transitionBuilder: (child, anim) {
@@ -1039,13 +1013,7 @@ class _GununSorusuState extends State<_GununSorusu> {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Renkler.vurgu.withValues(alpha: 0.18),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
+
       ),
       child: Column(
         children: [
@@ -1252,7 +1220,7 @@ class _GununSorusuState extends State<_GununSorusu> {
                     runSpacing: 6,
                     children: [
                       for (var i = 0; i < s.secenekler!.length; i++)
-                        GestureDetector(
+                        UcdButon(
                           onTap: _secim != null
                               ? null
                               : () async {
@@ -1265,32 +1233,27 @@ class _GununSorusuState extends State<_GununSorusu> {
                                     await SoruCevapStore.gunlukIsaretle();
                                   }
                                 },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _secim == i
-                                  ? (i == s.dogruIndex
-                                        ? const Color(0xFF2E5B3E)
-                                        : const Color(0xFF7B3B3B))
-                                  : Renkler.zemin,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: _secim == i
-                                    ? (i == s.dogruIndex
-                                          ? const Color(0xFF66BB6A)
-                                          : const Color(0xFFE57373))
-                                    : Renkler.cerceve,
-                              ),
-                            ),
-                            child: Text(
-                              s.secenekler![i],
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 11.5,
-                              ),
+                          basili: _secim == i && i == s.dogruIndex,
+                          zeminler: _secim == i
+                              ? (i == s.dogruIndex
+                                    ? const LinearGradient(
+                                        colors: [Color(0xFF2E5B3E), Color(0xFF1D3A26)],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      )
+                                    : const LinearGradient(
+                                        colors: [Color(0xFF7B3B3B), Color(0xFF4A2424)],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ))
+                              : null,
+                          koseYaricapi: 12,
+                          dolgu: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          child: Text(
+                            s.secenekler![i],
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 11.5,
                             ),
                           ),
                         ),

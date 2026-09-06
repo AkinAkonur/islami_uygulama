@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/renkler.dart';
 import '../../services/ummet_verileri.dart';
+import '../../widgets/altin_tactile.dart';
 import 'yardim_kampanya_detay_page.dart';
 
 class YardimKampanyalariPage extends StatefulWidget {
@@ -108,21 +109,18 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
     final pay = _paylar[k.id] ?? 0;
     final toplam = k.katilan + pay;
 
-    return Card(
-      color: Renkler.kart,
-      margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Renkler.cerceve),
+    return UcdButon(
+      onTap: () => _detayaGit(k),
+      koseYaricapi: 16,
+      dolgu: const EdgeInsets.all(16),
+      zeminler: LinearGradient(
+        colors: [Renkler.kart, Renkler.kart],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
       ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => _detayaGit(k),
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
               Row(
                 children: [
                   Container(
@@ -191,13 +189,11 @@ class _YardimKampanyalariPageState extends State<YardimKampanyalariPage> {
                     l.t('jk.joinedCount').replaceFirst('{count}', binlikSayi(toplam)),
                     style: TextStyle(color: Colors.white54, fontSize: 12),
                   ),
-                  Spacer(),
-                  Icon(Icons.info_outline, color: Colors.white38, size: 16),
-                ],
-              ),
+              Spacer(),
+              Icon(Icons.info_outline, color: Colors.white38, size: 16),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
