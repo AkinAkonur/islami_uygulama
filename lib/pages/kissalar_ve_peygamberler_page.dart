@@ -11,7 +11,7 @@ import '../l10n/app_localizations.dart';
 import '../services/renkler.dart';
 import '../widgets/altin_tactile.dart';
 import '../widgets/kart_sekilleri.dart';
-import 'kissalar/dualar_verileri.dart';
+import 'kissalar/peygamber_dualari_verileri.dart';
 import 'kissalar/ibret_verileri.dart';
 import 'kissalar/kissa_detay_page.dart';
 import 'kissalar/kissa_store.dart';

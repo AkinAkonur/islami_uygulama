@@ -239,6 +239,8 @@ void main() {
       expect(find.text('Dua Hatırlatıcısı Kur'), findsOneWidget);
       expect(find.text('Her gün'), findsOneWidget);
 
+      await tester.ensureVisible(find.text('Hatırlatıcıyı Kaydet'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Hatırlatıcıyı Kaydet'));
       await tester.pumpAndSettle();
 

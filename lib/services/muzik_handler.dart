@@ -4,36 +4,40 @@ import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'medya_kapak.dart';
-import 'radyo_oynatici_store.dart';
 
 /// Uygulamadaki tüm ses oynatmanın kalbi: `audio_service` medya oturumu ve
 /// kilit ekranı bildirimi için arayüzü uygular. Tek [AudioPlayer] motorudur.
 ///
 /// `AudioService.init` tarafından bir kez oluşturulur ve aktif instance
 /// [aktif] üzerinden tüm modüllerin erişebileceği şekilde yayınlanır.
+///
+/// Döngüsel bağımlılığı kırmak için `stop`, `skipToNext`, `skipToPrevious`
+/// eylemleri constructor'da callback olarak verilir.
 class MuzikHandler extends BaseAudioHandler with SeekHandler {
   final AudioPlayer _oynatici;
+  final Future<void> Function()? onStop;
+  final Future<void> Function()? onNext;
+  final Future<void> Function()? onPrevious;
 
-  /// İlk initialize edilen handler; UI katmanı MediaItem güncellemek için kullanır.
   static MuzikHandler? aktif;
 
-  MuzikHandler(this._oynatici) {
+  MuzikHandler(
+    this._oynatici, {
+    this.onStop,
+    this.onNext,
+    this.onPrevious,
+  }) {
     _oynatici.playbackEventStream.listen(_durumYayinla);
   }
 
-  /// just_audio olaylarını media session'a aktarır (kilit ekranı durumu).
   void _durumYayinla(PlaybackEvent _) {
     if (playbackState.isClosed) return;
-    // Kullanıcı isteği: bildirimde yalnızca oynat/duraklat ve durdur.
-    // İleri/geri sarma (rewind/fastForward) ve önceki/sonraki (skip) butonları
-    // gösterilmez.
     final kontroller = <MediaControl>[
       if (_oynatici.playing) MediaControl.pause else MediaControl.play,
       MediaControl.stop,
     ];
     playbackState.add(PlaybackState(
       controls: kontroller,
-      // Genişletilmiş kartta imam kaydırma çubuğu kalır (sarma butonu değil).
       systemActions: const {
         MediaAction.seek,
       },
@@ -61,8 +65,6 @@ class MuzikHandler extends BaseAudioHandler with SeekHandler {
     }
   }
 
-  /// Yeni "çalınan medya" bilgisini yayınlar (başlık, alt yazı, kapak).
-  /// Kapak belirtilmemişse ortak [MedyaKapak] görseli otomatik enjekte edilir.
   void medyaHaber(MediaItem item) {
     if (item.artUri == null && MedyaKapak.uri != null) {
       item = item.copyWith(artUri: MedyaKapak.uri);
@@ -77,14 +79,20 @@ class MuzikHandler extends BaseAudioHandler with SeekHandler {
   Future<void> pause() => _oynatici.pause();
 
   @override
-  Future<void> stop() => RadyoOynaticiStore.durdur();
+  Future<void> stop() async {
+    await onStop?.call();
+  }
 
   @override
   Future<void> seek(Duration position) => _oynatici.seek(position);
 
   @override
-  Future<void> skipToNext() => RadyoOynaticiStore.sonraki();
+  Future<void> skipToNext() async {
+    await onNext?.call();
+  }
 
   @override
-  Future<void> skipToPrevious() => RadyoOynaticiStore.onceki();
+  Future<void> skipToPrevious() async {
+    await onPrevious?.call();
+  }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:islami_uygulama/main.dart';
+import 'package:islami_uygulama/pages/profil_sayfasi.dart';
 import 'package:islami_uygulama/services/bildirim_merkezi.dart';
 
 String _gunKey(DateTime d) =>
@@ -49,7 +50,7 @@ void main() {
     // için bir kare daha beklenir.
     await tester.pump();
 
-    await tester.tap(find.byIcon(Icons.person_outline).first);
+    await tester.tap(find.byIcon(Icons.person));
     await tester.pumpAndSettle();
 
     expect(find.text('Profilim'), findsOneWidget);
@@ -134,10 +135,16 @@ void main() {
     // için bir kare daha beklenir.
     await tester.pump();
 
-    await tester.tap(find.byIcon(Icons.person_outline).first);
+    await tester.tap(find.byIcon(Icons.person));
     await tester.pumpAndSettle();
 
-    await tester.enterText(find.byType(TextField), 'Ahmet');
+    await tester.enterText(
+      find.descendant(
+        of: find.byType(ProfilSayfasi),
+        matching: find.byType(TextField),
+      ),
+      'Ahmet',
+    );
     await tester.tap(find.text('Kaydet'));
     await tester.pumpAndSettle();
 

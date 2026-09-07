@@ -166,7 +166,7 @@ class DualarVerileri {
   /// dualar, faziletler ve çok dilli mealler ekleyebilirsiniz — uygulamayı
   /// Store'da güncellemeye gerek kalmaz. Boş bırakılırsa gömülü asset kullanılır.
   static const String uzakJsonUrl =
-      'https://raw.githubusercontent.com/kullanici/islami-uygulama-config/main/dualar.json';
+      'https://raw.githubusercontent.com/AkinAkonur/islami-uygulama-config/main/dualar.json';
 
   /// Yeniden deneme periyodu: içerik güncellemelerini yakalamak için 12 saat.
   static const Duration yenilemePeriyodu = Duration(hours: 12);

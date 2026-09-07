@@ -78,7 +78,7 @@ class _DuaDetayPageState extends State<DuaDetayPage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setLocal) => Padding(
+        builder: (ctx, setLocal) => SingleChildScrollView(
           padding: EdgeInsets.only(
             left: 20,
             right: 20,

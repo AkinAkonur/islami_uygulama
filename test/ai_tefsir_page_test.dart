@@ -36,15 +36,10 @@ void main() {
             'AI sayfası render hatası fırlattı: ${hatalar.map((e) => e.toString()).join("; ")}');
 
     // Hak rozeti (dilden bağımsız) ve soru girişi görünür olmalı.
-    expect(
-      find.byWidgetPredicate(
-        (w) => w is Text && w.data != null && w.data!.endsWith(': 5/5'),
-      ),
-      findsOneWidget,
-    );
+    expect(find.text('5 / 5'), findsOneWidget);
     expect(find.byType(TextField), findsOneWidget);
-    // Kategori çipleri (horizontal liste) ve hızlı örnek çipleri mevcut.
+    // Kategori seçici (yatay liste) ve hızlı örnek çipleri (3 adet) mevcut.
     expect(find.byType(ListView), findsOneWidget);
-    expect(find.byType(ActionChip), findsNWidgets(3));
+    expect(find.byIcon(Icons.arrow_forward_ios_rounded), findsNWidgets(3));
   });
 }

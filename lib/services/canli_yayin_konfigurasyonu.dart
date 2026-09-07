@@ -463,7 +463,7 @@ class CanliYayinKonfigurasyonu {
   /// kaynaklarını uygulama güncellemesi olmadan değiştirebilirsiniz.
   /// Boş bırakılırsa yalnızca gömülü varsayılanlar kullanılır (çevrimdışı).
   static const String configUrl =
-      'https://raw.githubusercontent.com/kullanici/islami-uygulama-config/main/canli_yayin.json';
+      'https://raw.githubusercontent.com/AkinAkonur/islami-uygulama-config/main/canli_yayin.json';
 
   /// Yeniden deneme periyodu: kaynak değişikliğinin yakalanması için 6 saat.
   static const Duration yenilemePeriyodu = Duration(hours: 6);

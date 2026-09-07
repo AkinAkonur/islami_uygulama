@@ -11,7 +11,7 @@ import 'package:islami_uygulama/pages/ummet_bolumu_page.dart';
 import 'package:islami_uygulama/pages/ummet/dunya_ummeti_page.dart';
 import 'package:islami_uygulama/pages/ummet/islami_akis_page.dart';
 import 'package:islami_uygulama/pages/ummet/manevi_halkalar_page.dart';
-import 'package:islami_uygulama/pages/ummet/soru_cevap_page.dart';
+import 'package:islami_uygulama/pages/soru_cevap/soru_cevap_page.dart';
 import 'package:islami_uygulama/pages/ummet/yardim_kampanyalari_page.dart';
 import 'package:islami_uygulama/pages/ummet/zekat_hesaplayici_page.dart';
 
@@ -120,7 +120,7 @@ void main() {
 
     await tester.pumpWidget(uygulama(const SoruCevapPage()));
     await tester.pumpAndSettle();
-    expect(find.text('Namaz & İbadet'), findsWidgets);
+    expect(find.textContaining('Namaz & Abdest'), findsWidgets);
 
     await tester.pumpWidget(uygulama(const ManeviHalkalarPage()));
     await tester.pumpAndSettle();

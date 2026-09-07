@@ -4,11 +4,85 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:just_audio_platform_interface/just_audio_platform_interface.dart';
+import 'package:just_audio_platform_interface/method_channel_just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/sesli_kissalar_ve_podcastler_page.dart';
 import 'package:islami_uygulama/services/sesli_oynatma_store.dart';
+
+// just_audio platformu gerçek kanal çağrıları yerine doğrudan Dart düzeyinde
+// taklit edilir: radyo oynatıcısının load()/play() adımları gerçek platformda
+// olduğu gibi hemen "ready" durumuna geçer. Böylece setAudioSource/play
+// zinciri sahte zamanladırıcıda kilitlenmeden tamamlanır.
+class SahJustAudio extends MethodChannelJustAudio {
+  @override
+  Future<AudioPlayerPlatform> init(InitRequest request) async =>
+      SahAudioPlayer(request.id);
+}
+
+class SahAudioPlayer extends AudioPlayerPlatform {
+  SahAudioPlayer(super.id);
+
+  @override
+  Stream<PlaybackEventMessage> get playbackEventMessageStream =>
+      Stream.fromIterable([
+        PlaybackEventMessage(
+          processingState: ProcessingStateMessage.ready,
+          updateTime: DateTime.now(),
+          updatePosition: Duration.zero,
+          bufferedPosition: Duration.zero,
+          duration: Duration.zero,
+          icyMetadata: null,
+          currentIndex: 0,
+          androidAudioSessionId: null,
+        ),
+      ]);
+
+  @override
+  Future<LoadResponse> load(LoadRequest request) async =>
+      LoadResponse(duration: Duration.zero);
+
+  @override
+  Future<PlayResponse> play(PlayRequest request) async => PlayResponse();
+
+  @override
+  Future<PauseResponse> pause(PauseRequest request) async => PauseResponse();
+
+  @override
+  Future<SetVolumeResponse> setVolume(SetVolumeRequest request) async =>
+      SetVolumeResponse();
+
+  @override
+  Future<SetSpeedResponse> setSpeed(SetSpeedRequest request) async =>
+      SetSpeedResponse();
+
+  @override
+  Future<SetPitchResponse> setPitch(SetPitchRequest request) async =>
+      SetPitchResponse();
+
+  @override
+  Future<SetLoopModeResponse> setLoopMode(SetLoopModeRequest request) async =>
+      SetLoopModeResponse();
+
+  @override
+  Future<SetShuffleModeResponse> setShuffleMode(
+          SetShuffleModeRequest request) async =>
+      SetShuffleModeResponse();
+
+  @override
+  Future<SeekResponse> seek(SeekRequest request) async => SeekResponse();
+
+  @override
+  Future<SetAndroidAudioAttributesResponse> setAndroidAudioAttributes(
+          SetAndroidAudioAttributesRequest request) async =>
+      SetAndroidAudioAttributesResponse();
+
+  @override
+  Future<DisposeResponse> dispose(DisposeRequest request) async =>
+      DisposeResponse();
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -58,6 +132,9 @@ void main() {
   });
 
   setUp(() {
+    // just_audio oynatıcısı kanal yerine Dart düzeyinde taklit edilir; her
+    // testte taze örnek kurularak önceki testten kalan durum temizlenir.
+    JustAudioPlatform.instance = SahJustAudio();
     // GlobalAudioScope.ensureInitialized, ilk testte tamamlanan `_initCompleter'ı
     // sonraki testte yeniden bekler ve FakeAsync zone farkı yüzünden asılı kalır;
     // bu yüzden ikinci testten itibaren AudioPlayer create edilemez. Global
@@ -181,19 +258,8 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    // play() yerel 'prepared' olayını bekler; platform olayını taklit et.
-    final pid = dinlenenPlayerId;
-    if (pid != null) {
-      final bytes = const StandardMethodCodec().encodeSuccessEnvelope(
-        <String, dynamic>{'event': 'audio.onPrepared', 'value': true},
-      );
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .handlePlatformMessage(
-            'xyz.luan/audioplayers/events/$pid',
-            bytes,
-            (_) {},
-          );
-    }
+    // play() yerel 'ready' olayını bekler; sahte just_audio platformu bu
+    // olayı hemen ürettiği için zincir kilitlenmeden tamamlanır.
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 

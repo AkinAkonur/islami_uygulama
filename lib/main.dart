@@ -52,7 +52,7 @@ import 'screens/gorsel_kilinis_screen.dart';
 import 'pages/kuran/sure_listesi_page.dart';
 import 'pages/soru_cevap/gunun_sorusu_karti.dart';
 import 'pages/dua_kardesligi/dua_kardesligi_store.dart';
-import 'screens/settings_page.dart';
+import 'screens/settings_screen.dart';
 
 // ── 3D Zümrüt & Altın Varak paleti (ana sayfa) ──
 const _zemin = Color(0xFF021711);
@@ -129,7 +129,12 @@ Future<void> _medyaServisBaslat() async {
     final oturum = await AudioSession.instance;
     await oturum.configure(AudioSessionConfiguration.music());
     final handler = await AudioService.init(
-      builder: () => MuzikHandler(RadyoOynaticiStore.player),
+      builder: () => MuzikHandler(
+        RadyoOynaticiStore.player,
+        onStop: RadyoOynaticiStore.durdur,
+        onNext: RadyoOynaticiStore.sonraki,
+        onPrevious: RadyoOynaticiStore.onceki,
+      ),
       config: AudioServiceConfig(
         androidNotificationChannelId: 'com.example.islami_uygulama.audio',
         androidNotificationChannelName: 'Medya oynatıcı',

@@ -6,7 +6,7 @@
 //                    + dokununca basma efekti + isteğe bağlı altın ışıma
 //  • ZumrutCamKutu: zümrüt koyu gradyan zemin + ince altın kenar + cam
 //                    yansıması (diyagonal parlama)
-//  • AltinBar     : altın parlayan başparmak, yeşil→altın gradyan izli kaydırıcı
+
 // ===========================================================================
 
 import 'package:flutter/material.dart';
@@ -190,54 +190,6 @@ class ZumrutCamKutu extends StatelessWidget {
   }
 }
 
-/// Altın dokunsal kaydırıcı teması: altın parlayan başparmak + yeşil→altın iz.
-class AltinBar extends StatelessWidget {
-  const AltinBar({
-    super.key,
-    required this.deger,
-    this.onDegisti,
-    this.minimum = 0,
-    this.maximum = 1,
-    this.aktif = true,
-  });
-
-  final double deger;
-  final double minimum;
-  final double maximum;
-  final ValueChanged<double>? onDegisti;
-
-  /// Sürükleme etkin mi (yalnızca gösterim).
-  final bool aktif;
-
-  @override
-  Widget build(BuildContext context) {
-    return SliderTheme(
-      data: SliderTheme.of(context).copyWith(
-        trackHeight: 3,
-        activeTrackColor: AltinTasarim.altin,
-        inactiveTrackColor: AltinTasarim.zumrutAcik.withValues(alpha: 0.6),
-        thumbColor: AltinTasarim.altinParlakRenk,
-        thumbShape: const RoundSliderThumbShape(
-          enabledThumbRadius: 7,
-          elevation: 0,
-          pressedElevation: 0,
-        ),
-        overlayShape: const RoundSliderOverlayShape(overlayRadius: 18),
-        overlayColor: AltinTasarim.altin.withValues(alpha: 0.22),
-        trackShape: GradyanSliderTrackShape(),
-        // Altın ışıma: başparmak üzerinde sıcak gölge
-        valueIndicatorColor: AltinTasarim.koyuAltin,
-      ),
-      child: Slider(
-        value: deger.clamp(minimum, maximum),
-        min: minimum,
-        max: maximum,
-        onChanged: aktif ? onDegisti : null,
-      ),
-    );
-  }
-}
-
 /// Dolu kısmı zümrüt→altın gradyanla çizen kaydırıcı izi.
 /// Uygulama geneli `SliderTheme`da da kullanılır (tüm kaydırıcılar tactile olur).
 class GradyanSliderTrackShape extends RoundedRectSliderTrackShape {
@@ -367,7 +319,12 @@ class _UcdButonState extends State<UcdButon> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: !_aktif
-              ? const [Color(0xFF5A5540), Color(0xFF3A3A34), Color(0xFF34302A)]
+              ? const [
+                  Color(0xFF5A5540),
+                  Color(0xFF3A3A34),
+                  Color(0xFF34302A),
+                  Color(0xFF3A3A34),
+                ]
               : pressed
                   ? const [Color(0xFF9A6B00), AltinTasarim.altin, Color(0xFF9A6B00)]
                   : const [
@@ -376,7 +333,9 @@ class _UcdButonState extends State<UcdButon> {
                       AltinTasarim.koyuAltin,
                       AltinTasarim.altin,
                     ],
-          stops: pressed ? const [0, 0.5, 1] : const [0, 0.35, 0.62, 1],
+          stops: pressed && _aktif
+              ? const [0, 0.5, 1]
+              : const [0, 0.35, 0.62, 1],
         ),
       ),
       child: Container(

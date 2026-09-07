@@ -109,7 +109,7 @@ class IlhamVerileri {
   /// Kendi sunucunuzdaki dosyayı güncelleyerek içeriği uygulama güncellemesi
   /// olmadan yönetebilirsiniz. Boş/ulaşılamaz → gömülü havuz kullanılır.
   static const String uzakJsonUrl =
-      'https://raw.githubusercontent.com/kullanici/islami-uygulama-config/main/ilham_hikmet.json';
+      'https://raw.githubusercontent.com/AkinAkonur/islami-uygulama-config/main/ilham_hikmet.json';
 
   /// Yeniden deneme periyodu: 12 saat (günde en fazla 2 tazeleme).
   static const Duration yenilemePeriyodu = Duration(hours: 12);
