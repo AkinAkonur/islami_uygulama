@@ -7,13 +7,18 @@ import '../services/renkler.dart';
 import '../widgets/kart_sekilleri.dart';
 import 'cuz_okuma_page.dart';
 import 'hatim_duasi_page.dart';
+import 'kuran/sure_detay_page.dart';
 
-/// Ana sayfadaki "Cüz'ler" girişinden açılan sayfa.
-/// 30 cüzün tamamı uygulamayla birlikte gelir (assets/cuzler), bu yüzden
-/// internet olmadan da okunabilir. Cüzlerin okunma durumu cihazda saklanır
-/// ve yeşil onay ile gösterilir.
+/// Cüzler listeleyen tek sayfa.
+///
+/// Ana sayfadaki "Cüz'ler" girişi okuma modunda (okuma durumu + hatim duası +),
+/// Kur'an bölümündeki "Cüz Listesi" girişiyse sure listesi modunda (her cüzdeki
+/// surelere `SureDetayPage` üzerinden ulaşım) çalışır. Böylece 30 cüzün listesi
+/// tek yerde tutulur; `cuz_listesi_page.dart` bu birleştirmeyle kaldırıldı.
 class CuzlerPage extends StatefulWidget {
-  const CuzlerPage({super.key});
+  const CuzlerPage({super.key, this.sureListesiModu = false});
+
+  final bool sureListesiModu;
 
   @override
   State<CuzlerPage> createState() => _CuzlerPageState();
@@ -26,7 +31,7 @@ class _CuzlerPageState extends State<CuzlerPage> {
   @override
   void initState() {
     super.initState();
-    _durumlariOku();
+    if (!widget.sureListesiModu) _durumlariOku();
   }
 
   Future<void> _durumlariOku() async {
@@ -36,6 +41,17 @@ class _CuzlerPageState extends State<CuzlerPage> {
       _okundu = durum;
       _yuklendi = true;
     });
+  }
+
+  void _cuzTikla(int cuzNo) {
+    if (widget.sureListesiModu) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => SureDetayPage(cuzNo: cuzNo)),
+      );
+    } else {
+      _cuzuAc(cuzNo);
+    }
   }
 
   Future<void> _cuzuAc(int cuzNo) async {
@@ -62,25 +78,41 @@ class _CuzlerPageState extends State<CuzlerPage> {
       backgroundColor: Renkler.zemin,
       appBar: AppBar(
         title: Text(
-          l.t('h.cuzler'),
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          widget.sureListesiModu ? l.t('cl.cuzListTitle') : l.t('h.cuzler'),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         backgroundColor: Renkler.yuzey,
         elevation: 0,
-        actions: [
-          IconButton(
-            tooltip: l.t('cz.hatimDua'),
-            onPressed: _hatimDuasiAc,
-            icon: UcdIkon(
-              ikon: Icons.auto_stories_rounded,
-              renk: Renkler.vurgu,
-            ),
-          ),
-        ],
+        actions: widget.sureListesiModu
+            ? null
+            : [
+                IconButton(
+                  tooltip: l.t('cz.hatimDua'),
+                  onPressed: _hatimDuasiAc,
+                  icon: UcdIkon(
+                    ikon: Icons.auto_stories_rounded,
+                    renk: Renkler.vurgu,
+                  ),
+                ),
+              ],
       ),
-      body: _yuklendi
-          ? _icerik(okunan)
-          : const Center(child: CircularProgressIndicator()),
+      body: widget.sureListesiModu
+          ? _cerikSure()
+          : _yuklendi
+              ? _icerik(okunan)
+              : const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget _cerikSure() {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        for (var i = 0; i < 30; i++) _cuzKarti(i + 1),
+      ],
     );
   }
 
@@ -172,7 +204,8 @@ class _CuzlerPageState extends State<CuzlerPage> {
 
   Widget _cuzKarti(int cuzNo) {
     final l = AppLocalizations.of(context);
-    final okundu = _okundu[cuzNo - 1];
+    final sureModu = widget.sureListesiModu;
+    final okundu = !sureModu && _okundu[cuzNo - 1];
     final amme = cuzNo == 30;
     return Card(
       color: okundu ? Renkler.seciliYuzey : Renkler.kart,
@@ -188,7 +221,7 @@ class _CuzlerPageState extends State<CuzlerPage> {
         ),
       ),
       child: ListTile(
-        onTap: () => _cuzuAc(cuzNo),
+        onTap: () => _cuzTikla(cuzNo),
         leading: Container(
           width: 44,
           height: 44,
@@ -219,23 +252,35 @@ class _CuzlerPageState extends State<CuzlerPage> {
           (cuzBaslangic[cuzNo] ?? '') + (amme ? l.t('cz.amme') : ''),
           style: const TextStyle(color: Colors.white54, fontSize: 12),
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (okundu)
-              Tooltip(
-                message: l.t('cz.read'),
-                child: const UcdIkon(
-                  ikon: Icons.check_circle_rounded,
-                  renk: Colors.greenAccent,
-                ),
+        trailing: sureModu
+            ? UcdIkon(
+                ikon: Icons.play_circle_outline_rounded,
+                renk: Renkler.vurgu,
               )
-            else
-              const UcdIkon(ikon: Icons.circle_outlined, renk: Colors.white24),
-            const SizedBox(width: 6),
-            UcdIkon(ikon: Icons.chevron_right, renk: Colors.white38, boyut: 20),
-          ],
-        ),
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (okundu)
+                    Tooltip(
+                      message: l.t('cz.read'),
+                      child: const UcdIkon(
+                        ikon: Icons.check_circle_rounded,
+                        renk: Colors.greenAccent,
+                      ),
+                    )
+                  else
+                    const UcdIkon(
+                      ikon: Icons.circle_outlined,
+                      renk: Colors.white24,
+                    ),
+                  const SizedBox(width: 6),
+                  UcdIkon(
+                    ikon: Icons.chevron_right,
+                    renk: Colors.white38,
+                    boyut: 20,
+                  ),
+                ],
+              ),
       ),
     );
   }

@@ -8,7 +8,7 @@ import '../services/gercek_bildirimler.dart';
 import '../services/renkler.dart';
 import '../services/vakit_servisi.dart';
 import '../screens/namaz_screen.dart';
-import 'gunluk_gorev_page.dart';
+import 'gunluk_hedefler/gunluk_hedefler_page.dart';
 import 'ramazan_modu_page.dart';
 import 'ummet_bolumu_page.dart';
 import 'kuran/sure_listesi_page.dart';
@@ -154,7 +154,7 @@ class _BildirimlerSayfasiState extends State<BildirimlerSayfasi> {
       case 'namaz':
         return const NamazScreen();
       case 'gorevler':
-        return const GunlukGorevPage();
+        return const GunlukHedeflerPage();
       case 'ramazan':
         return const RamazanModuPage();
       case 'kuran':

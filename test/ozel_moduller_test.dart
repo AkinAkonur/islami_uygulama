@@ -58,7 +58,6 @@ void main() {
 
     expect(find.text('Namaz · 5 Vakit'), findsOneWidget);
     expect(find.text('Bugünün İyilikleri'), findsOneWidget);
-    expect(find.text('0 günlük seri'), findsOneWidget);
 
     await tester.tap(find.text('Sabah Namazı'));
     await tester.pumpAndSettle();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../services/manevi_store.dart';
 import '../../services/renkler.dart';
 import '../../widgets/altin_tactile.dart';
 import '../dua_kardesligi/dua_kardesligi_page.dart';
@@ -11,6 +10,7 @@ import 'gunluk_hedef_kutlama.dart';
 import 'gunluk_hedef_store.dart';
 import 'gunluk_hedef_verileri.dart';
 import 'gunluk_hedef_widgetler.dart';
+import 'gunluk_iyilik_bolumu.dart';
 
 class GunlukHedeflerPage extends StatefulWidget {
   const GunlukHedeflerPage({super.key});
@@ -21,7 +21,6 @@ class GunlukHedeflerPage extends StatefulWidget {
 
 class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
   List<bool> _hafta = List.filled(7, false);
-  Set<String> _namaz = {};
   bool _hazir = false;
 
   @override
@@ -45,12 +44,8 @@ class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
 
   Future<void> _tazele() async {
     final hafta = await GunlukHedefStore.sonYediGun();
-    final namaz = await ManeviStore.bugunNamaz();
     if (!mounted) return;
-    setState(() {
-      _hafta = hafta;
-      _namaz = namaz;
-    });
+    setState(() => _hafta = hafta);
   }
 
   void _kutlamayiGoster() {
@@ -104,11 +99,6 @@ class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
     }
   }
 
-  Future<void> _namazTikla(String vakit) async {
-    final yeni = await ManeviStore.namazTikla(vakit, !_namaz.contains(vakit));
-    if (mounted) setState(() => _namaz = yeni);
-  }
-
   Future<void> _dondurucuAl() async {
     final ok = await GunlukHedefStore.dondurucuAl();
     if (!mounted) return;
@@ -154,10 +144,7 @@ class _GunlukHedeflerPageState extends State<GunlukHedeflerPage> {
                       );
                     },
                   ),
-                  SliverToBoxAdapter(child: _bolumBasligi(l.t('gh.namazSection'))),
-                  SliverToBoxAdapter(
-                    child: NamazKarti(namaz: _namaz, onTikla: _namazTikla),
-                  ),
+                  const SliverToBoxAdapter(child: IyilikBolumu()),
                   SliverToBoxAdapter(child: _bolumBasligi(l.t('gh.milestones'))),
                   const SliverToBoxAdapter(child: RozetlerBolumu()),
                   SliverToBoxAdapter(child: _bolumBasligi(l.t('gh.shop'))),

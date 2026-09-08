@@ -33,7 +33,7 @@ import 'pages/ummet_bolumu_page.dart';
 import 'pages/namazlar_bolumu_page.dart';
 import 'pages/ramazan_modu_page.dart';
 import 'pages/devam_et_page.dart';
-import 'pages/gunluk_gorev_page.dart';
+import 'pages/gunluk_hedefler/gunluk_hedefler_page.dart';
 import 'pages/konum_page.dart';
 import 'pages/hedef_carki_page.dart';
 import 'pages/widget_rehberi_page.dart';
@@ -627,7 +627,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           renk: _goldAccent,
           baslik: l.t('mod.gorev'),
           altMetin: '',
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => GunlukGorevPage())),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const GunlukHedeflerPage())),
         ),
         _ManeviyatKutusu(
           ikon: Icons.mosque_outlined,

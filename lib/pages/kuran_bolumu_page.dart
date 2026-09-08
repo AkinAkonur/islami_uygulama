@@ -10,7 +10,7 @@ import 'kuran/hatim_takibi_page.dart';
 import 'kuran/kisa_sureler_page.dart';
 import 'kuran/tematik_ayetler_page.dart';
 import 'kuran/kuran_adabi_page.dart';
-import 'kuran/cuz_listesi_page.dart';
+import 'cuzler_page.dart';
 
 class KuranBolumuPage extends StatefulWidget {
   const KuranBolumuPage({super.key});
@@ -215,7 +215,9 @@ class _KuranBolumuPageState extends State<KuranBolumuPage> {
               Renkler.vurgu,
               () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => CuzListesiPage()),
+                MaterialPageRoute(
+                  builder: (_) => const CuzlerPage(sureListesiModu: true),
+                ),
               ),
             ),
             _modulKart(

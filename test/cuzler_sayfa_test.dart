@@ -9,6 +9,7 @@ import 'package:islami_uygulama/l10n/app_localizations.dart';
 import 'package:islami_uygulama/pages/cuz_okuma_page.dart';
 import 'package:islami_uygulama/pages/cuzler_page.dart';
 import 'package:islami_uygulama/pages/hatim_duasi_page.dart';
+import 'package:islami_uygulama/pages/kuran/sure_detay_page.dart';
 import 'package:islami_uygulama/services/cuz_hatim_store.dart';
 import 'package:islami_uygulama/services/cuz_verileri.dart';
 
@@ -112,6 +113,22 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('1 / 30'), findsOneWidget);
       expect(find.byIcon(Icons.check_circle_rounded), findsOneWidget);
+    });
+
+    testWidgets('sure listesi modunda cüzler sure detayina acilir', (tester) async {
+      await tester.pumpWidget(
+        uygulama(const CuzlerPage(sureListesiModu: true)),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Cüz Listesi (30)'), findsOneWidget);
+      expect(find.text('Hatim İlerlemesi'), findsNothing);
+      expect(find.text('1. Cüz'), findsOneWidget);
+
+      await tester.tap(find.text('1. Cüz'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SureDetayPage), findsOneWidget);
     });
   });
 

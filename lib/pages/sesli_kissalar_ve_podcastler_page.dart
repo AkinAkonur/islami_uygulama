@@ -428,8 +428,8 @@ class _SesliKissalarVePodcastlerPageState
     });
     try {
       try {
-        await _oynatici.stop();
-      } catch (_) {}
+      await _oynatici.stop();
+    } catch (_) {}
       await _oynatici.setSpeed(SesliOynatmaStore.hiz.value);
 
       final yerelYol = MedyaIndirmeServisi.instance.yerelYolu(url);
