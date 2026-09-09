@@ -1,0 +1,45 @@
+# Satır sonu normalizasyonu: depoda daima LF, Windows'ta çalışma kopyası CRLF olabilir.
+* text=auto eol=lf
+
+# Windows'a özgü betikler CRLF kalmalı.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Kaynak kod ve yapılandırma
+*.dart text
+*.yaml text
+*.yml text
+*.json text
+*.js text
+*.md text
+*.xml text
+*.kts text
+*.gradle text
+*.properties text
+*.swift text
+*.h text
+*.m text
+*.plist text
+*.txt text
+*.rules text
+gradlew text eol=lf
+
+# İkili dosyalar asla dönüştürülmemeli.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.mp4 binary
+*.ttf binary
+*.otf binary
+*.zip binary
+*.jks binary
+*.keystore binary
+*.sqlite binary
+*.jar binary

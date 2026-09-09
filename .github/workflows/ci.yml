@@ -1,0 +1,73 @@
+name: CI
+
+# Her push ve pull request'te Flutter analizi, testler ve backend sözdizimi
+# kontrolü GitHub'ın ücretsiz koşucularında çalışır. Böylece "testler
+# çalıştırılmadı" durumu bir daha oluşmaz.
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  flutter:
+    name: Flutter analiz ve test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter sürümü
+        run: flutter --version
+
+      - name: Bağımlılıklar
+        run: flutter pub get
+
+      - name: Statik analiz
+        run: flutter analyze
+
+      - name: Testler
+        run: flutter test --reporter expanded
+
+  backend:
+    name: Backend (Cloud Functions) kontrolü
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Sözdizimi ve katalog testi
+        working-directory: backend/functions
+        run: |
+          node --check index.js
+          node test/retrieval_test.js
+
+  yapisal-denetim:
+    name: Yapısal kaynak denetimi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: source_audit
+        run: python tool/source_audit.py
+
+  sir-taramasi:
+    name: Sır taraması
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Yasaklı dosyalar ve gömülü anahtarlar
+        run: bash tool/secret_scan.sh

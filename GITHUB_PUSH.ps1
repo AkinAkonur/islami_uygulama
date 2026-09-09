@@ -33,9 +33,13 @@ if (git remote | Select-String -Quiet '^origin$') {
 # Güvenlik kontrolü: sır içeren dosyalar asla gönderilmemeli.
 $yasakli = @(
   "config/firebase.production.json",
+  ".firebaserc",
   "android/key.properties",
   "android/app/release-keystore.jks",
   "android/app/google-services.json",
+  "ios/Runner/GoogleService-Info.plist",
+  "ios/firebase_app_id_file.json",
+  "lib/firebase_options.dart",
   ".env"
 )
 git add -A

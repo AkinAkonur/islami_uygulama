@@ -1,23 +1,68 @@
+# Flutter / Dart
 build/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
+.pub/
+coverage/
+*.g.dart.bak
 verification_logs/
+
+# Derleme çıktıları
+*.apk
+*.aab
+*.apks
+*.ipa
+*.app.zip
+
+# Android yerel yapılandırma ve imza (ASLA gönderilmez)
 android/local.properties
 android/key.properties
+android/.gradle/
+android/app/release-keystore.jks
+android/app/google-services.json
 *.jks
 *.keystore
+
+# Ortam değişkenleri ve sırlar
 .env
 .env.*
 !*.example
-ios/Flutter/Generated.xcconfig
-ios/Flutter/flutter_export_environment.sh
-backend/functions/node_modules/
+config/firebase.production.json
+lib/firebase_options.dart
+
+# Firebase
+.firebaserc
 .firebase/
 firebase-debug.log
 firebase-debug.*.log
-config/firebase.production.json
-android/app/google-services.json
-lib/firebase_options.dart
-android/app/release-keystore.jks
+firestore-debug.log
+ui-debug.log
+backend/functions/node_modules/
+backend/functions/.env
+
+# iOS / macOS (Firebase yapılandırması ve türetilmiş dosyalar)
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Runner/GoogleService-Info.plist
+ios/firebase_app_id_file.json
+ios/Pods/
+ios/Podfile.lock
+ios/.symlinks/
+macos/Runner/GoogleService-Info.plist
+macos/firebase_app_id_file.json
+macos/Pods/
+macos/Flutter/ephemeral/
+
+# Windows / Linux gömülü hedefler
+windows/flutter/ephemeral/
+linux/flutter/ephemeral/
+
+# Editör ve işletim sistemi
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
