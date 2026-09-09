@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
@@ -306,60 +307,163 @@ class _AcilisYuklemeEkraniState extends State<AcilisYuklemeEkrani>
     final karanlik = Theme.of(context).brightness == Brightness.dark;
     final zemin = karanlik ? const Color(0xFF06120C) : const Color(0xFFF4F8F2);
     final yazi = karanlik ? Colors.white : const Color(0xFF14281B);
+    final l = AppLocalizations.of(context);
+    final ipuclari = <String>[
+      l.t('splash.tip1'),
+      l.t('splash.tip2'),
+      l.t('splash.tip3'),
+    ];
     return Scaffold(
       backgroundColor: zemin,
       body: AnimatedBuilder(
         animation: _animasyon,
-        builder: (context, _) => Stack(
-          fit: StackFit.expand,
-          children: [
-            Tema.zeminKatmani(karanlik: karanlik),
-            Center(
-              child: FadeTransition(
-                opacity: _gir,
-                child: ScaleTransition(
-                  scale: Tween<double>(begin: 0.82, end: 1.0).animate(_gir),
+        builder: (context, _) {
+          final t = _animasyon.value;
+          final ipucu = ipuclari[(t * ipuclari.length)
+              .floor()
+              .clamp(0, ipuclari.length - 1)];
+          final kalan = (5 - (t * 5)).ceil().clamp(1, 5);
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              Tema.zeminKatmani(karanlik: karanlik),
+              // Derinlik katmani: parallax yildizlar + perspektif zemin izgarasi.
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: _AcilisDerinlikBoyaci(
+                    ilerleme: t,
+                    karanlik: karanlik,
+                  ),
+                ),
+              ),
+              Center(
+                child: FadeTransition(
+                  opacity: _gir,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _AcilisAmblem(parlama: _parlama.value),
-                      const SizedBox(height: 26),
-                      Text(
-                        AppLocalizations.of(context).t('splash.title'),
-                        style: TextStyle(
-                          color: yazi,
-                          fontSize: 19,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 3.2,
+                      // 3D amblem: perspektif matrisiyle donen kubbe + yorunge.
+                      Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()
+                          ..setEntry(3, 2, 0.0014)
+                          ..rotateX(-0.28 + math.sin(t * math.pi) * 0.06)
+                          ..rotateY(math.sin(t * math.pi * 2) * 0.42)
+                          ..scale(0.86 + _gir.value * 0.14),
+                        child: _AcilisAmblem3D(
+                          parlama: _parlama.value,
+                          donus: t * math.pi * 2,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        AppLocalizations.of(context).t('splash.subtitle'),
-                        style: TextStyle(
-                          color: Renkler.acikVurgu.withValues(alpha: 0.88),
-                          fontSize: 12,
-                          letterSpacing: 1.1,
+                      const SizedBox(height: 30),
+                      // Basligin da hafif derinligi var (yukaridan bakis).
+                      Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()
+                          ..setEntry(3, 2, 0.0016)
+                          ..rotateX(-0.18),
+                        child: Column(
+                          children: [
+                            Text(
+                              l.t('splash.title'),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: yazi,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 3.4,
+                                shadows: const [
+                                  Shadow(
+                                    color: Color(0xAA000000),
+                                    offset: Offset(0, 3),
+                                    blurRadius: 8,
+                                  ),
+                                  Shadow(
+                                    color: Color(0x66EAB308),
+                                    offset: Offset(0, -1),
+                                    blurRadius: 12,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              l.t('splash.subtitle'),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Renkler.acikVurgu.withValues(alpha: 0.9),
+                                fontSize: 12,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 36),
-                      SizedBox(
-                        width: 180,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: LinearProgressIndicator(
-                            minHeight: 4,
-                            value: _animasyon.value,
-                            backgroundColor: Renkler.seciliYuzey.withValues(alpha: 0.55),
-                            valueColor: AlwaysStoppedAnimation<Color>(Renkler.vurgu),
+                      const SizedBox(height: 34),
+                      // 3D kabartmali ilerleme cubugu (5 saniye).
+                      Container(
+                        width: 208,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0x33000000),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x55000000),
+                              offset: Offset(0, 3),
+                              blurRadius: 8,
+                            ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.all(2),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: FractionallySizedBox(
+                            widthFactor: t.clamp(0.02, 1.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Color(0xFFFFE9A8),
+                                    Color(0xFFEAB308),
+                                    Color(0xFF9A7208),
+                                  ],
+                                ),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x88EAB308),
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 14),
+                      // Donen ipuclari: 5 saniye sikici gelmesin.
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 420),
+                        child: Text(
+                          ipucu,
+                          key: ValueKey<String>(ipucu),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: yazi.withValues(alpha: 0.72),
+                            fontSize: 12.5,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
                       Text(
-                        AppLocalizations.of(context).t('splash.loading'),
+                        '${l.t('splash.loading')}  $kalan',
                         style: TextStyle(
-                          color: yazi.withValues(alpha: 0.58),
+                          color: yazi.withValues(alpha: 0.5),
                           fontSize: 11,
                           letterSpacing: 0.7,
                         ),
@@ -368,68 +472,228 @@ class _AcilisYuklemeEkraniState extends State<AcilisYuklemeEkrani>
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class _AcilisAmblem extends StatelessWidget {
-  const _AcilisAmblem({required this.parlama});
+/// Acilis ekraninin arka plan derinligi: perspektif zemin izgarasi ve
+/// paralaks yildizlar. Asset kullanmaz; tamamen vektorel cizilir.
+class _AcilisDerinlikBoyaci extends CustomPainter {
+  _AcilisDerinlikBoyaci({required this.ilerleme, required this.karanlik});
+
+  final double ilerleme;
+  final bool karanlik;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+
+    // Ufuk cizgisinden asagi acilan perspektif izgara (3D zemin hissi).
+    final ufuk = h * 0.66;
+    final cizgi = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.1
+      ..color = (karanlik ? const Color(0xFF7FE3B0) : const Color(0xFF2A7A55))
+          .withValues(alpha: 0.16);
+
+    for (var i = 1; i <= 9; i++) {
+      final p = i / 9;
+      final y = ufuk + (h - ufuk) * math.pow(p, 1.8).toDouble();
+      canvas.drawLine(Offset(0, y), Offset(w, y), cizgi);
+    }
+    for (var i = -6; i <= 6; i++) {
+      final x = w / 2 + i * (w / 8);
+      canvas.drawLine(Offset(w / 2 + i * 12.0, ufuk), Offset(x, h), cizgi);
+    }
+
+    // Paralaks yildizlar: iki katman farkli hizda kayar.
+    for (var katman = 0; katman < 2; katman++) {
+      final hiz = katman == 0 ? 8.0 : 20.0;
+      final yaricap = katman == 0 ? 1.1 : 1.9;
+      final boya = Paint()
+        ..color = const Color(0xFFFFF3CF)
+            .withValues(alpha: katman == 0 ? 0.35 : 0.6);
+      for (var i = 0; i < 34; i++) {
+        final x = ((i * 137 + katman * 53) % w.toInt()).toDouble();
+        final y = ((i * 89 + katman * 31) % ufuk.toInt()).toDouble() +
+            math.sin(ilerleme * math.pi * 2 + i) * hiz * 0.25;
+        final parlak = 0.5 + 0.5 * math.sin(ilerleme * math.pi * 4 + i);
+        canvas.drawCircle(
+          Offset(x, y),
+          yaricap * (0.6 + parlak * 0.6),
+          boya,
+        );
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _AcilisDerinlikBoyaci oldDelegate) =>
+      oldDelegate.ilerleme != ilerleme || oldDelegate.karanlik != karanlik;
+}
+
+/// 3D amblem: katmanli golge/isik ile hacim kazanan kubbe ve etrafinda
+/// perspektifle donen altin yorunge halkasi.
+class _AcilisAmblem3D extends StatelessWidget {
+  const _AcilisAmblem3D({required this.parlama, required this.donus});
+
   final double parlama;
+  final double donus;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(
-      dimension: 132,
+      dimension: 156,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Transform.rotate(
-            angle: parlama * 0.35,
+          // Yorunge halkasi (yatik elips = 3D yorunge hissi).
+          Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.identity()
+              ..setEntry(3, 2, 0.0022)
+              ..rotateX(1.15)
+              ..rotateZ(donus),
             child: Container(
-              width: 116,
-              height: 116,
+              width: 150,
+              height: 150,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Renkler.vurgu.withValues(alpha: 0.45 + parlama * 0.35),
-                  width: 1.4,
+                  color: Renkler.vurgu.withValues(alpha: 0.35 + parlama * 0.45),
+                  width: 2.2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Renkler.vurgu.withValues(alpha: 0.14 + parlama * 0.20),
-                    blurRadius: 24,
-                    spreadRadius: 3,
+                    color: Renkler.vurgu.withValues(alpha: 0.16 + parlama * 0.2),
+                    blurRadius: 26,
+                    spreadRadius: 2,
                   ),
                 ],
               ),
             ),
           ),
+          // Yorungede donen isik noktasi.
+          Transform.translate(
+            offset: Offset(
+              math.cos(donus) * 68,
+              math.sin(donus) * 26,
+            ),
+            child: Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFFFFE9A8),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFEAB308).withValues(alpha: 0.9),
+                    blurRadius: 14,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Kure govde: radyal gradyan + coklu golge ile 3D hacim.
           Container(
-            width: 92,
-            height: 92,
+            width: 104,
+            height: 104,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: const RadialGradient(
-                center: Alignment(-0.35, -0.45),
-                colors: [Color(0xFF256B4B), Color(0xFF07170F)],
+                center: Alignment(-0.42, -0.52),
+                radius: 1.05,
+                colors: [
+                  Color(0xFF3FA277),
+                  Color(0xFF1B6247),
+                  Color(0xFF06140D),
+                ],
+                stops: [0.0, 0.48, 1.0],
               ),
-              border: Border.all(color: Renkler.vurgu, width: 2),
+              border: Border.all(color: Renkler.vurgu, width: 2.2),
               boxShadow: const [
-                BoxShadow(color: Color(0x88000000), offset: Offset(0, 7), blurRadius: 12),
+                BoxShadow(
+                  color: Color(0xAA000000),
+                  offset: Offset(0, 10),
+                  blurRadius: 18,
+                ),
+                BoxShadow(
+                  color: Color(0x33FFFFFF),
+                  offset: Offset(-4, -6),
+                  blurRadius: 12,
+                ),
               ],
             ),
-            child: const Icon(Icons.mosque_outlined, color: Color(0xFFF4D77D), size: 48),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Ust kenardaki keskin isik yansimasi (cam/metal hissi).
+                Positioned(
+                  top: 12,
+                  left: 22,
+                  child: Container(
+                    width: 40,
+                    height: 18,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.white.withValues(alpha: 0.42),
+                          Colors.white.withValues(alpha: 0.0),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.mosque_rounded,
+                  size: 52,
+                  color: const Color(0xFFF4D77D),
+                  shadows: const [
+                    Shadow(
+                      color: Color(0xCC000000),
+                      offset: Offset(0, 4),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
+          // Zemine dusen elips golge (nesneyi yuzeye oturtur).
           Positioned(
-            top: 5,
-            right: 14,
+            bottom: 2,
+            child: Container(
+              width: 96,
+              height: 16,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(60),
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.black.withValues(alpha: 0.45),
+                    Colors.black.withValues(alpha: 0.0),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Parlayan yildiz aksani.
+          Positioned(
+            top: 6,
+            right: 16,
             child: Opacity(
               opacity: 0.35 + parlama * 0.65,
-              child: const Icon(Icons.auto_awesome, color: Color(0xFFFFE9A8), size: 20),
+              child: const Icon(
+                Icons.auto_awesome,
+                color: Color(0xFFFFE9A8),
+                size: 20,
+              ),
             ),
           ),
         ],
@@ -600,7 +864,7 @@ class _AnaSayfaState extends State<AnaSayfa> with WidgetsBindingObserver {
               _buildBottomIconRow(context, l),
               const SizedBox(height: 24),
 
-              // ═══ 11. DAHA FAZLA ═══
+              // ═��═ 11. DAHA FAZLA ═══
               _buildDahaFazlaButton(context, l),
               const SizedBox(height: 24),
             ],
@@ -983,7 +1247,7 @@ class _AnaSayfaState extends State<AnaSayfa> with WidgetsBindingObserver {
 
   // ────────────────────────────────────────────────────────────
   // ALT İKON SIRASI
-  // ────────────────────────────────────────────────────────────
+  // ──────────��─────────────────────────────────────────────────
   Widget _buildBottomIconRow(BuildContext context, AppLocalizations l) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -32,16 +32,27 @@ class MuzikHandler extends BaseAudioHandler with SeekHandler {
 
   void _durumYayinla(PlaybackEvent _) {
     if (playbackState.isClosed) return;
+    // Bildirim/kilit ekranı kartındaki 3D düğme dizilimi:
+    // [geri sar] [önceki] [çal/duraklat] [sonraki] [durdur]
     final kontroller = <MediaControl>[
+      MediaControl.rewind,
+      MediaControl.skipToPrevious,
       if (_oynatici.playing) MediaControl.pause else MediaControl.play,
+      MediaControl.skipToNext,
       MediaControl.stop,
     ];
     playbackState.add(PlaybackState(
       controls: kontroller,
       systemActions: const {
         MediaAction.seek,
+        MediaAction.seekForward,
+        MediaAction.seekBackward,
+        MediaAction.play,
+        MediaAction.pause,
+        MediaAction.stop,
       },
-      androidCompactActionIndices: const [0, 1],
+      // Daraltılmış bildirimde görünen üç düğme: önceki, çal/duraklat, sonraki.
+      androidCompactActionIndices: const [1, 2, 3],
       processingState: _cevir(_oynatici.processingState),
       playing: _oynatici.playing,
       updatePosition: _oynatici.position,

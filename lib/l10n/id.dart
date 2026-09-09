@@ -1897,4 +1897,11 @@ const Map<String, String> idDil = {
   'dk.r6.aciklama': 'Anda membagikan permintaan doa pertama.',
   'dk.r7.ad': 'Pemimpin jamaah',
   'dk.r7.aciklama': 'Anda membagikan 10 permintaan doa.',
+  "nt.actionPlay": "Putar",
+  "nt.actionPause": "Jeda",
+  "nt.actionStop": "Hentikan",
+  "nt.openApp": "Buka aplikasi",
+  "splash.tip1": "Bismillah — semoga harimu bercahaya",
+  "splash.tip2": "Menyiapkan waktu salat",
+  "splash.tip3": "Bukalah hatimu untuk ketenangan",
 };

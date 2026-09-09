@@ -1898,4 +1898,11 @@ const Map<String, String> msDil = {
   'dk.r6.aciklama': 'Anda berkongsi permintaan doa pertama.',
   'dk.r7.ad': 'Pemimpin jemaah',
   'dk.r7.aciklama': 'Anda berkongsi 10 permintaan doa.',
+  "nt.actionPlay": "Main",
+  "nt.actionPause": "Jeda",
+  "nt.actionStop": "Berhenti",
+  "nt.openApp": "Buka aplikasi",
+  "splash.tip1": "Bismillah — semoga harimu bercahaya",
+  "splash.tip2": "Menyediakan waktu solat",
+  "splash.tip3": "Bukalah hatimu untuk ketenangan",
 };

@@ -1894,4 +1894,11 @@ const Map<String, String> urDil = {
   'dk.r6.aciklama': 'آپ نے پہلی دعا کی درخواست شیئر کی۔',
   'dk.r7.ad': 'جماعت کا رہنما',
   'dk.r7.aciklama': 'آپ نے 10 دعا درخواستیں شیئر کیں۔',
+  "nt.actionPlay": "چلائیں",
+  "nt.actionPause": "وقفہ",
+  "nt.actionStop": "روکیں",
+  "nt.openApp": "ایپ کھولیں",
+  "splash.tip1": "بسم اللہ… آپ کا دن روشن ہو",
+  "splash.tip2": "نماز کے اوقات تیار ہو رہے ہیں",
+  "splash.tip3": "اپنے دل کو سکون کے لیے کھولیں",
 };

@@ -1908,4 +1908,11 @@ const Map<String, String> frDil = {
   'dk.r6.aciklama': 'Vous avez partagé votre première demande d\'invocation.',
   'dk.r7.ad': 'Chef de la communauté',
   'dk.r7.aciklama': 'Vous avez partagé 10 demandes d\'invocation.',
+  "nt.actionPlay": "Lecture",
+  "nt.actionPause": "Pause",
+  "nt.actionStop": "Arrêter",
+  "nt.openApp": "Ouvrir l'application",
+  "splash.tip1": "Bismillah — que ta journée rayonne",
+  "splash.tip2": "Préparation des horaires de prière",
+  "splash.tip3": "Ouvre ton cœur à la paix",
 };

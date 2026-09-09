@@ -2120,4 +2120,11 @@ const Map<String, String> enDil = {
   'dk.r6.aciklama': 'You shared your first prayer request.',
   'dk.r7.ad': 'Community leader',
   'dk.r7.aciklama': 'You shared 10 prayer requests.',
+  "nt.actionPlay": "Play",
+  "nt.actionPause": "Pause",
+  "nt.actionStop": "Stop",
+  "nt.openApp": "Open app",
+  "splash.tip1": "Bismillah — let your day shine",
+  "splash.tip2": "Preparing prayer times",
+  "splash.tip3": "Open your heart to peace",
 };

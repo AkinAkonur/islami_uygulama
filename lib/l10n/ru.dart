@@ -1900,4 +1900,11 @@ const Map<String, String> ruDil = {
   'dk.r6.aciklama': 'Вы поделились первой просьбой о дуа.',
   'dk.r7.ad': 'Лидер общины',
   'dk.r7.aciklama': 'Вы поделились 10 просьбами о дуа.',
+  "nt.actionPlay": "Воспроизвести",
+  "nt.actionPause": "Пауза",
+  "nt.actionStop": "Стоп",
+  "nt.openApp": "Открыть приложение",
+  "splash.tip1": "Бисмиллях — пусть ваш день сияет",
+  "splash.tip2": "Готовим время намаза",
+  "splash.tip3": "Откройте сердце покою",
 };

@@ -1,15 +1,20 @@
 import 'dart:async';
+import 'dart:ui' show Color;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'bildirim_medya_eylemleri.dart';
 import 'bildirim_merkezi.dart';
 import 'dua_store.dart';
 import 'dualar_verileri.dart';
 import 'ilham_store.dart';
 import 'ilham_verileri.dart';
+import 'medya_kapak.dart';
+import 'muzik_handler.dart';
 import 'namaz_bildirim_ayarlari.dart';
 import 'vakit_servisi.dart';
 import '../l10n/app_localizations.dart';
@@ -17,6 +22,18 @@ import '../l10n/app_localizations.dart';
 /// Telefona gerçek (OS) bildirimleri zamanlar: her namaz vakti, günün ayeti,
 /// cuma hatırlatması ve kullanıcının kurduğu dua hatırlatıcıları.
 /// Kullanıcının ayarlarına göre planlar.
+/// Bildirim eylemine basıldığında çalışır (uygulama açıkken).
+Future<void> bildirimYanitiniIsle(NotificationResponse response) async {
+  if (!BildirimMedyaEylemleri.tanir(response.actionId)) return;
+  await BildirimMedyaEylemleri.isle(response.actionId);
+}
+
+/// Uygulama arka plandayken bildirim eylemi için Dart giriş noktası.
+@pragma('vm:entry-point')
+void bildirimArkaPlanYaniti(NotificationResponse response) {
+  unawaited(bildirimYanitiniIsle(response));
+}
+
 class GercekBildirimler {
   GercekBildirimler._();
 
@@ -46,7 +63,67 @@ class GercekBildirimler {
   /// Kanal kimliği kaçınılmaz olarak `_ezan` son ekini taşır: eski kurulumlarda
   /// `namaz_vakitleri` kanalı sesisiz oluşturulduğu için ses değişikliği ancak
   /// yeni bir kanalla (yeniden) uygulanır.
-  static NotificationDetails _namazDetay(bool titresimAktif) {
+  /// Bildirim kartının 3D vurgu rengi (altın) — ikon ve eylem yazıları bu tonu alır.
+  static const Color _vurguRengi = Color(0xFFEAB308);
+
+  /// Bildirim penceresinin 3D görünümü: genişletildiğinde derinlik hissi veren
+  /// kubbe afişi (BigPicture) gösterilir. Görsel hazır değilse metin stiline düşer.
+  static StyleInformation _stil(String? metin) {
+    final banner = MedyaKapak.bannerYol;
+    if (banner != null) {
+      return BigPictureStyleInformation(
+        FilePathAndroidBitmap(banner),
+        largeIcon: _buyukIkon(),
+        hideExpandedLargeIcon: false,
+        contentTitle: null,
+        summaryText: metin,
+        htmlFormatSummaryText: false,
+      );
+    }
+    return BigTextStyleInformation(metin ?? '');
+  }
+
+  /// Kartın sağındaki 3D kubbe ikonu; kopyalanamadıysa null.
+  static AndroidBitmap<Object>? _buyukIkon() {
+    final ikon = MedyaKapak.ikonYol;
+    return ikon == null ? null : FilePathAndroidBitmap(ikon);
+  }
+
+  /// Bildirim penceresindeki çalışır 3D medya düğmeleri.
+  ///
+  /// Ses çalıyorsa "Duraklat", duruyorsa "Çal" gösterilir; her ikisi de
+  /// [BildirimMedyaEylemleri] aracılığıyla gerçek oynatıcıyı kontrol eder.
+  static List<AndroidNotificationAction> _medyaEylemleri() {
+    final l = AppLocalizations.aktif;
+    final caliyor = MuzikHandler.aktif?.playbackState.value.playing ?? false;
+    return <AndroidNotificationAction>[
+      if (caliyor)
+        AndroidNotificationAction(
+          BildirimMedyaEylemleri.duraklat,
+          l.t('nt.actionPause'),
+          icon: const DrawableResourceAndroidBitmap('ic_pause_3d'),
+          showsUserInterface: false,
+          cancelNotification: false,
+        )
+      else
+        AndroidNotificationAction(
+          BildirimMedyaEylemleri.cal,
+          l.t('nt.actionPlay'),
+          icon: const DrawableResourceAndroidBitmap('ic_play_3d'),
+          showsUserInterface: false,
+          cancelNotification: false,
+        ),
+      AndroidNotificationAction(
+        BildirimMedyaEylemleri.durdur,
+        l.t('nt.actionStop'),
+        icon: const DrawableResourceAndroidBitmap('ic_stop_3d'),
+        showsUserInterface: false,
+        cancelNotification: false,
+      ),
+    ];
+  }
+
+  static NotificationDetails _namazDetay(bool titresimAktif, {String? metin}) {
     final ses = _namazSesKaynagi();
     final seciliSes = NamazBildirimAyarlari.ses.value;
     return NotificationDetails(
@@ -64,6 +141,11 @@ class GercekBildirimler {
         enableVibration: titresimAktif,
         playSound: seciliSes != BildirimSesi.sessiz,
         sound: ses == null ? null : RawResourceAndroidNotificationSound(ses),
+        color: _vurguRengi,
+        colorized: false,
+        largeIcon: _buyukIkon(),
+        styleInformation: _stil(metin),
+        actions: _medyaEylemleri(),
       ),
       iOS: DarwinNotificationDetails(presentSound: seciliSes != BildirimSesi.sessiz),
       macOS: DarwinNotificationDetails(presentSound: seciliSes != BildirimSesi.sessiz),
@@ -128,44 +210,56 @@ class GercekBildirimler {
     }
   }
 
-  static const NotificationDetails _gunlukDetay = NotificationDetails(
+  static NotificationDetails get _gunlukDetay => NotificationDetails(
     android: AndroidNotificationDetails(
-      'gunluk_maneviyat',
+      'gunluk_maneviyat_v2',
       'Günlük Maneviyat',
       channelDescription: 'Günün ayeti ve cuma hatırlatmaları.',
       importance: Importance.defaultImportance,
       priority: Priority.defaultPriority,
+      color: _vurguRengi,
+      largeIcon: _buyukIkon(),
+      styleInformation: _stil(null),
+      actions: _medyaEylemleri(),
     ),
-    iOS: DarwinNotificationDetails(),
-    macOS: DarwinNotificationDetails(),
+    iOS: const DarwinNotificationDetails(),
+    macOS: const DarwinNotificationDetails(),
   );
 
-  static const NotificationDetails _duaDetay = NotificationDetails(
+  static NotificationDetails get _duaDetay => NotificationDetails(
     android: AndroidNotificationDetails(
-      'dua_hatirlatmalar',
+      'dua_hatirlatmalar_v2',
       'Dua Hatırlatıcıları',
       channelDescription:
           'Kullanıcının seçtiği dua için kurduğu hatırlatıcılar.',
       importance: Importance.high,
       priority: Priority.high,
       category: AndroidNotificationCategory.reminder,
+      color: _vurguRengi,
+      largeIcon: _buyukIkon(),
+      styleInformation: _stil(null),
+      actions: _medyaEylemleri(),
     ),
-    iOS: DarwinNotificationDetails(),
-    macOS: DarwinNotificationDetails(),
+    iOS: const DarwinNotificationDetails(),
+    macOS: const DarwinNotificationDetails(),
   );
 
-  static const NotificationDetails _ilhamDetay = NotificationDetails(
+  static NotificationDetails get _ilhamDetay => NotificationDetails(
     android: AndroidNotificationDetails(
-      'gunun_ilhami',
+      'gunun_ilhami_v2',
       'Günün İlhamı',
       channelDescription:
           'Kullanıcının belirlediği saatte günün hikmetli sözü.',
       importance: Importance.high,
       priority: Priority.high,
       category: AndroidNotificationCategory.reminder,
+      color: _vurguRengi,
+      largeIcon: _buyukIkon(),
+      styleInformation: _stil(null),
+      actions: _medyaEylemleri(),
     ),
-    iOS: DarwinNotificationDetails(),
-    macOS: DarwinNotificationDetails(),
+    iOS: const DarwinNotificationDetails(),
+    macOS: const DarwinNotificationDetails(),
   );
 
   /// Eklentiyi hazırlar ve gerekli izinleri ister.
@@ -195,6 +289,12 @@ class GercekBildirimler {
           iOS: darwin,
           macOS: darwin,
         ),
+        // Bildirim penceresindeki 3D çal/duraklat/durdur düğmeleri:
+        // uygulama açıkken buradan, kapalıyken arka plan giriş noktasından işlenir.
+        onDidReceiveNotificationResponse: (response) {
+          unawaited(bildirimYanitiniIsle(response));
+        },
+        onDidReceiveBackgroundNotificationResponse: bildirimArkaPlanYaniti,
       );
 
       // Android 13+ bildirim izni

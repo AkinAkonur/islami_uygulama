@@ -1885,4 +1885,11 @@ const Map<String, String> arDil = {
   'dk.r6.aciklama': 'شاركت أول طلب دعاء.',
   'dk.r7.ad': 'قائد الجماعة',
   'dk.r7.aciklama': 'شاركت 10 طلبات دعاء.',
+  "nt.actionPlay": "تشغيل",
+  "nt.actionPause": "إيقاف مؤقت",
+  "nt.actionStop": "إيقاف",
+  "nt.openApp": "افتح التطبيق",
+  "splash.tip1": "بسم الله… لينر يومك",
+  "splash.tip2": "يتم تجهيز مواقيت الصلاة",
+  "splash.tip3": "افتح قلبك للسكينة",
 };

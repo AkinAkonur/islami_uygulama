@@ -2114,4 +2114,11 @@ const Map<String, String> trDil = {
   'dk.r6.aciklama': 'İlk dua isteğini paylaştın.',
   'dk.r7.ad': 'Cemaat Lideri',
   'dk.r7.aciklama': '10 dua isteği paylaştın.',
+  "nt.actionPlay": "Çal",
+  "nt.actionPause": "Duraklat",
+  "nt.actionStop": "Durdur",
+  "nt.openApp": "Uygulamayı aç",
+  "splash.tip1": "Bismillah… gününü nurlandır",
+  "splash.tip2": "Namaz vakitleri hazırlanıyor",
+  "splash.tip3": "Kalbini huzura aç",
 };
