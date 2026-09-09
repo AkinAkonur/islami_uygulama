@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is off -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <!-- Acilis ekrani uygulama zemin rengi (koyu yesil): beyaz flash yok. -->
+        <item name="android:windowBackground">@color/splash_zemin</item>
+        <!-- Android 12+ sistem acilis ekrani da ayni renk -->
+        <item name="android:windowSplashScreenBackground">@color/splash_zemin</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+    </style>
+    <!-- Theme applied to the Android Window as soon as the process has started. -->
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@color/splash_zemin</item>
+    </style>
+</resources>

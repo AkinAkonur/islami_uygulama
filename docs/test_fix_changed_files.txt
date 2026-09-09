@@ -1,0 +1,14 @@
+README.md
+android/app/src/main/AndroidManifest.xml
+docs/TEST_DUZELTMELERI.md
+docs/source_audit.json
+lib/services/gercek_bildirimler.dart
+lib/widgets/kart_sekilleri.dart
+test/hadis_kutuphanesi_test.dart
+test/helpers/app_test_harness.dart
+test/helpers/notification_platform_fake.dart
+test/namaz_bildirim_ayarlari_test.dart
+test/ozel_moduller_test.dart
+test/profil_bildirim_test.dart
+test/suite_fix_regression_test.dart
+test/widget_test.dart

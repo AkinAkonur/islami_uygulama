@@ -1,0 +1,7 @@
+Bildirim sesleri
+================
+altin_cingilti.mp3, zumrut_damla.mp3 ve huzur_zili.mp3 uygulama için
+sentezlenmiş özgün kısa bildirim sesleridir. Üçüncü taraf ses kaynağı,
+örnekleme veya lisans kısıtlaması içermez.
+
+Kullanım: Uygulama bildirimi olarak serbestçe kullanılabilir.

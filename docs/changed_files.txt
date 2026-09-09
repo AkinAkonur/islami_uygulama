@@ -1,0 +1,36 @@
+ADDED OR MODIFIED
+.gitignore
+README.md
+android/app/src/main/AndroidManifest.xml
+docs/INCELEME_VE_TEST_RAPORU.md
+docs/changed_files.txt
+docs/source_audit.json
+lib/l10n/ar.dart
+lib/l10n/bn.dart
+lib/l10n/dil_hizmetleri.dart
+lib/l10n/en.dart
+lib/l10n/fr.dart
+lib/l10n/id.dart
+lib/l10n/ms.dart
+lib/l10n/ru.dart
+lib/l10n/tr.dart
+lib/l10n/ur.dart
+lib/main.dart
+lib/pages/kible_pusula_page.dart
+lib/pages/kuran/sure_detay_page.dart
+lib/pages/namaz_bildirim_ayarlari_page.dart
+lib/services/gemini_servisi.dart
+lib/services/gercek_bildirimler.dart
+lib/services/kuran_api.dart
+lib/services/medya_indirme_servisi.dart
+lib/services/namaz_bildirim_ayarlari.dart
+lib/services/radyo_oynatici_store.dart
+lib/services/vakit_servisi.dart
+test/review_regression_test.dart
+test/widget_test.dart
+tool/api_smoke.dart
+tool/source_audit.py
+tool/verify_project.ps1
+
+REMOVED OR MOVED
+test/api_smoke_test.dart

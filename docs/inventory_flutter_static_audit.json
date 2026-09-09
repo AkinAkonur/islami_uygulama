@@ -1,0 +1,418 @@
+{
+  "dart_files": 153,
+  "page_screen_count": 82,
+  "page_screen_classes": [
+    {
+      "class": "AiTefsirPage",
+      "file": "lib/pages/ai_tefsir_page.dart",
+      "references": 5
+    },
+    {
+      "class": "CuzlerPage",
+      "file": "lib/pages/cuzler_page.dart",
+      "references": 6
+    },
+    {
+      "class": "CuzOkumaPage",
+      "file": "lib/pages/cuz_okuma_page.dart",
+      "references": 5
+    },
+    {
+      "class": "DahaFazlaPage",
+      "file": "lib/pages/daha_fazla_page.dart",
+      "references": 3
+    },
+    {
+      "class": "EsmaulHusnaPage",
+      "file": "lib/pages/daha_fazla_page.dart",
+      "references": 3
+    },
+    {
+      "class": "HicriTakvimPage",
+      "file": "lib/pages/daha_fazla_page.dart",
+      "references": 5
+    },
+    {
+      "class": "ZekatHesaplamaPage",
+      "file": "lib/pages/daha_fazla_page.dart",
+      "references": 5
+    },
+    {
+      "class": "KissalarPage",
+      "file": "lib/pages/daha_fazla_page.dart",
+      "references": 3
+    },
+    {
+      "class": "DiniRadyoPage",
+      "file": "lib/pages/daha_fazla_page.dart",
+      "references": 6
+    },
+    {
+      "class": "DevamEtPage",
+      "file": "lib/pages/devam_et_page.dart",
+      "references": 5
+    },
+    {
+      "class": "DualarPage",
+      "file": "lib/pages/dualar_page.dart",
+      "references": 6
+    },
+    {
+      "class": "DuaKategoriPage",
+      "file": "lib/pages/dualar_page.dart",
+      "references": 3
+    },
+    {
+      "class": "DuaDetayPage",
+      "file": "lib/pages/dua_detay_page.dart",
+      "references": 6
+    },
+    {
+      "class": "GizlilikMerkeziPage",
+      "file": "lib/pages/gizlilik_merkezi_page.dart",
+      "references": 6
+    },
+    {
+      "class": "HadisKutuphanesiPage",
+      "file": "lib/pages/hadis_kutuphanesi_page.dart",
+      "references": 5
+    },
+    {
+      "class": "HatimDuasiPage",
+      "file": "lib/pages/hatim_duasi_page.dart",
+      "references": 5
+    },
+    {
+      "class": "HedefCarkiPage",
+      "file": "lib/pages/hedef_carki_page.dart",
+      "references": 5
+    },
+    {
+      "class": "HuzurluPage",
+      "file": "lib/pages/huzurlu_page.dart",
+      "references": 5
+    },
+    {
+      "class": "IlhamPage",
+      "file": "lib/pages/ilham_page.dart",
+      "references": 6
+    },
+    {
+      "class": "KabeCanliPage",
+      "file": "lib/pages/kabe_canli_page.dart",
+      "references": 10
+    },
+    {
+      "class": "KaygiliPage",
+      "file": "lib/pages/kaygili_page.dart",
+      "references": 5
+    },
+    {
+      "class": "KiblePusulaPage",
+      "file": "lib/pages/kible_pusula_page.dart",
+      "references": 8
+    },
+    {
+      "class": "KissalarVePeygamberlerPage",
+      "file": "lib/pages/kissalar_ve_peygamberler_page.dart",
+      "references": 5
+    },
+    {
+      "class": "KonumPage",
+      "file": "lib/pages/konum_page.dart",
+      "references": 5
+    },
+    {
+      "class": "KuranBolumuPage",
+      "file": "lib/pages/kuran_bolumu_page.dart",
+      "references": 7
+    },
+    {
+      "class": "MekkeMedineSanalTurPage",
+      "file": "lib/pages/mekke_medine_sanal_tur_page.dart",
+      "references": 4
+    },
+    {
+      "class": "NamazlarBolumuPage",
+      "file": "lib/pages/namazlar_bolumu_page.dart",
+      "references": 5
+    },
+    {
+      "class": "NamazBildirimAyarlariPage",
+      "file": "lib/pages/namaz_bildirim_ayarlari_page.dart",
+      "references": 5
+    },
+    {
+      "class": "OnerilerPage",
+      "file": "lib/pages/oneriler_page.dart",
+      "references": 5
+    },
+    {
+      "class": "RamazanModuPage",
+      "file": "lib/pages/ramazan_modu_page.dart",
+      "references": 6
+    },
+    {
+      "class": "SesliKissalarVePodcastlerPage",
+      "file": "lib/pages/sesli_kissalar_ve_podcastler_page.dart",
+      "references": 6
+    },
+    {
+      "class": "SukurPage",
+      "file": "lib/pages/sukur_page.dart",
+      "references": 5
+    },
+    {
+      "class": "TesbihPage",
+      "file": "lib/pages/tesbih_page.dart",
+      "references": 7
+    },
+    {
+      "class": "UmmetBolumuPage",
+      "file": "lib/pages/ummet_bolumu_page.dart",
+      "references": 6
+    },
+    {
+      "class": "UmutluPage",
+      "file": "lib/pages/umutlu_page.dart",
+      "references": 5
+    },
+    {
+      "class": "WidgetRehberiPage",
+      "file": "lib/pages/widget_rehberi_page.dart",
+      "references": 3
+    },
+    {
+      "class": "YakindakiCamilerPage",
+      "file": "lib/pages/yakindaki_camiler_page.dart",
+      "references": 6
+    },
+    {
+      "class": "YorgunPage",
+      "file": "lib/pages/yorgun_page.dart",
+      "references": 5
+    },
+    {
+      "class": "GorselKilinisScreen",
+      "file": "lib/screens/gorsel_kilinis_screen.dart",
+      "references": 4
+    },
+    {
+      "class": "GuideScreen",
+      "file": "lib/screens/guide_screen.dart",
+      "references": 5
+    },
+    {
+      "class": "NamazScreen",
+      "file": "lib/screens/namaz_screen.dart",
+      "references": 7
+    },
+    {
+      "class": "QadaScreen",
+      "file": "lib/screens/qada_screen.dart",
+      "references": 5
+    },
+    {
+      "class": "SpecialScreen",
+      "file": "lib/screens/special_screen.dart",
+      "references": 3
+    },
+    {
+      "class": "WuduScreen",
+      "file": "lib/screens/wudu_screen.dart",
+      "references": 3
+    },
+    {
+      "class": "DuaKardesligiPage",
+      "file": "lib/pages/dua_kardesligi/dua_kardesligi_page.dart",
+      "references": 6
+    },
+    {
+      "class": "GunlukHedeflerPage",
+      "file": "lib/pages/gunluk_hedefler/gunluk_hedefler_page.dart",
+      "references": 7
+    },
+    {
+      "class": "AcilDurumSozluguPage",
+      "file": "lib/pages/hac_umre/acil_durum_sozlugu_page.dart",
+      "references": 5
+    },
+    {
+      "class": "FikihKararAgaciPage",
+      "file": "lib/pages/hac_umre/fikih_karar_agaci_page.dart",
+      "references": 5
+    },
+    {
+      "class": "HacUmreRehberPage",
+      "file": "lib/pages/hac_umre/hac_umre_page.dart",
+      "references": 3
+    },
+    {
+      "class": "IbadetModuPage",
+      "file": "lib/pages/hac_umre/ibadet_modu_page.dart",
+      "references": 5
+    },
+    {
+      "class": "MikatUyariPage",
+      "file": "lib/pages/hac_umre/mikat_uyari_page.dart",
+      "references": 5
+    },
+    {
+      "class": "ZiyaretRehberiPage",
+      "file": "lib/pages/hac_umre/ziyaret_rehberi_page.dart",
+      "references": 5
+    },
+    {
+      "class": "_MekanDetayPage",
+      "file": "lib/pages/hac_umre/ziyaret_rehberi_page.dart",
+      "references": 3
+    },
+    {
+      "class": "KissaDetayPage",
+      "file": "lib/pages/kissalar/kissa_detay_page.dart",
+      "references": 6
+    },
+    {
+      "class": "AyetAramaPage",
+      "file": "lib/pages/kuran/ayet_arama_page.dart",
+      "references": 6
+    },
+    {
+      "class": "HatimTakibiPage",
+      "file": "lib/pages/kuran/hatim_takibi_page.dart",
+      "references": 9
+    },
+    {
+      "class": "KisaSurelerPage",
+      "file": "lib/pages/kuran/kisa_sureler_page.dart",
+      "references": 4
+    },
+    {
+      "class": "KuranAdabiPage",
+      "file": "lib/pages/kuran/kuran_adabi_page.dart",
+      "references": 4
+    },
+    {
+      "class": "SureDetayPage",
+      "file": "lib/pages/kuran/sure_detay_page.dart",
+      "references": 13
+    },
+    {
+      "class": "SureListesiPage",
+      "file": "lib/pages/kuran/sure_listesi_page.dart",
+      "references": 8
+    },
+    {
+      "class": "TematikAyetlerPage",
+      "file": "lib/pages/kuran/tematik_ayetler_page.dart",
+      "references": 5
+    },
+    {
+      "class": "PaylasimKartlariStudioPage",
+      "file": "lib/pages/paylasim_kartlari/paylasim_kartlari_studio_page.dart",
+      "references": 5
+    },
+    {
+      "class": "SoruCevapPage",
+      "file": "lib/pages/soru_cevap/soru_cevap_page.dart",
+      "references": 6
+    },
+    {
+      "class": "DuaDuvariPage",
+      "file": "lib/pages/ummet/dua_duvari_page.dart",
+      "references": 6
+    },
+    {
+      "class": "DuaOdalariPage",
+      "file": "lib/pages/ummet/dua_odalari_page.dart",
+      "references": 5
+    },
+    {
+      "class": "_OdaDetayPage",
+      "file": "lib/pages/ummet/dua_odalari_page.dart",
+      "references": 5
+    },
+    {
+      "class": "_DuaListemPage",
+      "file": "lib/pages/ummet/dua_odalari_page.dart",
+      "references": 6
+    },
+    {
+      "class": "DuaZincirleriPage",
+      "file": "lib/pages/ummet/dua_zincirleri_page.dart",
+      "references": 5
+    },
+    {
+      "class": "DunyaUmmetiPage",
+      "file": "lib/pages/ummet/dunya_ummeti_page.dart",
+      "references": 3
+    },
+    {
+      "class": "EtkinliklerPage",
+      "file": "lib/pages/ummet/etkinlikler_page.dart",
+      "references": 6
+    },
+    {
+      "class": "GunlukIyilikGorevleriPage",
+      "file": "lib/pages/ummet/gunluk_iyilik_gorevleri_page.dart",
+      "references": 5
+    },
+    {
+      "class": "HatimHalkalariPage",
+      "file": "lib/pages/ummet/hatim_halkalari_page.dart",
+      "references": 6
+    },
+    {
+      "class": "IslamiAkisPage",
+      "file": "lib/pages/ummet/islami_akis_page.dart",
+      "references": 3
+    },
+    {
+      "class": "IyilikHikayeleriPage",
+      "file": "lib/pages/ummet/iyilik_hikayeleri_page.dart",
+      "references": 3
+    },
+    {
+      "class": "ManeviHalkalarPage",
+      "file": "lib/pages/ummet/manevi_halkalar_page.dart",
+      "references": 5
+    },
+    {
+      "class": "MazlumCografyalarPage",
+      "file": "lib/pages/ummet/mazlum_cografyalar_page.dart",
+      "references": 3
+    },
+    {
+      "class": "MubarekSurelerPage",
+      "file": "lib/pages/ummet/mubarek_sureler_page.dart",
+      "references": 5
+    },
+    {
+      "class": "UmmetHaritasiPage",
+      "file": "lib/pages/ummet/ummet_haritasi_page.dart",
+      "references": 5
+    },
+    {
+      "class": "YardimKampanyalariPage",
+      "file": "lib/pages/ummet/yardim_kampanyalari_page.dart",
+      "references": 5
+    },
+    {
+      "class": "YardimKampanyaDetayPage",
+      "file": "lib/pages/ummet/yardim_kampanya_detay_page.dart",
+      "references": 5
+    },
+    {
+      "class": "ZekatHesaplayiciPage",
+      "file": "lib/pages/ummet/zekat_hesaplayici_page.dart",
+      "references": 5
+    },
+    {
+      "class": "ZikirKampanyalariPage",
+      "file": "lib/pages/ummet/zikir_kampanyalari_page.dart",
+      "references": 5
+    }
+  ],
+  "issues": [],
+  "notice": "Source inventory only. Not runtime or compilation results."
+}

@@ -1,0 +1,434 @@
+// ===========================================================================
+// MEKKE & MEDİNE 360° SANAL TUR / GÖRSELLER
+// ---------------------------------------------------------------------------
+// İnteraktif Medya Merkezi modülü: dünyanın neresinden olursanız olun kutsal
+// mekânları keşfedin.
+//  🎥 360° Sanal Tur: 360 derece video turlar (YouTube uygulamasında açılır).
+//  📍 Mekânlar: Google Haritalar üzerinden konum & yol tarifi.
+// ===========================================================================
+
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../l10n/app_localizations.dart';
+import '../services/renkler.dart';
+import '../widgets/altin_tactile.dart';
+import '../widgets/kart_sekilleri.dart';
+
+class SanalTurNoktasi {
+  final String baslik;
+  final String videoId;
+  final String aciklama;
+
+  const SanalTurNoktasi({
+    required this.baslik,
+    required this.videoId,
+    required this.aciklama,
+  });
+}
+
+class MekanKaydi {
+  final String ad;
+  final String aciklama;
+  final double enlem;
+  final double boylam;
+  final IconData ikon;
+  final Color renk;
+
+  const MekanKaydi({
+    required this.ad,
+    required this.aciklama,
+    required this.enlem,
+    required this.boylam,
+    required this.ikon,
+    required this.renk,
+  });
+}
+
+class MekkeMedineSanalTurPage extends StatelessWidget {
+  const MekkeMedineSanalTurPage({super.key});
+
+  /// 360° video turlar. Video ID'leri Remote Config üzerinden de
+  /// yönetilebilir; bu liste uygulama-içi görsellik için sabittir.
+  static const _sanalTurler = [
+    SanalTurNoktasi(
+      baslik: 'Kâbe 360° Sanal Tur (Mekke)',
+      videoId: 'Q0yzeIgxdSQ',
+      aciklama:
+          'Kâbe-i Muazzama çevresinin 360 derece sanal turu: tavaf alanı, '
+          'Hacerü\'l-Esved ve Mescid-i Haram\'ın ihtişamı.',
+    ),
+    SanalTurNoktasi(
+      baslik: 'Mekke Turu 2026 · 360° Kâbe Deneyimi',
+      videoId: 'Uggk1UJ9IpY',
+      aciklama:
+          'Mekke\'nin güncel 360° turu. Cihazınızı çevirerek veya parmağınızla '
+          'sürükleyerek kutsal mekânda gezinebilirsiniz.',
+    ),
+  ];
+
+  static final _mekanlar = [
+    MekanKaydi(
+      ad: 'Mescid-i Haram ve Kâbe',
+      aciklama: 'Tavaf alanı ve Kâbe-i Muazzama · Mekke',
+      enlem: 21.4225,
+      boylam: 39.8262,
+      ikon: Icons.mosque_outlined,
+      renk: Renkler.vurgu,
+    ),
+    MekanKaydi(
+      ad: 'Mescid-i Nebevî',
+      aciklama: 'Ravza-i Mutahhara ve Yeşil Kubbe · Medine',
+      enlem: 24.4672,
+      boylam: 39.6111,
+      ikon: Icons.place_outlined,
+      renk: Renkler.zumrutSabit,
+    ),
+    MekanKaydi(
+      ad: 'Arafat Dağı',
+      aciklama: 'Vakfe alanı · Hac günü dualar',
+      enlem: 21.3549,
+      boylam: 39.9843,
+      ikon: Icons.terrain_outlined,
+      renk: Renkler.acikAltinSabit,
+    ),
+    MekanKaydi(
+      ad: 'Mina',
+      aciklama: 'Şeytan taşlama ve mina çadırları',
+      enlem: 21.4133,
+      boylam: 39.8933,
+      ikon: Icons.holiday_village_outlined,
+      renk: Renkler.vurgu,
+    ),
+    MekanKaydi(
+      ad: 'Müzdelife',
+      aciklama: 'Gecelenecek açık alan · hedy kesimi',
+      enlem: 21.3867,
+      boylam: 39.8902,
+      ikon: Icons.nights_stay_outlined,
+      renk: Renkler.acikVurgu,
+    ),
+    MekanKaydi(
+      ad: 'Hira Mağarası',
+      aciklama: 'İlk vahyin indiği Nur Dağı',
+      enlem: 21.4575,
+      boylam: 39.8589,
+      ikon: Icons.landscape_outlined,
+      renk: Renkler.vurgu,
+    ),
+    MekanKaydi(
+      ad: 'Sevr Mağarası',
+      aciklama: 'Hicret yolculuğunda gizlenilen mağara',
+      enlem: 21.3786,
+      boylam: 39.8531,
+      ikon: Icons.hiking_outlined,
+      renk: Renkler.acikVurgu,
+    ),
+    MekanKaydi(
+      ad: 'Cennetü\'l-Bakî',
+      aciklama: 'Medine mezarlığı · sahabe kabirleri',
+      enlem: 24.463,
+      boylam: 39.6149,
+      ikon: Icons.park_outlined,
+      renk: Renkler.acikZumrutSabit,
+    ),
+  ];
+
+  Future<void> _haritadaAc(BuildContext context, MekanKaydi mekan) async {
+    final uri = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query='
+      '${mekan.enlem},${mekan.boylam}',
+    );
+    final hataMsg = AppLocalizations.of(context).t('stm.mapError');
+    try {
+      final acildi = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!acildi && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(hataMsg)),
+        );
+      }
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(hataMsg)),
+        );
+      }
+    }
+  }
+
+  /// 360° turu harici YouTube uygulamasında/tarayıcıda açar. WebView - IFrame
+  /// görüntüsü bu cihazda render edilemediği için (ses geliyor, görüntü siyah)
+  /// tur doğrudan YouTube'tan oynatılır; 360° sensör/kaydırma desteği de
+  /// orada tam çalışır.
+  Future<void> _youtubeDaAc(BuildContext context, String videoId) async {
+    final uri = Uri.parse('https://www.youtube.com/watch?v=$videoId');
+    final hataMsg = AppLocalizations.of(context).t('stm.ytError');
+    try {
+      final acildi = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!acildi && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(hataMsg)),
+        );
+      }
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(hataMsg)),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        title: Text(l.t('stm.title')),
+        backgroundColor: Renkler.seciliYuzey,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _davetBanneri(l),
+          const SizedBox(height: 18),
+
+          _bolumBasligi(l.t('stm.tours'), l.t('stm.toursSub')),
+          const SizedBox(height: 10),
+          for (final tur in _sanalTurler)
+            _videoKarti(
+              ikon: Icons.threesixty_rounded,
+              renk: Renkler.acikAltinSabit,
+              baslik: tur.baslik,
+              alt: tur.aciklama,
+              onTap: () => _youtubeDaAc(context, tur.videoId),
+            ),
+          const SizedBox(height: 18),
+
+          _bolumBasligi(l.t('stm.places'), l.t('stm.placesSub')),
+          const SizedBox(height: 10),
+          for (final mekan in _mekanlar)
+            _mekanKarti(context, mekan),
+          const SizedBox(height: 30),
+        ],
+      ),
+    );
+  }
+
+  Widget _davetBanneri(AppLocalizations l) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Renkler.bannerUst, Renkler.bannerAlt],
+        ),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const UcdIkon(ikon: Icons.travel_explore_rounded, renk: Colors.white, boyut: 26),
+              const SizedBox(width: 10),
+              Text(
+                l.t('stm.bannerTitle'),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l.t('stm.bannerSub'),
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 12.5,
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _bolumBasligi(String baslik, String alt) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          baslik,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 3),
+        Text(
+          alt,
+          style: const TextStyle(color: Colors.white38, fontSize: 12),
+        ),
+      ],
+    );
+  }
+
+  Widget _videoKarti({
+    required IconData ikon,
+    required Color renk,
+    required String baslik,
+    required String alt,
+    required VoidCallback onTap,
+    bool canli = false,
+    String canliEtiket = '',
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: UcdButon(
+        onTap: onTap,
+        koseYaricapi: 16,
+        dolgu: const EdgeInsets.all(14),
+        zeminler: LinearGradient(
+          colors: [Renkler.kart, Renkler.kart],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: renk.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: UcdIkon(ikon: Icons.mosque_rounded, renk: renk, boyut: 24),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          baslik,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      if (canli)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 7,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Renkler.hata,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const UcdIkon(ikon: Icons.circle, renk: Colors.white, boyut: 6),
+                              const SizedBox(width: 4),
+                              Text(
+                                canliEtiket,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    alt,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white54,
+                      fontSize: 11.5,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const UcdIkon(ikon: Icons.play_circle_rounded, renk: Colors.white38, boyut: 24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _mekanKarti(BuildContext context, MekanKaydi mekan) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: UcdButon(
+        onTap: () => _haritadaAc(context, mekan),
+        koseYaricapi: 16,
+        dolgu: const EdgeInsets.all(12),
+        zeminler: LinearGradient(
+          colors: [Renkler.kart, Renkler.kart],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: mekan.renk.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: UcdIkon(ikon: mekan.ikon, renk: mekan.renk, boyut: 20),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    mekan.ad,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    mekan.aciklama,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white54,
+                      fontSize: 11.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const UcdIkon(ikon: Icons.map_rounded, renk: Colors.white38, boyut: 22),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "FIREBASE_API_KEY": "PUBLIC_FIREBASE_WEB_API_KEY",
+  "FIREBASE_APP_ID": "1:000000000000:android:replace_me",
+  "FIREBASE_MESSAGING_SENDER_ID": "000000000000",
+  "FIREBASE_PROJECT_ID": "replace-with-your-project-id",
+  "FIREBASE_FUNCTIONS_REGION": "europe-west1"
+}

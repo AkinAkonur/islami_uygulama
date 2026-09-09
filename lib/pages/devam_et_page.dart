@@ -1,0 +1,324 @@
+import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
+import '../services/manevi_store.dart';
+import '../services/renkler.dart';
+import '../widgets/kart_sekilleri.dart';
+import '../pages/tesbih_page.dart';
+import 'kuran/hatim_takibi_page.dart';
+import 'kuran/sure_detay_page.dart';
+
+class DevamEtPage extends StatefulWidget {
+  const DevamEtPage({super.key});
+
+  @override
+  State<DevamEtPage> createState() => _DevamEtPageState();
+}
+
+class _DevamEtPageState extends State<DevamEtPage> {
+  String _sonAyet = '';
+  KuranKonumu _kuranKonumu = const KuranKonumu(
+    sureNo: 2,
+    ayetNo: 255,
+    sureAdi: 'Bakara',
+  );
+  int _tesbih = 0;
+  Map<String, int> _hatim = {'sayfa': 1, 'sayi': 0, 'bugun': 0, 'seri': 0};
+
+  @override
+  void initState() {
+    super.initState();
+    _yukle();
+  }
+
+  Future<void> _yukle() async {
+    final kuranKonumu = await ManeviStore.sonKuranKonumu();
+    final tesbih = await ManeviStore.tesbihSayisi();
+    final hatim = await ManeviStore.hatimDurumu();
+    if (mounted) {
+      setState(() {
+        _sonAyet = kuranKonumu.gosterim;
+        _kuranKonumu = kuranKonumu;
+        _tesbih = tesbih;
+        _hatim = hatim;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Renkler.bannerUst, Renkler.bannerAlt],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              _baslikSatiri(context),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    _ayetKarti(l),
+                    const SizedBox(height: 16),
+                    _tesbihKarti(l),
+                    const SizedBox(height: 16),
+                    _hatimKarti(l),
+                    const SizedBox(height: 16),
+                    _ipucuKarti(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _baslikSatiri(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: Row(
+        children: [
+          IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const UcdIkon(ikon: Icons.arrow_back_ios_new_rounded, renk: Colors.white),
+          ),
+          const SizedBox(width: 8),
+          const Text(
+            'Devam Et',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Spacer(),
+          const UcdIkon(ikon: Icons.play_circle_rounded, renk: Colors.white54, boyut: 24),
+        ],
+      ),
+    );
+  }
+
+  Widget _kartTasi(Widget child) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Renkler.kart.withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: child,
+    );
+  }
+
+  Widget _ayetKarti(AppLocalizations l) {
+    return _kartTasi(
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              UcdIkon(ikon: Icons.menu_book_rounded, renk: Renkler.vurgu, boyut: 20),
+              SizedBox(width: 8),
+              Text(
+                l.t('de.quranSpot'),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Renkler.seciliYuzey,
+              borderRadius: BorderRadius.circular(14),
+            ),
+              child: Text(
+                l.t('de.lastVerse').replaceAll('{verse}', _sonAyet),
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => SureDetayPage(
+                      sureNo: _kuranKonumu.sureNo,
+                      baslangicAyetNo: _kuranKonumu.ayetNo,
+                    ),
+                  ),
+                );
+              },
+              style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
+              icon: UcdIkon(ikon: Icons.arrow_forward_rounded, renk: Renkler.vurgu, boyut: 16),
+              label: Text(l.t('de.readContinue')),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _tesbihKarti(AppLocalizations l) {
+    return _kartTasi(
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              UcdIkon(ikon: Icons.radio_button_checked_rounded, renk: Renkler.vurgu, boyut: 20),
+              SizedBox(width: 8),
+              Text(
+                l.t('de.tasbihCounter'),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Text(
+                '$_tesbih',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800,
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
+              ),
+              const Spacer(),
+              FilledButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const TesbihPage()),
+                  );
+                },
+                style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
+                icon: const UcdIkon(ikon: Icons.radio_button_checked_rounded, renk: Colors.black, boyut: 16),
+                label: Text(l.t('de.goTasbih')),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _hatimKarti(AppLocalizations l) {
+    final toplam = _hatim['sayfa']!;
+    return _kartTasi(
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              UcdIkon(ikon: Icons.auto_stories_rounded, renk: Renkler.vurgu, boyut: 20),
+              SizedBox(width: 8),
+              Text(
+                l.t('de.hatimSpot'),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              _hatimKutusu(l.t('de.page'), '$toplam'),
+              const SizedBox(width: 12),
+              _hatimKutusu(l.t('de.readToday'), '${_hatim['bugun']}'),
+              const SizedBox(width: 12),
+              _hatimKutusu('Seri', '${_hatim['seri']} 🔥'),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const HatimTakibiPage()),
+                );
+              },
+              style: TextButton.styleFrom(foregroundColor: Renkler.vurgu),
+              icon: UcdIkon(ikon: Icons.arrow_forward_rounded, renk: Renkler.vurgu, boyut: 16),
+              label: Text(l.t('de.goHatim')),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _hatimKutusu(String etiket, String deger) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: Renkler.seciliYuzey,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Column(
+          children: [
+            Text(
+              deger,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(etiket, style: TextStyle(color: Colors.white54, fontSize: 11)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _ipucuKarti() {
+    return _kartTasi(
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          UcdIkon(ikon: Icons.lightbulb_outline_rounded, renk: Renkler.vurgu, boyut: 18),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context).t('de.motivation'),
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 13,
+                height: 1.5,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

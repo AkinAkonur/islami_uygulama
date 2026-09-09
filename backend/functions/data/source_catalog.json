@@ -1,0 +1,122 @@
+[
+  {
+    "id": "quran-112",
+    "category": "akaid",
+    "title": "Surah Al-Ikhlas",
+    "reference": "Quran 112:1-4",
+    "summary": "Core Quranic reference concerning the oneness and uniqueness of Allah.",
+    "keywords": ["tawhid", "oneness", "Allah", "ikhlas", "akaid", "iman", "tevhid"]
+  },
+  {
+    "id": "quran-2-255",
+    "category": "tefsir",
+    "title": "Ayat al-Kursi",
+    "reference": "Quran 2:255",
+    "summary": "Quranic reference concerning Allah's life, sustaining power, knowledge and sovereignty.",
+    "keywords": ["ayat al kursi", "ayetel kursi", "knowledge", "throne", "kürsi", "Allah"]
+  },
+  {
+    "id": "quran-55-13",
+    "category": "tefsir",
+    "title": "Repeated reminder in Surah Ar-Rahman",
+    "reference": "Quran 55:13",
+    "summary": "A repeated Quranic reminder asking which favors of the Lord are denied.",
+    "keywords": ["rahman", "repeated", "blessing", "favor", "nimet", "şükür"]
+  },
+  {
+    "id": "quran-2-183",
+    "category": "fikih",
+    "title": "Fasting obligation",
+    "reference": "Quran 2:183",
+    "summary": "Primary Quranic reference for the obligation and spiritual purpose of fasting.",
+    "keywords": ["fast", "fasting", "ramadan", "oruç", "ramazan", "taqwa", "takva"]
+  },
+  {
+    "id": "quran-2-185",
+    "category": "fikih",
+    "title": "Ramadan and facilitation",
+    "reference": "Quran 2:185",
+    "summary": "Reference for Ramadan fasting, the Quran's guidance, and concessions for illness or travel.",
+    "keywords": ["ramadan", "illness", "travel", "oruç", "hasta", "sefer", "quran"]
+  },
+  {
+    "id": "quran-5-6",
+    "category": "fikih",
+    "title": "Ablution and dry ablution",
+    "reference": "Quran 5:6",
+    "summary": "Primary Quranic reference for ablution and tayammum before prayer.",
+    "keywords": ["wudu", "ablution", "tayammum", "abdest", "teyemmüm", "prayer", "namaz"]
+  },
+  {
+    "id": "quran-9-60",
+    "category": "fikih",
+    "title": "Categories of zakat recipients",
+    "reference": "Quran 9:60",
+    "summary": "Primary Quranic reference listing categories eligible to receive obligatory charity.",
+    "keywords": ["zakat", "zekat", "charity", "sadaka", "recipient", "nisap"]
+  },
+  {
+    "id": "quran-4-103",
+    "category": "fikih",
+    "title": "Prayer at prescribed times",
+    "reference": "Quran 4:103",
+    "summary": "Quranic reference that prayer is prescribed for believers at appointed times.",
+    "keywords": ["prayer", "time", "namaz", "vakit", "salah", "salat"]
+  },
+  {
+    "id": "quran-2-286",
+    "category": "teselli",
+    "title": "Capacity and responsibility",
+    "reference": "Quran 2:286",
+    "summary": "Quranic reference that no soul is burdened beyond its capacity, followed by supplication.",
+    "keywords": ["anxiety", "burden", "hope", "kaygı", "yük", "umut", "dua"]
+  },
+  {
+    "id": "quran-94",
+    "category": "teselli",
+    "title": "Surah Ash-Sharh",
+    "reference": "Quran 94:5-6",
+    "summary": "Repeated Quranic assurance that ease accompanies hardship.",
+    "keywords": ["hardship", "ease", "difficulty", "zorluk", "kolaylık", "teselli"]
+  },
+  {
+    "id": "quran-13-28",
+    "category": "dua",
+    "title": "Remembrance and tranquility",
+    "reference": "Quran 13:28",
+    "summary": "Quranic reference connecting remembrance of Allah with tranquility of hearts.",
+    "keywords": ["dhikr", "zikr", "zikir", "heart", "kalp", "peace", "huzur"]
+  },
+  {
+    "id": "quran-17-23",
+    "category": "aile",
+    "title": "Kindness to parents",
+    "reference": "Quran 17:23-24",
+    "summary": "Quranic instruction on worshipping Allah and treating parents with humility and kindness.",
+    "keywords": ["parents", "mother", "father", "anne", "baba", "ebeveyn", "family", "aile"]
+  },
+  {
+    "id": "quran-49-13",
+    "category": "ogrenme",
+    "title": "Human diversity and moral worth",
+    "reference": "Quran 49:13",
+    "summary": "Quranic reference to peoples and tribes knowing one another and moral excellence being tied to God-consciousness.",
+    "keywords": ["people", "tribes", "equality", "insan", "kavim", "takva", "diversity"]
+  },
+  {
+    "id": "quran-16-43",
+    "category": "genel",
+    "title": "Ask people of knowledge",
+    "reference": "Quran 16:43",
+    "summary": "Quranic instruction to ask people who possess knowledge when one does not know.",
+    "keywords": ["scholar", "knowledge", "question", "alim", "bilgi", "soru", "fetva"]
+  },
+  {
+    "id": "quran-17-36",
+    "category": "genel",
+    "title": "Do not follow without knowledge",
+    "reference": "Quran 17:36",
+    "summary": "Quranic warning against following or asserting what one has no knowledge of.",
+    "keywords": ["evidence", "knowledge", "claim", "delil", "bilgi", "iddia", "source", "kaynak"]
+  }
+]

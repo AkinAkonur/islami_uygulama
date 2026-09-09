@@ -1,0 +1,14 @@
+{
+  "counts": {
+    "IconButton": 108,
+    "ElevatedButton": 5,
+    "TextButton": 25,
+    "OutlinedButton": 5,
+    "FloatingActionButton": 0,
+    "InkWell": 6,
+    "GestureDetector": 18
+  },
+  "total": 167,
+  "problems": [],
+  "notice": "Source inventory only. Not runtime or compilation results."
+}
