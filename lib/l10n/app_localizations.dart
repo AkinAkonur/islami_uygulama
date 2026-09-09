@@ -9,6 +9,7 @@ import 'ms.dart' as ms;
 import 'ru.dart' as ru;
 import 'tr.dart' as tr;
 import 'ur.dart' as ur;
+import 'dil_hizmetleri.dart';
 
 /// Uygulama çapında kullanılan anahtar bazlı çeviri katmanı.
 ///
@@ -24,6 +25,12 @@ class AppLocalizations {
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
+
+  /// Context erisimi olmayan yerler (servisler, arka plan gorevleri) icin
+  /// aktif dile gore cevirmen. Dil degistiginde [DilHizmetleri.aktifDil]
+  /// guncellendigi icin bu getter da yeni dili dondurur.
+  static AppLocalizations get aktif =>
+      AppLocalizations(DilHizmetleri.aktifDil.value);
 
   static AppLocalizations of(BuildContext context) =>
       Localizations.of<AppLocalizations>(context, AppLocalizations)!;

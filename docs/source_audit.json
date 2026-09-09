@@ -3,15 +3,15 @@
   "lib_dart_files": 156,
   "test_dart_files": 33,
   "translation_key_counts": {
-    "tr": 1712,
-    "en": 1712,
-    "ar": 1712,
-    "id": 1712,
-    "ms": 1712,
-    "ur": 1712,
-    "bn": 1712,
-    "fr": 1712,
-    "ru": 1712
+    "tr": 1826,
+    "en": 1826,
+    "ar": 1826,
+    "id": 1826,
+    "ms": 1826,
+    "ur": 1826,
+    "bn": 1826,
+    "fr": 1826,
+    "ru": 1826
   },
   "checks": {
     "legacy_notice_removed": true,

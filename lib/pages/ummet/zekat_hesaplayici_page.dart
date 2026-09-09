@@ -386,7 +386,7 @@ class _ZekatHesaplayiciPageState extends State<ZekatHesaplayiciPage> {
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide.none,
               ),
-              suffixText: 'TL',
+              suffixText: AppLocalizations.aktif.t('zk.currency'),
               suffixStyle: TextStyle(color: Colors.white38, fontSize: 12),
             ),
             onChanged: (v) {

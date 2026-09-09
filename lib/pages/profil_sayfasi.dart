@@ -279,7 +279,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                   side: BorderSide(color: Renkler.vurgu.withValues(alpha: 0.6)),
                 ),
                 icon: const UcdIkon(ikon: Icons.photo_library_rounded, renk: Colors.white70, boyut: 16),
-                label: Text(_resim == null ? 'Fotoğraf Ekle' : 'Değiştir'),
+                label: Text(l.t(_resim == null ? 'pf.photoAdd' : 'pf.photoChange')),
               ),
               const SizedBox(width: 10),
               if (_resim != null)
@@ -311,7 +311,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
               UcdIkon(ikon: Icons.edit_rounded, renk: Renkler.vurgu, boyut: 20),
               SizedBox(width: 8),
               Text(
-                'İsmin',
+                l.t('pf.nameTitle'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -341,7 +341,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
             child: FilledButton(
               onPressed: _isimKaydet,
               style: FilledButton.styleFrom(backgroundColor: Renkler.vurgu),
-              child: const Text('Kaydet'),
+              child: Text(l.t('c.save')),
             ),
           ),
         ],

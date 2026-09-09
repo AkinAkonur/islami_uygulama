@@ -50,83 +50,79 @@ class MekkeMedineSanalTurPage extends StatelessWidget {
 
   /// 360° video turlar. Video ID'leri Remote Config üzerinden de
   /// yönetilebilir; bu liste uygulama-içi görsellik için sabittir.
-  static const _sanalTurler = [
+  static List<SanalTurNoktasi> get _sanalTurler => [
     SanalTurNoktasi(
-      baslik: 'Kâbe 360° Sanal Tur (Mekke)',
+      baslik: AppLocalizations.aktif.t('mt.tur1.baslik'),
       videoId: 'Q0yzeIgxdSQ',
-      aciklama:
-          'Kâbe-i Muazzama çevresinin 360 derece sanal turu: tavaf alanı, '
-          'Hacerü\'l-Esved ve Mescid-i Haram\'ın ihtişamı.',
+      aciklama: AppLocalizations.aktif.t('mt.tur1.aciklama'),
     ),
     SanalTurNoktasi(
-      baslik: 'Mekke Turu 2026 · 360° Kâbe Deneyimi',
+      baslik: AppLocalizations.aktif.t('mt.tur2.baslik'),
       videoId: 'Uggk1UJ9IpY',
-      aciklama:
-          'Mekke\'nin güncel 360° turu. Cihazınızı çevirerek veya parmağınızla '
-          'sürükleyerek kutsal mekânda gezinebilirsiniz.',
+      aciklama: AppLocalizations.aktif.t('mt.tur2.aciklama'),
     ),
   ];
 
-  static final _mekanlar = [
+  static List<MekanKaydi> get _mekanlar => [
     MekanKaydi(
-      ad: 'Mescid-i Haram ve Kâbe',
-      aciklama: 'Tavaf alanı ve Kâbe-i Muazzama · Mekke',
+      ad: AppLocalizations.aktif.t('mt.p1.ad'),
+      aciklama: AppLocalizations.aktif.t('mt.p1.aciklama'),
       enlem: 21.4225,
       boylam: 39.8262,
       ikon: Icons.mosque_outlined,
       renk: Renkler.vurgu,
     ),
     MekanKaydi(
-      ad: 'Mescid-i Nebevî',
-      aciklama: 'Ravza-i Mutahhara ve Yeşil Kubbe · Medine',
+      ad: AppLocalizations.aktif.t('mt.p2.ad'),
+      aciklama: AppLocalizations.aktif.t('mt.p2.aciklama'),
       enlem: 24.4672,
       boylam: 39.6111,
       ikon: Icons.place_outlined,
       renk: Renkler.zumrutSabit,
     ),
     MekanKaydi(
-      ad: 'Arafat Dağı',
-      aciklama: 'Vakfe alanı · Hac günü dualar',
+      ad: AppLocalizations.aktif.t('mt.p3.ad'),
+      aciklama: AppLocalizations.aktif.t('mt.p3.aciklama'),
       enlem: 21.3549,
       boylam: 39.9843,
       ikon: Icons.terrain_outlined,
       renk: Renkler.acikAltinSabit,
     ),
     MekanKaydi(
-      ad: 'Mina',
-      aciklama: 'Şeytan taşlama ve mina çadırları',
+      ad: AppLocalizations.aktif.t('mt.p4.ad'),
+      aciklama: AppLocalizations.aktif.t('mt.p4.aciklama'),
       enlem: 21.4133,
       boylam: 39.8933,
       ikon: Icons.holiday_village_outlined,
       renk: Renkler.vurgu,
     ),
     MekanKaydi(
-      ad: 'Müzdelife',
-      aciklama: 'Gecelenecek açık alan · hedy kesimi',
+      ad: AppLocalizations.aktif.t('mt.p5.ad'),
+      aciklama: AppLocalizations.aktif.t('mt.p5.aciklama'),
       enlem: 21.3867,
       boylam: 39.8902,
       ikon: Icons.nights_stay_outlined,
       renk: Renkler.acikVurgu,
     ),
     MekanKaydi(
-      ad: 'Hira Mağarası',
-      aciklama: 'İlk vahyin indiği Nur Dağı',
+      ad: AppLocalizations.aktif.t('mt.p6.ad'),
+      aciklama: AppLocalizations.aktif.t('mt.p6.aciklama'),
       enlem: 21.4575,
       boylam: 39.8589,
       ikon: Icons.landscape_outlined,
       renk: Renkler.vurgu,
     ),
     MekanKaydi(
-      ad: 'Sevr Mağarası',
-      aciklama: 'Hicret yolculuğunda gizlenilen mağara',
+      ad: AppLocalizations.aktif.t('mt.p7.ad'),
+      aciklama: AppLocalizations.aktif.t('mt.p7.aciklama'),
       enlem: 21.3786,
       boylam: 39.8531,
       ikon: Icons.hiking_outlined,
       renk: Renkler.acikVurgu,
     ),
     MekanKaydi(
-      ad: 'Cennetü\'l-Bakî',
-      aciklama: 'Medine mezarlığı · sahabe kabirleri',
+      ad: AppLocalizations.aktif.t('mt.p8.ad'),
+      aciklama: AppLocalizations.aktif.t('mt.p8.aciklama'),
       enlem: 24.463,
       boylam: 39.6149,
       ikon: Icons.park_outlined,

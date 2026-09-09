@@ -135,10 +135,10 @@ class _IlhamPageState extends State<IlhamPage> {
                 children: [
                   const UcdIkon(ikon: Icons.wb_twilight_rounded, renk: Renkler.uyari, boyut: 22),
                   const SizedBox(width: 8),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Günün İlhamı Hatırlatıcısı',
-                      style: TextStyle(
+                      AppLocalizations.aktif.t('il.reminderTitle'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -146,7 +146,7 @@ class _IlhamPageState extends State<IlhamPage> {
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Kapat',
+                    tooltip: AppLocalizations.aktif.t('c.close'),
                     icon: const UcdIkon(ikon: Icons.close_rounded, renk: Colors.white38),
                     onPressed: () => Navigator.pop(ctx, false),
                   ),
@@ -813,7 +813,7 @@ class _IlhamKarti extends StatelessWidget {
                 builder: (context, fav, _) {
                   final favori = fav.contains(icerik.id);
                   return IconButton(
-                    tooltip: favori ? 'Favorilerden çıkar' : 'Favorilere ekle',
+                    tooltip: AppLocalizations.aktif.t(favori ? 'rp.favRemove' : 'rp.favAdd'),
                     icon: UcdIkon(
                       ikon: favori ? Icons.favorite_rounded : Icons.favorite_border_rounded,
                       renk: favori ? Renkler.hata : Colors.white38,

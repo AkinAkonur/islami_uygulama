@@ -185,7 +185,10 @@ class _SureDetayPageState extends State<SureDetayPage> {
     final url = KuranApi.ayetSesUrl(_kariId, ayet.globalNo);
     MuzikHandler.aktif?.medyaHaber(MediaItem(
       id: url,
-      title: '${sureAdiTurkce(ayet.sureNo)} - Ayet ${ayet.ayetNo}',
+      title: AppLocalizations.aktif
+          .t('md.sureAyet')
+          .replaceAll('{sure}', sureAdiTurkce(ayet.sureNo))
+          .replaceAll('{ayet}', '${ayet.ayetNo}'),
       artist: _kariId.replaceFirst('ar.', ''),
     ));
   }

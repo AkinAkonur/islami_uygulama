@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
@@ -442,6 +444,11 @@ static const List<({String kod, String ad})> _metotlar = [
     );
     if (secilen == null || secilen == aktifKod || !mounted) return;
     await DilHizmetleri.sec(secilen);
+    // Zamanlanmis (isletim sistemi) bildirim metinleri secilen dile gore
+    // yeniden olusturulur; aksi halde eski dildeki metinler kalirdi.
+    unawaited(GercekBildirimler.planla());
+    unawaited(GercekBildirimler.ilhamHatirlatmasiPlanla());
+    unawaited(GercekBildirimler.duaHatirlatmalariPlanla());
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

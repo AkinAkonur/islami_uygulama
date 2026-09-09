@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'manevi_store.dart';
 import 'vakit_servisi.dart';
+import '../l10n/app_localizations.dart';
 
 enum BildirimTipi { namaz, gunluk, ozelGun, ummet, diger }
 
@@ -130,7 +131,7 @@ class BildirimMerkezi {
             id: b.id,
             tip: b.tip,
             baslik: '${vakit.$1} ${vakit.$2}',
-            mesaj: 'Sıradaki namaz — kalan ${vakit.$3}',
+            mesaj: AppLocalizations.aktif.t('nt.nextPrayerBody').replaceAll('{left}', '${vakit.$3}'),
             zaman: now,
             hedef: b.hedef,
             okundu: b.okundu,
@@ -155,7 +156,7 @@ class BildirimMerkezi {
           id: 'namaz_vakit_$bugunKey',
           tip: BildirimTipi.namaz,
           baslik: '${vakit.$1} ${vakit.$2}',
-          mesaj: 'Sıradaki namaz — kalan ${vakit.$3}',
+          mesaj: AppLocalizations.aktif.t('nt.nextPrayerBody').replaceAll('{left}', '${vakit.$3}'),
           zaman: now,
           hedef: 'namaz',
           okundu: false,
@@ -168,8 +169,8 @@ class BildirimMerkezi {
           yeni.add(Bildirim(
             id: 'namaz_kildin_$bugunKey',
             tip: BildirimTipi.namaz,
-            baslik: 'Bugün $kildin/5 kıldın',
-            mesaj: 'Akşam oldu — kalan vakitleri işaretlemeyi unutma.',
+            baslik: AppLocalizations.aktif.t('nt.prayedTitle').replaceAll('{count}', '$kildin'),
+            mesaj: AppLocalizations.aktif.t('nt.prayedBody'),
             zaman: now,
             hedef: 'gorevler',
             okundu: false,
@@ -182,8 +183,8 @@ class BildirimMerkezi {
         yeni.add(Bildirim(
           id: 'namaz_kaza_$bugunKey',
           tip: BildirimTipi.namaz,
-          baslik: '$kaza kaza namazın var',
-          mesaj: 'Tertip kuralına göre kazaları kılmaya çalış.',
+          baslik: AppLocalizations.aktif.t('nt.qadaTitle').replaceAll('{count}', '$kaza'),
+          mesaj: AppLocalizations.aktif.t('nt.qadaBody'),
           zaman: now,
           hedef: 'namaz',
           okundu: false,
@@ -198,8 +199,8 @@ class BildirimMerkezi {
         yeni.add(Bildirim(
           id: 'gunluk_ayet_$bugunKey',
           tip: BildirimTipi.gunluk,
-          baslik: 'Günün Ayeti',
-          mesaj: '"İnşirah: Her zorlukla birlikte bir kolaylık vardır." (94:6)',
+          baslik: AppLocalizations.aktif.t('nt.verseTitle'),
+          mesaj: AppLocalizations.aktif.t('nt.verseBody'),
           zaman: now,
           hedef: 'kuran',
           okundu: false,
@@ -207,13 +208,18 @@ class BildirimMerkezi {
         ));
       }
       if (now.hour >= 9) {
-        final gunler = ['Bir akrabanı ara', 'Bir teşekkür mesajı gönder', 'Bir sadaka ver', 'Bir hastayı ziyaret et'];
+        final gunler = [
+          AppLocalizations.aktif.t('nt.deed1'),
+          AppLocalizations.aktif.t('nt.deed2'),
+          AppLocalizations.aktif.t('nt.deed3'),
+          AppLocalizations.aktif.t('nt.deed4'),
+        ];
         final secim = gunler[now.difference(DateTime(now.year, 1, 1)).inDays % gunler.length];
         yeni.add(Bildirim(
           id: 'gunluk_iyilik_$bugunKey',
           tip: BildirimTipi.gunluk,
-          baslik: "Bugünün iyiliği: $secim",
-          mesaj: 'Küçük bir adım, günü güzelleştirir.',
+          baslik: AppLocalizations.aktif.t('nt.goodDeedTitle').replaceAll('{deed}', secim),
+          mesaj: AppLocalizations.aktif.t('nt.goodDeedBody'),
           zaman: now,
           hedef: 'gorevler',
           okundu: false,
@@ -225,8 +231,8 @@ class BildirimMerkezi {
         yeni.add(Bildirim(
           id: 'gunluk_hatim_$bugunKey',
           tip: BildirimTipi.gunluk,
-          baslik: 'Hatim hedefi',
-          mesaj: 'Bugün 1 sayfa okursan ${hatim['sayfa'] ?? 1}. sayfadan devam edeceksin.',
+          baslik: AppLocalizations.aktif.t('nt.hatimTitle'),
+          mesaj: AppLocalizations.aktif.t('nt.hatimBody').replaceAll('{page}', '${hatim['sayfa'] ?? 1}'),
           zaman: now,
           hedef: 'hatim',
           okundu: false,
@@ -241,8 +247,8 @@ class BildirimMerkezi {
         yeni.add(Bildirim(
           id: 'ozel_cuma_$bugunKey',
           tip: BildirimTipi.ozelGun,
-          baslik: 'Bugün Cuma',
-          mesaj: 'Hutbe öncesi cuma namazını planlamayı unutma.',
+          baslik: AppLocalizations.aktif.t('nt.fridayTitle'),
+          mesaj: AppLocalizations.aktif.t('nt.fridayBody'),
           zaman: now,
           hedef: 'namaz',
           okundu: false,
@@ -257,7 +263,7 @@ class BildirimMerkezi {
           id: 'ozel_gun_$bugunKey',
           tip: BildirimTipi.ozelGun,
           baslik: '${g['ikon']} ${g['ad']}',
-          mesaj: 'Bugün mübarek bir gün — ibadetlerine biraz zaman ayır.',
+          mesaj: AppLocalizations.aktif.t('nt.specialDayBody'),
           zaman: now,
           hedef: 'ramazan',
           okundu: false,
@@ -266,12 +272,12 @@ class BildirimMerkezi {
       }
       if (ManeviStore.ramazanIci(now) && now.hour >= 16) {
         final aksam = VakitServisi.aksamVakti(await VakitServisi.gunlukVakitler());
-        final iftar = aksam?.saatYaz ?? 'güneş batımı';
+        final iftar = aksam?.saatYaz ?? AppLocalizations.aktif.t('nt.sunsetFallback');
         yeni.add(Bildirim(
           id: 'ozel_iftar_$bugunKey',
           tip: BildirimTipi.ozelGun,
-          baslik: 'İftar yaklaşıyor',
-          mesaj: 'İftar $iftar — orucunu unutma, ailenle paylaş.',
+          baslik: AppLocalizations.aktif.t('nt.iftarTitle'),
+          mesaj: AppLocalizations.aktif.t('nt.iftarBody').replaceAll('{time}', iftar),
           zaman: now,
           hedef: 'ramazan',
           okundu: false,
@@ -285,8 +291,8 @@ class BildirimMerkezi {
       yeni.add(Bildirim(
         id: 'ummet_dua_$bugunKey',
         tip: BildirimTipi.ummet,
-        baslik: 'Dua kardeşliğin aktif',
-        mesaj: 'Bugün bir dua zincirine katıl ve kardeşlerine dua edip huzur bul.',
+        baslik: AppLocalizations.aktif.t('nt.ummetTitle'),
+        mesaj: AppLocalizations.aktif.t('nt.ummetBody'),
         zaman: now,
         hedef: 'ummet',
         okundu: false,

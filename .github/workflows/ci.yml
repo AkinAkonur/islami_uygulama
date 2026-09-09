@@ -63,6 +63,9 @@ jobs:
       - name: source_audit
         run: python tool/source_audit.py
 
+      - name: Dil (lokalizasyon) denetimi
+        run: python tool/dil_denetimi.py
+
   sir-taramasi:
     name: Sır taraması
     runs-on: ubuntu-latest

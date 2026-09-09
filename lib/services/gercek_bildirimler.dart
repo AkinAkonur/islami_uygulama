@@ -12,6 +12,7 @@ import 'ilham_store.dart';
 import 'ilham_verileri.dart';
 import 'namaz_bildirim_ayarlari.dart';
 import 'vakit_servisi.dart';
+import '../l10n/app_localizations.dart';
 
 /// Telefona gerçek (OS) bildirimleri zamanlar: her namaz vakti, günün ayeti,
 /// cuma hatırlatması ve kullanıcının kurduğu dua hatırlatıcıları.
@@ -320,9 +321,13 @@ class GercekBildirimler {
             }
             final planlandi = await _guvenliZamanla(
               id: id,
-              title: dakikaOnce == 0 ? '${v.ad} vakti girdi'
-                  : '${v.ad} vaktine $dakikaOnce dk kaldı',
-              body: 'Namaz vakti — ${v.saatYaz}',
+              title: dakikaOnce == 0
+                  ? AppLocalizations.aktif.t('nt.prayerNow').replaceAll('{name}', v.ad)
+                  : AppLocalizations.aktif
+                      .t('nt.prayerIn')
+                      .replaceAll('{name}', v.ad)
+                      .replaceAll('{min}', '$dakikaOnce'),
+              body: AppLocalizations.aktif.t('nt.prayerBody').replaceAll('{time}', v.saatYaz),
               scheduledDate: hedef,
               notificationDetails: detay,
               tamZaman: true,
@@ -336,8 +341,8 @@ class GercekBildirimler {
       if (await BildirimMerkezi.ayarOku(BildirimTipi.gunluk)) {
         await _plugin.zonedSchedule(
           id: 2001,
-          title: 'Günün Ayeti',
-          body: 'İnşirah: Her zorlukla birlikte bir kolaylık vardır. (94:6)',
+          title: AppLocalizations.aktif.t('nt.verseTitle'),
+          body: AppLocalizations.aktif.t('nt.verseBody'),
           scheduledDate: gunlukHedef(9, 0),
           notificationDetails: _gunlukDetay,
           androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
@@ -354,8 +359,8 @@ class GercekBildirimler {
         }
         await _plugin.zonedSchedule(
           id: 3001,
-          title: 'Bugün Cuma',
-          body: 'Hutbe öncesi cuma namazını planlamayı unutma.',
+          title: AppLocalizations.aktif.t('nt.fridayTitle'),
+          body: AppLocalizations.aktif.t('nt.fridayBody'),
           scheduledDate: cuma,
           notificationDetails: _gunlukDetay,
           androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
@@ -395,8 +400,8 @@ class GercekBildirimler {
       if (await bildirimIzniVarMi() == false) return false;
       return await _guvenliZamanla(
         id: 9001,
-        title: 'Namaz Vakti Hatırlatıcıları',
-        body: 'Bildirimler çalışıyor. Bu bir test bildirimi. 👍',
+        title: AppLocalizations.aktif.t('nt.reminderChannel'),
+        body: AppLocalizations.aktif.t('nt.testBody'),
         scheduledDate: now.add(const Duration(seconds: 5)),
         notificationDetails: _namazDetay(NamazBildirimAyarlari.titresim.value),
         tamZaman: true,
@@ -440,8 +445,8 @@ class GercekBildirimler {
       if (await bildirimIzniVarMi() == false) return false;
       await _plugin.show(
         id: 9002,
-        title: 'Namaz Vakti Test',
-        body: 'Bildirimler çalışıyor!',
+        title: AppLocalizations.aktif.t('nt.testTitle'),
+        body: AppLocalizations.aktif.t('nt.testShortBody'),
         notificationDetails: _namazDetay(NamazBildirimAyarlari.titresim.value),
       );
       return true;
@@ -490,7 +495,7 @@ class GercekBildirimler {
 
       await _plugin.zonedSchedule(
         id: 5001,
-        title: 'Günün İlhamı ✨',
+        title: AppLocalizations.aktif.t('nt.ilhamTitle'),
         body: gorunen,
         scheduledDate: hedef,
         notificationDetails: _ilhamDetay,
@@ -555,7 +560,7 @@ class GercekBildirimler {
           // Her gün, seçilen saatte.
           await _guvenliZamanla(
             id: id++,
-            title: 'Dua Vakti 🤲',
+            title: AppLocalizations.aktif.t('nt.duaTitle'),
             body: baslik,
             scheduledDate: hedef(0, kayit.saat, kayit.dakika),
             notificationDetails: _duaDetay,
@@ -567,7 +572,7 @@ class GercekBildirimler {
           for (final gun in kayit.gunler.toSet()) {
             await _guvenliZamanla(
               id: id++,
-              title: 'Dua Vakti 🤲',
+              title: AppLocalizations.aktif.t('nt.duaTitle'),
               body: baslik,
               scheduledDate: hedef(gun, kayit.saat, kayit.dakika),
               notificationDetails: _duaDetay,

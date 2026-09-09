@@ -13,6 +13,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Dua isteği kartı.
 @immutable
@@ -177,66 +178,66 @@ const Map<String, List<String>> duaSablonlari = {
 const int duaKarakterSiniri = 280;
 
 /// Yayında kalma süresi seçenekleri (saat, etiket).
-const List<(int, String)> duaSureSecenekleri = [
-  (24, '24 Saat'),
-  (72, '3 Gün'),
-  (168, '1 Hafta'),
+List<(int, String)> get duaSureSecenekleri => [
+  (24, AppLocalizations.aktif.t('dk.sure24')),
+  (72, AppLocalizations.aktif.t('dk.sure72')),
+  (168, AppLocalizations.aktif.t('dk.sure168')),
 ];
 
 /// Rozetler.
-const List<Rozet> rozetler = [
+List<Rozet> get rozetler => [
   Rozet(
     id: 'ilk_amin',
-    ad: 'İlk Dua Et',
-    aciklama: 'İlk "Amin"ini verdiğinde kazanırsın.',
+    ad: AppLocalizations.aktif.t('dk.r1.ad'),
+    aciklama: AppLocalizations.aktif.t('dk.r1.aciklama'),
     ikon: '🌱',
     esik: 1,
     aminTuru: true,
   ),
   Rozet(
     id: 'dert_ortagi',
-    ad: 'Dert Ortağı',
-    aciklama: '50 kardeşin duasına ortak oldun.',
+    ad: AppLocalizations.aktif.t('dk.r2.ad'),
+    aciklama: AppLocalizations.aktif.t('dk.r2.aciklama'),
     ikon: '🤝',
     esik: 50,
     aminTuru: true,
   ),
   Rozet(
     id: 'digerkam',
-    ad: 'Diğerkâm',
-    aciklama: '100 kardeşin için Amin dedin.',
+    ad: AppLocalizations.aktif.t('dk.r3.ad'),
+    aciklama: AppLocalizations.aktif.t('dk.r3.aciklama'),
     ikon: '💚',
     esik: 100,
     aminTuru: true,
   ),
   Rozet(
     id: 'merhamet',
-    ad: 'Merhamet Çağlayanı',
-    aciklama: '500 kardeşin duasına eşlik ettin.',
+    ad: AppLocalizations.aktif.t('dk.r4.ad'),
+    aciklama: AppLocalizations.aktif.t('dk.r4.aciklama'),
     ikon: '🌊',
     esik: 500,
     aminTuru: true,
   ),
   Rozet(
     id: 'gonul_sultani',
-    ad: 'Gönül Sultanı',
-    aciklama: '1000 kardeşin için Amin dedin.',
+    ad: AppLocalizations.aktif.t('dk.r5.ad'),
+    aciklama: AppLocalizations.aktif.t('dk.r5.aciklama'),
     ikon: '👑',
     esik: 1000,
     aminTuru: true,
   ),
   Rozet(
     id: 'dua_elcisi',
-    ad: 'Dua Elçisi',
-    aciklama: 'İlk dua isteğini paylaştın.',
+    ad: AppLocalizations.aktif.t('dk.r6.ad'),
+    aciklama: AppLocalizations.aktif.t('dk.r6.aciklama'),
     ikon: '📮',
     esik: 1,
     aminTuru: false,
   ),
   Rozet(
     id: 'cemaat_lideri',
-    ad: 'Cemaat Lideri',
-    aciklama: '10 dua isteği paylaştın.',
+    ad: AppLocalizations.aktif.t('dk.r7.ad'),
+    aciklama: AppLocalizations.aktif.t('dk.r7.aciklama'),
     ikon: '🕌',
     esik: 10,
     aminTuru: false,

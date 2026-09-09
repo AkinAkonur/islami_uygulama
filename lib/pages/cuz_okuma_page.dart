@@ -108,8 +108,11 @@ class _CuzOkumaPageState extends State<CuzOkumaPage> {
     });
     MuzikHandler.aktif?.medyaHaber(MediaItem(
       id: CuzVerileri.ayetSesUrl(_ayetler![idx].sureNo, _ayetler![idx].ayetNo),
-      title: 'Cüz ${widget.cuzNo} - Ayet ${idx + 1}',
-      artist: 'Kur\'an-ı Kerim',
+      title: AppLocalizations.aktif
+          .t('md.cuzAyet')
+          .replaceAll('{cuz}', '${widget.cuzNo}')
+          .replaceAll('{ayet}', '${idx + 1}'),
+      artist: AppLocalizations.aktif.t('md.quran'),
     ));
   }
 

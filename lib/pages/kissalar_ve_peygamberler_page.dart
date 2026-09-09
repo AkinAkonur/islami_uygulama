@@ -384,10 +384,10 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
                 ),
               ),
               const SizedBox(height: 12),
-              _duaDetaySatir('Okunuşu', dua.okunus),
-              _duaDetaySatir('Meali', dua.meal),
-              _duaDetaySatir('Ne zaman okunur', dua.durum),
-              _duaDetaySatir('Kaynak', dua.kaynak),
+              _duaDetaySatir(AppLocalizations.aktif.t('kp.duaOkunus'), dua.okunus),
+              _duaDetaySatir(AppLocalizations.aktif.t('kp.duaMeal'), dua.meal),
+              _duaDetaySatir(AppLocalizations.aktif.t('kp.duaWhen'), dua.durum),
+              _duaDetaySatir(AppLocalizations.aktif.t('kp.duaSource'), dua.kaynak),
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
@@ -397,12 +397,12 @@ class _KissalarVePeygamberlerPageState extends State<KissalarVePeygamberlerPage>
                     foregroundColor: Colors.black87,
                   ),
                   icon: const UcdIkon(ikon: Icons.copy_rounded, renk: Colors.black87, boyut: 18),
-                  label: const Text('Arapça Metni Kopyala'),
+                  label: Text(AppLocalizations.aktif.t('kp.copyArabic')),
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: dua.arapca));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Dua metni kopyalandı'),
+                      SnackBar(
+                        content: Text(AppLocalizations.aktif.t('kp.copied')),
                         backgroundColor: Renkler.basari,
                       ),
                     );

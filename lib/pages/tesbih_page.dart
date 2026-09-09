@@ -81,9 +81,9 @@ class _TesbihPageState extends State<TesbihPage>
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Renkler.kart,
-        title: const Text(
-          'Yeni Zikir Ekle',
-          style: TextStyle(color: Colors.white, fontSize: 17),
+        title: Text(
+          l.t('ts.zikirAddTitle'),
+          style: const TextStyle(color: Colors.white, fontSize: 17),
         ),
         content: TextField(
           controller: controller,
@@ -113,7 +113,7 @@ class _TesbihPageState extends State<TesbihPage>
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, controller.text.trim()),
-            child: const Text('Ekle'),
+            child: Text(l.t('c.add')),
           ),
         ],
       ),
@@ -225,7 +225,7 @@ class _TesbihPageState extends State<TesbihPage>
           ),
           IconButton(
             onPressed: _zikirEkleDialog,
-            tooltip: 'Zikir ekle',
+            tooltip: AppLocalizations.aktif.t('ts.zikirAddTooltip'),
             icon: UcdIkon(ikon: Icons.add_circle_outline_rounded, renk: Renkler.vurgu),
           ),
           if (_ozelZikirler.contains(_selectedZikir))
@@ -357,17 +357,17 @@ class _TesbihPageState extends State<TesbihPage>
           _istatistik(
             ikon: Icons.track_changes_rounded,
             deger: '$hedef',
-            etiket: 'Hedef',
+            etiket: AppLocalizations.aktif.t('ts.statTarget'),
           ),
           _istatistik(
             ikon: Icons.bolt_rounded,
             deger: '$_totalCount',
-            etiket: 'Toplam Zikir',
+            etiket: AppLocalizations.aktif.t('ts.statTotal'),
           ),
           _istatistik(
             ikon: Icons.percent_rounded,
             deger: '${(oran * 100).round()}%',
-            etiket: 'İlerleme',
+            etiket: AppLocalizations.aktif.t('ts.statProgress'),
           ),
         ],
       ),

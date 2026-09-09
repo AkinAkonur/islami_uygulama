@@ -135,7 +135,7 @@ class _IyilikBolumuState extends State<IyilikBolumu> {
           const SizedBox(height: 12),
           ...ManeviStore.namazVakitleri.map(
             (v) => _kontrolSatiri(
-              etiket: '$v Namazı',
+              etiket: AppLocalizations.aktif.t('gi.prayerOf').replaceAll('{name}', v),
               deger: _namaz.contains(v),
               onChanged: (t) => _namazTikla(v, t),
             ),

@@ -324,7 +324,7 @@ class DahaFazlaPage extends StatelessWidget {
                 Expanded(
                   child: _heroButon(
                     ikon: Icons.headphones_rounded,
-                    etiket: '🎧 Ses Modu\n(Arkaplanda Çal)',
+                    etiket: AppLocalizations.aktif.t('mr.audioMode'),
                     dolu: true,
                     onTap: () => Navigator.push(
                       context,
@@ -340,7 +340,7 @@ class DahaFazlaPage extends StatelessWidget {
                 Expanded(
                   child: _heroButon(
                     ikon: Icons.fullscreen_rounded,
-                    etiket: '📺 Tam Ekran İzle',
+                    etiket: AppLocalizations.aktif.t('mr.watchFull'),
                     dolu: false,
                     onTap: () => Navigator.push(
                       context,
@@ -1220,7 +1220,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
       child: Row(
         children: [
           _filtreChip(
-            etiket: 'Tümü (${_kanallar.length})',
+            etiket: AppLocalizations.aktif.t('mr.filterAll').replaceAll('{count}', '${_kanallar.length}'),
             secili: hepsiSecili,
             onTap: () => setState(() {
               _filtre = null;
@@ -1232,7 +1232,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
             builder: (context, favoriler, _) => Padding(
               padding: const EdgeInsets.only(left: 6),
               child: _filtreChip(
-                etiket: '❤ Favoriler (${favoriler.length})',
+                etiket: AppLocalizations.aktif.t('mr.filterFav').replaceAll('{count}', '${favoriler.length}'),
                 secili: _sadeceFavoriler,
                 onTap: () => setState(() => _sadeceFavoriler = !_sadeceFavoriler),
               ),
@@ -1623,7 +1623,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                   subtitle: Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      caliyor ? '🔴 Canlı akış devam ediyor...' : kanal.aciklama,
+                      caliyor ? AppLocalizations.aktif.t('mr.liveStreaming') : kanal.aciklama,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: Colors.white70, fontSize: 12),
@@ -1631,7 +1631,7 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                   ),
                   isThreeLine: true,
                   trailing: IconButton(
-                    tooltip: favori ? 'Favorilerden Çıkar' : 'Favorilere Ekle',
+                    tooltip: AppLocalizations.aktif.t(favori ? 'rp.favRemove' : 'rp.favAdd'),
                     onPressed: () => RadyoOynaticiStore.favoriDegistir(kanal.url),
                     icon: UcdIkon(ikon: 
                       favori ? Icons.favorite_rounded : Icons.favorite_border_rounded, renk: favori ? Renkler.vurgu : Colors.white30, boyut: 22,

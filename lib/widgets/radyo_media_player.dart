@@ -17,6 +17,7 @@ import '../services/canli_yayin_konfigurasyonu.dart';
 import '../services/radyo_oynatici_store.dart';
 import '../services/renkler.dart';
 import 'altin_tactile.dart';
+import '../l10n/app_localizations.dart';
 
 /// Tam kontrollü radyo oynatıcı paneli. [kanallar] önceki/sonraki
 /// gezinmede kullanılacak sıralı kanal listesidir.
@@ -204,7 +205,7 @@ class RadyoMediaPlayer extends StatelessWidget {
                 ),
               ),
               IconButton(
-                tooltip: favori ? 'Favorilerden Çıkar' : 'Favorilere Ekle',
+                tooltip: AppLocalizations.aktif.t(favori ? 'rp.favRemove' : 'rp.favAdd'),
                 onPressed: () => RadyoOynaticiStore.favoriDegistir(kanal.url),
                 icon: Icon(
                   favori ? Icons.favorite : Icons.favorite_border,
@@ -238,7 +239,7 @@ class RadyoMediaPlayer extends StatelessWidget {
                   TextButton(
                     onPressed: () =>
                         RadyoOynaticiStore.oynat(kanal, kanallar: kanallar),
-                    child: const Text('Tekrar Dene',
+                    child: const Text(AppLocalizations.aktif.t('c.retry'),
                         style: TextStyle(color: Renkler.hata)),
                   ),
                 ],
@@ -250,7 +251,7 @@ class RadyoMediaPlayer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                tooltip: 'Önceki',
+                tooltip: AppLocalizations.aktif.t('c.prev'),
                 onPressed: () => RadyoOynaticiStore.onceki(),
                 icon: const Icon(Icons.skip_previous, color: Colors.white70),
                 iconSize: 32,
@@ -264,7 +265,7 @@ class RadyoMediaPlayer extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               IconButton(
-                tooltip: 'Sonraki',
+                tooltip: AppLocalizations.aktif.t('c.next'),
                 onPressed: () => RadyoOynaticiStore.sonraki(),
                 icon: const Icon(Icons.skip_next, color: Colors.white70),
                 iconSize: 32,
@@ -276,14 +277,14 @@ class RadyoMediaPlayer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                tooltip: 'Durdur',
+                tooltip: AppLocalizations.aktif.t('c.stop'),
                 onPressed: () => RadyoOynaticiStore.durdur(),
                 icon: const Icon(Icons.stop_circle_outlined,
                     color: Colors.white54, size: 26),
               ),
               const SizedBox(width: 12),
               IconButton(
-                tooltip: 'Uyku Zamanlayıcısı',
+                tooltip: AppLocalizations.aktif.t('rp.sleepTimer'),
                 onPressed: () => _uykuMenusu(context),
                 icon: const Icon(Icons.bedtime_outlined,
                     color: Colors.white54, size: 26),
@@ -340,13 +341,13 @@ class RadyoMediaPlayer extends StatelessWidget {
     final String metin;
     final Color renk;
     if (yukleniyor) {
-      metin = 'Bağlanıyor...';
+      metin = AppLocalizations.aktif.t('rp.connecting');
       renk = Colors.white54;
     } else if (calyor) {
-      metin = '🔴 Canlı yayın';
+      metin = AppLocalizations.aktif.t('rp.live');
       renk = Renkler.hata;
     } else {
-      metin = 'Duraklatıldı';
+      metin = AppLocalizations.aktif.t('rp.paused');
       renk = Renkler.uyari;
     }
     return Text(

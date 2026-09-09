@@ -111,7 +111,7 @@ class _QadaScreenState extends State<QadaScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("TOPLAM BEKLEYEN KAZA", style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold)),
+                      Text(l.t('qd.totalPending'), style: TextStyle(color: Renkler.vurgu, fontSize: 11, fontWeight: FontWeight.bold)),
                       SizedBox(height: 6),
                       Text(l.t('qd.prayerTimes').replaceAll('{count}', totalQada.toString()), style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)),
                     ],
