@@ -239,7 +239,7 @@ class RadyoMediaPlayer extends StatelessWidget {
                   TextButton(
                     onPressed: () =>
                         RadyoOynaticiStore.oynat(kanal, kanallar: kanallar),
-                    child: const Text(AppLocalizations.aktif.t('c.retry'),
+                    child: Text(AppLocalizations.aktif.t('c.retry'),
                         style: TextStyle(color: Renkler.hata)),
                   ),
                 ],

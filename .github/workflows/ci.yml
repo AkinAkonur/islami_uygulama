@@ -66,6 +66,9 @@ jobs:
       - name: Dil (lokalizasyon) denetimi
         run: python tool/dil_denetimi.py
 
+      - name: const/ceviri denetimi
+        run: python tool/const_ceviri_denetimi.py
+
   sir-taramasi:
     name: Sır taraması
     runs-on: ubuntu-latest
