@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Uygulama zemin rengi (koyu yeşil): beyaz açılış ekranı yerine
-         tema rengiyle aynı renk kullanılır. -->
-    <color name="splash_zemin">#0B150E</color>
+    <!-- Android'in zorunlu ilk karesi, Flutter 3D loading ekranının en koyu
+         arka planıyla aynıdır. Böylece ayrı bir yeşil ekran görünmez. -->
+    <color name="splash_zemin">#010805</color>
 </resources>

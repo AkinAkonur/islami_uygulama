@@ -157,35 +157,35 @@ class VakitServisi {
         return KonumSonuc.izinKaliciRed;
       }
 
-      // Önce son bilinen konumu dene; yoksa canlı GPS fixi al.
+      // Kullanıcı GPS ile yenilediğinde önce gerçek, güncel konumu iste.
+      // Önceki kod doğrudan son bilinen konumu kabul ettiği için kullanıcı
+      // başka şehirde olsa bile eski koordinat kullanılabiliyordu.
       Position? konum;
       try {
-        konum = await Geolocator.getLastKnownPosition();
+        konum = await Geolocator.getCurrentPosition(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.high,
+            timeLimit: Duration(seconds: 20),
+          ),
+        );
       } catch (e) {
-        debugPrint('VakitServisi: son konum alınamadı: $e');
+        debugPrint('VakitServisi: canlı GPS konumu alınamadı: $e');
+        // Bina içinde uydu fix'i gecikebilir; son bilinen konum güvenli yedek.
+        try {
+          konum = await Geolocator.getLastKnownPosition();
+        } catch (sonHata) {
+          debugPrint('VakitServisi: son konum alınamadı: $sonHata');
+        }
       }
       if (konum == null) {
-        try {
-          konum = await Geolocator.getCurrentPosition(
-            locationSettings: const LocationSettings(
-              // Kıble doğruluğu, şehir düzeyindeki yaklaşık konumdan daha
-              // hassastır; kullanıcı yenilediğinde yüksek doğruluklu GPS al.
-              accuracy: LocationAccuracy.high,
-              timeLimit: Duration(seconds: 12),
-            ),
-          );
-        } catch (e) {
-          debugPrint('VakitServisi: GPS konumu alınamadı: $e');
-          // GPS/Play Services yoksa IP'ye göre şehir düzeyinde yaklaşık
-          // konum dene. Vakit hesabı ve kıble için yeterlidir.
-          final ip = await konumIpIle();
-          if (ip == null) return KonumSonuc.konumAlinamadi;
-          final (enlem, boylam, sehir, ulke) = ip;
-          await konumKaydet(lat: enlem, lng: boylam);
-          if (sehir != null) await konumKaydet(sehir: sehir);
-          if (ulke != null) await konumKaydet(ulke: ulke);
-          return KonumSonuc.yaklasikBasarili;
-        }
+        // GPS/Play Services yoksa IP'ye göre şehir düzeyinde yaklaşık konum.
+        final ip = await konumIpIle();
+        if (ip == null) return KonumSonuc.konumAlinamadi;
+        final (enlem, boylam, sehir, ulke) = ip;
+        await konumKaydet(lat: enlem, lng: boylam);
+        if (sehir != null) await konumKaydet(sehir: sehir);
+        if (ulke != null) await konumKaydet(ulke: ulke);
+        return KonumSonuc.yaklasikBasarili;
       }
 
       await konumKaydet(lat: konum.latitude, lng: konum.longitude);

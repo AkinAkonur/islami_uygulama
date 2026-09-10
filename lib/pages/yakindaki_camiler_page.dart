@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import '../l10n/app_localizations.dart';
 import '../services/location_and_mosque_service.dart';
 import '../services/renkler.dart';
@@ -131,17 +130,10 @@ class _YakindakiCamilerPageState extends State<YakindakiCamilerPage> {
     }
   }
   Future<void> _yolTarifi(Mosque cami, String mod) async {
-    Position? konum;
-    try {
-      konum = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.high,
-          timeLimit: Duration(seconds: 12),
-        ),
-      );
-    } catch (_) {
-      konum = null;
-    }
+    // İzin, GPS servisi, canlı konum ve son bilinen konum yedeği tek yerde
+    // yönetilir. Doğrudan getCurrentPosition kullanımı izin reddinde veya bina
+    // içinde zaman aşımında yol tarifini sessizce başarısız bırakıyordu.
+    final konum = await LocationAndMosqueService.getCurrentLocation(context);
     final acildi = await LocationAndMosqueService.yolTarifiAc(
       cami,
       baslangicLat: konum?.latitude.toString(),

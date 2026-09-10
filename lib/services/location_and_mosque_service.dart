@@ -6,7 +6,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-/// Cami Model Sınıfı
+import '../l10n/app_localizations.dart';
+import 'vakit_servisi.dart';
+
+/// Yakındaki tek bir cami kaydı.
 class Mosque {
   final String name;
   final double lat;
@@ -21,196 +24,256 @@ class Mosque {
   });
 }
 
-/// Konum ve Yakındaki Camileri Yöneten Tam Servis
+/// GPS, önbellek/IP yedeği, Overpass cami araması ve harita yönlendirmesi.
 class LocationAndMosqueService {
-  /// 1. Kullanıcının Konumunu Güvenli Şekilde Alır (İzinler ve GPS Açıklığı Kontrol Edilir)
+  LocationAndMosqueService._();
+
+  /// İzinleri kontrol ederek güncel konumu alır. Canlı GPS zaman aşımına
+  /// uğrarsa son bilinen cihaz konumunu kullanır.
   static Future<Position?> getCurrentLocation(BuildContext context) async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // GPS / Konum Servisi Açık mı?
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      if (context.mounted) {
-        _showMessage(context, 'Lütfen cihazınızın Konum (GPS) servisini açın.');
-      }
-      return null;
-    }
-
-    // İzin Kontrolü
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
+    final l = AppLocalizations.of(context);
+    try {
+      final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
         if (context.mounted) {
-          _showMessage(context, 'Konum izni reddedildi.');
+          _showMessage(
+            context,
+            l.t('ko.locationServiceOff'),
+            actionText: l.t('c.manage'),
+            onPressed: Geolocator.openLocationSettings,
+          );
         }
         return null;
       }
-    }
 
-    // Kalıcı Olarak Engellendi mi?
-    if (permission == LocationPermission.deniedForever) {
-      if (context.mounted) {
-        _showMessage(
-          context,
-          'Konum izni kalıcı olarak engellenmiş. Lütfen ayarlardan izin verin.',
-          actionText: 'Ayarlar',
-          onPressed: () => Geolocator.openAppSettings(),
-        );
+      var permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
       }
-      return null;
-    }
+      if (permission == LocationPermission.denied) {
+        if (context.mounted) {
+          _showMessage(context, l.t('ko.permissionDenied'));
+        }
+        return null;
+      }
+      if (permission == LocationPermission.deniedForever) {
+        if (context.mounted) {
+          _showMessage(
+            context,
+            l.t('ko.permissionPermanent'),
+            actionText: l.t('c.manage'),
+            onPressed: Geolocator.openAppSettings,
+          );
+        }
+        return null;
+      }
 
-    // Konumu Getir
-    try {
-      return await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.high,
-          timeLimit: Duration(seconds: 12),
-        ),
-      );
+      try {
+        return await Geolocator.getCurrentPosition(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.high,
+            timeLimit: Duration(seconds: 20),
+          ),
+        );
+      } catch (e) {
+        debugPrint('Cami GPS canlı konum alınamadı: $e');
+        // Bina içinde canlı GPS fix'i gecikebilir; cihazın son geçerli konumu
+        // cami araması için yeterlidir.
+        try {
+          final son = await Geolocator.getLastKnownPosition();
+          if (son != null) return son;
+        } catch (sonHata) {
+          debugPrint('Cami GPS son konum alınamadı: $sonHata');
+        }
+        if (context.mounted) {
+          _showMessage(context, l.t('ko.locationFailed'));
+        }
+        return null;
+      }
     } catch (e) {
+      debugPrint('Cami GPS izin/servis hatası: $e');
       if (context.mounted) {
-        _showMessage(context, 'Konum bilgisi alınamadı: $e');
+        _showMessage(context, l.t('ko.locationFailed'));
       }
       return null;
     }
   }
 
-  /// 2. Alınan Enlem ve Boylama Göre OpenStreetMap (Overpass API) Üzerinden Yakındaki Camileri Çeker
+  /// Verilen koordinat çevresindeki camileri OpenStreetMap/Overpass üzerinden
+  /// arar. Farklı etiketleme biçimlerini kapsar; sunucu bozuksa yedek sunucuya
+  /// geçer.
   static Future<List<Mosque>> fetchNearbyMosques(
     double lat,
     double lng, {
-    double radiusInMeters = 5000,
+    double radiusInMeters = 10000,
   }) async {
-    // 5 km yarıçapındaki Müslüman ibadethanelerini sorgular
-    final String query = '''
-      [out:json];
-      (
-        node["amenity"="place_of_worship"]["religion"="muslim"](around:$radiusInMeters,$lat,$lng);
-        way["amenity"="place_of_worship"]["religion"="muslim"](around:$radiusInMeters,$lat,$lng);
-        relation["amenity"="place_of_worship"]["religion"="muslim"](around:$radiusInMeters,$lat,$lng);
-      );
-      out center;
-    ''';
+    final query = '''
+[out:json][timeout:25];
+(
+  nwr["amenity"="place_of_worship"]["religion"="muslim"](around:$radiusInMeters,$lat,$lng);
+  nwr["building"="mosque"](around:$radiusInMeters,$lat,$lng);
+);
+out center tags;
+''';
 
-    // Ana sunucu erişilemezse sıradaki yedek sunucu denenir.
     const overpassSunuculari = [
-      'https://overpass-api.de/api/interpreter',
-      'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
-      'https://overpass.osm.ch/api/interpreter',
-      'https://overpass.kumi.systems/api/interpreter',
+      'overpass-api.de',
+      'overpass.kumi.systems',
+      'overpass.osm.ch',
     ];
 
-    for (final overpassUrl in overpassSunuculari) {
+    for (final host in overpassSunuculari) {
       try {
+        final uri = Uri.https(host, '/api/interpreter');
         final response = await http
             .post(
-              Uri.parse(overpassUrl),
+              uri,
+              headers: const {
+                'User-Agent': 'islami_uygulama/1.0 (nearby-mosques)',
+                'Accept': 'application/json',
+              },
               body: {'data': query},
             )
-            .timeout(const Duration(seconds: 20));
-
-        if (response.statusCode == 200) {
-          final data = json.decode(utf8.decode(response.bodyBytes));
-          final List elements = data['elements'] ?? [];
-
-          List<Mosque> mosques = [];
-
-          for (var element in elements) {
-            String name = element['tags']?['name'] ?? 'Cami (İsimsiz)';
-            double mLat = element['lat'] ?? element['center']?['lat'] ?? 0.0;
-            double mLng = element['lon'] ?? element['center']?['lon'] ?? 0.0;
-
-            if (mLat != 0.0 && mLng != 0.0) {
-              double distance = Geolocator.distanceBetween(
-                lat,
-                lng,
-                mLat,
-                mLng,
-              );
-              mosques.add(
-                Mosque(
-                  name: name,
-                  lat: mLat,
-                  lng: mLng,
-                  distanceInMeters: distance,
-                ),
-              );
-            }
-          }
-
-          // En yakın camiden en uzağa doğru sırala
-          mosques.sort(
-            (a, b) =>
-                (a.distanceInMeters ?? 0).compareTo(b.distanceInMeters ?? 0),
-          );
-          return mosques;
+            .timeout(const Duration(seconds: 28));
+        if (response.statusCode != 200) {
+          debugPrint('Cami Overpass $host HTTP ${response.statusCode}');
+          continue;
         }
+
+        final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+        if (decoded is! Map<String, dynamic>) continue;
+        final elements = decoded['elements'];
+        if (elements is! List) continue;
+
+        final camiler = <Mosque>[];
+        final gorulen = <String>{};
+        for (final raw in elements) {
+          if (raw is! Map<String, dynamic>) continue;
+          final tags = raw['tags'];
+          final tagMap = tags is Map<String, dynamic>
+              ? tags
+              : const <String, dynamic>{};
+          final center = raw['center'];
+          final centerMap = center is Map<String, dynamic>
+              ? center
+              : const <String, dynamic>{};
+          final latRaw = raw['lat'] ?? centerMap['lat'];
+          final lngRaw = raw['lon'] ?? centerMap['lon'];
+          if (latRaw is! num || lngRaw is! num) continue;
+          final mLat = latRaw.toDouble();
+          final mLng = lngRaw.toDouble();
+          if (mLat == 0 || mLng == 0) continue;
+
+          final osmId = '${raw['type']}:${raw['id']}';
+          if (!gorulen.add(osmId)) continue;
+          final adRaw = tagMap['name'] ??
+              tagMap['name:tr'] ??
+              tagMap['official_name'] ??
+              tagMap['alt_name'];
+          final ad = adRaw is String && adRaw.trim().isNotEmpty
+              ? adRaw.trim()
+              : 'Cami';
+          final mesafe = Geolocator.distanceBetween(lat, lng, mLat, mLng);
+          camiler.add(
+            Mosque(
+              name: ad,
+              lat: mLat,
+              lng: mLng,
+              distanceInMeters: mesafe,
+            ),
+          );
+        }
+        camiler.sort(
+          (a, b) => (a.distanceInMeters ?? double.infinity)
+              .compareTo(b.distanceInMeters ?? double.infinity),
+        );
+        return camiler;
       } catch (e) {
-        debugPrint('Cami arama hatası ($overpassUrl): $e');
+        debugPrint('Cami arama hatası ($host): $e');
       }
     }
-    return [];
+    return const <Mosque>[];
   }
 
-  /// 3. Hem Konumu Alan Hem De Camileri Tek Hamlede Getiren Ana Fonksiyon
+  /// Önce canlı GPS'i, sonra uygulamada kayıtlı koordinatı, son olarak
+  /// VakitServisi'nin GPS/IP yedeğini kullanarak camileri getirir.
   static Future<List<Mosque>> getKonumVeCamiler(BuildContext context) async {
-    Position? position = await getCurrentLocation(context);
-    if (position == null) return [];
+    final position = await getCurrentLocation(context);
+    if (position != null) {
+      await VakitServisi.konumKaydet(
+        lat: position.latitude,
+        lng: position.longitude,
+      );
+      return fetchNearbyMosques(position.latitude, position.longitude);
+    }
 
-    return await fetchNearbyMosques(position.latitude, position.longitude);
+    var koordinat = await VakitServisi.koordinatOku();
+    if (koordinat == null) {
+      await VakitServisi.konumuOtomatikAl();
+      koordinat = await VakitServisi.koordinatOku();
+    }
+    if (koordinat == null) return const <Mosque>[];
+    return fetchNearbyMosques(koordinat.$1, koordinat.$2);
   }
 
-  /// 4. Seçilen Camiye Yol Tarifi Al (Google Maps / Apple Maps / Waze)
+  /// Seçilen camiye Google/Apple Maps ile yol tarifi açar.
   static Future<bool> yolTarifiAc(
     Mosque cami, {
     String? baslangicLat,
     String? baslangicLng,
     String mod = 'walking',
   }) async {
-    final dest = '$cami.lat,$cami.lng';
-    final baslangic = baslangicLat != null && baslangicLng != null
-        ? '$baslangicLat,$baslangicLng'
-        : null;
-    final yon = baslangic != null ? '&origin=$baslangic' : '';
-
-    final Uri? uri;
+    final params = <String, String>{};
+    final Uri uri;
     if (Platform.isIOS) {
-      uri = Uri.parse(
-        'https://maps.apple.com/?daddr=$dest$yon&dirflg=${mod == 'driving' ? 'd' : 'w'}',
-      );
-    } else if (Platform.isAndroid) {
-      uri = Uri.parse(
-        'https://www.google.com/maps/dir/?api=1$yon&destination=$dest&travelmode=$mod',
+      params['daddr'] = '${cami.lat},${cami.lng}';
+      if (baslangicLat != null && baslangicLng != null) {
+        params['saddr'] = '$baslangicLat,$baslangicLng';
+      }
+      params['dirflg'] = mod == 'driving' ? 'd' : 'w';
+      uri = Uri.https('maps.apple.com', '/', params);
+    } else {
+      params['api'] = '1';
+      params['destination'] = '${cami.lat},${cami.lng}';
+      params['travelmode'] = mod;
+      if (baslangicLat != null && baslangicLng != null) {
+        params['origin'] = '$baslangicLat,$baslangicLng';
+      }
+      uri = Uri.https('www.google.com', '/maps/dir/', params);
+    }
+    return _disaridaAc(uri);
+  }
+
+  /// Camiyi harita uygulamasında işaretler.
+  static Future<bool> haritadaGoster(Mosque cami) async {
+    final Uri uri;
+    if (Platform.isIOS) {
+      uri = Uri.https(
+        'maps.apple.com',
+        '/',
+        {'q': '${cami.lat},${cami.lng}'},
       );
     } else {
-      uri = Uri.parse(
-        'https://www.google.com/maps/dir/?api=1$yon&destination=$dest&travelmode=$mod',
+      uri = Uri.https(
+        'www.google.com',
+        '/maps/search/',
+        {'api': '1', 'query': '${cami.lat},${cami.lng}'},
       );
     }
-
-    if (await canLaunchUrl(uri)) {
-      return await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-    return false;
+    return _disaridaAc(uri);
   }
 
-  /// 5. Camiyi Haritada Konumlarıyla Göster
-  static Future<bool> haritadaGoster(Mosque cami) async {
-    final uri = Uri.parse(
-      Platform.isIOS
-          ? 'https://maps.apple.com/?q=${cami.lat},${cami.lng}'
-          : 'https://www.google.com/maps/search/?api=1&query=${cami.lat},${cami.lng}',
-    );
-    if (await canLaunchUrl(uri)) {
+  static Future<bool> _disaridaAc(Uri uri) async {
+    try {
+      // Bazı Android sürümlerinde canLaunchUrl paket görünürlüğü nedeniyle
+      // false dönebilir; doğrudan launch denemesi daha güvenilirdir.
       return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      debugPrint('Harita açılamadı ($uri): $e');
+      return false;
     }
-    return false;
   }
 
-  // Bildirim Kutusu Yardımcısı
   static void _showMessage(
     BuildContext context,
     String message, {
