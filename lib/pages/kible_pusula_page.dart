@@ -24,6 +24,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
   bool _konumYukleniyor = true;
   bool _pusulaKullanilamiyor = false;
   bool _kibleKutlamasiGosterildi = false;
+  bool _sayfaAktif = true;
   Timer? _sensorBeklemeZamani;
 
   @override
@@ -40,7 +41,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
       return;
     }
     _sensorBeklemeZamani = Timer(const Duration(seconds: 4), () {
-      if (mounted && _cihazYonu == null) {
+      if (mounted && _sayfaAktif && _cihazYonu == null) {
         setState(() => _pusulaKullanilamiyor = true);
       }
     });
@@ -48,7 +49,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
       _pusulaDinleyicisi = events.listen(
         (event) {
           final heading = event.heading;
-          if (!mounted) return;
+          if (!mounted || !_sayfaAktif) return;
           if (heading == null || !heading.isFinite || heading < 0) {
             setState(() {
               _cihazYonu = null;
@@ -69,10 +70,12 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
           if (ilkHizalama) HapticFeedback.mediumImpact();
         },
         onError: (_) {
-          if (mounted) setState(() {
-            _pusulaKullanilamiyor = true;
-            _cihazYonu = null;
-          });
+          if (mounted && _sayfaAktif) {
+            setState(() {
+              _pusulaKullanilamiyor = true;
+              _cihazYonu = null;
+            });
+          }
         },
       );
     } catch (_) {
@@ -81,7 +84,7 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
   }
 
   Future<void> _konumuYukle({bool yenile = false}) async {
-    if (!mounted) return;
+    if (!mounted || !_sayfaAktif) return;
     setState(() {
       _konumYukleniyor = true;
       _kibleKutlamasiGosterildi = false;
@@ -100,17 +103,42 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
             : VakitServisi.kabeUzakligiKm(koordinat.$1, koordinat.$2);
       });
     } catch (e) {
-      if (mounted) setState(() { _kibleAcisi = null; _uzaklikKm = null; });
+      if (mounted && _sayfaAktif) {
+        setState(() {
+          _kibleAcisi = null;
+          _uzaklikKm = null;
+        });
+      }
       debugPrint('[Kıble] Konum okunamadı: $e');
     } finally {
-      if (mounted) setState(() => _konumYukleniyor = false);
+      if (mounted && _sayfaAktif) {
+        setState(() => _konumYukleniyor = false);
+      }
     }
   }
 
   @override
+  void activate() {
+    super.activate();
+    _sayfaAktif = true;
+  }
+
+  @override
+  void deactivate() {
+    // `mounted` deactivate sırasında hâlâ true olabilir. Sensörden aynı karede
+    // gelen setState çağrısını engellemek InheritedElement ağacının güvenli
+    // sırayla sökülmesini sağlar.
+    _sayfaAktif = false;
+    super.deactivate();
+  }
+
+  @override
   void dispose() {
+    _sayfaAktif = false;
     _sensorBeklemeZamani?.cancel();
+    _sensorBeklemeZamani = null;
     _pusulaDinleyicisi?.cancel();
+    _pusulaDinleyicisi = null;
     super.dispose();
   }
 
@@ -153,16 +181,24 @@ class _KiblePusulaPageState extends State<KiblePusulaPage> {
                     const SizedBox(height: 26),
                     Center(child: _Pusula3D(kibleFarki: fark, hizali: hizali)),
                     const SizedBox(height: 20),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 520),
-                      switchInCurve: Curves.easeOutBack,
-                      switchOutCurve: Curves.easeIn,
-                      child: hizali
-                          ? _KibleKutlamaKarti(
-                              key: const ValueKey('kible-hizali'),
-                              l: l,
-                            )
-                          : const SizedBox.shrink(key: ValueKey('kible-bekliyor')),
+                    // Sensör değeri eşik çevresinde hızla değişebilir. Alt ağacı
+                    // kaldırıp yeniden eklemek yerine her zaman bağlı tutup
+                    // yalnızca yüksekliğini/opaklığını değiştiriyoruz. Böylece
+                    // InheritedElement bağımlılıkları güvenli şekilde korunur.
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 280),
+                      curve: Curves.easeOutCubic,
+                      height: hizali ? 122 : 0,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: const BoxDecoration(),
+                      child: IgnorePointer(
+                        ignoring: !hizali,
+                        child: AnimatedOpacity(
+                          duration: const Duration(milliseconds: 220),
+                          opacity: hizali ? 1 : 0,
+                          child: const _KibleKutlamaKarti(),
+                        ),
+                      ),
                     ),
                     SizedBox(height: hizali ? 18 : 6),
                     _kabeKarti(hizali, l),
@@ -492,122 +528,105 @@ Widget _yonlendirme(double? fark, bool hizali, AppLocalizations l) {
 /// Kıble hizalandığında görünen, ek görsel kullanmadan çizilen kutlama yüzeyi.
 /// Hareket çok hafiftir; yön bilgisini gizlemez ve kullanıcı yeniden telefonu
 /// çevirdiğinde kart doğal olarak kaybolur.
-class _KibleKutlamaKarti extends StatefulWidget {
-  const _KibleKutlamaKarti({super.key, required this.l});
-  final AppLocalizations l;
-
-  @override
-  State<_KibleKutlamaKarti> createState() => _KibleKutlamaKartiState();
-}
-
-class _KibleKutlamaKartiState extends State<_KibleKutlamaKarti>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _isik;
-
-  @override
-  void initState() {
-    super.initState();
-    _isik = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1800),
-    )..repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _isik.dispose();
-    super.dispose();
-  }
+class _KibleKutlamaKarti extends StatelessWidget {
+  const _KibleKutlamaKarti();
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _isik,
-      builder: (context, _) => Container(
-        height: 122,
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF1E6044), Color(0xFF0A281A), Color(0xFF06150D)],
-          ),
-          border: Border.all(
-            color: Renkler.acikAltinSabit.withValues(alpha: 0.55 + _isik.value * 0.25),
-            width: 1.3,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Renkler.zumrutSabit.withValues(alpha: 0.16 + _isik.value * 0.16),
-              blurRadius: 22,
-              spreadRadius: 1,
-            ),
-          ],
+    final l = AppLocalizations.of(context);
+    return Container(
+      height: 122,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF1E6044), Color(0xFF0A281A), Color(0xFF06150D)],
         ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            CustomPaint(painter: _KibleIsikPainter(_isik.value)),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-              child: Row(
-                children: [
-                  Transform.scale(
-                    scale: 1 + _isik.value * 0.06,
-                    child: Container(
-                      width: 62,
-                      height: 62,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: const RadialGradient(
-                          center: Alignment(-0.3, -0.35),
-                          colors: [Color(0xFFF9E3A8), Color(0xFFD4AF37), Color(0xFF7B5D12)],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Renkler.acikAltinSabit.withValues(alpha: 0.42),
-                            blurRadius: 14,
-                          ),
-                        ],
-                      ),
-                      child: const Icon(Icons.check_rounded, color: Color(0xFF103020), size: 36),
-                    ),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.l.t('kbl.aligned'),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          widget.l.t('kbl.guideReady'),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.76),
-                            fontSize: 12,
-                            height: 1.25,
-                          ),
-                        ),
+        border: Border.all(
+          color: Renkler.acikAltinSabit.withValues(alpha: 0.72),
+          width: 1.3,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Renkler.zumrutSabit.withValues(alpha: 0.25),
+            blurRadius: 22,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          const CustomPaint(painter: _KibleIsikPainter(0.65)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+            child: Row(
+              children: [
+                Container(
+                  width: 62,
+                  height: 62,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: const RadialGradient(
+                      center: Alignment(-0.3, -0.35),
+                      colors: [
+                        Color(0xFFF9E3A8),
+                        Color(0xFFD4AF37),
+                        Color(0xFF7B5D12),
                       ],
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Renkler.acikAltinSabit.withValues(alpha: 0.42),
+                        blurRadius: 14,
+                      ),
+                    ],
                   ),
-                  const Icon(Icons.auto_awesome_rounded, color: Color(0xFFF4D778), size: 22),
-                ],
-              ),
+                  child: const Icon(
+                    Icons.check_rounded,
+                    color: Color(0xFF103020),
+                    size: 36,
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l.t('kbl.aligned'),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        l.t('kbl.guideReady'),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.76),
+                          fontSize: 12,
+                          height: 1.25,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Icons.auto_awesome_rounded,
+                  color: Color(0xFFF4D778),
+                  size: 22,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
