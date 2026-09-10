@@ -22,14 +22,14 @@ class UcBoyutluMedyaOynaticiPage extends StatefulWidget {
 class _UcBoyutluMedyaOynaticiPageState
     extends State<UcBoyutluMedyaOynaticiPage>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _isiltı;
+  late final AnimationController _isilti;
   Timer? _saat;
   DateTime _simdi = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    _isiltı = AnimationController(
+    _isilti = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 4),
     )..repeat();
@@ -41,7 +41,7 @@ class _UcBoyutluMedyaOynaticiPageState
   @override
   void dispose() {
     _saat?.cancel();
-    _isiltı.dispose();
+    _isilti.dispose();
     super.dispose();
   }
 
@@ -53,11 +53,11 @@ class _UcBoyutluMedyaOynaticiPageState
     return Scaffold(
       backgroundColor: const Color(0xFF010805),
       body: AnimatedBuilder(
-        animation: _isiltı,
+        animation: _isilti,
         builder: (context, _) => Stack(
           fit: StackFit.expand,
           children: [
-            CustomPaint(painter: _ZumrutSahneBoyaci(_isiltı.value)),
+            CustomPaint(painter: _ZumrutSahneBoyaci(_isilti.value)),
             SafeArea(
               child: Column(
                 children: [
@@ -435,7 +435,7 @@ class _UcBoyutluMedyaOynaticiPageState
   }
 
   Widget _canliCizgi(bool caliyor) {
-    final hareket = caliyor ? _isiltı.value : 0.35;
+    final hareket = caliyor ? _isilti.value : 0.35;
     return Container(
       height: 9,
       decoration: BoxDecoration(
