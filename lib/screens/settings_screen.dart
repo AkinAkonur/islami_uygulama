@@ -333,65 +333,25 @@ static const List<({String kod, String ad})> _metotlar = [
 
 
   Future<void> _geminiAnahtarSec() async {
-    final l = AppLocalizations.of(context);
-    final controller = TextEditingController();
+    // TextEditingController artık bu sayfada oluşturulup showDialog döner
+    // dönmez dispose edilmiyor. Dialog kendi controller'ının sahibidir ve
+    // yalnızca ters kapanış animasyonu tamamlanıp gerçekten unmount olunca
+    // dispose eder. Bu, `_dependents.isEmpty` lifecycle hatasını önler.
     final sonuc = await showDialog<String>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF14382B),
-        title: Text(l.t('set.aiKeyDialog'),
-            style: const TextStyle(color: Colors.white, fontSize: 16)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l.t('set.aiKeyHelp'),
-                style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.4)),
-            const SizedBox(height: 12),
-            TextField(
-              controller: controller,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: l.t('set.aiKeyHint'),
-                hintStyle: const TextStyle(color: Colors.white38),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white24)),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFFD54F))),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          if (_geminiKayitli)
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, '__CLEAR__'),
-              child: Text(l.t('set.aiKeyClear'),
-                  style: const TextStyle(color: Colors.redAccent)),
-            ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(MaterialLocalizations.of(ctx).cancelButtonLabel, style: const TextStyle(color: Colors.white54)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, controller.text.trim()),
-            child: Text(l.t('set.aiKeySave'),
-                style: const TextStyle(color: Color(0xFFFFD54F))),
-          ),
-        ],
-      ),
+      builder: (_) => _GeminiAnahtarDialog(kayitli: _geminiKayitli),
     );
-    controller.dispose();
     if (!mounted || sonuc == null) return;
+    final l = AppLocalizations.of(context);
     if (sonuc == '__CLEAR__') {
       await AyarlarStore.geminiAnahtarYaz(null);
       if (!mounted) return;
       setState(() => _geminiKayitli = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l.t('set.aiKeyCleared')), duration: const Duration(seconds: 2)),
+        SnackBar(
+          content: Text(l.t('set.aiKeyCleared')),
+          duration: const Duration(seconds: 2),
+        ),
       );
       return;
     }
@@ -400,7 +360,10 @@ static const List<({String kod, String ad})> _metotlar = [
     if (!mounted) return;
     setState(() => _geminiKayitli = true);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l.t('set.aiKeySaved')), duration: const Duration(seconds: 2)),
+      SnackBar(
+        content: Text(l.t('set.aiKeySaved')),
+        duration: const Duration(seconds: 2),
+      ),
     );
   }
 
@@ -688,6 +651,103 @@ static const List<({String kod, String ad})> _metotlar = [
         onChanged: (v) => onChanged(v),
         activeThumbColor: Renkler.vurgu,
       ),
+    );
+  }
+}
+
+/// API anahtarı alanının yaşam döngüsünü kendi yöneten dialog.
+///
+/// Route'un Future'ı kapanış animasyonu bitmeden tamamlanabildiği için
+/// controller'ı çağıran sayfada hemen dispose etmek güvenli değildir.
+class _GeminiAnahtarDialog extends StatefulWidget {
+  const _GeminiAnahtarDialog({required this.kayitli});
+
+  final bool kayitli;
+
+  @override
+  State<_GeminiAnahtarDialog> createState() => _GeminiAnahtarDialogState();
+}
+
+class _GeminiAnahtarDialogState extends State<_GeminiAnahtarDialog> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return AlertDialog(
+      backgroundColor: const Color(0xFF14382B),
+      title: Text(
+        l.t('set.aiKeyDialog'),
+        style: const TextStyle(color: Colors.white, fontSize: 16),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l.t('set.aiKeyHelp'),
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 12,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _controller,
+            obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
+            style: const TextStyle(color: Colors.white),
+            decoration: InputDecoration(
+              hintText: l.t('set.aiKeyHint'),
+              hintStyle: const TextStyle(color: Colors.white38),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white24),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFFFD54F)),
+              ),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        if (widget.kayitli)
+          TextButton(
+            onPressed: () => Navigator.of(context).pop('__CLEAR__'),
+            child: Text(
+              l.t('set.aiKeyClear'),
+              style: const TextStyle(color: Colors.redAccent),
+            ),
+          ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(
+            MaterialLocalizations.of(context).cancelButtonLabel,
+            style: const TextStyle(color: Colors.white54),
+          ),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(_controller.text.trim()),
+          child: Text(
+            l.t('set.aiKeySave'),
+            style: const TextStyle(color: Color(0xFFFFD54F)),
+          ),
+        ),
+      ],
     );
   }
 }
