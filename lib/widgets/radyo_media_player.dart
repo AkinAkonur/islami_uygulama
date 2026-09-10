@@ -22,9 +22,12 @@ import '../l10n/app_localizations.dart';
 /// Tam kontrollü radyo oynatıcı paneli. [kanallar] önceki/sonraki
 /// gezinmede kullanılacak sıralı kanal listesidir.
 class RadyoMediaPlayer extends StatelessWidget {
-  const RadyoMediaPlayer({super.key, this.kanallar});
+  const RadyoMediaPlayer({super.key, this.kanallar, this.onTamAc});
 
   final List<RadyoKanali>? kanallar;
+
+  /// Örneğe yakın tam ekran 3D oynatıcıyı açar.
+  final VoidCallback? onTamAc;
 
   IconData _kategoriIkon(RadyoKategori kategori) {
     switch (kategori) {
@@ -204,13 +207,29 @@ class RadyoMediaPlayer extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(
-                tooltip: AppLocalizations.aktif.t(favori ? 'rp.favRemove' : 'rp.favAdd'),
-                onPressed: () => RadyoOynaticiStore.favoriDegistir(kanal.url),
-                icon: Icon(
-                  favori ? Icons.favorite : Icons.favorite_border,
-                  color: favori ? Renkler.vurgu : Colors.white54,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (onTamAc != null)
+                    AltinButon(
+                      boyut: 38,
+                      ikonBoyut: 18,
+                      isik: false,
+                      ikon: Icons.open_in_full_rounded,
+                      onPressed: onTamAc,
+                    ),
+                  if (onTamAc != null) const SizedBox(width: 7),
+                  AltinButon(
+                    boyut: 38,
+                    ikonBoyut: 18,
+                    isik: favori,
+                    ikon: favori
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
+                    onPressed: () =>
+                        RadyoOynaticiStore.favoriDegistir(kanal.url),
+                  ),
+                ],
               ),
             ],
           ),
@@ -250,11 +269,12 @@ class RadyoMediaPlayer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                tooltip: AppLocalizations.aktif.t('c.prev'),
-                onPressed: () => RadyoOynaticiStore.onceki(),
-                icon: const Icon(Icons.skip_previous, color: Colors.white70),
-                iconSize: 32,
+              AltinButon(
+                boyut: 48,
+                ikonBoyut: 26,
+                isik: false,
+                ikon: Icons.skip_previous_rounded,
+                onPressed: RadyoOynaticiStore.onceki,
               ),
               const SizedBox(width: 12),
               _anaButon(
@@ -264,11 +284,12 @@ class RadyoMediaPlayer extends StatelessWidget {
                     kanallar: kanallar),
               ),
               const SizedBox(width: 12),
-              IconButton(
-                tooltip: AppLocalizations.aktif.t('c.next'),
-                onPressed: () => RadyoOynaticiStore.sonraki(),
-                icon: const Icon(Icons.skip_next, color: Colors.white70),
-                iconSize: 32,
+              AltinButon(
+                boyut: 48,
+                ikonBoyut: 26,
+                isik: false,
+                ikon: Icons.skip_next_rounded,
+                onPressed: RadyoOynaticiStore.sonraki,
               ),
             ],
           ),
@@ -276,18 +297,20 @@ class RadyoMediaPlayer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                tooltip: AppLocalizations.aktif.t('c.stop'),
-                onPressed: () => RadyoOynaticiStore.durdur(),
-                icon: const Icon(Icons.stop_circle_outlined,
-                    color: Colors.white54, size: 26),
+              AltinButon(
+                boyut: 40,
+                ikonBoyut: 19,
+                isik: false,
+                ikon: Icons.stop_rounded,
+                onPressed: RadyoOynaticiStore.durdur,
               ),
               const SizedBox(width: 12),
-              IconButton(
-                tooltip: AppLocalizations.aktif.t('rp.sleepTimer'),
+              AltinButon(
+                boyut: 40,
+                ikonBoyut: 19,
+                isik: false,
+                ikon: Icons.bedtime_rounded,
                 onPressed: () => _uykuMenusu(context),
-                icon: const Icon(Icons.bedtime_outlined,
-                    color: Colors.white54, size: 26),
               ),
             ],
           ),

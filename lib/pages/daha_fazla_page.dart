@@ -24,6 +24,7 @@ import 'mekke_medine_sanal_tur_page.dart';
 import 'gizlilik_merkezi_page.dart';
 import 'kuran/hatim_takibi_page.dart';
 import 'profil_sayfasi.dart';
+import 'uc_boyutlu_medya_oynatici_page.dart';
 
 class DahaFazlaPage extends StatelessWidget {
   const DahaFazlaPage({super.key});
@@ -456,7 +457,7 @@ class EsmaulHusnaPage extends StatelessWidget {
 
   static const _veriler = '''
 Allah|اللّٰه|Eşi ve benzeri olmayan tek ilâh|Bütün güzel isimlerin sahibi; ibadete yalnız O layıktır.
-Er-Rahmân|الرَّحْمٰن|Merhameti bütün varlıkları kuşatan|Dünyada tüm mahlûkata rahmetiyle muamele eder.
+Er-Rahmân|الرَّحْمٰن|Merhameti b��tün varlıkları kuşatan|Dünyada tüm mahlûkata rahmetiyle muamele eder.
 Er-Rahîm|الرَّحِيم|Çok merhamet eden|Müminlere özel rahmet ve mağfiret ihsan eder.
 El-Melik|الْمَلِك|Mutlak hükümran|Mülkün tamamı O'nundur; dilediği gibi tasarruf eder.
 El-Kuddûs|الْقُدُّوس|Her eksiklikten uzak|Zâtı, sıfatları ve fiilleri her türlü noksanlıktan münezzehtir.
@@ -1165,7 +1166,16 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
                 ? const SizedBox.shrink()
                 : Padding(
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-                    child: RadyoMediaPlayer(kanallar: _kanallar),
+                    child: RadyoMediaPlayer(
+                      kanallar: _kanallar,
+                      onTamAc: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              const UcBoyutluMedyaOynaticiPage(),
+                        ),
+                      ),
+                    ),
                   ),
           ),
           _kategoriFiltreleri(mevcutKategoriler),
@@ -1181,7 +1191,15 @@ class _DiniRadyoPageState extends State<DiniRadyoPage> {
           ),
         ],
       ),
-      bottomNavigationBar: const RadyoMiniOynatici(),
+      bottomNavigationBar: RadyoMiniOynatici(
+        kanallar: _kanallar,
+        onTamAc: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const UcBoyutluMedyaOynaticiPage(),
+          ),
+        ),
+      ),
     );
   }
 

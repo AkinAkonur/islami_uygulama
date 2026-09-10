@@ -23,6 +23,7 @@ import 'pages/yorgun_page.dart';
 import 'pages/umutlu_page.dart';
 import 'pages/kaygili_page.dart';
 import 'pages/daha_fazla_page.dart';
+import 'pages/uc_boyutlu_medya_oynatici_page.dart';
 import 'pages/dualar_page.dart';
 
 import 'pages/tesbih_page.dart';
@@ -877,7 +878,9 @@ class _AnaSayfaState extends State<AnaSayfa> with WidgetsBindingObserver {
           RadyoMiniOynatici(
             onTamAc: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const DiniRadyoPage()),
+              MaterialPageRoute(
+                builder: (_) => const UcBoyutluMedyaOynaticiPage(),
+              ),
             ),
           ),
           Container(
